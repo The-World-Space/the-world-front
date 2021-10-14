@@ -2,7 +2,6 @@ import React from "react";
 
 /**
  * localstorage에 저장되는 state 입니다.
- * 비용이 높아 보입니다. cache 사용 필요해보임
  * https://www.joshwcomeau.com/react/persisting-react-state-in-localstorage/
  * 
  * @param defaultValue useState와 같습니다.

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Context from "./index";
-import { useRawState } from "./StickyState";
+import { useRawState } from "../hooks/StickyState";
 import { Todo } from "./type";
 import { JWT_KEY } from "./consts";
 
