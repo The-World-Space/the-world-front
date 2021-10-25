@@ -4,16 +4,16 @@ import { Wall } from "./Objects/Wall";
 
 
 export class WorldMap {
-    _effects: Effect[];
-    _walls: Wall[];
-    _floors: Floor[];
-    _physicsLineMap: boolean[][];
+    _effects!: Effect[];
+    _walls!: Wall[];
+    _floors!: Floor[];
+    _physicsLineMap!: boolean[][];
 
     constructor() {
-        this._effects = [];
-        this._walls = [];
-        this._floors = [];
-        this._physicsLineMap = [];
+        this.setEffects([]);
+        this.setWalls([]);
+        this.setFloors([]);
+        this.setPhysicsLineMap([]);
     }
     
 

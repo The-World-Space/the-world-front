@@ -4,12 +4,12 @@ import { Point, Going } from "../types/Base";
 
 
 export class Physics<T> {
-    map: WorldMap;
-    characters: Character<T>[];
+    _map!: WorldMap;
+    _characters!: Character<T>[];
 
     constructor(map: WorldMap, characters: Character<T>[]) {
-        this.map = map;
-        this.characters = characters;
+        this.setMap(map);
+        this.setCharacters(characters);
     }
 
     ableToGo(pos: Point, go: Going) {
@@ -19,8 +19,26 @@ export class Physics<T> {
         const x = (go === Going.right) ? 1
                 : (go === Going.left)  ? -1
                 : 0;
-        const isTherePhysicsLine = this.map.getPhysicsLineMap()[pos.y + y][2 * pos.x + x + 1];
+        const isTherePhysicsLine = this._map.getPhysicsLineMap()[pos.y + y][2 * pos.x + x + 1];
 
         return !isTherePhysicsLine;
+    }
+
+
+    getMap() {
+        return this._map;
+    }
+
+    setMap(map: WorldMap) {
+        this._map = map;
+    }
+
+
+    getCharacters() {
+        return this._characters;
+    }
+
+    setCharacters(characters: Character<T>[]) {
+        this._characters = characters;
     }
 }
