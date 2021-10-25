@@ -8,3 +8,10 @@ export interface Size {
     width: number;
     height: number;
 }
+
+export enum Going {
+    up,
+    down,
+    left,
+    right
+}
