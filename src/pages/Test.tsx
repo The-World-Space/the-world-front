@@ -1,90 +1,39 @@
-import React, { useState } from "react";
-import Context from '../context';
-import { useContext } from 'react';
-import useUser from "../hooks/useUser";
-import Layers from "../components/Layers";
-import State from "../core/AnimationSystem/State";
-import AnimationManager from "../core/AnimationSystem/AnimationManager";
-import BitCanvas from "../components/BitCanvas";
+import React, { useEffect, useRef, useState } from "react";
+import { Floor } from "../core/Map/Objects/Floor";
+import { WorldMap } from "../core/Map/WorldMap";
+import { Renderer } from "../core/Renderer/Renderer";
+import { ImageShape } from "../core/types/Shape/ImageShape";
+import { World } from "../core/World/World";
 
 
+const worldMap = new WorldMap();
+const world = new World();
+
+const floor = new Floor(
+    new ImageShape({
+        width: 10,
+        height: 10,
+    }, 'https://newtoki15.org/data/file/comic/128728/10112451/154oJRWjLsZ9.jpg'),
+);
+worldMap.getFloors().push(floor);
 
 
-enum WalkingAnime {
-    stop,
-    walk,
-}
-
-const WALKING_DELAY = 400;
-
-const standing: State<WalkingAnime> = new State({
-    async action(manager) {
-        console.log('stading')
-
-        switch (manager.situration) {
-            case WalkingAnime.walk:
-                return walking1;
-            case WalkingAnime.stop:
-                await manager.stop();
-                return standing;
-        }
-    }
-})
-
-const walking1: State<WalkingAnime> = new State({
-    async action(manager) {
-        console.log('waling 1')
-
-        switch (manager.situration) {
-            case WalkingAnime.walk:
-                await manager.sleep(WALKING_DELAY);
-                return walking2;
-
-            case WalkingAnime.stop:
-                return standing;
-        }
-    }
-})
-
-const walking2: State<WalkingAnime> = new State({
-    async action(manager) {
-        console.log('walking 2')
-
-        switch (manager.situration) {
-            case WalkingAnime.walk:
-                await manager.sleep(WALKING_DELAY);
-                return walking1;
-
-            case WalkingAnime.stop:
-                return standing;
-        }
-    }
-})
-
-const walkAniManger = new AnimationManager(WalkingAnime.stop, standing);
-walkAniManger.init();
+world.setMap(worldMap);
+    
+const renderer = new Renderer(world);
 
 function Test() {
+    const ref = useRef<HTMLDivElement>(null);
 
-    // const { jwt, setJwt } = useContext(Context);
-    // const user = useUser();
-    // const [token, setToken] = useState('');
+    useEffect(() => {
 
-    // function onSave(){
-    //     setJwt(token);
-    // }
+        ref.current?.appendChild(renderer.getWrapperDom());
 
-    // @ts-ignore
-    globalThis.debug = {
-        walkAniManger,
-    }
-
+    }, [ref]);
 
     return (
-        <div className="App">
-            <BitCanvas />
-            <button onClick={() => {walkAniManger.setSituration(WalkingAnime.walk, true)}}>walk</button>
-            <button onClick={() => {walkAniManger.setSituration(WalkingAnime.stop, true)}}>stop</button>
+        <div ref={ref}>
+
         </div>
     );
 }

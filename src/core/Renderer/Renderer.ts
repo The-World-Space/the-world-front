@@ -22,19 +22,40 @@ export class Renderer {
     _imageFloorDom!: HTMLCanvasElement;
 
 
-    _changeableList: GameObject[];
+    _changeableSet: Set<GameObject>;
+    _changeableMap: Map<GameObject, HTMLElement | HTMLImageElement>;
 
-    
 
     constructor(world: World, changeAbleList: GameObject[] = []) {
         this._world = world;
-        this._changeableList = [...changeAbleList, ...world.getCharacters()];
+        this._changeableSet = new Set([...changeAbleList, ...world.getCharacters()]);
+        this._changeableMap = new Map();
 
         this._domSetup();
         this._drawAll();
     }
 
     _domSetup() {
+        const fullsize = (dom: HTMLElement) => {
+            dom.style.position = 'absolute';
+            dom.style.left = '0px';
+            dom.style.top = '0px';
+            
+            dom.style.width = '100%';
+            dom.style.height = '100%';
+            dom.style.overflow = 'hidden';
+        }
+
+        const _changeWidthCanvas = (dom: HTMLCanvasElement) => {
+            dom.width = window.innerWidth;
+            dom.height = window.innerHeight;
+        }
+        const _resetCanvas = () => {
+            _changeWidthCanvas(this._imageEffectDom);
+            _changeWidthCanvas(this._imageFloorDom);
+        }
+
+
         this._wrapperDom = document.createElement('div');
 
         this._iframeEffectDom = document.createElement('div');
@@ -50,6 +71,14 @@ export class Renderer {
         this._wrapperDom.appendChild(this._wallDom);
         this._wrapperDom.appendChild(this._iframeFloorDom);
         this._wrapperDom.appendChild(this._imageFloorDom);
+
+        fullsize(this._wrapperDom);
+        fullsize(this._iframeEffectDom);
+        fullsize(this._imageEffectDom);
+        fullsize(this._wallDom);
+        fullsize(this._iframeFloorDom);
+        fullsize(this._imageFloorDom);
+        _resetCanvas();
     }
 
     static styleDom<T extends HTMLElement>(dom: T, gameObject: GameObject) {
@@ -78,26 +107,29 @@ export class Renderer {
 
     _drawFlatObjects(objects: GameObject[], iframeDom: HTMLDivElement, context: CanvasRenderingContext2D | null) {
 
-        function drawToDom(shape: DomShape, object: GameObject) {
+        const drawToDom = (shape: DomShape, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object);
             iframeDom.appendChild(dom);
+
+            this._changeableSet.has(object) && this._changeableMap.set(object, dom);
         }
 
-        function drawToCanvas(shape: ImageShape, object: GameObject) {
+        const drawToCanvas = (shape: ImageShape, object: GameObject) => {
             const size = shape.getSize();
             const pos = object.getPosition();
-            const [x, y] = [pos.x + size.width / 2, pos.y + size.height / 2];
+            const [x, y] = [pos.x * PIXELSIZE, pos.y * PIXELSIZE];
+            const [width, height] = [size.width * PIXELSIZE, size.height * PIXELSIZE];
 
             const img = new Image();
             img.src = shape.getImageUrl();
-            img.onload = () => 
-                context?.drawImage(img, x, y, size.width, size.height);
+            img.onload = () =>
+                context?.drawImage(img, x, y, width, height);
         }
 
 
         for (const object of objects) {
             const shape = object.getShape();
-            
+
             if (shape instanceof DomShape) {
                 drawToDom(shape, object);
             }
@@ -127,35 +159,74 @@ export class Renderer {
     }
 
 
-    _drawWalls() {
-        const walls = this._world.getMap().getEffects();
-        const wrappingDom = this._wallDom;
+    _drawUnflatObjects(objects: GameObject[]) {
 
-        function drawAsIframe(shape: DomShape, wall: Wall) {
-            const dom = Renderer.styleDom(shape.getDom(), wall);
-            dom.style.zIndex = `${wall.getPosition().y}`;
+        const drawAsIframe = (shape: DomShape, object: GameObject) => {
+            const dom = Renderer.styleDom(shape.getDom(), object);
+            dom.style.zIndex = `${object.getPosition().y}`;
 
-            wrappingDom.appendChild(dom);
+            this._wallDom.appendChild(dom);
+            this._changeableSet.has(object) && this._changeableMap.set(object, dom);
         }
 
-        function drawAsImage(shape: ImageShape, wall: Wall) {
-            const img = Renderer.styleDom(document.createElement('img'), wall);
+        const drawAsImage = (shape: ImageShape, object: GameObject) => {
+            const img = Renderer.styleDom(document.createElement('img'), object);
             img.src = shape.getImageUrl();
-            img.style.zIndex = `${wall.getPosition().y}`;
+            img.style.zIndex = `${object.getPosition().y}`;
 
-            wrappingDom.appendChild(img);
+            this._wallDom.appendChild(img);
+            this._changeableSet.has(object) && this._changeableMap.set(object, img);
         }
 
 
-        for (const wall of walls) {
-            const shape = wall.getShape();
-            
+        for (const object of objects) {
+            const shape = object.getShape();
+
             if (shape instanceof DomShape) {
-                drawAsIframe(shape, wall);
+                drawAsIframe(shape, object);
             }
             else if (shape instanceof ImageShape) {
-                drawAsImage(shape, wall);
+                drawAsImage(shape, object);
             }
         }
+    }
+
+
+    _updateUnflatObjects(entries: IterableIterator<[GameObject, HTMLElement]>) {
+
+        const updateAsIframe = (shape: DomShape, object: GameObject, dom: HTMLElement) => {
+            Renderer.styleDom(dom, object);
+            dom.style.zIndex = `${object.getPosition().y}`;
+        }
+
+        const updateAsImage = (shape: ImageShape, object: GameObject, dom: HTMLImageElement) => {
+            Renderer.styleDom(dom, object);
+            dom.src = shape.getImageUrl();
+            dom.style.zIndex = `${object.getPosition().y}`;
+        }
+
+        for (const [object, dom] of entries) {
+            const shape = object.getShape();
+
+            if (shape instanceof DomShape) {
+                updateAsIframe(shape, object, dom);
+            }
+            else if (shape instanceof ImageShape) {
+                updateAsImage(shape, object, dom as HTMLImageElement);
+            }
+        }
+    }
+
+
+    _drawWalls() {
+        this._drawUnflatObjects(this._world.getMap().getWalls());
+    }
+
+    update() {
+        this._updateUnflatObjects(this._changeableMap.entries());
+    }
+
+    getWrapperDom() {
+        return this._wrapperDom;
     }
 }
