@@ -1,3 +1,4 @@
+import { Point } from "../types/Base";
 import { Effect } from "./Objects/Effect";
 import { Floor } from "./Objects/Floor";
 import { Wall } from "./Objects/Wall";
@@ -50,5 +51,42 @@ export class WorldMap {
 
     setPhysicsLineMap(map: boolean[][]) {
         this._physicsLineMap = map;
+    }
+
+
+    _combinePhysicsLineMap(otherMap: boolean[][], start: Point) {
+        const myMapYSize = this._physicsLineMap.length;
+        const myMapXSize = this._physicsLineMap[0].length;
+        const ySize = otherMap.length;
+        const xSize = otherMap[0].length;
+
+        const yTarget = Math.min(start.y + ySize, myMapYSize);
+        const xTarget = Math.min(2 * start.x + xSize, myMapXSize);
+
+        for (let y = start.y; y < yTarget; y++) {
+            for (let x = 2 * start.x; x < xTarget; x++) {
+                this._physicsLineMap[y][x] = this._physicsLineMap[y][x] || otherMap[y][x];
+            }
+        }
+    }
+
+
+    _concatEffects(walls: Effect[]) {
+        this._effects.push(...walls);
+    }
+
+    _concatWalls(walls: Wall[]) {
+        this._walls.push(...walls);
+    }
+
+    _concatFloors(walls: Floor[]) {
+        this._floors.push(...walls);
+    }
+
+    connetOtherWorld(other: WorldMap, start: Point) {
+        this._concatEffects(other.getEffects());
+        this._concatWalls(other.getWalls());
+        this._concatFloors(other.getFloors());
+        this._combinePhysicsLineMap(other.getPhysicsLineMap(), start);
     }
 }
