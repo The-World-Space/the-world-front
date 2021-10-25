@@ -3,11 +3,11 @@ import { WorldMap } from "../Map/WorldMap";
 import { Point, Going } from "../types/Base";
 
 
-export class Physics<T> {
+export class Physics {
     _map!: WorldMap;
-    _characters!: Character<T>[];
+    _characters!: Character<any>[];
 
-    constructor(map: WorldMap, characters: Character<T>[]) {
+    constructor(map: WorldMap, characters: Character<any>[]) {
         this.setMap(map);
         this.setCharacters(characters);
     }
@@ -38,7 +38,7 @@ export class Physics<T> {
         return this._characters;
     }
 
-    setCharacters(characters: Character<T>[]) {
+    setCharacters(characters: Character<any>[]) {
         this._characters = characters;
     }
 }
