@@ -7,11 +7,13 @@ export class WorldMap {
     _effects: Effect[];
     _walls: Wall[];
     _floors: Floor[];
+    _physicsLineMap: boolean[][];
 
     constructor() {
         this._effects = [];
         this._walls = [];
         this._floors = [];
+        this._physicsLineMap = [];
     }
     
 
@@ -39,5 +41,14 @@ export class WorldMap {
 
     getWalls() {
         return this._walls;
+    }
+
+
+    getPhysicsLineMap() {
+        return this._physicsLineMap;
+    }
+
+    setPhysicsLineMap(map: boolean[][]) {
+        this._physicsLineMap = map;
     }
 }
