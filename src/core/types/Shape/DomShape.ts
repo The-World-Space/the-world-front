@@ -3,7 +3,7 @@ import { Shape } from "./Shape";
 
 
 export class DomShape extends Shape {
-    _dom: HTMLElement;
+    private _dom: HTMLElement;
     
     constructor(size: Size, dom: HTMLElement) {
         super(size);

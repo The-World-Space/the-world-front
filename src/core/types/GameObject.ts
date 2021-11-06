@@ -2,8 +2,8 @@ import { Shape } from "./Shape/Shape";
 import { Point } from "./Base";
 
 export abstract class GameObject {
-    _shape: Shape;
-    _position: Point;
+    private _shape: Shape;
+    private _position: Point;
 
     constructor(shape: Shape) {
         this._shape = shape;

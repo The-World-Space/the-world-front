@@ -5,10 +5,10 @@ import { Wall } from "./Objects/Wall";
 
 
 export class WorldMap {
-    _effects!: Effect[];
-    _walls!: Wall[];
-    _floors!: Floor[];
-    _physicsLineMap!: boolean[][];
+    private _effects!: Effect[];
+    private _walls!: Wall[];
+    private _floors!: Floor[];
+    private _physicsLineMap!: boolean[][];
 
     constructor() {
         this.setEffects([]);
@@ -54,7 +54,7 @@ export class WorldMap {
     }
 
 
-    _combinePhysicsLineMap(otherMap: boolean[][], start: Point) {
+    private _combinePhysicsLineMap(otherMap: boolean[][], start: Point) {
         const myMapYSize = this._physicsLineMap.length;
         const myMapXSize = this._physicsLineMap[0].length;
         const ySize = otherMap.length;
@@ -71,15 +71,15 @@ export class WorldMap {
     }
 
 
-    _concatEffects(walls: Effect[]) {
+    private _concatEffects(walls: Effect[]) {
         this._effects.push(...walls);
     }
 
-    _concatWalls(walls: Wall[]) {
+    private _concatWalls(walls: Wall[]) {
         this._walls.push(...walls);
     }
 
-    _concatFloors(walls: Floor[]) {
+    private _concatFloors(walls: Floor[]) {
         this._floors.push(...walls);
     }
 

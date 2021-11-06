@@ -10,7 +10,7 @@ class AnimationManager<siturationType> {
     defaultState: State<siturationType>;
 
     // private
-    _inturpt: ((value: void | PromiseLike<void>) => void) | null = null;
+    private _inturpt: ((value: void | PromiseLike<void>) => void) | null = null;
 
 
     constructor(situration: siturationType, defaultState: State<siturationType>) {

@@ -1,7 +1,7 @@
 import { Point, Size } from "../Base";
 
 export abstract class Shape {
-    _size!: Size;
+    private _size!: Size;
 
     constructor(size: Size) {
         this.setSize(size);

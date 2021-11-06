@@ -4,9 +4,9 @@ import { Physics } from "../Physics/Physics";
 
 
 export class World {
-    _map: WorldMap;
-    _characters: Character<any>[];
-    _physics: Physics;
+    private _map: WorldMap;
+    private _characters: Character<any>[];
+    private _physics: Physics;
 
     constructor() {
         this._map = new WorldMap();

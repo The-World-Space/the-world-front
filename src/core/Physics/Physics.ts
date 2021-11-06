@@ -4,8 +4,8 @@ import { Point, Going } from "../types/Base";
 
 
 export class Physics {
-    _map!: WorldMap;
-    _characters!: Character<any>[];
+    private _map!: WorldMap;
+    private _characters!: Character<any>[];
 
     constructor(map: WorldMap, characters: Character<any>[]) {
         this.setMap(map);

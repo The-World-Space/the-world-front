@@ -9,21 +9,21 @@ const PIXELSIZE = 32;
 
 
 export class Renderer {
-    _world: World;
+    private _world: World;
 
-    _wrapperDom!: HTMLDivElement;
+    private _wrapperDom!: HTMLDivElement;
 
-    _iframeEffectDom!: HTMLDivElement;
-    _imageEffectDom!: HTMLCanvasElement;
+    private _iframeEffectDom!: HTMLDivElement;
+    private _imageEffectDom!: HTMLCanvasElement;
 
-    _wallDom!: HTMLDivElement;
+    private _wallDom!: HTMLDivElement;
 
-    _iframeFloorDom!: HTMLDivElement;
-    _imageFloorDom!: HTMLCanvasElement;
+    private _iframeFloorDom!: HTMLDivElement;
+    private _imageFloorDom!: HTMLCanvasElement;
 
 
-    _changeableSet: Set<GameObject>;
-    _changeableMap: Map<GameObject, HTMLElement | HTMLImageElement>;
+    private _changeableSet: Set<GameObject>;
+    private _changeableMap: Map<GameObject, HTMLElement | HTMLImageElement>;
 
 
     constructor(world: World, changeAbleList: GameObject[] = []) {
@@ -35,7 +35,7 @@ export class Renderer {
         this._drawAll();
     }
 
-    _domSetup() {
+    private _domSetup() {
         const fullsize = (dom: HTMLElement) => {
             dom.style.position = 'absolute';
             dom.style.left = '0px';
@@ -98,14 +98,14 @@ export class Renderer {
     }
 
 
-    _drawAll() {
+    private _drawAll() {
         this._drawEffects();
         this._drawWalls();
-        this._drawWalls();
+        this._drawFloors();
     }
 
 
-    _drawFlatObjects(objects: GameObject[], iframeDom: HTMLDivElement, context: CanvasRenderingContext2D | null) {
+    private _drawFlatObjects(objects: GameObject[], iframeDom: HTMLDivElement, context: CanvasRenderingContext2D | null) {
 
         const drawToDom = (shape: DomShape, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object);
@@ -141,25 +141,7 @@ export class Renderer {
     }
 
 
-    _drawEffects() {
-        const effects = this._world.getMap().getEffects();
-        const iframeDom = this._iframeEffectDom;
-        const context = this._imageEffectDom.getContext('2d');
-
-        this._drawFlatObjects(effects, iframeDom, context);
-    }
-
-
-    _drawFloors() {
-        const floors = this._world.getMap().getFloors();
-        const iframeDom = this._iframeFloorDom;
-        const context = this._imageFloorDom.getContext('2d');
-
-        this._drawFlatObjects(floors, iframeDom, context);
-    }
-
-
-    _drawUnflatObjects(objects: GameObject[]) {
+    private _drawUnflatObjects(objects: GameObject[]) {
 
         const drawAsIframe = (shape: DomShape, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object);
@@ -192,7 +174,7 @@ export class Renderer {
     }
 
 
-    _updateUnflatObjects(entries: IterableIterator<[GameObject, HTMLElement]>) {
+    private _updateUnflatObjects(entries: IterableIterator<[GameObject, HTMLElement]>) {
 
         const updateAsIframe = (shape: DomShape, object: GameObject, dom: HTMLElement) => {
             Renderer.styleDom(dom, object);
@@ -218,7 +200,25 @@ export class Renderer {
     }
 
 
-    _drawWalls() {
+    private _drawEffects() {
+        const effects = this._world.getMap().getEffects();
+        const iframeDom = this._iframeEffectDom;
+        const context = this._imageEffectDom.getContext('2d');
+
+        this._drawFlatObjects(effects, iframeDom, context);
+    }
+
+
+    private _drawFloors() {
+        const floors = this._world.getMap().getFloors();
+        const iframeDom = this._iframeFloorDom;
+        const context = this._imageFloorDom.getContext('2d');
+
+        this._drawFlatObjects(floors, iframeDom, context);
+    }
+
+
+    private _drawWalls() {
         this._drawUnflatObjects(this._world.getMap().getWalls());
     }
 
