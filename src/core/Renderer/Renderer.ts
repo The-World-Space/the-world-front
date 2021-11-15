@@ -37,7 +37,7 @@ export class Renderer {
             dom.style.position = 'absolute';
             dom.style.left = '0px';
             dom.style.top = '0px';
-            
+
             dom.style.width = '100%';
             dom.style.height = '100%';
             dom.style.overflow = 'hidden';
@@ -57,11 +57,15 @@ export class Renderer {
 
         this._iframeEffectDom = document.createElement('div');
         this._imageEffectDom = document.createElement('canvas');
-
         this._wallDom = document.createElement('div');
-
         this._iframeFloorDom = document.createElement('div');
         this._imageFloorDom = document.createElement('canvas');
+
+        this._iframeEffectDom.style.zIndex = '5';
+        this._imageEffectDom.style.zIndex = '4';
+        this._wallDom.style.zIndex = '3';
+        this._iframeFloorDom.style.zIndex = '2';
+        this._imageFloorDom.style.zIndex = '1';
 
         this._wrapperDom.appendChild(this._iframeEffectDom);
         this._wrapperDom.appendChild(this._imageEffectDom);
@@ -141,13 +145,18 @@ export class Renderer {
 
 
     private _drawUnflatObjects(objects: GameObject[]) {
+        const applyDom = (dom: HTMLElement, object: GameObject) => {
+            this._wallDom.appendChild(dom);
+            this._ObjectDomMap.set(object, dom);
+            dom.style.transition = 'all 0.5s';
+            dom.style.transitionTimingFunction = 'linear';
+        }
 
         const drawAsIframe = (shape: DomShape, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object);
             dom.style.zIndex = `${object.getPosition().y}`;
 
-            this._wallDom.appendChild(dom);
-            this._ObjectDomMap.set(object, dom);
+            applyDom(dom, object);
         }
 
         const drawAsImage = (shape: ImageShape, object: GameObject) => {
@@ -155,8 +164,7 @@ export class Renderer {
             img.src = shape.getImageUrl();
             img.style.zIndex = `${object.getPosition().y}`;
 
-            this._wallDom.appendChild(img);
-            this._ObjectDomMap.set(object, img);
+            applyDom(img, object);
         }
 
 
@@ -176,7 +184,7 @@ export class Renderer {
     }
 
 
-    
+
     updateOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
         dom = dom || this._ObjectDomMap.get(object);
 
