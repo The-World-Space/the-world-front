@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import AnimationManager from "../core/AnimationSystem/AnimationManager";
+import State from "../core/AnimationSystem/State";
+import { Character } from "../core/Character/Character";
 import { Effect } from "../core/Map/Objects/Effect";
 import { Floor } from "../core/Map/Objects/Floor";
 import { Wall } from "../core/Map/Objects/Wall";
@@ -39,9 +42,36 @@ effect.setPosition({x: 4, y: 4});
 worldMap.getEffects().push(effect);
 
 
+const state: State<1> = new State({
+    async action() {
+        await anime.stop(); 
+        return state;
+    },
+});
+const anime = new AnimationManager(1, state);
+
+const character = new Character(
+    anime,
+    new ImageShape({
+        width: 1,
+        height: 2,
+    }, 'https://e7.pngegg.com/pngimages/517/871/png-clipart-8-bit-super-mario-illustration-super-mario-bros-new-super-mario-bros-video-game-sprite-angle-super-mario-bros.png'),
+);
+character.setPosition({x: 0, y: 5});
+worldMap.getWalls().push(character);
+
+
 world.setMap(worldMap);
-    
+
+
 const renderer = new Renderer(world);
+
+// @ts-ignore
+window.debug = {
+    world,
+    character,
+    renderer,
+};
 
 function Test() {
     const ref = useRef<HTMLDivElement>(null);

@@ -21,15 +21,12 @@ export class Renderer {
     private _iframeFloorDom!: HTMLDivElement;
     private _imageFloorDom!: HTMLCanvasElement;
 
-
-    private _changeableSet: Set<GameObject>;
-    private _changeableMap: Map<GameObject, HTMLElement | HTMLImageElement>;
+    private _ObjectDomMap: Map<GameObject, HTMLElement | HTMLImageElement>;
 
 
     constructor(world: World, changeAbleList: GameObject[] = []) {
         this._world = world;
-        this._changeableSet = new Set([...changeAbleList, ...world.getCharacters()]);
-        this._changeableMap = new Map();
+        this._ObjectDomMap = new Map();
 
         this._domSetup();
         this._drawAll();
@@ -111,7 +108,7 @@ export class Renderer {
             const dom = Renderer.styleDom(shape.getDom(), object);
             iframeDom.appendChild(dom);
 
-            this._changeableSet.has(object) && this._changeableMap.set(object, dom);
+            this._ObjectDomMap.set(object, dom);
         }
 
         const drawToCanvas = (shape: ImageShape, object: GameObject) => {
@@ -133,9 +130,11 @@ export class Renderer {
             if (shape instanceof DomShape) {
                 drawToDom(shape, object);
             }
-
             else if (shape instanceof ImageShape) {
                 drawToCanvas(shape, object);
+            }
+            else {
+                throw new Error('Unsupported shape');
             }
         }
     }
@@ -148,7 +147,7 @@ export class Renderer {
             dom.style.zIndex = `${object.getPosition().y}`;
 
             this._wallDom.appendChild(dom);
-            this._changeableSet.has(object) && this._changeableMap.set(object, dom);
+            this._ObjectDomMap.set(object, dom);
         }
 
         const drawAsImage = (shape: ImageShape, object: GameObject) => {
@@ -157,7 +156,7 @@ export class Renderer {
             img.style.zIndex = `${object.getPosition().y}`;
 
             this._wallDom.appendChild(img);
-            this._changeableSet.has(object) && this._changeableMap.set(object, img);
+            this._ObjectDomMap.set(object, img);
         }
 
 
@@ -170,11 +169,16 @@ export class Renderer {
             else if (shape instanceof ImageShape) {
                 drawAsImage(shape, object);
             }
+            else {
+                throw new Error('Unsupported shape');
+            }
         }
     }
 
 
-    private _updateUnflatObjects(entries: IterableIterator<[GameObject, HTMLElement]>) {
+    
+    updateOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
+        dom = dom || this._ObjectDomMap.get(object);
 
         const updateAsIframe = (shape: DomShape, object: GameObject, dom: HTMLElement) => {
             Renderer.styleDom(dom, object);
@@ -187,7 +191,7 @@ export class Renderer {
             dom.style.zIndex = `${object.getPosition().y}`;
         }
 
-        for (const [object, dom] of entries) {
+        if (dom) {
             const shape = object.getShape();
 
             if (shape instanceof DomShape) {
@@ -196,8 +200,15 @@ export class Renderer {
             else if (shape instanceof ImageShape) {
                 updateAsImage(shape, object, dom as HTMLImageElement);
             }
+            else {
+                throw new Error('Unsupported shape');
+            }
+        }
+        else {
+            throw new Error('Object not found');
         }
     }
+
 
 
     private _drawEffects() {
@@ -223,7 +234,9 @@ export class Renderer {
     }
 
     update() {
-        this._updateUnflatObjects(this._changeableMap.entries());
+        for (const object of this._ObjectDomMap.keys()) {
+            this.updateOne(object);
+        }
     }
 
     getWrapperDom() {
