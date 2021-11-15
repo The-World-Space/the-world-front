@@ -32,7 +32,7 @@ export class WorldMap {
     }
 
     getFloors() {
-        return this._effects;
+        return this._floors;
     }
 
 
