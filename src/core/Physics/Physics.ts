@@ -1,4 +1,4 @@
-import { Size } from "../types/Base";
+import { goingDx, goingDy, Size } from "../types/Base";
 import { Character } from "../Character/Character";
 import { WorldMap } from "../Map/WorldMap";
 import { Point, Going } from "../types/Base";
@@ -32,8 +32,8 @@ export class Physics {
         const ableToGo = this.ableToGo(pos, go);
         
         const newPos = ableToGo ? {
-            x: pos.x + (go >= 2 ? (2 * go - 5) : 0),
-            y: pos.y + (go <  2 ? (2 * go - 1) : 0),
+            x: pos.x + goingDx[go],
+            y: pos.y + goingDy[go],
         } : pos;
 
         return newPos;

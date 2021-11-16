@@ -10,8 +10,12 @@ export interface Size {
 }
 
 export enum Going {
-    up,
+    up = 1,
     down,
     left,
     right
 }
+
+export const goingDx = [Infinity, 0, 0, -1, 1];
+
+export const goingDy = [Infinity, -1, 1, 0, 0];

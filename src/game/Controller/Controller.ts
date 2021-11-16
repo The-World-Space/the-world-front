@@ -10,7 +10,8 @@ export class Controler {
     private _eventTarget: HTMLElement;
     private _renderer: Renderer;
 
-    private _blocked: boolean;
+    private _moving: boolean;
+    private _nextMove: Going | null;
 
     constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Character<any>) {
         this._physics = physics;
@@ -18,7 +19,8 @@ export class Controler {
         this._character = character;
         this._renderer = renderer;
         
-        this._blocked = false;
+        this._moving = false;
+        this._nextMove = null;
 
         this._bindEvent();
     }
@@ -30,22 +32,37 @@ export class Controler {
 
 
     private _onKeyDown(event: KeyboardEvent) {
-        if (this._blocked) return;
-
         const going = this._going(event);
 
-        if (going !== null) {
-            const nextPos = this._physics.nextPosition(this._character.getPosition(), going);
-
-            this._character.setPosition(nextPos);
-            this._blocked = true;
-            this._renderer.updateOne(this._character);
-            setTimeout(() => this._blocked = false, 500);
+        if (going) {
+            if (this._moving) {
+                this._nextMove = going;
+            } else {
+                const move = (going: Going) => {
+                    const nextPos = this._physics.nextPosition(this._character.getPosition(), going);
+        
+                    this._character.setPosition(nextPos);
+                    this._moving = true;
+                    this._renderer.updateOne(this._character);
+    
+                    setTimeout(() => {
+                        if(this._nextMove) {
+                            console.log("AAAAAAAAAA");
+                            move(this._nextMove);
+                            this._nextMove = null;
+                        } else {
+                            this._moving = false;
+                        }
+                    }, 500);
+                };
+    
+                move(going);
+            }
         }
     }
 
     private _onKeyUp(event: KeyboardEvent) {
-        if (this._blocked) return true;
+        if (this._moving) return true;
     }
 
     private _going(event: KeyboardEvent) {
