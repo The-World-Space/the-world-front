@@ -11,7 +11,6 @@ export class Controler {
     private _renderer: Renderer;
 
     private _currentMoving: Going | null;
-    private _nextMoving: Going | null;
 
     constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Character<any>) {
         this._physics = physics;
@@ -20,7 +19,6 @@ export class Controler {
         this._renderer = renderer;
         
         this._currentMoving = null;
-        this._nextMoving = null;
 
         this._bindEvent();
     }
@@ -37,7 +35,7 @@ export class Controler {
         if (going) {
             if (this._currentMoving) {
                 if(this._currentMoving !== going) {
-                    this._nextMoving = going;
+                    this._currentMoving = going;
                 }
             } else {
                 const move = (going: Going) => {
@@ -48,11 +46,7 @@ export class Controler {
                     this._renderer.updateOne(this._character);
     
                     setTimeout(() => {
-                        if(this._nextMoving) {
-                            console.log("AAAAAAAAAA");
-                            move(this._nextMoving);
-                            this._nextMoving = null;
-                        } else if(this._currentMoving !== null) {
+                        if(this._currentMoving !== null) {
                             move(this._currentMoving);
                         }
                     }, 100);
