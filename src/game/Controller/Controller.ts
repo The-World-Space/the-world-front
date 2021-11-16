@@ -53,7 +53,7 @@ export class Controler {
                         } else {
                             this._moving = false;
                         }
-                    }, 500);
+                    }, 80);
                 };
     
                 move(going);

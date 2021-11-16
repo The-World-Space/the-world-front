@@ -17,9 +17,9 @@ const world = new World({height: 100, width: 100});
 
 const floor = new Floor(
     new ImageShape({
-        width: 10,
-        height: 10,
-    }, 'http://imagescdn.gettyimagesbank.com/500/17/736/642/0/652288612.jpg'),
+        width: 1,
+        height: 1,
+    }, '/assets/tile/tile000.png'),
 );
 worldMap.getFloors().push(floor);
 

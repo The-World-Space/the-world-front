@@ -106,7 +106,8 @@ export class Renderer {
     }
 
 
-    private _drawFlatObjects(objects: GameObject[], iframeDom: HTMLDivElement, context: CanvasRenderingContext2D | null) {
+    private _drawFlatObjects(objects: GameObject[], iframeDom: HTMLDivElement, context: CanvasRenderingContext2D) {
+        if(context) context.imageSmoothingEnabled = false;
 
         const drawToDom = (shape: DomShape, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object);
@@ -124,7 +125,7 @@ export class Renderer {
             const img = new Image();
             img.src = shape.getImageUrl();
             img.onload = () =>
-                context?.drawImage(img, x, y, width, height);
+                context.drawImage(img, x, y, width, height);
         }
 
 
@@ -148,7 +149,7 @@ export class Renderer {
         const applyDom = (dom: HTMLElement, object: GameObject) => {
             this._wallDom.appendChild(dom);
             this._ObjectDomMap.set(object, dom);
-            dom.style.transition = 'all 0.5s';
+            dom.style.transition = 'all 0.1s';
             dom.style.transitionTimingFunction = 'linear';
         }
 
@@ -222,7 +223,7 @@ export class Renderer {
     private _drawEffects() {
         const effects = this._world.getMap().getEffects();
         const iframeDom = this._iframeEffectDom;
-        const context = this._imageEffectDom.getContext('2d');
+        const context = this._imageEffectDom.getContext('2d')!;
 
         this._drawFlatObjects(effects, iframeDom, context);
     }
@@ -231,7 +232,7 @@ export class Renderer {
     private _drawFloors() {
         const floors = this._world.getMap().getFloors();
         const iframeDom = this._iframeFloorDom;
-        const context = this._imageFloorDom.getContext('2d');
+        const context = this._imageFloorDom.getContext('2d')!;
 
         this._drawFlatObjects(floors, iframeDom, context);
     }
