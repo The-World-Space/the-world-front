@@ -10,8 +10,8 @@ export class Controler {
     private _eventTarget: HTMLElement;
     private _renderer: Renderer;
 
-    private _moving: boolean;
-    private _nextMove: Going | null;
+    private _currentMoving: Going | null;
+    private _nextMoving: Going | null;
 
     constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Character<any>) {
         this._physics = physics;
@@ -19,8 +19,8 @@ export class Controler {
         this._character = character;
         this._renderer = renderer;
         
-        this._moving = false;
-        this._nextMove = null;
+        this._currentMoving = null;
+        this._nextMoving = null;
 
         this._bindEvent();
     }
@@ -35,25 +35,27 @@ export class Controler {
         const going = this._going(event);
 
         if (going) {
-            if (this._moving) {
-                this._nextMove = going;
+            if (this._currentMoving) {
+                if(this._currentMoving !== going) {
+                    this._nextMoving = going;
+                }
             } else {
                 const move = (going: Going) => {
                     const nextPos = this._physics.nextPosition(this._character.getPosition(), going);
         
                     this._character.setPosition(nextPos);
-                    this._moving = true;
+                    this._currentMoving = going;
                     this._renderer.updateOne(this._character);
     
                     setTimeout(() => {
-                        if(this._nextMove) {
+                        if(this._nextMoving) {
                             console.log("AAAAAAAAAA");
-                            move(this._nextMove);
-                            this._nextMove = null;
-                        } else {
-                            this._moving = false;
+                            move(this._nextMoving);
+                            this._nextMoving = null;
+                        } else if(this._currentMoving !== null) {
+                            move(this._currentMoving);
                         }
-                    }, 80);
+                    }, 100);
                 };
     
                 move(going);
@@ -62,7 +64,13 @@ export class Controler {
     }
 
     private _onKeyUp(event: KeyboardEvent) {
-        if (this._moving) return true;
+        const going = this._going(event);
+
+        if(this._currentMoving && going) {
+            if(going === this._currentMoving) {
+                this._currentMoving = null;
+            }
+        }
     }
 
     private _going(event: KeyboardEvent) {
