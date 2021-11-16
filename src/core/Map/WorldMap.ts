@@ -1,20 +1,25 @@
-import { Point } from "../types/Base";
+import { Point, Size } from "../types/Base";
 import { Effect } from "./Objects/Effect";
 import { Floor } from "./Objects/Floor";
 import { Wall } from "./Objects/Wall";
 
 
 export class WorldMap {
+    private _size!: Size;
+
     private _effects!: Effect[];
     private _walls!: Wall[];
     private _floors!: Floor[];
     private _physicsLineMap!: boolean[][];
 
-    constructor() {
+    constructor(size: Size) {
+        this.setSize(size);
         this.setEffects([]);
         this.setWalls([]);
         this.setFloors([]);
         this.setPhysicsLineMap([]);
+
+        this.fillPhysicsWithBool();
     }
     
 
@@ -42,6 +47,21 @@ export class WorldMap {
 
     getWalls() {
         return this._walls;
+    }
+
+    setSize(size: Size) {
+        this._size = size;
+    }
+
+    getSize() {
+        return this._size;
+    }
+
+
+    fillPhysicsWithBool() {
+        this._physicsLineMap = 
+            new Array(this._size.height).fill(0)
+                .map(() => new Array(this._size.width).fill(false));
     }
 
 

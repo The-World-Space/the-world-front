@@ -9,10 +9,11 @@ import { WorldMap } from "../core/Map/WorldMap";
 import { Renderer } from "../core/Renderer/Renderer";
 import { ImageShape } from "../core/types/Shape/ImageShape";
 import { World } from "../core/World/World";
+import { Controler } from "../game/Controller/Controller";
 
 
-const worldMap = new WorldMap();
-const world = new World();
+const worldMap = new WorldMap({height: 50, width: 50});
+const world = new World({height: 100, width: 100});
 
 const floor = new Floor(
     new ImageShape({
@@ -66,11 +67,16 @@ world.setMap(worldMap);
 
 const renderer = new Renderer(world);
 
+
+const controler = new Controler(world.getPhysics(), renderer, document.body, character);
+
+
 // @ts-ignore
 window.debug = {
     world,
     character,
     renderer,
+    controler,
 };
 
 function Test() {

@@ -1,15 +1,19 @@
+import { Size } from "../types/Base";
 import { Character } from "../Character/Character";
 import { WorldMap } from "../Map/WorldMap";
 import { Point, Going } from "../types/Base";
 
 
 export class Physics {
+    private _size!: Size;
+
     private _map!: WorldMap;
     private _characters!: Character<any>[];
 
-    constructor(map: WorldMap, characters: Character<any>[]) {
+    constructor(map: WorldMap, characters: Character<any>[], size: Size) {
         this.setMap(map);
         this.setCharacters(characters);
+        this.setSize(size);
     }
 
     ableToGo(pos: Point, go: Going) {
@@ -24,6 +28,17 @@ export class Physics {
         return !isTherePhysicsLine;
     }
 
+    nextPosition(pos: Point, go: Going) {
+        const ableToGo = this.ableToGo(pos, go);
+        
+        const newPos = ableToGo ? {
+            x: pos.x + (go >= 2 ? (2 * go - 5) : 0),
+            y: pos.y + (go <  2 ? (2 * go - 1) : 0),
+        } : pos;
+
+        return newPos;
+    }
+
 
     getMap() {
         return this._map;
@@ -33,6 +48,15 @@ export class Physics {
         this._map = map;
     }
 
+    
+    getSize() {
+        return this._size;
+    }
+
+    setSize(size: Size) {
+        this._size = size;
+    }
+    
 
     getCharacters() {
         return this._characters;
