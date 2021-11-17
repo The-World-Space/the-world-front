@@ -31,7 +31,9 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
 loadGlobalEnviroments();
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
