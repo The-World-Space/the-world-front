@@ -37,18 +37,18 @@ const RowButtonDiv = styled.div`
 const MainButton = styled.button`
     padding: 10px;
     border: none;
-    background-color: #f5f5f5;
     background: #A69B97;
     border-radius: 22.5px;
     margin-right: 10px;
     margin-left: 10px;
-    &:hover {
-        background-color: #aaaaaa;
-    }
     font-family: ${MENU_BUTTON_FONT_FAMILY};
     font-style: ${MENU_BUTTON_FONT_STYLE};
     font-weight: ${MENU_BUTTON_FONT_WEIGHT};
     font-size: ${MENU_BUTTON_FONT_SIZE};
+    color: #FFFFFB;
+    &:hover {
+        background-color: #857b78;
+    }
 `;
 
 
