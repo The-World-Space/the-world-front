@@ -10,6 +10,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { JWT_KEY } from './context/consts';
+import { loadGlobalEnviroments } from './pages/GlobalEnviroment';
 
 const httpLink = createHttpLink({
   uri: 'http://computa.lunuy.com:40080/graphql',
@@ -30,7 +31,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
-
+loadGlobalEnviroments();
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
