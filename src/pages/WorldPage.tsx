@@ -18,7 +18,7 @@ import { Floor } from "../core/Map/Objects/Floor";
 import { Wall } from "../core/Map/Objects/Wall";
 import { WorldMap } from "../core/Map/WorldMap";
 import { Renderer } from "../core/Renderer/Renderer";
-import { Direction } from "../core/types/Base";
+import { Direction, Point } from "../core/types/Base";
 import { ImageShape } from "../core/types/Shape/ImageShape";
 import { World } from "../core/World/World";
 import { Human } from "../game/character/Human";
@@ -238,11 +238,12 @@ const apolloClient = new ApolloClient({
 })
 
 
-function movePlayer(apolloClient: ApolloClient<any>, x: number, y: number) {
+function movePlayer(apolloClient: ApolloClient<any>, worldId: string, x: number, y: number) {
+    console.debug("movePlayer", x, y, worldId);
     apolloClient.mutate({
         mutation: gql`
-            mutation MoveCharacter($characterMove: CharacterMoveInput!) {
-                moveCharacter(characterMove: $characterMove) {
+            mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
+                moveCharacter(characterMove: $characterMove, worldId: $worldId) {
                     x
                     y
                 }
@@ -252,15 +253,34 @@ function movePlayer(apolloClient: ApolloClient<any>, x: number, y: number) {
             characterMove: {
                 x,
                 y
-            }
+            },
+            worldId
         }
     });
 }
 
-controler.afterMove = (_) => {
-    movePlayer(apolloClient, character.getPosition().x, character.getPosition().y);
+
+function joinWorld(apolloClient: ApolloClient<any>, x:number, y:number, worldId: string) {
+    apolloClient.mutate({
+        mutation: gql`
+            mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
+                joinWorld(x: $x, y: $y, id: $worldId)
+            }
+        `,
+        variables: {
+            x,
+            y,
+            worldId,
+        }
+    }).then(console.log);
 }
 
+
+controler.afterMove = (_) => {
+    movePlayer(apolloClient, "0", character.getPosition().x, character.getPosition().y);
+}
+
+joinWorld(apolloClient, 0, 5, "0");
 
 function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);

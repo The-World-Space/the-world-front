@@ -12,6 +12,8 @@ import Logout from './pages/Logout';
 import Notfound from './pages/Notfound';
 import Register from './pages/Register';
 import WorldPage from './pages/WorldPage';
+import CreateWorld from './pages/CreateWorld';
+import MyPage from './pages/MyPage';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/logout" component={Logout} />
+        <Route path="/createworld" component={CreateWorld} />
+        <Route path="/mypage" component={MyPage} />
         <Route path="*" component={Notfound} />
       </Switch>
     </Router>

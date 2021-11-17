@@ -33,6 +33,12 @@ function Main() {
             <p>
                 <Link to="/theworld">TheWorld</Link>
             </p>
+            <p>
+                <Link to="/createworld">Create World</Link>
+            </p>
+            <p>
+                <Link to="/mypage">My page</Link>
+            </p>
         </>
     );
 }

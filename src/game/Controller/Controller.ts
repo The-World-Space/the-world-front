@@ -14,14 +14,14 @@ export class Controller {
     private _currentMoving: Direction | null;
     private _currentMovingTimeout: ReturnType<typeof setTimeout> | null
 
-    public afterMove: (controler: Controller) => void = _ => {};
+    public afterMove: (controler: Controller) => void = _ => { };
 
     constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Human) {
         this._physics = physics;
         this._eventTarget = eventDom;
         this._character = character;
         this._renderer = renderer;
-        
+
         this._currentMoving = null;
         this._currentMovingTimeout = null;
 
@@ -35,19 +35,19 @@ export class Controller {
 
 
     private _onKeyDown(event: KeyboardEvent) {
-        
+
         const move = (going: Direction) => {
             const nextPos = this._physics.nextPosition(this._character.getPosition(), going);
-            
-            
+
+
             this._character.setPosition(nextPos);
             this._currentMoving = going;
             this._renderer.updateOne(this._character);
-            
+
             this.afterMove(this);
-            
+
             this._currentMovingTimeout = setTimeout(() => {
-                if(this._currentMoving !== null) {
+                if (this._currentMoving !== null) {
                     move(this._currentMoving);
                 }
             }, 100);
@@ -58,7 +58,7 @@ export class Controller {
         if (going) {
             this._character.walk(going);
             if (this._currentMoving) {
-                if(this._currentMoving !== going) {
+                if (this._currentMoving !== going) {
                     this._currentMoving = going;
                 }
             } else {
@@ -70,8 +70,8 @@ export class Controller {
     private _onKeyUp(event: KeyboardEvent) {
         const going = this._going(event);
 
-        if(this._currentMoving && going) {
-            if(going === this._currentMoving) {
+        if (this._currentMoving && going) {
+            if (going === this._currentMoving) {
                 this._currentMoving = null;
                 if (this._currentMovingTimeout !== null) clearTimeout(this._currentMovingTimeout);
                 this._character.stop()
@@ -83,7 +83,7 @@ export class Controller {
     private _going(event: KeyboardEvent) {
         const key = event.key;
         let going = null;
-        
+
         switch (key) {
             case 'a':
             case 'A':
@@ -106,5 +106,5 @@ export class Controller {
         return going;
     }
 
-    
+
 }
