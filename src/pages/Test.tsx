@@ -107,10 +107,19 @@ enum FloorTile {
 // Physics
 {
     const physicsLineMap = physicsLineFactory(10, 10, [
-        { x: 1, y: 4, direction: Direction.up },
-        { x: 2, y: 4, direction: Direction.up },
-        { x: 6, y: 7, direction: Direction.up },
-        { x: 7, y: 7, direction: Direction.up }
+        {x: 1, y: 1, direction: Direction.up},
+        {x: 2, y: 1, direction: Direction.up},
+        {x: 1, y: 1, direction: Direction.left},
+        {x: 2, y: 1, direction: Direction.right},
+        {x: 1, y: 1, direction: Direction.down},
+        {x: 2, y: 1, direction: Direction.down},
+
+        {x: 6, y: 4, direction: Direction.up},
+        {x: 7, y: 4, direction: Direction.up},
+        {x: 6, y: 4, direction: Direction.left},
+        {x: 7, y: 4, direction: Direction.right},
+        {x: 6, y: 4, direction: Direction.down},
+        {x: 7, y: 4, direction: Direction.down},
     ]);
     worldMap.setPhysicsLineMap(physicsLineMap);
 }
