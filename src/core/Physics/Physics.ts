@@ -1,8 +1,7 @@
 import { goingDx, goingDy, Size } from "../types/Base";
 import { Character } from "../Character/Character";
 import { WorldMap } from "../Map/WorldMap";
-import { Point, Going } from "../types/Base";
-
+import { Point, Direction } from "../types/Base";
 
 export class Physics {
     private _size!: Size;
@@ -16,19 +15,19 @@ export class Physics {
         this.setSize(size);
     }
 
-    ableToGo(pos: Point, go: Going) {
-        const y = (go === Going.up)   ? 0
-                : (go === Going.down) ? 1
-                : 0;
-        const x = (go === Going.right) ? 1
-                : (go === Going.left)  ? -1
-                : 0;
-        const isTherePhysicsLine = this._map.getPhysicsLineMap()[pos.y + y][2 * pos.x + x + 1];
+    ableToGo(pos: Point, go: Direction) {
+        const list_dy = [NaN, 0, 1, 0, 0];
+        const list_dx = [NaN, 0, 0, -1, 1];
+
+        const dy = list_dy[go];
+        const dx = list_dx[go];
+        
+        const isTherePhysicsLine = this._map.getPhysicsLineMap()[pos.y + dy][2 * pos.x + dx + 1];
 
         return !isTherePhysicsLine;
     }
 
-    nextPosition(pos: Point, go: Going) {
+    nextPosition(pos: Point, go: Direction) {
         const ableToGo = this.ableToGo(pos, go);
         
         const newPos = ableToGo ? {

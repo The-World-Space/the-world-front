@@ -9,7 +9,7 @@ export interface Size {
     height: number;
 }
 
-export enum Going {
+export enum Direction {
     up = 1,
     down,
     left,

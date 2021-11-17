@@ -1,5 +1,6 @@
 import { AnimationManager } from "../../core/AnimationSystem/AnimationManager";
 import { State } from "../../core/AnimationSystem/State";
+import { Direction } from "../../core/types/Base";
 
 interface WalkingAnimeArgs {
     Left_walking: string;
@@ -13,11 +14,16 @@ interface WalkingAnimeArgs {
     Down_standing: string;
 }
 
-
 enum WalkingAnime {
     stop,
     walk,
 }
+
+interface MovingSituration {
+    walking: WalkingAnime;
+    direction: Direction;
+}
+
 
 const WALKING_DELAY = 400;
 

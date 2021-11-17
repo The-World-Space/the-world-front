@@ -1,7 +1,7 @@
 import { Character } from "../../core/Character/Character";
 import { Physics } from "../../core/Physics/Physics";
 import { Renderer } from "../../core/Renderer/Renderer";
-import { Going } from "../../core/types/Base";
+import { Direction } from "../../core/types/Base";
 
 
 export class Controler {
@@ -10,7 +10,7 @@ export class Controler {
     private _eventTarget: HTMLElement;
     private _renderer: Renderer;
 
-    private _currentMoving: Going | null;
+    private _currentMoving: Direction | null;
     private _currentMovingTimeout: ReturnType<typeof setTimeout> | null
 
     constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Character<any>) {
@@ -33,7 +33,7 @@ export class Controler {
 
     private _onKeyDown(event: KeyboardEvent) {
         
-        const move = (going: Going) => {
+        const move = (going: Direction) => {
             const nextPos = this._physics.nextPosition(this._character.getPosition(), going);
 
             this._character.setPosition(nextPos);
@@ -78,19 +78,19 @@ export class Controler {
         switch (key) {
             case 'a':
             case 'A':
-                going = Going.left;
+                going = Direction.left;
                 break;
             case 'w':
             case 'W':
-                going = Going.up;
+                going = Direction.up;
                 break;
             case 'd':
             case 'D':
-                going = Going.right;
+                going = Direction.right;
                 break;
             case 's':
             case 'S':
-                going = Going.down;
+                going = Direction.down;
                 break;
         }
 
