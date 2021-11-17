@@ -265,7 +265,7 @@ controler.afterMove = (_) => {
 }
 
 
-function Test() {
+function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);
 
     const context = useContext(Context);
@@ -285,4 +285,4 @@ function Test() {
     );
 }
 
-export default Test;
+export default WorldPage;

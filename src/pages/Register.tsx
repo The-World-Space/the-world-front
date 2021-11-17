@@ -6,7 +6,7 @@ import { gql, useApolloClient } from '@apollo/client';
 
 const REGISTER = gql`
     mutation REGISTER($id:String!, $pw:String!, $nickname:String!){
-        register(id:$id, password:$pw, nickname:$nickname){
+        register(user: {id:$id, password:$pw, nickname:$nickname}){
             id
             nickname
         }
