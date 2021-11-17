@@ -30,6 +30,9 @@ function Main() {
             <p>
                 <Link to="/thelab">TheLab</Link>
             </p>
+            <p>
+                <Link to="/theworld">TheWorld</Link>
+            </p>
         </>
     );
 }

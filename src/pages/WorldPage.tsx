@@ -172,9 +172,6 @@ window.debug = {
 
 
 function getSession() {
-    // return {
-    //     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QiLCJpYXQiOjE2MzcxMjk2MTR9.ZvCQm2P-0yYXh09OFp4GRd0JWSwnYtIDRKBp_DNxtpQ'
-    // };
     return {
         token: localStorage.getItem(JWT_KEY),
     }
