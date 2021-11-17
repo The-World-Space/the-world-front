@@ -1,3 +1,4 @@
+import { Character } from "../Character/Character";
 import { Wall } from "../Map/Objects/Wall";
 import { GameObject } from "../types/GameObject";
 import { DomShape } from "../types/Shape/DomShape";
@@ -82,7 +83,7 @@ export class Renderer {
         _resetCanvas();
     }
 
-    static styleDom<T extends HTMLElement>(dom: T, gameObject: GameObject) {
+    static styleDom<T extends HTMLElement>(dom: T, gameObject: GameObject, isLeftBottomPos = false) {
         const shape = gameObject.getShape();
         const size = shape.getSize();
         const pos = gameObject.getPosition();
@@ -93,7 +94,7 @@ export class Renderer {
 
         dom.style.position = 'absolute';
         dom.style.left = `${pos.x * PIXELSIZE}px`;
-        dom.style.top = `${pos.y * PIXELSIZE}px`;
+        dom.style.top = `${(isLeftBottomPos ? pos.y - size.height + 1 : pos.y) * PIXELSIZE}px`;
 
         return dom;
     }
@@ -110,7 +111,7 @@ export class Renderer {
         if(context) context.imageSmoothingEnabled = false;
 
         const drawToDom = (shape: DomShape, object: GameObject) => {
-            const dom = Renderer.styleDom(shape.getDom(), object);
+            const dom = Renderer.styleDom(shape.getDom(), object, false);
             iframeDom.appendChild(dom);
 
             this._ObjectDomMap.set(object, dom);
@@ -154,14 +155,14 @@ export class Renderer {
         }
 
         const drawAsIframe = (shape: DomShape, object: GameObject) => {
-            const dom = Renderer.styleDom(shape.getDom(), object);
+            const dom = Renderer.styleDom(shape.getDom(), object, true);
             dom.style.zIndex = `${object.getPosition().y}`;
 
             applyDom(dom, object);
         }
 
         const drawAsImage = (shape: ImageShape, object: GameObject) => {
-            const img = Renderer.styleDom(document.createElement('img'), object);
+            const img = Renderer.styleDom(document.createElement('img'), object, true);
             img.src = shape.getImageUrl();
             img.style.zIndex = `${object.getPosition().y}`;
 
@@ -189,13 +190,15 @@ export class Renderer {
     updateOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
         dom = dom || this._ObjectDomMap.get(object);
 
+        const isUnflat = (obj: GameObject) => obj instanceof Wall || obj instanceof Character
+
         const updateAsIframe = (shape: DomShape, object: GameObject, dom: HTMLElement) => {
-            Renderer.styleDom(dom, object);
+            Renderer.styleDom(dom, object, isUnflat(object));
             dom.style.zIndex = `${object.getPosition().y}`;
         }
 
         const updateAsImage = (shape: ImageShape, object: GameObject, dom: HTMLImageElement) => {
-            Renderer.styleDom(dom, object);
+            Renderer.styleDom(dom, object, isUnflat(object));
             dom.src = shape.getImageUrl();
             dom.style.zIndex = `${object.getPosition().y}`;
         }
