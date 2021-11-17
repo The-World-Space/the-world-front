@@ -199,8 +199,9 @@ export class Renderer {
         
         const updateAsImage = (shape: ImageShape, object: GameObject, dom: HTMLImageElement) => {
             Renderer.styleDom(dom, object, isUnflat(object));
-            if (dom.src !== shape.getImageUrl()) dom.src = shape.getImageUrl();
-            console.log(dom.src);
+            if (dom.src !== new URL(shape.getImageUrl(), document.baseURI).href) {
+                dom.src = shape.getImageUrl();
+            }
             dom.style.zIndex = `${object.getPosition().y}`;
         }
 
