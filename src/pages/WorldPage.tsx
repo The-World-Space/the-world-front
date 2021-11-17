@@ -22,7 +22,7 @@ import { Direction } from "../core/types/Base";
 import { ImageShape } from "../core/types/Shape/ImageShape";
 import { World } from "../core/World/World";
 import { Human } from "../game/character/Human";
-import { Controler } from "../game/Controller/Controller";
+import { Controller } from "../game/Controller/Controller";
 import { physicsLineFactory } from "../game/physicsLine/physicsLineFactory"
 import Context from "../context";
 import { JWT_KEY } from "../context/consts";
@@ -159,7 +159,7 @@ world.setMap(worldMap);
 const renderer = new Renderer(world);
 
 
-const controler = new Controler(world.getPhysics(), renderer, document.body, character);
+const controler = new Controller(world.getPhysics(), renderer, document.body, character);
 
 
 // @ts-ignore

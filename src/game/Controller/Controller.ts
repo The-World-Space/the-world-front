@@ -5,7 +5,7 @@ import { Direction } from "../../core/types/Base";
 import { Human } from "../character/Human";
 
 
-export class Controler {
+export class Controller {
     private _physics: Physics;
     private _character: Human;
     private _eventTarget: HTMLElement;
@@ -14,7 +14,7 @@ export class Controler {
     private _currentMoving: Direction | null;
     private _currentMovingTimeout: ReturnType<typeof setTimeout> | null
 
-    public afterMove: (controler: Controler) => void = _ => {};
+    public afterMove: (controler: Controller) => void = _ => {};
 
     constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Human) {
         this._physics = physics;
