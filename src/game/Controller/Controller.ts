@@ -14,6 +14,8 @@ export class Controler {
     private _currentMoving: Direction | null;
     private _currentMovingTimeout: ReturnType<typeof setTimeout> | null
 
+    public afterMove: (controler: Controler) => void = _ => {};
+
     constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Human) {
         this._physics = physics;
         this._eventTarget = eventDom;
@@ -36,11 +38,14 @@ export class Controler {
         
         const move = (going: Direction) => {
             const nextPos = this._physics.nextPosition(this._character.getPosition(), going);
-
+            
+            
             this._character.setPosition(nextPos);
             this._currentMoving = going;
             this._renderer.updateOne(this._character);
-
+            
+            this.afterMove(this);
+            
             this._currentMovingTimeout = setTimeout(() => {
                 if(this._currentMoving !== null) {
                     move(this._currentMoving);

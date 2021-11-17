@@ -1,7 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AnimationManager } from "../core/AnimationSystem/AnimationManager";
-import { State } from "../core/AnimationSystem/State";
-import { Character } from "../core/Character/Character";
+import {
+    ApolloLink,
+    Operation,
+    FetchResult,
+    Observable,
+} from "@apollo/client/core";
+import {
+    ApolloClient,
+    ApolloProvider,
+    InMemoryCache,
+    gql
+} from "@apollo/client";
+import { print } from "graphql";
+import { createClient, ClientOptions, Client } from "graphql-ws";
 import { Effect } from "../core/Map/Objects/Effect";
 import { Floor } from "../core/Map/Objects/Floor";
 import { Wall } from "../core/Map/Objects/Wall";
@@ -157,6 +168,98 @@ window.debug = {
     controler,
 };
 
+
+function getSession() {
+    return {
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QiLCJpYXQiOjE2MzcxMjk2MTR9.ZvCQm2P-0yYXh09OFp4GRd0JWSwnYtIDRKBp_DNxtpQ'
+    };
+}
+
+
+class WebSocketLink extends ApolloLink {
+    private client: Client;
+
+    constructor(options: ClientOptions) {
+        super();
+        this.client = createClient(options);
+    }
+
+    public request(operation: Operation): Observable<FetchResult> {
+        return new Observable((sink) => {
+            return this.client.subscribe<FetchResult>(
+                { ...operation, query: print(operation.query) },
+                {
+                    next: sink.next.bind(sink),
+                    complete: sink.complete.bind(sink),
+                    error: (err) => {
+                        if (Array.isArray(err))
+                            // GraphQLError[]
+                            return sink.error(
+                                new Error(
+                                    err.map(({ message }) => message).join(", ")
+                                )
+                            );
+
+                        if (err instanceof CloseEvent)
+                            return sink.error(
+                                new Error(
+                                    `Socket closed with event ${err.code} ${
+                                        err.reason || ""
+                                    }` // reason will be available on clean closes only
+                                )
+                            );
+
+                        return sink.error(err);
+                    },
+                }
+            );
+        });
+    }
+}
+
+const link = new WebSocketLink({
+    url: "ws://computa.lunuy.com:40080/graphql",
+    connectionParams: () => {
+        const session = getSession();
+        if (!session) {
+            return {};
+        }
+        return {
+            Authorization: `${session.token}`,
+        };
+    },
+});
+
+const apolloClient = new ApolloClient({
+    link,
+    cache: new InMemoryCache()
+})
+
+
+function movePlayer(apolloClient: ApolloClient<any>, x: number, y: number) {
+    apolloClient.mutate({
+        mutation: gql`
+            mutation MoveCharacter($characterMove: CharacterMoveInput!) {
+                moveCharacter(characterMove: $characterMove) {
+                    x
+                    y
+                }
+            }
+        `,
+        variables: {
+            characterMove: {
+                x,
+                y
+            }
+        }
+    });
+}
+
+controler.afterMove = (_) => {
+    movePlayer(apolloClient, character.getPosition().x, character.getPosition().y);
+}
+
+
 function Test() {
     const ref = useRef<HTMLDivElement>(null);
 
@@ -167,9 +270,11 @@ function Test() {
     }, [ref]);
 
     return (
-        <div ref={ref}>
+        <ApolloProvider client={apolloClient}>
+            <div ref={ref}>
 
-        </div>
+            </div>
+        </ApolloProvider>
     );
 }
 
