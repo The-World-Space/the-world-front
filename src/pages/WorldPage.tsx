@@ -26,6 +26,8 @@ import { Controller } from "../game/Controller/Controller";
 import { physicsLineFactory } from "../game/physicsLine/physicsLineFactory"
 import Context from "../context";
 import { JWT_KEY } from "../context/consts";
+import { NetworkController } from "../game/Controller/NetworkController";
+import useUser from "../hooks/useUser";
 
 
 const worldMap = new WorldMap({ height: 50, width: 50 });
@@ -206,8 +208,7 @@ class WebSocketLink extends ApolloLink {
                         if (err instanceof CloseEvent)
                             return sink.error(
                                 new Error(
-                                    `Socket closed with event ${err.code} ${
-                                        err.reason || ""
+                                    `Socket closed with event ${err.code} ${err.reason || ""
                                     }` // reason will be available on clean closes only
                                 )
                             );
@@ -240,7 +241,6 @@ const apolloClient = new ApolloClient({
 
 
 function movePlayer(apolloClient: ApolloClient<any>, worldId: string, x: number, y: number) {
-    console.debug("movePlayer", x, y, worldId);
     apolloClient.mutate({
         mutation: gql`
             mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
@@ -261,7 +261,7 @@ function movePlayer(apolloClient: ApolloClient<any>, worldId: string, x: number,
 }
 
 
-function joinWorld(apolloClient: ApolloClient<any>, x:number, y:number, worldId: string) {
+function joinWorld(apolloClient: ApolloClient<any>, x: number, y: number, worldId: string) {
     apolloClient.mutate({
         mutation: gql`
             mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
@@ -278,18 +278,25 @@ function joinWorld(apolloClient: ApolloClient<any>, x:number, y:number, worldId:
 
 
 
+
 function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);
+    const user = useUser();
+    let networkController; 
     
     useEffect(() => {
+        if (!user) return;
+
         ref.current?.appendChild(renderer.getWrapperDom());
 
         controler.afterMove = (_) => {
             movePlayer(apolloClient, "0", character.getPosition().x, character.getPosition().y);
         }
-        
+        console.error(user)
+        networkController = new NetworkController(renderer, world, character, "0", user.id);
+
         joinWorld(apolloClient, 0, 5, "0");
-    }, [ref]);
+    }, [ref, user]);
 
     return (
         <ApolloProvider client={apolloClient}>

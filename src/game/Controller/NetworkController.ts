@@ -19,6 +19,7 @@ import { print } from "graphql";
 import { createClient, ClientOptions, Client } from "graphql-ws";
 import { JWT_KEY } from "../../context/consts";
 import { World } from "../../core/World/World";
+import { ImageShape } from "../../core/types/Shape/ImageShape";
 
 
 
@@ -33,6 +34,23 @@ interface UserData {
     currentMoving: Direction | null;
     currentMovingTimeout: ReturnType<typeof setTimeout> | null;
 }
+
+
+
+function hyeonJongFactory() {
+    const character = new Human(
+        new ImageShape({
+            width: 1,
+            height: 2,
+        }, 'https://e7.pngegg.com/pngimages/517/871/png-clipart-8-bit-super-mario-illustration-super-mario-bros-new-super-mario-bros-video-game-sprite-angle-super-mario-bros.png'),
+        {
+            walking: ['top.gif', 'bottom.gif', 'left.gif', 'right.gif'].map(e => `/assets/hyeonjong/${e}`) as [string, string, string, string],
+            standing: ['tile008.png', 'tile000.png', 'tile012.png', 'tile004.png'].map(e => `/assets/hyeonjong/${e}`) as [string, string, string, string],
+        }
+    );
+    return character;
+}
+
 
 
 class WebSocketLink extends ApolloLink {
@@ -101,17 +119,20 @@ const link = new WebSocketLink({
 export class NetworkController {
     private _characterMap: Map<string, UserData>;
     private _world: World;
+    private _worldId: string;
+    private _playerId: string;
     private _renderer: Renderer;
     private _client!: ApolloClient<any>;
 
     public afterMove: (controler: NetworkController) => void = _ => { };
 
-    constructor(renderer: Renderer, world: World, character: Human) {
+    constructor(renderer: Renderer, world: World, character: Human, worldId: string, playerId: string) {
         this._world = world;
+        this._worldId = worldId;
         this._characterMap = new Map();
+        this._playerId = playerId;
         this._renderer = renderer;
 
-        this._bindEvent();
         this._initApolloClient();
     }
 
@@ -123,25 +144,71 @@ export class NetworkController {
 
         this._client.subscribe({
             query: gql`
-            
+                subscription PLAYER_LIST_UPDATE($worldId: String!) {
+                    playerList(worldId: $worldId) {
+                        id
+                        nickname
+                    }
+                }
             `,
-            variables: {},
+            variables: {
+                worldId: this._worldId,
+            }
         }).subscribe((data) => {
-            
+            data.data.playerList && this.onPlayerListUpdate(data.data.playerList);
+        })
+
+        this._client.subscribe({
+            query: gql`
+                subscription CHARACTER_MOVE($worldId: String!) {
+                    characterMove(worldId: $worldId) {
+                        x
+                        y
+                        userId
+                    }
+                }
+            `,
+            variables: {
+                worldId: this._worldId
+            },
+        }).subscribe((data) => {
+            console.debug('character move', data.data);
+            if (data.data.characterMove) {
+                const user = this._characterMap.get(data.data?.characterMove?.userId);
+                user && this.moveCharacter(data.data.characterMove, user);
+            }
         });
 
         
     }
 
-    private _bindEvent() {
-        // this._eventTarget.addEventListener('keydown', this._onKeyDown.bind(this));
-        // this._eventTarget.addEventListener('keyup', this._onKeyUp.bind(this));
+    private onPlayerListUpdate(data: User[]) {
+        const playerList = data;
+            const newPlayers = playerList.filter(p => !this._characterMap.has(p.id));
+            const leftPlayers = [...this._characterMap.keys()].filter(p => !playerList.find(p2 => p2.id === p));
 
+            newPlayers.forEach(p => {
+                const user = {
+                    user: p,
+                    character: hyeonJongFactory(),
+                    currentMoving: null,
+                    currentMovingTimeout: null
+                };
+                this.joinUser(user);
+            });
+
+            leftPlayers.forEach(p => {
+                const user = this._characterMap.get(p);
+
+                user && this.leaveUser(user);
+            });
 
     }
 
 
     private moveCharacter(nextPos: Point, user: UserData) {
+        if (this._playerId === user.user.id) return;
+
         const move = (nextPos: Point, user: UserData) => {
             user.character.setPosition(nextPos);
             user.currentMoving = Direction.down;
@@ -161,6 +228,8 @@ export class NetworkController {
         const beforePos = user.character.getPosition();
         const going = this._going(beforePos, nextPos);
 
+        console.log('going', going);
+
         if (going) {
             user.character.walk(going);
             if (user.currentMoving) {
@@ -175,8 +244,12 @@ export class NetworkController {
 
 
     private joinUser(user: UserData) {
+        if (this._playerId === user.user.id) return;
+
         this._characterMap.set(user.user.id, user);
         this._world.addCharacter(user.character);
+        this._renderer.drawUnflatObject(user.character);
+        console.debug('joinUser', user);
     }
 
     private leaveUser(user: UserData) {

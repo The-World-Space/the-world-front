@@ -112,7 +112,7 @@ export class Renderer {
     }
 
 
-    private _drawFlatObjects(objects: GameObject[], iframeDom: HTMLDivElement, context: CanvasRenderingContext2D) {
+    drawFlatObject(object: GameObject, iframeDom: HTMLDivElement, context: CanvasRenderingContext2D) {
         if(context) context.imageSmoothingEnabled = false;
 
         const drawToDom = (shape: DomShape, object: GameObject) => {
@@ -135,23 +135,28 @@ export class Renderer {
         }
 
 
-        for (const object of objects) {
-            const shape = object.getShape();
+        const shape = object.getShape();
 
-            if (shape instanceof DomShape) {
-                drawToDom(shape, object);
-            }
-            else if (shape instanceof ImageShape) {
-                drawToCanvas(shape, object);
-            }
-            else {
-                throw new Error('Unsupported shape');
-            }
+        if (shape instanceof DomShape) {
+            drawToDom(shape, object);
+        }
+        else if (shape instanceof ImageShape) {
+            drawToCanvas(shape, object);
+        }
+        else {
+            throw new Error('Unsupported shape');
         }
     }
 
 
-    private _drawUnflatObjects(objects: GameObject[]) {
+    drawFlatObjects(objects: GameObject[], iframeDom: HTMLDivElement, context: CanvasRenderingContext2D) {
+        for (const object of objects) {
+            this.drawFlatObject(object, iframeDom, context);
+        }
+    }
+
+
+    drawUnflatObject(object: GameObject) {
         const applyDom = (dom: HTMLElement, object: GameObject) => {
             this._wallDom.appendChild(dom);
             this._ObjectDomMap.set(object, dom);
@@ -174,19 +179,23 @@ export class Renderer {
             applyDom(img, object);
         }
 
+        const shape = object.getShape();
 
+        if (shape instanceof DomShape) {
+            drawAsIframe(shape, object);
+        }
+        else if (shape instanceof ImageShape) {
+            drawAsImage(shape, object);
+        }
+        else {
+            throw new Error('Unsupported shape');
+        }
+    }
+
+
+    drawUnflatObjects(objects: GameObject[]) {
         for (const object of objects) {
-            const shape = object.getShape();
-
-            if (shape instanceof DomShape) {
-                drawAsIframe(shape, object);
-            }
-            else if (shape instanceof ImageShape) {
-                drawAsImage(shape, object);
-            }
-            else {
-                throw new Error('Unsupported shape');
-            }
+            this.drawUnflatObject(object);
         }
     }
 
@@ -235,7 +244,7 @@ export class Renderer {
         const iframeDom = this._iframeEffectDom;
         const context = this._imageEffectDom.getContext('2d')!;
 
-        this._drawFlatObjects(effects, iframeDom, context);
+        this.drawFlatObjects(effects, iframeDom, context);
     }
 
 
@@ -244,12 +253,12 @@ export class Renderer {
         const iframeDom = this._iframeFloorDom;
         const context = this._imageFloorDom.getContext('2d')!;
 
-        this._drawFlatObjects(floors, iframeDom, context);
+        this.drawFlatObjects(floors, iframeDom, context);
     }
 
 
     private _drawWalls() {
-        this._drawUnflatObjects(this._world.getMap().getWalls());
+        this.drawUnflatObjects(this._world.getMap().getWalls());
     }
 
     update() {
