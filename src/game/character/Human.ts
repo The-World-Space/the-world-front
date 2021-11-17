@@ -25,7 +25,7 @@ export class Human extends Character<T> {
         //     walking: 1,
         //     direction,
         // }, true);
-        console.log('standing')
+        // console.log('standing')
         this._last = direction;
         this.setShape(new ImageShape(this.getShape().getSize(), this._animeArgs.walking[direction - 1]));
     }
@@ -35,7 +35,7 @@ export class Human extends Character<T> {
         //     walking: 0,
         //     direction: this.animeManager.situation.direction,
         // }, true);
-        console.log('stop')
+        // console.log('stop')
         this.setShape(new ImageShape(this.getShape().getSize(), this._animeArgs.standing[this._last - 1]));
     }
 }
