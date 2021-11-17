@@ -277,19 +277,18 @@ function joinWorld(apolloClient: ApolloClient<any>, x:number, y:number, worldId:
 }
 
 
-controler.afterMove = (_) => {
-    movePlayer(apolloClient, "0", character.getPosition().x, character.getPosition().y);
-}
-
-joinWorld(apolloClient, 0, 5, "0");
 
 function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);
-
+    
     useEffect(() => {
-
         ref.current?.appendChild(renderer.getWrapperDom());
 
+        controler.afterMove = (_) => {
+            movePlayer(apolloClient, "0", character.getPosition().x, character.getPosition().y);
+        }
+        
+        joinWorld(apolloClient, 0, 5, "0");
     }, [ref]);
 
     return (
