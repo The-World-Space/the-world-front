@@ -92,7 +92,7 @@ function Main() {
                 <Link to="/thelab">TheLab</Link>
             </p>
             <p>
-                <Link to="/theworld">TheWorld</Link>
+                <Link to="/world/0">world/0</Link>
             </p>
         </>
     );
