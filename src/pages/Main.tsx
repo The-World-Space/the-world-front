@@ -18,14 +18,14 @@ function Main() {
                 <Link to="/register">Register</Link>
             </p>
             {logged &&
-            <>
-                <p>
-                    <Link to="/logout">Logout</Link>
-                </p>
-                <p>
-                    <Link to="/todo">Todo</Link>
-                </p>
-            </>
+                <>
+                    <p>
+                        <Link to="/logout">Logout</Link>
+                    </p>
+                    <p>
+                        <Link to="/todo">Todo</Link>
+                    </p>
+                </>
             }
             <p>
                 <Link to="/thelab">TheLab</Link>

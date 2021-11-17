@@ -13,7 +13,7 @@ const REGISTER = gql`
     }
 `;
 
-function Register(){
+function Register() {
 
     const history = useHistory();
 
@@ -24,14 +24,14 @@ function Register(){
     const client = useApolloClient();
 
     async function onSubmit() {
-        if(pw !== confirmPw){
+        if (pw !== confirmPw) {
             alert("비밀번호가 서로 같지 않습니다!");
             return;
         }
-        
+
         const res = await client.mutate({
             mutation: REGISTER,
-            variables:{
+            variables: {
                 id,
                 pw,
                 nickname,
@@ -39,10 +39,10 @@ function Register(){
         });
         const data = res.data;
 
-        if(data.register){
+        if (data.register) {
             history.push('/login');
         }
-        else{
+        else {
             console.error('account not founded');
         }
     }
@@ -62,7 +62,7 @@ function Register(){
                     <input onChange={e => setNickname(e.target.value)} />
                 </label>
             </div>
-            {(pw !== confirmPw && confirmPw !== '') && 
+            {(pw !== confirmPw && confirmPw !== '') &&
                 <p>'페스워드가 서로 같지 않습니다!'</p>
             }
             <div>

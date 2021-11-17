@@ -14,8 +14,8 @@ import { Controler } from "../game/Controller/Controller";
 import { physicsLineFactory } from "../game/physicsLine/physicsLineFactory"
 
 
-const worldMap = new WorldMap({height: 50, width: 50});
-const world = new World({height: 100, width: 100});
+const worldMap = new WorldMap({ height: 50, width: 50 });
+const world = new World({ height: 100, width: 100 });
 
 
 
@@ -42,9 +42,9 @@ enum FloorTile {
 
     const floors = worldMap.getFloors();
 
-    for(let y = 0; y < floorMap.length; y++) {
+    for (let y = 0; y < floorMap.length; y++) {
         const line = floorMap[y];
-        for(let x = 0; x < line.length; x++) {
+        for (let x = 0; x < line.length; x++) {
             const tileId = line[x];
 
             const floor = new Floor(
@@ -73,7 +73,7 @@ enum FloorTile {
                 height: 2,
             }, '/assets/wall/tree.png'),
         );
-        wall.setPosition({x: 1, y: 1});
+        wall.setPosition({ x: 1, y: 1 });
         worldMap.getWalls().push(wall);
     }
 
@@ -84,7 +84,7 @@ enum FloorTile {
                 height: 2,
             }, '/assets/wall/tree.png'),
         );
-        wall.setPosition({x: 6, y: 4});
+        wall.setPosition({ x: 6, y: 4 });
         worldMap.getWalls().push(wall);
     }
 }
@@ -98,7 +98,7 @@ enum FloorTile {
             height: 2,
         }, '/assets/effect/snow.gif')
     );
-    effect.setPosition({x: 4, y: 4});
+    effect.setPosition({ x: 4, y: 4 });
     worldMap.getEffects().push(effect);
 }
 
@@ -107,26 +107,26 @@ enum FloorTile {
 // Physics
 {
     const physicsLineMap = physicsLineFactory(10, 10, [
-        {x: 1, y: 1, direction: Direction.up},
-        {x: 2, y: 1, direction: Direction.up},
-        {x: 1, y: 1, direction: Direction.left},
-        {x: 2, y: 1, direction: Direction.right},
-        {x: 1, y: 1, direction: Direction.down},
-        {x: 2, y: 1, direction: Direction.down},
+        { x: 1, y: 1, direction: Direction.up },
+        { x: 2, y: 1, direction: Direction.up },
+        { x: 1, y: 1, direction: Direction.left },
+        { x: 2, y: 1, direction: Direction.right },
+        { x: 1, y: 1, direction: Direction.down },
+        { x: 2, y: 1, direction: Direction.down },
 
-        {x: 6, y: 4, direction: Direction.up},
-        {x: 7, y: 4, direction: Direction.up},
-        {x: 6, y: 4, direction: Direction.left},
-        {x: 7, y: 4, direction: Direction.right},
-        {x: 6, y: 4, direction: Direction.down},
-        {x: 7, y: 4, direction: Direction.down},
+        { x: 6, y: 4, direction: Direction.up },
+        { x: 7, y: 4, direction: Direction.up },
+        { x: 6, y: 4, direction: Direction.left },
+        { x: 7, y: 4, direction: Direction.right },
+        { x: 6, y: 4, direction: Direction.down },
+        { x: 7, y: 4, direction: Direction.down },
     ]);
     worldMap.setPhysicsLineMap(physicsLineMap);
 }
 
 const state: State<1> = new State({
     async action() {
-        await anime.stop(); 
+        await anime.stop();
         return state;
     },
 });
@@ -139,7 +139,7 @@ const character = new Character(
         height: 2,
     }, 'https://e7.pngegg.com/pngimages/517/871/png-clipart-8-bit-super-mario-illustration-super-mario-bros-new-super-mario-bros-video-game-sprite-angle-super-mario-bros.png'),
 );
-character.setPosition({x: 0, y: 5});
+character.setPosition({ x: 0, y: 5 });
 worldMap.getWalls().push(character);
 
 

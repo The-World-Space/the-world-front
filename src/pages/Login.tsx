@@ -19,11 +19,11 @@ function Login() {
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const client = useApolloClient();
-    
+
     async function onSubmit() {
         const res = await client.query({
             query: LOGIN_QUERY,
-            variables:{
+            variables: {
                 id,
                 pw
             }
@@ -31,11 +31,11 @@ function Login() {
 
         const data = res.data;
 
-        if(data.login){
+        if (data.login) {
             setJwt(data.login);
             history.push('/');
         }
-        else{
+        else {
             console.error('account not founded');
         }
     }
