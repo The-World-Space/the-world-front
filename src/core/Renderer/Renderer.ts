@@ -52,6 +52,11 @@ export class Renderer {
             _changeWidthCanvas(this._imageEffectDom);
             _changeWidthCanvas(this._imageFloorDom);
         }
+        document.body.onresize = () =>{ 
+            _resetCanvas();
+            this._drawEffects();
+            this._drawFloors();
+        };
 
 
         this._wrapperDom = document.createElement('div');
