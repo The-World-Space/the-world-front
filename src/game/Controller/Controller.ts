@@ -2,18 +2,19 @@ import { Character } from "../../core/Character/Character";
 import { Physics } from "../../core/Physics/Physics";
 import { Renderer } from "../../core/Renderer/Renderer";
 import { Direction } from "../../core/types/Base";
+import { Human } from "../character/Human";
 
 
 export class Controler {
     private _physics: Physics;
-    private _character: Character<any>;
+    private _character: Human;
     private _eventTarget: HTMLElement;
     private _renderer: Renderer;
 
     private _currentMoving: Direction | null;
     private _currentMovingTimeout: ReturnType<typeof setTimeout> | null
 
-    constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Character<any>) {
+    constructor(physics: Physics, renderer: Renderer, eventDom: HTMLElement, character: Human) {
         this._physics = physics;
         this._eventTarget = eventDom;
         this._character = character;
@@ -50,6 +51,7 @@ export class Controler {
         const going = this._going(event);
 
         if (going) {
+            this._character.walk(going);
             if (this._currentMoving) {
                 if(this._currentMoving !== going) {
                     this._currentMoving = going;
@@ -67,6 +69,8 @@ export class Controler {
             if(going === this._currentMoving) {
                 this._currentMoving = null;
                 if (this._currentMovingTimeout !== null) clearTimeout(this._currentMovingTimeout);
+                this._character.stop()
+                setTimeout(() => this._renderer.updateOne(this._character), 0);
             }
         }
     }
@@ -94,7 +98,6 @@ export class Controler {
                 break;
         }
 
-        console.debug("going", going);  
         return going;
     }
 

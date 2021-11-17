@@ -10,6 +10,7 @@ import { Renderer } from "../core/Renderer/Renderer";
 import { Direction } from "../core/types/Base";
 import { ImageShape } from "../core/types/Shape/ImageShape";
 import { World } from "../core/World/World";
+import { Human } from "../game/character/Human";
 import { Controler } from "../game/Controller/Controller";
 import { physicsLineFactory } from "../game/physicsLine/physicsLineFactory"
 
@@ -124,20 +125,16 @@ enum FloorTile {
     worldMap.setPhysicsLineMap(physicsLineMap);
 }
 
-const state: State<1> = new State({
-    async action() {
-        await anime.stop();
-        return state;
-    },
-});
-const anime = new AnimationManager(1, state);
 
-const character = new Character(
-    anime,
+const character = new Human(
     new ImageShape({
         width: 1,
         height: 2,
     }, 'https://e7.pngegg.com/pngimages/517/871/png-clipart-8-bit-super-mario-illustration-super-mario-bros-new-super-mario-bros-video-game-sprite-angle-super-mario-bros.png'),
+    {
+        walking: ['top.gif', 'bottom.gif', 'left.gif', 'right.gif'].map(e => `/assets/hyeonjong/${e}`) as [string, string, string, string],
+        standing: ['tile008.png', 'tile000.png', 'tile012.png', 'tile004.png'].map(e => `/assets/hyeonjong/${e}`) as [string, string, string, string],
+    }
 );
 character.setPosition({ x: 0, y: 5 });
 worldMap.getWalls().push(character);

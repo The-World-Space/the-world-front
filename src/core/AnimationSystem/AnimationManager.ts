@@ -37,7 +37,7 @@ export class AnimationManager<situationType> {
      * @param situation 변경할 situation 입니다.
      * @param escape escape 여부를 결정합니다.
      */
-    setsituation(situation: situationType, escape: boolean) {
+    setSituation(situation: situationType, escape: boolean) {
         this.situation = situation;
 
         escape && this.escape();

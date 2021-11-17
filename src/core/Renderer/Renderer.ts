@@ -189,17 +189,18 @@ export class Renderer {
 
     updateOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
         dom = dom || this._ObjectDomMap.get(object);
-
+        
         const isUnflat = (obj: GameObject) => obj instanceof Wall || obj instanceof Character
-
+        
         const updateAsIframe = (shape: DomShape, object: GameObject, dom: HTMLElement) => {
             Renderer.styleDom(dom, object, isUnflat(object));
             dom.style.zIndex = `${object.getPosition().y}`;
         }
-
+        
         const updateAsImage = (shape: ImageShape, object: GameObject, dom: HTMLImageElement) => {
             Renderer.styleDom(dom, object, isUnflat(object));
-            dom.src = shape.getImageUrl();
+            if (dom.src !== shape.getImageUrl()) dom.src = shape.getImageUrl();
+            console.log(dom.src);
             dom.style.zIndex = `${object.getPosition().y}`;
         }
 
