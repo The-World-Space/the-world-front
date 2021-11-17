@@ -121,7 +121,14 @@ export class NetworkController {
             cache: new InMemoryCache()
         });
 
-        // this._client.subscribe()
+        this._client.subscribe({
+            query: gql`
+            
+            `,
+            variables: {},
+        }).subscribe((data) => {
+            
+        });
 
         
     }
