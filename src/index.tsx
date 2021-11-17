@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Provider from './context/Provider';
-import { 
-  ApolloProvider, 
-  ApolloClient, 
+import {
+  ApolloProvider,
+  ApolloClient,
   InMemoryCache,
   createHttpLink
 } from '@apollo/client';
@@ -17,7 +17,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem(JWT_KEY);
-  
+
   return {
     headers: {
       ...headers,

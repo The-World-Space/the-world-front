@@ -4,17 +4,17 @@ import { State } from "./State";
 /**
  * 애니메이션을 총괄하는 Manager입니다.
  */
-export class AnimationManager<siturationType> {
+export class AnimationManager<situationType> {
     // public
-    situration: siturationType;
-    defaultState: State<siturationType>;
+    situation: situationType;
+    defaultState: State<situationType>;
 
     // private
     private _inturpt: ((value: void | PromiseLike<void>) => void) | null = null;
 
 
-    constructor(situration: siturationType, defaultState: State<siturationType>) {
-        this.situration = situration;
+    constructor(situation: situationType, defaultState: State<situationType>) {
+        this.situation = situation;
         this.defaultState = defaultState;
     }
 
@@ -32,13 +32,13 @@ export class AnimationManager<siturationType> {
 
 
     /**
-     * situration을 결정하는 메서드 입니다.
+     * situation을 결정하는 메서드 입니다.
      * 
-     * @param situration 변경할 situration 입니다.
+     * @param situation 변경할 situation 입니다.
      * @param escape escape 여부를 결정합니다.
      */
-    setSituration(situration: siturationType, escape: boolean) {
-        this.situration = situration;
+    setsituation(situation: situationType, escape: boolean) {
+        this.situation = situation;
 
         escape && this.escape();
     }
