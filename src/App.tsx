@@ -21,7 +21,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/thelab" component={Test} />
-        <Route path="/theworld" component={WorldPage} />
+        <Route path="/world/:worldId" component={WorldPage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/logout" component={Logout} />

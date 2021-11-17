@@ -28,6 +28,7 @@ import Context from "../context";
 import { JWT_KEY } from "../context/consts";
 import { NetworkController } from "../game/Controller/NetworkController";
 import useUser from "../hooks/useUser";
+import { useParams } from "react-router";
 
 
 const worldMap = new WorldMap({ height: 50, width: 50 });
@@ -282,6 +283,7 @@ function joinWorld(apolloClient: ApolloClient<any>, x: number, y: number, worldI
 function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);
     const user = useUser();
+    const { worldId } = useParams<{worldId: string}>();
     let networkController; 
     
     useEffect(() => {
