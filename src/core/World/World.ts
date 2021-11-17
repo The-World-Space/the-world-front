@@ -36,6 +36,16 @@ export class World {
         this._characters = characters;
     }
 
+    addCharacter(character: Character<any>) {
+        this._characters.push(character);
+        this.getMap().getWalls().push(character);
+    }
+
+    removeCharacter(character: Character<any>) {
+        this._characters = this._characters.filter(c => c !== character);
+        this.getMap().getWalls().splice(this.getMap().getWalls().indexOf(character), 1);
+    }
+
 
     getPhysics() {
         return this._physics;

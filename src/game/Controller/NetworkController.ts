@@ -121,11 +121,16 @@ export class NetworkController {
             cache: new InMemoryCache()
         });
 
+        // this._client.subscribe()
+
+        
     }
 
     private _bindEvent() {
         // this._eventTarget.addEventListener('keydown', this._onKeyDown.bind(this));
         // this._eventTarget.addEventListener('keyup', this._onKeyUp.bind(this));
+
+
     }
 
 
@@ -164,12 +169,12 @@ export class NetworkController {
 
     private joinUser(user: UserData) {
         this._characterMap.set(user.user.id, user);
-        
+        this._world.addCharacter(user.character);
     }
 
     private leaveUser(user: UserData) {
         this._characterMap.delete(user.user.id);
-
+        this._world.removeCharacter(user.character);
     }
 
     // private _onKeyUp(event: KeyboardEvent) {

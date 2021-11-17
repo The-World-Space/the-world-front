@@ -150,10 +150,11 @@ const character = new Human(
     }
 );
 character.setPosition({ x: 0, y: 5 });
-worldMap.getWalls().push(character);
+// worldMap.getWalls().push(character);
 
 
 world.setMap(worldMap);
+world.addCharacter(character);
 
 
 const renderer = new Renderer(world);
@@ -284,8 +285,6 @@ joinWorld(apolloClient, 0, 5, "0");
 
 function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);
-
-    const context = useContext(Context);
 
     useEffect(() => {
 
