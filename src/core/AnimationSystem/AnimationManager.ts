@@ -1,10 +1,10 @@
-import State from "./State";
+import { State } from "./State";
 
 
 /**
  * 애니메이션을 총괄하는 Manager입니다.
  */
-class AnimationManager<siturationType> {
+export class AnimationManager<siturationType> {
     // public
     situration: siturationType;
     defaultState: State<siturationType>;
@@ -80,6 +80,3 @@ class AnimationManager<siturationType> {
         })
     }
 }
-
-
-export default AnimationManager;

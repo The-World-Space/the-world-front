@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import AnimationManager from "../core/AnimationSystem/AnimationManager";
-import State from "../core/AnimationSystem/State";
+import { AnimationManager } from "../core/AnimationSystem/AnimationManager";
+import { State } from "../core/AnimationSystem/State";
 import { Character } from "../core/Character/Character";
 import { Effect } from "../core/Map/Objects/Effect";
 import { Floor } from "../core/Map/Objects/Floor";

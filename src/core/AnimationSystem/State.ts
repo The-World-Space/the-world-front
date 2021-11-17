@@ -1,4 +1,4 @@
-import AnimationManager from "./AnimationManager";
+import { AnimationManager } from "./AnimationManager";
 
 
 interface StateArgs<T> {
@@ -8,12 +8,10 @@ interface StateArgs<T> {
 /**
  * 상태
  */
-class State<T> {
+export class State<T> {
     action: (manager: AnimationManager<T>) => Promise<State<T>>
 
     constructor(args: StateArgs<T>) {
         this.action = args.action;
     }
 }
-
-export default State;
