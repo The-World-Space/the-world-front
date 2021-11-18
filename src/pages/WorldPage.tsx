@@ -22,13 +22,13 @@ import { Direction, Point } from "../core/types/Base";
 import { ImageShape } from "../core/types/Shape/ImageShape";
 import { World } from "../core/World/World";
 import { Human } from "../game/character/Human";
-import { Controller } from "../game/Controller/Controller";
 import { physicsLineFactory } from "../game/physicsLine/physicsLineFactory"
 import Context from "../context";
 import { JWT_KEY } from "../context/consts";
 import { NetworkController } from "../game/Controller/NetworkController";
 import useUser from "../hooks/useUser";
 import { useParams } from "react-router";
+import { KeyboardController } from "../game/Controller/KeyboardContoller";
 
 
 const world = new World({ height: 100, width: 100 });
@@ -163,7 +163,7 @@ world.addCharacter(character);
 const renderer = new Renderer(world);
 
 
-const controler = new Controller(world.getPhysics(), renderer, document.body, character);
+const controler = new KeyboardController(world.getPhysics(), renderer, document.body, character);
 
 
 // @ts-ignore
