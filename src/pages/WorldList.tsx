@@ -41,7 +41,6 @@ const WorldListDiv = styled.div`
     box-sizing: border-box;
     padding-left: 10px;
     padding-right: 10px;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
 `
 
 const WorldItem = styled.div`
@@ -56,7 +55,8 @@ const WorldItem = styled.div`
     justify-content: space-between;
 
     background-color: #D7CCC8;
-
+    
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     border-radius: 72px;
 `
 
