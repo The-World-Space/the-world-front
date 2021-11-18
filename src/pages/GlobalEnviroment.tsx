@@ -8,6 +8,11 @@ export const MENU_TEXT_FONT_STYLE = 'normal';
 export const MENU_TEXT_FONT_WEIGHT = '500';
 export const MENU_TEXT_FONT_SIZE = '16px';
 
+export const FORM_FONT_FAMILY = 'Noto Sans';
+export const FORM_FONT_STYLE = 'normal';
+export const FORM_FONT_WEIGHT = 'normal';
+export const FORM_FONT_SIZE = '16px';
+
 export function loadGlobalEnviroments() {
     [
         // new FontFace(MENU_BUTTON_FONT_FAMILY, `url(%PUBLIC_URL%/static/font/NotoSans/NotoSans-Bold.ttf)`),
