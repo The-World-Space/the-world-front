@@ -37,11 +37,11 @@ const MainButton = styled.button`
     font-weight: ${MENU_BUTTON_FONT_WEIGHT};
     font-size: ${MENU_BUTTON_FONT_SIZE};
     border: none;
-    background: #A69B97;
-    color: #FFFFFB;
+    background: #FFFFFE;
     &:hover {
-        background-color: #857b78;
+        background-color: #e7e7e5;
     }
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
 `;
 
 interface NavigationBarProps {
@@ -55,7 +55,7 @@ function NavigationBar(props: NavigationBarProps) {
     return (
         <NaviDiv>
             <Link to="/">
-                <img src={twLogo2} /> 
+                <img src={twLogo2} alt={'logo img'}/> 
             </Link>
             {props.showNavContent &&
                 <RowButtonDiv>

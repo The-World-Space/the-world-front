@@ -10,7 +10,7 @@ import twLogo1 from '../components/atoms/tw logo 1.svg';
 import styled from "styled-components";
 import BlackInput from "../components/atoms/BlackInput";
 import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
-import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from './GlobalEnviroment';
+import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from './GlobalEnviroment';
 
 const ContentDiv = styled.div`
     display: flex;
@@ -73,7 +73,7 @@ function Register() {
             <ContentDiv>
                 <div>
                     <Link to="/">
-                        <img src={twLogo1} style={{
+                        <img src={twLogo1} alt={'logo img'} style={{
                             width: '350px',
                         }}/>
                     </Link>
@@ -82,7 +82,7 @@ function Register() {
                     marginTop: '40px',
                     fontFamily: FORM_FONT_FAMILY,
                     fontStyle: FORM_FONT_STYLE,
-                    fontWeight: FORM_FONT_WEIGHT,
+                    fontWeight: FORMTITLE_FONT_WEIGHT,
                     fontSize: '32px',
                 }}> Register </div>
                 <HorizontalDivider />

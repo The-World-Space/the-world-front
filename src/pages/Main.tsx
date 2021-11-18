@@ -26,7 +26,7 @@ function Main() {
         <NavTemplate showNavContent={true}>
             <ContentDiv>
                 <div>
-                    <img src={twLogo1} />
+                    <img src={twLogo1} alt={'logo img'} />
                 </div>
                 <ContentDetailDiv>
                     <div style={{ textAlign: 'right' }}>
@@ -39,7 +39,6 @@ function Main() {
                     }}/>
                     <img src={`${process.env.PUBLIC_URL}/assets/takahiro.jpg`} 
                     style={{
-                        borderLeft: '1px solid #000000C0',
                         height: '300px',
                         margin: '0% 2% 0% 2%',
                     }}/>
