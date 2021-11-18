@@ -29,11 +29,6 @@ export class KeyboardController {
         this._currentMovingTimeout = null;
 
         this._nameTagger.addNameTag(character, "player");
-        
-        // @ts-ignore
-        if (!globalThis.debug) globalThis.debug = {};
-        // @ts-ignore
-        globalThis.debug.nameTagger = this._nameTagger;
 
         this._bindEvent();
     }

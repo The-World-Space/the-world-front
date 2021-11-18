@@ -186,7 +186,7 @@ world.addCharacter(character);
 const renderer = new Renderer(world);
 
 
-const controler = new KeyboardController(world.getPhysics(), renderer, document.body, character);
+// const 
 
 
 // @ts-ignore
@@ -196,7 +196,6 @@ globalThis.debug = {
     world,
     character,
     renderer,
-    controler,
 };
 
 
@@ -311,14 +310,17 @@ function WorldPage() {
     const user = useUser();
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
+    let contorller;
     
     
     useEffect(() => {
         if (!user) return;
 
+        contorller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
+
         ref.current?.appendChild(renderer.getWrapperDom());
 
-        controler.afterMove = (_) => {
+        contorller.afterMove = (_) => {
             movePlayer(apolloClient, worldId, character.getPosition().x, character.getPosition().y);
         }
         
@@ -332,6 +334,7 @@ function WorldPage() {
                 apolloClient);
         
         joinWorld(apolloClient, 0, 5, worldId);
+        contorller.getNameTagger().changeName(character, user.nickname);
     }, [ref, user]);
 
     return (
