@@ -5,12 +5,14 @@ interface World {
     id: string;
     name: string;
     tiles: Tile[];
-    iframeFloors: IframeFloor[];
-    iframeWalls: IframeWall[];
-    iframeEffects: IframeEffect[];
-    imageFloors: ImageFloor[];
-    imageWalls: ImageWall[];
-    imageEffects: ImageEffect[];
+    iframes: IframeGameObject[];
+    images: ImageGameObject[];
+}
+
+enum GameObjectType {
+    Floor,
+    Wall,
+    Effect,
 }
 
 interface Tile {
@@ -21,36 +23,35 @@ interface Tile {
 }
 
 interface GameObject {
+    id: number;
     x: number;
     y: number;
     width: number;
     height: number;
 }
 
-interface IframeGameObject {
+
+
+interface IframeGameObject extends GameObject {
     src: string;
+    type: GameObjectType;
 }
 
-interface ImageGameObject {
+interface ImageGameObject extends GameObject {
     src: string;
+    type: GameObjectType;
 }
-
-interface IframeFloor extends IframeGameObject {}
-interface IframeWall extends IframeGameObject {}
-interface IframeEffect extends IframeGameObject {}
-
-interface ImageFloor extends ImageGameObject {}
-interface ImageWall extends ImageGameObject {}
-interface ImageEffect extends ImageGameObject{}
-
 
 async function getMyWorlds(apolloClient: ApolloClient<any>) {
     const result = await apolloClient.query({
         query: gql`
         query MyWorlds {
             myWorlds {
-                id,
+                id
                 name
+                tiles
+                iframes
+                images
             }
         }
         `

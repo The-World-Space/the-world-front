@@ -22,7 +22,7 @@ import { Direction, Point } from "../core/types/Base";
 import { ImageShape } from "../core/types/Shape/ImageShape";
 import { World } from "../core/World/World";
 import { Human } from "../game/character/Human";
-import { physicsLineFactory } from "../game/physicsLine/physicsLineFactory"
+import { physicsLineFactory } from "../game/connect/physicsLineFactory"
 import Context from "../context";
 import { JWT_KEY } from "../context/consts";
 import { NetworkController } from "../game/Controller/NetworkController";
@@ -30,6 +30,8 @@ import useUser from "../hooks/useUser";
 import { useParams } from "react-router";
 import { KeyboardController } from "../game/Controller/KeyboardContoller";
 import { DomShape } from "../core/types/Shape/DomShape";
+import { IframeShape } from "../core/types/Shape/IframeShape";
+import { loadWorld } from "../game/connect/loadWorld";
 
 
 const world = new World({ height: 100, width: 100 });
@@ -158,24 +160,30 @@ character.setPosition({ x: 0, y: 5 });
 
 
 
-const PIXEL_SIZE = 32;
 
 const width = 10;
 const height = 10;
-
-const youtubeIframeDom = document.createElement('iframe');
-youtubeIframeDom.setAttribute('src', 'https://www.youtube.com/embed/HhN4wdpbPrg?autoplay=1');
-youtubeIframeDom.setAttribute('frameborder', '0');
-youtubeIframeDom.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
-youtubeIframeDom.setAttribute('allowfullscreen', 'true');
-youtubeIframeDom.width = String(width * PIXEL_SIZE);
-youtubeIframeDom.height = String(height * PIXEL_SIZE);
-const youtubeIframeFloor = new Floor(
-    new DomShape({width, height}, youtubeIframeDom));
-youtubeIframeFloor.setPosition({ x: 10, y: 6 });
-worldMap.getFloors().push(youtubeIframeFloor);
-
-
+{
+    const youtubeIframeDom = document.createElement('iframe');
+    const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
+    const youtubeIframeFloor = new Floor(iframeShape);
+    youtubeIframeFloor.setPosition({ x: 10, y: 6 });
+    worldMap.getFloors().push(youtubeIframeFloor);
+}
+{
+    const youtubeIframeDom = document.createElement('iframe');
+    const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
+    const youtubeIframeFloor = new Floor(iframeShape);
+    youtubeIframeFloor.setPosition({ x: 10, y: 26 });
+    worldMap.getWalls().push(youtubeIframeFloor);
+}
+{
+    const youtubeIframeDom = document.createElement('iframe');
+    const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
+    const youtubeIframeFloor = new Floor(iframeShape);
+    youtubeIframeFloor.setPosition({ x: 10, y: 28 });
+    worldMap.getEffects().push(youtubeIframeFloor);
+}
 
 
 
@@ -310,10 +318,18 @@ function WorldPage() {
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
     let contorller;
+    let LoadedWorld;
     
     
     useEffect(() => {
         if (!user) return;
+
+        loadWorld(worldId, apolloClient)
+        .then(world => {
+            LoadedWorld = world;
+            // @ts-ignore
+            globalThis.debug.loadedWorld = world;
+        });
 
         contorller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
 

@@ -124,6 +124,9 @@ const GreenCircle = styled.div`
 
 
 
+
+
+
 function WorldList() {
 
     const list = [
