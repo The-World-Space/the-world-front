@@ -30,6 +30,7 @@ import useUser from "../hooks/useUser";
 import { useParams } from "react-router";
 import { KeyboardController } from "../game/Controller/KeyboardContoller";
 import { DomShape } from "../core/types/Shape/DomShape";
+import { IframeShape } from "../core/types/Shape/IframeShape";
 
 
 const world = new World({ height: 100, width: 100 });
@@ -158,24 +159,30 @@ character.setPosition({ x: 0, y: 5 });
 
 
 
-const PIXEL_SIZE = 32;
 
 const width = 10;
 const height = 10;
-
-const youtubeIframeDom = document.createElement('iframe');
-youtubeIframeDom.setAttribute('src', 'https://www.youtube.com/embed/HhN4wdpbPrg?autoplay=1');
-youtubeIframeDom.setAttribute('frameborder', '0');
-youtubeIframeDom.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
-youtubeIframeDom.setAttribute('allowfullscreen', 'true');
-youtubeIframeDom.width = String(width * PIXEL_SIZE);
-youtubeIframeDom.height = String(height * PIXEL_SIZE);
-const youtubeIframeFloor = new Floor(
-    new DomShape({width, height}, youtubeIframeDom));
-youtubeIframeFloor.setPosition({ x: 10, y: 6 });
-worldMap.getFloors().push(youtubeIframeFloor);
-
-
+{
+    const youtubeIframeDom = document.createElement('iframe');
+    const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
+    const youtubeIframeFloor = new Floor(iframeShape);
+    youtubeIframeFloor.setPosition({ x: 10, y: 6 });
+    worldMap.getFloors().push(youtubeIframeFloor);
+}
+{
+    const youtubeIframeDom = document.createElement('iframe');
+    const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
+    const youtubeIframeFloor = new Floor(iframeShape);
+    youtubeIframeFloor.setPosition({ x: 10, y: 26 });
+    worldMap.getWalls().push(youtubeIframeFloor);
+}
+{
+    const youtubeIframeDom = document.createElement('iframe');
+    const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
+    const youtubeIframeFloor = new Floor(iframeShape);
+    youtubeIframeFloor.setPosition({ x: 10, y: 28 });
+    worldMap.getEffects().push(youtubeIframeFloor);
+}
 
 
 

@@ -4,7 +4,7 @@ export abstract class Shape {
     private _size!: Size;
 
     constructor(size: Size) {
-        this.setSize(size);
+        this._size = size;
     }
 
     getSize() {
