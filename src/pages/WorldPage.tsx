@@ -29,6 +29,7 @@ import { NetworkController } from "../game/Controller/NetworkController";
 import useUser from "../hooks/useUser";
 import { useParams } from "react-router";
 import { KeyboardController } from "../game/Controller/KeyboardContoller";
+import { DomShape } from "../core/types/Shape/DomShape";
 
 
 const world = new World({ height: 100, width: 100 });
@@ -156,6 +157,28 @@ character.setPosition({ x: 0, y: 5 });
 // worldMap.getWalls().push(character);
 
 
+
+const PIXEL_SIZE = 32;
+
+const width = 10;
+const height = 10;
+
+const youtubeIframeDom = document.createElement('iframe');
+youtubeIframeDom.setAttribute('src', 'https://www.youtube.com/embed/HhN4wdpbPrg?autoplay=1');
+youtubeIframeDom.setAttribute('frameborder', '0');
+youtubeIframeDom.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+youtubeIframeDom.setAttribute('allowfullscreen', 'true');
+youtubeIframeDom.width = String(width * PIXEL_SIZE);
+youtubeIframeDom.height = String(height * PIXEL_SIZE);
+const youtubeIframeFloor = new Floor(
+    new DomShape({width, height}, youtubeIframeDom));
+youtubeIframeFloor.setPosition({ x: 10, y: 6 });
+worldMap.getFloors().push(youtubeIframeFloor);
+
+
+
+
+
 world.setMap(worldMap);
 world.addCharacter(character);
 
@@ -163,15 +186,16 @@ world.addCharacter(character);
 const renderer = new Renderer(world);
 
 
-const controler = new KeyboardController(world.getPhysics(), renderer, document.body, character);
+// const 
 
 
 // @ts-ignore
-window.debug = {
+globalThis.debug = {
+    // @ts-ignore
+    ...globalThis.debug,
     world,
     character,
     renderer,
-    controler,
 };
 
 
@@ -286,14 +310,17 @@ function WorldPage() {
     const user = useUser();
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
+    let contorller;
     
     
     useEffect(() => {
         if (!user) return;
 
+        contorller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
+
         ref.current?.appendChild(renderer.getWrapperDom());
 
-        controler.afterMove = (_) => {
+        contorller.afterMove = (_) => {
             movePlayer(apolloClient, worldId, character.getPosition().x, character.getPosition().y);
         }
         
@@ -307,6 +334,7 @@ function WorldPage() {
                 apolloClient);
         
         joinWorld(apolloClient, 0, 5, worldId);
+        contorller.getNameTagger().changeName(character, user.nickname);
     }, [ref, user]);
 
     return (

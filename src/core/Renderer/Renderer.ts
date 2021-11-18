@@ -1,4 +1,6 @@
 import { Character } from "../Character/Character";
+import { Effect } from "../Map/Objects/Effect";
+import { Floor } from "../Map/Objects/Floor";
 import { Wall } from "../Map/Objects/Wall";
 import { Point } from "../types/Base";
 import { GameObject } from "../types/GameObject";
@@ -7,7 +9,8 @@ import { ImageShape } from "../types/Shape/ImageShape";
 import { World } from "../World/World";
 
 
-const PIXELSIZE = 32;
+export const PIXELSIZE = 32;
+export const MOVING_MS = 100;
 
 
 export class Renderer {
@@ -59,8 +62,8 @@ export class Renderer {
         }
         document.body.onresize = () =>{ 
             _resetCanvas();
-            this._drawEffects();
-            this._drawFloors();
+            this.drawEffects();
+            this.drawFloors();
         };
 
 
@@ -79,16 +82,19 @@ export class Renderer {
         this._iframeFloorDom.style.zIndex = '2';
         this._imageFloorDom.style.zIndex = '1';
 
-        this._iframeEffectDom.style.transition = 'all 0.1s';
+        this._iframeEffectDom.style.transition = `all ${MOVING_MS}ms`;
         this._iframeEffectDom.style.transitionTimingFunction = 'linear';
-        this._imageEffectDom.style.transition = 'all 0.1s';
+        this._imageEffectDom.style.transition = `all ${MOVING_MS}ms`;
         this._imageEffectDom.style.transitionTimingFunction = 'linear';
-        this._wallDom.style.transition = 'all 0.1s';
+        this._wallDom.style.transition = `all ${MOVING_MS}ms`;
         this._wallDom.style.transitionTimingFunction = 'linear';
-        this._iframeFloorDom.style.transition = 'all 0.1s';
+        this._iframeFloorDom.style.transition = `all ${MOVING_MS}ms`;
         this._iframeFloorDom.style.transitionTimingFunction = 'linear';
-        this._imageFloorDom.style.transition = 'all 0.1s';
+        this._imageFloorDom.style.transition = `all ${MOVING_MS}ms`;
         this._imageFloorDom.style.transitionTimingFunction = 'linear';
+
+        this._imageEffectDom.style.pointerEvents = 'none';
+        this._imageFloorDom.style.pointerEvents = 'none';
 
         this._wrapperDom.appendChild(this._iframeEffectDom);
         this._wrapperDom.appendChild(this._imageEffectDom);
@@ -103,11 +109,15 @@ export class Renderer {
         fullsize(this._iframeFloorDom);
         fullsize(this._imageFloorDom);
 
-        mapSize(this._iframeEffectDom);
         mapSize(this._imageEffectDom);
-        mapSize(this._wallDom);
-        mapSize(this._iframeFloorDom);
         mapSize(this._imageFloorDom);
+        
+        this._iframeEffectDom.style.width = '0px';
+        this._iframeEffectDom.style.height = '0px';
+        this._wallDom.style.width = '0px';
+        this._wallDom.style.height = '0px';
+        this._iframeFloorDom.style.width = '0px';
+        this._iframeFloorDom.style.height = '0px';
 
         _resetCanvas();
     }
@@ -130,9 +140,9 @@ export class Renderer {
 
 
     private _drawAll() {
-        this._drawEffects();
+        this.drawEffects();
         this._drawWalls();
-        this._drawFloors();
+        this.drawFloors();
     }
 
 
@@ -184,7 +194,7 @@ export class Renderer {
         const applyDom = (dom: HTMLElement, object: GameObject) => {
             this._wallDom.appendChild(dom);
             this._ObjectDomMap.set(object, dom);
-            dom.style.transition = 'all 0.1s';
+            dom.style.transition = `all ${MOVING_MS}ms`;
             dom.style.transitionTimingFunction = 'linear';
         }
 
@@ -277,25 +287,33 @@ export class Renderer {
 
 
 
-    private _drawEffects() {
-        const effects = this._world.getMap().getEffects();
-        const iframeDom = this._iframeEffectDom;
+    drawEffect(effect: Effect) {
         const context = this._imageEffectDom.getContext('2d')!;
 
-        this.drawFlatObjects(effects, iframeDom, context);
+        this.drawFlatObject(effect, this._iframeEffectDom, context);
     }
 
-
-    private _drawFloors() {
-        const floors = this._world.getMap().getFloors();
-        const iframeDom = this._iframeFloorDom;
+    drawFloor(floor: Floor) {
         const context = this._imageFloorDom.getContext('2d')!;
 
-        this.drawFlatObjects(floors, iframeDom, context);
+        this.drawFlatObject(floor, this._iframeFloorDom, context);
+    }
+
+    drawEffects() {
+        const effects = this._world.getMap().getEffects();
+
+        effects.forEach(effect => this.drawEffect(effect));
     }
 
 
-    private _drawWalls() {
+    drawFloors() {
+        const floors = this._world.getMap().getFloors();
+
+        floors.forEach(floor => this.drawFloor(floor));
+    }
+
+
+    _drawWalls() {
         this.drawUnflatObjects(this._world.getMap().getWalls());
     }
 

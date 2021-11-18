@@ -3,6 +3,7 @@ import { Physics } from "../../core/Physics/Physics";
 import { Renderer } from "../../core/Renderer/Renderer";
 import { Direction } from "../../core/types/Base";
 import { Human } from "../character/Human";
+import { NameTagger } from "../character/NameTager";
 
 
 export class KeyboardController {
@@ -10,6 +11,7 @@ export class KeyboardController {
     private _character: Human;
     private _eventTarget: HTMLElement;
     private _renderer: Renderer;
+    private _nameTagger: NameTagger;
 
     private _currentMoving: Direction | null;
     private _currentMovingTimeout: ReturnType<typeof setTimeout> | null
@@ -21,9 +23,12 @@ export class KeyboardController {
         this._eventTarget = eventDom;
         this._character = character;
         this._renderer = renderer;
+        this._nameTagger = new NameTagger(renderer);
 
         this._currentMoving = null;
         this._currentMovingTimeout = null;
+
+        this._nameTagger.addNameTag(character, "player");
 
         this._bindEvent();
     }
@@ -41,6 +46,7 @@ export class KeyboardController {
 
 
             this._character.setPosition(nextPos);
+            this._nameTagger.moveNameTag(this._character, nextPos);
             this._renderer.setCenter(nextPos);
             this._currentMoving = going;
             this._renderer.updateOne(this._character);
@@ -107,5 +113,8 @@ export class KeyboardController {
         return going;
     }
 
+    getNameTagger() {
+        return this._nameTagger;
+    }
 
 }
