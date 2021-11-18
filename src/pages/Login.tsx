@@ -10,6 +10,7 @@ import styled from "styled-components";
 import BlackInput from "../components/atoms/BlackInput";
 import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
 import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from './GlobalEnviroment';
+import HorizontalDivider from "../components/atoms/HorizontalDivider";
 
 const ContentDiv = styled.div`
     display: flex;
@@ -68,35 +69,13 @@ function Login() {
                     fontStyle: FORM_FONT_STYLE,
                     fontWeight: FORM_FONT_WEIGHT,
                     fontSize: '32px',
-                }}>
-                    Login
-                </div>
-                <div style={{
-                        borderBottom: '1px solid',
-                        background: '#797979',
-                        opacity: '0.6',
-                        width: '300px',
-                        margin: '6% 0% 6% 0%',
-                    }}/>
-                <div>
-                    <BlackInput onChange={e => setId(e.target.value)} placeholder="ID" />
-                </div>
-                <div>
-                    <BlackInput onChange={e => setPw(e.target.value)} type="password" placeholder="Password" />
-                </div>
-                <div>
-                    <BlackSubmitButton onClick={() => onSubmit()}>Login</BlackSubmitButton>
-                </div>
-                <div style={{
-                        borderBottom: '1px solid',
-                        background: '#797979',
-                        opacity: '0.6',
-                        width: '300px',
-                        margin: '8% 0% 0% 0%',
-                    }}/>
-                <div>
-                    <BlackSubmitButton onClick={() => history.push('/register')}>Register</BlackSubmitButton>
-                </div>
+                }}> Login </div>
+                <HorizontalDivider style={{ margin: '6% 0% 6% 0%' }} />
+                <div> <BlackInput onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
+                <div> <BlackInput onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
+                <div> <BlackSubmitButton onClick={() => onSubmit()}>Login</BlackSubmitButton> </div>
+                <HorizontalDivider style={{ margin: '8% 0% 0% 0%' }} />
+                <div> <BlackSubmitButton onClick={() => history.push('/register')}>Register</BlackSubmitButton> </div>
             </ContentDiv>
         </NavTemplate>
     );
