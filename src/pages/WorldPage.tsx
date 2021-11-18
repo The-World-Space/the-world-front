@@ -31,8 +31,8 @@ import useUser from "../hooks/useUser";
 import { useParams } from "react-router";
 
 
-const worldMap = new WorldMap({ height: 50, width: 50 });
 const world = new World({ height: 100, width: 100 });
+const worldMap = world.getMap();
 
 
 

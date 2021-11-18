@@ -42,16 +42,20 @@ export class Renderer {
 
             dom.style.width = '100%';
             dom.style.height = '100%';
-            dom.style.overflow = 'hidden';
         }
 
-        const _changeWidthCanvas = (dom: HTMLCanvasElement) => {
-            dom.width = window.innerWidth;
-            dom.height = window.innerHeight;
+        const mapSize = (dom: HTMLElement) => {
+            dom.style.width = `${this._world.getMap().getSize().width * PIXELSIZE}px`;
+            dom.style.height = `${this._world.getMap().getSize().height * PIXELSIZE}px`;
+        }
+
+        const _changeWidthToMapSizeCanvas = (dom: HTMLCanvasElement) => {
+            dom.width = this._world.getMap().getSize().width * PIXELSIZE;
+            dom.height = this._world.getMap().getSize().height * PIXELSIZE;
         }
         const _resetCanvas = () => {
-            _changeWidthCanvas(this._imageEffectDom);
-            _changeWidthCanvas(this._imageFloorDom);
+            _changeWidthToMapSizeCanvas(this._imageEffectDom);
+            _changeWidthToMapSizeCanvas(this._imageFloorDom);
         }
         document.body.onresize = () =>{ 
             _resetCanvas();
@@ -61,6 +65,7 @@ export class Renderer {
 
 
         this._wrapperDom = document.createElement('div');
+        this._wrapperDom.style.overflow = 'hidden'
 
         this._iframeEffectDom = document.createElement('div');
         this._imageEffectDom = document.createElement('canvas');
@@ -97,6 +102,13 @@ export class Renderer {
         fullsize(this._wallDom);
         fullsize(this._iframeFloorDom);
         fullsize(this._imageFloorDom);
+
+        mapSize(this._iframeEffectDom);
+        mapSize(this._imageEffectDom);
+        mapSize(this._wallDom);
+        mapSize(this._iframeFloorDom);
+        mapSize(this._imageFloorDom);
+
         _resetCanvas();
     }
 
