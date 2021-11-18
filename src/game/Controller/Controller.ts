@@ -41,6 +41,7 @@ export class Controller {
 
 
             this._character.setPosition(nextPos);
+            this._renderer.setCenter(nextPos);
             this._currentMoving = going;
             this._renderer.updateOne(this._character);
 

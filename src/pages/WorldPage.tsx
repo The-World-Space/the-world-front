@@ -53,7 +53,7 @@ enum FloorTile {
 {
     const floorMap: FloorTile[][] = [
         [FloorTile.RIGHT_BOTTOM_GRASS, ...new Array(8).fill(FloorTile.BOTTOM_GRASS), FloorTile.LEFT_BOTTOM_GRASS],
-        ...new Array(8).fill([FloorTile.RIGHT_GRASS, ...new Array(8).fill(FloorTile.GRASS), FloorTile.LEFT_GRASS]),
+        ...new Array(98).fill([FloorTile.RIGHT_GRASS, ...new Array(8).fill(FloorTile.GRASS), FloorTile.LEFT_GRASS]),
         [FloorTile.RIGHT_TOP_GRASS, ...new Array(8).fill(FloorTile.TOP_GRASS), FloorTile.LEFT_TOP_GRASS],
     ]
 
@@ -123,7 +123,7 @@ enum FloorTile {
 
 // Physics
 {
-    const physicsLineMap = physicsLineFactory(10, 10, [
+    const physicsLineMap = physicsLineFactory(100, 100, [
         { x: 1, y: 1, direction: Direction.up },
         { x: 2, y: 1, direction: Direction.up },
         { x: 1, y: 1, direction: Direction.left },
@@ -235,11 +235,6 @@ const link = new WebSocketLink({
     },
 });
 
-const apolloClient = new ApolloClient({
-    link,
-    cache: new InMemoryCache()
-})
-
 
 function movePlayer(apolloClient: ApolloClient<any>, worldId: string, x: number, y: number) {
     apolloClient.mutate({
@@ -278,6 +273,12 @@ function joinWorld(apolloClient: ApolloClient<any>, x: number, y: number, worldI
 }
 
 
+let apolloClient = new ApolloClient({
+    link,
+    cache: new InMemoryCache()
+});
+
+renderer.setCenter({ x: 0, y: 5 });
 
 
 function WorldPage() {
@@ -286,18 +287,26 @@ function WorldPage() {
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
     
+    
     useEffect(() => {
         if (!user) return;
 
         ref.current?.appendChild(renderer.getWrapperDom());
 
         controler.afterMove = (_) => {
-            movePlayer(apolloClient, "0", character.getPosition().x, character.getPosition().y);
+            movePlayer(apolloClient, worldId, character.getPosition().x, character.getPosition().y);
         }
-        console.error(user)
-        networkController = new NetworkController(renderer, world, character, "0", user.id);
-
-        joinWorld(apolloClient, 0, 5, "0");
+        
+        networkController = 
+            new NetworkController(
+                renderer, 
+                world, 
+                character, 
+                worldId, 
+                user.id, 
+                apolloClient);
+        
+        joinWorld(apolloClient, 0, 5, worldId);
     }, [ref, user]);
 
     return (

@@ -121,33 +121,35 @@ export class NetworkController {
     private _world: World;
     private _worldId: string;
     private _playerId: string;
+    private _playerCharacter: Human;
     private _renderer: Renderer;
     private _client!: ApolloClient<any>;
 
     public afterMove: (controler: NetworkController) => void = _ => { };
 
-    constructor(renderer: Renderer, world: World, character: Human, worldId: string, playerId: string) {
+    constructor(renderer: Renderer, world: World, character: Human, worldId: string, playerId: string, apolloClient: ApolloClient<any>) {
         this._world = world;
         this._worldId = worldId;
         this._characterMap = new Map();
         this._playerId = playerId;
         this._renderer = renderer;
+        this._playerCharacter = character;
 
+        this._client = apolloClient;
         this._initApolloClient();
     }
 
     private _initApolloClient() {
-        this._client = new ApolloClient({
-            link,
-            cache: new InMemoryCache()
-        });
-
         this._client.subscribe({
             query: gql`
                 subscription PLAYER_LIST_UPDATE($worldId: String!) {
                     playerList(worldId: $worldId) {
-                        id
-                        nickname
+                        x
+                        y
+                        user {
+                            id
+                            nickname
+                        }
                     }
                 }
             `,
@@ -155,6 +157,7 @@ export class NetworkController {
                 worldId: this._worldId,
             }
         }).subscribe((data) => {
+            console.debug('playerList', data.data.playerList.map((e:any) => e.user.nickname));
             data.data.playerList && this.onPlayerListUpdate(data.data.playerList);
         })
 
@@ -182,27 +185,29 @@ export class NetworkController {
         
     }
 
-    private onPlayerListUpdate(data: User[]) {
+    private onPlayerListUpdate(data: {x: number, y: number, user: User}[]) {
         const playerList = data;
-            const newPlayers = playerList.filter(p => !this._characterMap.has(p.id));
-            const leftPlayers = [...this._characterMap.keys()].filter(p => !playerList.find(p2 => p2.id === p));
+        const newPlayers = playerList.filter(p => !this._characterMap.has(p.user.id));
+        const leftPlayers = [...this._characterMap.keys()].filter(p => !playerList.find(p2 => p2.user.id === p));
 
-            newPlayers.forEach(p => {
-                const user = {
-                    user: p,
-                    character: hyeonJongFactory(),
-                    currentMoving: null,
-                    currentMovingTimeout: null
-                };
-                this.joinUser(user);
-            });
+        newPlayers.forEach(p => {
+            const user = {
+                user: p.user,
+                character: hyeonJongFactory(),
+                currentMoving: null,
+                currentMovingTimeout: null
+            };
+            
+            user.character.setPosition({x: p.x, y: p.y});
+            this.joinUser(user);
+        });
 
-            leftPlayers.forEach(p => {
-                const user = this._characterMap.get(p);
+        leftPlayers.forEach(p => {
+            const user = this._characterMap.get(p);
 
-                user && this.leaveUser(user);
-            });
-
+            user && this.leaveUser(user);
+        });
+        console.debug("update", leftPlayers, newPlayers);
     }
 
 
@@ -254,7 +259,9 @@ export class NetworkController {
 
     private leaveUser(user: UserData) {
         this._characterMap.delete(user.user.id);
+        this._renderer.removeOne(user.character);
         this._world.removeCharacter(user.character);
+        console.debug('leaveUser', user);
     }
 
     // private _onKeyUp(event: KeyboardEvent) {

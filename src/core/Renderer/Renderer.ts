@@ -1,5 +1,6 @@
 import { Character } from "../Character/Character";
 import { Wall } from "../Map/Objects/Wall";
+import { Point } from "../types/Base";
 import { GameObject } from "../types/GameObject";
 import { DomShape } from "../types/Shape/DomShape";
 import { ImageShape } from "../types/Shape/ImageShape";
@@ -72,6 +73,17 @@ export class Renderer {
         this._wallDom.style.zIndex = '3';
         this._iframeFloorDom.style.zIndex = '2';
         this._imageFloorDom.style.zIndex = '1';
+
+        this._iframeEffectDom.style.transition = 'all 0.1s';
+        this._iframeEffectDom.style.transitionTimingFunction = 'linear';
+        this._imageEffectDom.style.transition = 'all 0.1s';
+        this._imageEffectDom.style.transitionTimingFunction = 'linear';
+        this._wallDom.style.transition = 'all 0.1s';
+        this._wallDom.style.transitionTimingFunction = 'linear';
+        this._iframeFloorDom.style.transition = 'all 0.1s';
+        this._iframeFloorDom.style.transitionTimingFunction = 'linear';
+        this._imageFloorDom.style.transition = 'all 0.1s';
+        this._imageFloorDom.style.transitionTimingFunction = 'linear';
 
         this._wrapperDom.appendChild(this._iframeEffectDom);
         this._wrapperDom.appendChild(this._imageEffectDom);
@@ -238,6 +250,20 @@ export class Renderer {
     }
 
 
+    removeOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
+        dom = dom || this._ObjectDomMap.get(object);
+        this._ObjectDomMap.delete(object);
+
+        if (dom) {
+            this._ObjectDomMap.delete(object);
+            dom.parentElement?.removeChild(dom);
+        }
+        else {
+            throw new Error('Object not found');
+        }
+    }
+
+
 
     private _drawEffects() {
         const effects = this._world.getMap().getEffects();
@@ -269,5 +295,28 @@ export class Renderer {
 
     getWrapperDom() {
         return this._wrapperDom;
+    }
+
+
+    setLeft(px: number) {
+        this._iframeEffectDom.style.left = `${px}px`;
+        this._imageEffectDom.style.left = `${px}px`;
+        this._wallDom.style.left = `${px}px`;
+        this._iframeFloorDom.style.left = `${px}px`;
+        this._imageFloorDom.style.left = `${px}px`;
+    }
+
+    setTop(px: number) {
+        this._iframeEffectDom.style.top = `${px}px`;
+        this._imageEffectDom.style.top = `${px}px`;
+        this._wallDom.style.top = `${px}px`;
+        this._iframeFloorDom.style.top = `${px}px`;
+        this._imageFloorDom.style.top = `${px}px`;
+    }
+
+    
+    setCenter(center: Point) {
+        this.setLeft(this._wrapperDom.offsetWidth / 2 - center.x * PIXELSIZE);
+        this.setTop(this._wrapperDom.offsetHeight / 2 - center.y * PIXELSIZE);
     }
 }
