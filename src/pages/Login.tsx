@@ -37,22 +37,26 @@ function Login() {
     const client = useApolloClient();
 
     async function onSubmit() {
-        const res = await client.query({
-            query: LOGIN_QUERY,
-            variables: {
-                id,
-                pw
+        try {
+            const res = await client.query({
+                query: LOGIN_QUERY,
+                variables: {
+                    id,
+                    pw
+                }
+            });
+
+            const data = res.data;
+
+            if (data.login) {
+                setJwt(data.login);
+                history.push('/');
             }
-        });
-
-        const data = res.data;
-
-        if (data.login) {
-            setJwt(data.login);
-            history.push('/');
-        }
-        else {
-            console.error('account not founded');
+            else {
+                console.error('account not founded');
+            }
+        } catch (e) {
+            alert(e);
         }
     }
 

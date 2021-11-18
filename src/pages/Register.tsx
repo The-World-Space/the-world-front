@@ -45,21 +45,25 @@ function Register() {
             return;
         }
 
-        const res = await client.mutate({
-            mutation: REGISTER,
-            variables: {
-                id,
-                pw,
-                nickname,
-            }
-        });
-        const data = res.data;
+        try {
+            const res = await client.mutate({
+                mutation: REGISTER,
+                variables: {
+                    id,
+                    pw,
+                    nickname,
+                }
+            });
+            const data = res.data;
 
-        if (data.register) {
-            history.push('/login');
-        }
-        else {
-            console.error('account not founded');
+            if (data.register) {
+                history.push('/login');
+            }
+            else {
+                console.error('account not founded');
+            }
+        } catch (e) {
+            alert(e);
         }
     }
 
@@ -86,10 +90,11 @@ function Register() {
                 <div> <BlackInput onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
                 <div> <BlackInput onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
                 <div> <BlackInput onChange={e => setConfirmPw(e.target.value)} type="password" placeholder="Password Conform" /> </div>
-                <div> <BlackSubmitButton onClick={() => onSubmit()}>submit</BlackSubmitButton> </div>
                 {(pw !== confirmPw && confirmPw !== '') &&
-                    <p>'페스워드가 서로 같지 않습니다!'</p>
+                    <p style={{color: 'red'}}>'패스워드가 서로 같지 않습니다!'</p>
                 }
+                <div> <BlackSubmitButton onClick={() => onSubmit()}>submit</BlackSubmitButton> </div>
+                
             </ContentDiv>
         </NavTemplate>
     )
