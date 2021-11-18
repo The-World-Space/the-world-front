@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 
 const HorizentalLine = styled.div`
     width: 100%;
-    height: 4px;
+    height: 2px;
     background-color: #00000060;
 
 `
@@ -34,6 +34,10 @@ const WorldListDiv = styled.div`
     width: 100%;
     height: 100%;
     
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     box-sizing: border-box;
     padding-left: 10px;
     padding-right: 10px;
@@ -43,6 +47,7 @@ const WorldListDiv = styled.div`
 const WorldItem = styled.div`
     width: 100%;
     height: 144px;
+    max-width: 1140px;
 
     margin-top: 23px;
 
