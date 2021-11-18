@@ -82,16 +82,7 @@ export class Renderer {
         this._iframeFloorDom.style.zIndex = '2';
         this._imageFloorDom.style.zIndex = '1';
 
-        this._iframeEffectDom.style.transition = `all ${MOVING_MS}ms`;
-        this._iframeEffectDom.style.transitionTimingFunction = 'linear';
-        this._imageEffectDom.style.transition = `all ${MOVING_MS}ms`;
-        this._imageEffectDom.style.transitionTimingFunction = 'linear';
-        this._wallDom.style.transition = `all ${MOVING_MS}ms`;
-        this._wallDom.style.transitionTimingFunction = 'linear';
-        this._iframeFloorDom.style.transition = `all ${MOVING_MS}ms`;
-        this._iframeFloorDom.style.transitionTimingFunction = 'linear';
-        this._imageFloorDom.style.transition = `all ${MOVING_MS}ms`;
-        this._imageFloorDom.style.transitionTimingFunction = 'linear';
+        this.enableWorldTransition();
 
         this._imageEffectDom.style.pointerEvents = 'none';
         this._imageFloorDom.style.pointerEvents = 'none';
@@ -121,6 +112,28 @@ export class Renderer {
 
         _resetCanvas();
     }
+
+    enableWorldTransition() {
+        this._iframeEffectDom.style.transition = `all ${MOVING_MS}ms`;
+        this._iframeEffectDom.style.transitionTimingFunction = 'linear';
+        this._imageEffectDom.style.transition = `all ${MOVING_MS}ms`;
+        this._imageEffectDom.style.transitionTimingFunction = 'linear';
+        this._wallDom.style.transition = `all ${MOVING_MS}ms`;
+        this._wallDom.style.transitionTimingFunction = 'linear';
+        this._iframeFloorDom.style.transition = `all ${MOVING_MS}ms`;
+        this._iframeFloorDom.style.transitionTimingFunction = 'linear';
+        this._imageFloorDom.style.transition = `all ${MOVING_MS}ms`;
+        this._imageFloorDom.style.transitionTimingFunction = 'linear';
+    }
+
+    disableWorldTransition() {
+        this._iframeEffectDom.style.transition = 'none';
+        this._imageEffectDom.style.transition = 'none';
+        this._wallDom.style.transition = 'none';
+        this._iframeFloorDom.style.transition = 'none';
+        this._imageFloorDom.style.transition = 'none';
+    }
+
 
     static styleDom<T extends HTMLElement>(dom: T, gameObject: GameObject, isLeftBottomPos = false) {
         const shape = gameObject.getShape();

@@ -45,7 +45,7 @@ export class NameTagger {
         const nameTagShape = new DomShape({width, height}, nameTag);
         const nameTagEffect = new Effect(nameTagShape);
         
-        nameTagEffect.setPosition(human.getPosition());
+        nameTagEffect.setPosition(pos);
         
         this._humanNametagMap.set(human, nameTagEffect);
         this._renderer.drawEffect(nameTagEffect);

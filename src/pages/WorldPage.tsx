@@ -302,7 +302,6 @@ let apolloClient = new ApolloClient({
     cache: new InMemoryCache()
 });
 
-renderer.setCenter({ x: 0, y: 5 });
 
 
 function WorldPage() {
@@ -334,6 +333,9 @@ function WorldPage() {
                 apolloClient);
         
         joinWorld(apolloClient, 0, 5, worldId);
+        renderer.disableWorldTransition();
+        renderer.setCenter({ x: 0, y: 5 });
+        setTimeout(() =>renderer.enableWorldTransition(), 0);
         contorller.getNameTagger().changeName(character, user.nickname);
     }, [ref, user]);
 
