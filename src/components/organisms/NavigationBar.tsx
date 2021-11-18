@@ -44,7 +44,11 @@ const MainButton = styled.button`
     }
 `;
 
-function NavigationBar() {
+interface NavigationBarProps {
+    showNavContent: boolean;
+}
+
+function NavigationBar(props: NavigationBarProps) {
     const { logged } = useContext(Context);
     const history = useHistory();
 
@@ -53,18 +57,24 @@ function NavigationBar() {
             <Link to="/">
                 <img src={twLogo2} /> 
             </Link>
-            <RowButtonDiv>
-                <MainButton onClick={() => history.push('/thelab')}>TheLab</MainButton>
-                <MainButton onClick={() => history.push('/world/0')}>world/0</MainButton>
-                { logged 
-                    ? <MainButton onClick={() => history.push('/logout')}>Logout</MainButton>
-                    : <>
-                        <MainButton onClick={() => history.push('/login')}>Login</MainButton>
-                        <MainButton onClick={() => history.push('/register')}>Register</MainButton>
-                    </>}
-            </RowButtonDiv>
+            {props.showNavContent &&
+                <RowButtonDiv>
+                    <MainButton onClick={() => history.push('/thelab')}>TheLab</MainButton>
+                    <MainButton onClick={() => history.push('/world/0')}>world/0</MainButton>
+                    { logged 
+                        ? <MainButton onClick={() => history.push('/logout')}>Logout</MainButton>
+                        : <>
+                            <MainButton onClick={() => history.push('/login')}>Login</MainButton>
+                            <MainButton onClick={() => history.push('/register')}>Register</MainButton>
+                        </>}
+                </RowButtonDiv>
+            }
         </NaviDiv>
     );
+}
+
+NavigationBar.defaultProps = {
+    showNavContent: false
 }
 
 export default NavigationBar;

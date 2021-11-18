@@ -25,7 +25,7 @@ const ContentDetailDiv = styled.div`
 
 function Main() {
     return (
-        <NavTemplate>
+        <NavTemplate showNavContent={true}>
             <ContentDiv>
                 <div>
                     <img src={twLogo1} />
