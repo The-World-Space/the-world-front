@@ -2,8 +2,9 @@ import React, { useState, useContext } from "react";
 import {
     useHistory
 } from 'react-router-dom';
-import Context from '../../context';
+import Context from '../context';
 import { gql, useApolloClient } from '@apollo/client';
+import NavTemplate from "../components/templates/NavTemplate";
 
 const LOGIN_QUERY = gql`
     query Login($id:String!, $pw:String!){
@@ -41,7 +42,7 @@ function Login() {
     }
 
     return (
-        <>
+        <NavTemplate>
             <div>
                 <label>
                     id:
@@ -56,7 +57,7 @@ function Login() {
             <div>
                 <button onClick={() => onSubmit()}>submit</button>
             </div>
-        </>
+        </NavTemplate>
     );
 }
 
