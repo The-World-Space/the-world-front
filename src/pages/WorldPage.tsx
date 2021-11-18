@@ -31,6 +31,7 @@ import { useParams } from "react-router";
 import { KeyboardController } from "../game/Controller/KeyboardContoller";
 import { DomShape } from "../core/types/Shape/DomShape";
 import { IframeShape } from "../core/types/Shape/IframeShape";
+import { loadWorld } from "../game/connect/loadWorld";
 
 
 const world = new World({ height: 100, width: 100 });
@@ -317,10 +318,18 @@ function WorldPage() {
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
     let contorller;
+    let LoadedWorld;
     
     
     useEffect(() => {
         if (!user) return;
+
+        loadWorld(worldId, apolloClient)
+        .then(world => {
+            LoadedWorld = world;
+            // @ts-ignore
+            globalThis.debug.loadedWorld = world;
+        });
 
         contorller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
 

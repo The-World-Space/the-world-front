@@ -1,27 +1,24 @@
-import { useApolloClient, ApolloClient, gql } from "@apollo/client";
+import { ApolloClient } from "@apollo/client";
 import { Effect } from "../../core/Map/Objects/Effect";
 import { Floor } from "../../core/Map/Objects/Floor";
 import { Wall } from "../../core/Map/Objects/Wall";
 import { Direction } from "../../core/types/Base";
 import { IframeShape } from "../../core/types/Shape/IframeShape";
 import { ImageShape } from "../../core/types/Shape/ImageShape";
+import { Shape } from "../../core/types/Shape/Shape";
 import { World } from "../../core/World/World";
 import { getWorld } from "./gql";
 import { physicsLineFactory } from "./physicsLineFactory";
-import { 
-    IframeGameObject, 
-    ImageGameObject, 
+import {
+    IframeGameObject as ServerIframeGameObject,
+    ImageGameObject as ServerImageGameObject,
     GameObject as ServerGameObject,
     GameObjectType as ServerGameObjectType,
 } from "./types";
 
 
-function serverObjectToGameObject(serverObject: ServerGameObject) {
+function serverObjectToGameObject(serverObject: ServerGameObject, shape: Shape) {
     const size = {width: serverObject.width, height: serverObject.height};
-    const shape = 
-        (serverObject instanceof IframeShape) ? new IframeShape(size, serverObject.src) : 
-        (serverObject instanceof IframeShape) ? new ImageShape(size, serverObject.src)  :
-        null
 
     if (shape === null) throw new Error("unknown shape");
 
@@ -32,12 +29,29 @@ function serverObjectToGameObject(serverObject: ServerGameObject) {
         null;
     
     if (object === null) throw new Error("unknown type");
+
+    object.setPosition({x: serverObject.x, y: serverObject.y});
     
     return object;
 }
 
+function serverIframeObjectToGameObject(serverObject: ServerIframeGameObject) {
+    const size = {width: serverObject.width, height: serverObject.height};
+    const shape = new IframeShape(size, serverObject.src);
 
-export async function worldGenerator(worldId: string, apolloClient: ApolloClient<any>) {
+    return serverObjectToGameObject(serverObject, shape);
+}
+
+function serverImageObjectToGameObject(serverObject: ServerImageGameObject) {
+    const size = {width: serverObject.width, height: serverObject.height};
+    const shape = new ImageShape(size, serverObject.src);
+
+    return serverObjectToGameObject(serverObject, shape);
+}
+
+
+
+export async function loadWorld(worldId: string, apolloClient: ApolloClient<any>) {
     const serverWorld = await getWorld(worldId, apolloClient);
     const serverObjects: ServerGameObject[] = [...serverWorld.iframes, ...serverWorld.images];
     
@@ -61,9 +75,11 @@ export async function worldGenerator(worldId: string, apolloClient: ApolloClient
 
     
     // game objects setup ======================================================
-    serverObjects.forEach(serverObject => {
-        const gameObject = serverObjectToGameObject(serverObject);
-        
+    const gameObjects = [
+        ...serverWorld.iframes.map(serverObject => serverIframeObjectToGameObject(serverObject)),
+        ...serverWorld.images.map(serverObject => serverImageObjectToGameObject(serverObject))
+    ];
+    gameObjects.forEach(gameObject => {
         if (gameObject instanceof Floor) {
             worldMap.getFloors().push(gameObject);
         }
@@ -75,4 +91,5 @@ export async function worldGenerator(worldId: string, apolloClient: ApolloClient
         }
     });
 
+    return world;
 }
