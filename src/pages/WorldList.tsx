@@ -17,6 +17,8 @@ const HorizentalLine = styled.div`
     height: 2px;
     background-color: #00000060;
 
+    margin-bottom: 23px;
+
 `
 
 const MyworldText = styled.span`
@@ -48,7 +50,7 @@ const WorldItem = styled.div`
     height: 144px;
     max-width: 1140px;
 
-    margin-top: 23px;
+    margin-bottom: 23px;
 
     display: flex;
     align-items: center;
