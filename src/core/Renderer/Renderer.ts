@@ -139,7 +139,7 @@ export class Renderer {
     drawFlatObject(object: GameObject, iframeDom: HTMLDivElement, context: CanvasRenderingContext2D) {
         if(context) context.imageSmoothingEnabled = false;
 
-        const drawToDom = (shape: DomShape, object: GameObject) => {
+        const drawToDom = (shape: DomShape<any>, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object, false);
             iframeDom.appendChild(dom);
 
@@ -188,7 +188,7 @@ export class Renderer {
             dom.style.transitionTimingFunction = 'linear';
         }
 
-        const drawAsIframe = (shape: DomShape, object: GameObject) => {
+        const drawAsIframe = (shape: DomShape<any>, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object, true);
             dom.style.zIndex = `${object.getPosition().y}`;
 
@@ -230,7 +230,7 @@ export class Renderer {
         
         const isUnflat = (obj: GameObject) => obj instanceof Wall || obj instanceof Character
         
-        const updateAsIframe = (shape: DomShape, object: GameObject, dom: HTMLElement) => {
+        const updateAsIframe = (shape: DomShape<any>, object: GameObject, dom: HTMLElement) => {
             Renderer.styleDom(dom, object, isUnflat(object));
             dom.style.zIndex = `${object.getPosition().y}`;
         }

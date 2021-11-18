@@ -2,10 +2,10 @@ import { Size } from "../Base";
 import { Shape } from "./Shape";
 
 
-export class DomShape extends Shape {
-    private _dom: HTMLElement;
+export class DomShape<T extends HTMLElement> extends Shape {
+    private _dom: T;
     
-    constructor(size: Size, dom: HTMLElement) {
+    constructor(size: Size, dom: T) {
         super(size);
         this._dom = dom;
     }
@@ -14,7 +14,7 @@ export class DomShape extends Shape {
         return this._dom;
     }
 
-    setDom(dom: HTMLElement) {
+    setDom(dom: T) {
         this._dom = dom;
     }
 }
