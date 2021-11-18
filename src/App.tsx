@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import WorldPage from './pages/WorldPage';
 import CreateWorld from './pages/CreateWorld';
 import MyPage from './pages/MyPage';
+import WorldList from './pages/WorldList';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" exact component={Main} />
         <Route path="/thelab" component={Test} />
         <Route path="/world/:worldId" component={WorldPage} />
+        <Route path="/worlds" component={WorldList} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/logout" component={Logout} />
