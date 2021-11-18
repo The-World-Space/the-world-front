@@ -4,6 +4,16 @@ import {
 } from 'react-router-dom';
 import { gql, useApolloClient } from '@apollo/client';
 import NavTemplate from "../components/templates/NavTemplate";
+import HorizontalDivider from "../components/atoms/HorizontalDivider";
+import styled from "styled-components";
+
+const ContentDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+`;
 
 const REGISTER = gql`
     mutation REGISTER($id:String!, $pw:String!, $nickname:String!){
@@ -51,34 +61,31 @@ function Register() {
 
     return (
         <NavTemplate>
-            <div>
-                <label>
-                    id:
-                    <input onChange={e => setId(e.target.value)} />
-                </label>
-            </div>
-            <div>
-                <label>
-                    nickname:
-                    <input onChange={e => setNickname(e.target.value)} />
-                </label>
-            </div>
-            {(pw !== confirmPw && confirmPw !== '') &&
-                <p>'페스워드가 서로 같지 않습니다!'</p>
-            }
-            <div>
-                <label>
-                    pw: <input onChange={e => setPw(e.target.value)} type="password" />
-                </label>
-            </div>
-            <div>
-                <label>
-                    confirm: <input onChange={e => setConfirmPw(e.target.value)} type="password" />
-                </label>
-            </div>
-            <div>
-                <button onClick={() => onSubmit()}>submit</button>
-            </div>
+            <ContentDiv>
+                <div> <input onChange={e => setId(e.target.value)} /> </div>
+                <div>
+                    <label>
+                        nickname:
+                        <input onChange={e => setNickname(e.target.value)} />
+                    </label>
+                </div>
+                {(pw !== confirmPw && confirmPw !== '') &&
+                    <p>'페스워드가 서로 같지 않습니다!'</p>
+                }
+                <div>
+                    <label>
+                        pw: <input onChange={e => setPw(e.target.value)} type="password" />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        confirm: <input onChange={e => setConfirmPw(e.target.value)} type="password" />
+                    </label>
+                </div>
+                <div>
+                    <button onClick={() => onSubmit()}>submit</button>
+                </div>
+            </ContentDiv>
         </NavTemplate>
     )
 }
