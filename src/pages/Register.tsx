@@ -3,6 +3,7 @@ import {
     useHistory
 } from 'react-router-dom';
 import { gql, useApolloClient } from '@apollo/client';
+import NavTemplate from "../components/templates/NavTemplate";
 
 const REGISTER = gql`
     mutation REGISTER($id:String!, $pw:String!, $nickname:String!){
@@ -49,7 +50,7 @@ function Register() {
 
 
     return (
-        <>
+        <NavTemplate>
             <div>
                 <label>
                     id:
@@ -78,7 +79,7 @@ function Register() {
             <div>
                 <button onClick={() => onSubmit()}>submit</button>
             </div>
-        </>
+        </NavTemplate>
     )
 }
 
