@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import {
-    useHistory
+    useHistory,
+    Link
 } from 'react-router-dom';
 import { gql, useApolloClient } from '@apollo/client';
 import NavTemplate from "../components/templates/NavTemplate";
 import HorizontalDivider from "../components/atoms/HorizontalDivider";
+import twLogo1 from '../components/atoms/tw logo 1.svg';
 import styled from "styled-components";
+import BlackInput from "../components/atoms/BlackInput";
+import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
+import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from './GlobalEnviroment';
 
 const ContentDiv = styled.div`
     display: flex;
@@ -62,29 +67,29 @@ function Register() {
     return (
         <NavTemplate>
             <ContentDiv>
-                <div> <input onChange={e => setId(e.target.value)} /> </div>
                 <div>
-                    <label>
-                        nickname:
-                        <input onChange={e => setNickname(e.target.value)} />
-                    </label>
+                    <Link to="/">
+                        <img src={twLogo1} style={{
+                            width: '350px',
+                        }}/>
+                    </Link>
                 </div>
+                <div style={{
+                    marginTop: '40px',
+                    fontFamily: FORM_FONT_FAMILY,
+                    fontStyle: FORM_FONT_STYLE,
+                    fontWeight: FORM_FONT_WEIGHT,
+                    fontSize: '32px',
+                }}> Register </div>
+                <HorizontalDivider />
+                <div> <BlackInput onChange={e => setNickname(e.target.value)} placeholder="Nickname" /> </div>
+                <div> <BlackInput onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
+                <div> <BlackInput onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
+                <div> <BlackInput onChange={e => setConfirmPw(e.target.value)} type="password" placeholder="Password Conform" /> </div>
+                <div> <BlackSubmitButton onClick={() => onSubmit()}>submit</BlackSubmitButton> </div>
                 {(pw !== confirmPw && confirmPw !== '') &&
                     <p>'페스워드가 서로 같지 않습니다!'</p>
                 }
-                <div>
-                    <label>
-                        pw: <input onChange={e => setPw(e.target.value)} type="password" />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        confirm: <input onChange={e => setConfirmPw(e.target.value)} type="password" />
-                    </label>
-                </div>
-                <div>
-                    <button onClick={() => onSubmit()}>submit</button>
-                </div>
             </ContentDiv>
         </NavTemplate>
     )

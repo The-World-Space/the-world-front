@@ -8,9 +8,8 @@ const ContentDiv = styled.div`
     justify-content: space-around;
     align-items: center;
     width: 85%;
-    height: 100%;
+    height: 900px;
     box-sizing: border-box;
-    padding: 6% 0% 0% 0%;
 `;
 
 const ContentDetailDiv = styled.div`
@@ -20,7 +19,6 @@ const ContentDetailDiv = styled.div`
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 200px;
 `;
 
 function Main() {

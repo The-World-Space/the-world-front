@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import {
-    useHistory
+    useHistory,
+    Link
 } from 'react-router-dom';
 import Context from '../context';
 import { gql, useApolloClient } from '@apollo/client';
@@ -59,9 +60,11 @@ function Login() {
         <NavTemplate>
             <ContentDiv>
                 <div>
-                    <img src={twLogo1} style={{
-                        width: '350px',
-                    }}/>
+                    <Link to="/">
+                        <img src={twLogo1} style={{
+                            width: '350px',
+                        }}/>
+                    </Link>
                 </div>
                 <div style={{
                     marginTop: '40px',
