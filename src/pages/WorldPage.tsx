@@ -22,7 +22,7 @@ import { Direction, Point } from "../core/types/Base";
 import { ImageShape } from "../core/types/Shape/ImageShape";
 import { World } from "../core/World/World";
 import { Human } from "../game/character/Human";
-import { physicsLineFactory } from "../game/physicsLine/physicsLineFactory"
+import { physicsLineFactory } from "../game/connect/physicsLineFactory"
 import Context from "../context";
 import { JWT_KEY } from "../context/consts";
 import { NetworkController } from "../game/Controller/NetworkController";
