@@ -28,7 +28,7 @@ export class KeyboardController {
         this._currentMoving = null;
         this._currentMovingTimeout = null;
 
-        this._nameTagger.addNameTag(character, "ULTIMATESEXMASTERYEAHIYEAHIYEAHI");
+        this._nameTagger.addNameTag(character, "player");
         
         // @ts-ignore
         if (!globalThis.debug) globalThis.debug = {};
@@ -118,5 +118,8 @@ export class KeyboardController {
         return going;
     }
 
+    getNameTagger() {
+        return this._nameTagger;
+    }
 
 }

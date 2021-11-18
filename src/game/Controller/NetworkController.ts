@@ -20,6 +20,7 @@ import { createClient, ClientOptions, Client } from "graphql-ws";
 import { JWT_KEY } from "../../context/consts";
 import { World } from "../../core/World/World";
 import { ImageShape } from "../../core/types/Shape/ImageShape";
+import { NameTagger } from "../character/NameTager";
 
 
 
@@ -123,6 +124,7 @@ export class NetworkController {
     private _playerId: string;
     private _playerCharacter: Human;
     private _renderer: Renderer;
+    private _nameTagger: NameTagger;
     private _client!: ApolloClient<any>;
 
     public afterMove: (controler: NetworkController) => void = _ => { };
@@ -134,6 +136,7 @@ export class NetworkController {
         this._playerId = playerId;
         this._renderer = renderer;
         this._playerCharacter = character;
+        this._nameTagger = new NameTagger(this._renderer);
 
         this._client = apolloClient;
         this._initApolloClient();
@@ -218,6 +221,7 @@ export class NetworkController {
             user.character.setPosition(nextPos);
             user.currentMoving = Direction.down;
             this._renderer.updateOne(user.character);
+            this._nameTagger.moveNameTag(user.character);
 
             this.afterMove(this);
 
@@ -254,6 +258,7 @@ export class NetworkController {
         this._characterMap.set(user.user.id, user);
         this._world.addCharacter(user.character);
         this._renderer.drawUnflatObject(user.character);
+        this._nameTagger.addNameTag(user.character, user.user.nickname);
         console.debug('joinUser', user);
     }
 
@@ -261,6 +266,7 @@ export class NetworkController {
         this._characterMap.delete(user.user.id);
         this._renderer.removeOne(user.character);
         this._world.removeCharacter(user.character);
+        this._nameTagger.removeNameTag(user.character);
         console.debug('leaveUser', user);
     }
 

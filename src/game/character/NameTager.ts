@@ -16,12 +16,12 @@ export class NameTagger {
 
     static optimizedPos(pos: Point, width: number) {
         return {
-            x: pos.x - (width - 0.5) / 2,
+            x: pos.x - width / 2 + 0.5,
             y: pos.y - 1.7
         };
     }
 
-    addNameTag(human: Human, nickname: string) {
+    static makeNameTag(nickname: string): [number, number, HTMLSpanElement] {
         const nameTag = document.createElement("span");
         nameTag.innerText = nickname;
         nameTag.style.visibility = 'hidden';
@@ -34,6 +34,12 @@ export class NameTagger {
         nameTag.style.transition = `all ${MOVING_MS}ms`;
         nameTag.style.transitionTimingFunction = "linear";
 
+        return [width, height, nameTag];
+    }
+
+    addNameTag(human: Human, nickname: string) {
+        const [width, height, nameTag] = NameTagger.makeNameTag(nickname);
+
         const pos = NameTagger.optimizedPos(human.getPosition(), width);
         
         const nameTagShape = new DomShape({width, height}, nameTag);
@@ -42,6 +48,21 @@ export class NameTagger {
         nameTagEffect.setPosition(human.getPosition());
         
         this._humanNametagMap.set(human, nameTagEffect);
+        this._renderer.drawEffect(nameTagEffect);
+    }
+
+
+    changeName(human: Human, nickname: string) {
+        const nameTagEffect = this._humanNametagMap.get(human);
+        if (!nameTagEffect) throw new Error("human not found or wrong shape");
+        const nameTagShape = nameTagEffect.getShape();
+        if (!(nameTagShape instanceof DomShape)) throw new Error("wrong shape");
+
+        const [width, height, nameTag] = NameTagger.makeNameTag(nickname);
+
+        this._renderer.removeOne(nameTagEffect);
+        nameTagShape.setDom(nameTag);
+        nameTagShape.setSize({width, height});
         this._renderer.drawEffect(nameTagEffect);
     }
 
@@ -56,5 +77,13 @@ export class NameTagger {
             this._renderer.updateOne(nameTagEffect);
         }
 
+    }
+
+    removeNameTag(human: Human) {
+        const nameTagEffect = this._humanNametagMap.get(human);
+        if (nameTagEffect) {
+            this._renderer.removeOne(nameTagEffect);
+            this._humanNametagMap.delete(human);
+        }
     }
 }
