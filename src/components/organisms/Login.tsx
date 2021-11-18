@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import {
     useHistory
 } from 'react-router-dom';
-import Context from '../context';
+import Context from '../../context';
 import { gql, useApolloClient } from '@apollo/client';
 
 const LOGIN_QUERY = gql`
