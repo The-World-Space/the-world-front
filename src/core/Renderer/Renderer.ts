@@ -199,6 +199,8 @@ export class Renderer {
 
 
     drawUnflatObject(object: GameObject) {
+        const isCharacter = object instanceof Character;
+
         const applyDom = (dom: HTMLElement, object: GameObject) => {
             this._wallDom.appendChild(dom);
             this._ObjectDomMap.set(object, dom);
@@ -208,7 +210,7 @@ export class Renderer {
 
         const drawAsIframe = (shape: DomShape<any>, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object, true);
-            dom.style.zIndex = `${object.getPosition().y}`;
+            dom.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
 
             applyDom(dom, object);
         }
@@ -216,7 +218,7 @@ export class Renderer {
         const drawAsImage = (shape: ImageShape, object: GameObject) => {
             const img = Renderer.styleDom(document.createElement('img'), object, true);
             img.src = shape.getImageUrl();
-            img.style.zIndex = `${object.getPosition().y}`;
+            img.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
 
             applyDom(img, object);
         }
@@ -246,19 +248,20 @@ export class Renderer {
     updateOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
         dom = dom || this._ObjectDomMap.get(object);
         
-        const isUnflat = (obj: GameObject) => obj instanceof Wall || obj instanceof Character
+        const isCharacter = object instanceof Character;
+        const isUnflat = object instanceof Wall || object instanceof Character
         
         const updateAsIframe = (shape: DomShape<any>, object: GameObject, dom: HTMLElement) => {
-            Renderer.styleDom(dom, object, isUnflat(object));
-            dom.style.zIndex = `${object.getPosition().y}`;
+            Renderer.styleDom(dom, object, isUnflat);
+            dom.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
         }
         
         const updateAsImage = (shape: ImageShape, object: GameObject, dom: HTMLImageElement) => {
-            Renderer.styleDom(dom, object, isUnflat(object));
+            Renderer.styleDom(dom, object, isUnflat);
             if (dom.src !== new URL(shape.getImageUrl(), document.baseURI).href) {
                 dom.src = shape.getImageUrl();
             }
-            dom.style.zIndex = `${object.getPosition().y}`;
+            dom.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
         }
 
         if (dom) {
