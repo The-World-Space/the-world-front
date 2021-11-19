@@ -186,6 +186,11 @@ const ChatContentDiv = styled.div`
         margin-top: 10px;
         margin-bottom: 10px;
     }
+    
+    font-size: ${FORM_FONT_SIZE};
+    font-weight: ${FORM_FONT_WEIGHT};
+    font-family: ${FORM_FONT_FAMILY};
+    font-style: ${FORM_FONT_STYLE};
 `;
 
 const ChatInputDiv = styled.div`
@@ -299,7 +304,6 @@ function IngameInterface({ apolloClient }: PropsType) {
     }
 
     function sendChatMessage() {
-        console.log("Send message");
         sendChat(worldId, inputText, apolloClient);
         setInputText('');
     }
