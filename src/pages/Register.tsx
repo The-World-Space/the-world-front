@@ -71,7 +71,9 @@ function Register() {
     return (
         <NavTemplate>
             <ContentDiv>
-                <div>
+                <div style={{
+                    marginTop: '117px',
+                }}>
                     <Link to="/">
                         <img src={twLogo1} alt={'logo img'} style={{
                             width: '350px',
