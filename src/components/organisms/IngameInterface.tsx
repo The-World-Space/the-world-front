@@ -77,9 +77,43 @@ const ExpandBarDiv = styled.div`
     right: 0px;
     transition: right 0.5s;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+`;
+
+const ListContainer = styled.ol`
+    display: flex;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const ListItem = styled.li`
+    background: #A69B97;
+    border-radius: 23px;
+    display: flex;
+    width: 90%;
+    height: 60px;
+    margin-top: 20px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+`;
+
+const ListItemInner = styled.div`
+    background: #FFFFFE;
+    border-radius: 23px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 7px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 `;
 
 const ExpandButton = styled.button`
@@ -97,9 +131,8 @@ const ExpandButton = styled.button`
 const TrashCanButton = styled.button`
     background: url(${TrashcanIcon}) no-repeat;
     border: none;
-    width: 44px;
-    height: 44px;
-    margin-top: auto;
+    width: 47px;
+    height: 47px;
     margin-left: auto;
     margin-right: 18px;
     margin-bottom: 18px;
@@ -125,6 +158,14 @@ function IngameInterface() {
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <ExpandBarDiv style={barOpened ? {} : {right: '350px'}}>
+                <ListContainer>
+                    <ListItem>
+                        <ListItemInner/>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemInner/>
+                    </ListItem>
+                </ListContainer>
                 <TrashCanButton/>
             </ExpandBarDiv>
             <ExpandButton onClick={() => expandBarToggle()} 
