@@ -40,7 +40,7 @@ function Welcome() {
                         height: '110px',
                         margin: '0% 2% 0% 2%',
                     }}/>
-                    <img src={`${process.env.PUBLIC_URL}/assets/takahiro.jpg`} 
+                    <img src={`${process.env.PUBLIC_URL}/assets/welcome_img.png`} 
                     style={{
                         height: '300px',
                         margin: '0% 2% 0% 2%',
