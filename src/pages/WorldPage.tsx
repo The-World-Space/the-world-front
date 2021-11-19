@@ -19,7 +19,7 @@ import { useParams } from "react-router";
 import { KeyboardController } from "../game/Controller/KeyboardContoller";
 import { IframeShape } from "../core/types/Shape/IframeShape";
 import { loadWorld } from "../game/connect/loadWorld";
-import { apolloClient } from "../game/connect/gql";
+import { globalApolloClient } from "../game/connect/gql";
 
 
 
@@ -116,28 +116,6 @@ async function makeTestWorld(world?: World) {
     }
 
 
-
-    // Physics
-    {
-        const physicsLineMap = physicsLineFactory(100, 100, [
-            { x: 1, y: 1, direction: Direction.up },
-            { x: 2, y: 1, direction: Direction.up },
-            { x: 1, y: 1, direction: Direction.left },
-            { x: 2, y: 1, direction: Direction.right },
-            { x: 1, y: 1, direction: Direction.down },
-            { x: 2, y: 1, direction: Direction.down },
-
-            { x: 6, y: 4, direction: Direction.up },
-            { x: 7, y: 4, direction: Direction.up },
-            { x: 6, y: 4, direction: Direction.left },
-            { x: 7, y: 4, direction: Direction.right },
-            { x: 6, y: 4, direction: Direction.down },
-            { x: 7, y: 4, direction: Direction.down },
-        ]);
-        worldMap.setPhysicsLineMap(physicsLineMap);
-    }
-
-
     const character = new Human(
         new ImageShape({
             width: 1,
@@ -149,13 +127,7 @@ async function makeTestWorld(world?: World) {
         }
     );
     character.setPosition({ x: 0, y: 5 });
-    // worldMap.getWalls().push(character);
 
-
-
-
-    const width = 10;
-    const height = 10;
 
 
 
@@ -164,7 +136,6 @@ async function makeTestWorld(world?: World) {
 
 
     const renderer = new Renderer(world);
-
 
     // const 
 
@@ -180,51 +151,53 @@ async function makeTestWorld(world?: World) {
 
 
 
-    function movePlayer(apolloClient: ApolloClient<any>, worldId: string, x: number, y: number) {
-        apolloClient.mutate({
-            mutation: gql`
-                mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
-                    moveCharacter(characterMove: $characterMove, worldId: $worldId) {
-                        x
-                        y
-                    }
-                }
-            `,
-            variables: {
-                characterMove: {
-                    x,
-                    y
-                },
-                worldId
-            }
-        });
-    }
-
-
-    function joinWorld(apolloClient: ApolloClient<any>, x: number, y: number, worldId: string) {
-        apolloClient.mutate({
-            mutation: gql`
-                mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
-                    joinWorld(x: $x, y: $y, id: $worldId)
-                }
-            `,
-            variables: {
-                x,
-                y,
-                worldId,
-            }
-        }).then(console.log);
-    }
-
+    
     return {
         world,
         renderer,
-        apolloClient,
-        movePlayer,
-        joinWorld,
+        apolloClient: globalApolloClient,
         character,
     }
 }
+
+
+
+function movePlayer(apolloClient: ApolloClient<any>, worldId: string, x: number, y: number) {
+    apolloClient.mutate({
+        mutation: gql`
+            mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
+                moveCharacter(characterMove: $characterMove, worldId: $worldId) {
+                    x
+                    y
+                }
+            }
+        `,
+        variables: {
+            characterMove: {
+                x,
+                y
+            },
+            worldId
+        }
+    });
+}
+
+
+async function joinWorld(apolloClient: ApolloClient<any>, x: number, y: number, worldId: string) {
+    return apolloClient.mutate({
+        mutation: gql`
+            mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
+                joinWorld(x: $x, y: $y, id: $worldId)
+            }
+        `,
+        variables: {
+            x,
+            y,
+            worldId,
+        }
+    })
+}
+
 
 
 
@@ -233,27 +206,23 @@ function WorldPage() {
     const user = useUser();
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
-    let contorller;
+    let controller: KeyboardController;
     let _LoadedWorld;
     
     
     useEffect(() => {
         if (!user) return;
         (async function(){
-
-            const loadedWorld = await loadWorld(worldId, apolloClient)
-            console.debug("loadedWorld", loadedWorld.getMap().getWalls());
-            const { world, renderer, movePlayer, joinWorld, character } = await makeTestWorld(loadedWorld);
-            // @ts-ignore
-            globalThis.debug.loadedWorld = loadedWorld;
-    
-            contorller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
+            const loadedWorld = await loadWorld(worldId, globalApolloClient)
+            const { world, renderer, character } = await makeTestWorld(loadedWorld);
     
             ref.current?.appendChild(renderer.getWrapperDom());
-    
-            contorller.afterMove = (_) => {
-                movePlayer(apolloClient, worldId, character.getPosition().x, character.getPosition().y);
-            }
+            
+            renderer.disableWorldTransition();
+            renderer.setCenter({ x: 0, y: 5 });
+            
+            controller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
+            controller.getNameTagger().changeName(character, user.nickname);
             
             networkController = 
                 new NetworkController(
@@ -262,23 +231,23 @@ function WorldPage() {
                     character, 
                     worldId, 
                     user.id, 
-                    apolloClient);
+                    globalApolloClient);
             
-            joinWorld(apolloClient, 0, 5, worldId);
-            renderer.disableWorldTransition();
-            renderer.setCenter({ x: 0, y: 5 });
-            setTimeout(() =>renderer.enableWorldTransition(), 0);
-            contorller.getNameTagger().changeName(character, user.nickname);
+            await joinWorld(globalApolloClient, 0, 5, worldId);
 
+            setTimeout(() => {
+                renderer.enableWorldTransition();
+                controller.afterMove = (_) => {
+                    movePlayer(globalApolloClient, worldId, character.getPosition().x, character.getPosition().y);
+                }
+            }, 0);
         })();
     }, [ref, user]);
 
     return (
-        <ApolloProvider client={apolloClient}>
-            <div ref={ref}>
+        <div ref={ref}>
 
-            </div>
-        </ApolloProvider>
+        </div>
     );
 }
 

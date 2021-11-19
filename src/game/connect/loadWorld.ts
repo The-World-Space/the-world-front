@@ -59,7 +59,11 @@ export async function loadWorld(worldId: string, apolloClient: ApolloClient<any>
     
     const width = Math.max(...serverObjects.map(o => o.x + o.width));
     const height = Math.max(...serverObjects.map(o => o.y + o.height));
-    
+
+    //@ts-ignore
+    globalThis.debug_world = serverObjects;
+    console.debug(serverObjects);
+
     const world = new World({width, height});
     const worldMap = world.getMap();
 
@@ -67,12 +71,12 @@ export async function loadWorld(worldId: string, apolloClient: ApolloClient<any>
     const tiles = 
         serverWorld.tiles
             .reduce((acc, tile) => {
-                if(tile.movableRight) acc.push({x: tile.x, y: tile.y, direction: Direction.right});
-                if(tile.movableBottom) acc.push({x: tile.x, y: tile.y, direction: Direction.down});
+                if(!tile.movableRight) acc.push({x: tile.x, y: tile.y, direction: Direction.right});
+                if(!tile.movableBottom) acc.push({x: tile.x, y: tile.y, direction: Direction.down});
                 return acc;
             }, [] as {x: number, y: number, direction: Direction}[]);
 
-    const physicsLines = physicsLineFactory(width, height, tiles);
+    const physicsLines = physicsLineFactory(height, width, tiles);
     worldMap.setPhysicsLineMap(physicsLines);
 
     

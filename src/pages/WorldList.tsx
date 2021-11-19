@@ -2,7 +2,7 @@ import { useAsync } from "react-use";
 import styled from "styled-components";
 import twLogo1 from '../components/atoms/tw logo 1.svg';
 import NavTemplate from "../components/templates/NavTemplate";
-import { apolloClient, getMyWorlds } from "../game/connect/gql";
+import { globalApolloClient, getMyWorlds } from "../game/connect/gql";
 
 
 const Wrapper = styled.div`
@@ -130,9 +130,7 @@ const GreenCircle = styled.div`
 
 
 function WorldList() {
-    const worldList = useAsync(async () => await getMyWorlds(apolloClient));
-
-    console.error(worldList);
+    const worldList = useAsync(async () => await getMyWorlds(globalApolloClient));
 
     return (
         <>

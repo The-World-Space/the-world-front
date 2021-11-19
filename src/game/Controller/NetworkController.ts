@@ -98,7 +98,6 @@ export class NetworkController {
                 worldId: this._worldId,
             }
         }).subscribe((data) => {
-            console.debug('playerList', data.data.playerList.map((e:any) => e.user.nickname));
             data.data.playerList && this.onPlayerListUpdate(data.data.playerList);
         })
 
@@ -116,7 +115,6 @@ export class NetworkController {
                 worldId: this._worldId
             },
         }).subscribe((data) => {
-            console.debug('character move', data.data);
             if (data.data.characterMove) {
                 const user = this._characterMap.get(data.data?.characterMove?.userId);
                 user && this.moveCharacter(data.data.characterMove, user);
@@ -148,7 +146,6 @@ export class NetworkController {
 
             user && this.leaveUser(user);
         });
-        console.debug("update", leftPlayers, newPlayers);
     }
 
 
@@ -175,8 +172,6 @@ export class NetworkController {
         const beforePos = user.character.getPosition();
         const going = this._going(beforePos, nextPos);
 
-        console.log('going', going);
-
         if (going) {
             user.character.walk(going);
             if (user.currentMoving) {
@@ -197,7 +192,6 @@ export class NetworkController {
         this._world.addCharacter(user.character);
         this._renderer.drawUnflatObject(user.character);
         this._nameTagger.addNameTag(user.character, user.user.nickname);
-        console.debug('joinUser', user);
     }
 
     private leaveUser(user: UserData) {
@@ -205,7 +199,6 @@ export class NetworkController {
         this._renderer.removeOne(user.character);
         this._world.removeCharacter(user.character);
         this._nameTagger.removeNameTag(user.character);
-        console.debug('leaveUser', user);
     }
 
     // private _onKeyUp(event: KeyboardEvent) {

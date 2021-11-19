@@ -163,6 +163,7 @@ export class WebSocketLink extends ApolloLink {
     }
 }
 
+
 export const link = new WebSocketLink({
     url: 'wss://computa.lunuy.com:40081/graphql',
     connectionParams: () => {
@@ -177,7 +178,7 @@ export const link = new WebSocketLink({
 });
 
 
-export const apolloClient = new ApolloClient({
+export const globalApolloClient = new ApolloClient({
     link,
     cache: new InMemoryCache()
 });
