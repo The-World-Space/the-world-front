@@ -23,10 +23,13 @@ export class IframeCommunicator {
     constructor(
         private readonly apolloClient: ApolloClient<any>,
         private readonly iframe: HTMLIFrameElement,
-        private readonly iframeInfo: IframeGameObject) {
+        private readonly iframeInfo: IframeGameObject,
+        private readonly worldId: string) {
             this.internalFieldIdToFieldMap = new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [portId, field]));
             this.internalBroadcasterIdToBroadcasterMap = new Map(iframeInfo.broadcasterPortMappings.map(({ portId, broadcaster }) => [portId, broadcaster]));
             this.subscriptions = [];
+
+            iframe.allow = "midi;";
     }
 
     private internalFieldIdToPublicId(id: string) {
@@ -54,7 +57,15 @@ export class IframeCommunicator {
         return [...this.internalFieldIdToFieldMap.entries()].map(([internalId, field]) => ({ id: internalId, value: field.value, name: field.name }));
     }
     private getField(id: string) {
-        return this.internalFieldIdToFieldMap.get(id);
+        const field = this.internalFieldIdToFieldMap.get(id);
+
+        if(!field)
+            return null;
+
+        return {
+            id,
+            value: field.value
+        };
     }
     private async setFieldValue(id: string, value: string) {
         await this.apolloClient.mutate({
@@ -73,7 +84,14 @@ export class IframeCommunicator {
         return [...this.internalBroadcasterIdToBroadcasterMap.entries()].map(([internalId, broadcaster]) => ({ id: internalId, name: broadcaster.name }));
     }
     private getBroadcaster(id: string) {
-        return this.internalBroadcasterIdToBroadcasterMap.get(id);
+        const broadcaster = this.internalBroadcasterIdToBroadcasterMap.get(id);
+
+        if(!broadcaster)
+            return null;
+
+        return {
+            id
+        };
     }
     private async broadcast(id: string, message: string) {
         await this.apolloClient.mutate({
@@ -146,9 +164,14 @@ export class IframeCommunicator {
             this.apolloClient.subscribe({
                 query: gql`
                     subscription FieldSetValue($worldId: String!) {
-                        fieldSetValue(worldId: $worldId)
+                        fieldSetValue(worldId: $worldId) {
+                            id
+                        }
                     }
-                `
+                `,
+                variables: {
+                    worldId: this.worldId
+                }
             }).subscribe(result => {
                 const { id, value, userId } = result.data.fieldSetValue as { id: number, value: string, userId: string };
 
@@ -161,9 +184,16 @@ export class IframeCommunicator {
             this.apolloClient.subscribe({
                 query: gql`
                     subscription BroadcastMessage($worldId: String!) {
-                        broadcastMessage(worldId: $worldId)
+                        broadcastMessage(worldId: $worldId) {
+                            id
+                            message
+                            userId
+                        }
                     }
-                `
+                `,
+                variables: {
+                    worldId: this.worldId
+                }
             }).subscribe(result => {
                 const { id, message, userId } = result.data.broadcastMessage as { id: number, message: string, userId: string };
 
@@ -175,7 +205,7 @@ export class IframeCommunicator {
             // Create / delete field
             this.apolloClient.subscribe({
                 query: gql`
-                    subscription IframeFieldPortMappingList($iframeId: String!) {
+                    subscription IframeFieldPortMappingList($iframeId: Int!) {
                         iframeFieldPortMappingList(iframeId: $iframeId) {
                             id
                             portId
@@ -212,7 +242,7 @@ export class IframeCommunicator {
             // Create / delete Broadcast
             this.apolloClient.subscribe({
                 query: gql`
-                    subscription IframeBroadcasterPortMappingList($iframeId: String!) {
+                    subscription IframeBroadcasterPortMappingList($iframeId: Int!) {
                         iframeBroadcasterPortMappingList(iframeId: $iframeId) {
                             id
                             portId

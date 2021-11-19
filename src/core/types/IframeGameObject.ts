@@ -7,7 +7,7 @@ import { IframeGameObject as ServerIframeGameObject } from "../../game/connect/t
 export class IframeGameObject extends GameObject<IframeShape> {
     private _iframeCommunicator: IframeCommunicator;
 
-    constructor(shape: IframeShape, iframeInfo: ServerIframeGameObject, apolloClient: ApolloClient<any>) {
+    constructor(shape: IframeShape, iframeInfo: ServerIframeGameObject, apolloClient: ApolloClient<any>, worldId: string) {
         super(shape);
         // @ts-ignore
         globalThis.debug_shape = {
@@ -15,7 +15,8 @@ export class IframeGameObject extends GameObject<IframeShape> {
             iframeInfo
         };
         console.debug(shape.getDom());
-        this._iframeCommunicator = new IframeCommunicator(apolloClient, shape.getDom(), iframeInfo);
+        this._iframeCommunicator = new IframeCommunicator(apolloClient, shape.getDom(), iframeInfo, worldId);
+        this._iframeCommunicator.apply();
     }
 
     getIframeCommunicator() {
@@ -24,5 +25,6 @@ export class IframeGameObject extends GameObject<IframeShape> {
 
     setIframeCommunicator(iframeCommunicator: IframeCommunicator) {
         this._iframeCommunicator = iframeCommunicator;
+        this._iframeCommunicator.apply();
     }
 }

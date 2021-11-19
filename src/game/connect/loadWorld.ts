@@ -17,14 +17,14 @@ import {
 } from "./types";
 
 
-function serverIframeObjectToGameObject(serverObject: ServerIframeGameObject, apolloClient: ApolloClient<any>) {
+function serverIframeObjectToGameObject(serverObject: ServerIframeGameObject, apolloClient: ApolloClient<any>, worldId: string) {
     const size = {width: serverObject.width, height: serverObject.height};
     const shape = new IframeShape(size, serverObject.src);
 
     const object =
-        (serverObject.type === ServerGameObjectType.Floor)  ? new IframeFloor(shape, serverObject, apolloClient)  :
-        (serverObject.type === ServerGameObjectType.Wall)   ? new IframeWall(shape, serverObject, apolloClient)   :
-        (serverObject.type === ServerGameObjectType.Effect) ? new IframeEffect(shape, serverObject, apolloClient) :
+        (serverObject.type === ServerGameObjectType.Floor)  ? new IframeFloor(shape, serverObject, apolloClient, worldId)  :
+        (serverObject.type === ServerGameObjectType.Wall)   ? new IframeWall(shape, serverObject, apolloClient, worldId)   :
+        (serverObject.type === ServerGameObjectType.Effect) ? new IframeEffect(shape, serverObject, apolloClient, worldId) :
         null;
     
     if (object === null) throw new Error("unknown type");
@@ -78,7 +78,7 @@ export async function loadWorld(worldId: string, apolloClient: ApolloClient<any>
     
     // game objects setup ======================================================
     const gameObjects = [
-        ...serverWorld.iframes.map(serverObject => serverIframeObjectToGameObject(serverObject, apolloClient)),
+        ...serverWorld.iframes.map(serverObject => serverIframeObjectToGameObject(serverObject, apolloClient, worldId)),
         ...serverWorld.images.map(serverObject => serverImageObjectToGameObject(serverObject))
     ];
     gameObjects.forEach(gameObject => {

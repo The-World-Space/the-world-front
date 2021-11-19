@@ -41,10 +41,17 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
                       	fieldPortMappings {
                             id
                             portId
+                            field {
+                                value
+                                id
+                            }
                         }
                       	broadcasterPortMappings {
                           	id
                           	portId
+                            broadcaster {
+                                id
+                            }
                         }
                     }
                     images {

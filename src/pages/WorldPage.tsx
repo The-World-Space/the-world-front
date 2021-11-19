@@ -48,9 +48,9 @@ async function makeTestWorld(world?: World) {
 
     {
         const floorMap: FloorTile[][] = [
-            [FloorTile.RIGHT_BOTTOM_GRASS, ...new Array(8).fill(FloorTile.BOTTOM_GRASS), FloorTile.LEFT_BOTTOM_GRASS],
-            ...new Array(98).fill([FloorTile.RIGHT_GRASS, ...new Array(8).fill(FloorTile.GRASS), FloorTile.LEFT_GRASS]),
-            [FloorTile.RIGHT_TOP_GRASS, ...new Array(8).fill(FloorTile.TOP_GRASS), FloorTile.LEFT_TOP_GRASS],
+            [FloorTile.RIGHT_BOTTOM_GRASS, ...new Array(28).fill(FloorTile.BOTTOM_GRASS), FloorTile.LEFT_BOTTOM_GRASS],
+            ...new Array(98).fill([FloorTile.RIGHT_GRASS, ...new Array(28).fill(FloorTile.GRASS), FloorTile.LEFT_GRASS]),
+            [FloorTile.RIGHT_TOP_GRASS, ...new Array(28).fill(FloorTile.TOP_GRASS), FloorTile.LEFT_TOP_GRASS],
         ]
 
         const floors = worldMap.getFloors();
@@ -162,13 +162,6 @@ async function makeTestWorld(world?: World) {
         const youtubeIframeFloor = new Floor(iframeShape);
         youtubeIframeFloor.setPosition({ x: 10, y: 6 });
         worldMap.getFloors().push(youtubeIframeFloor);
-    }
-    {
-        const youtubeIframeDom = document.createElement('iframe');
-        const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
-        const youtubeIframeFloor = new Floor(iframeShape);
-        youtubeIframeFloor.setPosition({ x: 10, y: 26 });
-        worldMap.getWalls().push(youtubeIframeFloor);
     }
     {
         const youtubeIframeDom = document.createElement('iframe');
