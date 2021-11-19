@@ -27,7 +27,7 @@ import IngameInterface from "../components/organisms/IngameInterface";
 
 
 async function makeTestWorld(world?: World) {
-    world = world || new World({ height: 37, width: 30 });
+    world = world || new World({ height: 38, width: 45 });
     const worldMap = world.getMap();
 
 
@@ -88,6 +88,9 @@ async function makeTestWorld(world?: World) {
             [FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________],
             [FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________, FloorTile.FLOOR____________],
         ]
+        console.log(floorMap.length);
+        
+        console.log(floorMap[0].length);
 
         const floors = worldMap.getFloors();
 
