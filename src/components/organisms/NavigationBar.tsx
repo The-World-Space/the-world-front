@@ -59,10 +59,12 @@ function NavigationBar(props: NavigationBarProps) {
             </Link>
             {props.showNavContent &&
                 <RowButtonDiv>
-                    <MainButton onClick={() => history.push('/thelab')}>TheLab</MainButton>
-                    <MainButton onClick={() => history.push('/world/0')}>world/0</MainButton>
+                    {/* <MainButton onClick={() => history.push('/thelab')}>TheLab</MainButton> */}
                     { logged 
-                        ? <MainButton onClick={() => history.push('/logout')}>Logout</MainButton>
+                        ? <>
+                            <MainButton onClick={() => history.push('/world/0')}>world/0</MainButton>
+                            <MainButton onClick={() => history.push('/logout')}>Logout</MainButton>
+                          </>
                         : <>
                             <MainButton onClick={() => history.push('/login')}>Login</MainButton>
                             <MainButton onClick={() => history.push('/register')}>Register</MainButton>
