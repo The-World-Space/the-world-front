@@ -9,6 +9,7 @@ const ContentDiv = styled.div`
     align-items: center;
     width: 85%;
     box-sizing: border-box;
+    flex: 1;
 `;
 
 const ContentDetailDiv = styled.div`
@@ -24,9 +25,7 @@ function Welcome() {
     return (
         <NavTemplate showNavContent={true}>
             <ContentDiv>
-                <div style={{
-                    marginTop: `86px`,
-                }}>
+                <div>
                     <img src={twLogo1} alt={'logo img'} />
                 </div>
                 <ContentDetailDiv style={{
