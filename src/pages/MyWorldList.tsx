@@ -6,6 +6,7 @@ import twLogo1 from '../components/atoms/tw logo 1.svg';
 import NavTemplate from "../components/templates/NavTemplate";
 import Context from "../context";
 import { globalApolloClient, getMyWorlds } from "../game/connect/gql";
+import { ReactComponent as PlusButton } from "../components/atoms/PlusIcon.svg";
 
 
 const Wrapper = styled.div`
@@ -130,7 +131,11 @@ const GreenCircle = styled.div`
     background-color: #83CE8B;
 `
 
-
+const StyledPlusButton = styled(PlusButton)`
+    :hover {
+        cursor: pointer;
+    }
+`
 
 
 
@@ -171,6 +176,7 @@ function MyWorldList() {
                                 </WorldItemRight>
                             </WorldItem>
                         )}
+                        <StyledPlusButton onClick={() => history.push('/createworld')} />
                     </WorldListDiv>
                 </Wrapper>
             </NavTemplate>
