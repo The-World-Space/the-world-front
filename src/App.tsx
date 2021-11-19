@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 
-import Main from './pages/Main';
+import Main from './pages/Welcome';
 import Test from './pages/Test';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
@@ -21,10 +21,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" exact component={Main} />
+        <Route exact path="/" component={MyWorldList} />
+        <Route path="/welcome" exact component={Main} />
         <Route path="/thelab" component={Test} />
         <Route path="/world/:worldId" component={WorldPage} />
-        <Route path="/myworlds" component={MyWorldList} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/logout" component={Logout} />

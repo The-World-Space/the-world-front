@@ -20,7 +20,7 @@ const ContentDetailDiv = styled.div`
     width: 100%;
 `;
 
-function Main() {
+function Welcome() {
     return (
         <NavTemplate showNavContent={true}>
             <ContentDiv>
@@ -51,4 +51,4 @@ function Main() {
     );
 }
 
-export default Main;
+export default Welcome;
