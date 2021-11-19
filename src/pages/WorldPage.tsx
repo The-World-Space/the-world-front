@@ -142,12 +142,12 @@ async function makeTestWorld(world?: World) {
         const physicsLineList = [];
         const {height, width} = worldMap.getSize()
         for (let i = 0; i < height; i++) {
-            physicsLineList.push({x: 0, y: i, direction: Direction.left});
-            physicsLineList.push({x: width - 1, y: i, direction: Direction.right});
+            physicsLineList.push({x: 1, y: i, direction: Direction.left});
+            physicsLineList.push({x: width - 2, y: i, direction: Direction.right});
         }
         for (let i = 0; i < width; i++) {
-            physicsLineList.push({x: i, y: 0, direction: Direction.up});
-            physicsLineList.push({x: i, y: height - 1, direction: Direction.down});
+            physicsLineList.push({x: i, y: 4, direction: Direction.up});
+            physicsLineList.push({x: i, y: height - 2, direction: Direction.down});
         } 
 
         const physicsLineMap = physicsLineFactory(height, height, [
