@@ -1,6 +1,8 @@
+import { useAsync } from "react-use";
 import styled from "styled-components";
 import twLogo1 from '../components/atoms/tw logo 1.svg';
 import NavTemplate from "../components/templates/NavTemplate";
+import { apolloClient, getMyWorlds } from "../game/connect/gql";
 
 
 const Wrapper = styled.div`
@@ -128,61 +130,41 @@ const GreenCircle = styled.div`
 
 
 function WorldList() {
+    const worldList = useAsync(async () => await getMyWorlds(apolloClient));
 
-    const list = [
-        {
-            id: "0",
-            name: "world 1",
-            thumbnail: twLogo1,
-        },
-        {
-            id: "1",
-            name: "world 2",
-            thumbnail: twLogo1,
-        },
-        {
-            id: "2",
-            name: "world 3",
-            thumbnail: twLogo1,
-        },
-        {
-            id: "3",
-            name: "world 4",
-            thumbnail: twLogo1,
-        },
-        {
-            id: "4",
-            name: "world 5",
-            thumbnail: twLogo1,
-        },
-    ]
+    console.error(worldList);
 
     return (
-        <NavTemplate showNavContent={true}>
-            <Wrapper>
-                <MyworldText>MY WORLDS</MyworldText>
-                <HorizentalLine />
-                <WorldListDiv>
-                    {list.map(item => 
-                        <WorldItem>
-                            <WorldItemLeft>
-                                <ThumbnailImage src={item.thumbnail} />
-                                <WorldItemInfo>
-                                    <Title>{item.name}</Title>
-                                    <SubTitle>2021/11/17</SubTitle>
-                                </WorldItemInfo>
-                            </WorldItemLeft>
-                            <WorldItemRight>
-                                <GreenCircle />
-                                <SubTitle>
-                                    20/100
-                                </SubTitle>
-                            </WorldItemRight>
-                        </WorldItem>
-                    )}
-                </WorldListDiv>
-            </Wrapper>
-        </NavTemplate>
+        <>
+        {worldList.loading 
+          ? <h1>loading...</h1> 
+          : <NavTemplate showNavContent={true}>
+                <Wrapper>
+                    <MyworldText>MY WORLDS</MyworldText>
+                    <HorizentalLine />
+                    <WorldListDiv>
+                        {worldList.value?.map(item => 
+                            <WorldItem>
+                                <WorldItemLeft>
+                                    <ThumbnailImage src={twLogo1} />
+                                    <WorldItemInfo>
+                                        <Title>{item.name}</Title>
+                                        <SubTitle>2021/11/17</SubTitle>
+                                    </WorldItemInfo>
+                                </WorldItemLeft>
+                                <WorldItemRight>
+                                    <GreenCircle />
+                                    <SubTitle>
+                                        20/100
+                                    </SubTitle>
+                                </WorldItemRight>
+                            </WorldItem>
+                        )}
+                    </WorldListDiv>
+                </Wrapper>
+            </NavTemplate>
+        }
+        </>
     );
 }
 
