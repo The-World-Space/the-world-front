@@ -247,7 +247,9 @@ function WorldPage() {
             renderer.disableWorldTransition();
             renderer.setCenter({ x: 0, y: 5 });
             
-            controller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
+            controller = new KeyboardController(world.getPhysics(), renderer, renderer.getWrapperDom(), character);
+            renderer.getWrapperDom().tabIndex = 0;
+            renderer.getWrapperDom().focus();
             controller.getNameTagger().changeName(character, user.nickname);
             
             networkController = 
