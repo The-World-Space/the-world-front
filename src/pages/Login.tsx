@@ -18,7 +18,9 @@ const ContentDiv = styled.div`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    justify-content: center;
     box-sizing: border-box;
+    flex: 1;
 `;
 
 const LOGIN_QUERY = gql`
@@ -69,9 +71,7 @@ function Login() {
     return (
         <NavTemplate>
             <ContentDiv>
-                <div style={{
-                    marginTop: '117px',
-                }}>
+                <div>
                     <Link to="/">
                         <img src={twLogo1} alt={'logo img'} style={{
                             width: '350px',

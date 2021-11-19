@@ -9,6 +9,7 @@ const ContentDiv = styled.div`
     align-items: center;
     width: 85%;
     box-sizing: border-box;
+    flex: 1;
 `;
 
 const ContentDetailDiv = styled.div`
@@ -24,9 +25,7 @@ function Welcome() {
     return (
         <NavTemplate showNavContent={true}>
             <ContentDiv>
-                <div style={{
-                    marginTop: `86px`,
-                }}>
+                <div>
                     <img src={twLogo1} alt={'logo img'} />
                 </div>
                 <ContentDetailDiv style={{
@@ -40,7 +39,7 @@ function Welcome() {
                         height: '110px',
                         margin: '0% 2% 0% 2%',
                     }}/>
-                    <img src={`${process.env.PUBLIC_URL}/assets/takahiro.jpg`} 
+                    <img src={`${process.env.PUBLIC_URL}/assets/welcome_img.png`} 
                     style={{
                         height: '300px',
                         margin: '0% 2% 0% 2%',
