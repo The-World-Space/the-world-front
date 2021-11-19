@@ -60,11 +60,6 @@ export class Renderer {
             _changeWidthToMapSizeCanvas(this._imageEffectDom);
             _changeWidthToMapSizeCanvas(this._imageFloorDom);
         }
-        document.body.onresize = () =>{ 
-            _resetCanvas();
-            this.drawEffects();
-            this.drawFloors();
-        };
 
 
         this._wrapperDom = document.createElement('div');
