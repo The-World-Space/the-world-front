@@ -20,7 +20,8 @@ import { KeyboardController } from "../game/Controller/KeyboardContoller";
 import { IframeShape } from "../core/types/Shape/IframeShape";
 import { loadWorld } from "../game/connect/loadWorld";
 import { globalApolloClient } from "../game/connect/gql";
-
+import styled from "styled-components";
+import IngameInterface from "../components/organisms/IngameInterface";
 
 
 
@@ -218,6 +219,12 @@ async function joinWorld(apolloClient: ApolloClient<any>, x: number, y: number, 
 
 
 
+const Wrapper = styled.div`
+    display: flex;
+    height: 100%;
+`
+
+
 
 function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);
@@ -264,9 +271,18 @@ function WorldPage() {
     }, [ref, user]);
 
     return (
-        <div ref={ref}>
-
-        </div>
+        <Wrapper>
+            <div style={{
+                zIndex: 1,
+                height: '100%',
+                pointerEvents: 'none',
+            }}>
+                <IngameInterface />
+            </div>
+            <div ref={ref} style={{
+                zIndex: 0,
+            }}/>
+        </Wrapper>
     );
 }
 

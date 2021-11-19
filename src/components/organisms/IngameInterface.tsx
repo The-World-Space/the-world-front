@@ -16,9 +16,9 @@ const OuterDiv = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: left;
-    width: 100%;
     height: 100%;
     box-sizing: border-box;
+    pointer-events: none;
 `;
 
 const SidebarDiv = styled.div`
@@ -31,6 +31,7 @@ const SidebarDiv = styled.div`
     background: #A69B97;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     z-index: 1;
+    pointer-events: all;
 `;
 
 const LogoImage = styled.img`
@@ -80,6 +81,7 @@ const ExpandBarDiv = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    pointer-events: all;
 `;
 
 const ListContainer = styled.ol`
@@ -99,6 +101,7 @@ const ListItem = styled.li`
     width: 90%;
     height: 60px;
     margin-top: 20px;
+    padding: 7px;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
@@ -110,7 +113,6 @@ const ListItemInner = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
-    margin: 7px;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
@@ -126,6 +128,7 @@ const ExpandButton = styled.button`
     position: absolute;
     transition: transform 0.5s;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+    pointer-events: all;
 `;
 
 const TrashCanButton = styled.button`
@@ -149,22 +152,24 @@ function IngameInterface() {
     return (
         <OuterDiv>
             <SidebarDiv>
-                <Link to="/">
+                <span onClick={() => window.location.href = '/'}>
                     <LogoImage src={twLogo2Black} />
-                </Link>
-                <BarDivider/>
+                </span>
+                {/* <BarDivider/>
                 <MenuButtonImage src={VariableBtnIcon} />
                 <MenuButtonImage src={ChannelBtnIcon} />
-                <CountIndicatorDiv>5/10</CountIndicatorDiv>
+                <CountIndicatorDiv>5/10</CountIndicatorDiv> */}
             </SidebarDiv>
             <ExpandBarDiv style={barOpened ? {} : {right: '350px'}}>
                 <ListContainer>
                     <ListItem>
-                        <ListItemInner/>
+                        <ListItemInner>
+                            여기는 아직 작성중 입니다!!!
+                        </ListItemInner>
                     </ListItem>
-                    <ListItem>
+                    {/* <ListItem>
                         <ListItemInner/>
-                    </ListItem>
+                    </ListItem> */}
                 </ListContainer>
                 <TrashCanButton/>
             </ExpandBarDiv>
