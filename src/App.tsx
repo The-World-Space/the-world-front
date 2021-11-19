@@ -14,7 +14,7 @@ import Register from './pages/Register';
 import WorldPage from './pages/WorldPage';
 import CreateWorld from './pages/CreateWorld';
 import MyPage from './pages/MyPage';
-import WorldList from './pages/WorldList';
+import MyWorldList from './pages/MyWorldList';
 import IngameInterface from './components/organisms/IngameInterface';
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
         <Route path="/" exact component={Main} />
         <Route path="/thelab" component={Test} />
         <Route path="/world/:worldId" component={WorldPage} />
-        <Route path="/worlds" component={WorldList} />
+        <Route path="/myworlds" component={MyWorldList} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/logout" component={Logout} />

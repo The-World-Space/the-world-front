@@ -1,3 +1,4 @@
+import { useHistory } from "react-router";
 import { useAsync } from "react-use";
 import styled from "styled-components";
 import twLogo1 from '../components/atoms/tw logo 1.svg';
@@ -62,6 +63,10 @@ const WorldItem = styled.div`
     
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     border-radius: 72px;
+
+    :hover {
+        cursor: pointer;
+    }
 `
 
 const WorldItemLeft = styled.div`
@@ -129,7 +134,8 @@ const GreenCircle = styled.div`
 
 
 
-function WorldList() {
+function MyWorldList() {
+    const history = useHistory();
     const worldList = useAsync(async () => await getMyWorlds(globalApolloClient));
 
     return (
@@ -142,18 +148,18 @@ function WorldList() {
                     <HorizentalLine />
                     <WorldListDiv>
                         {worldList.value?.map(item => 
-                            <WorldItem>
+                            <WorldItem onClick={() => history.push(`/world/${item.id}`)} key={item.id}>
                                 <WorldItemLeft>
                                     <ThumbnailImage src={twLogo1} />
                                     <WorldItemInfo>
                                         <Title>{item.name}</Title>
-                                        <SubTitle>2021/11/17</SubTitle>
+                                        <SubTitle></SubTitle>
                                     </WorldItemInfo>
                                 </WorldItemLeft>
                                 <WorldItemRight>
                                     <GreenCircle />
                                     <SubTitle>
-                                        20/100
+                                        &nbsp;
                                     </SubTitle>
                                 </WorldItemRight>
                             </WorldItem>
@@ -166,4 +172,4 @@ function WorldList() {
     );
 }
 
-export default WorldList;
+export default MyWorldList;

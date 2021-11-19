@@ -103,19 +103,6 @@ async function makeTestWorld(world?: World) {
     }
 
 
-    // Effect
-    {
-        const effect = new Effect(
-            new ImageShape({
-                width: 2,
-                height: 2,
-            }, '/assets/effect/snow.gif')
-        );
-        effect.setPosition({ x: 4, y: 4 });
-        worldMap.getEffects().push(effect);
-    }
-
-
     const character = new Human(
         new ImageShape({
             width: 1,
@@ -215,6 +202,7 @@ function WorldPage() {
         (async function(){
             const loadedWorld = await loadWorld(worldId, globalApolloClient)
             const { world, renderer, character } = await makeTestWorld(loadedWorld);
+            world.getMap().getPhysicsLineMap().push(...new Array(60).fill([]));
     
             ref.current?.appendChild(renderer.getWrapperDom());
             
