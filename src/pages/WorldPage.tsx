@@ -142,7 +142,7 @@ async function makeTestWorld(world?: World) {
         new ImageShape({
             width: 1,
             height: 2,
-        }, 'https://e7.pngegg.com/pngimages/517/871/png-clipart-8-bit-super-mario-illustration-super-mario-bros-new-super-mario-bros-video-game-sprite-angle-super-mario-bros.png'),
+        }, '/assets/hyeonjong/tile000.png'),
         {
             walking: ['top.gif', 'bottom.gif', 'left.gif', 'right.gif'].map(e => `/assets/hyeonjong/${e}`) as [string, string, string, string],
             standing: ['tile008.png', 'tile000.png', 'tile012.png', 'tile004.png'].map(e => `/assets/hyeonjong/${e}`) as [string, string, string, string],
@@ -156,20 +156,6 @@ async function makeTestWorld(world?: World) {
 
     const width = 10;
     const height = 10;
-    {
-        const youtubeIframeDom = document.createElement('iframe');
-        const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
-        const youtubeIframeFloor = new Floor(iframeShape);
-        youtubeIframeFloor.setPosition({ x: 10, y: 6 });
-        worldMap.getFloors().push(youtubeIframeFloor);
-    }
-    {
-        const youtubeIframeDom = document.createElement('iframe');
-        const iframeShape = new IframeShape({width, height}, 'https://www.youtube.com/embed/HhN4wdpbPrg');
-        const youtubeIframeFloor = new Floor(iframeShape);
-        youtubeIframeFloor.setPosition({ x: 10, y: 28 });
-        worldMap.getEffects().push(youtubeIframeFloor);
-    }
 
 
 

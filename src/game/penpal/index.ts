@@ -28,8 +28,6 @@ export class IframeCommunicator {
             this.internalFieldIdToFieldMap = new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [portId, field]));
             this.internalBroadcasterIdToBroadcasterMap = new Map(iframeInfo.broadcasterPortMappings.map(({ portId, broadcaster }) => [portId, broadcaster]));
             this.subscriptions = [];
-
-            iframe.allow = "midi;";
     }
 
     private internalFieldIdToPublicId(id: string) {
@@ -165,7 +163,9 @@ export class IframeCommunicator {
                 query: gql`
                     subscription FieldSetValue($worldId: String!) {
                         fieldSetValue(worldId: $worldId) {
-                            id
+                            id,
+                            value,
+                            userId
                         }
                     }
                 `,

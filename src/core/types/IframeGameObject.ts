@@ -9,14 +9,9 @@ export class IframeGameObject extends GameObject<IframeShape> {
 
     constructor(shape: IframeShape, iframeInfo: ServerIframeGameObject, apolloClient: ApolloClient<any>, worldId: string) {
         super(shape);
-        // @ts-ignore
-        globalThis.debug_shape = {
-            shape,
-            iframeInfo
-        };
-        console.debug(shape.getDom());
         this._iframeCommunicator = new IframeCommunicator(apolloClient, shape.getDom(), iframeInfo, worldId);
         this._iframeCommunicator.apply();
+        shape.getDom().allow = "midi;  autoplay";
     }
 
     getIframeCommunicator() {
