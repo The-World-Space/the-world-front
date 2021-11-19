@@ -36,6 +36,12 @@ function Login() {
     const [pw, setPw] = useState('');
     const client = useApolloClient();
 
+    function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === 'Enter') {
+            onSubmit();
+        }
+    }
+
     async function onSubmit() {
         try {
             const res = await client.query({
@@ -80,8 +86,8 @@ function Login() {
                     fontSize: '32px',
                 }}> Login </div>
                 <HorizontalDivider style={{ margin: '6% 0% 6% 0%' }} />
-                <div> <BlackInput onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
-                <div> <BlackInput onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
                 <div> <BlackSubmitButton onClick={() => onSubmit()}>Login</BlackSubmitButton> </div>
                 <HorizontalDivider style={{ margin: '8% 0% 0% 0%' }} />
                 <div> <BlackSubmitButton onClick={() => history.push('/register')}>Register</BlackSubmitButton> </div>

@@ -39,6 +39,12 @@ function Register() {
     const [nickname, setNickname] = useState('');
     const client = useApolloClient();
 
+    function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === 'Enter') {
+            onSubmit();
+        }
+    }
+
     async function onSubmit() {
         if (pw !== confirmPw) {
             alert("비밀번호가 서로 같지 않습니다!");
@@ -88,10 +94,10 @@ function Register() {
                     fontSize: '32px',
                 }}> Register </div>
                 <HorizontalDivider />
-                <div> <BlackInput onChange={e => setNickname(e.target.value)} placeholder="Nickname" /> </div>
-                <div> <BlackInput onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
-                <div> <BlackInput onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
-                <div> <BlackInput onChange={e => setConfirmPw(e.target.value)} type="password" placeholder="Password Conform" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setNickname(e.target.value)} placeholder="Nickname" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setConfirmPw(e.target.value)} type="password" placeholder="Password Conform" /> </div>
                 {(pw !== confirmPw && confirmPw !== '') &&
                     <p style={{color: 'red'}}>'패스워드가 서로 같지 않습니다!'</p>
                 }

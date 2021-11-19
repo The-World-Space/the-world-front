@@ -2,23 +2,14 @@ import Context from "../../context";
 import {
     Link, useHistory
 } from 'react-router-dom';
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from '../atoms/tw logo 2 black.svg';
 import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
 import ChannelBtnIcon from '../atoms/ChannelBtnIcon.svg';
 import ArrowIcon from '../atoms/ArrowIcon.svg';
-import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
-
-const ExpandButton = styled.button`
-    margin-top: auto;
-    margin-bottom: 18px;
-    margin-left: 15px;
-    background: url(${ArrowIcon}) no-repeat;
-    border: none;
-    width: 44px;
-    height: 44px;
-`;
+import TrashcanIcon from '../atoms/TrashcanIcon.svg';
+import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -28,9 +19,6 @@ const OuterDiv = styled.div`
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    & ${ExpandButton} {
-        background: #ff00ff;
-    }
 `;
 
 const SidebarDiv = styled.div`
@@ -42,10 +30,12 @@ const SidebarDiv = styled.div`
     height: 100%;
     background: #A69B97;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
+    z-index: 1;
 `;
 
 const LogoImage = styled.img`
     margin-top: 30px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
 `;
 
 const BarDivider = styled.div`
@@ -58,6 +48,7 @@ const BarDivider = styled.div`
 
 const MenuButtonImage = styled.img`
     margin: 0px 0px 10px 0px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
 `;
 
 const CountIndicatorDiv = styled.div`
@@ -74,6 +65,7 @@ const CountIndicatorDiv = styled.div`
     font-size: 14px;
     font-style: ${MENU_BUTTON_FONT_STYLE};
     font-weight: ${MENU_BUTTON_FONT_WEIGHT};
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
 `;
 
 const ExpandBarDiv = styled.div`
@@ -81,20 +73,62 @@ const ExpandBarDiv = styled.div`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     width: 350px;
     height: 100%;
+    position: relative;
+    right: 0px;
+    transition: right 0.5s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
+
+const ExpandButton = styled.button`
+    background: url(${ArrowIcon}) no-repeat;
+    border: none;
+    width: 44px;
+    height: 44px;
+    bottom: 18px;
+    left: 150px;
+    position: absolute;
+    transition: transform 0.5s;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+`;
+
+const TrashCanButton = styled.button`
+    background: url(${TrashcanIcon}) no-repeat;
+    border: none;
+    width: 44px;
+    height: 44px;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: 18px;
+    margin-bottom: 18px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
 `;
 
 function IngameInterface() {
+    const [barOpened, setBarOpened] = useState(false);
+
+    function expandBarToggle() {
+        setBarOpened((lastState) => !lastState);
+    }
+
     return (
         <OuterDiv>
             <SidebarDiv>
-                <LogoImage src={twLogo2Black} />
+                <Link to="/">
+                    <LogoImage src={twLogo2Black} />
+                </Link>
                 <BarDivider/>
                 <MenuButtonImage src={VariableBtnIcon} />
                 <MenuButtonImage src={ChannelBtnIcon} />
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
-            <ExpandBarDiv/>
-            <ExpandButton/>
+            <ExpandBarDiv style={barOpened ? {} : {right: '350px'}}>
+                <TrashCanButton/>
+            </ExpandBarDiv>
+            <ExpandButton onClick={() => expandBarToggle()} 
+            style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
         </OuterDiv>
     );
 }
