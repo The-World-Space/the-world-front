@@ -54,68 +54,6 @@ function hyeonJongFactory() {
 
 
 
-class WebSocketLink extends ApolloLink {
-    private client: Client;
-
-    constructor(options: ClientOptions) {
-        super();
-        this.client = createClient(options);
-    }
-
-    public request(operation: Operation): Observable<FetchResult> {
-        return new Observable((sink) => {
-            return this.client.subscribe<FetchResult>(
-                { ...operation, query: print(operation.query) },
-                {
-                    next: sink.next.bind(sink),
-                    complete: sink.complete.bind(sink),
-                    error: (err) => {
-                        if (Array.isArray(err))
-                            // GraphQLError[]
-                            return sink.error(
-                                new Error(
-                                    err.map(({ message }) => message).join(", ")
-                                )
-                            );
-
-                        if (err instanceof CloseEvent)
-                            return sink.error(
-                                new Error(
-                                    `Socket closed with event ${err.code} ${
-                                        err.reason || ""
-                                    }` // reason will be available on clean closes only
-                                )
-                            );
-
-                        return sink.error(err);
-                    },
-                }
-            );
-        });
-    }
-}
-
-
-function getSession() {
-    return {
-        token: localStorage.getItem(JWT_KEY),
-    }
-}
-
-
-const link = new WebSocketLink({
-    url: "ws://computa.lunuy.com:40080/graphql",
-    connectionParams: () => {
-        const session = getSession();
-        if (!session) {
-            return {};
-        }
-        return {
-            Authorization: `${session.token}`,
-        };
-    },
-});
-
 
 export class NetworkController {
     private _characterMap: Map<string, UserData>;
