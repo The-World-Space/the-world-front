@@ -8,6 +8,7 @@ export class IframeShape extends DomShape<HTMLIFrameElement> {
     constructor(size: Size, src: string) {
         super(size, document.createElement("iframe"));
         this.setSrc(src);
+        this.getDom().style.border = "none";
     }
 
     getSrc() {
@@ -17,6 +18,11 @@ export class IframeShape extends DomShape<HTMLIFrameElement> {
     setSrc(src: string) {
         this._src = src;
         this.getDom().src = src;
+    }
+
+    setDom(dom: HTMLIFrameElement) {
+        super.setDom(dom);
+        this.getDom().style.border = "none";
     }
 
     setSize(size: Size) {
