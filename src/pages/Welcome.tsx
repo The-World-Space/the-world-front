@@ -43,6 +43,7 @@ function Welcome() {
                     style={{
                         height: '300px',
                         margin: '0% 2% 0% 2%',
+                        borderRadius: '35px',
                     }}/>
                 </ContentDetailDiv>
             </ContentDiv>
