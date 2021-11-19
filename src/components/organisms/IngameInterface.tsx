@@ -2,7 +2,7 @@ import Context from "../../context";
 import {
     Link, useHistory
 } from 'react-router-dom';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from '../atoms/tw logo 2 black.svg';
 import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
@@ -178,6 +178,7 @@ const ChatContentDiv = styled.div`
     border-radius: 20px;
     height: 100%;
     margin: 15px;
+    overflow-y: scroll;
 `;
 
 const ChatInputDiv = styled.div`
@@ -274,6 +275,7 @@ function IngameInterface({ apolloClient }: PropsType) {
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState('');
     const [chatting, setChatting] = useState<chatMessage[]>([]);
+    const ref = useRef<HTMLDivElement>(null);
 
     function expandBarToggle() {
         setBarOpened((lastState) => !lastState);
@@ -302,6 +304,7 @@ function IngameInterface({ apolloClient }: PropsType) {
                     lastState.length > 100 
                       ? [...lastState.slice(1), data] 
                       : [...lastState, data]);
+            if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
         }, apolloClient);
     }, [])
 
@@ -333,11 +336,11 @@ function IngameInterface({ apolloClient }: PropsType) {
             style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
             <ChatButton onClick={() => chatToggle()}/>
             <ChatDiv style={chatOpened ? {} : {transform: 'translateX(339px)'}}>
-                <ChatContentDiv>
+                <ChatContentDiv ref={ref}>
                     {chatting.map((data, index) => (
-                        <span key={data.message}>
+                        <p key={data.message}>
                             {data.user.nickname}: {data.message}
-                        </span>
+                        </p>
                     ))}
                 </ChatContentDiv>
                 <ChatInputDiv>
