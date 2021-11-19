@@ -1,11 +1,11 @@
 import { Shape } from "./Shape/Shape";
 import { Point } from "./Base";
 
-export abstract class GameObject {
-    private _shape: Shape;
+export abstract class GameObject<T extends Shape = Shape> {
+    private _shape: T;
     private _position: Point;
 
-    constructor(shape: Shape) {
+    constructor(shape: T) {
         this._shape = shape;
         this._position = {
             x: 0, 
@@ -13,7 +13,7 @@ export abstract class GameObject {
         }
     }
 
-    setShape(shape: Shape) {
+    setShape(shape: T) {
         this._shape = shape;
     }
 

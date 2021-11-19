@@ -1,7 +1,7 @@
 import { ApolloClient } from "@apollo/client";
-import { Effect } from "../../core/Map/Objects/Effect";
-import { Floor } from "../../core/Map/Objects/Floor";
-import { Wall } from "../../core/Map/Objects/Wall";
+import { Effect, IframeEffect } from "../../core/Map/Objects/Effect";
+import { Floor, IframeFloor } from "../../core/Map/Objects/Floor";
+import { IframeWall, Wall } from "../../core/Map/Objects/Wall";
 import { Direction } from "../../core/types/Base";
 import { IframeShape } from "../../core/types/Shape/IframeShape";
 import { ImageShape } from "../../core/types/Shape/ImageShape";
@@ -17,10 +17,26 @@ import {
 } from "./types";
 
 
-function serverObjectToGameObject(serverObject: ServerGameObject, shape: Shape) {
+function serverIframeObjectToGameObject(serverObject: ServerIframeGameObject, apolloClient: ApolloClient<any>) {
     const size = {width: serverObject.width, height: serverObject.height};
+    const shape = new IframeShape(size, serverObject.src);
 
-    if (shape === null) throw new Error("unknown shape");
+    const object =
+        (serverObject.type === ServerGameObjectType.Floor)  ? new IframeFloor(shape, serverObject, apolloClient)  :
+        (serverObject.type === ServerGameObjectType.Wall)   ? new IframeWall(shape, serverObject, apolloClient)   :
+        (serverObject.type === ServerGameObjectType.Effect) ? new IframeEffect(shape, serverObject, apolloClient) :
+        null;
+    
+    if (object === null) throw new Error("unknown type");
+    
+    object.setPosition({x: serverObject.x, y: serverObject.y});
+
+    return object;
+}
+
+function serverImageObjectToGameObject(serverObject: ServerImageGameObject) {
+    const size = {width: serverObject.width, height: serverObject.height};
+    const shape = new ImageShape(size, serverObject.src);
 
     const object =
         (serverObject.type === ServerGameObjectType.Floor)  ? new Floor(shape)  :
@@ -33,20 +49,6 @@ function serverObjectToGameObject(serverObject: ServerGameObject, shape: Shape) 
     object.setPosition({x: serverObject.x, y: serverObject.y});
     
     return object;
-}
-
-function serverIframeObjectToGameObject(serverObject: ServerIframeGameObject) {
-    const size = {width: serverObject.width, height: serverObject.height};
-    const shape = new IframeShape(size, serverObject.src);
-
-    return serverObjectToGameObject(serverObject, shape);
-}
-
-function serverImageObjectToGameObject(serverObject: ServerImageGameObject) {
-    const size = {width: serverObject.width, height: serverObject.height};
-    const shape = new ImageShape(size, serverObject.src);
-
-    return serverObjectToGameObject(serverObject, shape);
 }
 
 
@@ -76,17 +78,17 @@ export async function loadWorld(worldId: string, apolloClient: ApolloClient<any>
     
     // game objects setup ======================================================
     const gameObjects = [
-        ...serverWorld.iframes.map(serverObject => serverIframeObjectToGameObject(serverObject)),
+        ...serverWorld.iframes.map(serverObject => serverIframeObjectToGameObject(serverObject, apolloClient)),
         ...serverWorld.images.map(serverObject => serverImageObjectToGameObject(serverObject))
     ];
     gameObjects.forEach(gameObject => {
-        if (gameObject instanceof Floor) {
+        if (gameObject instanceof Floor || gameObject instanceof IframeFloor) {
             worldMap.getFloors().push(gameObject);
         }
-        else if (gameObject instanceof Wall) {
+        else if (gameObject instanceof Wall || gameObject instanceof IframeWall) {
             worldMap.getWalls().push(gameObject);
         }
-        else if (gameObject instanceof Effect) {
+        else if (gameObject instanceof Effect || gameObject instanceof IframeEffect) {
             worldMap.getEffects().push(gameObject);
         }
     });

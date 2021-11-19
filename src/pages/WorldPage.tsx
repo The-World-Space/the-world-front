@@ -263,8 +263,10 @@ function WorldPage() {
         (async function(){
 
             const loadedWorld = await loadWorld(worldId, apolloClient)
+            console.debug("loadedWorld", loadedWorld.getMap().getWalls());
             const { world, renderer, movePlayer, joinWorld, character } = await makeTestWorld(loadedWorld);
-                
+            // @ts-ignore
+            globalThis.debug.loadedWorld = loadedWorld;
     
             contorller = new KeyboardController(world.getPhysics(), renderer, document.body, character);
     

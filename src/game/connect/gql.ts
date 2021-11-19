@@ -38,6 +38,14 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
                         height
                         type
                         src
+                      	fieldPortMappings {
+                            id
+                            portId
+                        }
+                      	broadcasterPortMappings {
+                          	id
+                          	portId
+                        }
                     }
                     images {
                         id

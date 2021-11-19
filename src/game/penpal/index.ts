@@ -1,6 +1,6 @@
 
 import { ApolloClient, gql } from '@apollo/client';
-import Penpal from 'penpal';
+import * as Penpal from 'penpal';
 import { Broadcaster, IframeBroadcasterPortMapping, Field, IframeFieldPortMapping, GlobalField, IframeGameObject } from '../connect/types';
 
 
@@ -14,7 +14,7 @@ interface Child {
     deleteBroadcaster(id: string): Promise<void>;
 }
 
-class IframeCommunicator {
+export class IframeCommunicator {
     private internalFieldIdToFieldMap: Map<string, Field>;
     private internalBroadcasterIdToBroadcasterMap: Map<string, Broadcaster>;
     private child!: Child;
