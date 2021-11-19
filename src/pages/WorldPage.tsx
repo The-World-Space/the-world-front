@@ -130,49 +130,9 @@ async function makeTestWorld(world?: World) {
 
         const physicsLineMap = physicsLineFactory(height, height, [
             ...physicsLineList,
-
-            { x: 1, y: 1, direction: Direction.up },
-            { x: 2, y: 1, direction: Direction.up },
-            { x: 1, y: 1, direction: Direction.left },
-            { x: 2, y: 1, direction: Direction.right },
-            { x: 1, y: 1, direction: Direction.down },
-            { x: 2, y: 1, direction: Direction.down },
-
-            { x: 6, y: 4, direction: Direction.up },
-            { x: 7, y: 4, direction: Direction.up },
-            { x: 6, y: 4, direction: Direction.left },
-            { x: 7, y: 4, direction: Direction.right },
-            { x: 6, y: 4, direction: Direction.down },
-            { x: 7, y: 4, direction: Direction.down },
         ]);
         worldMap.setPhysicsLineMap(physicsLineMap);
         // </temp code>
-    }
-
-
-    // Wall
-    {
-        {
-            const wall = new Wall(
-                new ImageShape({
-                    width: 2,
-                    height: 2,
-                }, '/assets/wall/tree.png'),
-            );
-            wall.setPosition({ x: 1, y: 1 });
-            worldMap.getWalls().push(wall);
-        }
-
-        {
-            const wall = new Wall(
-                new ImageShape({
-                    width: 2,
-                    height: 2,
-                }, '/assets/wall/tree.png'),
-            );
-            wall.setPosition({ x: 6, y: 4 });
-            worldMap.getWalls().push(wall);
-        }
     }
 
 
@@ -187,9 +147,6 @@ async function makeTestWorld(world?: World) {
         }
     );
     character.setPosition({ x: 0, y: 5 });
-
-
-
 
     world.setMap(worldMap);
     world.addCharacter(character);
