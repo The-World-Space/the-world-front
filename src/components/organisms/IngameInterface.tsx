@@ -9,7 +9,9 @@ import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
 import ChannelBtnIcon from '../atoms/ChannelBtnIcon.svg';
 import ArrowIcon from '../atoms/ArrowIcon.svg';
 import TrashcanIcon from '../atoms/TrashcanIcon.svg';
-import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
+import ChatIcon from '../atoms/ChatIcon.svg';
+import SendButtonIcon from '../atoms/SendButtonIcon.svg';
+import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -142,11 +144,97 @@ const TrashCanButton = styled.button`
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
 `;
 
+const ChatButton = styled.button`
+    background: url(${ChatIcon}) no-repeat;
+    border: none;
+    width: 47px;
+    height: 47px;
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+    pointer-events: all;
+`;
+
+const ChatDiv = styled.div`
+    background: rgba(122, 143, 221, 0.6);
+    border-radius: 23px;
+    width: 319px;
+    height: 441px;
+    position: fixed;
+    right: 20px;
+    bottom: 80px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.5s;
+    pointer-events: all;
+`;
+
+const ChatContentDiv = styled.div`
+    background: rgba(255, 255, 251, 0.6);
+    border-radius: 20px;
+    height: 100%;
+    margin: 15px;
+`;
+
+const ChatInputDiv = styled.div`
+    background: rgba(255, 255, 251, 0.6);
+    border-radius: 20px;
+    height: 50px;
+    margin: 15px;
+    margin-top: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const ChatInput = styled.input`
+    background: #00000000;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    margin-left: 15px;
+    margin-right: 5px;
+    font-size: ${FORM_FONT_SIZE};
+    font-weight: ${FORM_FONT_WEIGHT};
+    font-family: ${FORM_FONT_FAMILY};
+    font-style: ${FORM_FONT_STYLE};
+    display: block;
+`;
+
+const SendButton = styled.button`
+    background: url(${SendButtonIcon}) no-repeat;
+    border: none;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    margin-right: 15px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+`;
+
 function IngameInterface() {
     const [barOpened, setBarOpened] = useState(false);
+    const [chatOpened, setChatOpened] = useState(false);
 
     function expandBarToggle() {
         setBarOpened((lastState) => !lastState);
+    }
+
+    function chatToggle() {
+        setChatOpened((lastState) => !lastState);
+    }
+
+    function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === 'Enter') {
+            sendChatMessage();
+        }
+    }
+
+    function sendChatMessage() {
+        console.log("Send message");
     }
 
     return (
@@ -175,6 +263,14 @@ function IngameInterface() {
             </ExpandBarDiv>
             <ExpandButton onClick={() => expandBarToggle()} 
             style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
+            <ChatButton onClick={() => chatToggle()}/>
+            <ChatDiv style={chatOpened ? {} : {transform: 'translateX(339px)'}}>
+                <ChatContentDiv/>
+                <ChatInputDiv>
+                    <ChatInput placeholder="Enter message here." onKeyPress={(event) => onKeyPress(event)}/>
+                    <SendButton onClick={() => sendChatMessage()}/>
+                </ChatInputDiv>
+            </ChatDiv>
         </OuterDiv>
     );
 }
