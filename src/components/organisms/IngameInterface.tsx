@@ -179,6 +179,13 @@ const ChatContentDiv = styled.div`
     height: 100%;
     margin: 15px;
     overflow-y: scroll;
+
+    & > p {
+        padding-left: 20px;
+        margin: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 `;
 
 const ChatInputDiv = styled.div`
@@ -286,7 +293,7 @@ function IngameInterface({ apolloClient }: PropsType) {
     }
 
     function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && inputText !== '') {
             sendChatMessage();
         }
     }
