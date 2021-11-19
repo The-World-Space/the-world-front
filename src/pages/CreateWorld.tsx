@@ -52,8 +52,12 @@ const CreateWorld: React.FC = () => {
     const history = useHistory();
 
     const submit = async () => {
-        await createWorld(apolloClient, worldId, worldName);
-        history.push('/myworlds');
+        try {
+            await createWorld(apolloClient, worldId, worldName);
+            history.push('/');
+        } catch(e) {
+            alert(e);
+        }
     };
 
     return (
