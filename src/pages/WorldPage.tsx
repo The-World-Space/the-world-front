@@ -27,7 +27,7 @@ import IngameInterface from "../components/organisms/IngameInterface";
 
 
 async function makeTestWorld(world?: World) {
-    world = world || new World({ height: 100, width: 30 });
+    world = world || new World({ height: 37, width: 30 });
     const worldMap = world.getMap();
 
 
@@ -132,8 +132,8 @@ async function makeTestWorld(world?: World) {
             ...physicsLineList,
         ]);
         const physmap = worldMap.getPhysicsLineMap();
-        for (let y = 0; y < height; y++) {
-            for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height + 1; y++) {
+            for (let x = 0; x < 2 * width + 1; x++) {
                 const line = physicsLineMap[y][x];
                 if (line) {
                     physmap[y][x] = line;
