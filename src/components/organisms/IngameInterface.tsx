@@ -7,7 +7,18 @@ import styled from "styled-components";
 import twLogo2Black from '../atoms/tw logo 2 black.svg';
 import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
 import ChannelBtnIcon from '../atoms/ChannelBtnIcon.svg';
+import ArrowIcon from '../atoms/ArrowIcon.svg';
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
+
+const ExpandButton = styled.button`
+    margin-top: auto;
+    margin-bottom: 18px;
+    margin-left: 15px;
+    background: url(${ArrowIcon}) no-repeat;
+    border: none;
+    width: 44px;
+    height: 44px;
+`;
 
 const OuterDiv = styled.div`
     display: flex;
@@ -17,6 +28,9 @@ const OuterDiv = styled.div`
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+    & ${ExpandButton} {
+        background: #ff00ff;
+    }
 `;
 
 const SidebarDiv = styled.div`
@@ -80,6 +94,7 @@ function IngameInterface() {
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <ExpandBarDiv/>
+            <ExpandButton/>
         </OuterDiv>
     );
 }
