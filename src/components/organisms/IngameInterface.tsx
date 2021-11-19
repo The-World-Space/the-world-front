@@ -2,7 +2,7 @@ import Context from "../../context";
 import {
     Link, useHistory
 } from 'react-router-dom';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from '../atoms/tw logo 2 black.svg';
 import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
@@ -12,6 +12,8 @@ import TrashcanIcon from '../atoms/TrashcanIcon.svg';
 import ChatIcon from '../atoms/ChatIcon.svg';
 import SendButtonIcon from '../atoms/SendButtonIcon.svg';
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
+import { ApolloClient, FetchResult, gql } from "@apollo/client";
+import { useParams } from "react-router";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -215,9 +217,63 @@ const SendButton = styled.button`
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
 `;
 
-function IngameInterface() {
+
+
+function sendChat(worldId: string, message: string, apolloClient: ApolloClient<any>) {
+    return apolloClient.mutate({
+        mutation: gql`
+            mutation Chat($worldId: String!, $message: String!) {
+                sendChat(worldId: $worldId, message: $message)
+            }
+        `,
+        variables: {
+            worldId,
+            message,
+        }
+    });
+}
+
+
+interface chatMessage {
+    user: {
+        id: string;
+        nickname: string;
+    };
+    message: string;
+}
+function onChat(worldId: string, callback: (data: chatMessage) => void, apolloClient: ApolloClient<any>) {
+    return apolloClient.subscribe({
+        query: gql`
+            subscription Chat($worldId: String!) {
+                chat(worldId: $worldId) {
+                    user {
+                        id
+                        nickname
+                    }
+                    message
+                }
+            }
+        `,
+        variables: {
+            worldId,
+        }
+    }).subscribe(data => {
+        data.data.chat && callback(data.data.chat as chatMessage);
+    });
+}
+
+
+
+interface PropsType {
+    apolloClient: ApolloClient<any>
+}
+
+function IngameInterface({ apolloClient }: PropsType) {
+    const { worldId } = useParams<{worldId: string}>();
     const [barOpened, setBarOpened] = useState(false);
     const [chatOpened, setChatOpened] = useState(false);
+    const [inputText, setInputText] = useState('');
+    const [chatting, setChatting] = useState<chatMessage[]>([]);
 
     function expandBarToggle() {
         setBarOpened((lastState) => !lastState);
@@ -235,7 +291,19 @@ function IngameInterface() {
 
     function sendChatMessage() {
         console.log("Send message");
+        sendChat(worldId, inputText, apolloClient);
+        setInputText('');
     }
+
+    useEffect(() => {
+        onChat(worldId, data => {
+            setChatting(
+                lastState => 
+                    lastState.length > 100 
+                      ? [...lastState.slice(1), data] 
+                      : [...lastState, data]);
+        }, apolloClient);
+    }, [])
 
     return (
         <OuterDiv>
@@ -265,9 +333,19 @@ function IngameInterface() {
             style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
             <ChatButton onClick={() => chatToggle()}/>
             <ChatDiv style={chatOpened ? {} : {transform: 'translateX(339px)'}}>
-                <ChatContentDiv/>
+                <ChatContentDiv>
+                    {chatting.map((data, index) => (
+                        <span key={data.message}>
+                            {data.user.nickname}: {data.message}
+                        </span>
+                    ))}
+                </ChatContentDiv>
                 <ChatInputDiv>
-                    <ChatInput placeholder="Enter message here." onKeyPress={(event) => onKeyPress(event)}/>
+                    <ChatInput 
+                        placeholder="Enter message here." 
+                        value={inputText} 
+                        onKeyPress={(event) => onKeyPress(event)} 
+                        onChange={e => setInputText(e.currentTarget.value)}/>
                     <SendButton onClick={() => sendChatMessage()}/>
                 </ChatInputDiv>
             </ChatDiv>
