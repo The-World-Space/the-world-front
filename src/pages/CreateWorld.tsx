@@ -15,9 +15,10 @@ import HorizontalDivider from "../components/atoms/HorizontalDivider";
 const ContentDiv = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    flex: 1;
 `;
 
 const WorldImage = styled.img`
