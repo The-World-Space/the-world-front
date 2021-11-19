@@ -8,8 +8,8 @@ interface physicsLine {
 }
 
 export function physicsLineFactory(height: number, width: number, physicsLines: physicsLine[]) {
-    let res = new Array(height).fill(0)
-                 .map(() => new Array(width).fill(false));
+    let res = new Array(height + 1).fill(0)
+                 .map(() => new Array(2 * width + 1).fill(false));
 
     function setTrue(x: number, y: number, direction: Direction) {
         const list_dy = [NaN, 0, 1, 0, 0];

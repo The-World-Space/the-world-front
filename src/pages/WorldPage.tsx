@@ -26,10 +26,8 @@ import { globalApolloClient } from "../game/connect/gql";
 
 
 async function makeTestWorld(world?: World) {
-    world = world || new World({ height: 100, width: 100 });
-    world.setSize({ height: 100, width: 100 });
+    world = world || new World({ height: 100, width: 30 });
     const worldMap = world.getMap();
-
 
 
     // Floor
@@ -75,6 +73,39 @@ async function makeTestWorld(world?: World) {
     }
 
 
+    {
+        // <temp code>
+        const physicsLineList = [];
+        const {height, width} = worldMap.getSize()
+        for (let i = 0; i < height; i++) {
+            physicsLineList.push({x: 0, y: i, direction: Direction.left});
+            physicsLineList.push({x: width - 1, y: i, direction: Direction.right});
+        }
+        for (let i = 0; i < width; i++) {
+            physicsLineList.push({x: i, y: 0, direction: Direction.up});
+            physicsLineList.push({x: i, y: height - 1, direction: Direction.down});
+        } 
+
+        const physicsLineMap = physicsLineFactory(height, height, [
+            ...physicsLineList,
+
+            { x: 1, y: 1, direction: Direction.up },
+            { x: 2, y: 1, direction: Direction.up },
+            { x: 1, y: 1, direction: Direction.left },
+            { x: 2, y: 1, direction: Direction.right },
+            { x: 1, y: 1, direction: Direction.down },
+            { x: 2, y: 1, direction: Direction.down },
+
+            { x: 6, y: 4, direction: Direction.up },
+            { x: 7, y: 4, direction: Direction.up },
+            { x: 6, y: 4, direction: Direction.left },
+            { x: 7, y: 4, direction: Direction.right },
+            { x: 6, y: 4, direction: Direction.down },
+            { x: 7, y: 4, direction: Direction.down },
+        ]);
+        worldMap.setPhysicsLineMap(physicsLineMap);
+        // </temp code>
+    }
 
 
     // Wall

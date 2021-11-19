@@ -5,6 +5,7 @@ import {
     useHistory,
     Link
 } from 'react-router-dom';
+import twLogo1 from '../components/atoms/tw logo 1.svg';
 import styled from "styled-components";
 import BlackInput from "../components/atoms/BlackInput";
 import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
@@ -48,9 +49,11 @@ const CreateWorld: React.FC = () => {
     const [worldName, setWorldName] = useState('');
 
     const apolloClient = useApolloClient();
+    const history = useHistory();
 
     const submit = async () => {
         await createWorld(apolloClient, worldId, worldName);
+        history.push('/myworlds');
     };
 
     return (
@@ -63,7 +66,7 @@ const CreateWorld: React.FC = () => {
                     fontSize: '32px',
                 }}> Make World </div>
                 <HorizontalDivider />
-                <WorldImage src={`${process.env.PUBLIC_URL}/assets/takahiro.jpg`}  alt={'world img'} />
+                <WorldImage src={twLogo1}  alt={'world img'} />
                 <BlackInput type="text" placeholder="World ID" onChange={e => setWorldId(e.target.value)} value={worldId}/>
                 <BlackInput type="text" placeholder="World Name" onChange={e => setWorldName(e.target.value)} value={worldName}/>
                 <BlackSubmitButton type="button" onClick={submit}>
