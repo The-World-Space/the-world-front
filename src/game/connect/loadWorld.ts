@@ -57,7 +57,7 @@ export async function loadWorld(worldId: string, apolloClient: ApolloClient<any>
     const serverWorld = await getWorld(worldId, apolloClient);
     const serverObjects: ServerGameObject[] = [...serverWorld.iframes, ...serverWorld.images];
     
-    const width = Math.max(...serverObjects.map(o => o.x + o.width), 45);
+    const width = Math.max(...serverObjects.map(o => o.x + o.width), 46);
     const height = Math.max(...serverObjects.map(o => o.y + o.height), 26);
 
     //@ts-ignore
