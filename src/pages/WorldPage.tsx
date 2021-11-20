@@ -256,6 +256,7 @@ function WorldPage() {
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
     let controller: KeyboardController;
+    let _renderer: Renderer;
     
     
     useEffect(() => {
@@ -266,6 +267,7 @@ function WorldPage() {
             world.getMap().getPhysicsLineMap().push(...new Array(60).fill([]));
     
             ref.current?.appendChild(renderer.getWrapperDom());
+            _renderer = renderer;
             
             renderer.disableWorldTransition();
             renderer.setCenter({ x: SPAWN_POS_X, y: SPAWN_POS_Y });
@@ -278,10 +280,9 @@ function WorldPage() {
             networkController = 
                 new NetworkController(
                     renderer, 
-                    world, 
-                    character, 
-                    worldId, 
-                    user.id, 
+                    world,
+                    worldId,
+                    user.id,
                     globalApolloClient);
             
             await joinWorld(globalApolloClient, SPAWN_POS_X, SPAWN_POS_Y, worldId);
@@ -293,6 +294,10 @@ function WorldPage() {
                 }
             }, 0);
         })();
+        return () => {
+            if (controller) controller.remove();
+            if (_renderer) _renderer.remove();
+        }
     }, [ref, user]);
 
     return (

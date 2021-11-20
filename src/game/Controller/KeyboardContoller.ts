@@ -29,14 +29,18 @@ export class KeyboardController {
 
         this._nameTagger.addNameTag(character, "player");
 
-        this._bindEvent();
+        this.bindEvent();
     }
 
-    private _bindEvent() {
+    private bindEvent() {
         this._eventTarget.addEventListener('keydown', this._onKeyDown.bind(this));
         this._eventTarget.addEventListener('keyup', this._onKeyUp.bind(this));
     }
 
+    private unbindEvent() {
+        this._eventTarget.removeEventListener('keydown', this._onKeyDown.bind(this));
+        this._eventTarget.removeEventListener('keyup', this._onKeyUp.bind(this));
+    }
 
     private _onKeyDown(event: KeyboardEvent) {
 
@@ -116,4 +120,7 @@ export class KeyboardController {
         return this._nameTagger;
     }
 
+    remove() {
+        this.unbindEvent();
+    }
 }

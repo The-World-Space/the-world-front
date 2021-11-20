@@ -47,20 +47,18 @@ export class NetworkController {
     private _world: World;
     private _worldId: string;
     private _playerId: string;
-    private _playerCharacter: Human;
     private _renderer: Renderer;
     private _nameTagger: NameTagger;
     private _client!: ApolloClient<any>;
 
     public afterMove: (controler: NetworkController) => void = _ => { };
 
-    constructor(renderer: Renderer, world: World, character: Human, worldId: string, playerId: string, apolloClient: ApolloClient<any>) {
+    constructor(renderer: Renderer, world: World, worldId: string, playerId: string, apolloClient: ApolloClient<any>) {
         this._world = world;
         this._worldId = worldId;
         this._characterMap = new Map();
         this._playerId = playerId;
         this._renderer = renderer;
-        this._playerCharacter = character;
         this._nameTagger = new NameTagger(this._renderer);
 
         this._client = apolloClient;
@@ -187,19 +185,6 @@ export class NetworkController {
         this._world.removeCharacter(user.character);
         this._nameTagger.removeNameTag(user.character);
     }
-
-    // private _onKeyUp(event: KeyboardEvent) {
-    //     const going = this._going(event);
-
-    //     if (this._currentMoving && going) {
-    //         if (going === this._currentMoving) {
-    //             this._currentMoving = null;
-    //             if (this._currentMovingTimeout !== null) clearTimeout(this._currentMovingTimeout);
-    //             // this._characterMap.stop()
-    //             // setTimeout(() => this._renderer.updateOne(this._characterMap), 0);
-    //         }
-    //     }
-    // }
 
     private _going(beforePoint: Point, afterPoint: Point) {
         const dx = afterPoint.x - beforePoint.x;

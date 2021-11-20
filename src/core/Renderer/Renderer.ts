@@ -371,4 +371,9 @@ export class Renderer {
         this.setLeft(this._wrapperDom.offsetWidth / 2 - center.x * PIXELSIZE);
         this.setTop(this._wrapperDom.offsetHeight / 2 - center.y * PIXELSIZE);
     }
+
+    
+    remove() {
+        this._wrapperDom.remove();
+    }
 }

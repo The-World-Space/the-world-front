@@ -1,6 +1,6 @@
 import Context from "../../context";
 import {
-    Link, useHistory
+    Link,
 } from 'react-router-dom';
 import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -322,9 +322,9 @@ function IngameInterface({ apolloClient }: PropsType) {
     return (
         <OuterDiv>
             <SidebarDiv>
-                <span onClick={() => window.location.href = '/'}>
+                <Link to="/">
                     <LogoImage src={twLogo2Black} />
-                </span>
+                </Link>
                 {/* <BarDivider/>
                 <MenuButtonImage src={VariableBtnIcon} />
                 <MenuButtonImage src={ChannelBtnIcon} />
