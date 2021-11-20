@@ -9,8 +9,6 @@ function Test() {
     const user = useUser();
     const [token, setToken] = useState('');
 
-    console.error(user);
-
     function onSave(){
         setJwt(token);
     }

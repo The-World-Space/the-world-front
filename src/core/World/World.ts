@@ -38,7 +38,6 @@ export class World {
 
     addCharacter(character: Character<any>) {
         this._characters.push(character);
-        this.getMap().getWalls().push(character);
     }
 
     removeCharacter(character: Character<any>) {

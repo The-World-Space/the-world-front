@@ -1,6 +1,6 @@
 import { Character } from "../../core/Character/Character";
 import { Physics } from "../../core/Physics/Physics";
-import { Renderer } from "../../core/Renderer/Renderer";
+import { Renderer, UNFLAT_RENDER_PRIORITY } from "../../core/Renderer/Renderer";
 import { Direction } from "../../core/types/Base";
 import { Human } from "../character/Human";
 import { NameTagger } from "../character/NameTager";
@@ -49,7 +49,7 @@ export class KeyboardController {
             this._nameTagger.moveNameTag(this._character, nextPos);
             this._renderer.setCenter(nextPos);
             this._currentMoving = going;
-            this._renderer.updateOne(this._character);
+            this._renderer.updateUnflatOne(this._character, UNFLAT_RENDER_PRIORITY.CHARACTER);
 
             this.afterMove(this);
 
@@ -82,7 +82,7 @@ export class KeyboardController {
                 this._currentMoving = null;
                 if (this._currentMovingTimeout !== null) clearTimeout(this._currentMovingTimeout);
                 this._character.stop()
-                setTimeout(() => this._renderer.updateOne(this._character), 0);
+                setTimeout(() => this._renderer.updateUnflatOne(this._character, UNFLAT_RENDER_PRIORITY.CHARACTER), 0);
             }
         }
     }

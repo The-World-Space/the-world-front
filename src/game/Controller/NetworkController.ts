@@ -1,6 +1,6 @@
 import { Character } from "../../core/Character/Character";
 import { Physics } from "../../core/Physics/Physics";
-import { Renderer } from "../../core/Renderer/Renderer";
+import { Renderer, UNFLAT_RENDER_PRIORITY } from "../../core/Renderer/Renderer";
 import { Direction, Point } from "../../core/types/Base";
 import { Human } from "../character/Human";
 import {
@@ -155,7 +155,7 @@ export class NetworkController {
         const move = (nextPos: Point, user: UserData) => {
             user.character.setPosition(nextPos);
             user.currentMoving = Direction.down;
-            this._renderer.updateOne(user.character);
+            this._renderer.updateUnflatOne(user.character, UNFLAT_RENDER_PRIORITY.CHARACTER);
             this._nameTagger.moveNameTag(user.character);
 
             this.afterMove(this);
@@ -164,7 +164,7 @@ export class NetworkController {
                 user.currentMoving = null;
                 if (user.currentMovingTimeout !== null) clearTimeout(user.currentMovingTimeout);
                 user.character.stop();
-                setTimeout(() => this._renderer.updateOne(user.character), 0);
+                setTimeout(() => this._renderer.updateUnflatOne(user.character, UNFLAT_RENDER_PRIORITY.CHARACTER), 0);
             }, 100);
         };
 
@@ -190,7 +190,7 @@ export class NetworkController {
 
         this._characterMap.set(user.user.id, user);
         this._world.addCharacter(user.character);
-        this._renderer.drawUnflatObject(user.character);
+        this._renderer.drawUnflatObject(user.character, UNFLAT_RENDER_PRIORITY.CHARACTER);
         this._nameTagger.addNameTag(user.character, user.user.nickname);
     }
 

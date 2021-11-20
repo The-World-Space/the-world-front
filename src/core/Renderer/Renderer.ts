@@ -12,6 +12,12 @@ import { World } from "../World/World";
 export const PIXELSIZE = 32;
 export const MOVING_MS = 100;
 
+export enum UNFLAT_RENDER_PRIORITY {
+    WALL,
+    CHARACTER,
+}
+export const UNFLAT_RENDER_KIND_LENGTH = Object.keys(UNFLAT_RENDER_PRIORITY).length;
+
 
 export class Renderer {
     private _world: World;
@@ -149,7 +155,8 @@ export class Renderer {
 
     private _drawAll() {
         this.drawEffects();
-        this._drawWalls();
+        this.drawWalls();
+        this.drawCharacters();
         this.drawFloors();
     }
 
@@ -198,9 +205,7 @@ export class Renderer {
     }
 
 
-    drawUnflatObject(object: GameObject) {
-        const isCharacter = object instanceof Character;
-
+    drawUnflatObject(object: GameObject, priority: number) {
         const applyDom = (dom: HTMLElement, object: GameObject) => {
             this._wallDom.appendChild(dom);
             this._ObjectDomMap.set(object, dom);
@@ -210,7 +215,7 @@ export class Renderer {
 
         const drawAsIframe = (shape: DomShape<any>, object: GameObject) => {
             const dom = Renderer.styleDom(shape.getDom(), object, true);
-            dom.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
+            dom.style.zIndex = `${UNFLAT_RENDER_KIND_LENGTH * object.getPosition().y - priority}`;
 
             applyDom(dom, object);
         }
@@ -218,7 +223,7 @@ export class Renderer {
         const drawAsImage = (shape: ImageShape, object: GameObject) => {
             const img = Renderer.styleDom(document.createElement('img'), object, true);
             img.src = shape.getImageUrl();
-            img.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
+            img.style.zIndex = `${UNFLAT_RENDER_KIND_LENGTH * object.getPosition().y - priority}`;
 
             applyDom(img, object);
         }
@@ -237,23 +242,16 @@ export class Renderer {
     }
 
 
-    drawUnflatObjects(objects: GameObject[]) {
+    drawUnflatObjects(objects: GameObject[], priority: number) {
         for (const object of objects) {
-            this.drawUnflatObject(object);
+            this.drawUnflatObject(object, priority);
         }
     }
 
 
-
-    updateOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
-        dom = dom || this._ObjectDomMap.get(object);
-        
-        const isCharacter = object instanceof Character;
-        const isUnflat = object instanceof Wall || object instanceof Character
-        
+    private updateOne(object: GameObject, isUnflat: boolean, dom: HTMLElement | HTMLImageElement) {
         const updateAsIframe = (shape: DomShape<any>, object: GameObject, dom: HTMLElement) => {
             Renderer.styleDom(dom, object, isUnflat);
-            dom.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
         }
         
         const updateAsImage = (shape: ImageShape, object: GameObject, dom: HTMLImageElement) => {
@@ -261,7 +259,6 @@ export class Renderer {
             if (dom.src !== new URL(shape.getImageUrl(), document.baseURI).href) {
                 dom.src = shape.getImageUrl();
             }
-            dom.style.zIndex = `${2 * object.getPosition().y - (isCharacter ? 1 : 0)}`;
         }
 
         if (dom) {
@@ -280,6 +277,22 @@ export class Renderer {
         else {
             throw new Error('Object not found');
         }
+    }
+
+
+    updateUnflatOne(object: GameObject, priority: number, dom?: HTMLElement | HTMLImageElement) {
+        dom = dom || this._ObjectDomMap.get(object);
+        if (!dom) throw Error('Object not found');
+
+        this.updateOne(object, true, dom);
+        dom.style.zIndex = `${UNFLAT_RENDER_KIND_LENGTH * object.getPosition().y - priority}`;
+    }
+
+    updateFlatOne(object: GameObject, dom?: HTMLElement | HTMLImageElement) {
+        dom = dom || this._ObjectDomMap.get(object);
+        if (!dom) throw Error('Object not found');
+
+        this.updateOne(object, false, dom);
     }
 
 
@@ -324,15 +337,15 @@ export class Renderer {
     }
 
 
-    _drawWalls() {
-        this.drawUnflatObjects(this._world.getMap().getWalls());
+    drawWalls() {
+        this.drawUnflatObjects(this._world.getMap().getWalls(), UNFLAT_RENDER_PRIORITY.WALL);
     }
 
-    update() {
-        for (const object of this._ObjectDomMap.keys()) {
-            this.updateOne(object);
-        }
+
+    drawCharacters() {
+        this.drawUnflatObjects(this._world.getCharacters(), UNFLAT_RENDER_PRIORITY.CHARACTER);
     }
+
 
     getWrapperDom() {
         return this._wrapperDom;

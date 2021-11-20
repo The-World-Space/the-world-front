@@ -60,10 +60,6 @@ export async function loadWorld(worldId: string, apolloClient: ApolloClient<any>
     const width = Math.max(...serverObjects.map(o => o.x + o.width), 48);
     const height = Math.max(...serverObjects.map(o => o.y + o.height), 28);
 
-    //@ts-ignore
-    globalThis.debug_world = serverObjects;
-    console.debug(serverObjects);
-
     const world = new World({width, height});
     const worldMap = world.getMap();
 
