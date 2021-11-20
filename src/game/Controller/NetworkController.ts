@@ -1,23 +1,10 @@
-import { Character } from "../../core/Character/Character";
-import { Physics } from "../../core/Physics/Physics";
 import { Renderer, UNFLAT_RENDER_PRIORITY } from "../../core/Renderer/Renderer";
 import { Direction, Point } from "../../core/types/Base";
 import { Human } from "../character/Human";
 import {
-    ApolloLink,
-    Operation,
-    FetchResult,
-    Observable,
-} from "@apollo/client/core";
-import {
     ApolloClient,
-    ApolloProvider,
-    InMemoryCache,
     gql
 } from "@apollo/client";
-import { print } from "graphql";
-import { createClient, ClientOptions, Client } from "graphql-ws";
-import { JWT_KEY } from "../../context/consts";
 import { World } from "../../core/World/World";
 import { ImageShape } from "../../core/types/Shape/ImageShape";
 import { NameTagger } from "../character/NameTager";

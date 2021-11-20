@@ -1,12 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import {
     ApolloClient,
-    ApolloProvider,
     gql
 } from "@apollo/client";
-import { Effect } from "../core/Map/Objects/Effect";
 import { Floor } from "../core/Map/Objects/Floor";
-import { Wall } from "../core/Map/Objects/Wall";
 import { Renderer } from "../core/Renderer/Renderer";
 import { Direction } from "../core/types/Base";
 import { ImageShape } from "../core/types/Shape/ImageShape";
@@ -17,7 +14,6 @@ import { NetworkController } from "../game/Controller/NetworkController";
 import useUser from "../hooks/useUser";
 import { useParams } from "react-router";
 import { KeyboardController } from "../game/Controller/KeyboardContoller";
-import { IframeShape } from "../core/types/Shape/IframeShape";
 import { loadWorld } from "../game/connect/loadWorld";
 import { globalApolloClient } from "../game/connect/gql";
 import styled from "styled-components";
@@ -260,7 +256,6 @@ function WorldPage() {
     const { worldId } = useParams<{worldId: string}>();
     let networkController; 
     let controller: KeyboardController;
-    let _LoadedWorld;
     
     
     useEffect(() => {

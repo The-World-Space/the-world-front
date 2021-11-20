@@ -1,7 +1,7 @@
 
 import { ApolloClient, gql } from '@apollo/client';
 import * as Penpal from 'penpal';
-import { Broadcaster, IframeBroadcasterPortMapping, Field, IframeFieldPortMapping, GlobalField, IframeGameObject } from '../connect/types';
+import { Broadcaster, IframeBroadcasterPortMapping, Field, IframeFieldPortMapping, IframeGameObject } from '../connect/types';
 
 
 interface Child {

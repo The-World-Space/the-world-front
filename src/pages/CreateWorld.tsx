@@ -3,7 +3,6 @@ import { useState } from "react";
 import NavTemplate from "../components/templates/NavTemplate";
 import {
     useHistory,
-    Link
 } from 'react-router-dom';
 import twLogo1 from '../components/atoms/tw logo 1.svg';
 import styled from "styled-components";

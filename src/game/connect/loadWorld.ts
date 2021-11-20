@@ -5,7 +5,6 @@ import { IframeWall, Wall } from "../../core/Map/Objects/Wall";
 import { Direction } from "../../core/types/Base";
 import { IframeShape } from "../../core/types/Shape/IframeShape";
 import { ImageShape } from "../../core/types/Shape/ImageShape";
-import { Shape } from "../../core/types/Shape/Shape";
 import { World } from "../../core/World/World";
 import { getWorld } from "./gql";
 import { physicsLineFactory } from "./physicsLineFactory";

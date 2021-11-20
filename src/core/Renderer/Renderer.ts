@@ -1,7 +1,5 @@
-import { Character } from "../Character/Character";
 import { Effect } from "../Map/Objects/Effect";
 import { Floor } from "../Map/Objects/Floor";
-import { Wall } from "../Map/Objects/Wall";
 import { Point } from "../types/Base";
 import { GameObject } from "../types/GameObject";
 import { DomShape } from "../types/Shape/DomShape";

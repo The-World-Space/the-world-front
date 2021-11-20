@@ -20,8 +20,6 @@ export interface WalkingSituation {
 }
 
 export function walkingAnimeFactory(args: WalkingAnimeArgs, character: Character<any>) {
-    const WALKING_DELAY = 400;
-    
     const standing: State<WalkingSituation> = new State({
         async action(manager) {
             character.setShape(

@@ -1,4 +1,4 @@
-import { Point, Size } from "../Base";
+import { Size } from "../Base";
 
 export abstract class Shape {
     private _size!: Size;

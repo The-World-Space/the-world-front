@@ -1,5 +1,5 @@
 import { Effect } from "../../core/Map/Objects/Effect";
-import { MOVING_MS, PIXELSIZE, Renderer, UNFLAT_RENDER_PRIORITY } from "../../core/Renderer/Renderer";
+import { MOVING_MS, PIXELSIZE, Renderer } from "../../core/Renderer/Renderer";
 import { Point } from "../../core/types/Base";
 import { DomShape } from "../../core/types/Shape/DomShape";
 import { Human } from "./Human";

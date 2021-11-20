@@ -1,4 +1,3 @@
-import { Character } from "../../core/Character/Character";
 import { Physics } from "../../core/Physics/Physics";
 import { Renderer, UNFLAT_RENDER_PRIORITY } from "../../core/Renderer/Renderer";
 import { Direction } from "../../core/types/Base";

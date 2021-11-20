@@ -7,7 +7,6 @@ import {
 } from "@apollo/client/core";
 import {
     ApolloClient,
-    ApolloProvider,
     InMemoryCache,
     gql
 } from "@apollo/client";
