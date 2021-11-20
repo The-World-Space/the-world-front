@@ -286,7 +286,7 @@ function IngameInterface({ apolloClient }: PropsType) {
     const [barOpened, setBarOpened] = useState(false);
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState('');
-    const [chatting, setChatting] = useState<chatMessage[]>([]);
+    const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
     const ref = useRef<HTMLDivElement>(null);
 
     function expandBarToggle() {
@@ -313,8 +313,8 @@ function IngameInterface({ apolloClient }: PropsType) {
             setChatting(
                 lastState => 
                     lastState.length > 100 
-                      ? [...lastState.slice(1), data] 
-                      : [...lastState, data]);
+                      ? [...lastState.slice(1), {...data, key: performance.now()}] 
+                      : [...lastState, {...data, key: performance.now()}]);
             if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
         }, apolloClient);
     }, [])
@@ -349,7 +349,7 @@ function IngameInterface({ apolloClient }: PropsType) {
             <ChatDiv style={chatOpened ? {} : {transform: 'translateX(339px)'}}>
                 <ChatContentDiv ref={ref}>
                     {chatting.map((data, index) => (
-                        <p key={data.message}>
+                        <p key={data.key}>
                             {data.user.nickname}: {data.message}
                         </p>
                     ))}
