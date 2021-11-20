@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Background from "../molecules/Background";
+import Background from "../atoms/Background";
 import NavigationBar from "../organisms/NavigationBar";
 
 const MainDiv = styled.div`
