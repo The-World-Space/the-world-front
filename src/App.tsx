@@ -16,7 +16,7 @@ import CreateWorld from './pages/CreateWorld';
 import MyPage from './pages/MyPage';
 import MyWorldList from './pages/MyWorldList';
 import IngameInterface from './components/organisms/IngameInterface';
-import Game from './pages/Game';
+import GamePage from './pages/GamePage';
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         <Route path="/createworld" component={CreateWorld} />
         <Route path="/mypage" component={MyPage} />
         <Route path="/interfacetest" component={IngameInterface} />
-        <Route path="/game" component={Game} />
+        <Route path="/game" component={GamePage} />
         <Route path="*" component={Notfound} />
       </Switch>
     </Router>
