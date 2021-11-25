@@ -1,9 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame } from 'react-three-fiber';
-import THREE, { Object3D } from 'three';
-
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
-import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
+import { useEffect } from 'react';
 import Game from '../game/Game';
 
 function GamePage() {
