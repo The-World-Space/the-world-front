@@ -24,6 +24,10 @@ class Game {
     }
 
     public resizeFramebuffer(width: number, height: number) {   
+        this.camera.left = width / - 2;
+        this.camera.right = width / 2;
+        this.camera.top = height / 2;
+        this.camera.bottom = height / - 2;
 		//this.camera = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(width, height);
