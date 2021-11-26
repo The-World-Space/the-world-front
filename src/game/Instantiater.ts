@@ -14,7 +14,7 @@ export class Instantiater {
      * @param name 
      * @returns 
      */
-     public createGameObject(name: string): GameObject;
+    public createGameObject(name: string): GameObject;
 
     /**
      * create a new GameObject with the given name and add it to the root scene
@@ -22,7 +22,7 @@ export class Instantiater {
      * @param localPosition
      * @returns 
      */
-     public createGameObject(name: string, localPosition?: Vector3): GameObject;
+    public createGameObject(name: string, localPosition?: Vector3): GameObject;
 
     /**
      * create a new GameObject with the given name and add it to the root scene
@@ -31,7 +31,7 @@ export class Instantiater {
      * @param localRotation
      * @returns 
      */
-     public createGameObject(name: string, localPosition?: Vector3, localRotation?: Quaternion): GameObject;
+    public createGameObject(name: string, localPosition?: Vector3, localRotation?: Quaternion): GameObject;
 
     /**
      * create a new GameObject with the given name and add it to the root scene
@@ -59,7 +59,7 @@ export class Instantiater {
      * @param name
      * @returns
      */
-     public buildGameObject(name: string): GameObjectBuilder;
+    public buildGameObject(name: string): GameObjectBuilder;
 
     /**
      * create a new GameObject with the given name and add it to the root scene by use builder
@@ -67,7 +67,7 @@ export class Instantiater {
      * @param localPosition
      * @returns
      */
-     public buildGameObject(name: string, localPosition?: Vector3): GameObjectBuilder;
+    public buildGameObject(name: string, localPosition?: Vector3): GameObjectBuilder;
 
     /**
      * create a new GameObject with the given name and add it to the root scene by use builder
@@ -76,7 +76,7 @@ export class Instantiater {
      * @param localRotation
      * @returns
      */
-     public buildGameObject(name: string, localPosition?: Vector3, localRotation?: Quaternion): GameObjectBuilder;
+    public buildGameObject(name: string, localPosition?: Vector3, localRotation?: Quaternion): GameObjectBuilder;
 
     /**
      * create a new GameObject with the given name and add it to the root scene by use builder

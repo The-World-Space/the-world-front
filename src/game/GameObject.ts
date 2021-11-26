@@ -16,6 +16,13 @@ export class GameObject extends Object3D {
 
     public addComponent(componentCtor: ComponentConstructor) {
         const component = new componentCtor(this);
+        if (component.disallowMultipleComponent) {
+            const existingComponent = this.getComponent(componentCtor);
+            if (existingComponent) {
+                console.warn(`Component ${componentCtor.name} already exists on GameObject ${this.name}`);
+                return;
+            }
+        }
         let pushedAtIteration = false;
         for (let i = 0; i < this._components.length; i++) {
             if (this._components[i] === null) {
@@ -25,6 +32,8 @@ export class GameObject extends Object3D {
             }
         }
         if (!pushedAtIteration) this._components.push(component);
+
+        component.enabled = true; //start component
     }
 
     public getComponents(): Component[] {
@@ -32,10 +41,26 @@ export class GameObject extends Object3D {
     }
 
     public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>): T | null {
-        for (const c of this._components) {
-            if (c instanceof componentCtor) return c;
+        for (const component of this._components) {
+            if (component instanceof componentCtor) return component;
         }
         return null;
+    }
+
+    public foreachComponent(callback: (component: Component) => void): void {
+        for (const component of this._components) {
+            if (component) callback(component);
+        }
+    }
+
+    public removeComponent(component: Component): void {
+        for (let i = 0; i < this._components.length; i++) {
+            if (this._components[i] === component) {
+                component.onDestroy();
+                this._components[i] = null;
+                break;
+            }
+        }
     }
     
     public update() {
@@ -47,19 +72,19 @@ export class GameObject extends Object3D {
 
     public destroy() {
         for (const component of this._components) {
-            component?.destroy();
+            component?.onDestroy();
         }
         this.parent = null;
     }
 
-    get gameManager(): GameManager {
+    public get gameManager(): GameManager {
         return this._gameManager;
     }
 
     public static readonly Builder = class Builder{
-        private readonly gameObject: GameObject;
-        private readonly children: Builder[];
-        private readonly componentInitializeFuncList: (() => void)[];
+        private readonly _gameObject: GameObject;
+        private readonly _children: Builder[];
+        private readonly _componentInitializeFuncList: (() => void)[];
 
         public constructor(gameManager: GameManager, name: string);
 
@@ -70,43 +95,55 @@ export class GameObject extends Object3D {
         public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3);
 
         public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
-            this.gameObject = new GameObject(gameManager, name);
-            if (localPosition) this.gameObject.position.copy(localPosition);
-            if (localRotation) this.gameObject.quaternion.copy(localRotation);
-            if (localScale) this.gameObject.scale.copy(localScale);
-            this.children = [];
-            this.componentInitializeFuncList = [];
+            this._gameObject = new GameObject(gameManager, name);
+            if (localPosition) this._gameObject.position.copy(localPosition);
+            if (localRotation) this._gameObject.quaternion.copy(localRotation);
+            if (localScale) this._gameObject.scale.copy(localScale);
+            this._children = [];
+            this._componentInitializeFuncList = [];
         }
 
         public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): Builder;
+
+        public withComponent<T extends Component>(
+            componentCtor: ComponentConstructor<T>,
+            componentInitializeFunc?: (component: T) => void
+        ): Builder;
     
         public withComponent<T extends Component>(
             componentCtor: ComponentConstructor<T>,
             componentInitializeFunc?: (component: T) => void
         ): Builder {
-            const component = new componentCtor(this.gameObject);
-            this.gameObject._components.push(component);
+            const component = new componentCtor(this._gameObject);
+            if (component.disallowMultipleComponent) {
+                const existingComponent = this._gameObject.getComponent(componentCtor);
+                if (existingComponent) {
+                    console.warn(`Component ${componentCtor.name} already exists on GameObject ${this._gameObject.name}`);
+                    return this;
+                }
+            }
+            this._gameObject._components.push(component);
             if (componentInitializeFunc) {
-                this.componentInitializeFuncList.push(() => componentInitializeFunc(component));
+                this._componentInitializeFuncList.push(() => componentInitializeFunc(component));
             }
             return this;
         }
 
         public withChild(child: Builder): Builder {
-            this.children.push(child);
+            this._children.push(child);
             return this;
         }
 
         public build(): GameObject {
-            for (const child of this.children) this.gameObject.add(child.build());
-            return this.gameObject;
+            for (const child of this._children) this._gameObject.add(child.build());
+            return this._gameObject;
         }
 
         public initialize(): void {
-            for (const componentInitializeFunc of this.componentInitializeFuncList) {
+            for (const componentInitializeFunc of this._componentInitializeFuncList) {
                 componentInitializeFunc();
             }
-            for (const child of this.children) child.initialize();
+            for (const child of this._children) child.initialize();
         }
     }
 }

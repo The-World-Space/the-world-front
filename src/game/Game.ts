@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { Bootstrapper } from "./bootstrap/Bootstrapper";
 import { GameManager } from "./GameManager";
+import { GameObject } from "./GameObject";
 import { SceneProcessor } from "./SceneProcessor";
 import { Time } from "./Time";
 
@@ -43,6 +45,19 @@ export class Game {
 
     public run(): void {
         this._clock.start();
+        const sceneBuilder = Bootstrapper.run(this._rootScene, this._gameManager);
+        sceneBuilder.build();
+        sceneBuilder.initialize();
+        this._rootScene.traverse(child => {
+            if (child instanceof GameObject) {
+                child.foreachComponent(component => {
+                    if (component.enabled) component.enabled = true; //start component
+                });
+            }
+        });
+        SceneProcessor.run(this._rootScene);
+        this._time.deltaTime = this._clock.getDelta();
+        this._renderer.render(this._rootScene, this._camera);
         this.loop();
     }
 
