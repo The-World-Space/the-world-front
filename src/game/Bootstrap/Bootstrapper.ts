@@ -6,7 +6,7 @@ import { GameManager } from "../GameManager";
 import { SceneBuilder } from "./SceneBuilder";
 
 export class Bootstrapper {
-    static run(scene: THREE.Scene, gameManager: GameManager): SceneBuilder {
+    public static run(scene: THREE.Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
         const camera = gameManager.camera;
 
