@@ -74,6 +74,9 @@ export class GameObject extends Object3D {
         for (const component of this._components) {
             component?.onDestroy();
         }
+        this.children.forEach(child => {
+            if (child instanceof GameObject) child.destroy();
+        });
         this.parent = null;
     }
 

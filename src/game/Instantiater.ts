@@ -46,6 +46,21 @@ export class Instantiater {
         localPosition?: Vector3,
         localRotation?: Quaternion,
         localScale?: Vector3
+    ): GameObject;
+
+    /**
+     * create a new GameObject with the given name and add it to the root scene
+     * @param name 
+     * @param localPosition
+     * @param localRotation
+     * @param localScale
+     * @returns 
+     */
+    public createGameObject(
+        name: string,
+        localPosition?: Vector3,
+        localRotation?: Quaternion,
+        localScale?: Vector3
     ): GameObject {
         const gameObject = new GameObject(this._gameManager, name);
         if (localPosition) gameObject.position.copy(localPosition);
@@ -77,6 +92,20 @@ export class Instantiater {
      * @returns
      */
     public buildGameObject(name: string, localPosition?: Vector3, localRotation?: Quaternion): GameObjectBuilder;
+
+    /**
+     * create a new GameObject with the given name and add it to the root scene by use builder
+     * @param name
+     * @param localPosition
+     * @param localRotation
+     * @param localScale
+     * @returns
+     */
+    public buildGameObject(
+        name: string,
+        localPosition?: Vector3,
+        localRotation?: Quaternion,
+        localScale?: Vector3): GameObjectBuilder;
 
     /**
      * create a new GameObject with the given name and add it to the root scene by use builder

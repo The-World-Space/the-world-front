@@ -15,16 +15,22 @@ export class Game {
     private readonly _gameManager: GameManager;
     private _animationFrameId: number | null;
 
+    private static readonly _cameraViewSize = 200;
+
     public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
         this._rootScene = new THREE.Scene();
+
+        const aspectRatio = screenWidth / screenHeight;
+        const viewSizeScalar = Game._cameraViewSize * 0.5;
         this._camera = new THREE.OrthographicCamera(
-            screenWidth / - 2,
-            screenWidth / 2,
-            screenHeight / 2,
-            screenHeight / - 2,
-            1,
+            -viewSizeScalar * aspectRatio,
+            viewSizeScalar * aspectRatio,
+            viewSizeScalar,
+            -viewSizeScalar,
+            0.1,
             1000
         );
+
         this._renderer = new CSS3DRenderer();
         this._renderer.setSize(screenWidth, screenHeight);
         this._clock = new THREE.Clock();
@@ -35,12 +41,20 @@ export class Game {
     }
 
     public resizeFramebuffer(width: number, height: number): void {   
-        this._camera.left = width / - 2;
-        this._camera.right = width / 2;
-        this._camera.top = height / 2;
-        this._camera.bottom = height / - 2;
-        this._camera.updateProjectionMatrix();
+        Game.setCameraViewFrustum(this._camera, width, height);
         this._renderer.setSize(width, height);
+    }
+
+    private static setCameraViewFrustum(camera: THREE.OrthographicCamera, width: number, height: number): void {
+        const aspectRatio = width / height;
+        const viewSizeScalar = Game._cameraViewSize * 0.5;
+        camera.left = -viewSizeScalar * aspectRatio;
+        camera.right = viewSizeScalar * aspectRatio;
+        camera.top = viewSizeScalar;
+        camera.bottom = -viewSizeScalar;
+        camera.near = 0.1;
+        camera.far = 1000;
+        camera.updateProjectionMatrix();
     }
 
     public run(): void {
@@ -71,5 +85,8 @@ export class Game {
     public dispose(): void {
         if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
         this._gameManager.dispose();
+        this._rootScene.children.forEach(child => {
+            if (child instanceof GameObject) child.destroy();
+        });
     }
 }
