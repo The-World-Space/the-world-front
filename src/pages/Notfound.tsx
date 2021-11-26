@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
     Link
 } from 'react-router-dom'
@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { ReactComponent as Error404 } from '../components/atoms/Error404.svg';
 
 
-interface Circle {
+interface ICircle {
     x: number;
     y: number;
     r: number;
@@ -20,7 +20,7 @@ interface XY {
 const circleColors = ['B55FDD', '7997FF', '5AB0FF', 'AFF876', 'F8FB67', 'FA9F5D', 'F46969'];
 
 function genCircles(startColor: number) {
-    const circles: Circle[] = [];
+    const circles: ICircle[] = [];
 
     let position = 0;
     let i = 0;
@@ -73,7 +73,7 @@ const Centerer = styled.div`
     flex-direction: column;
 `;
 
-function Circle({ x, y, r, color }: Circle) {
+function Circle({ x, y, r, color }: ICircle) {
     return (
         <div style={{
             position: 'absolute',
@@ -93,7 +93,7 @@ function CircleContainer() {
     const startColor = Math.floor(Math.random() * circleColors.length);
     const [circles, setCircles] = useState(() => genCircles(startColor));
     
-    const [randoms, setRandoms] = useState<XY[]>(() => (
+    const [randoms/*, setRandoms*/] = useState<XY[]>(() => (
         new Array(10000).fill(null).map(() => ({x:Math.random()*40 - 20, y:Math.random()*40 - 20})) as unknown as XY[]
     ));
 
@@ -104,7 +104,7 @@ function CircleContainer() {
 
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
-    }, []);
+    }, [startColor]);
 
     return (
         <RelativeDiv>

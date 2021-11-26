@@ -1,4 +1,3 @@
-
 import { ApolloClient, gql } from '@apollo/client';
 import * as Penpal from 'penpal';
 import { Broadcaster, IframeBroadcasterPortMapping, Field, IframeFieldPortMapping, IframeGameObject } from '../connect/types';
@@ -232,7 +231,7 @@ export class IframeCommunicator {
                         this.child.createField({ id: internalId, value: portMapping.field.value });
                     }
                 }
-                for(const [internalId, _] of this.internalFieldIdToFieldMap) {
+                for(const [internalId/*, _*/] of this.internalFieldIdToFieldMap) {
                     if(!existInternalIds.has(internalId)) {
                         this.internalFieldIdToFieldMap.delete(internalId);
                         this.child.deleteField(internalId);
@@ -268,7 +267,7 @@ export class IframeCommunicator {
                         this.child.createBroadcaster({ id: internalId });
                     }
                 }
-                for(const [internalId, _] of this.internalBroadcasterIdToBroadcasterMap) {
+                for(const [internalId/*, _*/] of this.internalBroadcasterIdToBroadcasterMap) {
                     if(!existInternalIds.has(internalId)) {
                         this.internalBroadcasterIdToBroadcasterMap.delete(internalId);
                         this.child.deleteBroadcaster(internalId);

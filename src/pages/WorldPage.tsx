@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
     ApolloClient,
     gql
@@ -254,12 +254,12 @@ function WorldPage() {
     const ref = useRef<HTMLDivElement>(null);
     const user = useUser();
     const { worldId } = useParams<{worldId: string}>();
-    let networkController; 
-    let controller: KeyboardController;
-    let _renderer: Renderer;
-    
     
     useEffect(() => {
+        let networkController; 
+        let controller: KeyboardController;
+        let _renderer: Renderer;
+        
         if (!user) return;
         (async function(){
             const loadedWorld = await loadWorld(worldId, globalApolloClient)
@@ -277,6 +277,7 @@ function WorldPage() {
             renderer.getWrapperDom().focus();
             controller.getNameTagger().changeName(character, user.nickname);
             
+            // eslint-disable-next-line
             networkController = 
                 new NetworkController(
                     renderer, 
@@ -298,7 +299,7 @@ function WorldPage() {
             if (controller) controller.remove();
             if (_renderer) _renderer.remove();
         }
-    }, [ref, user]);
+    }, [ref, user, worldId]);
 
     return (
         <Wrapper>

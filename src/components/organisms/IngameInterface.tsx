@@ -1,8 +1,7 @@
-import Context from "../../context";
 import {
     Link,
 } from 'react-router-dom';
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from '../atoms/tw logo 2 black.svg';
 import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
@@ -12,7 +11,7 @@ import TrashcanIcon from '../atoms/TrashcanIcon.svg';
 import ChatIcon from '../atoms/ChatIcon.svg';
 import SendButtonIcon from '../atoms/SendButtonIcon.svg';
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
-import { ApolloClient, FetchResult, gql } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client";
 import { useParams } from "react-router";
 
 const OuterDiv = styled.div`
@@ -317,7 +316,7 @@ function IngameInterface({ apolloClient }: PropsType) {
                       : [...lastState, {...data, key: performance.now()}]);
             if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
         }, apolloClient);
-    }, [])
+    }, [apolloClient, worldId])
 
     return (
         <OuterDiv>
@@ -325,10 +324,10 @@ function IngameInterface({ apolloClient }: PropsType) {
                 <Link to="/">
                     <LogoImage src={twLogo2Black} />
                 </Link>
-                {/* <BarDivider/>
+                <BarDivider/>
                 <MenuButtonImage src={VariableBtnIcon} />
                 <MenuButtonImage src={ChannelBtnIcon} />
-                <CountIndicatorDiv>5/10</CountIndicatorDiv> */}
+                <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <ExpandBarDiv style={barOpened ? {} : {right: '350px'}}>
                 <ListContainer>
@@ -337,9 +336,9 @@ function IngameInterface({ apolloClient }: PropsType) {
                             여기는 아직 작성중 입니다!!!
                         </ListItemInner>
                     </ListItem>
-                    {/* <ListItem>
+                    <ListItem>
                         <ListItemInner/>
-                    </ListItem> */}
+                    </ListItem>
                 </ListContainer>
                 <TrashCanButton/>
             </ExpandBarDiv>
