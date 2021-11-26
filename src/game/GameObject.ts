@@ -1,12 +1,17 @@
 import { Object3D, Quaternion, Vector3 } from "three";
 import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
+import { GameManager } from "./GameManager";
 
 export class GameObject extends Object3D {
-    private _components: (Component|null)[] = [];
+    private _gameManager: GameManager;
+    private _components: (Component|null)[];
 
-    public constructor() {
+    public constructor(gameManager: GameManager, name: string) {
         super();
+        this._gameManager = gameManager;
+        this._components = [];
+        this.name = name;
     }
 
     public addComponent(componentCtor: ComponentConstructor) {
@@ -47,19 +52,25 @@ export class GameObject extends Object3D {
         this.parent = null;
     }
 
-    public static readonly GameObjectBuilder = class GameObjectBuilder{
+    get gameManager(): GameManager {
+        return this._gameManager;
+    }
+
+    public static readonly Builder = class Builder{
         private readonly gameObject: GameObject;
-        private readonly children: GameObjectBuilder[];
+        private readonly children: Builder[];
         private readonly componentInitializeFuncList: (() => void)[];
 
-        public constructor();
+        public constructor(gameManager: GameManager, name: string);
 
-        public constructor(localPosition?: Vector3);
+        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3);
 
-        public constructor(localPosition?: Vector3, localRotation?: Quaternion);
-        
-        public constructor(localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
-            this.gameObject = new GameObject();
+        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion);
+
+        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3);
+
+        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
+            this.gameObject = new GameObject(gameManager, name);
             if (localPosition) this.gameObject.position.copy(localPosition);
             if (localRotation) this.gameObject.quaternion.copy(localRotation);
             if (localScale) this.gameObject.scale.copy(localScale);
@@ -67,12 +78,12 @@ export class GameObject extends Object3D {
             this.componentInitializeFuncList = [];
         }
 
-        public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): GameObjectBuilder;
+        public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): Builder;
     
         public withComponent<T extends Component>(
             componentCtor: ComponentConstructor<T>,
             componentInitializeFunc?: (component: T) => void
-        ): GameObjectBuilder {
+        ): Builder {
             const component = new componentCtor(this.gameObject);
             this.gameObject._components.push(component);
             if (componentInitializeFunc) {
@@ -81,9 +92,23 @@ export class GameObject extends Object3D {
             return this;
         }
 
-        public withChild(child: GameObject): GameObjectBuilder {
-            this.children.push(new GameObjectBuilder(child));
+        public withChild(child: Builder): Builder {
+            this.children.push(child);
             return this;
+        }
+
+        public build(): GameObject {
+            for (const child of this.children) this.gameObject.add(child.build());
+            return this.gameObject;
+        }
+
+        public initialize(): void {
+            for (const componentInitializeFunc of this.componentInitializeFuncList) {
+                componentInitializeFunc();
+            }
+            for (const child of this.children) child.initialize();
         }
     }
 }
+
+export type GameObjectBuilder = InstanceType<typeof GameObject.Builder>;
