@@ -1,15 +1,18 @@
 import * as THREE from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { GameManager } from "./GameManager";
+import { SceneProcessor } from "./SceneProcessor";
 
-class Game {
-    private readonly rootScene: THREE.Scene;
-    private readonly camera: THREE.OrthographicCamera;
-    private readonly renderer: CSS3DRenderer;
-    private animationFrameId: number | null;
+export class Game {
+    private readonly _rootScene: THREE.Scene;
+    private readonly _camera: THREE.OrthographicCamera;
+    private readonly _renderer: CSS3DRenderer;
+    private readonly _gameManager: GameManager;
+    private _animationFrameId: number | null;
 
     public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
-        this.rootScene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(
+        this._rootScene = new THREE.Scene();
+        this._camera = new THREE.OrthographicCamera(
             screenWidth / - 2,
             screenWidth / 2,
             screenHeight / 2,
@@ -17,29 +20,30 @@ class Game {
             1,
             1000
         );
-        this.renderer = new CSS3DRenderer();
-        this.renderer.setSize(screenWidth, screenHeight);
-        this.animationFrameId = null;
-        container.appendChild(this.renderer.domElement);
+        this._renderer = new CSS3DRenderer();
+        this._renderer.setSize(screenWidth, screenHeight);
+        this._gameManager = new GameManager(this._rootScene, this._camera);
+        this._animationFrameId = null;
+        container.appendChild(this._renderer.domElement);
     }
 
-    public resizeFramebuffer(width: number, height: number) {   
-        this.camera.left = width / - 2;
-        this.camera.right = width / 2;
-        this.camera.top = height / 2;
-        this.camera.bottom = height / - 2;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(width, height);
+    public resizeFramebuffer(width: number, height: number): void {   
+        this._camera.left = width / - 2;
+        this._camera.right = width / 2;
+        this._camera.top = height / 2;
+        this._camera.bottom = height / - 2;
+        this._camera.updateProjectionMatrix();
+        this._renderer.setSize(width, height);
     }
 
-    public run() {
-        this.animationFrameId = requestAnimationFrame(() => this.run());
-        this.renderer.render(this.rootScene, this.camera);
+    public run(): void {
+        this._animationFrameId = requestAnimationFrame(() => this.run());
+        SceneProcessor.run(this._rootScene);
+        this._renderer.render(this._rootScene, this._camera);
     }
 
-    public dispose() {
-        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+    public dispose(): void {
+        if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
+        this._gameManager.dispose();
     }
 }
-
-export default Game;
