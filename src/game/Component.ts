@@ -1,15 +1,15 @@
 import { GameObject } from "./GameObject";
 
 export abstract class Component {
-    public gameObject: GameObject;
+    protected gameObject: GameObject;
 
-    constructor(gameObject: GameObject) {
+    public constructor(gameObject: GameObject) {
         this.gameObject = gameObject;
     }
 
-    abstract start(): void;
+    public start(): void { }
 
-    abstract update(): void;
+    public update(): void { }
 
-    abstract destroy(): void;
+    public destroy(): void { }
 }
