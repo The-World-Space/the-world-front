@@ -1,4 +1,4 @@
-import { IReadonlyTime } from "./component/IReadonlyTime";
+import { IReadonlyTime } from "./IReadonlyTime";
 
 export class Time implements IReadonlyTime {
     private _deltaTime: number;

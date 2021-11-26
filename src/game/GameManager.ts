@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { IReadonlyTime } from "./component/IReadonlyTime";
+import { IReadonlyTime } from "./IReadonlyTime";
 import { InputHandler } from "./InputHandler";
 import { Instantiater } from "./Instantiater";
 import { Time } from "./Time";

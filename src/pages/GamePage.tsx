@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Game from '../game/Game';
+import { Game } from '../game/Game';
 
 function GamePage() {
     let game: Game | null = null;
