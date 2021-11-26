@@ -5,7 +5,7 @@ import { GameManager } from "./GameManager";
 
 export class GameObject extends Object3D {
     private _gameManager: GameManager;
-    private _components: (Component|null)[];
+    private _components: (Component|undefined)[];
 
     public constructor(gameManager: GameManager, name: string) {
         super();
@@ -57,7 +57,7 @@ export class GameObject extends Object3D {
         for (let i = 0; i < this._components.length; i++) {
             if (this._components[i] === component) {
                 component.onDestroy();
-                this._components[i] = null;
+                this._components[i] = undefined;
                 break;
             }
         }

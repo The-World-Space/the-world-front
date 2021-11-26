@@ -1,6 +1,5 @@
 import { Vector3 } from "three";
 import { CssSpriteRenderer } from "../component/CssSpriteRenderer";
-import { TestComponent } from "../component/TestComponent";
 import { ZaxisSorter } from "../component/ZaxisSorter";
 import { GameManager } from "../GameManager";
 import { SceneBuilder } from "./SceneBuilder";
@@ -14,14 +13,7 @@ export class Bootstrapper {
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildGameObject("obj1")
-                .withComponent(TestComponent, _ => {
-                    console.log("initialize");
-                })
-                .withComponent(TestComponent, _ => {
-                    console.log("initialize");
-                })
-                .withChild(instantlater.buildGameObject("obj1.1")
-                    .withComponent(TestComponent)))
+                .withChild(instantlater.buildGameObject("obj1.1")))
             .withChild(instantlater.buildGameObject("obj2", new Vector3(0, 0, 0))
                 .withComponent(CssSpriteRenderer)
                 .withComponent(ZaxisSorter))
