@@ -34,18 +34,37 @@ export class CssSpriteAtlasRenderer extends Component {
         if (!this._HTMLImageElement) {
             this._HTMLImageElement = document.createElement("img");
             this._HTMLImageElement.style.imageRendering = "pixelated";
-            this._HTMLImageElement.style.
         }
 
         this._HTMLImageElement.src = path;
 
-        this._HTMLImageElement.addEventListener("load", () => {
-            let a = this.width;
+        this._HTMLImageElement.addEventListener("load", e => {
+            const image = e.target as HTMLImageElement;
+            this._croppedImageWidth = image.naturalWidth / this._columnCount;
+            this._croppedImageHeight = image.naturalHeight / this._rowCount;
+            image.style.width = `${this._croppedImageWidth}px`;
+            image.style.height = `${this._croppedImageHeight}px`;
+            image.style.objectFit = "none";
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._HTMLImageElement as HTMLImageElement);
                 this._gameObject.add(this._sprite);
             }
+            this.updateImageByIndex();
         });
+    }
+
+    private updateImageByIndex(): void {
+        if (this._sprite) {
+            const width = -(this._currentImageIndex % this._columnCount * this._croppedImageWidth);
+            const height = -Math.floor(this._currentImageIndex / this._columnCount) * this._croppedImageHeight;
+            console.log(width, height);
+            this._sprite.element.style.objectPosition = `${width}px ${height}px`;
+        }
+    }
+
+    public set imageIndex(value: number) {
+        this._currentImageIndex = value;
+        this.updateImageByIndex();
     }
 
     public get rowCount(): number {

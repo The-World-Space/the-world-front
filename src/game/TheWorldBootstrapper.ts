@@ -1,4 +1,5 @@
 import { Vector3 } from "three";
+import { CssSpriteAtlasRenderer } from "./component/render/CssSpriteAtlasRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { SpriteAnimator } from "./component/render/SpriteAnimator";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
@@ -18,7 +19,11 @@ export class TheWorldBootstrapper implements IBootstrapper {
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildGameObject("obj1")
-                .withChild(instantlater.buildGameObject("obj1.1")))
+                .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
+                    .withComponent(CssSpriteAtlasRenderer, c => {
+                        c.setImage(`${process.env.PUBLIC_URL}/assets/Hyeonjong.png`, 4, 4);
+                        c.imageIndex = 5;
+                    })))
             .withChild(instantlater.buildGameObject("obj2", new Vector3(0, 0, 0))
                 .withComponent(CssSpriteRenderer)
                 .withComponent(SpriteAnimator)
