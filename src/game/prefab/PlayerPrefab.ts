@@ -19,6 +19,7 @@ export class PlayerPrefab extends Prefab {
 
         return this._gameObjectBuilder
             .withComponent(ZaxisSorter)
+            
             .withChild(instantlater.buildGameObject("player_sprite")
                 .withComponent(CssSpriteAtlasRenderer, c => {
                     c.setImage(this._spriteAtlasPath, 4, 4);

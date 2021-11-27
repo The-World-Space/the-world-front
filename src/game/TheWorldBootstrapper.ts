@@ -8,7 +8,7 @@ import { TestExectuer } from "./component/TestExectuer";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
-import { PlayerPrefab } from "./prefab/Player";
+import { PlayerPrefab } from "./prefab/PlayerPrefab";
 
 export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: THREE.Scene, gameManager: GameManager): SceneBuilder {

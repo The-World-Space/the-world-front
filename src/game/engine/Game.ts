@@ -13,6 +13,7 @@ export class Game {
     private readonly _clock: THREE.Clock;
     private readonly _time: Time;
     private readonly _gameManager: GameManager;
+    private readonly _container: HTMLElement;
     private _animationFrameId: number | null;
 
     private static readonly _cameraViewSize = 200;
@@ -31,6 +32,7 @@ export class Game {
             1000
         );
 
+        this._container = container;
         this._renderer = new CSS3DRenderer();
         this._renderer.setSize(screenWidth, screenHeight);
         this._clock = new THREE.Clock();
@@ -88,5 +90,6 @@ export class Game {
         this._rootScene.children.forEach(child => {
             if (child instanceof GameObject) child.destroy();
         });
+        this._container.removeChild(this._renderer.domElement);
     }
 }
