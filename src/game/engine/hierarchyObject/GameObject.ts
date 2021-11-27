@@ -4,14 +4,28 @@ import { ComponentConstructor } from "./ComponentConstructor";
 import { GameManager } from "../GameManager";
 
 export class GameObject extends Object3D {
+    private _activeInHierarchy: boolean;
+    private _activeSelf: boolean;
     private _gameManager: GameManager;
     private _components: (Component|null)[];
 
     public constructor(gameManager: GameManager, name: string) {
         super();
+        this._activeInHierarchy = false;
+        this._activeSelf = true;
         this._gameManager = gameManager;
         this._components = [];
         this.name = name;
+    }
+
+    public add(...object: Object3D[]): this {
+        super.add(...object);
+        for (const child of object) {
+            if (child instanceof GameObject) {
+                child.activeInHierarchy = this.activeInHierarchy;
+            }
+        }
+        return this;
     }
 
     public addComponent(componentCtor: ComponentConstructor): void {
@@ -87,10 +101,6 @@ export class GameObject extends Object3D {
         this.parent = null;
     }
 
-    public get gameManager(): GameManager {
-        return this._gameManager;
-    }
-
     private checkComponentRequirements(): void {
         let componentRemoved = false;
         for (const component of this._components) {
@@ -106,6 +116,32 @@ export class GameObject extends Object3D {
             }
         }
         if (componentRemoved) this.checkComponentRequirements();
+    }
+
+    public get gameManager(): GameManager {
+        return this._gameManager;
+    }
+
+    public get activeInHierarchy(): boolean {
+        return this._activeInHierarchy;
+    }
+
+    public set activeInHierarchy(value: boolean) {
+        this._activeInHierarchy = value;
+        this.children.forEach(child => {
+            if (child instanceof GameObject) child.activeInHierarchy = value;
+        });
+    }
+
+    public get activeSelf(): boolean {
+        return this._activeSelf;
+    }
+
+    public set activeSelf(value: boolean) {
+        this._activeSelf = value;
+        this.children.forEach(child => {
+            if (child instanceof GameObject) child.activeInHierarchy = value;
+        });
     }
 
     public static readonly Builder = class Builder{

@@ -4,53 +4,47 @@ import { Component } from "../../engine/hierarchyObject/Component";
 export class CssTilemapRenderer extends Component{
     protected readonly _disallowMultipleComponent: boolean = true;
 
-    // private _columnCount: number;
-    // private _rowCount: number;
-    // private _tileWidth: number;
-    // private _tileHeight: number;
-
+    private _columnCount: number = 10;
+    private _rowCount: number = 10;
+    private _tileWidth: number = 16;
+    private _tileHeight: number = 16;
     private _sprite: CSS3DObject|null = null;
+    private _htmlCanvasElement: HTMLCanvasElement|null = null;
+    private _imageSources: HTMLImageElement[]|null = null;
 
     protected start(): void { 
-
+        this.drawTileMap();
     }
 
     public onDestroy(): void {
-
+        if (this._sprite) this._gameObject.remove(this._sprite);
     }
 
     private drawTileMap(): void {
-        // const tileMapColumnCount = this.tileMapColumnCount;
-        // const tileMapRowCount = tileMap.rowCount;
-        // const tileWidth = tileMap.tileWidth;
-        // const tileHeight = tileMap.tileHeight;
-
-        // const sprite = new CSS3DObject(document.createElement("div"));
-        // sprite.position.x = -tileWidth * (tileMapColumnCount / 2);
-        // sprite.position.y = -tileHeight * (tileMapRowCount / 2);
-        // sprite.position.z = 0;
-        // sprite.scale.x = tileWidth;
-        // sprite.scale.y = tileHeight;
-        // sprite.scale.z = 1;
-
-        // const tileMapElement = sprite.element as HTMLElement;
-        // tileMapElement.style.width = `${tileMapColumnCount * tileWidth}px`;
-        // tileMapElement.style.height = `${tileMapRowCount * tileHeight}px`;
-        // tileMapElement.style.backgroundColor = "red";
-
-        // this._columnCount = tileMapColumnCount;
-        // this._rowCount = tileMapRowCount;
-        // this._tileWidth = tileWidth;
-        // this._tileHeight = tileHeight;
-
-        // this._sprite = sprite;
+        const tileMapWidth: number = this._columnCount * this._tileWidth;
+        const tileMapHeight: number = this._rowCount * this._tileHeight;
+        this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
+        this._htmlCanvasElement.width = tileMapWidth;
+        this._htmlCanvasElement.height = tileMapHeight;
+        this._sprite = new CSS3DObject(this._htmlCanvasElement);
+        this._gameObject.add(this._sprite);
     }
 
-    // public get columnCount(): number {
-    //     return this._columnCount;
-    // }
+    public drawTile(column: number, row: number, imageIndex: number): void {
+        const context: CanvasRenderingContext2D = this._htmlCanvasElement!.getContext("2d")!;
+        const imageSource: HTMLImageElement = this._imageSources![imageIndex];
+        context.drawImage(imageSource, column * this._tileWidth, row * this._tileHeight);
+    }
 
-    // public get rowCount(): number {
-    //     return this._rowCount;
-    // }
+    public set imageSources(value: HTMLImageElement[]) {
+        this._imageSources = value;
+    }
+
+    public get columnCount(): number {
+        return this._columnCount;
+    }
+
+    public get rowCount(): number {
+        return this._rowCount;
+    }
 }
