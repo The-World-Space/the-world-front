@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { Bootstrapper } from "./bootstrap/Bootstrapper";
+import { IBootstrapper } from "./bootstrap/IBootstrapper";
 import { GameManager } from "./GameManager";
-import { GameObject } from "./GameObject";
+import { GameObject } from "./hierarchyObject/GameObject";
 import { SceneProcessor } from "./SceneProcessor";
 import { Time } from "./Time";
 
@@ -57,9 +57,9 @@ export class Game {
         camera.updateProjectionMatrix();
     }
 
-    public run(): void {
+    public run(bootstrapper: IBootstrapper): void {
         this._clock.start();
-        const sceneBuilder = Bootstrapper.run(this._rootScene, this._gameManager);
+        const sceneBuilder = bootstrapper.run(this._rootScene, this._gameManager);
         sceneBuilder.build();
         sceneBuilder.initialize();
         this._rootScene.traverse(child => {

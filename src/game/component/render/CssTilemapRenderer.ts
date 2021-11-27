@@ -1,4 +1,4 @@
-import { Component } from "../Component";
+import { Component } from "../../engine/hierarchyObject/Component";
 
 export class CssTilemapRenderer extends Component{
     protected readonly _disallowMultipleComponent: boolean = true;

@@ -1,6 +1,6 @@
 import { Quaternion, Vector3 } from "three";
 import { GameManager } from "./GameManager";
-import { GameObject, GameObjectBuilder } from "./GameObject";
+import { GameObject, GameObjectBuilder } from "./hierarchyObject/GameObject";
 
 export class Instantiater {
     private readonly _gameManager: GameManager;

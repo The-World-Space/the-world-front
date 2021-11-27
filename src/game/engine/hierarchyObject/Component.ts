@@ -1,7 +1,10 @@
+import { ComponentConstructor } from "./ComponentConstructor";
+import { GameManager } from "../GameManager";
 import { GameObject } from "./GameObject";
 
 export abstract class Component {
     protected readonly _disallowMultipleComponent: boolean = false;
+    protected readonly _requiredComponents: ComponentConstructor[] = [];
 
     private _enabled: boolean;
     private _started: boolean;
@@ -31,7 +34,15 @@ export abstract class Component {
         }
     }
 
+    public get gameManager(): GameManager {
+        return this._gameObject.gameManager;
+    }
+
     public get disallowMultipleComponent(): boolean {
         return this._disallowMultipleComponent;
+    }
+
+    public get requiredComponents(): ComponentConstructor[] {
+        return this._requiredComponents;
     }
 }

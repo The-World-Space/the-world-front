@@ -1,4 +1,4 @@
-import { GameObject } from "./GameObject";
+import { GameObject } from "./hierarchyObject/GameObject";
 
 export class SceneProcessor {
     public static run(scene: THREE.Scene): void {

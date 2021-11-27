@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { Game } from '../game/Game';
+import { TheWorldBootstrapper } from '../game/TheWorldBootstrapper';
+import { Game } from '../game/engine/Game';
 
 function GamePage() {
     let game: Game | null = null;
@@ -23,7 +24,7 @@ function GamePage() {
             if (ref !== null) {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                game.run();
+                game.run(new TheWorldBootstrapper());
             }
         }}/>
     );

@@ -1,7 +1,7 @@
 import { Object3D, Quaternion, Vector3 } from "three";
 import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
-import { GameManager } from "./GameManager";
+import { GameManager } from "../GameManager";
 
 export class GameObject extends Object3D {
     private _gameManager: GameManager;
@@ -20,6 +20,13 @@ export class GameObject extends Object3D {
             const existingComponent = this.getComponent(componentCtor);
             if (existingComponent) {
                 console.warn(`Component ${componentCtor.name} already exists on GameObject ${this.name}`);
+                return;
+            }
+        }
+        for (const requiredComponentCtor of component.requiredComponents) {
+            const requiredComponent = this.getComponent(requiredComponentCtor);
+            if (!requiredComponent) {
+                console.warn(`Component ${requiredComponentCtor.name} is required by Component ${componentCtor.name} on GameObject ${this.name}`);
                 return;
             }
         }
@@ -84,6 +91,24 @@ export class GameObject extends Object3D {
         return this._gameManager;
     }
 
+    private checkComponentRequirements(): void {
+        let componentRemoved = false;
+        for (const component of this._components) {
+            if (component) {
+                for (const requiredComponentCtor of component.requiredComponents) {
+                    const requiredComponent = this.getComponent(requiredComponentCtor);
+                    if (!requiredComponent) {
+                        console.warn(`Component ${requiredComponentCtor.name} is required by Component ${component.constructor.name} on GameObject ${this.name}`);
+                        this.removeComponent(component);
+                        componentRemoved = true;
+                        return;
+                    }
+                }
+            }
+        }
+        if (componentRemoved) this.checkComponentRequirements();
+    }
+
     public static readonly Builder = class Builder{
         private readonly _gameObject: GameObject;
         private readonly _children: Builder[];
@@ -138,6 +163,7 @@ export class GameObject extends Object3D {
         }
 
         public build(): GameObject {
+            this._gameObject.checkComponentRequirements();
             for (const child of this._children) this._gameObject.add(child.build());
             return this._gameObject;
         }

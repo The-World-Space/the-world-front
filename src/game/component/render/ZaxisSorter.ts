@@ -1,4 +1,4 @@
-import { Component } from "../Component";
+import { Component } from "../../engine/hierarchyObject/Component";
 
 export class ZaxisSorter extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

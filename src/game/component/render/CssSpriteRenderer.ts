@@ -1,5 +1,5 @@
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { Component } from "../Component";
+import { Component } from "../../engine/hierarchyObject/Component";
 
 export class CssSpriteRenderer extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
@@ -32,4 +32,15 @@ export class CssSpriteRenderer extends Component {
     public get imagePath(): string {
         return this._imagePath;
     }
+
+    // public set htmlImageElement(value: HTMLImageElement|undefined) {
+    //     this._HTMLImageElement = value;
+    //     if (this._sprite && value) {
+    //         this._sprite.element = value;
+    //     }
+    // }
+
+    // public get htmlImageElement(): HTMLImageElement|undefined {
+    //     return this._HTMLImageElement;
+    // }
 }

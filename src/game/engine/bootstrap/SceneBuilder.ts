@@ -1,4 +1,4 @@
-import { GameObjectBuilder } from "../GameObject";
+import { GameObjectBuilder } from "../hierarchyObject/GameObject";
 
 export class SceneBuilder {
     private readonly _scene: THREE.Scene;
