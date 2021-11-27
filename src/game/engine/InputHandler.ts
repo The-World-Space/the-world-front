@@ -1,5 +1,4 @@
-import { IInputEventHandleable } from "./IInputEventhandleable";
-
+import { IInputEventHandleable } from "./IInputEventHandleable";
 
 export class InputHandler implements IInputEventHandleable {
     private _map: Map<string, boolean>;

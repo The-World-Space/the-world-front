@@ -3,7 +3,7 @@ import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { IBootstrapper } from "./bootstrap/IBootstrapper";
 import { GameManager } from "./GameManager";
 import { GameObject } from "./hierarchyObject/GameObject";
-import { IInputEventHandleable } from "./IInputEventhandleable";
+import { IInputEventHandleable } from "./IInputEventHandleable";
 import { SceneProcessor } from "./SceneProcessor";
 import { Time } from "./Time";
 
