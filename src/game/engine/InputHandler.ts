@@ -1,4 +1,6 @@
-export class InputHandler {
+import { IInputEventHandleable } from "./IInputEventhandleable";
+
+export class InputHandler implements IInputEventHandleable {
     private _map: Map<string, boolean>;
     private _isDisposed: boolean;
 

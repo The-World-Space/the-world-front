@@ -3,6 +3,7 @@ import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { IBootstrapper } from "./bootstrap/IBootstrapper";
 import { GameManager } from "./GameManager";
 import { GameObject } from "./hierarchyObject/GameObject";
+import { IInputEventHandleable } from "./IInputEventhandleable";
 import { SceneProcessor } from "./SceneProcessor";
 import { Time } from "./Time";
 
@@ -91,5 +92,9 @@ export class Game {
             if (child instanceof GameObject) child.destroy();
         });
         this._container.removeChild(this._renderer.domElement);
+    }
+
+    public get inputHandler(): IInputEventHandleable {
+        return this._gameManager.inputHandler;
     }
 }

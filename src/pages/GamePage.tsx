@@ -25,6 +25,7 @@ function GamePage() {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
                 game.run(new TheWorldBootstrapper());
+                game.inputHandler.startHandleEvents();
             }
         }}/>
     );
