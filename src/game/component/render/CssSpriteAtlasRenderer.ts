@@ -11,7 +11,7 @@ export class CssSpriteAtlasRenderer extends Component {
     private _croppedImageWidth: number = 0;
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
-    private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/default.png`;
+    private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
     protected start(): void {
         if (!this._HTMLImageElement) {

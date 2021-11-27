@@ -6,7 +6,7 @@ export class CssSpriteRenderer extends Component {
 
     private _sprite: CSS3DSprite|null = null;
     private _HTMLImageElement: HTMLImageElement|null = null;
-    private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/default.png`;
+    private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
     protected start(): void {
         if (!this._HTMLImageElement) {
