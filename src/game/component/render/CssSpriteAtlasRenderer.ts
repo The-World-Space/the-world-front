@@ -1,3 +1,4 @@
+import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchyObject/Component";
 
@@ -11,6 +12,7 @@ export class CssSpriteAtlasRenderer extends Component {
     private _croppedImageWidth: number = 0;
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
+    private _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
     protected start(): void {
@@ -38,19 +40,20 @@ export class CssSpriteAtlasRenderer extends Component {
 
         this._HTMLImageElement.src = path;
 
-        this._HTMLImageElement.addEventListener("load", e => {
+        this._HTMLImageElement.onload = e => {
             const image = e.target as HTMLImageElement;
             this._croppedImageWidth = image.naturalWidth / this._columnCount;
             this._croppedImageHeight = image.naturalHeight / this._rowCount;
             image.style.width = `${this._croppedImageWidth}px`;
             image.style.height = `${this._croppedImageHeight}px`;
             image.style.objectFit = "none";
+            image.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._HTMLImageElement as HTMLImageElement);
                 this._gameObject.add(this._sprite);
             }
             this.updateImageByIndex();
-        });
+        };
     }
 
     private updateImageByIndex(): void {
@@ -72,5 +75,16 @@ export class CssSpriteAtlasRenderer extends Component {
 
     public get columnCount(): number {
         return this._columnCount;
+    }
+
+    public get imageCenterOffset(): Vector2 {
+        return this._imageCenterOffset.clone();
+    }
+
+    public set imageCenterOffset(value: Vector2) {
+        this._imageCenterOffset.copy(value);
+        if (this._sprite) {
+            this._sprite.element.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
+        }
     }
 }

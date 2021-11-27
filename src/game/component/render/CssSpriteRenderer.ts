@@ -1,3 +1,4 @@
+import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchyObject/Component";
 
@@ -6,6 +7,7 @@ export class CssSpriteRenderer extends Component {
 
     private _sprite: CSS3DSprite|null = null;
     private _HTMLImageElement: HTMLImageElement|null = null;
+    private _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
     protected start(): void {
@@ -32,11 +34,23 @@ export class CssSpriteRenderer extends Component {
 
         this._HTMLImageElement.src = path;
 
-        this._HTMLImageElement.addEventListener("load", () => {
+        this._HTMLImageElement.onload = () => {
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._HTMLImageElement as HTMLImageElement);
+                this._HTMLImageElement!.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
                 this._gameObject.add(this._sprite);
             }
-        });
+        };
+    }
+    
+    public get imageCenterOffset(): Vector2 {
+        return this._imageCenterOffset.clone();
+    }
+
+    public set imageCenterOffset(value: Vector2) {
+        this._imageCenterOffset.copy(value);
+        if (this._sprite) {
+            this._sprite.element.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
+        }
     }
 }
