@@ -114,14 +114,6 @@ export class GameObject extends Object3D {
         private readonly _children: Builder[];
         private readonly _componentInitializeFuncList: (() => void)[];
 
-        public constructor(gameManager: GameManager, name: string);
-
-        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3);
-
-        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion);
-
-        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3);
-
         public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
             this._gameObject = new GameObject(gameManager, name);
             if (localPosition) this._gameObject.position.copy(localPosition);

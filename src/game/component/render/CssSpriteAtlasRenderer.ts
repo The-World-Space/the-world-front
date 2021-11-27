@@ -57,7 +57,6 @@ export class CssSpriteAtlasRenderer extends Component {
         if (this._sprite) {
             const width = -(this._currentImageIndex % this._columnCount * this._croppedImageWidth);
             const height = -Math.floor(this._currentImageIndex / this._columnCount) * this._croppedImageHeight;
-            console.log(width, height);
             this._sprite.element.style.objectPosition = `${width}px ${height}px`;
         }
     }

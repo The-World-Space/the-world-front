@@ -8,6 +8,7 @@ import { TestExectuer } from "./component/TestExectuer";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
+import { PlayerPrefab } from "./prefab/Player";
 
 export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: THREE.Scene, gameManager: GameManager): SceneBuilder {
@@ -36,14 +37,21 @@ export class TheWorldBootstrapper implements IBootstrapper {
                         c.addAnimation("left_walk", [12, 13, 14, 15]);
                         c.frameDuration = 0.2;
                         charactorAnimator = c;
-                    })))
+                    })
+                    .withComponent(ZaxisSorter)))
+
+            .withChild(instantlater.buildPrefab("test player", PlayerPrefab, new Vector3(0, -32, 0))
+                .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`).make())
+
             .withChild(instantlater.buildGameObject("obj2", new Vector3(0, 0, 0))
                 .withComponent(CssSpriteRenderer)
                 .withComponent(SpriteAnimator)
                 .withComponent(ZaxisSorter))
+
             .withChild(instantlater.buildGameObject("obj3", new Vector3(10, 12, 0))
                 .withComponent(CssSpriteRenderer, c => c.imagePath = `${process.env.PUBLIC_URL}/assets/tileRoom3/11.png`)
                 .withComponent(ZaxisSorter))
+
             .withChild(instantlater.buildGameObject("charactor", new Vector3(-16, -16, 0))
                 .withComponent(CssSpriteRenderer)
                 .withComponent(SpriteAnimator, c => {
@@ -71,6 +79,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     tileAnimator = c;
                 })
                 .withComponent(ZaxisSorter))
+
             .withChild(instantlater.buildGameObject("core")
                 .withComponent(TestExectuer, c => {
                     c.setTestFunc(() => {
