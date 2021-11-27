@@ -101,7 +101,6 @@ export class GameObject extends Object3D {
                         console.warn(`Component ${requiredComponentCtor.name} is required by Component ${component.constructor.name} on GameObject ${this.name}`);
                         this.removeComponent(component);
                         componentRemoved = true;
-                        return;
                     }
                 }
             }

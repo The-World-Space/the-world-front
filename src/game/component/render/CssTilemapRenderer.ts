@@ -6,8 +6,7 @@ export class CssTilemapRenderer extends Component{
     protected start(): void { 
         //console.log("start");
     }
-    public update(): void { 
-        //console.log("update");
+    public update(): void {
     }
     public onDestroy(): void { }
 }
