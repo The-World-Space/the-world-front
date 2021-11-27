@@ -79,7 +79,7 @@ export class Game {
     }
 
     public loop(): void {
-        this._animationFrameId = requestAnimationFrame(() => this.loop());
+        this._animationFrameId = requestAnimationFrame(this.loop.bind(this));
         SceneProcessor.run(this._rootScene);
         this._time.deltaTime = this._clock.getDelta();
         this._renderer.render(this._rootScene, this._camera);
