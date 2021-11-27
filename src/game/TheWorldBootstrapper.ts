@@ -11,9 +11,9 @@ import { GameManager } from "./engine/GameManager";
 export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: THREE.Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
-        //const camera = gameManager.camera;
-
-        gameManager.camera.position.set(0, 0, 50);
+        const camera = gameManager.camera;
+        
+        camera.position.set(0, 0, 50);
 
         let charactorAnimator: SpriteAnimator|null = null;
 
