@@ -25,6 +25,14 @@ export class CssSpriteAtlasRenderer extends Component {
         if (this._sprite) this._gameObject.remove(this._sprite);
     }
 
+    public onEnable(): void {
+        if (this._sprite) this._sprite.visible = true;
+    }
+
+    public onDisable(): void {
+        if (this._sprite) this._sprite.visible = false;
+    }
+
     public get imagePath(): string|null {
         return this._htmlImageElement?.src || null;
     }

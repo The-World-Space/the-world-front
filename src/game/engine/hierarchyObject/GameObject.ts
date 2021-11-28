@@ -13,8 +13,8 @@ export class GameObject extends Object3D {
 
     public constructor(gameManager: GameManager, name: string) {
         super();
-        this._activeInHierarchy = false;
-        this.visible = false;
+        this._activeInHierarchy = true;
+        this.visible = true;
         this._activeSelf = true;
         this._components = [];
         this._gameManager = gameManager;

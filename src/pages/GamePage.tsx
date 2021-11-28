@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { TheWorldBootstrapper } from '../game/TheWorldBootstrapper';
+//import { TheWorldBootstrapper } from '../game/TheWorldBootstrapper';
 import { Game } from '../game/engine/Game';
+import { HierarchyTest1Bootstrapper } from '../game/engine/test/HierarchyTest1Bootstrapper';
 
 function GamePage() {
     let game: Game | null = null;
@@ -24,7 +25,7 @@ function GamePage() {
             if (ref !== null) {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                game.run(new TheWorldBootstrapper());
+                game.run(new HierarchyTest1Bootstrapper());
                 game.inputHandler.startHandleEvents();
             }
         }}/>

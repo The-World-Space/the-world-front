@@ -8,6 +8,17 @@ export class SceneProcessor {
                     child.foreachComponent(component => {
                         if (component.enabled) {
                             component.onEnable();
+                        }
+                    });
+                }
+            }
+        });
+
+        scene.traverse(child => {
+            if (child instanceof GameObject) {
+                if (child.activeInHierarchy && child.activeSelf) {
+                    child.foreachComponent(component => {
+                        if (component.enabled) {
                             component.start();
                         }
                     });
