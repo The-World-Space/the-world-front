@@ -12,7 +12,7 @@ export class CssTilemapRenderer extends Component{
     private _htmlCanvasElement: HTMLCanvasElement|null = null;
     private _imageSources: HTMLImageElement[]|null = null;
 
-    protected start(): void { 
+    public start(): void { 
         this.drawTileMap();
     }
 

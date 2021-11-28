@@ -65,14 +65,8 @@ export class Game {
         const sceneBuilder = bootstrapper.run(this._rootScene, this._gameManager);
         sceneBuilder.build();
         sceneBuilder.initialize();
-        this._rootScene.traverse(child => {
-            if (child instanceof GameObject) {
-                child.foreachComponent(component => {
-                    if (component.enabled) component.enabled = true; //start component
-                });
-            }
-        });
-        SceneProcessor.run(this._rootScene);
+        SceneProcessor.init(this._rootScene);
+        SceneProcessor.update(this._rootScene);
         this._time.deltaTime = this._clock.getDelta();
         this._renderer.render(this._rootScene, this._camera);
         this.loop();
@@ -80,7 +74,7 @@ export class Game {
 
     public loop(): void {
         this._animationFrameId = requestAnimationFrame(this.loop.bind(this));
-        SceneProcessor.run(this._rootScene);
+        SceneProcessor.update(this._rootScene);
         this._time.deltaTime = this._clock.getDelta();
         this._renderer.render(this._rootScene, this._camera);
     }

@@ -16,21 +16,33 @@ export abstract class Component {
         this._gameObject = gameObject;
     }
 
-    protected start(): void { }
+    public start(): void { }
 
     public update(): void { }
 
     public onDestroy(): void { }
+
+    public onEnable(): void { }
+
+    public onDisable(): void { }
 
     public get enabled(): boolean {
         return this._enabled;
     }
 
     public set enabled(value: boolean) {
+        if (this._enabled === value) return;
+
         this._enabled = value;
-        if (value && !this._started) {
-            this.start();
-            this._started = true;
+        
+        if (this._gameObject.activeInHierarchy) {
+            if (this._enabled) this.onEnable();
+            else this.onDisable();
+
+            if (value && !this._started) {
+                this.start();
+                this._started = true;
+            }
         }
     }
 

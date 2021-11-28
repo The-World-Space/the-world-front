@@ -1,10 +1,27 @@
 import { GameObject } from "./hierarchyObject/GameObject";
 
 export class SceneProcessor {
-    public static run(scene: THREE.Scene): void {
-        scene.traverse((object: THREE.Object3D) => {
+    public static init(scene: THREE.Scene): void {
+        scene.traverse(child => {
+            if (child instanceof GameObject) {
+                if (child.activeInHierarchy && child.activeSelf) {
+                    child.foreachComponent(component => {
+                        if (component.enabled) {
+                            component.onEnable();
+                            component.start();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public static update(scene: THREE.Scene): void {
+        scene.traverseVisible((object: THREE.Object3D) => {
             if (object instanceof GameObject) {
-                object.update();
+                if (object.activeSelf) {
+                    object.update();
+                }
             }
         });
     }

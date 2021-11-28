@@ -3,18 +3,21 @@ import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
 import { GameManager } from "../GameManager";
 
+//'visible' property has same value as 'activeInHierarchy'
+//you must not change it directly use 'activeInHierarchy' instead
 export class GameObject extends Object3D {
     private _activeInHierarchy: boolean;
     private _activeSelf: boolean;
-    private _gameManager: GameManager;
     private _components: (Component|null)[];
+    private _gameManager: GameManager;
 
     public constructor(gameManager: GameManager, name: string) {
         super();
         this._activeInHierarchy = false;
+        this.visible = false;
         this._activeSelf = true;
-        this._gameManager = gameManager;
         this._components = [];
+        this._gameManager = gameManager;
         this.name = name;
     }
 
@@ -22,10 +25,17 @@ export class GameObject extends Object3D {
         super.add(...object);
         for (const child of object) {
             if (child instanceof GameObject) {
-                child.activeInHierarchy = this.activeInHierarchy;
+                if (child._activeSelf) child.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
+
+                if (child._activeInHierarchy) child.initComponents();
             }
         }
         return this;
+    }
+
+    private addWithNoinit(gameObject: GameObject): void {
+        super.add(gameObject);
+        if (gameObject._activeSelf) gameObject.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy        
     }
 
     public addComponent(componentCtor: ComponentConstructor): void {
@@ -54,7 +64,10 @@ export class GameObject extends Object3D {
         }
         if (!pushedAtIteration) this._components.push(component);
 
-        component.enabled = true; //start component
+        if (this._activeInHierarchy) {
+            component.onEnable();
+            component.start();
+        }
     }
 
     public getComponents(): Component[] {
@@ -77,6 +90,7 @@ export class GameObject extends Object3D {
     public removeComponent(component: Component): void {
         for (let i = 0; i < this._components.length; i++) {
             if (this._components[i] === component) {
+                component.enabled = false;
                 component.onDestroy();
                 this._components[i] = null;
                 break;
@@ -85,15 +99,22 @@ export class GameObject extends Object3D {
     }
     
     public update(): void {
+        if (!this._activeInHierarchy) return;
+
         let componentLength = this._components.length;
         for (let i = 0; i < componentLength; i++) {
-            this._components[i]?.update();
+            if (this._components[i] === null) continue;
+            const component = this._components[i]!;
+            if (component.enabled) component.update();
         }
     }
 
     public destroy(): void {
         for (const component of this._components) {
-            component?.onDestroy();
+            if (component) {
+                component.enabled = false;
+                component.onDestroy();
+            }
         }
         this.children.forEach(child => {
             if (child instanceof GameObject) child.destroy();
@@ -118,6 +139,16 @@ export class GameObject extends Object3D {
         if (componentRemoved) this.checkComponentRequirements();
     }
 
+    private initComponents(): void {
+        for (const component of this._components) {
+            if (!component) continue;
+            if (component.enabled) {
+                component.onEnable();
+                component.start();
+            }
+        }
+    }
+
     public get gameManager(): GameManager {
         return this._gameManager;
     }
@@ -126,10 +157,20 @@ export class GameObject extends Object3D {
         return this._activeInHierarchy;
     }
 
-    public set activeInHierarchy(value: boolean) {
+    private set activeInHierarchy(value: boolean) {
+        if (this._activeInHierarchy === value) return;
+
         this._activeInHierarchy = value;
+        this.visible = this._activeInHierarchy;
+
         this.children.forEach(child => {
-            if (child instanceof GameObject) child.activeInHierarchy = value;
+            if (child instanceof GameObject) {
+                if (this._activeInHierarchy) {
+                    child.activeInHierarchy = child._activeSelf;
+                } else {
+                    child.activeInHierarchy = false;
+                }
+            }
         });
     }
 
@@ -138,10 +179,18 @@ export class GameObject extends Object3D {
     }
 
     public set activeSelf(value: boolean) {
+        if (this._activeSelf === value) return;
+
         this._activeSelf = value;
-        this.children.forEach(child => {
-            if (child instanceof GameObject) child.activeInHierarchy = value;
-        });
+        if (this.parent instanceof GameObject) { // if parent is a gameobject
+            if (this.parent._activeInHierarchy) {
+                this.activeInHierarchy = this._activeSelf;
+            } else {
+                this.activeInHierarchy = false;
+            }
+        } else { // parent is root it means parent always active in hierarchy
+            this.activeInHierarchy = this._activeSelf;
+        }
     }
 
     public static readonly Builder = class Builder{
@@ -191,7 +240,7 @@ export class GameObject extends Object3D {
 
         public build(): GameObject {
             this._gameObject.checkComponentRequirements();
-            for (const child of this._children) this._gameObject.add(child.build());
+            for (const child of this._children) this._gameObject.addWithNoinit(child.build());
             return this._gameObject;
         }
 

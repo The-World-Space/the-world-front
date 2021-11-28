@@ -15,7 +15,7 @@ export class CssSpriteAtlasRenderer extends Component {
     private _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
-    protected start(): void {
+    public start(): void {
         if (!this._htmlImageElement) {
             this.setImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
         }
