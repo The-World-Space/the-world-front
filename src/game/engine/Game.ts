@@ -4,12 +4,13 @@ import { IBootstrapper } from "./bootstrap/IBootstrapper";
 import { GameManager } from "./GameManager";
 import { GameState, GameStateKind } from "./GameState";
 import { GameObject } from "./hierarchyObject/GameObject";
+import { Scene } from "./hierarchyObject/Scene";
 import { IInputEventHandleable } from "./IInputEventHandleable";
 import { SceneProcessor } from "./SceneProcessor";
 import { Time } from "./Time";
 
 export class Game {
-    private readonly _rootScene: THREE.Scene;
+    private readonly _rootScene: Scene;
     private readonly _camera: THREE.OrthographicCamera;
     private readonly _renderer: CSS3DRenderer;
     private readonly _clock: THREE.Clock;
@@ -23,7 +24,7 @@ export class Game {
     private static readonly _cameraViewSize = 200;
 
     public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
-        this._rootScene = new THREE.Scene();
+        this._rootScene = new Scene();
 
         const aspectRatio = screenWidth / screenHeight;
         const viewSizeScalar = Game._cameraViewSize * 0.5;

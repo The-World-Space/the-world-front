@@ -1,10 +1,11 @@
 import { GameObjectBuilder } from "../hierarchyObject/GameObject";
+import { Scene } from "../hierarchyObject/Scene";
 
 export class SceneBuilder {
-    private readonly _scene: THREE.Scene;
+    private readonly _scene: Scene;
     private readonly _children: GameObjectBuilder[];
     
-    public constructor(scene: THREE.Scene) {
+    public constructor(scene: Scene) {
         this._scene = scene;
         this._children = [];
     }

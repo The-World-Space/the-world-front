@@ -1,6 +1,5 @@
 import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { GameStateKind } from "../../engine/GameState";
 import { Component } from "../../engine/hierarchyObject/Component";
 
 export class CssSpriteAtlasRenderer extends Component {
@@ -44,7 +43,7 @@ export class CssSpriteAtlasRenderer extends Component {
     }
 
     public setImage(path: string, rowCount: number, columnCount: number): void {
-        if (this.gameManager.gameState.kind === GameStateKind.Initializing) {
+        if (!this.started && !this.starting) {
             this._initializeFunction = () => {
                 this.setImage(path, rowCount, columnCount);
             };
@@ -55,7 +54,7 @@ export class CssSpriteAtlasRenderer extends Component {
         this._columnCount = columnCount;
 
         if (!this._htmlImageElement) {
-            this._htmlImageElement = document.createElement("img");
+            this._htmlImageElement = new Image();
             this._htmlImageElement.style.imageRendering = "pixelated";
         }
 

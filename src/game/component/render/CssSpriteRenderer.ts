@@ -1,6 +1,5 @@
 import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { GameStateKind } from "../../engine/GameState";
 import { Component } from "../../engine/hierarchyObject/Component";
 
 export class CssSpriteRenderer extends Component {
@@ -30,7 +29,7 @@ export class CssSpriteRenderer extends Component {
     }
 
     public set imagePath(path: string|null) {
-        if (this.gameManager.gameState.kind === GameStateKind.Initializing) {
+        if (!this.started && !this.starting) {
             this._initializeFunction = () => {
                 this.imagePath = path;
             };
@@ -40,7 +39,7 @@ export class CssSpriteRenderer extends Component {
         if (!path) path = CssSpriteRenderer._defaultImagePath;
 
         if (!this._htmlImageElement) {
-            this._htmlImageElement = document.createElement("img");
+            this._htmlImageElement = new Image();
             this._htmlImageElement.style.imageRendering = "pixelated";
         }
 

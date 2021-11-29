@@ -1,7 +1,7 @@
-import { Scene } from "three";
 import { IBootstrapper } from "../bootstrap/IBootstrapper";
 import { SceneBuilder } from "../bootstrap/SceneBuilder";
 import { GameManager } from "../GameManager";
+import { Scene } from "../hierarchyObject/Scene";
 import { HookTestComponent } from "./HookTestComponent";
 
 export class HierarchyTest1Bootstrapper implements IBootstrapper {

@@ -1,4 +1,4 @@
-import { Vector3 } from "three";
+import { Quaternion, Vector3 } from "three";
 import { CssSpriteAtlasRenderer } from "./component/render/CssSpriteAtlasRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { SpriteAnimator } from "./component/render/SpriteAnimator";
@@ -8,10 +8,12 @@ import { TestExectuer } from "./component/TestExectuer";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
+import { Scene } from "./engine/hierarchyObject/Scene";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
+import { TestTilemapPrefab } from "./prefab/TestTilemapPrefab";
 
 export class TheWorldBootstrapper implements IBootstrapper {
-    public run(scene: THREE.Scene, gameManager: GameManager): SceneBuilder {
+    public run(scene: Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
         const camera = gameManager.camera;
 
@@ -21,8 +23,8 @@ export class TheWorldBootstrapper implements IBootstrapper {
         let tileAnimator: SpriteAnimator|null = null;
 
         return new SceneBuilder(scene)
+            .withChild(instantlater.buildPrefab("tilemap1", TestTilemapPrefab, new Vector3(0, 0, -100), new Quaternion(), new Vector3(0.5, 0.5, 0.5)).make())
             .withChild(instantlater.buildGameObject("obj1")
-                //.active(false)
                 .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
                         c.setImage(`${process.env.PUBLIC_URL}/assets/charactor/Hyeonjong.png`, 4, 4);

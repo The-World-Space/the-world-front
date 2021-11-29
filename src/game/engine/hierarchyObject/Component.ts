@@ -9,11 +9,13 @@ export abstract class Component {
 
     private _enabled: boolean;
     private _started: boolean;
+    private _starting: boolean;
     protected _gameObject: GameObject;
 
     public constructor(gameObject: GameObject) {
         this._enabled = true;
         this._started = false;
+        this._starting = false;
         this._gameObject = gameObject;
     }
 
@@ -30,7 +32,9 @@ export abstract class Component {
     //you must NOT use this method
     public tryCallStart(): void {
         if (this._started) return;
+        this._starting = true;
         this.start();
+        this._starting = false;
         this._started = true;
     }
 
@@ -51,11 +55,21 @@ export abstract class Component {
             if (this._enabled) {
                 this.onEnable();
                 if (!this._started) {
+                    this._starting = true;
                     this.start();
+                    this._starting = false;
                     this._started = true;
                 }
             } else this.onDisable();
         }
+    }
+
+    public get starting(): boolean {
+        return this._starting;
+    }
+
+    public get started(): boolean {
+        return this._started;
     }
 
     public get gameManager(): GameManager {

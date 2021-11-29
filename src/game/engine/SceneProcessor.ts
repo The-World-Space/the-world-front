@@ -1,7 +1,8 @@
 import { GameObject } from "./hierarchyObject/GameObject";
+import { Scene } from "./hierarchyObject/Scene";
 
 export class SceneProcessor {
-    public static init(scene: THREE.Scene): void {
+    public static init(scene: Scene): void {
         scene.traverse(child => {
             if (child instanceof GameObject) {
                 if (child.activeInHierarchy && child.activeSelf) {
@@ -27,7 +28,7 @@ export class SceneProcessor {
         });
     }
 
-    public static update(scene: THREE.Scene): void {
+    public static update(scene: Scene): void {
         scene.traverseVisible((object: THREE.Object3D) => {
             if (object instanceof GameObject) {
                 if (object.activeSelf) {
