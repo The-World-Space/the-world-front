@@ -1,6 +1,7 @@
 import { ComponentConstructor } from "./ComponentConstructor";
 import { GameManager } from "../GameManager";
 import { GameObject } from "./GameObject";
+import { GameStateKind } from "../GameState";
 
 export abstract class Component {
     protected readonly _disallowMultipleComponent: boolean = false;
@@ -34,15 +35,19 @@ export abstract class Component {
         if (this._enabled === value) return;
 
         this._enabled = value;
+
+        if (this.gameManager.gameState.kind === GameStateKind.Initializing) {
+            return;
+        }
         
         if (this._gameObject.activeInHierarchy) {
-            if (this._enabled) this.onEnable();
-            else this.onDisable();
-
-            if (value && !this._started) {
-                this.start();
-                this._started = true;
-            }
+            if (this._enabled) {
+                this.onEnable();
+                if (!this._started) {
+                    this.start();
+                    this._started = true;
+                }
+            } else this.onDisable();
         }
     }
 

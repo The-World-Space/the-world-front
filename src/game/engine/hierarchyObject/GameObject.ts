@@ -149,6 +149,15 @@ export class GameObject extends Object3D {
         }
     }
 
+    private disableComponents(): void {
+        for (const component of this._components) {
+            if (!component) continue;
+            if (component.enabled) {
+                component.onDisable();
+            }
+        }
+    }
+
     public get gameManager(): GameManager {
         return this._gameManager;
     }
@@ -162,6 +171,12 @@ export class GameObject extends Object3D {
 
         this._activeInHierarchy = value;
         this.visible = this._activeInHierarchy;
+
+        if (this._activeInHierarchy) {
+            this.initComponents();
+        } else {
+            this.disableComponents();
+        }
 
         this.children.forEach(child => {
             if (child instanceof GameObject) {
