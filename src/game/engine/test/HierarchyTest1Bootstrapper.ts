@@ -48,6 +48,7 @@ export class HierarchyTest1Bootstrapper implements IBootstrapper {
                         }, 1500);
                     })
                     .withChild(instantlater.buildGameObject("obj3")
+                        .active(false)
                         .withComponent(TestExectuer, c => {
                             console.log("obj3 initialize");
                             console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
