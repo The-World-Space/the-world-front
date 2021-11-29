@@ -207,6 +207,11 @@ export class GameObject extends Object3D {
             this._componentInitializeFuncList = [];
         }
 
+        public active(active: boolean): Builder {
+            this._gameObject.activeSelf = active;
+            return this;
+        }
+
         public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): Builder;
 
         public withComponent<T extends Component>(

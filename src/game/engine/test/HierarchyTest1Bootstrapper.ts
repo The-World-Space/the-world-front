@@ -1,4 +1,5 @@
 import { Scene } from "three";
+import { TestExectuer } from "../../component/TestExectuer";
 import { IBootstrapper } from "../bootstrap/IBootstrapper";
 import { SceneBuilder } from "../bootstrap/SceneBuilder";
 import { GameManager } from "../GameManager";
@@ -10,10 +11,57 @@ export class HierarchyTest1Bootstrapper implements IBootstrapper {
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildGameObject("obj1")
-                .withComponent(HookTestComponent, _ => {
+                .active(true)
+                .withComponent(HookTestComponent, c => {
                     console.log("obj1 initialize");
+                    c.enabled = false;
+                    console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                    console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                    setTimeout(() => {
+                        console.log("obj1");
+                        console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                        console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                        setTimeout(() => {
+                            console.log("obj1");
+                            console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                            console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                        }, 2000);
+                    }, 1000);
                 })
                 .withChild(instantlater.buildGameObject("obj2")
-                    .withChild(instantlater.buildGameObject("obj3"))));
+                    .active(true)
+                    .withComponent(TestExectuer, c => {
+                        console.log("obj2 initialize");
+                        console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                        console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                        setTimeout(() => {
+                            (c as any)._gameObject.activeSelf = false;
+                            console.log("obj2");
+                            console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                            console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                            setTimeout(() => {
+                                (c as any)._gameObject.activeSelf = true;
+                                console.log("obj2");
+                                console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                                console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                            }, 2000);
+                        }, 1500);
+                    })
+                    .withChild(instantlater.buildGameObject("obj3")
+                        .withComponent(TestExectuer, c => {
+                            console.log("obj3 initialize");
+                            console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                            console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                            setTimeout(() => {
+                                console.log("obj3");
+                                console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                                console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                                setTimeout(() => {
+                                    console.log("obj3");
+                                    console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
+                                    console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
+                                }, 2000);
+                            }, 2000);
+                        }))));
     }
 }

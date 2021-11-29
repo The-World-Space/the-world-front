@@ -2,19 +2,21 @@ import * as THREE from "three";
 import { IReadonlyTime } from "./IReadonlyTime";
 import { InputHandler } from "./InputHandler";
 import { Instantiater } from "./Instantiater";
-import { Time } from "./Time";
+import { IReadonlyGameState } from "./GameState";
 
 export class GameManager {
     private readonly _rootScene: THREE.Scene;
     private readonly _camera: THREE.OrthographicCamera;
-    private readonly _time: Time;
+    private readonly _time: IReadonlyTime;
     private readonly _inputHandler: InputHandler;
     private readonly _instantlater: Instantiater;
+    private readonly _gameState: IReadonlyGameState;
 
-    public constructor(rootScene: THREE.Scene, camera: THREE.OrthographicCamera, time: Time) {
+    public constructor(rootScene: THREE.Scene, camera: THREE.OrthographicCamera, time: IReadonlyTime, gameState: IReadonlyGameState) {
         this._rootScene = rootScene;
         this._camera = camera;
         this._time = time;
+        this._gameState = gameState;
         this._inputHandler = new InputHandler();
         this._instantlater = new Instantiater(this);
     }
@@ -37,6 +39,10 @@ export class GameManager {
 
     public get time(): IReadonlyTime {
         return this._time;
+    }
+
+    public get gameState(): IReadonlyGameState {
+        return this._gameState;
     }
 
     public get instantlater(): Instantiater {
