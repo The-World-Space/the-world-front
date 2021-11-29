@@ -43,7 +43,6 @@ export class TestTilemapPrefab extends Prefab {
                     }
                 }))
             .withChild(instantlater.buildGameObject("wall")
-                .active(false)
                 .withComponent(CssTilemapRenderer, c => {
                     c.rowCount = 18;
                     c.columnCount = 17;
