@@ -27,15 +27,56 @@ export class GameObject extends Object3D {
             if (child instanceof GameObject) {
                 if (child._activeSelf) child.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
 
-                if (child._activeInHierarchy) child.initComponents();
+                if (child._activeInHierarchy) {
+                    child.tryEnableComponents();
+                    child.traverseVisible(item => {
+                        if (item instanceof GameObject) item.tryEnableComponents();
+                    });
+
+                    child.tryStartComponents();
+                    child.traverseVisible(item => {
+                        if (item instanceof GameObject) item.tryStartComponents();
+                    });
+                }
             }
         }
         return this;
     }
+    
+    public addChildFromBuilder(gameObjectBuilder: GameObjectBuilder): void {
+        const gameObject = gameObjectBuilder.build();
+        gameObjectBuilder.initialize();
+        this.add(gameObject);
+    }
 
     private addWithNoinit(gameObject: GameObject): void {
         super.add(gameObject);
-        if (gameObject._activeSelf) gameObject.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy        
+        if (gameObject._activeSelf) gameObject.activeInHierarchyWithoutCallEvent = this._activeInHierarchy; // update child activeInHierarchy        
+    }
+
+    public changeParent(newParent: GameObject): void {
+        const prevActiveInHierarchy = this._activeInHierarchy;
+        this.removeFromParent();
+        this.addWithNoinit(newParent);
+        if (!prevActiveInHierarchy) {
+            if (this.activeInHierarchy) {
+                this.tryEnableComponents();
+                this.traverseVisible(item => {
+                    if (item instanceof GameObject) item.tryEnableComponents();
+                });
+                this.tryStartComponents();
+                this.traverseVisible(item => {
+                    if (item instanceof GameObject) item.tryStartComponents();
+                });
+            }
+        } else {
+            if (!this.activeInHierarchy) {
+                this.disableComponents();
+                this.traverseVisible(item => {
+                    if (item instanceof GameObject) item.disableComponents();
+                });
+            }
+        }
     }
 
     public addComponent(componentCtor: ComponentConstructor): void {
@@ -139,11 +180,19 @@ export class GameObject extends Object3D {
         if (componentRemoved) this.checkComponentRequirements();
     }
 
-    private initComponents(): void {
+    private tryEnableComponents(): void {
         for (const component of this._components) {
             if (!component) continue;
             if (component.enabled) {
                 component.onEnable();
+            }
+        }
+    }
+
+    private tryStartComponents(): void {
+        for (const component of this._components) {
+            if (!component) continue;
+            if (component.enabled) {
                 component.tryCallStart();
             }
         }
@@ -173,10 +222,28 @@ export class GameObject extends Object3D {
         this.visible = this._activeInHierarchy;
 
         if (this._activeInHierarchy) {
-            this.initComponents();
+            this.tryEnableComponents();
+            this.tryStartComponents();
         } else {
             this.disableComponents();
         }
+
+        this.children.forEach(child => {
+            if (child instanceof GameObject) {
+                if (this._activeInHierarchy) {
+                    child.activeInHierarchy = child._activeSelf;
+                } else {
+                    child.activeInHierarchy = false;
+                }
+            }
+        });
+    }
+
+    private set activeInHierarchyWithoutCallEvent(value: boolean) {
+        if (this._activeInHierarchy === value) return;
+
+        this._activeInHierarchy = value;
+        this.visible = this._activeInHierarchy;
 
         this.children.forEach(child => {
             if (child instanceof GameObject) {
