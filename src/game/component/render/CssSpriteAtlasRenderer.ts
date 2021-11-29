@@ -1,5 +1,6 @@
 import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { GameStateKind } from "../../engine/GameState";
 import { Component } from "../../engine/hierarchyObject/Component";
 
 export class CssSpriteAtlasRenderer extends Component {
@@ -13,12 +14,17 @@ export class CssSpriteAtlasRenderer extends Component {
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
     private _imageCenterOffset: Vector2 = new Vector2(0, 0);
+    
+    private _initializeFunction: (() => void)|null = null;
+
     private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
     protected start(): void {
         if (!this._htmlImageElement) {
             this.setImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
         }
+
+        this._initializeFunction?.call(this);
     }
 
     public onDestroy(): void {
@@ -38,6 +44,13 @@ export class CssSpriteAtlasRenderer extends Component {
     }
 
     public setImage(path: string, rowCount: number, columnCount: number): void {
+        if (this.gameManager.gameState.kind === GameStateKind.Initializing) {
+            this._initializeFunction = () => {
+                this.setImage(path, rowCount, columnCount);
+            };
+            return;
+        }
+
         this._rowCount = rowCount;
         this._columnCount = columnCount;
 

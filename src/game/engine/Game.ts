@@ -72,8 +72,8 @@ export class Game {
         const sceneBuilder = bootstrapper.run(this._rootScene, this._gameManager);
         sceneBuilder.build();
         sceneBuilder.initialize();
-        SceneProcessor.init(this._rootScene);
         this._gameState.kind = GameStateKind.Running;
+        SceneProcessor.init(this._rootScene);
         SceneProcessor.update(this._rootScene);
         this._time.deltaTime = this._clock.getDelta();
         this._renderer.render(this._rootScene, this._camera);

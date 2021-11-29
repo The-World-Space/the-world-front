@@ -1,5 +1,6 @@
 import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { GameStateKind } from "../../engine/GameState";
 import { Component } from "../../engine/hierarchyObject/Component";
 
 export class CssSpriteRenderer extends Component {
@@ -10,10 +11,14 @@ export class CssSpriteRenderer extends Component {
     private _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
+    private _initializeFunction: (() => void)|null = null;
+
     protected start(): void {
         if (!this._htmlImageElement) {
             this.imagePath = CssSpriteRenderer._defaultImagePath;
         }
+        
+        this._initializeFunction?.call(this);
     }
 
     public onDestroy(): void {
@@ -25,6 +30,13 @@ export class CssSpriteRenderer extends Component {
     }
 
     public set imagePath(path: string|null) {
+        if (this.gameManager.gameState.kind === GameStateKind.Initializing) {
+            this._initializeFunction = () => {
+                this.imagePath = path;
+            };
+            return;
+        }
+
         if (!path) path = CssSpriteRenderer._defaultImagePath;
 
         if (!this._htmlImageElement) {
