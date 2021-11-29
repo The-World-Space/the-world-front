@@ -34,6 +34,7 @@ export class SpriteAnimator extends Component {
     }
 
     public playAnimation(name: string): void {
+        if (this._spriteRenderer === null) return;
         if (this._playingAnimationName === name) return;
 
         this._playingAnimationName = name;
@@ -44,6 +45,7 @@ export class SpriteAnimator extends Component {
     }
 
     public stopAnimation(): void {
+        if (this._spriteRenderer === null) return;
         this._playing = false;
     }
     

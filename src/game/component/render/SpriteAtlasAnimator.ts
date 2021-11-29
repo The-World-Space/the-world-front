@@ -20,6 +20,7 @@ export class SpriteAtlasAnimator extends Component {
     }
     
     public update(): void {
+        if (this._spriteAtlasRenderer === null) return;
         if (!this._playing) return;
 
         this._currentFrameDuration += this.gameManager.time.deltaTime;
@@ -34,6 +35,8 @@ export class SpriteAtlasAnimator extends Component {
     }
 
     public playAnimation(name: string): void {
+        if (this._spriteAtlasRenderer === null) return;
+
         if (this._playingAnimationName === name) return;
 
         this._playingAnimationName = name;
@@ -44,6 +47,7 @@ export class SpriteAtlasAnimator extends Component {
     }
 
     public stopAnimation(): void {
+        if (this._spriteAtlasRenderer === null) return;
         this._playing = false;
     }
     

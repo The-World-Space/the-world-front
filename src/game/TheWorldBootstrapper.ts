@@ -22,6 +22,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildGameObject("obj1")
+                .active(false)
                 .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
                         c.setImage(`${process.env.PUBLIC_URL}/assets/charactor/Hyeonjong.png`, 4, 4);
@@ -83,8 +84,8 @@ export class TheWorldBootstrapper implements IBootstrapper {
             .withChild(instantlater.buildGameObject("core")
                 .withComponent(TestExectuer, c => {
                     c.setTestFunc(() => {
-                        charactorAnimator!.playAnimation("down_walk");
-                        tileAnimator!.playAnimation("test_anim1");
+                        charactorAnimator?.playAnimation("down_walk");
+                        tileAnimator?.playAnimation("test_anim1");
                     })
                 }));
     }
