@@ -6,7 +6,7 @@ export class ZaxisSorter extends Component {
     private _offset: number = 0;
     private _runOnce: boolean = true;
 
-    public start(): void { 
+    protected start(): void { 
         this.update();
         if (!this._runOnce) return;
         this._gameObject.removeComponent(this);

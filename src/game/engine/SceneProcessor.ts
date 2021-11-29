@@ -19,7 +19,7 @@ export class SceneProcessor {
                 if (child.activeInHierarchy && child.activeSelf) {
                     child.foreachComponent(component => {
                         if (component.enabled) {
-                            component.start();
+                            component.tryCallStart();
                         }
                     });
                 }

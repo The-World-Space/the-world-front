@@ -66,7 +66,7 @@ export class GameObject extends Object3D {
 
         if (this._activeInHierarchy) {
             component.onEnable();
-            component.start();
+            component.tryCallStart();
         }
     }
 
@@ -144,7 +144,7 @@ export class GameObject extends Object3D {
             if (!component) continue;
             if (component.enabled) {
                 component.onEnable();
-                component.start();
+                component.tryCallStart();
             }
         }
     }

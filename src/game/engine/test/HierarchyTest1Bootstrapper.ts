@@ -1,5 +1,4 @@
 import { Scene } from "three";
-import { TestExectuer } from "../../component/TestExectuer";
 import { IBootstrapper } from "../bootstrap/IBootstrapper";
 import { SceneBuilder } from "../bootstrap/SceneBuilder";
 import { GameManager } from "../GameManager";
@@ -14,7 +13,7 @@ export class HierarchyTest1Bootstrapper implements IBootstrapper {
                 .active(true)
                 .withComponent(HookTestComponent, c => {
                     console.log("obj1 initialize");
-                    c.enabled = false;
+                    c.enabled = true;
                     console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
                     console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
                     setTimeout(() => {
@@ -30,7 +29,7 @@ export class HierarchyTest1Bootstrapper implements IBootstrapper {
                 })
                 .withChild(instantlater.buildGameObject("obj2")
                     .active(true)
-                    .withComponent(TestExectuer, c => {
+                    .withComponent(HookTestComponent, c => {
                         console.log("obj2 initialize");
                         console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
                         console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);
@@ -48,8 +47,8 @@ export class HierarchyTest1Bootstrapper implements IBootstrapper {
                         }, 1500);
                     })
                     .withChild(instantlater.buildGameObject("obj3")
-                        .active(false)
-                        .withComponent(TestExectuer, c => {
+                        .active(true)
+                        .withComponent(HookTestComponent, c => {
                             console.log("obj3 initialize");
                             console.log(`c.gameObject.activeSelf: ${(c as any)._gameObject.activeSelf}`);
                             console.log(`c.gameObject.activeInHierarchy: ${(c as any)._gameObject.activeInHierarchy}`);

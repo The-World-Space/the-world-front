@@ -17,7 +17,7 @@ export abstract class Component {
         this._gameObject = gameObject;
     }
 
-    public start(): void { }
+    protected start(): void { }
 
     public update(): void { }
 
@@ -26,6 +26,13 @@ export abstract class Component {
     public onEnable(): void { }
 
     public onDisable(): void { }
+
+    //you must NOT use this method
+    public tryCallStart(): void {
+        if (this._started) return;
+        this.start();
+        this._started = true;
+    }
 
     public get enabled(): boolean {
         return this._enabled;

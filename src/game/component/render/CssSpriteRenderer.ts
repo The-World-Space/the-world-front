@@ -10,7 +10,7 @@ export class CssSpriteRenderer extends Component {
     private _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
-    public start(): void {
+    protected start(): void {
         if (!this._htmlImageElement) {
             this.imagePath = CssSpriteRenderer._defaultImagePath;
         }
