@@ -2,22 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Provider from './context/Provider';
-import { 
-  ApolloProvider, 
-  ApolloClient, 
+import {
+  ApolloProvider,
+  ApolloClient,
   InMemoryCache,
   createHttpLink
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { JWT_KEY } from './context/consts';
+import { loadGlobalEnviroments } from './pages/GlobalEnviroment';
 
 const httpLink = createHttpLink({
-  uri: 'http://computa.lunuy.com:40080/graphql',
+  uri: 'https://computa.lunuy.com:40081/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem(JWT_KEY);
-  
+
   return {
     headers: {
       ...headers,
@@ -30,6 +31,8 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+loadGlobalEnviroments();
 
 ReactDOM.render(
   <React.StrictMode>
