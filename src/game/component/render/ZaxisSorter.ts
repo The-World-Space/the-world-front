@@ -1,4 +1,5 @@
 import { Component } from "../../engine/hierarchyObject/Component";
+import { GameObject } from "../../engine/hierarchyObject/GameObject";
 
 export class ZaxisSorter extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
@@ -14,6 +15,15 @@ export class ZaxisSorter extends Component {
 
     public update(): void { 
         this.gameObject.position.z = -this.gameObject.position.y + this._offset;
+        this.gameObject.traverseVisible(child => {
+            if (child instanceof GameObject) {
+                child.foreachComponent(c => {
+                    if (c instanceof IZaxisSortable) {
+                        c.update();
+                    }
+                });
+            }
+        });
     }
 
     get offset(): number {

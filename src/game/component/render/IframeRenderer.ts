@@ -1,3 +1,4 @@
+import { Vector2 } from "three";
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchyObject/Component";
 
@@ -8,6 +9,7 @@ export class IframeRenderer extends Component {
     private _height: number = 128;
     private _sprite: CSS3DObject|null = null;
     private _htmlIframeElement: HTMLIFrameElement|null = null;
+    private _iframeCenterOffset: Vector2 = new Vector2(0, 0);
     private _iframeSource: string = "";
 
     protected start(): void { 
@@ -26,6 +28,7 @@ export class IframeRenderer extends Component {
         this._htmlIframeElement.height = tileMapHeight.toString();
         this._htmlIframeElement.src = this._iframeSource;
         this._htmlIframeElement.style.border = "none";
+        this._htmlIframeElement.style.zIndex = "999";
         this._sprite = new CSS3DObject(this._htmlIframeElement);
         this.gameObject.add(this._sprite);
     }
@@ -63,6 +66,17 @@ export class IframeRenderer extends Component {
 
         if (this._htmlIframeElement) {
             this._htmlIframeElement.src = value;
+        }
+    }
+
+    public get iframeCenterOffset(): Vector2 {
+        return this._iframeCenterOffset.clone();
+    }
+
+    public set iframeCenterOffset(value: Vector2) {
+        this._iframeCenterOffset.copy(value);
+        if (this._sprite) {
+            this._sprite.element.style.translate = `${this._iframeCenterOffset.x}% ${this._iframeCenterOffset.y}% 0px`;
         }
     }
 }

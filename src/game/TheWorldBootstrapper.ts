@@ -25,14 +25,15 @@ export class TheWorldBootstrapper implements IBootstrapper {
         let tileAnimator: SpriteAnimator|null = null;
 
         return new SceneBuilder(scene)
-            .withChild(instantlater.buildGameObject("iframe1", new Vector3(32, 32, -100), new Quaternion(), new Vector3(0.3, 0.3, 0.3))
+            .withChild(instantlater.buildGameObject("iframe1", new Vector3(32, 32, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
                 .withComponent(ZaxisSorter)
                 .withComponent(IframeRenderer, c => {
                     c.iframeSource = "https://www.youtube.com/embed/8nevghw8xbM";
                     c.width = 640;
                     c.height = 360;
                 }))
-            .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -200)).make())
+            .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -200)).make()
+                .active(false))
             .withChild(instantlater.buildPrefab("tilemap1", TestTilemapPrefab, new Vector3(0, 0, -100)).make())
             .withChild(instantlater.buildGameObject("obj1")
                 .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
