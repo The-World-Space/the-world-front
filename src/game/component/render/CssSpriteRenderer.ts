@@ -64,8 +64,8 @@ export class CssSpriteRenderer extends Component {
                 image.style.imageRendering = "pixelated";
                 image.style.zIndex = this._zindex.toString();
                 this._sprite.position.set(
-                    parseInt(image.style.width) * this._imageCenterOffset.x,
-                    parseInt(image.style.height) * this._imageCenterOffset.y, 0
+                    image.naturalWidth * this._imageCenterOffset.x,
+                    image.naturalHeight * this._imageCenterOffset.y, 0
                 );
                 this.gameObject.add(this._sprite);
             }
@@ -81,8 +81,8 @@ export class CssSpriteRenderer extends Component {
         this._imageCenterOffset.copy(value);
         if (this._sprite) {
             this._sprite.position.set(
-                parseInt(this._htmlImageElement!.style.width) * this._imageCenterOffset.x,
-                parseInt(this._htmlImageElement!.style.height) * this._imageCenterOffset.y, 0
+                this._htmlImageElement!.naturalWidth * this._imageCenterOffset.x,
+                this._htmlImageElement!.naturalHeight * this._imageCenterOffset.y, 0
             );
         }
     }

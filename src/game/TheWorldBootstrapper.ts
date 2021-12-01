@@ -58,7 +58,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     })
                     .withComponent(ZaxisSorter)))
 
-            .withChild(instantlater.buildPrefab("test player", PlayerPrefab, new Vector3(0, -32, 0))
+            .withChild(instantlater.buildPrefab("test player1", PlayerPrefab, new Vector3(0, -32, 0))
                 .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`).make())
 
             .withChild(instantlater.buildGameObject("obj2", new Vector3(0, 0, 0))
@@ -70,7 +70,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withComponent(CssSpriteRenderer, c => c.imagePath = `${process.env.PUBLIC_URL}/assets/tileRoom3/11.png`)
                 .withComponent(ZaxisSorter))
 
-            .withChild(instantlater.buildGameObject("charactor", new Vector3(-16, -16, 0))
+            .withChild(instantlater.buildGameObject("charactor1", new Vector3(-16, -16, 0))
                 .withComponent(CssSpriteRenderer)
                 .withComponent(SpriteAnimator, c => {
                     c.addAnimationFromPath("test_anim1", [
@@ -98,7 +98,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 })
                 .withComponent(ZaxisSorter))
 
-            .withChild(instantlater.buildGameObject("core")
+            .withChild(instantlater.buildGameObject("test_executer1")
                 .withComponent(TestExectuer, c => {
                     c.setTestFunc(() => {
                         charactorAnimator?.playAnimation("down_walk");

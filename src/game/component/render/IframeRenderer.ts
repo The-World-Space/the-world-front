@@ -31,19 +31,19 @@ export class IframeRenderer extends Component {
     }
 
     private drawIframe(): void {
-        const tileMapWidth: number = this._width;
-        const tileMapHeight: number = this._height;
+        const iframeWidth: number = this._width;
+        const iframeHeight: number = this._height;
         this._htmlIframeElement = document.createElement("iframe") as HTMLIFrameElement;
         this._htmlIframeElement.title = `${this.gameObject.name}_iframe`;
-        this._htmlIframeElement.width = tileMapWidth.toString();
-        this._htmlIframeElement.height = tileMapHeight.toString();
+        this._htmlIframeElement.width = iframeWidth.toString();
+        this._htmlIframeElement.height = iframeHeight.toString();
         this._htmlIframeElement.src = this._iframeSource;
         this._htmlIframeElement.style.border = "none";
         this._htmlIframeElement.style.zIndex = this._zindex.toString();
         this._sprite = new CSS3DObject(this._htmlIframeElement);
         this._sprite.position.set(
-            tileMapWidth * this._iframeCenterOffset.x,
-            tileMapHeight * this._iframeCenterOffset.y, 0
+            iframeWidth * this._iframeCenterOffset.x,
+            iframeHeight * this._iframeCenterOffset.y, 0
         );
         this.gameObject.add(this._sprite);
     }
@@ -91,7 +91,10 @@ export class IframeRenderer extends Component {
     public set iframeCenterOffset(value: Vector2) {
         this._iframeCenterOffset.copy(value);
         if (this._sprite) {
-            this._sprite.element.style.translate = `${this._iframeCenterOffset.x}% ${this._iframeCenterOffset.y}% 0px`;
+            this._sprite.position.set(
+                this._width * this._iframeCenterOffset.x,
+                this._height * this._iframeCenterOffset.y, 0
+            );
         }
     }
 }
