@@ -3,7 +3,6 @@ import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
 import { Prefab } from "../engine/hierarchyObject/Prefab";
 
 export class TestTilemapPrefab extends Prefab {
-
     public make(): GameObjectBuilder {
         const instantlater = this._gameManager.instantlater;
 

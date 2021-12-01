@@ -10,6 +10,7 @@ import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
 import { Scene } from "./engine/hierarchyObject/Scene";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
+import { TestTilemapChunkPrefab } from "./prefab/TestTilemapChunkPrefab";
 import { TestTilemapPrefab } from "./prefab/TestTilemapPrefab";
 
 export class TheWorldBootstrapper implements IBootstrapper {
@@ -23,6 +24,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
         let tileAnimator: SpriteAnimator|null = null;
 
         return new SceneBuilder(scene)
+            .withChild(instantlater.buildPrefab("tilemap_chunk", TestTilemapChunkPrefab, new Vector3(0, 0, 0)).make())
             .withChild(instantlater.buildPrefab("tilemap1", TestTilemapPrefab, new Vector3(0, 0, -100)).make())
             .withChild(instantlater.buildGameObject("obj1")
                 .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
