@@ -4,6 +4,7 @@ import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { SpriteAnimator } from "./component/render/SpriteAnimator";
 import { SpriteAtlasAnimator } from "./component/render/SpriteAtlasAnimator";
+import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { TestExectuer } from "./component/TestExectuer";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
@@ -34,8 +35,10 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.iframeCenterOffset = new Vector2(0, 0);
                 }))
             .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -200)).make()
+                .withComponent(ZaxisInitializer)
                 .active(false))
-            .withChild(instantlater.buildPrefab("tilemap1", TestTilemapPrefab, new Vector3(0, 0, -100)).make())
+            .withChild(instantlater.buildPrefab("tilemap1", TestTilemapPrefab, new Vector3(0, 0, -100)).make()
+                .withComponent(ZaxisInitializer))
             .withChild(instantlater.buildGameObject("obj1")
                 .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
