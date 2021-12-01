@@ -60,7 +60,8 @@ export class CssSpriteAtlasRenderer extends Component {
 
         this._htmlImageElement.src = path;
 
-        this._htmlImageElement.onload = e => {
+        const onLoad = (e: Event) => {
+            this._htmlImageElement!.removeEventListener("load", onLoad);
             const image = e.target as HTMLImageElement;
             this._croppedImageWidth = image.naturalWidth / this._columnCount;
             this._croppedImageHeight = image.naturalHeight / this._rowCount;
@@ -74,6 +75,7 @@ export class CssSpriteAtlasRenderer extends Component {
             }
             this.updateImageByIndex();
         };
+        this._htmlImageElement.addEventListener("load", onLoad);
     }
 
     private updateImageByIndex(): void {

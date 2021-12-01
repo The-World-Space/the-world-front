@@ -59,7 +59,9 @@ export class TestTilemapPrefab extends Prefab {
                     ];
 
                     tilemap3.onload = () => {
+                        tilemap3.onload = null;
                         tilemap4.onload = () => {
+                            tilemap4.onload = null;
                             const V = {i:0, a:25};
                             const W = {i:0, a:36};
                             const X = {i:0, a:31};

@@ -45,13 +45,15 @@ export class CssSpriteRenderer extends Component {
 
         this._htmlImageElement.src = path;
 
-        this._htmlImageElement.onload = () => {
+        const onLoad = (_: Event) => {
+            this._htmlImageElement!.removeEventListener("load", onLoad);
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
                 this._htmlImageElement!.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
                 this._gameObject.add(this._sprite);
             }
         };
+        this._htmlImageElement.addEventListener("load", onLoad);
     }
     
     public get imageCenterOffset(): Vector2 {
