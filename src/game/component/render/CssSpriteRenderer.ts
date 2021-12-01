@@ -21,7 +21,7 @@ export class CssSpriteRenderer extends Component {
     }
 
     public onDestroy(): void {
-        if (this._sprite) this._gameObject.remove(this._sprite);
+        if (this._sprite) this.gameObject.remove(this._sprite);
     }
 
     public get imagePath(): string|null {
@@ -50,7 +50,7 @@ export class CssSpriteRenderer extends Component {
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
                 this._htmlImageElement!.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
-                this._gameObject.add(this._sprite);
+                this.gameObject.add(this._sprite);
             }
         };
         this._htmlImageElement.addEventListener("load", onLoad);

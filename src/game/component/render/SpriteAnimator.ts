@@ -16,7 +16,7 @@ export class SpriteAnimator extends Component {
     private _currentFrameDuration: number = 0;
     
     protected start(): void {
-        this._spriteRenderer = this._gameObject.getComponent(CssSpriteRenderer);
+        this._spriteRenderer = this.gameObject.getComponent(CssSpriteRenderer);
     }
     
     public update(): void {

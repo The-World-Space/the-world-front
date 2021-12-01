@@ -10,7 +10,7 @@ export abstract class Component {
     private _enabled: boolean;
     private _started: boolean;
     private _starting: boolean;
-    protected _gameObject: GameObject;
+    private _gameObject: GameObject;
 
     public constructor(gameObject: GameObject) {
         this._enabled = true;
@@ -70,6 +70,10 @@ export abstract class Component {
 
     public get started(): boolean {
         return this._started;
+    }
+
+    public get gameObject(): GameObject {
+        return this._gameObject;
     }
 
     public get gameManager(): GameManager {

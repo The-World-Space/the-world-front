@@ -6,14 +6,14 @@ export class HookTestComponent extends Component {
     public onDisableMessage: string = "onDisable";
 
     protected start(): void { 
-        console.log(`${this._gameObject.name}: ${this.startMessage}`);
+        console.log(`${this.gameObject.name}: ${this.startMessage}`);
     }
 
     public onEnable(): void {
-        console.log(`${this._gameObject.name}: ${this.onEnableMessage}`);
+        console.log(`${this.gameObject.name}: ${this.onEnableMessage}`);
     }
 
     public onDisable(): void {
-        console.log(`${this._gameObject.name}: ${this.onDisableMessage}`);
+        console.log(`${this.gameObject.name}: ${this.onDisableMessage}`);
     }
 }

@@ -9,11 +9,11 @@ export class ZaxisSorter extends Component {
     protected start(): void { 
         this.update();
         if (!this._runOnce) return;
-        this._gameObject.removeComponent(this);
+        this.gameObject.removeComponent(this);
     }
 
     public update(): void { 
-        this._gameObject.position.z = -this._gameObject.position.y + this._offset;
+        this.gameObject.position.z = -this.gameObject.position.y + this._offset;
     }
 
     get offset(): number {

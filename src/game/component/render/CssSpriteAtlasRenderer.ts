@@ -27,7 +27,7 @@ export class CssSpriteAtlasRenderer extends Component {
     }
 
     public onDestroy(): void {
-        if (this._sprite) this._gameObject.remove(this._sprite);
+        if (this._sprite) this.gameObject.remove(this._sprite);
     }
 
     public onEnable(): void {
@@ -71,7 +71,7 @@ export class CssSpriteAtlasRenderer extends Component {
             image.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
-                this._gameObject.add(this._sprite);
+                this.gameObject.add(this._sprite);
             }
             this.updateImageByIndex();
         };

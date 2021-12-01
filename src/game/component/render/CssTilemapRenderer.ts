@@ -45,14 +45,12 @@ export class CssTilemapRenderer extends Component{
     protected start(): void { 
         this.drawTileMap();
 
-        this._initializeFunctions.forEach((func: () => void) => {
-            func();
-        });
+        this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
     }
 
     public onDestroy(): void {
-        if (this._sprite) this._gameObject.remove(this._sprite);
+        if (this._sprite) this.gameObject.remove(this._sprite);
     }
 
     private drawTileMap(): void {
@@ -63,7 +61,7 @@ export class CssTilemapRenderer extends Component{
         this._htmlCanvasElement.width = tileMapWidth;
         this._htmlCanvasElement.height = tileMapHeight;
         this._sprite = new CSS3DObject(this._htmlCanvasElement);
-        this._gameObject.add(this._sprite);
+        this.gameObject.add(this._sprite);
     }
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {

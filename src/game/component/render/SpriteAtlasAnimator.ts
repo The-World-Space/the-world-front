@@ -16,7 +16,7 @@ export class SpriteAtlasAnimator extends Component {
     private _currentFrameDuration: number = 0;
     
     protected start(): void {
-        this._spriteAtlasRenderer = this._gameObject.getComponent(CssSpriteAtlasRenderer);
+        this._spriteAtlasRenderer = this.gameObject.getComponent(CssSpriteAtlasRenderer);
     }
     
     public update(): void {
