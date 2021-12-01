@@ -1,6 +1,7 @@
 import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchyObject/Component";
+import { ZaxisInitializer } from "./ZaxisInitializer";
 
 export class CssSpriteRenderer extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
@@ -20,6 +21,7 @@ export class CssSpriteRenderer extends Component {
         }
         
         this._initializeFunction?.call(this);
+        ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
     public onDestroy(): void {
@@ -57,6 +59,7 @@ export class CssSpriteRenderer extends Component {
             this._htmlImageElement!.removeEventListener("load", onLoad);
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
+                this._htmlImageElement!.alt = `${this.gameObject.name}_sprite_atlas`;
                 this._htmlImageElement!.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
                 this._htmlImageElement!.style.imageRendering = "pixelated";
                 this._htmlImageElement!.style.zIndex = this._zindex.toString();

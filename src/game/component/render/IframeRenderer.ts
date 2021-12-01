@@ -1,6 +1,7 @@
 import { Vector2 } from "three";
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchyObject/Component";
+import { ZaxisInitializer } from "./ZaxisInitializer";
 
 export class IframeRenderer extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
@@ -15,6 +16,7 @@ export class IframeRenderer extends Component {
 
     protected start(): void { 
         this.drawIframe();
+        ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
     public onDestroy(): void {
@@ -26,13 +28,13 @@ export class IframeRenderer extends Component {
         if (this._sprite) {
             this._sprite.element.style.zIndex = this._zindex.toString();
         }
-        console.log(this._zindex);
     }
 
     private drawIframe(): void {
         const tileMapWidth: number = this._width;
         const tileMapHeight: number = this._height;
         this._htmlIframeElement = document.createElement("iframe") as HTMLIFrameElement;
+        this._htmlIframeElement.title = `${this.gameObject.name}_iframe`;
         this._htmlIframeElement.width = tileMapWidth.toString();
         this._htmlIframeElement.height = tileMapHeight.toString();
         this._htmlIframeElement.src = this._iframeSource;

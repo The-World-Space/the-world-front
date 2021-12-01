@@ -34,9 +34,8 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.height = 360;
                     c.iframeCenterOffset = new Vector2(0, 50 * 0.3);
                 }))
-            .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -200)).make()
-                .withComponent(ZaxisInitializer)
-                .active(false))
+            .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -2000)).make()
+                .withComponent(ZaxisInitializer))
             .withChild(instantlater.buildPrefab("tilemap1", TestTilemapPrefab, new Vector3(0, 0, -100)).make()
                 .withComponent(ZaxisInitializer))
             .withChild(instantlater.buildGameObject("obj1")

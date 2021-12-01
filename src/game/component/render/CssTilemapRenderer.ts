@@ -1,5 +1,6 @@
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchyObject/Component";
+import { ZaxisInitializer } from "./ZaxisInitializer";
 
 export class TileAtlasItem {
     private _htmlImageElement: HTMLImageElement;
@@ -48,6 +49,7 @@ export class CssTilemapRenderer extends Component{
 
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
+        ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
     public onDestroy(): void {
