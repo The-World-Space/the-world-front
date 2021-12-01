@@ -1,4 +1,6 @@
 import { Quaternion, Vector2, Vector3 } from "three";
+import { CameraController } from "./component/controller/CameraController";
+import { ExecuteInitialize } from "./component/ExecuteInitialize";
 import { CssSpriteAtlasRenderer } from "./component/render/CssSpriteAtlasRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
@@ -6,10 +8,11 @@ import { SpriteAnimator } from "./component/render/SpriteAnimator";
 import { SpriteAtlasAnimator } from "./component/render/SpriteAtlasAnimator";
 import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
-import { TestExectuer } from "./component/TestExectuer";
+import { TestExectuer } from "./component/TestExecuter";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
+import { GameObject } from "./engine/hierarchyObject/GameObject";
 import { Scene } from "./engine/hierarchyObject/Scene";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { TestTilemapChunkPrefab } from "./prefab/TestTilemapChunkPrefab";
@@ -24,6 +27,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
 
         let charactorAnimator: SpriteAtlasAnimator|null = null;
         let tileAnimator: SpriteAnimator|null = null;
+        let player: GameObject|null = null;
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildGameObject("iframe1", new Vector3(32, 32, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
@@ -34,10 +38,13 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.height = 360;
                     c.iframeCenterOffset = new Vector2(0, 0.5);
                 }))
+            
             .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -2000)).make()
                 .withComponent(ZaxisInitializer))
+            
             .withChild(instantlater.buildPrefab("tilemap1", TestTilemapPrefab, new Vector3(0, 0, -100)).make()
                 .withComponent(ZaxisInitializer))
+            
             .withChild(instantlater.buildGameObject("obj1")
                 .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
@@ -59,7 +66,10 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     .withComponent(ZaxisSorter)))
 
             .withChild(instantlater.buildPrefab("test player1", PlayerPrefab, new Vector3(0, -32, 0))
-                .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`).make())
+                .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`).make()
+                .withComponent(ExecuteInitialize, c => {
+                    player = c.gameObject;
+                }))
 
             .withChild(instantlater.buildGameObject("obj2", new Vector3(0, 0, 0))
                 .withComponent(CssSpriteRenderer)
@@ -97,7 +107,13 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     tileAnimator = c;
                 })
                 .withComponent(ZaxisSorter))
-
+            
+            .withChild(instantlater.buildGameObject("camera_controller")
+                .withComponent(CameraController, c => {
+                    c.setTrackTarget(player!);
+                    c.pixelPerfect = true;
+                }))
+            
             .withChild(instantlater.buildGameObject("test_executer1")
                 .withComponent(TestExectuer, c => {
                     c.setTestFunc(() => {
