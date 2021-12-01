@@ -28,12 +28,12 @@ export class GameObject extends Object3D {
                 if (child._activeSelf) child.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
 
                 if (child._activeInHierarchy) {
-                    child.tryEnableComponents();
+                    //child.tryEnableComponents();
                     child.traverseVisible(item => {
                         if (item instanceof GameObject) item.tryEnableComponents();
                     });
 
-                    child.tryStartComponents();
+                    //child.tryStartComponents();
                     child.traverseVisible(item => {
                         if (item instanceof GameObject) item.tryStartComponents();
                     });
@@ -60,18 +60,18 @@ export class GameObject extends Object3D {
         this.addWithNoinit(newParent);
         if (!prevActiveInHierarchy) {
             if (this.activeInHierarchy) {
-                this.tryEnableComponents();
+                //this.tryEnableComponents();
                 this.traverseVisible(item => {
                     if (item instanceof GameObject) item.tryEnableComponents();
                 });
-                this.tryStartComponents();
+                //this.tryStartComponents();
                 this.traverseVisible(item => {
                     if (item instanceof GameObject) item.tryStartComponents();
                 });
             }
         } else {
             if (!this.activeInHierarchy) {
-                this.disableComponents();
+                //this.disableComponents();
                 this.traverseVisible(item => {
                     if (item instanceof GameObject) item.disableComponents();
                 });
