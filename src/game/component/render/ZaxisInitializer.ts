@@ -11,7 +11,7 @@ export class ZaxisInitializer extends Component {
     }
 
     public update(): void { 
-        if (!this._runOnce) return;
+        if (this._runOnce) return;
         this.process();
     }
 
