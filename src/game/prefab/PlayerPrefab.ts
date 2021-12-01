@@ -21,7 +21,7 @@ export class PlayerPrefab extends Prefab {
         return this._gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 c.setImage(this._spriteAtlasPath, 4, 4);
-                c.imageCenterOffset = new Vector2(0, 50);
+                c.imageCenterOffset = new Vector2(0, 0.5);
             })
             .withComponent(SpriteAtlasAnimator, c => {
                 c.addAnimation("down_idle", [0]);

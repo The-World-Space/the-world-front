@@ -32,7 +32,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.iframeSource = "https://www.youtube.com/embed/8nevghw8xbM";
                     c.width = 640;
                     c.height = 360;
-                    c.iframeCenterOffset = new Vector2(0, 50 * 0.3);
+                    c.iframeCenterOffset = new Vector2(0, 0.5);
                 }))
             .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -2000)).make()
                 .withComponent(ZaxisInitializer))
@@ -42,6 +42,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withChild(instantlater.buildGameObject("obj1.1", new Vector3(0, 32, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
                         c.setImage(`${process.env.PUBLIC_URL}/assets/charactor/Hyeonjong.png`, 4, 4);
+                        c.imageCenterOffset = new Vector2(0, 0.5);
                     })
                     .withComponent(SpriteAtlasAnimator, c => {
                         c.addAnimation("down_idle", [0]);

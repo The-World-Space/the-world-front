@@ -39,9 +39,12 @@ export class IframeRenderer extends Component {
         this._htmlIframeElement.height = tileMapHeight.toString();
         this._htmlIframeElement.src = this._iframeSource;
         this._htmlIframeElement.style.border = "none";
-        this._htmlIframeElement.style.translate = `${this._iframeCenterOffset.x}% ${this._iframeCenterOffset.y}% 0px`;
         this._htmlIframeElement.style.zIndex = this._zindex.toString();
         this._sprite = new CSS3DObject(this._htmlIframeElement);
+        this._sprite.position.set(
+            tileMapWidth * this._iframeCenterOffset.x,
+            tileMapHeight * this._iframeCenterOffset.y, 0
+        );
         this.gameObject.add(this._sprite);
     }
 

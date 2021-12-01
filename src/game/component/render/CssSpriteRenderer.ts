@@ -55,14 +55,18 @@ export class CssSpriteRenderer extends Component {
 
         this._htmlImageElement.src = path;
 
-        const onLoad = (_: Event) => {
-            this._htmlImageElement!.removeEventListener("load", onLoad);
+        const onLoad = (e: Event) => {
+            const image = e.target as HTMLImageElement;
+            image.removeEventListener("load", onLoad);
             if (!this._sprite) {
-                this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
-                this._htmlImageElement!.alt = `${this.gameObject.name}_sprite_atlas`;
-                this._htmlImageElement!.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
-                this._htmlImageElement!.style.imageRendering = "pixelated";
-                this._htmlImageElement!.style.zIndex = this._zindex.toString();
+                this._sprite = new CSS3DSprite(image);
+                image.alt = `${this.gameObject.name}_sprite_atlas`;
+                image.style.imageRendering = "pixelated";
+                image.style.zIndex = this._zindex.toString();
+                this._sprite.position.set(
+                    parseInt(image.style.width) * this._imageCenterOffset.x,
+                    parseInt(image.style.height) * this._imageCenterOffset.y, 0
+                );
                 this.gameObject.add(this._sprite);
             }
         };
@@ -76,7 +80,10 @@ export class CssSpriteRenderer extends Component {
     public set imageCenterOffset(value: Vector2) {
         this._imageCenterOffset.copy(value);
         if (this._sprite) {
-            this._sprite.element.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
+            this._sprite.position.set(
+                parseInt(this._htmlImageElement!.style.width) * this._imageCenterOffset.x,
+                parseInt(this._htmlImageElement!.style.height) * this._imageCenterOffset.y, 0
+            );
         }
     }
 }
