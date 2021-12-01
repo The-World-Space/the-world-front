@@ -32,7 +32,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.iframeSource = "https://www.youtube.com/embed/8nevghw8xbM";
                     c.width = 640;
                     c.height = 360;
-                    c.iframeCenterOffset = new Vector2(0, 0);
+                    c.iframeCenterOffset = new Vector2(0, 50 * 0.3);
                 }))
             .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -200)).make()
                 .withComponent(ZaxisInitializer)
