@@ -26,7 +26,7 @@ export class IframeRenderer extends Component {
     public onSortByZaxis(zaxis: number): void {
         this._zindex = zaxis;
         if (this._sprite) {
-            this._sprite.element.style.zIndex = this._zindex.toString();
+            this._sprite.element.style.zIndex = Math.floor(this._zindex).toString();
         }
     }
 
@@ -39,7 +39,7 @@ export class IframeRenderer extends Component {
         this._htmlIframeElement.height = iframeHeight.toString();
         this._htmlIframeElement.src = this._iframeSource;
         this._htmlIframeElement.style.border = "none";
-        this._htmlIframeElement.style.zIndex = this._zindex.toString();
+        this._htmlIframeElement.style.zIndex = Math.floor(this._zindex).toString();
         this._sprite = new CSS3DObject(this._htmlIframeElement);
         this._sprite.position.set(
             iframeWidth * this._iframeCenterOffset.x,

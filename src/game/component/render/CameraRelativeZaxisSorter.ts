@@ -1,20 +1,13 @@
 import { GameObject } from "../../engine/hierarchyObject/GameObject";
 import { ZaxisSortable } from "./ZaxisSortable";
 
-export class ZaxisSorter extends ZaxisSortable {
+export class CameraRelativeZaxisSorter extends ZaxisSortable {
     protected readonly _disallowMultipleComponent: boolean = true;
 
-    private _offset: number = 0;
-    private _runOnce: boolean = true;
-
-    protected start(): void { 
-        this.update();
-        if (!this._runOnce) return;
-        this.gameObject.removeComponent(this);
-    }
+    private _offset: number = -1000;
 
     public update(): void { 
-        this.gameObject.position.z = -this.gameObject.position.y + this._offset;
+        this.gameObject.position.z = this.gameManager.camera.position.z + this._offset;
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
                 child.foreachComponent(c => {
@@ -34,13 +27,5 @@ export class ZaxisSorter extends ZaxisSortable {
 
     set offset(value: number) {
         this._offset = value;
-    }
-
-    get runOnce(): boolean {
-        return this._runOnce;
-    }
-
-    set runOnce(value: boolean) {
-        this._runOnce = value;
     }
 }

@@ -31,7 +31,7 @@ export class CssSpriteRenderer extends Component {
     public onSortByZaxis(zaxis: number): void {
         this._zindex = zaxis;
         if (this._sprite) {
-            this._sprite.element.style.zIndex = this._zindex.toString();
+            this._sprite.element.style.zIndex = Math.floor(this._zindex).toString();
         }
     }
 
@@ -62,7 +62,7 @@ export class CssSpriteRenderer extends Component {
                 this._sprite = new CSS3DSprite(image);
                 image.alt = `${this.gameObject.name}_sprite_atlas`;
                 image.style.imageRendering = "pixelated";
-                image.style.zIndex = this._zindex.toString();
+                image.style.zIndex = Math.floor(this._zindex).toString();
                 this._sprite.position.set(
                     image.naturalWidth * this._imageCenterOffset.x,
                     image.naturalHeight * this._imageCenterOffset.y, 0

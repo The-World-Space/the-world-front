@@ -1,7 +1,7 @@
-import { Component } from "../../engine/hierarchyObject/Component";
 import { GameObject } from "../../engine/hierarchyObject/GameObject";
+import { ZaxisSortable } from "./ZaxisSortable";
 
-export class ZaxisInitializer extends Component {
+export class ZaxisInitializer extends ZaxisSortable {
     protected readonly _disallowMultipleComponent: boolean = true;
 
     private _runOnce: boolean = true;
@@ -34,7 +34,7 @@ export class ZaxisInitializer extends Component {
         if (gameObject.parent instanceof GameObject) {
             let currentAncestor: GameObject = gameObject.parent;
             while (currentAncestor) {
-                const zaxisInitializer: ZaxisInitializer|null = currentAncestor.getComponent(ZaxisInitializer);
+                const zaxisInitializer: ZaxisSortable|null = currentAncestor.getComponent(ZaxisSortable);
                 if (zaxisInitializer) {
                     onSortByZaxis(currentAncestor.position.z);
                     return;

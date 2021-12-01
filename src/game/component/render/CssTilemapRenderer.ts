@@ -59,7 +59,7 @@ export class CssTilemapRenderer extends Component{
     public onSortByZaxis(zaxis: number): void {
         this._zindex = zaxis;
         if (this._sprite) {
-            this._sprite.element.style.zIndex = this._zindex.toString();
+            this._sprite.element.style.zIndex = Math.floor(this._zindex).toString();
         }
     }
 
@@ -68,7 +68,7 @@ export class CssTilemapRenderer extends Component{
         const tileMapHeight: number = this._rowCount * this._tileHeight;
         this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
         this._htmlCanvasElement.style.imageRendering = "pixelated";
-        this._htmlCanvasElement.style.zIndex = this._zindex.toString();
+        this._htmlCanvasElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlCanvasElement.width = tileMapWidth;
         this._htmlCanvasElement.height = tileMapHeight;
         this._sprite = new CSS3DObject(this._htmlCanvasElement);
