@@ -39,6 +39,7 @@ export class CssTilemapRenderer extends Component{
     private _sprite: CSS3DObject|null = null;
     private _htmlCanvasElement: HTMLCanvasElement|null = null;
     private _imageSources: TileAtlasItem[]|null = null;
+    private _zindex: number = 0;
     
     private _initializeFunctions: ((() => void))[] = [];
 
@@ -53,11 +54,19 @@ export class CssTilemapRenderer extends Component{
         if (this._sprite) this.gameObject.remove(this._sprite);
     }
 
+    public onSortByZaxis(zaxis: number): void {
+        this._zindex = zaxis;
+        if (this._sprite) {
+            this._sprite.element.style.zIndex = this._zindex.toString();
+        }
+    }
+
     private drawTileMap(): void {
         const tileMapWidth: number = this._columnCount * this._tileWidth;
         const tileMapHeight: number = this._rowCount * this._tileHeight;
         this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
         this._htmlCanvasElement.style.imageRendering = "pixelated";
+        this._htmlCanvasElement.style.zIndex = this._zindex.toString();
         this._htmlCanvasElement.width = tileMapWidth;
         this._htmlCanvasElement.height = tileMapHeight;
         this._sprite = new CSS3DObject(this._htmlCanvasElement);

@@ -11,6 +11,7 @@ export class IframeRenderer extends Component {
     private _htmlIframeElement: HTMLIFrameElement|null = null;
     private _iframeCenterOffset: Vector2 = new Vector2(0, 0);
     private _iframeSource: string = "";
+    private _zindex: number = 0;
 
     protected start(): void { 
         this.drawIframe();
@@ -18,6 +19,14 @@ export class IframeRenderer extends Component {
 
     public onDestroy(): void {
         if (this._sprite) this.gameObject.remove(this._sprite);
+    }
+
+    public onSortByZaxis(zaxis: number): void {
+        this._zindex = zaxis;
+        if (this._sprite) {
+            this._sprite.element.style.zIndex = this._zindex.toString();
+        }
+        console.log(this._zindex);
     }
 
     private drawIframe(): void {
@@ -28,7 +37,8 @@ export class IframeRenderer extends Component {
         this._htmlIframeElement.height = tileMapHeight.toString();
         this._htmlIframeElement.src = this._iframeSource;
         this._htmlIframeElement.style.border = "none";
-        this._htmlIframeElement.style.zIndex = "999";
+        this._htmlIframeElement.style.translate = `${this._iframeCenterOffset.x}% ${this._iframeCenterOffset.y}% 0px`;
+        this._htmlIframeElement.style.zIndex = this._zindex.toString();
         this._sprite = new CSS3DObject(this._htmlIframeElement);
         this.gameObject.add(this._sprite);
     }

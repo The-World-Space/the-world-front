@@ -8,9 +8,11 @@ export class CssSpriteRenderer extends Component {
     private _sprite: CSS3DSprite|null = null;
     private _htmlImageElement: HTMLImageElement|null = null;
     private _imageCenterOffset: Vector2 = new Vector2(0, 0);
-    private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
+    private _zindex: number = 0;
 
     private _initializeFunction: (() => void)|null = null;
+    
+    private static readonly _defaultImagePath: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
 
     protected start(): void {
         if (!this._htmlImageElement) {
@@ -22,6 +24,13 @@ export class CssSpriteRenderer extends Component {
 
     public onDestroy(): void {
         if (this._sprite) this.gameObject.remove(this._sprite);
+    }
+
+    public onSortByZaxis(zaxis: number): void {
+        this._zindex = zaxis;
+        if (this._sprite) {
+            this._sprite.element.style.zIndex = this._zindex.toString();
+        }
     }
 
     public get imagePath(): string|null {
@@ -40,7 +49,6 @@ export class CssSpriteRenderer extends Component {
 
         if (!this._htmlImageElement) {
             this._htmlImageElement = new Image();
-            this._htmlImageElement.style.imageRendering = "pixelated";
         }
 
         this._htmlImageElement.src = path;
@@ -50,6 +58,8 @@ export class CssSpriteRenderer extends Component {
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
                 this._htmlImageElement!.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
+                this._htmlImageElement!.style.imageRendering = "pixelated";
+                this._htmlImageElement!.style.zIndex = this._zindex.toString();
                 this.gameObject.add(this._sprite);
             }
         };

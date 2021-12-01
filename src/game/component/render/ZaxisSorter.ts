@@ -18,8 +18,10 @@ export class ZaxisSorter extends Component {
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
                 child.foreachComponent(c => {
-                    if (c instanceof IZaxisSortable) {
-                        c.update();
+                    const cAny = c as any;
+                    if (cAny.onSortByZaxis) {
+                        if (typeof cAny.onSortByZaxis === "function")
+                        cAny.onSortByZaxis(this.gameObject.position.z);
                     }
                 });
             }

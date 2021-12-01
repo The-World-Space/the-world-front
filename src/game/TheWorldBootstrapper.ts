@@ -1,4 +1,4 @@
-import { Quaternion, Vector3 } from "three";
+import { Quaternion, Vector2, Vector3 } from "three";
 import { CssSpriteAtlasRenderer } from "./component/render/CssSpriteAtlasRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
@@ -31,6 +31,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.iframeSource = "https://www.youtube.com/embed/8nevghw8xbM";
                     c.width = 640;
                     c.height = 360;
+                    c.iframeCenterOffset = new Vector2(0, 0);
                 }))
             .withChild(instantlater.buildPrefab("tilemap_chunk1", TestTilemapChunkPrefab, new Vector3(0, 0, -200)).make()
                 .active(false))

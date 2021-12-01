@@ -13,6 +13,7 @@ export class CssSpriteAtlasRenderer extends Component {
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
     private _imageCenterOffset: Vector2 = new Vector2(0, 0);
+    private _zindex: number = 0;
     
     private _initializeFunction: (() => void)|null = null;
 
@@ -38,6 +39,13 @@ export class CssSpriteAtlasRenderer extends Component {
         if (this._sprite) this._sprite.visible = false;
     }
 
+    public onSortByZaxis(zaxis: number): void {
+        this._zindex = zaxis;
+        if (this._sprite) {
+            this._sprite.element.style.zIndex = this._zindex.toString();
+        }
+    }
+
     public get imagePath(): string|null {
         return this._htmlImageElement?.src || null;
     }
@@ -55,7 +63,6 @@ export class CssSpriteAtlasRenderer extends Component {
 
         if (!this._htmlImageElement) {
             this._htmlImageElement = new Image();
-            this._htmlImageElement.style.imageRendering = "pixelated";
         }
 
         this._htmlImageElement.src = path;
@@ -69,6 +76,8 @@ export class CssSpriteAtlasRenderer extends Component {
             image.style.height = `${this._croppedImageHeight}px`;
             image.style.objectFit = "none";
             image.style.translate = `${this._imageCenterOffset.x}% ${this._imageCenterOffset.y}% 0px`;
+            image.style.imageRendering = "pixelated";
+            image.style.zIndex = this._zindex.toString();
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
                 this.gameObject.add(this._sprite);
