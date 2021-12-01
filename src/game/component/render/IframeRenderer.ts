@@ -20,7 +20,7 @@ export class IframeRenderer extends Component {
 
     private drawIframe(): void {
         const tileMapWidth: number = this._width;
-        const tileMapHeight: number = this._width;
+        const tileMapHeight: number = this._height;
         this._htmlIframeElement = document.createElement("iframe") as HTMLIFrameElement;
         this._htmlIframeElement.width = tileMapWidth.toString();
         this._htmlIframeElement.height = tileMapHeight.toString();
