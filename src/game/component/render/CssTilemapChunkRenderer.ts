@@ -37,11 +37,13 @@ export class CssTilemapChunkRenderer extends Component {
         return `${x}_${y}`;
     }
 
-    private computeDrawPosition(chunkX: number, chunkY: number, x: number, y: number): Vector2 {
-        return new Vector2(
-            chunkX * this._chunkSize * this._tileWidth + x * this._tileWidth,
-            chunkY * this._chunkSize * this._tileHeight + y * this._tileHeight
-        );
+    private computeDrawPosition(chunkIndexX: number, chunkIndexY: number, x: number, y: number): Vector2 {
+        //get relative position in chunk
+        //note: 0,0 is center of chunk
+        const relativeX = (x - chunkIndexX * this._chunkSize) + this._chunkSize / 2;
+        const relativeY = (y - chunkIndexY * this._chunkSize) + this._chunkSize / 2;
+
+        return new Vector2(relativeX, relativeY);
     }
 
     public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
@@ -52,8 +54,8 @@ export class CssTilemapChunkRenderer extends Component {
             return;
         }
 
-        const chunkIndexX = Math.floor(x / this._chunkSize);
-        const chunkIndexY = Math.floor(y / this._chunkSize);
+        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
@@ -73,7 +75,7 @@ export class CssTilemapChunkRenderer extends Component {
             this._cssTilemapRendererMap.set(chunkIndex, cssTilemapRenderer!);
         }
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
-        cssTilemapRenderer!.drawTile(drawPosition.x, drawPosition.y, imageIndex, atlasIndex);
+        cssTilemapRenderer!.drawTile(drawPosition.x, this._chunkSize - drawPosition.y - 1, imageIndex, atlasIndex);
     }
 
     public get chunkSize(): number {

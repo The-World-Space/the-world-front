@@ -54,7 +54,7 @@ export class TestTilemapPrefab extends Prefab {
 
                     c.imageSources = [
                         new TileAtlasItem(tilemap3, 10, 10),
-                        new TileAtlasItem(tilemap4, 15, 10),
+                        new TileAtlasItem(tilemap4, 10, 15),
                     ];
 
                     tilemap3.onload = () => {

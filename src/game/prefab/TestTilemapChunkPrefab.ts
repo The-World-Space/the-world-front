@@ -13,11 +13,14 @@ export class TestTilemapChunkPrefab extends Prefab {
                 tilemap3.onload = () => {
                     c.imageSources = [new TileAtlasItem(tilemap3, 10, 10)];
                     c.drawTile(0, 0, 0, 0);
-                    // for (let i = -10; i < 10; i++) {
-                    //     for (let j = -10; j < 10; j++) {
-                    //         c.drawTile(i, j, 0, 0);
-                    //     }
-                    // }
+                    c.drawTile(0, 2, 0, 0);
+                    for (let i = -100; i < 100; i++) {
+                        for (let j = -100; j < 100; j++) {
+                            const random = Math.random() > 0.5;
+                            const random2 = Math.floor(Math.random() * 100);
+                            if (random) c.drawTile(i, j, 0, random2);
+                        }
+                    }
                 }
             })
     }

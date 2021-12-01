@@ -3,14 +3,14 @@ import { Component } from "../../engine/hierarchyObject/Component";
 
 export class TileAtlasItem {
     private _htmlImageElement: HTMLImageElement;
-    private _rowCount: number;
     private _columnCount: number;
+    private _rowCount: number;
 
     public constructor(htmlImageElement: HTMLImageElement);
 
-    public constructor(htmlImageElement: HTMLImageElement, rowCount: number, columnCount: number);
+    public constructor(htmlImageElement: HTMLImageElement, columnCount: number, rowCount: number);
 
-    public constructor(htmlImageElement: HTMLImageElement, rowCount?: number, columnCount?: number) {
+    public constructor(htmlImageElement: HTMLImageElement, columnCount?: number, rowCount?: number) {
         this._htmlImageElement = htmlImageElement;
         this._rowCount = rowCount || 1;
         this._columnCount = columnCount || 1;
@@ -20,12 +20,12 @@ export class TileAtlasItem {
         return this._htmlImageElement;
     }
 
-    public get rowCount(): number {
-        return this._rowCount;
-    }
-
     public get columnCount(): number {
         return this._columnCount;
+    }
+
+    public get rowCount(): number {
+        return this._rowCount;
     }
 }
 
