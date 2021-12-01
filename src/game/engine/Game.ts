@@ -21,7 +21,7 @@ export class Game {
     private _animationFrameId: number | null;
     private _isDisposed: boolean;
 
-    private static readonly _cameraViewSize = 300*4;
+    private static readonly _cameraViewSize = 300;
 
     public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
         this._rootScene = new Scene();

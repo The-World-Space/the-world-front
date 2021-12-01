@@ -83,9 +83,12 @@ export class CssTilemapRenderer extends Component{
         } else if (atlasIndex !== undefined) {   
             const rowIndex: number = Math.floor(atlasIndex / imageSource.columnCount);
             const columnIndex: number = atlasIndex % imageSource.columnCount;
+            const imageWidth: number = imageSource.htmlImageElement.width / imageSource.columnCount;
+            const imageHeight: number = imageSource.htmlImageElement.height / imageSource.rowCount;
             context.drawImage(
                 imageSource.htmlImageElement, 
-                columnIndex * this._tileWidth, rowIndex * this._tileHeight, this._tileWidth, this._tileHeight, 
+                columnIndex * imageWidth, rowIndex * imageHeight, 
+                imageWidth, imageHeight, 
                 column * this._tileWidth, row * this._tileHeight,
                 this._tileWidth, this._tileHeight);
         } else {
@@ -115,12 +118,15 @@ export class CssTilemapRenderer extends Component{
                         0, 0, this._tileWidth, this._tileHeight, 
                         columnIndex * this._tileWidth + columnOffset * this._tileWidth, rowIndex * this._tileHeight + rowOffset * this._tileHeight,
                         this._tileWidth, this._tileHeight);
-                } else if (tile.a !== undefined) {   
-                    const atlasRowIndex: number = Math.floor(tile.a / imageSource.columnCount);
+                } else if (tile.a !== undefined) {
                     const atlasColumnIndex: number = tile.a % imageSource.columnCount;
+                    const atlasRowIndex: number = Math.floor(tile.a / imageSource.columnCount);
+                    const imageWidth: number = imageSource.htmlImageElement.width / imageSource.columnCount;
+                    const imageHeight: number = imageSource.htmlImageElement.height / imageSource.rowCount;
                     context.drawImage(
                         imageSource.htmlImageElement,
-                        atlasColumnIndex * this._tileWidth, atlasRowIndex * this._tileHeight, this._tileWidth, this._tileHeight,
+                        atlasColumnIndex * imageWidth, atlasRowIndex * imageHeight,
+                        imageWidth, imageHeight,
                         columnIndex * this._tileWidth + columnOffset * this._tileWidth, rowIndex * this._tileHeight + rowOffset * this._tileHeight,
                         this._tileWidth, this._tileHeight);
                 } else {
