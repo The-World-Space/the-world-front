@@ -10,6 +10,8 @@ export class CssSpriteRenderer extends Component {
     private _htmlImageElement: HTMLImageElement|null = null;
     private readonly _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private _zindex: number = 0;
+    private _imageWidth: number = 0;
+    private _imageHeight: number = 0;
 
     private _initializeFunction: (() => void)|null = null;
     
@@ -62,6 +64,12 @@ export class CssSpriteRenderer extends Component {
                 this._sprite = new CSS3DSprite(image);
                 image.alt = `${this.gameObject.name}_sprite_atlas`;
                 image.style.imageRendering = "pixelated";
+
+                if (this._imageWidth === 0) this._imageWidth = image.width;
+                if (this._imageHeight === 0) this._imageHeight = image.height;
+                image.style.width = `${this._imageWidth}px`;
+                image.style.height = `${this._imageHeight}px`;
+                
                 image.style.zIndex = Math.floor(this._zindex).toString();
                 this._sprite.position.set(
                     image.naturalWidth * this._imageCenterOffset.x,
@@ -84,6 +92,28 @@ export class CssSpriteRenderer extends Component {
                 this._htmlImageElement!.naturalWidth * this._imageCenterOffset.x,
                 this._htmlImageElement!.naturalHeight * this._imageCenterOffset.y, 0
             );
+        }
+    }
+
+    public get imageWidth(): number {
+        return this._imageWidth;
+    }
+
+    public set imageWidth(value: number) {
+        this._imageWidth = value;
+        if (this._htmlImageElement) {
+            this._htmlImageElement.style.width = `${value}px`;
+        }
+    }
+
+    public get imageHeight(): number {
+        return this._imageHeight;
+    }
+
+    public set imageHeight(value: number) {
+        this._imageHeight = value;
+        if (this._sprite) {
+            this._sprite.element.style.height = `${value}px`;
         }
     }
 }
