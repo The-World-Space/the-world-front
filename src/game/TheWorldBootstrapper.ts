@@ -9,6 +9,7 @@ import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { Scene } from "./engine/hierarchy_object/Scene";
+import { NetworkPlayerPrefab } from "./prefab/NetworkPlayerPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { TestTilemapChunkPrefab } from "./prefab/TestTilemapChunkPrefab";
 import { TestTilemapPrefab } from "./prefab/TestTilemapPrefab";
@@ -24,15 +25,20 @@ export class TheWorldBootstrapper implements IBootstrapper {
         return new SceneBuilder(scene)
             .withChild(instantlater.buildPrefab("tilemap_chunk", TestTilemapChunkPrefab, new Vector3(0, 0, -200))
                 //.getColideTilemapRendererRef(colideTilemap)
-                .make())
+                .make()
+                .active(false))
             
             .withChild(instantlater.buildPrefab("tilemap", TestTilemapPrefab, new Vector3(0, 0, -100))
                 .getColideTilemapRendererRef(colideTilemap).make())
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
-                .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`)
                 .withColideTilemap(colideTilemap.ref!).make()
                 .getGameObject(player))
+            
+            .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
+                .withGridInfo(colideTilemap.ref!)
+                .withGridPosition(-1, -1)
+                .make())
 
             .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 4, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
                 .withComponent(IframeRenderer, c => {

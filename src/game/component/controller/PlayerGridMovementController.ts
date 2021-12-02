@@ -5,13 +5,13 @@ import { Direction, Directionable } from "./Directionable";
 
 export class PlayerGridMovementController extends Directionable {
     private _speed: number = 96;
-    private readonly _gridCenter: Vector2 = new Vector2();
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;
     private _collideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null = null;
+    private readonly _collideSize: number = 8;
+    private readonly _gridCenter: Vector2 = new Vector2();
     private readonly _currentGridPosition: Vector2 = new Vector2();
     private readonly _targetGridPosition: Vector2 = new Vector2();
-    private readonly collideSize: number = 8;
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
 
     protected start(): void {
@@ -102,7 +102,7 @@ export class PlayerGridMovementController extends Directionable {
 
     private checkCollision(x: number, y: number): boolean {
         if (this._collideTilemap) {
-            return this._collideTilemap.checkCollision(x, y, this.collideSize, this.collideSize);
+            return this._collideTilemap.checkCollision(x, y, this._collideSize, this._collideSize);
         }
         return false;
     }
@@ -116,7 +116,7 @@ export class PlayerGridMovementController extends Directionable {
     }
 
     public get gridCenter(): Vector2 {
-        return this._gridCenter;
+        return this._gridCenter.clone();
     }
 
     public set gridCenter(value: Vector2) {
@@ -152,15 +152,14 @@ export class PlayerGridMovementController extends Directionable {
         if (value) {
             this._gridCellWidth = value.tileWidth;
             this._gridCellHeight = value.tileHeight;
-            if (value instanceof CssCollideTilemapRenderer) {
-                const offsetX = value.columnCount % 2 === 1 ? 0 : value.tileWidth / 2;
-                const offsetY = value.rowCount % 2 === 1 ? 0 : value.tileHeight / 2;
-                this._gridCenter.set(value.gameObject.position.x + offsetX, value.gameObject.position.y + offsetY);
-            } else if (value instanceof CssCollideTilemapChunkRenderer) {
-                const offsetX = value.chunkSize % 2 === 1 ? 0 : value.tileWidth / 2;
-                const offsetY = value.chunkSize % 2 === 1 ? 0 : value.tileHeight / 2;
-                this._gridCenter.set(value.gameObject.position.x + offsetX, value.gameObject.position.y + offsetY);
-            }
+            this._gridCenter.set(value.gridCenterX, value.gridCenterY);
         }
+    }
+
+    public get positionInGrid(): Vector2 {
+        return new Vector2(
+            Math.floor(this.gameObject.position.x / this._gridCellWidth),
+            Math.floor(this.gameObject.position.y / this._gridCellHeight)
+        );
     }
 }

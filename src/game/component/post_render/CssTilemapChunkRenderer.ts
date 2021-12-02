@@ -129,4 +129,20 @@ export class CssTilemapChunkRenderer extends Component {
             renderer.tileHeight = this._tileHeight;
         });
     }
+
+    public get gridCenter(): Vector2 {
+        const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
+        const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
+        return new Vector2(this.gameObject.position.x + offsetX, this.gameObject.position.y + offsetY);
+    }
+    
+    public get gridCenterX(): number {
+        const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
+        return this.gameObject.position.x + offsetX;
+    }
+
+    public get gridCenterY(): number {
+        const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
+        return this.gameObject.position.y + offsetY;
+    }
 }

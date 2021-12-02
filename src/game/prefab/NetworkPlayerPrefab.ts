@@ -1,30 +1,32 @@
 import { Vector2 } from "three";
 import { MovementAnimationController } from "../component/controller/MovementAnimationController";
-import { PlayerGridMovementController } from "../component/controller/PlayerGridMovementController";
-import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
-import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
+import { NetworkGridMovementController } from "../component/controller/NetworkGridMovementController";
+import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
+import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
+import { CssTilemapRenderer } from "../component/render/CssTilemapRenderer";
+import { CssTilemapChunkRenderer } from "../component/post_render/CssTilemapChunkRenderer";
 
-export class PlayerPrefab extends Prefab {
+export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`;
-    private _colideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null = null;
+    private _tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer|null = null;
     private _gridPosition: Vector2|null = null;
 
-    public with4x4SpriteAtlasFromPath(name: string): PlayerPrefab {
+    public with4x4SpriteAtlasFromPath(name: string): NetworkPlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
-    public withColideTilemap(colideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer): PlayerPrefab {
-        this._colideTilemap = colideTilemap;
+    public withGridInfo(tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer): NetworkPlayerPrefab {
+        this._tilemap = tilemap;
         return this;
     }
 
-    public withGridPosition(x: number, y: number): PlayerPrefab {
+    public withGridPosition(x: number, y: number): NetworkPlayerPrefab {
         this._gridPosition = new Vector2(x, y);
         return this;
     }
@@ -46,8 +48,12 @@ export class PlayerPrefab extends Prefab {
                 c.addAnimation("left_walk", [12, 13, 14, 15]);
                 c.frameDuration = 0.2;
             })
-            .withComponent(PlayerGridMovementController, c => {
-                c.collideTilemap = this._colideTilemap;
+            .withComponent(NetworkGridMovementController, c => {
+                if (this._tilemap) {
+                    c.gridCellHeight = this._tilemap.tileHeight;
+                    c.gridCellWidth = this._tilemap.tileWidth
+                    c.gridCenter = this._tilemap.gridCenter;
+                }
                 if (this._gridPosition) c.initPosition = this._gridPosition;
             })
             .withComponent(MovementAnimationController)
