@@ -3,7 +3,7 @@ import { Component } from "../../engine/hierarchy_object/Component";
 import { CssTilemapRenderer, TileAtlasItem } from "../render/CssTilemapRenderer";
 
 export class CssTilemapChunkRenderer extends Component {
-    private _cssTilemapRendererMap: Map<`${number}_${number}`, CssTilemapRenderer> = new Map();
+    private readonly _cssTilemapRendererMap: Map<`${number}_${number}`, CssTilemapRenderer> = new Map();
     //key is chunk position in string format "x_y"
     private _chunkSize: number = 16;
     private _tileWidth: number = 16;

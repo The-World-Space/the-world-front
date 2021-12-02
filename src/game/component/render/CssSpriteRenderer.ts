@@ -8,7 +8,7 @@ export class CssSpriteRenderer extends Component {
 
     private _sprite: CSS3DSprite|null = null;
     private _htmlImageElement: HTMLImageElement|null = null;
-    private _imageCenterOffset: Vector2 = new Vector2(0, 0);
+    private readonly _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private _zindex: number = 0;
 
     private _initializeFunction: (() => void)|null = null;

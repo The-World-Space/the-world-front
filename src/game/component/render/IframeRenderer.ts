@@ -10,7 +10,7 @@ export class IframeRenderer extends Component {
     private _height: number = 128;
     private _sprite: CSS3DObject|null = null;
     private _htmlIframeElement: HTMLIFrameElement|null = null;
-    private _iframeCenterOffset: Vector2 = new Vector2(0, 0);
+    private readonly _iframeCenterOffset: Vector2 = new Vector2(0, 0);
     private _iframeSource: string = "";
     private _zindex: number = 0;
 

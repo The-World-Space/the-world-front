@@ -13,7 +13,7 @@ export class CssSpriteAtlasRenderer extends Component {
     private _croppedImageWidth: number = 0;
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
-    private _imageCenterOffset: Vector2 = new Vector2(0, 0);
+    private readonly _imageCenterOffset: Vector2 = new Vector2(0, 0);
     private _zindex: number = 0;
     
     private _initializeFunction: (() => void)|null = null;
