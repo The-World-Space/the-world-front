@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from "three";
+import { Vector2 } from "three";
 import { CssCollideTilemapChunkRenderer } from "../physics/CssCollideTilemapChunkRenderer";
 import { CssCollideTilemapRenderer } from "../physics/CssCollideTilemapRenderer";
 import { Direction, Directionable } from "./Directionable";
