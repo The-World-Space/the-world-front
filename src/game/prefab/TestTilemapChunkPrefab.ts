@@ -27,9 +27,8 @@ export class TestTilemapChunkPrefab extends Prefab {
                             new TileAtlasItem(tilemap3, 10, 10),
                             new TileAtlasItem(minecraftTile, 13, 9)
                         ];
-                        c.drawTile(0, -6, 0, 0);
-                        for (let i = -10; i < 10; i++) {
-                            for (let j = -10; j < 10; j++) {
+                        for (let i = -20; i < 20; i++) {
+                            for (let j = -20; j < 20; j++) {
                                 const random = Math.random() > 0.9;
                                 const random2 = Math.floor(Math.random() * 100);
                                 if (random) c.drawTile(i, j, 1, random2);

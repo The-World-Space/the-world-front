@@ -6,7 +6,7 @@ import { TileAtlasItem } from "../render/CssTilemapRenderer";
 export class CssCollideTilemapChunkRenderer extends Component {
     private readonly _cssTilemapRendererMap: Map<`${number}_${number}`, CssCollideTilemapRenderer> = new Map();
     //key is chunk position in string format "x_y"
-    private _chunkSize: number = 15;
+    private _chunkSize: number = 16;
     private _tileWidth: number = 16;
     private _tileHeight: number = 16;
     private _imageSources: TileAtlasItem[]|null = null;

@@ -9,8 +9,9 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {
         super.drawTile(column, row, imageIndex, atlasIndex);
-        const colideX = Math.ceil(this.gameObject.position.x + column - this.columnCount / 2);
-        const colideY = Math.ceil(this.gameObject.position.x + (this.rowCount - row) - this.rowCount / 2) - 1;
+        const colideX = Math.ceil(column - this.columnCount / 2);
+        const colideY = Math.ceil((this.rowCount - row) - this.rowCount / 2) - 1;
+        //console.log(`${colideX}_${colideY}`);
         this._collideMap.set(`${colideX}_${colideY}`, true);
     }
 
@@ -20,8 +21,8 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
             for (let column = 0; column < array[row].length; column++) {
                 if (array[row][column] !== null) {
                     //console.log(`${(column + columnOffset) - this.columnCount / 2}_${(this.rowCount - (row + rowOffset)) - this.rowCount / 2}`);
-                    const colideX = Math.ceil(this.gameObject.position.x + (column + columnOffset) - this.columnCount / 2);
-                    const colideY = Math.ceil(this.gameObject.position.y + (this.rowCount - (row + rowOffset)) - this.rowCount / 2) - 1;
+                    const colideX = Math.ceil(this.gameObject.position.x / this.tileWidth + (column + columnOffset) - this.columnCount / 2);
+                    const colideY = Math.ceil(this.gameObject.position.y / this.tileHeight + (this.rowCount - (row + rowOffset)) - this.rowCount / 2) - 1;
                     this._collideMap.set(
                         `${colideX}_${colideY}`, true);
                     // this.addDebugImage(
@@ -44,8 +45,8 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
         const worldPosition = this.gameObject.localToWorld(this.gameObject.position.clone());
-        x -= worldPosition.x;
-        y -= worldPosition.y;
+        x -= worldPosition.x / 2;
+        y -= worldPosition.y / 2;
 
         if (this.columnCount % 2 === 0) {
             x -= this.tileWidth;
@@ -60,10 +61,10 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
         const right = Math.floor((x + width) / this.tileWidth);
         const top = Math.floor(y / this.tileHeight);
         const bottom = Math.floor((y + height) / this.tileHeight);
-        console.log(left, right, top, bottom);
+        //console.log(left, right, top, bottom);
         for (let row = top; row <= bottom; row++) {
             for (let column = left; column <= right; column++) {
-                console.log(`${column}_${row}`);
+                //console.log(`${column}_${row}`);
                 if (this._collideMap.get(`${column}_${row}`) === true) {
                     return true;
                 }
