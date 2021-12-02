@@ -1,7 +1,7 @@
 import { CssTilemapRenderer } from "../render/CssTilemapRenderer";
 
 export class CssCollideTilemapRenderer extends CssTilemapRenderer {
-    private _collideMap: Map<`${number}_${number}`, boolean> = new Map();
+    private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {
         super.drawTile(column, row, imageIndex, atlasIndex);

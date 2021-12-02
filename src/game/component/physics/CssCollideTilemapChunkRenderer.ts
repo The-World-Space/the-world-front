@@ -1,6 +1,6 @@
 import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
-import { CssCollideTilemapRenderer } from "../physics/CssCollideTilemapRenderer";
+import { CssCollideTilemapRenderer } from "./CssCollideTilemapRenderer";
 import { TileAtlasItem } from "../render/CssTilemapRenderer";
 
 export class CssCollideTilemapChunkRenderer extends Component {
@@ -77,6 +77,18 @@ export class CssCollideTilemapChunkRenderer extends Component {
         }
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
         cssTilemapRenderer!.drawTile(drawPosition.x, this._chunkSize - drawPosition.y - 1, imageIndex, atlasIndex);
+    }
+
+    public checkCollision(x: number, y: number, width: number, height: number): boolean {
+        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
+        let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
+        if (cssTilemapRenderer === undefined) {
+            return false;
+        }
+        const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
+        return cssTilemapRenderer!.checkCollision(drawPosition.x, this._chunkSize - drawPosition.y - 1, width, height);
     }
 
     public get chunkSize(): number {
