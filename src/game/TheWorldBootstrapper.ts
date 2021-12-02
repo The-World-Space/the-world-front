@@ -1,6 +1,5 @@
 import { Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
-import { ExecuteInitialize } from "./component/ExecuteInitialize";
 import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
@@ -17,7 +16,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
 
-        let player: GameObject|null = null;
+        let player: {ref: GameObject|null} = {ref: null};
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 4, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
@@ -37,13 +36,11 @@ export class TheWorldBootstrapper implements IBootstrapper {
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, -32, 0))
                 .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`).make()
-                .withComponent(ExecuteInitialize, c => {
-                    player = c.gameObject;
-                }))
+                .getGameObject(player))
             
             .withChild(instantlater.buildGameObject("camera_controller")
                 .withComponent(CameraController, c => {
-                    c.setTrackTarget(player!);
+                    c.setTrackTarget(player.ref!);
                     c.pixelPerfect = true;
                 }))
     }
