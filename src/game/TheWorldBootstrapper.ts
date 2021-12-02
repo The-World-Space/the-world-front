@@ -36,6 +36,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .getGameObject(player))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
+                .with4x4SpriteAtlasFromPath("/assets/charactor/Heewon.png")
                 .withGridInfo(colideTilemap.ref!)
                 .withGridPosition(-1, -1)
                 .make())
