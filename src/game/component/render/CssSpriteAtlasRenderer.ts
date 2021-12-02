@@ -42,9 +42,10 @@ export class CssSpriteAtlasRenderer extends Component {
     }
 
     public onSortByZaxis(zaxis: number): void {
+        console.log(`${this.gameObject.name} zaxis: ${zaxis}`);
         this._zindex = zaxis;
         if (this._sprite) {
-            this._sprite.element.style.zIndex = this._zindex.toString();
+            this._sprite.element.style.zIndex = Math.floor(this._zindex).toString();
         }
     }
 

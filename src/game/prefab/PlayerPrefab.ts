@@ -24,8 +24,6 @@ export class PlayerPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        //const instantlater = this._gameManager.instantlater;
-
         return this._gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 c.setImage(this._spriteAtlasPath, 4, 4);
@@ -41,7 +39,6 @@ export class PlayerPrefab extends Prefab {
                 c.addAnimation("up_walk", [8, 9, 10, 11]);
                 c.addAnimation("left_walk", [12, 13, 14, 15]);
                 c.frameDuration = 0.2;
-                //charactorAnimator = c;
             })
             .withComponent(PlayerGridMovementController, c => {
                 c.collideTilemap = this._colideTilemap;
