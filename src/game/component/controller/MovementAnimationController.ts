@@ -7,38 +7,70 @@ export class MovementAnimationController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
     protected readonly _requiredComponents: ComponentConstructor[] = [Directionable, SpriteAtlasAnimator];
 
-    private directionable: Directionable|null = null;
-    private spriteAtlasAnimator: SpriteAtlasAnimator|null = null;
-    private lastDirection: Direction = Direction.None;
+    private _directionable: Directionable|null = null;
+    private _spriteAtlasAnimator: SpriteAtlasAnimator|null = null;
+    private _lastDirection: Direction = Direction.Down;
+    private _lastIsMoving: boolean = false;
 
     protected start(): void {
-        this.directionable = this.gameObject.getComponent(Directionable);
-        this.spriteAtlasAnimator = this.gameObject.getComponent(SpriteAtlasAnimator);
+        this._directionable = this.gameObject.getComponent(Directionable);
+        this._spriteAtlasAnimator = this.gameObject.getComponent(SpriteAtlasAnimator);
     }
 
     public update(): void {
-        const direction = this.directionable!.direction;
-        if (direction === Direction.Up) {
-            this.spriteAtlasAnimator!.playAnimation("up_walk");
-            this.lastDirection = Direction.Up;
-        } else if (direction === Direction.Down) {
-            this.spriteAtlasAnimator!.playAnimation("down_walk");
-            this.lastDirection = Direction.Down;
-        } else if (direction === Direction.Left) {
-            this.spriteAtlasAnimator!.playAnimation("left_walk");
-            this.lastDirection = Direction.Left;
-        } else if (direction === Direction.Right) {
-            this.spriteAtlasAnimator!.playAnimation("right_walk");
-            this.lastDirection = Direction.Right;
-        } else if (direction === Direction.None) {
-            if (this.lastDirection === Direction.Up) {
-                this.spriteAtlasAnimator!.playAnimation("up_idle");
-            } else if (this.lastDirection === Direction.Down) {
-                this.spriteAtlasAnimator!.playAnimation("down_idle");
-            } else if (this.lastDirection === Direction.Left) {
-                this.spriteAtlasAnimator!.playAnimation("left_idle");
-            } else if (this.lastDirection === Direction.Right) {
-                this.spriteAtlasAnimator!.playAnimation("right_idle");
+        const direction = this._directionable!.direction;
+        const isMoving = this._directionable!.isMoving;
+        if (isMoving) {
+            if (direction === Direction.Up) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("up_walk");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
+            } else if (direction === Direction.Down) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("down_walk");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
+            } else if (direction === Direction.Left) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("left_walk");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
+            } else if (direction === Direction.Right) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("right_walk");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
+            }
+        } else {
+            if (direction === Direction.Up) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("up_idle");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
+            } else if (direction === Direction.Down) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("down_idle");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
+            } else if (direction === Direction.Left) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("left_idle");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
+            } else if (direction === Direction.Right) {
+                if (this._lastIsMoving !== isMoving || this._lastDirection !== direction) {
+                    this._spriteAtlasAnimator!.playAnimation("right_idle");
+                    this._lastIsMoving = isMoving;
+                    this._lastDirection = direction;
+                }
             }
         }
     }

@@ -1,22 +1,24 @@
-import { Vector2 } from "three";
+import { Vector2, Vector3 } from "three";
 import { CssCollideTilemapChunkRenderer } from "../physics/CssCollideTilemapChunkRenderer";
 import { CssCollideTilemapRenderer } from "../physics/CssCollideTilemapRenderer";
 import { Direction, Directionable } from "./Directionable";
 
 export class PlayerGridMovementController extends Directionable {
-    private _speed: number = 64;
+    private _speed: number = 96;
     private readonly _gridCenter: Vector2 = new Vector2();
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;
     private _collideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null = null;
     private readonly _currentGridPosition: Vector2 = new Vector2();
     private readonly _targetGridPosition: Vector2 = new Vector2();
-    private _isMoving: boolean = false;
-    private readonly collideSize: number = 16;
+    private readonly collideSize: number = 8;
+    private readonly _initPosition: Vector2 = new Vector2(); //integer position
 
     protected start(): void {
-        const worldPosition = this.gameObject.localToWorld(this.gameObject.position);
-        this._currentGridPosition.set(worldPosition.x, worldPosition.y);
+        this.gameObject.position.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
+        this.gameObject.position.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
+        console.log(this.gameObject.position);
+        this._currentGridPosition.set(this.gameObject.position.x, this.gameObject.position.y);
     }
 
     public update(): void {
@@ -25,57 +27,59 @@ export class PlayerGridMovementController extends Directionable {
     }
 
     private processInput(): void {
-        if (this._isMoving) return;
-        if (this.gameManager.inputHandler.map.get("w")) {
+        if (this.isMoving) return;
+        const inputMap = this.gameManager.inputHandler.map;
+        if (inputMap.get("w")) {
+            this.direction = Direction.Up;
             if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight)) return;
             this._targetGridPosition.set(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight);
-            this.direction = Direction.Up;
-            this._isMoving = true;
-        } else if (this.gameManager.inputHandler.map.get("s")) {
+            this.isMoving = true;
+        } else if (inputMap.get("s")) {
+            this.direction = Direction.Down;
             if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y - this._gridCellHeight)) return;
             this._targetGridPosition.set(this._currentGridPosition.x, this._currentGridPosition.y - this._gridCellHeight);
-            this.direction = Direction.Down;
-            this._isMoving = true;
-        } else if (this.gameManager.inputHandler.map.get("a")) {
+            this.isMoving = true;
+        } else if (inputMap.get("a")) {
+            this.direction = Direction.Left;
             if (this.checkCollision(this._currentGridPosition.x - this._gridCellWidth, this._currentGridPosition.y)) return;
             this._targetGridPosition.set(this._currentGridPosition.x - this._gridCellWidth, this._currentGridPosition.y);
-            this.direction = Direction.Left;
-            this._isMoving = true;
-        } else if (this.gameManager.inputHandler.map.get("d")) {
+            this.isMoving = true;
+        } else if (inputMap.get("d")) {
+            this.direction = Direction.Right;
             if (this.checkCollision(this._currentGridPosition.x + this._gridCellWidth, this._currentGridPosition.y)) return;
             this._targetGridPosition.set(this._currentGridPosition.x + this._gridCellWidth, this._currentGridPosition.y);
-            this.direction = Direction.Right;
-            this._isMoving = true;
+            this.isMoving = true;
         }
     }
 
     private noncheckProcessInput(currentGridPosotion: Vector2): boolean {
-        if (this.gameManager.inputHandler.map.get("w")) {
+        const inputMap = this.gameManager.inputHandler.map;
+        if (inputMap.get("w")) {
+            this.direction = Direction.Up;
             if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight)) return false;
             this._targetGridPosition.set(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight);
-            this.direction = Direction.Up;
             return true;
-        } else if (this.gameManager.inputHandler.map.get("s")) {
+        } else if (inputMap.get("s")) {
+            this.direction = Direction.Down;
             if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y - this._gridCellHeight)) return false;
             this._targetGridPosition.set(currentGridPosotion.x, currentGridPosotion.y - this._gridCellHeight);
-            this.direction = Direction.Down;
             return true;
-        } else if (this.gameManager.inputHandler.map.get("a")) {
+        } else if (inputMap.get("a")) {
+            this.direction = Direction.Left;
             if (this.checkCollision(currentGridPosotion.x - this._gridCellWidth, currentGridPosotion.y)) return false;
             this._targetGridPosition.set(currentGridPosotion.x - this._gridCellWidth, currentGridPosotion.y);
-            this.direction = Direction.Left;
             return true;
-        } else if (this.gameManager.inputHandler.map.get("d")) {
+        } else if (inputMap.get("d")) {
+            this.direction = Direction.Right;
             if (this.checkCollision(currentGridPosotion.x + this._gridCellWidth, currentGridPosotion.y)) return false;
             this._targetGridPosition.set(currentGridPosotion.x + this._gridCellWidth, currentGridPosotion.y);
-            this.direction = Direction.Right;
             return true;
         }
         return false;
     }
 
     private processMovement(): void {
-        if (this._isMoving) {
+        if (this.isMoving) {
             const vector2Pos = new Vector2(this.gameObject.position.x, this.gameObject.position.y);
             let distance = vector2Pos.distanceTo(this._targetGridPosition);
 
@@ -91,9 +95,8 @@ export class PlayerGridMovementController extends Directionable {
                 this.gameObject.position.x += direction.x;
                 this.gameObject.position.y += direction.y;
             } else {
-                this._isMoving = false;
+                this.isMoving = false;
                 this._currentGridPosition.copy(this._targetGridPosition);
-                this.direction = Direction.None;
             }
         }
     }
@@ -132,16 +135,33 @@ export class PlayerGridMovementController extends Directionable {
     public get gridCellWidth(): number {
         return this._gridCellWidth;
     }
-    
+
     public set gridCellWidth(value: number) {
         this._gridCellWidth = value;
     }
 
-    public set collideTilemap(value: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null) {
-        this._collideTilemap = value;
+    public set initPosition(value: Vector2) {
+        this._initPosition.copy(value);
     }
 
     public get collideTilemap(): CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null {
         return this._collideTilemap;
+    }
+    
+    public set collideTilemap(value: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null) {
+        this._collideTilemap = value;
+        if (value) {
+            this._gridCellWidth = value.tileWidth;
+            this._gridCellHeight = value.tileHeight;
+            if (value instanceof CssCollideTilemapRenderer) {
+                const offsetX = value.columnCount % 2 === 1 ? 0 : value.tileWidth / 2;
+                const offsetY = value.rowCount % 2 === 1 ? 0 : value.tileHeight / 2;
+                this._gridCenter.set(value.gameObject.position.x + offsetX, value.gameObject.position.y + offsetY);
+            } else if (value instanceof CssCollideTilemapChunkRenderer) {
+                const offsetX = value.chunkSize % 2 === 1 ? 0 : value.tileWidth / 2;
+                const offsetY = value.chunkSize % 2 === 1 ? 0 : value.tileHeight / 2;
+                this._gridCenter.set(value.gameObject.position.x + offsetX, value.gameObject.position.y + offsetY);
+            }
+        }
     }
 }
