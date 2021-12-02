@@ -1,6 +1,6 @@
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { CssSpriteAtlasRenderer } from "./CssSpriteAtlasRenderer";
+import { CssSpriteAtlasRenderer } from "../render/CssSpriteAtlasRenderer";
 
 export class SpriteAtlasAnimator extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

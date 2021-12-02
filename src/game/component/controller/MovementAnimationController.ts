@@ -1,6 +1,6 @@
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { SpriteAtlasAnimator } from "../render/SpriteAtlasAnimator";
+import { SpriteAtlasAnimator } from "../post_render/SpriteAtlasAnimator";
 import { Direction, Directionable } from "./Directionable";
 
 export class MovementAnimationController extends Component {

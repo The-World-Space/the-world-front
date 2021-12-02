@@ -1,6 +1,6 @@
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { CssSpriteRenderer } from "./CssSpriteRenderer";
+import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 
 export class SpriteAnimator extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

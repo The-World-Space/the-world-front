@@ -4,7 +4,7 @@ import { PlayerGridMovementController } from "../component/controller/PlayerGrid
 import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
 import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
-import { SpriteAtlasAnimator } from "../component/render/SpriteAtlasAnimator";
+import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
