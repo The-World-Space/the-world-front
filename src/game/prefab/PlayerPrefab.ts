@@ -43,10 +43,10 @@ export class PlayerPrefab extends Prefab {
                 c.frameDuration = 0.2;
                 //charactorAnimator = c;
             })
-            .withComponent(ZaxisSorter, c => c.runOnce = false)
             .withComponent(PlayerGridMovementController, c => {
                 c.collideTilemap = this._colideTilemap;
             })
-            .withComponent(MovementAnimationController);
+            .withComponent(MovementAnimationController)
+            .withComponent(ZaxisSorter, c => c.runOnce = false);
     }
 }
