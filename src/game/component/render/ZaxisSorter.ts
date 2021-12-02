@@ -1,4 +1,4 @@
-import { GameObject } from "../../engine/hierarchyObject/GameObject";
+import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { ZaxisSortable } from "./ZaxisSortable";
 
 export class ZaxisSorter extends ZaxisSortable {

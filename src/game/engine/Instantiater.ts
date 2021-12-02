@@ -1,8 +1,8 @@
 import { Quaternion, Vector3 } from "three";
 import { GameManager } from "./GameManager";
-import { GameObject, GameObjectBuilder } from "./hierarchyObject/GameObject";
-import { Prefab } from "./hierarchyObject/Prefab";
-import { PrefabConstructor } from "./hierarchyObject/PrefabConstructor";
+import { GameObject, GameObjectBuilder } from "./hierarchy_object/GameObject";
+import { Prefab } from "./hierarchy_object/Prefab";
+import { PrefabConstructor } from "./hierarchy_object/PrefabConstructor";
 
 export class Instantiater {
     private readonly _gameManager: GameManager;

@@ -1,7 +1,7 @@
-import { CssTilemapChunkRenderer } from "../component/tilemap/CssTilemapChunkRenderer";
+import { CssTilemapChunkRenderer } from "../component/post_render/CssTilemapChunkRenderer";
 import { TileAtlasItem } from "../component/render/CssTilemapRenderer";
-import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
-import { Prefab } from "../engine/hierarchyObject/Prefab";
+import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
 
 export class TestTilemapChunkPrefab extends Prefab {

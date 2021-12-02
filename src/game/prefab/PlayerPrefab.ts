@@ -2,8 +2,8 @@ import { Vector2 } from "three";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
-import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
-import { Prefab } from "../engine/hierarchyObject/Prefab";
+import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { Prefab } from "../engine/hierarchy_object/Prefab";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `${process.env.PUBLIC_URL}/assets/charactor/Subject1.png`;

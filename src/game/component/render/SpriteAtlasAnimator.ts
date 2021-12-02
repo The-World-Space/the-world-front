@@ -1,5 +1,5 @@
-import { Component } from "../../engine/hierarchyObject/Component";
-import { ComponentConstructor } from "../../engine/hierarchyObject/ComponentConstructor";
+import { Component } from "../../engine/hierarchy_object/Component";
+import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { CssSpriteAtlasRenderer } from "./CssSpriteAtlasRenderer";
 
 export class SpriteAtlasAnimator extends Component {

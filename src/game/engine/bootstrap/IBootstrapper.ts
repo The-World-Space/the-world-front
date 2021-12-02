@@ -1,5 +1,5 @@
 import { GameManager } from "../GameManager";
-import { Scene } from "../hierarchyObject/Scene";
+import { Scene } from "../hierarchy_object/Scene";
 import { SceneBuilder } from "./SceneBuilder";
 
 export interface IBootstrapper {

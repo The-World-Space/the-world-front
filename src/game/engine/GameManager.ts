@@ -3,7 +3,7 @@ import { IReadonlyTime } from "./IReadonlyTime";
 import { InputHandler } from "./InputHandler";
 import { Instantiater } from "./Instantiater";
 import { IReadonlyGameState } from "./GameState";
-import { Scene } from "./hierarchyObject/Scene";
+import { Scene } from "./hierarchy_object/Scene";
 
 export class GameManager {
     private readonly _rootScene: Scene;

@@ -1,6 +1,6 @@
 import { Vector3 } from "three";
-import { Component } from "../../engine/hierarchyObject/Component";
-import { GameObject } from "../../engine/hierarchyObject/GameObject";
+import { Component } from "../../engine/hierarchy_object/Component";
+import { GameObject } from "../../engine/hierarchy_object/GameObject";
 
 export class CameraController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

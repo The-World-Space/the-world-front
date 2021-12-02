@@ -14,7 +14,6 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
             for (let column = 0; column < array[row].length; column++) {
                 if (array[row][column] !== null) {
                     this._collideMap.set(`${column + columnOffset}_${row + rowOffset}`, true);
-                    console.log(this._collideMap);
                 }
             }
         }

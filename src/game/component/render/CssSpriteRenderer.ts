@@ -1,6 +1,6 @@
 import { Vector2 } from "three";
 import { CSS3DSprite } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { Component } from "../../engine/hierarchyObject/Component";
+import { Component } from "../../engine/hierarchy_object/Component";
 import { ZaxisInitializer } from "./ZaxisInitializer";
 
 export class CssSpriteRenderer extends Component {

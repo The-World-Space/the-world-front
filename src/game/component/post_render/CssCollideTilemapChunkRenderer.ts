@@ -1,9 +1,10 @@
 import { Vector2, Vector3 } from "three";
-import { Component } from "../../engine/hierarchyObject/Component";
-import { CssTilemapRenderer, TileAtlasItem } from "../render/CssTilemapRenderer";
+import { Component } from "../../engine/hierarchy_object/Component";
+import { CssCollideTilemapRenderer } from "../physics/CssCollideTilemapRenderer";
+import { TileAtlasItem } from "../render/CssTilemapRenderer";
 
-export class CssTilemapChunkRenderer extends Component {
-    private _cssTilemapRendererMap: Map<`${number}_${number}`, CssTilemapRenderer> = new Map();
+export class CssCollideTilemapChunkRenderer extends Component {
+    private _cssTilemapRendererMap: Map<`${number}_${number}`, CssCollideTilemapRenderer> = new Map();
     //key is chunk position in string format "x_y"
     private _chunkSize: number = 16;
     private _tileWidth: number = 16;
@@ -63,7 +64,7 @@ export class CssTilemapChunkRenderer extends Component {
                 this.gameManager.instantlater.buildGameObject(
                     `css_tilemap_renderer_${chunkIndexX}_${chunkIndexY}`, 
                     new Vector3(chunkIndexX * this._chunkSize * this._tileWidth, chunkIndexY * this._chunkSize * this._tileHeight, 0))
-                    .withComponent(CssTilemapRenderer, c => {
+                    .withComponent(CssCollideTilemapRenderer, c => {
                         cssTilemapRenderer = c;
                         if (this._imageSources) c.imageSources = this._imageSources;
                         c.tileWidth = this._tileWidth;

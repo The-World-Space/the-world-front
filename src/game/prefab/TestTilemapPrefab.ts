@@ -1,8 +1,8 @@
 import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
 import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
 import { CssTilemapRenderer, TileAtlasItem } from "../component/render/CssTilemapRenderer";
-import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
-import { Prefab } from "../engine/hierarchyObject/Prefab";
+import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { Prefab } from "../engine/hierarchy_object/Prefab";
 
 export class TestTilemapPrefab extends Prefab {
     public make(): GameObjectBuilder {

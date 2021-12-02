@@ -14,8 +14,8 @@ import { TestTilemapPrefab } from "../../prefab/TestTilemapPrefab";
 import { IBootstrapper } from "../bootstrap/IBootstrapper";
 import { SceneBuilder } from "../bootstrap/SceneBuilder";
 import { GameManager } from "../GameManager";
-import { GameObject } from "../hierarchyObject/GameObject";
-import { Scene } from "../hierarchyObject/Scene";
+import { GameObject } from "../hierarchy_object/GameObject";
+import { Scene } from "../hierarchy_object/Scene";
 
 export class RendererTest1Bootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {

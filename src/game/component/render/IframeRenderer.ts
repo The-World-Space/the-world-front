@@ -1,6 +1,6 @@
 import { Vector2 } from "three";
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { Component } from "../../engine/hierarchyObject/Component";
+import { Component } from "../../engine/hierarchy_object/Component";
 import { ZaxisInitializer } from "./ZaxisInitializer";
 
 export class IframeRenderer extends Component {

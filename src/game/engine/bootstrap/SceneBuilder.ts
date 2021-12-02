@@ -1,5 +1,5 @@
-import { GameObjectBuilder } from "../hierarchyObject/GameObject";
-import { Scene } from "../hierarchyObject/Scene";
+import { GameObjectBuilder } from "../hierarchy_object/GameObject";
+import { Scene } from "../hierarchy_object/Scene";
 
 export class SceneBuilder {
     private readonly _scene: Scene;
