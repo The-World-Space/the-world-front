@@ -6,7 +6,7 @@ import { TileAtlasItem } from "../render/CssTilemapRenderer";
 export class CssCollideTilemapChunkRenderer extends Component {
     private readonly _cssTilemapRendererMap: Map<`${number}_${number}`, CssCollideTilemapRenderer> = new Map();
     //key is chunk position in string format "x_y"
-    private _chunkSize: number = 16;
+    private _chunkSize: number = 15;
     private _tileWidth: number = 16;
     private _tileHeight: number = 16;
     private _imageSources: TileAtlasItem[]|null = null;
@@ -54,7 +54,6 @@ export class CssCollideTilemapChunkRenderer extends Component {
             });
             return;
         }
-
         const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
         const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
@@ -76,19 +75,20 @@ export class CssCollideTilemapChunkRenderer extends Component {
             this._cssTilemapRendererMap.set(chunkIndex, cssTilemapRenderer!);
         }
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
-        cssTilemapRenderer!.drawTile(drawPosition.x, this._chunkSize - drawPosition.y - 1, imageIndex, atlasIndex);
+        const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
+        const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
+        cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
-        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
-        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexX = Math.floor((x / this.tileWidth + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y / this.tileHeight + this._chunkSize / 2) / this._chunkSize);
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
             return false;
         }
-        const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
-        return cssTilemapRenderer!.checkCollision(drawPosition.x, this._chunkSize - drawPosition.y - 1, width, height);
+        return cssTilemapRenderer!.checkCollision(x, y, width, height);
     }
 
     public get chunkSize(): number {

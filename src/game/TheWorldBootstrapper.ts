@@ -1,5 +1,6 @@
 import { Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
+import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
@@ -17,15 +18,17 @@ export class TheWorldBootstrapper implements IBootstrapper {
         const instantlater = gameManager.instantlater;
 
         let player: {ref: GameObject|null} = {ref: null};
-        let colideTilemap: {ref: CssCollideTilemapRenderer|null} = {ref: null};
+        //let colideTilemap: {ref: CssCollideTilemapRenderer|null} = {ref: null};
+        let colideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
 
         return new SceneBuilder(scene)
-            .withChild(instantlater.buildPrefab("tilemap_chunk", TestTilemapChunkPrefab, new Vector3(0, 0, -200)).make())
+            .withChild(instantlater.buildPrefab("tilemap_chunk", TestTilemapChunkPrefab, new Vector3(0, 0, -200))
+                 .getColideTilemapRendererRef(colideTilemap).make())
             
-            .withChild(instantlater.buildPrefab("tilemap", TestTilemapPrefab, new Vector3(0, 0, -100))
-                .getColideTilemapRendererRef(colideTilemap).make())
+            // .withChild(instantlater.buildPrefab("tilemap", TestTilemapPrefab, new Vector3(0, 0, -100))
+            //     .getColideTilemapRendererRef(colideTilemap).make())
 
-            .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
+            .withChild(instantlater.buildPrefab("player", PlayerPrefab)
                 .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`)
                 .withColideTilemap(colideTilemap.ref!).make()
                 .getGameObject(player))

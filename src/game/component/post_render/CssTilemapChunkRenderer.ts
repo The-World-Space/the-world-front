@@ -75,7 +75,9 @@ export class CssTilemapChunkRenderer extends Component {
             this._cssTilemapRendererMap.set(chunkIndex, cssTilemapRenderer!);
         }
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
-        cssTilemapRenderer!.drawTile(drawPosition.x, this._chunkSize - drawPosition.y - 1, imageIndex, atlasIndex);
+        const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
+        const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
+        cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
     }
 
     public get chunkSize(): number {
