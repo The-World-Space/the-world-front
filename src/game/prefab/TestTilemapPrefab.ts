@@ -1,3 +1,5 @@
+import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
+import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
 import { CssTilemapRenderer, TileAtlasItem } from "../component/render/CssTilemapRenderer";
 import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
 import { Prefab } from "../engine/hierarchyObject/Prefab";
@@ -7,6 +9,7 @@ export class TestTilemapPrefab extends Prefab {
         const instantlater = this._gameManager.instantlater;
 
         return this._gameObjectBuilder
+            .withComponent(CameraRelativeZaxisSorter)
             .withChild(instantlater.buildGameObject("floor")
                 .withComponent(CssTilemapRenderer, c => {
                     c.rowCount = 16;
@@ -42,7 +45,7 @@ export class TestTilemapPrefab extends Prefab {
                     }
                 }))
             .withChild(instantlater.buildGameObject("wall")
-                .withComponent(CssTilemapRenderer, c => {
+                .withComponent(CssCollideTilemapRenderer, c => {
                     c.rowCount = 16;
                     c.columnCount = 17;
 

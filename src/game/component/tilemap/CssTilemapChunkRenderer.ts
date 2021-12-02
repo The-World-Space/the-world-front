@@ -1,6 +1,6 @@
 import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchyObject/Component";
-import { CssTilemapRenderer, TileAtlasItem } from "./CssTilemapRenderer";
+import { CssTilemapRenderer, TileAtlasItem } from "../render/CssTilemapRenderer";
 
 export class CssTilemapChunkRenderer extends Component {
     private _cssTilemapRendererMap: Map<`${number}_${number}`, CssTilemapRenderer> = new Map();

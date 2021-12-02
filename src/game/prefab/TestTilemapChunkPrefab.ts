@@ -1,11 +1,13 @@
-import { CssTilemapChunkRenderer } from "../component/render/CssTilemapChunkRenderer";
+import { CssTilemapChunkRenderer } from "../component/tilemap/CssTilemapChunkRenderer";
 import { TileAtlasItem } from "../component/render/CssTilemapRenderer";
 import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
 import { Prefab } from "../engine/hierarchyObject/Prefab";
+import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
 
 export class TestTilemapChunkPrefab extends Prefab {
     public make(): GameObjectBuilder {
         return this._gameObjectBuilder
+            .withComponent(CameraRelativeZaxisSorter, c => c.offset -= 100)
             .withComponent(CssTilemapChunkRenderer, c => {
                 const tilemap3 = new Image();
                 tilemap3.src = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
