@@ -61,7 +61,7 @@ export class CssTilemapChunkRenderer extends Component {
         if (cssTilemapRenderer === undefined) {
             this.gameObject.addChildFromBuilder(
                 this.gameManager.instantlater.buildGameObject(
-                    `CssTilemapRenderer_${chunkIndexX}_${chunkIndexY}`, 
+                    `css_tilemap_renderer_${chunkIndexX}_${chunkIndexY}`, 
                     new Vector3(chunkIndexX * this._chunkSize * this._tileWidth, chunkIndexY * this._chunkSize * this._tileHeight, 0))
                     .withComponent(CssTilemapRenderer, c => {
                         cssTilemapRenderer = c;

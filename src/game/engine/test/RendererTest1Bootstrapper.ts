@@ -1,6 +1,5 @@
 import { Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "../../component/controller/CameraController";
-import { ExecuteInitialize } from "../../component/ExecuteInitialize";
 import { CssSpriteAtlasRenderer } from "../../component/render/CssSpriteAtlasRenderer";
 import { CssSpriteRenderer } from "../../component/render/CssSpriteRenderer";
 import { IframeRenderer } from "../../component/render/IframeRenderer";
@@ -27,7 +26,7 @@ export class RendererTest1Bootstrapper implements IBootstrapper {
 
         let charactorAnimator: SpriteAtlasAnimator|null = null;
         let tileAnimator: SpriteAnimator|null = null;
-        let player: GameObject|null = null;
+        let player: {ref: GameObject|null} = {ref: null};
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildGameObject("iframe1", new Vector3(32, 32, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
@@ -67,9 +66,7 @@ export class RendererTest1Bootstrapper implements IBootstrapper {
 
             .withChild(instantlater.buildPrefab("test player1", PlayerPrefab, new Vector3(0, -32, 0))
                 .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`).make()
-                .withComponent(ExecuteInitialize, c => {
-                    player = c.gameObject;
-                }))
+                .getGameObject(player))
 
             .withChild(instantlater.buildGameObject("obj2", new Vector3(0, 0, 0))
                 .withComponent(CssSpriteRenderer)
@@ -110,7 +107,7 @@ export class RendererTest1Bootstrapper implements IBootstrapper {
             
             .withChild(instantlater.buildGameObject("camera_controller")
                 .withComponent(CameraController, c => {
-                    c.setTrackTarget(player!);
+                    c.setTrackTarget(player.ref!);
                     c.pixelPerfect = true;
                 }))
             
