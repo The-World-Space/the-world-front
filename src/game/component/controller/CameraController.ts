@@ -10,13 +10,18 @@ export class CameraController extends Component {
     private _cameraDistanceOffset: number = 50;
     private _pixelPerfectUnit: number = 1;
     private _pixelPerfect: boolean = false;
+    private _lerpTrack: boolean = false;
 
     protected start(): void {
         this._camera = this.gameManager.camera;
     }
 
     public update(): void {
-        this._camera!.position.copy(this._camera!.position.lerp(this._trackTarget?.position ?? new Vector3(), 0.1));
+        if (this._lerpTrack) {
+            this._camera!.position.copy(this._camera!.position.lerp(this._trackTarget?.position ?? new Vector3(), 0.1));
+        } else {
+            this._camera!.position.copy(this._trackTarget?.position ?? new Vector3());
+        }
         this._camera!.position.z += this._cameraDistanceOffset;
         
         if (this._pixelPerfect) {

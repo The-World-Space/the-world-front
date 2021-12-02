@@ -1,4 +1,6 @@
 import { Vector2 } from "three";
+import { MovementAnimationController } from "../component/controller/MovementAnimationController";
+import { PlayerGridMovementController } from "../component/controller/PlayerGridMovementController";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
@@ -21,7 +23,7 @@ export class PlayerPrefab extends Prefab {
         return this._gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 c.setImage(this._spriteAtlasPath, 4, 4);
-                c.imageCenterOffset = new Vector2(0, 0.5);
+                c.imageCenterOffset = new Vector2(0, 0.6);
             })
             .withComponent(SpriteAtlasAnimator, c => {
                 c.addAnimation("down_idle", [0]);
@@ -35,6 +37,8 @@ export class PlayerPrefab extends Prefab {
                 c.frameDuration = 0.2;
                 //charactorAnimator = c;
             })
-            .withComponent(ZaxisSorter, c => c.runOnce = false);
+            .withComponent(ZaxisSorter, c => c.runOnce = false)
+            .withComponent(PlayerGridMovementController)
+            .withComponent(MovementAnimationController);
     }
 }
