@@ -1,6 +1,8 @@
 import { Vector2 } from "three";
 import { MovementAnimationController } from "../component/controller/MovementAnimationController";
 import { PlayerGridMovementController } from "../component/controller/PlayerGridMovementController";
+import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
+import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
@@ -9,16 +11,20 @@ import { Prefab } from "../engine/hierarchy_object/Prefab";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `${process.env.PUBLIC_URL}/assets/charactor/Subject1.png`;
+    private _colideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null = null;
 
     public with4x4SpriteAtlasFromPath(name: string): PlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
+    public withColideTilemap(colideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer): PlayerPrefab {
+        this._colideTilemap = colideTilemap;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
         //const instantlater = this._gameManager.instantlater;
-
-        //let charactorAnimator: SpriteAtlasAnimator|null = null;
 
         return this._gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
@@ -38,7 +44,9 @@ export class PlayerPrefab extends Prefab {
                 //charactorAnimator = c;
             })
             .withComponent(ZaxisSorter, c => c.runOnce = false)
-            .withComponent(PlayerGridMovementController)
+            .withComponent(PlayerGridMovementController, c => {
+                c.collideTilemap = this._colideTilemap;
+            })
             .withComponent(MovementAnimationController);
     }
 }

@@ -1,10 +1,17 @@
 import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
 import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
 import { CssTilemapRenderer, TileAtlasItem } from "../component/render/CssTilemapRenderer";
-import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 
 export class TestTilemapPrefab extends Prefab {
+    private _colideTilemapRenderer: {ref: CssCollideTilemapRenderer|null}|null = null;
+
+    public getColideTilemapRendererRef(colideTilemapRenderer: {ref: CssCollideTilemapRenderer|null}): TestTilemapPrefab {
+        this._colideTilemapRenderer = colideTilemapRenderer;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
         const instantlater = this._gameManager.instantlater;
 
@@ -110,6 +117,7 @@ export class TestTilemapPrefab extends Prefab {
                             ], 0, 0);
                         }
                     }
-                }));
+                })
+                .getComponent(CssCollideTilemapRenderer, this._colideTilemapRenderer ?? { ref: null }));
     }
 }

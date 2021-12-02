@@ -299,6 +299,11 @@ export class GameObject extends Object3D {
             return this;
         }
 
+        public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: {ref: T|null}): Builder {
+            componentRef.ref = this._gameObject.getComponent(componentCtor);
+            return this;
+        }            
+
         public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): Builder;
 
         public withComponent<T extends Component>(

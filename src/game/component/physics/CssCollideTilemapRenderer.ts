@@ -1,4 +1,8 @@
+import { Vector3 } from "three";
+import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { CssTilemapRenderer } from "../render/CssTilemapRenderer";
+import { ZaxisInitializer } from "../render/ZaxisInitializer";
 
 export class CssCollideTilemapRenderer extends CssTilemapRenderer {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
@@ -14,8 +18,18 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
             for (let column = 0; column < array[row].length; column++) {
                 if (array[row][column] !== null) {
                     this._collideMap.set(`${column + columnOffset}_${row + rowOffset}`, true);
+                    this.addDebugImage(column * this.tileWidth, row * this.tileHeight);
                 }
             }
+        }
+    }
+
+    private addDebugImage(x: number, y: number) {
+        if (this.gameObject.parent instanceof GameObject) {
+            this.gameObject.parent.addChildFromBuilder(
+                this.gameManager.instantlater.buildGameObject("debugImage", new Vector3(x, y, 10000))
+                    .withComponent(ZaxisInitializer)
+                    .withComponent(CssSpriteRenderer));
         }
     }
 
