@@ -33,7 +33,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
             .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 4, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
                 .withComponent(ZaxisSorter)
                 .withComponent(IframeRenderer, c => {
-                    c.iframeSource = "https://www.youtube.com/embed/8nevghw8xbM";
+                    c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
                     c.width = 640 / 2;
                     c.height = 360 / 2;
                     c.iframeCenterOffset = new Vector2(0, 0.5);
