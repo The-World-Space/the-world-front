@@ -17,7 +17,6 @@ export class PlayerGridMovementController extends Directionable {
     protected start(): void {
         this.gameObject.position.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
         this.gameObject.position.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
-        console.log(this.gameObject.position);
         this._currentGridPosition.set(this.gameObject.position.x, this.gameObject.position.y);
     }
 
