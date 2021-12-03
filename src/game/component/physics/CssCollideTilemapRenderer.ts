@@ -43,8 +43,11 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
         }
     }
 
+    private _tempVector3 = new Vector3();
+
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
-        const worldPosition = this.gameObject.localToWorld(this.gameObject.position.clone());
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
         x -= worldPosition.x / 2;
         y -= worldPosition.y / 2;
 

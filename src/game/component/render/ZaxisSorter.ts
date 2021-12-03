@@ -1,3 +1,4 @@
+import { Vector3 } from "three";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { ZaxisSortable } from "./ZaxisSortable";
 
@@ -13,15 +14,20 @@ export class ZaxisSorter extends ZaxisSortable {
         this.gameObject.removeComponent(this);
     }
 
+    private _tempVector: Vector3 = new Vector3();
+
     public update(): void { 
-        this.gameObject.position.z = -this.gameObject.position.y + this._offset;
+        this._tempVector.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector);
+        worldPosition.z = -worldPosition.y + this._offset;
+        this.gameObject.position.copy(this.gameObject.worldToLocal(worldPosition));
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
                 child.foreachComponent(c => {
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {
                         if (typeof cAny.onSortByZaxis === "function")
-                        cAny.onSortByZaxis(this.gameObject.position.z);
+                        cAny.onSortByZaxis(worldPosition.z);
                     }
                 });
             }
