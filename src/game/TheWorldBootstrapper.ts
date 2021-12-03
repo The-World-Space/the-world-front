@@ -1,7 +1,6 @@
 import { Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
-//import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
-import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
+import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
@@ -11,25 +10,18 @@ import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { Scene } from "./engine/hierarchy_object/Scene";
 import { NetworkPlayerPrefab } from "./prefab/NetworkPlayerPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
-import { TestTilemapChunkPrefab } from "./prefab/TestTilemapChunkPrefab";
-import { TestTilemapPrefab } from "./prefab/TestTilemapPrefab";
+import { TilemapChunkPrefab } from "./prefab/TilemapChunkPrefab";
 
 export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
 
         let player: {ref: GameObject|null} = {ref: null};
-        let colideTilemap: {ref: CssCollideTilemapRenderer|null} = {ref: null};
-        //let colideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
+        let colideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
 
         return new SceneBuilder(scene)
-            .withChild(instantlater.buildPrefab("tilemap_chunk", TestTilemapChunkPrefab, new Vector3(0, 0, -200))
-                //.getColideTilemapRendererRef(colideTilemap)
-                .make()
-                .active(false))
-            
-            .withChild(instantlater.buildPrefab("tilemap", TestTilemapPrefab, new Vector3(0, 0, -100))
-                .getColideTilemapRendererRef(colideTilemap).make())
+            .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab, new Vector3(0, 0, -100))
+                .getColideTilemapChunkRendererRef(colideTilemap).make())
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
                 .withNameTag("Steve Jobs")

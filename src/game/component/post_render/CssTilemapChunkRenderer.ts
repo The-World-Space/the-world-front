@@ -80,6 +80,22 @@ export class CssTilemapChunkRenderer extends Component {
         cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
     }
 
+    public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.drawTileFromTwoDimensionalArray(array, xOffset, yOffset);
+            });
+            return;
+        }
+        
+        for (let y = 0; y < array.length; y++) {
+            for (let x = 0; x < array[y].length; x++) {
+                if (array[y][x] === null) continue;
+                this.drawTile(x + xOffset, array.length - y + yOffset, array[y][x]!.i, array[y][x]!.a);
+            }
+        }
+    }
+
     public get chunkSize(): number {
         return this._chunkSize;
     }
