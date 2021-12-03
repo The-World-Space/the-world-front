@@ -1,6 +1,7 @@
 import { Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
+import { SpriteAtlasInstance, SpriteAtlasStaticInstancer } from "./component/post_render/SpriteAtlasStaticInstancer";
 import { SpriteInstance, SpriteStaticInstancer } from "./component/post_render/SpriteStaticInstancer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
@@ -43,7 +44,40 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     const instanceList: SpriteInstance[] = [];
                     for (let i = -4; i < 4; i++) {
                         for (let j = -4; j < 4; j++) {
-                            instanceList.push(new SpriteInstance(10, 10, new Vector3(j * 16, i * 16, 0), undefined, undefined, new Vector2(0, 0.5)));
+                            instanceList.push(
+                                new SpriteInstance(
+                                    10,
+                                    10,
+                                    new Vector3(j * 16, i * 16, 0),
+                                    undefined,
+                                    undefined,
+                                    new Vector2(0, 0.5)
+                                )
+                            );
+                        }
+                    }
+
+                    c.setInstances(instanceList);
+                })
+                .withComponent(SpriteAtlasStaticInstancer, c => {
+                    c.useZindexSorter = true;
+                    c.imageSource = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
+                    c.setSliceCount(10, 10);
+                    
+                    const instanceList: SpriteAtlasInstance[] = [];
+                    for (let i = -4; i < 4; i++) {
+                        for (let j = -4; j < 4; j++) {
+                            instanceList.push(
+                                new SpriteAtlasInstance(
+                                    10,
+                                    10,
+                                    1,
+                                    new Vector3(j * 16, i * 16, 0),
+                                    undefined,
+                                    undefined,
+                                    new Vector2(0, 0.5)
+                                )
+                            );
                         }
                     }
 

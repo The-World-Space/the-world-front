@@ -87,8 +87,8 @@ export class CssSpriteAtlasRenderer extends Component {
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
                 this._sprite.position.set(
-                    this._croppedImageWidth * this._imageCenterOffset.x,
-                    this._croppedImageHeight * this._imageCenterOffset.y, 0
+                    this._imageWidth * this._imageCenterOffset.x,
+                    this._imageHeight * this._imageCenterOffset.y, 0
                 );
                 this._sprite.scale.set(
                     this._imageWidth / this._croppedImageWidth,
@@ -153,8 +153,8 @@ export class CssSpriteAtlasRenderer extends Component {
         this._imageCenterOffset.copy(value);
         if (this._sprite) {
             this._sprite.position.set(
-                this._croppedImageWidth * this._imageCenterOffset.x,
-                this._croppedImageHeight * this._imageCenterOffset.y, 0
+                this._imageWidth * this._imageCenterOffset.x,
+                this._imageHeight * this._imageCenterOffset.y, 0
             );
         }
     }
