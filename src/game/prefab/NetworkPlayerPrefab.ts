@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Quaternion, Vector2, Vector3 } from "three";
 import { MovementAnimationController } from "../component/controller/MovementAnimationController";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
@@ -10,11 +10,13 @@ import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilema
 import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
 import { CssTilemapRenderer } from "../component/render/CssTilemapRenderer";
 import { CssTilemapChunkRenderer } from "../component/post_render/CssTilemapChunkRenderer";
+import { CssTextRenderer, TextAlign } from "../component/render/CssTextRenderer";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`;
     private _tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer|null = null;
     private _gridPosition: Vector2|null = null;
+    private _nameTagString: string|null = null;
 
     public with4x4SpriteAtlasFromPath(name: string): NetworkPlayerPrefab {
         this._spriteAtlasPath = name;
@@ -31,8 +33,15 @@ export class NetworkPlayerPrefab extends Prefab {
         return this;
     }
 
+    public withNameTag(name: string): NetworkPlayerPrefab {
+        this._nameTagString = name;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
-        return this._gameObjectBuilder
+        const instantlater = this._gameManager.instantlater;
+        
+        this._gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 c.setImage(this._spriteAtlasPath, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
@@ -58,5 +67,21 @@ export class NetworkPlayerPrefab extends Prefab {
             })
             .withComponent(MovementAnimationController)
             .withComponent(ZaxisSorter, c => c.runOnce = false);
+        
+        if (this._nameTagString) {
+            this._gameObjectBuilder
+                .withChild(instantlater.buildGameObject("nametag",
+                    new Vector3(0, 32, 0),
+                    new Quaternion(),
+                    new Vector3(0.5, 0.5, 0.5))
+                    .withComponent(CssTextRenderer, c => {
+                        c.textAlign = TextAlign.Center;
+                        c.textHeight = 16;
+                        c.textWidth = 64;
+                        c.text = this._nameTagString;
+                    }))
+        }
+
+        return this._gameObjectBuilder;
     }
 }

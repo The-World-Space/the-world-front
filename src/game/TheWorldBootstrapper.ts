@@ -32,10 +32,12 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .getColideTilemapRendererRef(colideTilemap).make())
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
+                .withNameTag("Steve Jobs")
                 .withColideTilemap(colideTilemap.ref!).make()
                 .getGameObject(player))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
+                .withNameTag("Heewon")
                 .with4x4SpriteAtlasFromPath("/assets/charactor/Heewon.png")
                 .withGridInfo(colideTilemap.ref!)
                 .withGridPosition(-1, -1)
