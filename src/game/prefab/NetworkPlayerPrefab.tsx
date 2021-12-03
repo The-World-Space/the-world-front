@@ -10,7 +10,7 @@ import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilema
 import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
 import { CssTilemapRenderer } from "../component/render/CssTilemapRenderer";
 import { CssTilemapChunkRenderer } from "../component/post_render/CssTilemapChunkRenderer";
-import { CssTextRenderer, TextAlign } from "../component/render/CssTextRenderer";
+import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
 
 export class NetworkPlayerPrefab extends Prefab {
@@ -100,6 +100,7 @@ export class NetworkPlayerPrefab extends Prefab {
                     new Vector3(0.5, 0.5, 0.5))
                     .withComponent(CssTextRenderer, c => {
                         c.textAlign = TextAlign.Center;
+                        c.fontWeight = FontWeight.Bold;
                         c.textHeight = 16;
                         c.textWidth = 64;
                         c.text = this._nameTagString;

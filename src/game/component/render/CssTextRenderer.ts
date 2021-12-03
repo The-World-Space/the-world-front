@@ -9,6 +9,11 @@ export enum TextAlign {
     Right = "right",
 }
 
+export enum FontWeight {
+    Normal = "normal",
+    Bold = "bold",
+}
+
 export class CssTextRenderer extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
 
@@ -19,6 +24,7 @@ export class CssTextRenderer extends Component {
     private _textWidth: number = 32;
     private _textHeight: number = 16;
     private _fontSize: number = 8;
+    private _fontWeight: FontWeight = FontWeight.Normal;
     private _textalign: TextAlign = TextAlign.Left;
 
     private static readonly _defaultText: string = "Text";
@@ -62,6 +68,7 @@ export class CssTextRenderer extends Component {
             this._htmlDivElement.style.width = `${this._textWidth}px`;
             this._htmlDivElement.style.height = `${this._textHeight}px`;
             this._htmlDivElement.style.fontSize = `${this._fontSize}px`;
+            this._htmlDivElement.style.fontWeight = this._fontWeight;
             this._htmlDivElement.style.textAlign = this._textalign;
             
             this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
@@ -117,6 +124,17 @@ export class CssTextRenderer extends Component {
         this._fontSize = value;
         if (this._htmlDivElement) {
             this._htmlDivElement.style.fontSize = `${value}px`;
+        }
+    }
+
+    public get fontWeight(): FontWeight {
+        return this._fontWeight;
+    }
+
+    public set fontWeight(value: FontWeight) {
+        this._fontWeight = value;
+        if (this._htmlDivElement) {
+            this._htmlDivElement.style.fontWeight = value;
         }
     }
 

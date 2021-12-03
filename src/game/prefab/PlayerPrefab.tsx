@@ -8,7 +8,7 @@ import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimato
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { CssTextRenderer, TextAlign } from "../component/render/CssTextRenderer";
+import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
 
 export class PlayerPrefab extends Prefab {
@@ -90,6 +90,7 @@ export class PlayerPrefab extends Prefab {
                     new Vector3(0.5, 0.5, 0.5))
                     .withComponent(CssTextRenderer, c => {
                         c.textAlign = TextAlign.Center;
+                        c.fontWeight = FontWeight.Bold;
                         c.textHeight = 16;
                         c.textWidth = 64;
                         c.text = this._nameTagString;
