@@ -10,6 +10,8 @@ export class CssSpriteAtlasRenderer extends Component {
     private _htmlImageElement: HTMLImageElement|null = null;
     private _rowCount: number = 1;
     private _columnCount: number = 1;
+    private _imageWidth: number = 0;
+    private _imageHeight: number = 0;
     private _croppedImageWidth: number = 0;
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
