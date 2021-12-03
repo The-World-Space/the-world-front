@@ -72,8 +72,8 @@ export class CssSpriteRenderer extends Component {
                 
                 image.style.zIndex = Math.floor(this._zindex).toString();
                 this._sprite.position.set(
-                    image.naturalWidth * this._imageCenterOffset.x,
-                    image.naturalHeight * this._imageCenterOffset.y, 0
+                    this._imageWidth * this._imageCenterOffset.x,
+                    this._imageHeight * this._imageCenterOffset.y, 0
                 );
                 this.gameObject.add(this._sprite);
             }
@@ -89,8 +89,8 @@ export class CssSpriteRenderer extends Component {
         this._imageCenterOffset.copy(value);
         if (this._sprite) {
             this._sprite.position.set(
-                this._htmlImageElement!.naturalWidth * this._imageCenterOffset.x,
-                this._htmlImageElement!.naturalHeight * this._imageCenterOffset.y, 0
+                this._imageWidth * this._imageCenterOffset.x,
+                this._imageWidth * this._imageCenterOffset.y, 0
             );
         }
     }
