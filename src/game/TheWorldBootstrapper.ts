@@ -1,7 +1,6 @@
 import { Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
-import { SpriteAtlasInstance, SpriteAtlasStaticInstancer } from "./component/post_render/SpriteAtlasStaticInstancer";
 import { SpriteInstance, SpriteStaticInstancer } from "./component/post_render/SpriteStaticInstancer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
@@ -58,30 +57,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     }
 
                     c.setInstances(instanceList);
-                })
-                .withComponent(SpriteAtlasStaticInstancer, c => {
-                    c.useZindexSorter = true;
-                    c.imageSource = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
-                    c.setSliceCount(10, 10);
-                    
-                    const instanceList: SpriteAtlasInstance[] = [];
-                    for (let i = -4; i < 4; i++) {
-                        for (let j = -4; j < 4; j++) {
-                            instanceList.push(
-                                new SpriteAtlasInstance(
-                                    10,
-                                    10,
-                                    1,
-                                    new Vector3(j * 16, i * 16, 0),
-                                    undefined,
-                                    undefined,
-                                    new Vector2(0, 0.5)
-                                )
-                            );
-                        }
-                    }
-
-                    c.setInstances(instanceList);
                 }))
 
             .withChild(instantlater.buildGameObject("iframe", new Vector3(64,16, 0), undefined, new Vector3(1, 1, 1))
@@ -97,6 +72,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
             .withChild(instantlater.buildGameObject("camera_controller")
                 .withComponent(CameraController, c => {
                     c.setTrackTarget(player.ref!);
-                }))
+                }));
     }
 }
