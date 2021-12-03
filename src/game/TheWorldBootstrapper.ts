@@ -1,6 +1,7 @@
-import { Quaternion, Vector2, Vector3 } from "three";
+import { Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
+import { SpriteInstance, SpriteStaticInstancer } from "./component/post_render/SpriteStaticInstancer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
@@ -35,7 +36,21 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withGridPosition(-1, -1)
                 .make())
 
-            .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 4, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
+            .withChild(instantlater.buildGameObject("sprite_instance")
+                .withComponent(SpriteStaticInstancer, c => {
+                    c.useZindexSorter = true;
+
+                    const instanceList: SpriteInstance[] = [];
+                    for (let i = -5; i < 5; i++) {
+                        for (let j = -5; j < 5; j++) {
+                            instanceList.push(new SpriteInstance(10, 10, new Vector3(j * 16, i * 16, 0), undefined, undefined, new Vector2(0, 0.5)));
+                        }
+                    }
+
+                    c.setInstances(instanceList);
+                }))
+
+            .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 4, 0), undefined, new Vector3(0.3, 0.3, 1))
                 .withComponent(IframeRenderer, c => {
                     c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
                     c.width = 640 / 2;
