@@ -78,7 +78,7 @@ export class NetworkBootstrapper implements IBootstrapper {
                 .getColideTilemapRendererRef(colideTilemap).make())
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
-                .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`)
+                .with4x4SpriteAtlasFromPath(`/assets/charactor/Seongwon.png`)
                 .withColideTilemap(colideTilemap.ref!).make()
                 .getGameObject(player))
 

@@ -14,7 +14,7 @@ import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssT
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
 
 export class NetworkPlayerPrefab extends Prefab {
-    private _spriteAtlasPath: string = `${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`;
+    private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
     private _tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer|null = null;
     private _gridPosition: Vector2|null = null;
     private _nameTagString: string|null = null;
@@ -82,6 +82,7 @@ export class NetworkPlayerPrefab extends Prefab {
                             color: "#ffffff", 
                             textAlign: "center",
                             padding: "5px 10px",
+                            opacity: 0.5,
                             }}>
                             i'm still busy
                         </div>

@@ -54,8 +54,9 @@ export class SpriteInstance {
 }
 
 export class SpriteStaticInstancer extends Component {
-    private _imageSource: string = `${process.env.PUBLIC_URL}/assets/tilemap/default.png`;
+    private _imageSource: string = `/assets/tilemap/default.png`;
     private _useZaxisSorter: boolean = false;
+    private _zaxisSortOffset: number = 0;
 
     private _initializeFunction: (() => void)|null = null;
 
@@ -86,7 +87,7 @@ export class SpriteStaticInstancer extends Component {
                 });
             
             if (this._useZaxisSorter) {
-                spriteBuilder.withComponent(ZaxisSorter);
+                spriteBuilder.withComponent(ZaxisSorter, c => c.offset = this._zaxisSortOffset);
             } else {
                 spriteBuilder.withComponent(ZaxisInitializer);
             }
@@ -110,5 +111,13 @@ export class SpriteStaticInstancer extends Component {
 
     public set useZindexSorter(value: boolean) {
         this._useZaxisSorter = value;
+    }
+
+    public get zindexSortOffset(): number {
+        return this._zaxisSortOffset;
+    }
+
+    public set zindexSortOffset(value: number) {
+        this._zaxisSortOffset = value;
     }
 }

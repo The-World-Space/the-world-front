@@ -23,7 +23,7 @@ export class TestTilemapPrefab extends Prefab {
                     c.columnCount = 17;
 
                     const tilemap3 = new Image();
-                    tilemap3.src = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
+                    tilemap3.src = `/assets/tilemap/3_tile.png`;
 
                     c.imageSources = [new TileAtlasItem(tilemap3, 10, 10)];
                     
@@ -57,10 +57,10 @@ export class TestTilemapPrefab extends Prefab {
                     c.columnCount = 17;
 
                     const tilemap3 = new Image();
-                    tilemap3.src = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
+                    tilemap3.src = `/assets/tilemap/3_tile.png`;
 
                     const tilemap4 = new Image();
-                    tilemap4.src = `${process.env.PUBLIC_URL}/assets/tilemap/4_tile.png`;
+                    tilemap4.src = `/assets/tilemap/4_tile.png`;
 
                     c.imageSources = [
                         new TileAtlasItem(tilemap3, 10, 10),

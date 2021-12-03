@@ -1,0 +1,128 @@
+import { Vector2, Vector3 } from "three";
+import { SpriteInstance, SpriteStaticInstancer } from "../component/post_render/SpriteStaticInstancer";
+import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
+import { ZaxisSorter } from "../component/render/ZaxisSorter";
+import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
+import { Prefab } from "../engine/hierarchy_object/Prefab";
+
+export class InstancedObjectsPrefab extends Prefab {
+    public make(): GameObjectBuilder {
+        const instantlater = this._gameManager.instantlater;
+
+        return this._gameObjectBuilder
+            .withChild(instantlater.buildGameObject("chairs")
+                .withComponent(SpriteStaticInstancer, c => {
+                    c.useZindexSorter = true;
+                    c.imageSource = "/assets/object/chair/Chair1/chair(L&R).png";
+
+                    const spriteSize = 18;
+                    const xOffset = -3 * 16 - 8 - 2;
+                    const yOffset = -4 * 18 - 8;
+                    const xInterval = 2 * 16;
+                    const yInterval = 2 * 16;
+
+                    const instanceList: SpriteInstance[] = [];
+                    for (let i = 0; i < 5; i++) {
+                        for (let j = 0; j < 5; j++) {
+                            instanceList.push(
+                                new SpriteInstance(
+                                    spriteSize,
+                                    spriteSize,
+                                    new Vector3(j * xInterval + xOffset, i * yInterval + yOffset, 0),
+                                    undefined,
+                                    undefined,
+                                    new Vector2(0, 0.5)
+                                )
+                            );
+                        }
+                    }
+
+                    c.setInstances(instanceList);
+                }))
+
+            .withChild(instantlater.buildGameObject("desks")
+                .withComponent(SpriteStaticInstancer, c => {
+                    c.useZindexSorter = true;
+                    c.imageSource = "/assets/object/desk/common desk/desk1/Desk(R&L).png";
+
+                    const spriteSize = 18;
+                    const xOffset = -3 * 16 - 8 + 2;
+                    const yOffset = -4 * 18 - 8;
+                    const xInterval = 2 * 16;
+                    const yInterval = 2 * 16;
+
+                    const instanceList: SpriteInstance[] = [];
+                    for (let i = 0; i < 5; i++) {
+                        for (let j = 0; j < 5; j++) {
+                            instanceList.push(
+                                new SpriteInstance(
+                                    spriteSize,
+                                    spriteSize,
+                                    new Vector3(j * xInterval + xOffset, i * yInterval + yOffset, 0),
+                                    undefined,
+                                    undefined,
+                                    new Vector2(0, 0.5)
+                                )
+                            );
+                        }
+                    }
+
+                    c.setInstances(instanceList);
+                }))
+
+            .withChild(instantlater.buildGameObject("lockers")
+                .withComponent(SpriteStaticInstancer, c => {
+                    c.useZindexSorter = true;
+                    c.imageSource = "/assets/object/locker/Locker(L&R).png";
+
+                    const spriteXsize = 40;
+                    const spriteYsize = 64;
+
+                    const instanceList: SpriteInstance[] = [
+                        new SpriteInstance(
+                            spriteXsize, spriteYsize,
+                            new Vector3(-6 * 16 - 8, 1 * 16 + 2), undefined, undefined,
+                            new Vector2(0, 0.5)
+                        ),
+                        new SpriteInstance(
+                            spriteXsize, spriteYsize,
+                            new Vector3(-6 * 16 - 8, -1 * 16 - 7), undefined, undefined,
+                            new Vector2(0, 0.5)
+                        ),
+                        new SpriteInstance(
+                            spriteXsize, spriteYsize,
+                            new Vector3(-6 * 16 - 8, -4 * 16), undefined, undefined,
+                            new Vector2(0, 0.5)
+                        ),
+                    ]
+                    c.setInstances(instanceList);
+                }))
+                
+            .withChild(instantlater.buildGameObject("trashcan", new Vector3(-6 * 16 - 8, -4 * 16, 0))
+                .withComponent(CssSpriteRenderer, c => {
+                    c.imagePath = "/assets/object/recycle bin/Recycle Bin(R&L).png";
+                    c.imageWidth = 18;
+                    c.imageHeight = 18;
+                    c.imageCenterOffset = new Vector2(0, 0.5);
+                })
+                .withComponent(ZaxisSorter))
+            
+            .withChild(instantlater.buildGameObject("centerdesk", new Vector3(7 * 16 - 8, -1 * 16, 0))
+                .withComponent(CssSpriteRenderer, c => {
+                    c.imagePath = "/assets/object/shoe rack/Shoe Rack(L&R).png";
+                    c.imageWidth = 30;
+                    c.imageHeight = 25;
+                    c.imageCenterOffset = new Vector2(0, 0.5);
+                })
+                .withComponent(ZaxisSorter))
+            
+            .withChild(instantlater.buildGameObject("tv", new Vector3(7 * 16 + 2, 7 * 16 + 10, 0), undefined, new Vector3(-1, 1, 1))
+                .withComponent(CssSpriteRenderer, c => {
+                    c.imagePath = "/assets/object/tv/tv.png";
+                    c.imageWidth = 40;
+                    c.imageHeight = 0;
+                    c.imageCenterOffset = new Vector2(0, -0.5);
+                })
+                .withComponent(ZaxisSorter));
+    }
+}
