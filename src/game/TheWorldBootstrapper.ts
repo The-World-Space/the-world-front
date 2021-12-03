@@ -41,8 +41,8 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.useZindexSorter = true;
 
                     const instanceList: SpriteInstance[] = [];
-                    for (let i = -5; i < 5; i++) {
-                        for (let j = -5; j < 5; j++) {
+                    for (let i = -4; i < 4; i++) {
+                        for (let j = -4; j < 4; j++) {
                             instanceList.push(new SpriteInstance(10, 10, new Vector3(j * 16, i * 16, 0), undefined, undefined, new Vector2(0, 0.5)));
                         }
                     }

@@ -76,6 +76,8 @@ export class CssSpriteAtlasRenderer extends Component {
             image.removeEventListener("load", onLoad);
             this._croppedImageWidth = image.naturalWidth / this._columnCount;
             this._croppedImageHeight = image.naturalHeight / this._rowCount;
+            if (this._imageWidth === 0) this._imageWidth = this._croppedImageWidth;
+            if (this._imageHeight === 0) this._imageHeight = this._croppedImageHeight;
             image.alt = `${this.gameObject.name}_sprite_atlas`;
             image.style.width = `${this._croppedImageWidth}px`;
             image.style.height = `${this._croppedImageHeight}px`;
@@ -87,6 +89,11 @@ export class CssSpriteAtlasRenderer extends Component {
                 this._sprite.position.set(
                     this._croppedImageWidth * this._imageCenterOffset.x,
                     this._croppedImageHeight * this._imageCenterOffset.y, 0
+                );
+                this._sprite.scale.set(
+                    this._imageWidth / this._croppedImageWidth,
+                    this._imageHeight / this._croppedImageHeight,
+                    1
                 );
                 this.gameObject.add(this._sprite);
             }
@@ -114,6 +121,28 @@ export class CssSpriteAtlasRenderer extends Component {
 
     public get columnCount(): number {
         return this._columnCount;
+    }
+
+    public get imageWidth(): number {
+        return this._imageWidth;
+    }
+
+    public set imageWidth(value: number) {
+        this._imageWidth = value;
+        if (this._sprite) {
+            this._sprite.scale.x = this._imageWidth / this._croppedImageWidth;
+        }
+    }
+
+    public get imageHeight(): number {
+        return this._imageHeight;
+    }
+
+    public set imageHeight(value: number) {
+        this._imageHeight = value;
+        if (this._sprite) {
+            this._sprite.scale.y = this._imageHeight / this._croppedImageHeight;
+        }
     }
 
     public get imageCenterOffset(): Vector2 {
