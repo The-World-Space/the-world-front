@@ -11,6 +11,7 @@ import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideT
 import { CssTilemapRenderer } from "../component/render/CssTilemapRenderer";
 import { CssTilemapChunkRenderer } from "../component/post_render/CssTilemapChunkRenderer";
 import { CssTextRenderer, TextAlign } from "../component/render/CssTextRenderer";
+import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`;
@@ -66,7 +67,26 @@ export class NetworkPlayerPrefab extends Prefab {
                 if (this._gridPosition) c.initPosition = this._gridPosition;
             })
             .withComponent(MovementAnimationController)
-            .withComponent(ZaxisSorter, c => c.runOnce = false);
+            .withComponent(ZaxisSorter, c => c.runOnce = false)
+
+            .withChild(instantlater.buildGameObject("chatbox",
+                new Vector3(0, 45, 0),
+                new Quaternion(),
+                new Vector3(0.5, 0.5, 0.5))
+                .withComponent(CssHtmlElementRenderer, c => {
+                    c.autoSize = true;
+                    c.setElementFromJSX(
+                        <div style={{
+                            borderRadius: "15px",
+                            background: "#000000",
+                            color: "#ffffff", 
+                            textAlign: "center",
+                            padding: "5px 10px",
+                            }}>
+                            i'm still busy
+                        </div>
+                    );
+                }));
         
         if (this._nameTagString) {
             this._gameObjectBuilder
