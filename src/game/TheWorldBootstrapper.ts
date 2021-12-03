@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from "three";
+import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
@@ -38,15 +38,16 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withGridPosition(-1, -1)
                 .make())
 
-            // .withChild(instantlater.buildGameObject("iframe", new Vector3(64,16, 0), undefined, new Vector3(1, 1, 1))
-            //     .withComponent(IframeRenderer, c => {
-            //         c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
-            //         c.width = 128;
-            //         c.height = 64;
-            //         c.viewScale = 0.25;
-            //         c.iframeCenterOffset = new Vector2(0, 0.5);
-            //     })
-            //     .withComponent(ZaxisSorter))
+            .withChild(instantlater.buildGameObject("iframe", new Vector3(7 * 16 + 1, 5 * 16 + 7, 0),
+                new Quaternion().setFromEuler(new Euler(MathUtils.degToRad(-15), MathUtils.degToRad(45), 0)))
+                .withComponent(IframeRenderer, c => {
+                    c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
+                    c.width = 36;
+                    c.height = 18;
+                    c.viewScale = 0.1;
+                    c.iframeCenterOffset = new Vector2(0, 0.5);
+                })
+                .withComponent(ZaxisSorter))
             
             .withChild(instantlater.buildGameObject("camera_controller")
                 .withComponent(CameraController, c => {
