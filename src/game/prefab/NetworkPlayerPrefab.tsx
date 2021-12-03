@@ -74,7 +74,6 @@ export class NetworkPlayerPrefab extends Prefab {
                 new Quaternion(),
                 new Vector3(0.5, 0.5, 0.5))
                 .withComponent(CssHtmlElementRenderer, c => {
-                    const chatboxId = `${c.gameObject.uuid}-chatbox`;
                     c.autoSize = true;
                     c.setElementFromJSX(
                         <div style={{
@@ -83,13 +82,10 @@ export class NetworkPlayerPrefab extends Prefab {
                             color: "#ffffff", 
                             textAlign: "center",
                             padding: "5px 10px",
-                            }} id = {chatboxId}>
+                            }}>
                             i'm still busy
                         </div>
                     );
-                    setTimeout(() => {
-                        document.getElementById(chatboxId)!.textContent = "i'm hungry, you must stay foolish";
-                    }, 5000);
                 }));
         
         if (this._nameTagString) {
