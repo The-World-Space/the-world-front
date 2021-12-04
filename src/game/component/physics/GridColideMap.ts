@@ -91,18 +91,20 @@ export class GridCollideMap extends Component implements IGridCollideable {
     }
 
     public get gridCenter(): Vector2 {
-        const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
-        const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
-        return new Vector2(this.gameObject.position.x + offsetX, this.gameObject.position.y + offsetY);
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        return new Vector2(worldPosition.x, worldPosition.y);
     }
 
     public get gridCenterX(): number {
-        const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
-        return this.gameObject.position.x + offsetX;
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        return worldPosition.x;
     }
 
     public get gridCenterY(): number {
-        const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
-        return this.gameObject.position.y + offsetY;
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        return worldPosition.y;
     }
 }

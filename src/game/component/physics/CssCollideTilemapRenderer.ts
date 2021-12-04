@@ -50,8 +50,6 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
         }
     }
 
-    private _tempVector3 = new Vector3();
-
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
         this._tempVector3.copy(this.gameObject.position);
         const worldPosition = this.gameObject.localToWorld(this._tempVector3);
