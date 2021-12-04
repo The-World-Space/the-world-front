@@ -22,13 +22,13 @@ export class Game {
     private _isDisposed: boolean;
 
     private static readonly _cameraViewSize = 300;
-    private static readonly _useDebugPerspectiveCamera = false;
+    private static readonly _useDebugPerspectiveCamera = true;
 
     public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
         this._rootScene = new Scene();
 
         const aspectRatio = screenWidth / screenHeight;
-        
+
         if (Game._useDebugPerspectiveCamera) {
             this._camera = new THREE.PerspectiveCamera(
                 75,
