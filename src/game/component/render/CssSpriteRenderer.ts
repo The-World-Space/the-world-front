@@ -12,6 +12,8 @@ export class CssSpriteRenderer extends Component {
     private _zindex: number = 0;
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
+    private _imageFlipX: boolean = false;
+    private _imageFlipY: boolean = false;
 
     private _initializeFunction: (() => void)|null = null;
     
@@ -75,6 +77,8 @@ export class CssSpriteRenderer extends Component {
                     this._imageWidth * this._imageCenterOffset.x,
                     this._imageHeight * this._imageCenterOffset.y, 0
                 );
+                this._sprite.scale.x = this._imageFlipX ? -1 : 1;
+                this._sprite.scale.y = this._imageFlipY ? -1 : 1;
                 this.gameObject.add(this._sprite);
             }
         };
@@ -114,6 +118,28 @@ export class CssSpriteRenderer extends Component {
         this._imageHeight = value;
         if (this._sprite) {
             this._sprite.element.style.height = `${value}px`;
+        }
+    }
+
+    public get imageFlipX(): boolean {
+        return this._imageFlipX;
+    }
+
+    public set imageFlipX(value: boolean) {
+        this._imageFlipX = value;
+        if (this._sprite) {
+            this._sprite.scale.x = this._imageFlipX ? -1 : 1;
+        }
+    }
+
+    public get imageFlipY(): boolean {
+        return this._imageFlipY;
+    }
+
+    public set imageFlipY(value: boolean) {
+        this._imageFlipY = value;
+        if (this._sprite) {
+            this._sprite.scale.y = this._imageFlipY ? -1 : 1;
         }
     }
 }

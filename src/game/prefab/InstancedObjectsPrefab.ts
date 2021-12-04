@@ -116,11 +116,12 @@ export class InstancedObjectsPrefab extends Prefab {
                 })
                 .withComponent(ZaxisSorter))
             
-            .withChild(instantlater.buildGameObject("tv", new Vector3(7 * 16 + 2, 7 * 16 + 10, 0), undefined, new Vector3(-1, 1, 1))
+            .withChild(instantlater.buildGameObject("tv", new Vector3(7 * 16 + 2, 7 * 16 + 10, 0))
                 .withComponent(CssSpriteRenderer, c => {
                     c.imagePath = "/assets/object/tv/tv.png";
                     c.imageWidth = 40;
                     c.imageHeight = 0;
+                    c.imageFlipX = true;
                     c.imageCenterOffset = new Vector2(0, -0.5);
                 })
                 .withComponent(ZaxisSorter));

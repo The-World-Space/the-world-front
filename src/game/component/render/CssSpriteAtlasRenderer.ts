@@ -12,6 +12,8 @@ export class CssSpriteAtlasRenderer extends Component {
     private _columnCount: number = 1;
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
+    private _imageFlipX: boolean = false;
+    private _imageFlipY: boolean = false;
     private _croppedImageWidth: number = 0;
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
@@ -95,6 +97,8 @@ export class CssSpriteAtlasRenderer extends Component {
                     this._imageHeight / this._croppedImageHeight,
                     1
                 );
+                this._sprite.scale.x *= this._imageFlipX ? -1 : 1;
+                this._sprite.scale.y *= this._imageFlipY ? -1 : 1;
                 this.gameObject.add(this._sprite);
             }
             this.updateImageByIndex();
@@ -123,6 +127,20 @@ export class CssSpriteAtlasRenderer extends Component {
         return this._columnCount;
     }
 
+    public get imageCenterOffset(): Vector2 {
+        return this._imageCenterOffset.clone();
+    }
+
+    public set imageCenterOffset(value: Vector2) {
+        this._imageCenterOffset.copy(value);
+        if (this._sprite) {
+            this._sprite.position.set(
+                this._imageWidth * this._imageCenterOffset.x,
+                this._imageHeight * this._imageCenterOffset.y, 0
+            );
+        }
+    }
+
     public get imageWidth(): number {
         return this._imageWidth;
     }
@@ -145,17 +163,25 @@ export class CssSpriteAtlasRenderer extends Component {
         }
     }
 
-    public get imageCenterOffset(): Vector2 {
-        return this._imageCenterOffset.clone();
+    public get imageFlipX(): boolean {
+        return this._imageFlipX;
     }
 
-    public set imageCenterOffset(value: Vector2) {
-        this._imageCenterOffset.copy(value);
+    public set imageFlipX(value: boolean) {
+        this._imageFlipX = value;
         if (this._sprite) {
-            this._sprite.position.set(
-                this._imageWidth * this._imageCenterOffset.x,
-                this._imageHeight * this._imageCenterOffset.y, 0
-            );
+            this._sprite.scale.x *= this._imageFlipX ? -1 : 1;
+        }
+    }
+
+    public get imageFlipY(): boolean {
+        return this._imageFlipY;
+    }
+
+    public set imageFlipY(value: boolean) {
+        this._imageFlipY = value;
+        if (this._sprite) {
+            this._sprite.scale.y *= this._imageFlipY ? -1 : 1;
         }
     }
 }
