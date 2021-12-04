@@ -44,10 +44,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
                         div.onclick = () => {
                             console.log("clicked");
                         }
-                    })
-                    .withComponent(ZaxisSorter, c => {
-                        c.runOnce = false;
-                        c.offset = -10;
                     })))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
