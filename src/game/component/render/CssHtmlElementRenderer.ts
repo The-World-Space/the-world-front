@@ -11,7 +11,7 @@ export class CssHtmlElementRenderer extends Component {
     private _htmlDivElement: HTMLDivElement|null = null;
     private readonly _centerOffset: Vector2 = new Vector2(0, 0);
     private _zindex: number = 0;
-    private _elementWidth: number = 32;
+    private _elementWidth: number = 16;
     private _elementHeight: number = 16;
     private _autoSize: boolean = false;
 
