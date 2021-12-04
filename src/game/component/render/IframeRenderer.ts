@@ -40,9 +40,6 @@ export class IframeRenderer extends Component {
         this._htmlIframeElement.width = (iframeWidth / this.viewScale).toString();
         this._htmlIframeElement.height = (iframeHeight / this.viewScale).toString();
         this._htmlIframeElement.src = this._iframeSource;
-        this._htmlIframeElement.style.border = "none";
-        this._htmlIframeElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
-        this._htmlIframeElement.style.zIndex = Math.floor(this._zindex).toString();
         this._sprite = new CSS3DObject(this._htmlIframeElement);
         this._sprite.position.set(
             iframeWidth * this._iframeCenterOffset.x,
@@ -50,6 +47,9 @@ export class IframeRenderer extends Component {
         );
         this._sprite.scale.set(this.viewScale, this.viewScale, this.viewScale);
         this.gameObject.add(this._sprite);
+        this._htmlIframeElement.style.border = "none";
+        this._htmlIframeElement.style.zIndex = Math.floor(this._zindex).toString();
+        this._htmlIframeElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
     }
 
     public get width(): number {

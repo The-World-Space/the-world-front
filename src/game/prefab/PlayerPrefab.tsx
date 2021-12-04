@@ -43,6 +43,7 @@ export class PlayerPrefab extends Prefab {
             .withComponent(CssSpriteAtlasRenderer, c => {
                 c.setImage(this._spriteAtlasPath, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
+                c.pointerEvents = false;
             })
             .withComponent(SpriteAtlasAnimator, c => {
                 c.addAnimation("down_idle", [0]);
@@ -87,6 +88,7 @@ export class PlayerPrefab extends Prefab {
                             gimme some iphone
                         </div>
                     );
+                    c.pointerEvents = false;
                 }));
 
         if (this._nameTagString) {
@@ -101,6 +103,7 @@ export class PlayerPrefab extends Prefab {
                         c.textHeight = 16;
                         c.textWidth = 64;
                         c.text = this._nameTagString;
+                        c.pointerEvents = false;
                     }))
         }
 

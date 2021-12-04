@@ -69,13 +69,13 @@ export class CssTilemapRenderer extends Component{
         const tileMapWidth: number = this._columnCount * this._tileWidth;
         const tileMapHeight: number = this._rowCount * this._tileHeight;
         this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
+        this._sprite = new CSS3DObject(this._htmlCanvasElement);
+        this.gameObject.add(this._sprite);
         this._htmlCanvasElement.style.imageRendering = "pixelated";
         this._htmlCanvasElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlCanvasElement.width = tileMapWidth;
         this._htmlCanvasElement.height = tileMapHeight;
         this._htmlCanvasElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
-        this._sprite = new CSS3DObject(this._htmlCanvasElement);
-        this.gameObject.add(this._sprite);
     }
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {
@@ -167,8 +167,8 @@ export class CssTilemapRenderer extends Component{
 
     public set pointerEvents(value: boolean) {
         this._pointerEvents = value;
-        if (this._sprite) {
-            this._sprite.element.style.pointerEvents = this._pointerEvents ? "auto" : "none";
+        if (this._htmlCanvasElement) {
+            this._htmlCanvasElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
         }
     }
 

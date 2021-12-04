@@ -21,6 +21,7 @@ export class InstancedObjectsPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("chairs")
                 .withComponent(SpriteStaticInstancer, c => {
                     c.useZindexSorter = true;
+                    c.pointerEvents = false;
                     c.imageSource = "/assets/object/chair/Chair1/chair(L&R).png";
 
                     const spriteSize = 18;
@@ -51,6 +52,7 @@ export class InstancedObjectsPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("desks")
                 .withComponent(SpriteStaticInstancer, c => {
                     c.useZindexSorter = true;
+                    c.pointerEvents = false;
                     c.imageSource = "/assets/object/desk/common desk/desk1/Desk(R&L).png";
 
                     const spriteSize = 18;
@@ -81,6 +83,7 @@ export class InstancedObjectsPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("lockers")
                 .withComponent(SpriteStaticInstancer, c => {
                     c.useZindexSorter = true;
+                    c.pointerEvents = false;
                     c.imageSource = "/assets/object/locker/Locker(L&R).png";
 
                     const spriteXsize = 40;
@@ -112,6 +115,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.imageWidth = 18;
                     c.imageHeight = 18;
                     c.imageCenterOffset = new Vector2(0, 0.5);
+                    c.pointerEvents = false;
                 })
                 .withComponent(ZaxisSorter))
             
@@ -121,6 +125,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.imageWidth = 30;
                     c.imageHeight = 25;
                     c.imageCenterOffset = new Vector2(0, 0.5);
+                    c.pointerEvents = false;
                 })
                 .withComponent(ZaxisSorter))
             
@@ -131,6 +136,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.imageHeight = 0;
                     c.imageFlipX = true;
                     c.imageCenterOffset = new Vector2(0, -0.5);
+                    c.pointerEvents = false;
                 })
                 .withComponent(ZaxisSorter))
             .withChild(instantlater.buildGameObject("colidemap", new Vector3(8, 8))

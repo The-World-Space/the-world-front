@@ -24,6 +24,7 @@ export class TilemapChunkPrefab extends Prefab {
                     tilemap3.src = `/assets/tilemap/3_tile.png`;
 
                     c.imageSources = [new TileAtlasItem(tilemap3, 10, 10)];
+                    c.pointerEvents = false;
                     
                     tilemap3.onload = () => {
                         tilemap3.onload = null;
@@ -62,6 +63,7 @@ export class TilemapChunkPrefab extends Prefab {
                         new TileAtlasItem(tilemap3, 10, 10),
                         new TileAtlasItem(tilemap4, 10, 15),
                     ];
+                    c.pointerEvents = false;
 
                     tilemap3.onload = () => {
                         tilemap3.onload = null;

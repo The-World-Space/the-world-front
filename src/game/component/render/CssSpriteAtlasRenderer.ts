@@ -83,13 +83,6 @@ export class CssSpriteAtlasRenderer extends Component {
             if (this._imageWidth === 0) this._imageWidth = this._croppedImageWidth;
             if (this._imageHeight === 0) this._imageHeight = this._croppedImageHeight;
             image.alt = `${this.gameObject.name}_sprite_atlas`;
-            image.style.width = `${this._croppedImageWidth}px`;
-            image.style.height = `${this._croppedImageHeight}px`;
-            image.style.objectFit = "none";
-            image.style.imageRendering = "pixelated";
-            image.style.opacity = this._opacity.toString();
-            image.style.pointerEvents = this._pointerEvents ? "auto" : "none";
-            image.style.zIndex = this._zindex.toString();
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
                 this._sprite.position.set(
@@ -105,6 +98,13 @@ export class CssSpriteAtlasRenderer extends Component {
                 this._sprite.scale.y *= this._imageFlipY ? -1 : 1;
                 this.gameObject.add(this._sprite);
             }
+            image.style.width = `${this._croppedImageWidth}px`;
+            image.style.height = `${this._croppedImageHeight}px`;
+            image.style.objectFit = "none";
+            image.style.imageRendering = "pixelated";
+            image.style.opacity = this._opacity.toString();
+            image.style.pointerEvents = this._pointerEvents ? "auto" : "none";
+            image.style.zIndex = this._zindex.toString();
             this.updateImageByIndex();
         };
         this._htmlImageElement.addEventListener("load", onLoad);
