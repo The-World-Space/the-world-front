@@ -11,7 +11,7 @@ import { Time } from "./Time";
 
 export class Game {
     private readonly _rootScene: Scene;
-    private readonly _camera: THREE.OrthographicCamera;
+    private readonly _camera: THREE.Camera;
     private readonly _renderer: CSS3DRenderer;
     private readonly _clock: THREE.Clock;
     private readonly _time: Time;
@@ -28,11 +28,17 @@ export class Game {
 
         const aspectRatio = screenWidth / screenHeight;
         const viewSizeScalar = Game._cameraViewSize * 0.5;
-        this._camera = new THREE.OrthographicCamera(
-            -viewSizeScalar * aspectRatio,
-            viewSizeScalar * aspectRatio,
-            viewSizeScalar,
-            -viewSizeScalar,
+        // this._camera = new THREE.OrthographicCamera(
+        //     -viewSizeScalar * aspectRatio,
+        //     viewSizeScalar * aspectRatio,
+        //     viewSizeScalar,
+        //     -viewSizeScalar,
+        //     0.1,
+        //     1000
+        // );
+        this._camera = new THREE.PerspectiveCamera(
+            75,
+            aspectRatio,
             0.1,
             1000
         );
@@ -54,16 +60,21 @@ export class Game {
         this._renderer.setSize(width, height);
     }
 
-    private static setCameraViewFrustum(camera: THREE.OrthographicCamera, width: number, height: number): void {
-        const aspectRatio = width / height;
-        const viewSizeScalar = Game._cameraViewSize * 0.5;
-        camera.left = -viewSizeScalar * aspectRatio;
-        camera.right = viewSizeScalar * aspectRatio;
-        camera.top = viewSizeScalar;
-        camera.bottom = -viewSizeScalar;
-        camera.near = 0.1;
-        camera.far = 1000;
-        camera.updateProjectionMatrix();
+    private static setCameraViewFrustum(camera: THREE.Camera, width: number, height: number): void {
+        if (camera instanceof THREE.PerspectiveCamera) {
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        } else if (camera instanceof THREE.OrthographicCamera) {
+            const aspectRatio = width / height;
+            const viewSizeScalar = Game._cameraViewSize * 0.5;
+            camera.left = -viewSizeScalar * aspectRatio;
+            camera.right = viewSizeScalar * aspectRatio;
+            camera.top = viewSizeScalar;
+            camera.bottom = -viewSizeScalar;
+            camera.near = 0.1;
+            camera.far = 1000;
+            camera.updateProjectionMatrix();
+        }
     }
 
     public run(bootstrapper: IBootstrapper): void {

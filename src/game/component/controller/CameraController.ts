@@ -5,7 +5,7 @@ import { GameObject } from "../../engine/hierarchy_object/GameObject";
 export class CameraController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
 
-    private _camera: THREE.OrthographicCamera|null = null;
+    private _camera: THREE.Camera|null = null;
     private _trackTarget: GameObject|null = null;
     private _cameraDistanceOffset: number = 50;
     private _pixelPerfectUnit: number = 1;
