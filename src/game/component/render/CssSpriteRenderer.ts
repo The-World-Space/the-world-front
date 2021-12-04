@@ -15,6 +15,7 @@ export class CssSpriteRenderer extends Component {
     private _imageFlipX: boolean = false;
     private _imageFlipY: boolean = false;
     private _opacity: number = 1;
+    private _pointerEvents: boolean = true;
 
     private _initializeFunction: (() => void)|null = null;
     
@@ -73,6 +74,7 @@ export class CssSpriteRenderer extends Component {
                 image.style.width = `${this._imageWidth}px`;
                 image.style.height = `${this._imageHeight}px`;
                 image.style.opacity = this._opacity.toString();
+                image.style.pointerEvents = this._pointerEvents ? "auto" : "none";
                 image.style.zIndex = Math.floor(this._zindex).toString();
                 this._sprite.position.set(
                     this._imageWidth * this._imageCenterOffset.x,
@@ -117,8 +119,8 @@ export class CssSpriteRenderer extends Component {
 
     public set imageHeight(value: number) {
         this._imageHeight = value;
-        if (this._sprite) {
-            this._sprite.element.style.height = `${value}px`;
+        if (this._htmlImageElement) {
+            this._htmlImageElement.style.height = `${value}px`;
         }
     }
 
@@ -152,6 +154,17 @@ export class CssSpriteRenderer extends Component {
         this._opacity = value;
         if (this._htmlImageElement) {
             this._htmlImageElement.style.opacity = this._opacity.toString();
+        }
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
+        if (this._htmlImageElement) {
+            this._htmlImageElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
         }
     }
 }

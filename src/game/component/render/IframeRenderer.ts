@@ -13,6 +13,7 @@ export class IframeRenderer extends Component {
     private _htmlIframeElement: HTMLIFrameElement|null = null;
     private readonly _iframeCenterOffset: Vector2 = new Vector2(0, 0);
     private _iframeSource: string = "";
+    private _pointerEvents: boolean = true;
     private _zindex: number = 0;
 
     protected start(): void { 
@@ -40,6 +41,7 @@ export class IframeRenderer extends Component {
         this._htmlIframeElement.height = (iframeHeight / this.viewScale).toString();
         this._htmlIframeElement.src = this._iframeSource;
         this._htmlIframeElement.style.border = "none";
+        this._htmlIframeElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
         this._htmlIframeElement.style.zIndex = Math.floor(this._zindex).toString();
         this._sprite = new CSS3DObject(this._htmlIframeElement);
         this._sprite.position.set(
@@ -97,6 +99,18 @@ export class IframeRenderer extends Component {
 
         if (this._htmlIframeElement) {
             this._htmlIframeElement.src = value;
+        }
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
+        
+        if (this._htmlIframeElement) {
+            this._htmlIframeElement.style.pointerEvents = value ? "auto" : "none";
         }
     }
 

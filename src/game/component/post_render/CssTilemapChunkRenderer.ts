@@ -9,6 +9,7 @@ export class CssTilemapChunkRenderer extends Component {
     private _tileWidth: number = 16;
     private _tileHeight: number = 16;
     private _imageSources: TileAtlasItem[]|null = null;
+    private _pointerEvents: boolean = true;
     
     private _initializeFunctions: ((() => void))[] = [];
 
@@ -61,6 +62,7 @@ export class CssTilemapChunkRenderer extends Component {
                         c.gridCellHeight = this._tileHeight;
                         c.rowCount = this._chunkSize;
                         c.columnCount = this._chunkSize;
+                        c.pointerEvents = this._pointerEvents;
                     })
             );
             this._cssTilemapRendererMap.set(chunkIndex, cssTilemapRenderer!);
@@ -123,6 +125,17 @@ export class CssTilemapChunkRenderer extends Component {
         }
 
         this._imageSources = value;
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
+        this._cssTilemapRendererMap.forEach((renderer, _) => {
+            renderer.pointerEvents = value;
+        });
     }
 
     public get gridCellWidth(): number {

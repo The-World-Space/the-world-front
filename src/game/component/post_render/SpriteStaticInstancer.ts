@@ -57,6 +57,7 @@ export class SpriteStaticInstancer extends Component {
     private _imageSource: string = `/assets/tilemap/default.png`;
     private _useZaxisSorter: boolean = false;
     private _zaxisSortOffset: number = 0;
+    private _pointerEvents: boolean = true;
 
     private _initializeFunction: (() => void)|null = null;
 
@@ -84,6 +85,7 @@ export class SpriteStaticInstancer extends Component {
                     c.imageWidth = instance.width;
                     c.imageHeight = instance.height;
                     if (instance.centerOffset) c.imageCenterOffset = instance.centerOffset;
+                    c.pointerEvents = this._pointerEvents;
                 });
             
             if (this._useZaxisSorter) {
@@ -119,5 +121,13 @@ export class SpriteStaticInstancer extends Component {
 
     public set zindexSortOffset(value: number) {
         this._zaxisSortOffset = value;
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
     }
 }

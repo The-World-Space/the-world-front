@@ -14,6 +14,7 @@ export class CssHtmlElementRenderer extends Component {
     private _elementWidth: number = 16;
     private _elementHeight: number = 16;
     private _autoSize: boolean = false;
+    private _pointerEvents: boolean = true;
 
     private static readonly _defaultElement: HTMLDivElement = document.createElement("div");
 
@@ -60,6 +61,7 @@ export class CssHtmlElementRenderer extends Component {
                 this._htmlDivElement.style.width = `${this._elementWidth}px`;
                 this._htmlDivElement.style.height = `${this._elementHeight}px`;
             }
+            this._htmlDivElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
             
             this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
             this._css3DObject.position.set(
@@ -111,8 +113,8 @@ export class CssHtmlElementRenderer extends Component {
 
     public set elementHeight(value: number) {
         this._elementHeight = value;
-        if (this._css3DObject) {
-            this._css3DObject.element.style.height = `${value}px`;
+        if (this._htmlDivElement) {
+            this._htmlDivElement.style.height = `${value}px`;
         }
     }
 
@@ -122,14 +124,25 @@ export class CssHtmlElementRenderer extends Component {
 
     public set autoSize(value: boolean) {
         this._autoSize = value;
-        if (this._css3DObject) {
+        if (this._htmlDivElement) {
             if (value) {
-                this._htmlDivElement!.style.width = "auto";
-                this._htmlDivElement!.style.height = "auto";
+                this._htmlDivElement.style.width = "auto";
+                this._htmlDivElement.style.height = "auto";
             } else {
-                this._htmlDivElement!.style.width = `${this._elementWidth}px`;
-                this._htmlDivElement!.style.height = `${this._elementHeight}px`;
+                this._htmlDivElement.style.width = `${this._elementWidth}px`;
+                this._htmlDivElement.style.height = `${this._elementHeight}px`;
             }
+        }
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
+        if (this._htmlDivElement) {
+            this._htmlDivElement.style.pointerEvents = value ? "auto" : "none";
         }
     }
 }

@@ -41,6 +41,7 @@ export class CssTilemapRenderer extends Component{
     private _sprite: CSS3DObject|null = null;
     private _htmlCanvasElement: HTMLCanvasElement|null = null;
     private _imageSources: TileAtlasItem[]|null = null;
+    private _pointerEvents: boolean = true;
     private _zindex: number = 0;
     
     private _initializeFunctions: ((() => void))[] = [];
@@ -72,6 +73,7 @@ export class CssTilemapRenderer extends Component{
         this._htmlCanvasElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlCanvasElement.width = tileMapWidth;
         this._htmlCanvasElement.height = tileMapHeight;
+        this._htmlCanvasElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
         this._sprite = new CSS3DObject(this._htmlCanvasElement);
         this.gameObject.add(this._sprite);
     }
@@ -157,6 +159,17 @@ export class CssTilemapRenderer extends Component{
         }
 
         this._imageSources = value;
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
+        if (this._sprite) {
+            this._sprite.element.style.pointerEvents = this._pointerEvents ? "auto" : "none";
+        }
     }
 
     public get columnCount(): number {

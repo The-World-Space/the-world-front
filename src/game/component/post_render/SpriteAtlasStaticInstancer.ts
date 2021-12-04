@@ -66,6 +66,7 @@ export class SpriteAtlasStaticInstancer extends Component {
     private _zaxisSortOffset: number = 0;
     private _rowCount: number = 1;
     private _columnCount: number = 1;
+    private _pointerEvents: boolean = true;
 
     private _initializeFunction: (() => void)|null = null;
 
@@ -93,6 +94,7 @@ export class SpriteAtlasStaticInstancer extends Component {
                     c.imageHeight = instance.height;
                     c.imageIndex = instance.atlasIndex;
                     c.setImage(this._imageSource, this._rowCount, this._columnCount);
+                    c.pointerEvents = this._pointerEvents;
                     if (instance.centerOffset) c.imageCenterOffset = instance.centerOffset;
                 });
             
@@ -142,5 +144,13 @@ export class SpriteAtlasStaticInstancer extends Component {
 
     public set zindexSortOffset(value: number) {
         this._zaxisSortOffset = value;
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
     }
 }

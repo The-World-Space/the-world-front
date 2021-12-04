@@ -27,6 +27,7 @@ export class CssTextRenderer extends Component {
     private _fontWeight: FontWeight = FontWeight.Normal;
     private _textalign: TextAlign = TextAlign.Left;
     private _opacity: number = 1;
+    private _pointerEvents: boolean = true;
 
     private static readonly _defaultText: string = "Text";
 
@@ -72,6 +73,7 @@ export class CssTextRenderer extends Component {
             this._htmlDivElement.style.fontWeight = this._fontWeight;
             this._htmlDivElement.style.textAlign = this._textalign;
             this._htmlDivElement.style.opacity = this._opacity.toString();
+            this._htmlDivElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
             
             this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
             this._css3DObject.position.set(
@@ -159,6 +161,17 @@ export class CssTextRenderer extends Component {
         this._opacity = value;
         if (this._htmlDivElement) {
             this._htmlDivElement.style.opacity = value.toString();
+        }
+    }
+
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
+        if (this._htmlDivElement) {
+            this._htmlDivElement.style.pointerEvents = value ? "auto" : "none";
         }
     }
 }
