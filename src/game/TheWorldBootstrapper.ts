@@ -36,7 +36,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withCollideMap(collideMap.ref!).make()
                 .getGameObject(player)
 
-                .withChild(instantlater.buildGameObject("onclicktest", new Vector3(16 + 8, 8, 100))
+                .withChild(instantlater.buildGameObject("onclicktest", new Vector3(16 + 8, 8, 20))
                     .withComponent(CssHtmlElementRenderer, c => {
                         const div = document.createElement("div");
                         div.style.backgroundColor = "red";
