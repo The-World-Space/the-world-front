@@ -36,13 +36,17 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withCollideMap(collideMap.ref!).make()
                 .getGameObject(player)
 
-                .withChild(instantlater.buildGameObject("onclicktest")
+                .withChild(instantlater.buildGameObject("onclicktest", new Vector3(16 + 8, 8, 100))
                     .withComponent(CssHtmlElementRenderer, c => {
                         const div = document.createElement("div");
                         div.style.backgroundColor = "red";
+                        div.textContent = "Click me!";
+                        div.style.fontSize = "7px";
+                        div.style.textAlign = "center";
+                        c.elementWidth = 32;
                         c.setElement(div);
-                        div.onclick = () => {
-                            console.log("clicked");
+                        div.onclick = e => {
+                            console.log("clicked", e);
                         }
                     })))
             
