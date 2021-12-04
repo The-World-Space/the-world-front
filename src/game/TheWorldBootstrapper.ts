@@ -1,6 +1,7 @@
 import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
+import { GridCollideMap } from "./component/physics/GridColideMap";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
@@ -18,23 +19,26 @@ export class TheWorldBootstrapper implements IBootstrapper {
         const instantlater = gameManager.instantlater;
 
         let player: {ref: GameObject|null} = {ref: null};
-        let colideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
+        let collideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
+        let collideMap: {ref: GridCollideMap|null} = {ref: null};
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab, new Vector3(0, 0, -100))
-                .getColideTilemapChunkRendererRef(colideTilemap).make())
+                .getColideTilemapChunkRendererRef(collideTilemap).make())
 
-            .withChild(instantlater.buildPrefab("objects", InstancedObjectsPrefab).make())
+            .withChild(instantlater.buildPrefab("objects", InstancedObjectsPrefab)
+                .getGridCollideMapRef(collideMap).make())
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
                 .withNameTag("Steve Jobs")
-                .withCollideMap(colideTilemap.ref!).make()
+                .withCollideMap(collideTilemap.ref!)
+                .withCollideMap(collideMap.ref!).make()
                 .getGameObject(player))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
                 .withNameTag("Heewon")
                 .with4x4SpriteAtlasFromPath("/assets/charactor/Heewon.png")
-                .withGridInfo(colideTilemap.ref!)
+                .withGridInfo(collideTilemap.ref!)
                 .withGridPosition(-1, -1)
                 .make())
 

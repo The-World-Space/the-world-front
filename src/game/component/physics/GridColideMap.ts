@@ -1,11 +1,16 @@
 import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
+import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
+import { ZaxisInitializer } from "../render/ZaxisInitializer";
 import { IGridCollideable } from "./IGridColideable";
 
 export class GridCollideMap extends Component implements IGridCollideable {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
     private _gridCellWidth: number = 16;
     private _gridCellHeight: number = 16;
+    private _showCollider: boolean = false;
+    private _colliderImages: GameObject[] = [];
     
     private _initializeFunctions: ((() => void))[] = [];
 
@@ -22,6 +27,9 @@ export class GridCollideMap extends Component implements IGridCollideable {
             return;
         }
         this._collideMap.set(`${x}_${y}`, true);
+        if (this._showCollider) {
+            this.addDebugImage(x * this.gridCellWidth, y * this.gridCellHeight);
+        }
     }
 
     public addColiderFromTwoDimensionalArray(array: (1|0)[][], xOffset: number, yOffset: number): void {
@@ -35,9 +43,36 @@ export class GridCollideMap extends Component implements IGridCollideable {
         for (let y = 0; y < array.length; y++) {
             for (let x = 0; x < array[y].length; x++) {
                 if (array[y][x] === 1) {
-                    this.addCollider(x + xOffset, y + yOffset);
+                    this.addCollider(x + xOffset, array.length - (y + yOffset));
                 }
             }
+        }
+    }
+
+    private addColliderImages() {
+        this._collideMap.forEach((value, key) => {
+            const [x, y] = key.split("_").map(Number);
+            this.addDebugImage(x * this.gridCellWidth, y * this.gridCellHeight);
+        });
+    }
+
+    private removeColliderImages() {
+        this._colliderImages.forEach(image => {
+            image.destroy();
+        });
+        this._colliderImages = [];
+    }
+    
+    private addDebugImage(x: number, y: number) {
+        if (this.gameObject.parent instanceof GameObject) {
+            const gameObjectRef: {ref: GameObject|null} = {ref: null};
+            this.gameObject.parent.addChildFromBuilder(
+                this.gameManager.instantlater.buildGameObject(
+                    "debugImage", new Vector3(x, y, 10000), undefined, new Vector3(0.5, 0.5, 0.5))
+                    .withComponent(ZaxisInitializer)
+                    .withComponent(CssSpriteRenderer)
+                    .getGameObject(gameObjectRef));
+            this._colliderImages.push(gameObjectRef.ref!);
         }
     }
     
@@ -54,9 +89,9 @@ export class GridCollideMap extends Component implements IGridCollideable {
         const top = Math.floor(y / this.gridCellHeight);
         const bottom = Math.floor((y + height) / this.gridCellHeight);
         
-        for (let row = top; row <= bottom; row++) {
-            for (let column = left; column <= right; column++) {
-                if (this._collideMap.get(`${column}_${row}`) === true) {
+        for (let y = top; y <= bottom; y++) {
+            for (let x = left; x <= right; x++) {
+                if (this._collideMap.get(`${x}_${y}`)) { //note: intended memory leak
                     return true;
                 }
             }
@@ -78,6 +113,19 @@ export class GridCollideMap extends Component implements IGridCollideable {
 
     public set gridCellHeight(value: number) {
         this._gridCellHeight = value;
+    }
+
+    public get showCollider(): boolean {
+        return this._showCollider;
+    }
+
+    public set showCollider(value: boolean) {
+        this._showCollider = value;
+        if (this._showCollider) {
+            this.addColliderImages();
+        } else {
+            this.removeColliderImages();
+        }
     }
 
     public get gridCenter(): Vector2 {

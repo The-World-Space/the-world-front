@@ -1,4 +1,5 @@
 import { Vector2, Vector3 } from "three";
+import { GridCollideMap } from "../component/physics/GridColideMap";
 import { SpriteInstance, SpriteStaticInstancer } from "../component/post_render/SpriteStaticInstancer";
 import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
@@ -6,6 +7,13 @@ import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 
 export class InstancedObjectsPrefab extends Prefab {
+    private _gridCollideMap: {ref: GridCollideMap|null}|null = null;
+
+    public getGridCollideMapRef(gridCollideMap: {ref: GridCollideMap|null}): InstancedObjectsPrefab {
+        this._gridCollideMap = gridCollideMap;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
         const instantlater = this._gameManager.instantlater;
 
@@ -124,6 +132,13 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.imageFlipX = true;
                     c.imageCenterOffset = new Vector2(0, -0.5);
                 })
-                .withComponent(ZaxisSorter));
+                .withComponent(ZaxisSorter))
+            .withChild(instantlater.buildGameObject("colidemap")
+                .withComponent(GridCollideMap, c => {
+                    c.showCollider = true;
+                    //c.addCollider(1, 1);
+                    c.addCollider(0, 0);
+                })
+                .getComponent(GridCollideMap, this._gridCollideMap ?? { ref: null }));
     }
 }
