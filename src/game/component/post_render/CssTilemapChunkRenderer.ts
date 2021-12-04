@@ -46,16 +46,7 @@ export class CssTilemapChunkRenderer extends Component {
         return new Vector2(relativeX, relativeY);
     }
 
-    public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
-        if (!this.started && !this.starting) {
-            this._initializeFunctions.push(() => {
-                this.drawTile(x, y, imageIndex, atlasIndex);
-            });
-            return;
-        }
-
-        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
-        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+    private getTilemapRenedererOrCreate(chunkIndexX: number, chunkIndexY: number): CssTilemapRenderer {
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
@@ -66,14 +57,28 @@ export class CssTilemapChunkRenderer extends Component {
                     .withComponent(CssTilemapRenderer, c => {
                         cssTilemapRenderer = c;
                         if (this._imageSources) c.imageSources = this._imageSources;
-                        c.tileWidth = this._tileWidth;
-                        c.tileHeight = this._tileHeight;
+                        c.gridCellWidth = this._tileWidth;
+                        c.gridCellHeight = this._tileHeight;
                         c.rowCount = this._chunkSize;
                         c.columnCount = this._chunkSize;
                     })
             );
             this._cssTilemapRendererMap.set(chunkIndex, cssTilemapRenderer!);
         }
+        return cssTilemapRenderer!;
+    }
+
+    public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.drawTile(x, y, imageIndex, atlasIndex);
+            });
+            return;
+        }
+
+        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+        const cssTilemapRenderer = this.getTilemapRenedererOrCreate(chunkIndexX, chunkIndexY);
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
         const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
         const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
@@ -120,29 +125,29 @@ export class CssTilemapChunkRenderer extends Component {
         this._imageSources = value;
     }
 
-    public get tileWidth(): number {
+    public get gridCellWidth(): number {
         return this._tileWidth;
     }
 
-    public set tileWidth(value: number) {
+    public set gridCellWidth(value: number) {
         if (this._tileWidth === value) return;
         this._tileWidth = value;
         this.updateTilemapPosition();
         this._cssTilemapRendererMap.forEach((renderer, _) => {
-            renderer.tileWidth = this._tileWidth;
+            renderer.gridCellWidth = this._tileWidth;
         });
     }
 
-    public get tileHeight(): number {
+    public get gridCellHeight(): number {
         return this._tileHeight;
     }
 
-    public set tileHeight(value: number) {
+    public set gridCellHeight(value: number) {
         if (this._tileHeight === value) return;
         this._tileHeight = value;
         this.updateTilemapPosition();
         this._cssTilemapRendererMap.forEach((renderer, _) => {
-            renderer.tileHeight = this._tileHeight;
+            renderer.gridCellHeight = this._tileHeight;
         });
     }
 

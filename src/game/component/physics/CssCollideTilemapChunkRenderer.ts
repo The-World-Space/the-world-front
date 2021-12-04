@@ -2,8 +2,9 @@ import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { CssCollideTilemapRenderer } from "./CssCollideTilemapRenderer";
 import { TileAtlasItem } from "../render/CssTilemapRenderer";
+import { IGridColideable } from "./IGridColideable";
 
-export class CssCollideTilemapChunkRenderer extends Component {
+export class CssCollideTilemapChunkRenderer extends Component implements IGridColideable {
     private readonly _cssTilemapRendererMap: Map<`${number}_${number}`, CssCollideTilemapRenderer> = new Map();
     //key is chunk position in string format "x_y"
     private _chunkSize: number = 16;
@@ -47,15 +48,7 @@ export class CssCollideTilemapChunkRenderer extends Component {
         return new Vector2(relativeX, relativeY);
     }
 
-    public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
-        if (!this.started && !this.starting) {
-            this._initializeFunctions.push(() => {
-                this.drawTile(x, y, imageIndex, atlasIndex);
-            });
-            return;
-        }
-        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
-        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+    private getTilemapRenedererOrCreate(chunkIndexX: number, chunkIndexY: number): CssCollideTilemapRenderer {
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
@@ -66,18 +59,47 @@ export class CssCollideTilemapChunkRenderer extends Component {
                     .withComponent(CssCollideTilemapRenderer, c => {
                         cssTilemapRenderer = c;
                         if (this._imageSources) c.imageSources = this._imageSources;
-                        c.tileWidth = this._tileWidth;
-                        c.tileHeight = this._tileHeight;
+                        c.gridCellWidth = this._tileWidth;
+                        c.gridCellHeight = this._tileHeight;
                         c.rowCount = this._chunkSize;
                         c.columnCount = this._chunkSize;
                     })
             );
             this._cssTilemapRendererMap.set(chunkIndex, cssTilemapRenderer!);
         }
+        return cssTilemapRenderer!;
+    }
+
+    public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.drawTile(x, y, imageIndex, atlasIndex);
+            });
+            return;
+        }
+        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+        const cssTilemapRenderer = this.getTilemapRenedererOrCreate(chunkIndexX, chunkIndexY);
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
         const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
         const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
         cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
+    }
+
+    public addColider(x: number, y: number): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.addColider(x, y);
+            });
+            return;
+        }
+        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+        const cssTilemapRenderer = this.getTilemapRenedererOrCreate(chunkIndexX, chunkIndexY);
+        const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
+        const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
+        const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
+        cssTilemapRenderer!.addColider(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY);
     }
 
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {
@@ -97,8 +119,8 @@ export class CssCollideTilemapChunkRenderer extends Component {
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
-        const chunkIndexX = Math.floor((x / this.tileWidth + this._chunkSize / 2) / this._chunkSize);
-        const chunkIndexY = Math.floor((y / this.tileHeight + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexX = Math.floor((x / this._tileWidth + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y / this._tileHeight + this._chunkSize / 2) / this._chunkSize);
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
@@ -131,29 +153,29 @@ export class CssCollideTilemapChunkRenderer extends Component {
         this._imageSources = value;
     }
 
-    public get tileWidth(): number {
+    public get gridCellWidth(): number {
         return this._tileWidth;
     }
 
-    public set tileWidth(value: number) {
+    public set gridCellWidth(value: number) {
         if (this._tileWidth === value) return;
         this._tileWidth = value;
         this.updateTilemapPosition();
         this._cssTilemapRendererMap.forEach((renderer, _) => {
-            renderer.tileWidth = this._tileWidth;
+            renderer.gridCellWidth = this._tileWidth;
         });
     }
 
-    public get tileHeight(): number {
+    public get gridCellHeight(): number {
         return this._tileHeight;
     }
 
-    public set tileHeight(value: number) {
+    public set gridCellHeight(value: number) {
         if (this._tileHeight === value) return;
         this._tileHeight = value;
         this.updateTilemapPosition();
         this._cssTilemapRendererMap.forEach((renderer, _) => {
-            renderer.tileHeight = this._tileHeight;
+            renderer.gridCellHeight = this._tileHeight;
         });
     }
 

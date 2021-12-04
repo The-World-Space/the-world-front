@@ -1,8 +1,6 @@
 import { Quaternion, Vector2, Vector3 } from "three";
 import { MovementAnimationController } from "../component/controller/MovementAnimationController";
 import { PlayerGridMovementController } from "../component/controller/PlayerGridMovementController";
-import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
-import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
@@ -10,10 +8,11 @@ import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
+import { IGridColideable } from "../component/physics/IGridColideable";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
-    private _colideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null = null;
+    private _collideMap: IGridColideable|null = null;
     private _gridPosition: Vector2|null = null;
     private _nameTagString: string|null = null;
 
@@ -22,8 +21,8 @@ export class PlayerPrefab extends Prefab {
         return this;
     }
 
-    public withColideTilemap(colideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer): PlayerPrefab {
-        this._colideTilemap = colideTilemap;
+    public withCollideMap(colideMap: IGridColideable): PlayerPrefab {
+        this._collideMap = colideMap;
         return this;
     }
 
@@ -57,7 +56,7 @@ export class PlayerPrefab extends Prefab {
                 c.frameDuration = 0.2;
             })
             .withComponent(PlayerGridMovementController, c => {
-                c.collideTilemap = this._colideTilemap;
+                c.collideMap = this._collideMap;
                 if (this._gridPosition) c.initPosition = this._gridPosition;
             })
             .withComponent(MovementAnimationController)

@@ -1,13 +1,12 @@
 import { Vector2 } from "three";
-import { CssCollideTilemapChunkRenderer } from "../physics/CssCollideTilemapChunkRenderer";
-import { CssCollideTilemapRenderer } from "../physics/CssCollideTilemapRenderer";
+import { IGridColideable } from "../physics/IGridColideable";
 import { Direction, Directionable } from "./Directionable";
 
 export class PlayerGridMovementController extends Directionable {
     private _speed: number = 96;
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;
-    private _collideTilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null = null;
+    private _collideMap: IGridColideable|null = null;
     private readonly _collideSize: number = 8;
     private readonly _gridCenter: Vector2 = new Vector2();
     private readonly _currentGridPosition: Vector2 = new Vector2();
@@ -101,8 +100,8 @@ export class PlayerGridMovementController extends Directionable {
     }
 
     private checkCollision(x: number, y: number): boolean {
-        if (this._collideTilemap) {
-            return this._collideTilemap.checkCollision(x, y, this._collideSize, this._collideSize);
+        if (this._collideMap) {
+            return this._collideMap.checkCollision(x, y, this._collideSize, this._collideSize);
         }
         return false;
     }
@@ -143,15 +142,15 @@ export class PlayerGridMovementController extends Directionable {
         this._initPosition.copy(value);
     }
 
-    public get collideTilemap(): CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null {
-        return this._collideTilemap;
+    public get collideMap(): IGridColideable|null {
+        return this._collideMap;
     }
     
-    public set collideTilemap(value: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|null) {
-        this._collideTilemap = value;
+    public set collideMap(value: IGridColideable|null) {
+        this._collideMap = value;
         if (value) {
-            this._gridCellWidth = value.tileWidth;
-            this._gridCellHeight = value.tileHeight;
+            this._gridCellWidth = value.gridCellWidth;
+            this._gridCellHeight = value.gridCellHeight;
             this._gridCenter.set(value.gridCenterX, value.gridCenterY);
         }
     }

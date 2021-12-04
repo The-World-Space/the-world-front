@@ -28,7 +28,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
                 .withNameTag("Steve Jobs")
-                .withColideTilemap(colideTilemap.ref!).make()
+                .withCollideMap(colideTilemap.ref!).make()
                 .getGameObject(player))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)

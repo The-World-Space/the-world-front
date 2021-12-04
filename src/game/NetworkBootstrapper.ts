@@ -79,7 +79,7 @@ export class NetworkBootstrapper implements IBootstrapper {
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(`/assets/charactor/Seongwon.png`)
-                .withColideTilemap(colideTilemap.ref!).make()
+                .withCollideMap(colideTilemap.ref!).make()
                 .getGameObject(player))
 
             .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 4, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))

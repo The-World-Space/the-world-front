@@ -183,11 +183,11 @@ export class CssTilemapRenderer extends Component{
         }
     }
 
-    public get tileWidth(): number {
+    public get gridCellWidth(): number {
         return this._tileWidth;
     }
 
-    public set tileWidth(value: number) {
+    public set gridCellWidth(value: number) {
         this._tileWidth = value;
 
         if (this._htmlCanvasElement) {
@@ -195,11 +195,11 @@ export class CssTilemapRenderer extends Component{
         }
     }
 
-    public get tileHeight(): number {
+    public get gridCellHeight(): number {
         return this._tileHeight;
     }
 
-    public set tileHeight(value: number) {
+    public set gridCellHeight(value: number) {
         this._tileHeight = value;
 
         if (this._htmlCanvasElement) {
@@ -208,16 +208,16 @@ export class CssTilemapRenderer extends Component{
     }
     
     public get gridCenter(): Vector2 {
-        const offsetX = this.columnCount % 2 === 1 ? 0 : this.tileWidth / 2;
-        const offsetY = this.rowCount % 2 === 1 ? 0 : this.tileHeight / 2;
+        const offsetX = this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2;
+        const offsetY = this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2;
         return new Vector2(this.gameObject.position.x + offsetX, this.gameObject.position.y + offsetY);
     }
 
     public get gridCenterX(): number {
-        return this.gameObject.position.x + (this.columnCount % 2 === 1 ? 0 : this.tileWidth / 2);
+        return this.gameObject.position.x + (this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2);
     }
 
     public get gridCenterY(): number {
-        return this.gameObject.position.y + (this.rowCount % 2 === 1 ? 0 : this.tileHeight / 2);
+        return this.gameObject.position.y + (this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2);
     }
 }

@@ -60,8 +60,8 @@ export class NetworkPlayerPrefab extends Prefab {
             })
             .withComponent(NetworkGridMovementController, c => {
                 if (this._tilemap) {
-                    c.gridCellHeight = this._tilemap.tileHeight;
-                    c.gridCellWidth = this._tilemap.tileWidth
+                    c.gridCellHeight = this._tilemap.gridCellHeight;
+                    c.gridCellWidth = this._tilemap.gridCellWidth
                     c.gridCenter = this._tilemap.gridCenter;
                 }
                 if (this._gridPosition) c.initPosition = this._gridPosition;
