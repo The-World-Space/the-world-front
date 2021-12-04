@@ -58,7 +58,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .make())
 
             .withChild(instantlater.buildGameObject("iframe", new Vector3(7 * 16 + 1, 5 * 16 + 7, 0),
-                new Quaternion().setFromEuler(new Euler(MathUtils.degToRad(-15), MathUtils.degToRad(45), 0)))
+                new Quaternion().setFromEuler(new Euler(MathUtils.degToRad(15), MathUtils.degToRad(-45), 0)))
                 .withComponent(IframeRenderer, c => {
                     c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
                     c.width = 36;
@@ -71,7 +71,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
             .withChild(instantlater.buildGameObject("camera_controller")
                 .withComponent(CameraController, c => {
                     c.setTrackTarget(player.ref!);
-                    c.cameraDistanceOffset = 200;
                 }));
     }
 }

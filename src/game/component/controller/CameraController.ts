@@ -7,7 +7,7 @@ export class CameraController extends Component {
 
     private _camera: THREE.Camera|null = null;
     private _trackTarget: GameObject|null = null;
-    private _cameraDistanceOffset: number = 50;
+    private _cameraDistanceOffset: number = 200;
     private _pixelPerfectUnit: number = 1;
     private _pixelPerfect: boolean = false;
     private _lerpTrack: boolean = false;
