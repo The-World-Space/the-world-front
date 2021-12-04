@@ -27,22 +27,22 @@ export class PlayerGridMovementController extends Directionable {
     private processInput(): void {
         if (this.isMoving) return;
         const inputMap = this.gameManager.inputHandler.map;
-        if (inputMap.get("w")) {
+        if (inputMap.get("w") || inputMap.get("ArrowUp")) {
             this.direction = Direction.Up;
             if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight)) return;
             this._targetGridPosition.set(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight);
             this.isMoving = true;
-        } else if (inputMap.get("s")) {
+        } else if (inputMap.get("s") || inputMap.get("ArrowDown")) {
             this.direction = Direction.Down;
             if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y - this._gridCellHeight)) return;
             this._targetGridPosition.set(this._currentGridPosition.x, this._currentGridPosition.y - this._gridCellHeight);
             this.isMoving = true;
-        } else if (inputMap.get("a")) {
+        } else if (inputMap.get("a") || inputMap.get("ArrowLeft")) {
             this.direction = Direction.Left;
             if (this.checkCollision(this._currentGridPosition.x - this._gridCellWidth, this._currentGridPosition.y)) return;
             this._targetGridPosition.set(this._currentGridPosition.x - this._gridCellWidth, this._currentGridPosition.y);
             this.isMoving = true;
-        } else if (inputMap.get("d")) {
+        } else if (inputMap.get("d") || inputMap.get("ArrowRight")) {
             this.direction = Direction.Right;
             if (this.checkCollision(this._currentGridPosition.x + this._gridCellWidth, this._currentGridPosition.y)) return;
             this._targetGridPosition.set(this._currentGridPosition.x + this._gridCellWidth, this._currentGridPosition.y);
@@ -52,22 +52,22 @@ export class PlayerGridMovementController extends Directionable {
 
     private noncheckProcessInput(currentGridPosotion: Vector2): boolean {
         const inputMap = this.gameManager.inputHandler.map;
-        if (inputMap.get("w")) {
+        if (inputMap.get("w") || inputMap.get("ArrowUp")) {
             this.direction = Direction.Up;
             if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight)) return false;
             this._targetGridPosition.set(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight);
             return true;
-        } else if (inputMap.get("s")) {
+        } else if (inputMap.get("s") || inputMap.get("ArrowDown")) {
             this.direction = Direction.Down;
             if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y - this._gridCellHeight)) return false;
             this._targetGridPosition.set(currentGridPosotion.x, currentGridPosotion.y - this._gridCellHeight);
             return true;
-        } else if (inputMap.get("a")) {
+        } else if (inputMap.get("a") || inputMap.get("ArrowLeft")) {
             this.direction = Direction.Left;
             if (this.checkCollision(currentGridPosotion.x - this._gridCellWidth, currentGridPosotion.y)) return false;
             this._targetGridPosition.set(currentGridPosotion.x - this._gridCellWidth, currentGridPosotion.y);
             return true;
-        } else if (inputMap.get("d")) {
+        } else if (inputMap.get("d") || inputMap.get("ArrowRight")) {
             this.direction = Direction.Right;
             if (this.checkCollision(currentGridPosotion.x + this._gridCellWidth, currentGridPosotion.y)) return false;
             this._targetGridPosition.set(currentGridPosotion.x + this._gridCellWidth, currentGridPosotion.y);
