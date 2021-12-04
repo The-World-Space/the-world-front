@@ -2,9 +2,9 @@ import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { CssCollideTilemapRenderer } from "./CssCollideTilemapRenderer";
 import { TileAtlasItem } from "../render/CssTilemapRenderer";
-import { IGridColideable } from "./IGridColideable";
+import { IGridCollideable } from "./IGridColideable";
 
-export class CssCollideTilemapChunkRenderer extends Component implements IGridColideable {
+export class CssCollideTilemapChunkRenderer extends Component implements IGridCollideable {
     private readonly _cssTilemapRendererMap: Map<`${number}_${number}`, CssCollideTilemapRenderer> = new Map();
     //key is chunk position in string format "x_y"
     private _chunkSize: number = 16;
@@ -86,10 +86,10 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
     }
 
-    public addColider(x: number, y: number): void {
+    public addCollider(x: number, y: number): void {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
-                this.addColider(x, y);
+                this.addCollider(x, y);
             });
             return;
         }
@@ -99,7 +99,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
         const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
         const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
-        cssTilemapRenderer!.addColider(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY);
+        cssTilemapRenderer!.addCollider(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY);
     }
 
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {

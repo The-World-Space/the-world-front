@@ -3,9 +3,9 @@ import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { CssTilemapRenderer } from "../render/CssTilemapRenderer";
 import { ZaxisInitializer } from "../render/ZaxisInitializer";
-import { IGridColideable } from "./IGridColideable";
+import { IGridCollideable } from "./IGridColideable";
 
-export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGridColideable {
+export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGridCollideable {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {
@@ -16,7 +16,7 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
         this._collideMap.set(`${colideX}_${colideY}`, true);
     }
 
-    public addColider(column: number, row: number): void {
+    public addCollider(column: number, row: number): void {
         const colideX = Math.ceil(column - this.columnCount / 2);
         const colideY = Math.ceil((this.rowCount - row) - this.rowCount / 2) - 1;
         this._collideMap.set(`${colideX}_${colideY}`, true);

@@ -1,12 +1,12 @@
 import { Vector2 } from "three";
-import { IGridColideable } from "../physics/IGridColideable";
+import { IGridCollideable } from "../physics/IGridColideable";
 import { Direction, Directionable } from "./Directionable";
 
 export class PlayerGridMovementController extends Directionable {
     private _speed: number = 96;
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;
-    private _collideMaps: IGridColideable[] = [];
+    private _collideMaps: IGridCollideable[] = [];
     private readonly _collideSize: number = 8;
     private readonly _gridCenter: Vector2 = new Vector2();
     private readonly _currentGridPosition: Vector2 = new Vector2();
@@ -144,11 +144,11 @@ export class PlayerGridMovementController extends Directionable {
         this._initPosition.copy(value);
     }
 
-    public addCollideMap(collideMap: IGridColideable): void {
+    public addCollideMap(collideMap: IGridCollideable): void {
         this._collideMaps.push(collideMap);
     }
 
-    public setGridInfoFromCollideMap(collideMap: IGridColideable): void {
+    public setGridInfoFromCollideMap(collideMap: IGridCollideable): void {
         this._gridCellWidth = collideMap.gridCellWidth;
         this._gridCellHeight = collideMap.gridCellHeight;
         this._gridCenter.set(collideMap.gridCenterX, collideMap.gridCenterY);

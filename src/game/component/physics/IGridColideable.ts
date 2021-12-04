@@ -1,6 +1,6 @@
 import { Vector2 } from "three";
 
-export interface IGridColideable {
+export interface IGridCollideable {
     checkCollision(x: number, y: number, width: number, height: number): boolean;
     get gridCellWidth(): number;
     get gridCellHeight(): number;
