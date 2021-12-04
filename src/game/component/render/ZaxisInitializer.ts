@@ -19,6 +19,7 @@ export class ZaxisInitializer extends ZaxisSortable {
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
                 child.foreachComponent(c => {
+                    if (child.getComponent(ZaxisSortable)) return;
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {
                         if (typeof cAny.onSortByZaxis === "function")

@@ -23,6 +23,7 @@ export class ZaxisSorter extends ZaxisSortable {
         this.gameObject.position.copy(this.gameObject.worldToLocal(worldPosition));
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
+                if (child.getComponent(ZaxisSortable)) return;
                 child.foreachComponent(c => {
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {

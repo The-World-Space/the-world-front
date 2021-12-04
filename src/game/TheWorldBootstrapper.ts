@@ -2,6 +2,7 @@ import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { GridCollideMap } from "./component/physics/GridColideMap";
+import { CssHtmlElementRenderer } from "./component/render/CssHtmlElementRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
@@ -33,7 +34,21 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withNameTag("Steve Jobs")
                 .withCollideMap(collideTilemap.ref!)
                 .withCollideMap(collideMap.ref!).make()
-                .getGameObject(player))
+                .getGameObject(player)
+
+                .withChild(instantlater.buildGameObject("onclicktest")
+                    .withComponent(CssHtmlElementRenderer, c => {
+                        const div = document.createElement("div");
+                        div.style.backgroundColor = "red";
+                        c.setElement(div);
+                        div.onclick = () => {
+                            console.log("clicked");
+                        }
+                    })
+                    .withComponent(ZaxisSorter, c => {
+                        c.runOnce = false;
+                        c.offset = -10;
+                    })))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
                 .withNameTag("Heewon")
