@@ -26,6 +26,7 @@ export class TilemapChunkPrefab extends Prefab {
                     c.imageSources = [new TileAtlasItem(tilemap3, 10, 10)];
                     
                     tilemap3.onload = () => {
+                        tilemap3.onload = null;
                         const F = {i:0, a:44};
                         const o = null;
 
