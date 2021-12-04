@@ -4,8 +4,8 @@ import { IGridCollideable } from "./IGridColideable";
 
 export class GridCollideMap extends Component implements IGridCollideable {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
-    private _tileWidth: number = 16;
-    private _tileHeight: number = 16;
+    private _gridCellWidth: number = 16;
+    private _gridCellHeight: number = 16;
     
     private _initializeFunctions: ((() => void))[] = [];
 
@@ -48,24 +48,14 @@ export class GridCollideMap extends Component implements IGridCollideable {
         const worldPosition = this.gameObject.localToWorld(this._tempVector3);
         x -= worldPosition.x / 2;
         y -= worldPosition.y / 2;
-
-        if (this.columnCount % 2 === 0) {
-            x -= this.gridCellWidth;
-        }
-        if (this.rowCount % 2 === 0) {
-            y -= this.gridCellHeight;
-        }
         
-        if (this.rowCount % 2 === 0) y += this.gridCellHeight / 2;
-        if (this.columnCount % 2 === 0)  x += this.gridCellWidth / 2;
         const left = Math.floor(x / this.gridCellWidth);
         const right = Math.floor((x + width) / this.gridCellWidth);
         const top = Math.floor(y / this.gridCellHeight);
         const bottom = Math.floor((y + height) / this.gridCellHeight);
-        //console.log(left, right, top, bottom);
+        
         for (let row = top; row <= bottom; row++) {
             for (let column = left; column <= right; column++) {
-                //console.log(`${column}_${row}`);
                 if (this._collideMap.get(`${column}_${row}`) === true) {
                     return true;
                 }
@@ -75,19 +65,19 @@ export class GridCollideMap extends Component implements IGridCollideable {
     }
 
     public get gridCellWidth(): number {
-        return this._tileWidth;
+        return this._gridCellWidth;
     }
 
     public set gridCellWidth(value: number) {
-        this._tileWidth = value;
+        this._gridCellWidth = value;
     }
 
     public get gridCellHeight(): number {
-        return this._tileHeight;
+        return this._gridCellHeight;
     }
 
     public set gridCellHeight(value: number) {
-        this._tileHeight = value;
+        this._gridCellHeight = value;
     }
 
     public get gridCenter(): Vector2 {
