@@ -46,7 +46,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                         c.elementWidth = 32;
                         c.setElement(div);
                         div.onclick = e => {
-                            console.log("clicked", e);
+                            console.log("clicked", e.offsetX, e.offsetY);
                         }
                     })))
             
