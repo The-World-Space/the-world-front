@@ -12,7 +12,7 @@ import { IGridColideable } from "../component/physics/IGridColideable";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
-    private _collideMap: IGridColideable|null = null;
+    private _collideMaps: IGridColideable[] = [];
     private _gridPosition: Vector2|null = null;
     private _nameTagString: string|null = null;
 
@@ -22,7 +22,7 @@ export class PlayerPrefab extends Prefab {
     }
 
     public withCollideMap(colideMap: IGridColideable): PlayerPrefab {
-        this._collideMap = colideMap;
+        this._collideMaps.push(colideMap);
         return this;
     }
 
@@ -56,7 +56,14 @@ export class PlayerPrefab extends Prefab {
                 c.frameDuration = 0.2;
             })
             .withComponent(PlayerGridMovementController, c => {
-                c.collideMap = this._collideMap;
+                if (1 <= this._collideMaps.length) {
+                    c.setGridInfoFromCollideMap(this._collideMaps[0]);
+                }
+
+                for (let i = 0; i < this._collideMaps.length; i++) {
+                    c.addCollideMap(this._collideMaps[i]);
+                }
+                
                 if (this._gridPosition) c.initPosition = this._gridPosition;
             })
             .withComponent(MovementAnimationController)

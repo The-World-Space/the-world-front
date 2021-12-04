@@ -6,7 +6,7 @@ export class PlayerGridMovementController extends Directionable {
     private _speed: number = 96;
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;
-    private _collideMap: IGridColideable|null = null;
+    private _collideMaps: IGridColideable[] = [];
     private readonly _collideSize: number = 8;
     private readonly _gridCenter: Vector2 = new Vector2();
     private readonly _currentGridPosition: Vector2 = new Vector2();
@@ -100,8 +100,10 @@ export class PlayerGridMovementController extends Directionable {
     }
 
     private checkCollision(x: number, y: number): boolean {
-        if (this._collideMap) {
-            return this._collideMap.checkCollision(x, y, this._collideSize, this._collideSize);
+        for (let i = 0; i < this._collideMaps.length; i++) {
+            if (this._collideMaps[i].checkCollision(x, y, this._collideSize, this._collideSize)){
+                return true;
+            }
         }
         return false;
     }
@@ -142,17 +144,14 @@ export class PlayerGridMovementController extends Directionable {
         this._initPosition.copy(value);
     }
 
-    public get collideMap(): IGridColideable|null {
-        return this._collideMap;
+    public addCollideMap(collideMap: IGridColideable): void {
+        this._collideMaps.push(collideMap);
     }
-    
-    public set collideMap(value: IGridColideable|null) {
-        this._collideMap = value;
-        if (value) {
-            this._gridCellWidth = value.gridCellWidth;
-            this._gridCellHeight = value.gridCellHeight;
-            this._gridCenter.set(value.gridCenterX, value.gridCenterY);
-        }
+
+    public setGridInfoFromCollideMap(collideMap: IGridColideable): void {
+        this._gridCellWidth = collideMap.gridCellWidth;
+        this._gridCellHeight = collideMap.gridCellHeight;
+        this._gridCenter.set(collideMap.gridCenterX, collideMap.gridCenterY);
     }
 
     public get positionInGrid(): Vector2 {
