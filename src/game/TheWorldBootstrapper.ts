@@ -71,7 +71,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
             .withChild(instantlater.buildGameObject("camera_controller")
                 .withComponent(CameraController, c => {
                     c.setTrackTarget(player.ref!);
-                    c.lerpTrack = true;
                 }));
     }
 }

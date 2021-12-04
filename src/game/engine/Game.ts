@@ -22,7 +22,7 @@ export class Game {
     private _isDisposed: boolean;
 
     private static readonly _cameraViewSize = 300;
-    private static readonly _useDebugPerspectiveCamera = true;
+    private static readonly _useDebugPerspectiveCamera = false;
 
     public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
         this._rootScene = new Scene();
