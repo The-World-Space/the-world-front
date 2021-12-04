@@ -14,6 +14,7 @@ export class CssSpriteAtlasRenderer extends Component {
     private _imageHeight: number = 0;
     private _imageFlipX: boolean = false;
     private _imageFlipY: boolean = false;
+    private _opacity: number = 1;
     private _croppedImageWidth: number = 0;
     private _croppedImageHeight: number = 0;
     private _currentImageIndex: number = 0;
@@ -85,6 +86,7 @@ export class CssSpriteAtlasRenderer extends Component {
             image.style.height = `${this._croppedImageHeight}px`;
             image.style.objectFit = "none";
             image.style.imageRendering = "pixelated";
+            image.style.opacity = this._opacity.toString();
             image.style.zIndex = this._zindex.toString();
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
@@ -182,6 +184,17 @@ export class CssSpriteAtlasRenderer extends Component {
         this._imageFlipY = value;
         if (this._sprite) {
             this._sprite.scale.y *= this._imageFlipY ? -1 : 1;
+        }
+    }
+
+    public get opacity(): number {
+        return this._opacity;
+    }
+
+    public set opacity(value: number) {
+        this._opacity = value;
+        if (this._htmlImageElement) {
+            this._htmlImageElement.style.opacity = this._opacity.toString();
         }
     }
 }

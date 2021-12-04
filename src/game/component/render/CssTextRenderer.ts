@@ -26,6 +26,7 @@ export class CssTextRenderer extends Component {
     private _fontSize: number = 8;
     private _fontWeight: FontWeight = FontWeight.Normal;
     private _textalign: TextAlign = TextAlign.Left;
+    private _opacity: number = 1;
 
     private static readonly _defaultText: string = "Text";
 
@@ -70,6 +71,7 @@ export class CssTextRenderer extends Component {
             this._htmlDivElement.style.fontSize = `${this._fontSize}px`;
             this._htmlDivElement.style.fontWeight = this._fontWeight;
             this._htmlDivElement.style.textAlign = this._textalign;
+            this._htmlDivElement.style.opacity = this._opacity.toString();
             
             this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
             this._css3DObject.position.set(
@@ -146,6 +148,17 @@ export class CssTextRenderer extends Component {
         this._textalign = value;
         if (this._htmlDivElement) {
             this._htmlDivElement.style.textAlign = value;
+        }
+    }
+
+    public get opacity(): number {
+        return this._opacity;
+    }
+
+    public set opacity(value: number) {
+        this._opacity = value;
+        if (this._htmlDivElement) {
+            this._htmlDivElement.style.opacity = value.toString();
         }
     }
 }

@@ -14,6 +14,7 @@ export class CssSpriteRenderer extends Component {
     private _imageHeight: number = 0;
     private _imageFlipX: boolean = false;
     private _imageFlipY: boolean = false;
+    private _opacity: number = 1;
 
     private _initializeFunction: (() => void)|null = null;
     
@@ -71,7 +72,7 @@ export class CssSpriteRenderer extends Component {
                 if (this._imageHeight === 0) this._imageHeight = image.height;
                 image.style.width = `${this._imageWidth}px`;
                 image.style.height = `${this._imageHeight}px`;
-                
+                image.style.opacity = this._opacity.toString();
                 image.style.zIndex = Math.floor(this._zindex).toString();
                 this._sprite.position.set(
                     this._imageWidth * this._imageCenterOffset.x,
@@ -140,6 +141,17 @@ export class CssSpriteRenderer extends Component {
         this._imageFlipY = value;
         if (this._sprite) {
             this._sprite.scale.y = this._imageFlipY ? -1 : 1;
+        }
+    }
+
+    public get opacity(): number {
+        return this._opacity;
+    }
+
+    public set opacity(value: number) {
+        this._opacity = value;
+        if (this._htmlImageElement) {
+            this._htmlImageElement.style.opacity = this._opacity.toString();
         }
     }
 }
