@@ -22,26 +22,31 @@ export class Game {
     private _isDisposed: boolean;
 
     private static readonly _cameraViewSize = 300;
+    private static readonly _useDebugPerspectiveCamera = false;
 
     public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
         this._rootScene = new Scene();
 
         const aspectRatio = screenWidth / screenHeight;
-        const viewSizeScalar = Game._cameraViewSize * 0.5;
-        // this._camera = new THREE.OrthographicCamera(
-        //     -viewSizeScalar * aspectRatio,
-        //     viewSizeScalar * aspectRatio,
-        //     viewSizeScalar,
-        //     -viewSizeScalar,
-        //     0.1,
-        //     1000
-        // );
-        this._camera = new THREE.PerspectiveCamera(
-            75,
-            aspectRatio,
-            0.1,
-            1000
-        );
+        
+        if (Game._useDebugPerspectiveCamera) {
+            this._camera = new THREE.PerspectiveCamera(
+                75,
+                aspectRatio,
+                0.1,
+                1000
+            );
+        } else {
+            const viewSizeScalar = Game._cameraViewSize * 0.5;
+            this._camera = new THREE.OrthographicCamera(
+                -viewSizeScalar * aspectRatio,
+                viewSizeScalar * aspectRatio,
+                viewSizeScalar,
+                -viewSizeScalar,
+                0.1,
+                1000
+            );
+        }
 
         this._container = container;
         this._renderer = new CSS3DRenderer();
