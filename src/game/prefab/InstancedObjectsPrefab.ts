@@ -133,11 +133,17 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.imageCenterOffset = new Vector2(0, -0.5);
                 })
                 .withComponent(ZaxisSorter))
-            .withChild(instantlater.buildGameObject("colidemap")
+            .withChild(instantlater.buildGameObject("colidemap", new Vector3(8, 8))
                 .withComponent(GridCollideMap, c => {
-                    c.showCollider = true;
-                    //c.addCollider(1, 1);
-                    c.addCollider(0, 0);
+                    for (let i = 0; i < 5; i++) {
+                        for (let j = 0; j < 5; j++) {
+                            c.addCollider(j * 2 - 4, i * 2 - 5);
+                        }
+                    }
+                    for (let i = -4; i < 5; i++) {
+                        c.addCollider(-7, i);
+                    }
+                    c.addCollider(6, -1);
                 })
                 .getComponent(GridCollideMap, this._gridCollideMap ?? { ref: null }));
     }

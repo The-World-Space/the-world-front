@@ -64,16 +64,14 @@ export class GridCollideMap extends Component implements IGridCollideable {
     }
     
     private addDebugImage(x: number, y: number) {
-        if (this.gameObject.parent instanceof GameObject) {
-            const gameObjectRef: {ref: GameObject|null} = {ref: null};
-            this.gameObject.parent.addChildFromBuilder(
-                this.gameManager.instantlater.buildGameObject(
-                    "debugImage", new Vector3(x, y, 10000), undefined, new Vector3(0.5, 0.5, 0.5))
-                    .withComponent(ZaxisInitializer)
-                    .withComponent(CssSpriteRenderer)
-                    .getGameObject(gameObjectRef));
-            this._colliderImages.push(gameObjectRef.ref!);
-        }
+        const gameObjectRef: {ref: GameObject|null} = {ref: null};
+        this.gameObject.addChildFromBuilder(
+            this.gameManager.instantlater.buildGameObject(
+                "debugImage", new Vector3(x, y, 10000))
+                .withComponent(ZaxisInitializer)
+                .withComponent(CssSpriteRenderer, c => c.opacity = 0.5)
+                .getGameObject(gameObjectRef));
+        this._colliderImages.push(gameObjectRef.ref!);
     }
     
     private _tempVector3 = new Vector3();
