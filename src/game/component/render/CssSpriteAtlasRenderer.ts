@@ -27,11 +27,11 @@ export class CssSpriteAtlasRenderer extends Component {
     private static readonly _defaultImagePath: string = `/assets/tilemap/default.png`;
 
     protected start(): void {
+        this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
             this.setImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
         }
-
-        this._initializeFunction?.call(this);
+        
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 

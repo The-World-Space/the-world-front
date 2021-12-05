@@ -46,7 +46,6 @@ export class GridPointer extends Component {
     }
 
     private onMouseLeave(event: PointerGridEvent): void {
-        console.log("onMouseLeave");
         this._pointerObject!.activeSelf = false;
     }
 

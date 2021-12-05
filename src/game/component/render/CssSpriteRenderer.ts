@@ -22,16 +22,24 @@ export class CssSpriteRenderer extends Component {
     private static readonly _defaultImagePath: string = `/assets/tilemap/default.png`;
 
     protected start(): void {
+        this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
             this.imagePath = CssSpriteRenderer._defaultImagePath;
         }
         
-        this._initializeFunction?.call(this);
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
     public onDestroy(): void {
         if (this._sprite) this.gameObject.remove(this._sprite);
+    }
+
+    public onEnable(): void {
+        if (this._sprite) this._sprite.visible = true;
+    }
+
+    public onDisable(): void {
+        if (this._sprite) this._sprite.visible = false;
     }
 
     public onSortByZaxis(zaxis: number): void {

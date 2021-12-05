@@ -16,18 +16,29 @@ export class CssHtmlElementRenderer extends Component {
     private _autoSize: boolean = false;
     private _pointerEvents: boolean = true;
 
+    private _initializeFunction: (() => void)|null = null;
+
     private static readonly _defaultElement: HTMLDivElement = document.createElement("div");
 
     protected start(): void {
+        this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.setElement(CssHtmlElementRenderer._defaultElement);
         }
-        
+
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
     public onDestroy(): void {
         if (this._css3DObject) this.gameObject.remove(this._css3DObject);
+    }
+
+    public onEnable(): void {
+        if (this._css3DObject) this._css3DObject.visible = true;
+    }
+
+    public onDisable(): void {
+        if (this._css3DObject) this._css3DObject.visible = false;
     }
 
     public onSortByZaxis(zaxis: number): void {
@@ -42,6 +53,13 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public setElement(value: HTMLDivElement|null) {
+        if (!this.started && !this.starting) {
+            this._initializeFunction = () => {
+                this.setElement(value);
+            };
+            return;
+        }
+
         if (!value) value = CssHtmlElementRenderer._defaultElement;
 
         if (!this._htmlDivElement) {
@@ -73,6 +91,13 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public setElementFromJSX(element: JSX.Element): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunction = () => {
+                this.setElementFromJSX(element);
+            };
+            return;
+        }
+
         if (element.type !== "div") {
             throw new Error("CssHtmlElementRenderer only support div element");
         }

@@ -38,7 +38,7 @@ export class CssTilemapRenderer extends Component{
     private _rowCount: number = 10;
     private _tileWidth: number = 16;
     private _tileHeight: number = 16;
-    private _sprite: CSS3DObject|null = null;
+    private _css3DObject: CSS3DObject|null = null;
     private _htmlCanvasElement: HTMLCanvasElement|null = null;
     private _imageSources: TileAtlasItem[]|null = null;
     private _pointerEvents: boolean = true;
@@ -55,13 +55,21 @@ export class CssTilemapRenderer extends Component{
     }
 
     public onDestroy(): void {
-        if (this._sprite) this.gameObject.remove(this._sprite);
+        if (this._css3DObject) this.gameObject.remove(this._css3DObject);
+    }
+
+    public onEnable(): void {
+        if (this._css3DObject) this._css3DObject.visible = true;
+    }
+
+    public onDisable(): void {
+        if (this._css3DObject) this._css3DObject.visible = false;
     }
 
     public onSortByZaxis(zaxis: number): void {
         this._zindex = zaxis;
-        if (this._sprite) {
-            this._sprite.element.style.zIndex = Math.floor(this._zindex).toString();
+        if (this._css3DObject) {
+            this._css3DObject.element.style.zIndex = Math.floor(this._zindex).toString();
         }
     }
 
@@ -69,8 +77,8 @@ export class CssTilemapRenderer extends Component{
         const tileMapWidth: number = this._columnCount * this._tileWidth;
         const tileMapHeight: number = this._rowCount * this._tileHeight;
         this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
-        this._sprite = new CSS3DObject(this._htmlCanvasElement);
-        this.gameObject.add(this._sprite);
+        this._css3DObject = new CSS3DObject(this._htmlCanvasElement);
+        this.gameObject.add(this._css3DObject);
         this._htmlCanvasElement.style.imageRendering = "pixelated";
         this._htmlCanvasElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlCanvasElement.width = tileMapWidth;

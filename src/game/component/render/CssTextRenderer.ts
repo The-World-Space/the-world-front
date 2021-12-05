@@ -29,14 +29,25 @@ export class CssTextRenderer extends Component {
     private _opacity: number = 1;
     private _pointerEvents: boolean = true;
 
+    private _initializeFunction: (() => void)|null = null;
+
     private static readonly _defaultText: string = "Text";
 
     protected start(): void {
+        this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.text = CssTextRenderer._defaultText;
         }
         
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
+    }
+
+    public onEnable(): void {
+        if (this._css3DObject) this._css3DObject.visible = true;
+    }
+
+    public onDisable(): void {
+        if (this._css3DObject) this._css3DObject.visible = false;
     }
 
     public onDestroy(): void {
@@ -55,6 +66,13 @@ export class CssTextRenderer extends Component {
     }
 
     public set text(value: string|null) {
+        if (!this.started && !this.starting) {
+            this._initializeFunction = () => {
+                this.text = value;
+            };
+            return;
+        }
+
         if (!value) value = CssTextRenderer._defaultText;
 
         if (!this._htmlDivElement) {
