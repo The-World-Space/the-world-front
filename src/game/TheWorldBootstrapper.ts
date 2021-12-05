@@ -1,8 +1,10 @@
 import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
+import { GridPointer } from "./component/input/GridPointer";
 import { PointerGridInputListener } from "./component/input/PointerGridInputListener";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { GridCollideMap } from "./component/physics/GridColideMap";
+import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
@@ -61,10 +63,12 @@ export class TheWorldBootstrapper implements IBootstrapper {
             
             
             .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
+                .withComponent(CameraRelativeZaxisSorter, c => c.offset = -450)
                 .withComponent(PointerGridInputListener, c => {
                     c.inputWidth = 512;
                     c.inputHeight = 512;
                     c.setGridInfoFromCollideMap(collideTilemap.ref!);
-                }));
+                })
+                .withComponent(GridPointer, c => c.pointerZoffset = 400));
     }
 }
