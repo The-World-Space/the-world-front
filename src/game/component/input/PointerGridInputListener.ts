@@ -63,6 +63,10 @@ export class PointerGridInputListener extends Component {
 
     public onDestroy(): void {
         if (this._htmlDivElement) { //It's the intended useless branch
+            this._htmlDivElement.removeEventListener("mousedown", this.onMouseDown.bind(this));
+            this._htmlDivElement.removeEventListener("mouseup", this.onMouseUp.bind(this));
+            this._htmlDivElement.removeEventListener("mouseenter", this.onMouseEnter.bind(this));
+            this._htmlDivElement.removeEventListener("mouseleave", this.onMouseLeave.bind(this));
             this._htmlDivElement.removeEventListener("mousemove", this.onMouseMove.bind(this));
         }
         if (this._css3DObject) this.gameObject.remove(this._css3DObject);

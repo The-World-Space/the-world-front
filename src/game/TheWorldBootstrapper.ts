@@ -61,7 +61,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.setTrackTarget(player.ref!);
                 }))
             
-            
             .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -450)
                 .withComponent(PointerGridInputListener, c => {

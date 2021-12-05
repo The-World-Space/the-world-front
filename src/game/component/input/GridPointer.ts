@@ -35,8 +35,8 @@ export class GridPointer extends Component {
     }
 
     public onDestroy(): void {
-        this._pointerGridInputListener!.removeOnMouseEnterEventListener(this.onMouseEnter.bind(this));
-        this._pointerGridInputListener!.removeOnMouseLeaveEventListener(this.onMouseLeave.bind(this));
+        this._pointerGridInputListener?.removeOnMouseEnterEventListener(this.onMouseEnter.bind(this));
+        this._pointerGridInputListener?.removeOnMouseLeaveEventListener(this.onMouseLeave.bind(this));
         this._pointerGridInputListener?.removeOnMouseMoveEventListener(this.onMouseMove.bind(this));
     }
 
