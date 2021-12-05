@@ -62,8 +62,9 @@ export class TheWorldBootstrapper implements IBootstrapper {
             
             .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
                 .withComponent(PointerGridInputListener, c => {
-                    c.inputWidth = 64;
-                    c.inputHeight = 64;
+                    c.inputWidth = 512;
+                    c.inputHeight = 512;
+                    c.setGridInfoFromCollideMap(collideTilemap.ref!);
                 }));
     }
 }

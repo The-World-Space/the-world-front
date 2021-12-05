@@ -67,25 +67,25 @@ export class PointerGridInputListener extends Component {
         }
     }
 
-    private computeGridCellPosition(x: number, y: number): Vector2 {
-        return new Vector2(
-            Math.floor(x / this._gridCellWidth),
-            Math.ceil(y / this._gridCellHeight)
+    private computeGridCellPosition(offsetX: number, offsetY: number): PointerGridEvent {
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        
+        const positionX = this._css3DObject!.position.x - worldPosition.x - this._inputWidth / 2 + 
+            offsetX + this._gridCellWidth / 2 - this._gridCenter.x;
+        const positionY = this._css3DObject!.position.y - worldPosition.y - this._inputHeight / 2 + 
+            (this._inputHeight - offsetY) + this._gridCellHeight / 2 - this._gridCenter.y;
+        
+        const gridPositionX = Math.ceil(positionX / this._gridCellWidth);
+        const gridPositionY = Math.ceil(positionY / this._gridCellHeight);
+        
+        return new PointerGridEvent(
+            new Vector2(gridPositionX, gridPositionY),
+            new Vector2(positionX, positionY)
         );
     }
 
     private onMouseMove(event: MouseEvent): void {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
-        console.log(this.gameObject.matrixWorld);
-        const positionX = this._css3DObject!.position.x - worldPosition.x - this._inputWidth / 2 + event.offsetX;
-        const positionY = this._css3DObject!.position.y - worldPosition.y - (this._inputHeight - event.offsetY);
-        const computedPosition = this.computeGridCellPosition(positionX, positionY);
-        console.log(this._css3DObject!.position);
-        console.log(this._tempVector3);
-        // console.log(`mouse move: ${computedPosition.x}, ${computedPosition.y}`);
-        // console.log(`mouse move offset: ${event.offsetX}, ${event.offsetY}`);
-        const pointerGridEvent = new PointerGridEvent(computedPosition, new Vector2(positionX, positionY));
+        const pointerGridEvent = this.computeGridCellPosition(event.offsetX, event.offsetY);
         this._onMouseMoveDelegates.forEach((delegate) => {
             delegate(pointerGridEvent);
         });
