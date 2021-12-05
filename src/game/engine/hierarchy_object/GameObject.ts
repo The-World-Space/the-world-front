@@ -5,6 +5,7 @@ import { GameManager } from "../GameManager";
 
 //'visible' property has same value as 'activeInHierarchy'
 //you must not change it directly use 'activeInHierarchy' instead
+//'add' method is not available for GameObject it for other Object3D classes
 export class GameObject extends Object3D {
     private _activeInHierarchy: boolean;
     private _activeSelf: boolean;
@@ -28,12 +29,10 @@ export class GameObject extends Object3D {
                 if (child._activeSelf) child.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
 
                 if (child._activeInHierarchy) {
-                    //child.tryEnableComponents();
                     child.traverseVisible(item => {
                         if (item instanceof GameObject) item.tryEnableComponents();
                     });
 
-                    //child.tryStartComponents();
                     child.traverseVisible(item => {
                         if (item instanceof GameObject) item.tryStartComponents();
                     });
@@ -60,17 +59,17 @@ export class GameObject extends Object3D {
         this.addWithNoinit(newParent);
         if (!prevActiveInHierarchy) {
             if (this.activeInHierarchy) {
-                //this.tryEnableComponents();
                 this.traverseVisible(item => {
                     if (item instanceof GameObject) item.tryEnableComponents();
                 });
-                //this.tryStartComponents();
                 this.traverseVisible(item => {
                     if (item instanceof GameObject) item.tryStartComponents();
                 });
             }
         } else {
             if (!this.activeInHierarchy) {
+                //traverseVisible is also iterate root so it's not necessary
+                //but there might be a bug, so I leave the code for a memo
                 //this.disableComponents();
                 this.traverseVisible(item => {
                     if (item instanceof GameObject) item.disableComponents();
