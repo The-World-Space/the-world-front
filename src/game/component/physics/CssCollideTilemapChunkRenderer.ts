@@ -2,7 +2,7 @@ import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { CssCollideTilemapRenderer } from "./CssCollideTilemapRenderer";
 import { TileAtlasItem } from "../render/CssTilemapRenderer";
-import { IGridCollidable } from "./IGridColidable";
+import { IGridCollidable } from "./IGridCollidable";
 
 export class CssCollideTilemapChunkRenderer extends Component implements IGridCollidable {
     private readonly _cssTilemapRendererMap: Map<`${number}_${number}`, CssCollideTilemapRenderer> = new Map();

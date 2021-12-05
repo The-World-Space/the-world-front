@@ -3,7 +3,7 @@ import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { CssTilemapRenderer } from "../render/CssTilemapRenderer";
 import { ZaxisInitializer } from "../render/ZaxisInitializer";
-import { IGridCollidable } from "./IGridColidable";
+import { IGridCollidable } from "./IGridCollidable";
 
 export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGridCollidable {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();

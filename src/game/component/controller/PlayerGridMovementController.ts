@@ -1,5 +1,5 @@
 import { Vector2, Vector3 } from "three";
-import { IGridCollidable } from "../physics/IGridColidable";
+import { IGridCollidable } from "../physics/IGridCollidable";
 import { Direction, Directionable } from "./Directionable";
 
 export class PlayerGridMovementController extends Directionable {

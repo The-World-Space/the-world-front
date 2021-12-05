@@ -8,7 +8,7 @@ import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
-import { IGridCollidable } from "../component/physics/IGridColidable";
+import { IGridCollidable } from "../component/physics/IGridCollidable";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
