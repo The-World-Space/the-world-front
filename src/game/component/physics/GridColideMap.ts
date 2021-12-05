@@ -3,9 +3,9 @@ import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { ZaxisInitializer } from "../render/ZaxisInitializer";
-import { IGridCollideable } from "./IGridColideable";
+import { IGridCollidable } from "./IGridColidable";
 
-export class GridCollideMap extends Component implements IGridCollideable {
+export class GridCollideMap extends Component implements IGridCollidable {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
     private _gridCellWidth: number = 16;
     private _gridCellHeight: number = 16;

@@ -3,9 +3,9 @@ import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { CssTilemapRenderer } from "../render/CssTilemapRenderer";
 import { ZaxisInitializer } from "../render/ZaxisInitializer";
-import { IGridCollideable } from "./IGridColideable";
+import { IGridCollidable } from "./IGridColidable";
 
-export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGridCollideable {
+export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGridCollidable {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {

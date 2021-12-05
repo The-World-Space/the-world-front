@@ -8,11 +8,11 @@ import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
-import { IGridCollideable } from "../component/physics/IGridColideable";
+import { IGridCollidable } from "../component/physics/IGridColidable";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
-    private _collideMaps: IGridCollideable[] = [];
+    private _collideMaps: IGridCollidable[] = [];
     private _gridPosition: Vector2|null = null;
     private _nameTagString: string|null = null;
 
@@ -21,7 +21,7 @@ export class PlayerPrefab extends Prefab {
         return this;
     }
 
-    public withCollideMap(colideMap: IGridCollideable): PlayerPrefab {
+    public withCollideMap(colideMap: IGridCollidable): PlayerPrefab {
         this._collideMaps.push(colideMap);
         return this;
     }
