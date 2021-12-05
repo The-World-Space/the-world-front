@@ -1,6 +1,12 @@
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchy_object/Component";
 
+enum PointerState {
+    Hover,
+    Down,
+    Out
+}
+
 export class PointerGridInputListener extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
 
@@ -11,6 +17,7 @@ export class PointerGridInputListener extends Component {
     private _inputWidth: number = 64;
     private _inputHeight: number = 64;
     private _zindex: number = 0;
+    private _pointerState: PointerState = PointerState.Out;
 
     protected start(): void {
         this._htmlDivElement = document.createElement("div");
@@ -18,6 +25,9 @@ export class PointerGridInputListener extends Component {
         this._htmlDivElement.style.width = `${this._inputWidth}px`;
         this._htmlDivElement.style.height = `${this._inputHeight}px`;
         this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
+        this._htmlDivElement.addEventListener("mouseenter", this.onMouseEnter.bind(this));
+        this._htmlDivElement.addEventListener("mousemove", this.onMouseMove.bind(this));
+        this._htmlDivElement.addEventListener("mouseleave", this.onMouseLeave.bind(this));
         this.gameObject.add(this._css3DObject);
     }
 
@@ -27,6 +37,10 @@ export class PointerGridInputListener extends Component {
     }
 
     public onDestroy(): void {
+        if (this._htmlDivElement) { //It's the intended useless branch
+            this._htmlDivElement.removeEventListener("mouseenter", this.onMouseEnter.bind(this));
+            this._htmlDivElement.removeEventListener("mousemove", this.onMouseMove.bind(this));
+        }
         if (this._css3DObject) this.gameObject.remove(this._css3DObject);
     }
 
@@ -35,6 +49,24 @@ export class PointerGridInputListener extends Component {
         if (this._css3DObject) {
             this._css3DObject.element.style.zIndex = Math.floor(this._zindex).toString();
         }
+    }
+
+    private onMouseEnter(event: MouseEvent): void {
+        const x = Math.floor(event.offsetX / this._gridCellWidth);
+        const y = Math.floor(event.offsetY / this._gridCellHeight);
+        console.log(`mouse enter: ${x}, ${y}`);
+    }
+
+    private onMouseMove(event: MouseEvent): void {
+        const x = Math.floor(event.offsetX / this._gridCellWidth);
+        const y = Math.floor(event.offsetY / this._gridCellHeight);
+        console.log(`mouse move: ${x}, ${y}`);
+    }
+
+    private onMouseLeave(event: MouseEvent): void {
+        const x = Math.floor(event.offsetX / this._gridCellWidth);
+        const y = Math.floor(event.offsetY / this._gridCellHeight);
+        console.log(`mouse leave: ${x}, ${y}`);
     }
     
     public get gridCellWidth(): number {

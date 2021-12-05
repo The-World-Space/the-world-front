@@ -1,8 +1,8 @@
 import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
+import { PointerGridInputListener } from "./component/input/PointerGridInputListener";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { GridCollideMap } from "./component/physics/GridColideMap";
-import { CssHtmlElementRenderer } from "./component/render/CssHtmlElementRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
@@ -24,6 +24,12 @@ export class TheWorldBootstrapper implements IBootstrapper {
         let collideMap: {ref: GridCollideMap|null} = {ref: null};
 
         return new SceneBuilder(scene)
+            .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
+                .withComponent(PointerGridInputListener, c => {
+                    c.inputWidth = 512;
+                    c.inputHeight = 512;
+                }))
+
             .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab)
                 .getColideTilemapChunkRendererRef(collideTilemap).make())
 
@@ -34,25 +40,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withNameTag("Steve Jobs")
                 .withCollideMap(collideTilemap.ref!)
                 .withCollideMap(collideMap.ref!).make()
-                .getGameObject(player)
-
-                .withChild(instantlater.buildGameObject("onclicktest",
-                    new Vector3(16 + 8, 8, 20),
-                    undefined,
-                    new Vector3(0.5, 0.5, 0.5))
-                    .withComponent(CssHtmlElementRenderer, c => {
-                        const div = document.createElement("div");
-                        div.style.backgroundColor = "red";
-                        div.textContent = "Click me!";
-                        div.style.fontSize = "8px";
-                        div.style.textAlign = "center";
-                        c.elementWidth = 64;
-                        c.elementHeight = 32;
-                        c.setElement(div);
-                        div.onclick = e => {
-                            console.log("clicked", e.offsetX, e.offsetY);
-                        }
-                    })))
+                .getGameObject(player))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
                 .withNameTag("Heewon")
