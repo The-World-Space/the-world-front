@@ -1,3 +1,4 @@
+import { Vector2 } from "three";
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchy_object/Component";
 
@@ -28,6 +29,8 @@ export class PointerGridInputListener extends Component {
         this._htmlDivElement.addEventListener("mouseenter", this.onMouseEnter.bind(this));
         this._htmlDivElement.addEventListener("mousemove", this.onMouseMove.bind(this));
         this._htmlDivElement.addEventListener("mouseleave", this.onMouseLeave.bind(this));
+        this._htmlDivElement.addEventListener("mousedown", this.onMouseDown.bind(this));
+        this._htmlDivElement.addEventListener("mouseup", this.onMouseUp.bind(this));
         this.gameObject.add(this._css3DObject);
     }
 
@@ -40,6 +43,9 @@ export class PointerGridInputListener extends Component {
         if (this._htmlDivElement) { //It's the intended useless branch
             this._htmlDivElement.removeEventListener("mouseenter", this.onMouseEnter.bind(this));
             this._htmlDivElement.removeEventListener("mousemove", this.onMouseMove.bind(this));
+            this._htmlDivElement.removeEventListener("mouseleave", this.onMouseLeave.bind(this));
+            this._htmlDivElement.removeEventListener("mousedown", this.onMouseDown.bind(this));
+            this._htmlDivElement.removeEventListener("mouseup", this.onMouseUp.bind(this));
         }
         if (this._css3DObject) this.gameObject.remove(this._css3DObject);
     }
@@ -51,22 +57,36 @@ export class PointerGridInputListener extends Component {
         }
     }
 
+    private computeGridCellPosition(vector2: Vector2): Vector2 {
+        return new Vector2(
+            Math.floor(vector2.x / this._gridCellWidth),
+            Math.floor(vector2.y / this._gridCellHeight)
+        );
+    }
+
     private onMouseEnter(event: MouseEvent): void {
-        const x = Math.floor(event.offsetX / this._gridCellWidth);
-        const y = Math.floor(event.offsetY / this._gridCellHeight);
-        console.log(`mouse enter: ${x}, ${y}`);
+        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
+        console.log(`mouse enter: ${computedPosition.x}, ${computedPosition.y}`);
     }
 
     private onMouseMove(event: MouseEvent): void {
-        const x = Math.floor(event.offsetX / this._gridCellWidth);
-        const y = Math.floor(event.offsetY / this._gridCellHeight);
-        console.log(`mouse move: ${x}, ${y}`);
+        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
+        console.log(`mouse move: ${computedPosition.x}, ${computedPosition.y}`);
     }
 
     private onMouseLeave(event: MouseEvent): void {
-        const x = Math.floor(event.offsetX / this._gridCellWidth);
-        const y = Math.floor(event.offsetY / this._gridCellHeight);
-        console.log(`mouse leave: ${x}, ${y}`);
+        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
+        console.log(`mouse leave: ${computedPosition.x}, ${computedPosition.y}`);
+    }
+
+    private onMouseDown(event: MouseEvent): void {
+        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
+        console.log(`mouse down: ${computedPosition.x}, ${computedPosition.y}`);
+    }
+
+    private onMouseUp(event: MouseEvent): void {
+        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
+        console.log(`mouse up: ${computedPosition.x}, ${computedPosition.y}`);
     }
     
     public get gridCellWidth(): number {
