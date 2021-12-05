@@ -17,10 +17,10 @@ export class ZaxisSorter extends ZaxisSortable {
     private _tempVector: Vector3 = new Vector3();
 
     public update(): void { 
-        this._tempVector.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector);
+        this.gameObject.updateMatrixWorld();
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector);
         worldPosition.z = -worldPosition.y + this._offset;
-        this.gameObject.position.copy(this.gameObject.worldToLocal(worldPosition));
+        this.gameObject.position.copy(this.gameObject.parent!.worldToLocal(worldPosition));
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
                 child.foreachComponent(c => {
