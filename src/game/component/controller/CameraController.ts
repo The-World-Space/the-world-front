@@ -22,7 +22,7 @@ export class CameraController extends Component {
         }
     }
 
-    private _tempVector: Vector3 = new Vector3();
+    private readonly _tempVector: Vector3 = new Vector3();
 
     public update(): void {
         this._tempVector.copy(this._trackTarget?.position ?? new Vector3());

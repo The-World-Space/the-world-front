@@ -14,10 +14,9 @@ export class ZaxisSorter extends ZaxisSortable {
         this.gameObject.removeComponent(this);
     }
 
-    private _tempVector: Vector3 = new Vector3();
+    private readonly _tempVector: Vector3 = new Vector3();
 
-    public update(): void { 
-        this.gameObject.updateMatrixWorld();
+    public update(): void {
         const worldPosition = this.gameObject.getWorldPosition(this._tempVector);
         worldPosition.z = -worldPosition.y + this._offset;
         this.gameObject.position.copy(this.gameObject.parent!.worldToLocal(worldPosition));

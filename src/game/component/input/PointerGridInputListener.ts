@@ -50,7 +50,7 @@ export class PointerGridInputListener extends Component {
         this.gameObject.add(this._css3DObject);
     }
 
-    private _tempVector3: Vector3 = new Vector3();
+    private readonly _tempVector3: Vector3 = new Vector3();
 
     public update(): void {
         this._tempVector3.copy(this.gameManager.camera.position);
