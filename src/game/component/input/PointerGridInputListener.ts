@@ -1,11 +1,23 @@
-import { Vector2 } from "three";
+import { Vector2, Vector3 } from "three";
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchy_object/Component";
 
-enum PointerState {
-    Hover,
-    Down,
-    Out
+export class PointerGridEvent {
+    private _gridPosition: Vector2;
+    private _position: Vector2;
+
+    constructor(gridPosition: Vector2, position: Vector2) {
+        this._gridPosition = new Vector2(gridPosition.x, gridPosition.y);
+        this._position = new Vector2(position.x, position.y);
+    }
+
+    public get gridPosition(): Vector2 {
+        return this._gridPosition;
+    }
+
+    public get position(): Vector2 {
+        return this._position;
+    }
 }
 
 export class PointerGridInputListener extends Component {
@@ -18,7 +30,11 @@ export class PointerGridInputListener extends Component {
     private _inputWidth: number = 64;
     private _inputHeight: number = 64;
     private _zindex: number = 0;
-    private _pointerState: PointerState = PointerState.Out;
+    private _onMouseEnterDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _onMouseMoveDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _onMouseLeaveDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _onMouseDownDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _onMouseUpDelegates: ((event: PointerGridEvent) => void)[] = [];
 
     protected start(): void {
         this._htmlDivElement = document.createElement("div");
@@ -34,9 +50,13 @@ export class PointerGridInputListener extends Component {
         this.gameObject.add(this._css3DObject);
     }
 
+    private _tempVector3: Vector3 = new Vector3();
+
     public update(): void {
-        this._css3DObject!.position.x = this.gameManager.camera.position.x;
-        this._css3DObject!.position.y = this.gameManager.camera.position.y;
+        this._tempVector3.copy(this.gameManager.camera.position);
+        const cameraLocalPosition = this.gameObject.worldToLocal(this._tempVector3);
+        this._css3DObject!.position.x = cameraLocalPosition.x;
+        this._css3DObject!.position.y = cameraLocalPosition.y;
     }
 
     public onDestroy(): void {
@@ -57,36 +77,116 @@ export class PointerGridInputListener extends Component {
         }
     }
 
-    private computeGridCellPosition(vector2: Vector2): Vector2 {
+    private computeGridCellPosition(x: number, y: number): Vector2 {
         return new Vector2(
-            Math.floor(vector2.x / this._gridCellWidth),
-            Math.floor(vector2.y / this._gridCellHeight)
+            Math.floor(x / this._gridCellWidth),
+            Math.ceil(y / this._gridCellHeight)
         );
     }
 
     private onMouseEnter(event: MouseEvent): void {
-        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
-        console.log(`mouse enter: ${computedPosition.x}, ${computedPosition.y}`);
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const positionX = worldPosition.x - this._inputWidth / 2 + event.offsetX;
+        const positionY = worldPosition.y - (this._inputHeight - event.offsetY);
+        const computedPosition = this.computeGridCellPosition(positionX, positionY);
+        const pointerGridEvent = new PointerGridEvent(computedPosition, new Vector2(positionX, positionY));
+        this._onMouseEnterDelegates.forEach((delegate) => {
+            delegate(pointerGridEvent);
+        });
     }
 
     private onMouseMove(event: MouseEvent): void {
-        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
-        console.log(`mouse move: ${computedPosition.x}, ${computedPosition.y}`);
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        console.log(this.gameObject.matrixWorld);
+        const positionX = this._css3DObject!.position.x - worldPosition.x - this._inputWidth / 2 + event.offsetX;
+        const positionY = this._css3DObject!.position.y - worldPosition.y - (this._inputHeight - event.offsetY);
+        const computedPosition = this.computeGridCellPosition(positionX, positionY);
+        console.log(this._css3DObject!.position);
+        console.log(this._tempVector3);
+        // console.log(`mouse move: ${computedPosition.x}, ${computedPosition.y}`);
+        // console.log(`mouse move offset: ${event.offsetX}, ${event.offsetY}`);
+        const pointerGridEvent = new PointerGridEvent(computedPosition, new Vector2(positionX, positionY));
+        this._onMouseMoveDelegates.forEach((delegate) => {
+            delegate(pointerGridEvent);
+        });
     }
 
     private onMouseLeave(event: MouseEvent): void {
-        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
-        console.log(`mouse leave: ${computedPosition.x}, ${computedPosition.y}`);
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const positionX = worldPosition.x - this._inputWidth / 2 + event.offsetX;
+        const positionY = worldPosition.y - (this._inputHeight - event.offsetY);
+        const computedPosition = this.computeGridCellPosition(positionX, positionY);
+        const pointerGridEvent = new PointerGridEvent(computedPosition, new Vector2(positionX, positionY));
+        this._onMouseLeaveDelegates.forEach((delegate) => {
+            delegate(pointerGridEvent);
+        });
     }
 
     private onMouseDown(event: MouseEvent): void {
-        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
-        console.log(`mouse down: ${computedPosition.x}, ${computedPosition.y}`);
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const positionX = worldPosition.x - this._inputWidth / 2 + event.offsetX;
+        const positionY = worldPosition.y - (this._inputHeight - event.offsetY);
+        const computedPosition = this.computeGridCellPosition(positionX, positionY);
+        const pointerGridEvent = new PointerGridEvent(computedPosition, new Vector2(positionX, positionY));
+        this._onMouseDownDelegates.forEach((delegate) => {
+            delegate(pointerGridEvent);
+        });
     }
 
     private onMouseUp(event: MouseEvent): void {
-        const computedPosition = this.computeGridCellPosition(new Vector2(event.offsetX, event.offsetY));
-        console.log(`mouse up: ${computedPosition.x}, ${computedPosition.y}`);
+        this._tempVector3.copy(this.gameObject.position);
+        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const positionX = worldPosition.x - this._inputWidth / 2 + event.offsetX;
+        const positionY = worldPosition.y - (this._inputHeight - event.offsetY);
+        const computedPosition = this.computeGridCellPosition(positionX, positionY);
+        const pointerGridEvent = new PointerGridEvent(computedPosition, new Vector2(positionX, positionY));
+        this._onMouseUpDelegates.forEach((delegate) => {
+            delegate(pointerGridEvent);
+        });
+    }
+
+    public addOnMouseEnterEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseEnterDelegates.push(delegate);
+    }
+
+    public addOnMouseMoveEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseMoveDelegates.push(delegate);
+    }
+
+    public addOnMouseLeaveEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseLeaveDelegates.push(delegate);
+    }
+
+    public addOnMouseDownEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseDownDelegates.push(delegate);
+    }
+
+    public addOnMouseUpEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseUpDelegates.push(delegate);
+    }
+
+    public removeOnMouseEnterEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseEnterDelegates = this._onMouseEnterDelegates.filter(d => d !== delegate);
+    }
+
+    public removeOnMouseMoveEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseMoveDelegates = this._onMouseMoveDelegates.filter(d => d !== delegate);
+    }
+
+    public removeOnMouseLeaveEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseLeaveDelegates = this._onMouseLeaveDelegates.filter(d => d !== delegate);
+    }
+
+    public removeOnMouseDownEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseDownDelegates = this._onMouseDownDelegates.filter(d => d !== delegate);
+    }
+
+    public removeOnMouseUpEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onMouseUpDelegates = this._onMouseUpDelegates.filter(d => d !== delegate);
     }
     
     public get gridCellWidth(): number {

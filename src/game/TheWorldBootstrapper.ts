@@ -24,12 +24,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
         let collideMap: {ref: GridCollideMap|null} = {ref: null};
 
         return new SceneBuilder(scene)
-            .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
-                .withComponent(PointerGridInputListener, c => {
-                    c.inputWidth = 512;
-                    c.inputHeight = 512;
-                }))
-
             .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab)
                 .getColideTilemapChunkRendererRef(collideTilemap).make())
 
@@ -63,6 +57,13 @@ export class TheWorldBootstrapper implements IBootstrapper {
             .withChild(instantlater.buildGameObject("camera_controller")
                 .withComponent(CameraController, c => {
                     c.setTrackTarget(player.ref!);
+                }))
+            
+            
+            .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
+                .withComponent(PointerGridInputListener, c => {
+                    c.inputWidth = 64;
+                    c.inputHeight = 64;
                 }));
     }
 }
