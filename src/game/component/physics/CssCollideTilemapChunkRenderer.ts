@@ -121,8 +121,9 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
-        const chunkIndexX = Math.floor((x / this._tileWidth + this._chunkSize / 2) / this._chunkSize);
-        const chunkIndexY = Math.floor((y / this._tileHeight + this._chunkSize / 2) / this._chunkSize);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const chunkIndexX = Math.floor(((x - worldPosition.x) / this._tileWidth + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor(((y - worldPosition.y) / this._tileHeight + this._chunkSize / 2) / this._chunkSize);
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
@@ -192,26 +193,23 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         });
     }
 
-    private _tempVector3: Vector3 = new Vector3();
+    private readonly _tempVector3: Vector3 = new Vector3();
 
     public get gridCenter(): Vector2 {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
         const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
         return new Vector2(worldPosition.x + offsetX, worldPosition.y + offsetY);
     }
 
     public get gridCenterX(): number {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
         return worldPosition.x + offsetX;
     }
 
     public get gridCenterY(): number {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
         return worldPosition.y + offsetY;
     }

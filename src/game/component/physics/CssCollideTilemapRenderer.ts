@@ -51,10 +51,9 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
-        x -= worldPosition.x / 2;
-        y -= worldPosition.y / 2;
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        x -= worldPosition.x;
+        y -= worldPosition.y;
 
         if (this.columnCount % 2 === 0) {
             x -= this.gridCellWidth;

@@ -220,25 +220,22 @@ export class CssTilemapRenderer extends Component{
         }
     }
 
-    protected _tempVector3: Vector3 = new Vector3();
+    protected readonly _tempVector3: Vector3 = new Vector3();
     
     public get gridCenter(): Vector2 {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         const offsetX = this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2;
         const offsetY = this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2;
         return new Vector2(worldPosition.x + offsetX, worldPosition.y + offsetY);
     }
 
     public get gridCenterX(): number {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         return worldPosition.x + (this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2);
     }
 
     public get gridCenterY(): number {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         return worldPosition.y + (this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2);
     }
 }

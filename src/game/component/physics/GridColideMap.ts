@@ -74,13 +74,12 @@ export class GridCollideMap extends Component implements IGridCollideable {
         this._colliderImages.push(gameObjectRef.ref!);
     }
     
-    private _tempVector3 = new Vector3();
+    private readonly _tempVector3 = new Vector3();
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
-        x -= worldPosition.x / 2;
-        y -= worldPosition.y / 2;
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        x -= worldPosition.x;
+        y -= worldPosition.y;
         
         const left = Math.floor(x / this.gridCellWidth);
         const right = Math.floor((x + width) / this.gridCellWidth);
@@ -127,20 +126,17 @@ export class GridCollideMap extends Component implements IGridCollideable {
     }
 
     public get gridCenter(): Vector2 {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         return new Vector2(worldPosition.x, worldPosition.y);
     }
 
     public get gridCenterX(): number {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         return worldPosition.x;
     }
 
     public get gridCenterY(): number {
-        this._tempVector3.copy(this.gameObject.position);
-        const worldPosition = this.gameObject.localToWorld(this._tempVector3);
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         return worldPosition.y;
     }
 }

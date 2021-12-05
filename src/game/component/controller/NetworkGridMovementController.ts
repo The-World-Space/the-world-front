@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2, Vector3 } from "three";
 import { Directionable } from "./Directionable";
 
 export class NetworkGridMovementController extends Directionable {
@@ -10,9 +10,13 @@ export class NetworkGridMovementController extends Directionable {
     private readonly _targetGridPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
 
+    private readonly _tempVector3: Vector3 = new Vector3();
+    
     protected start(): void {
-        this.gameObject.position.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
-        this.gameObject.position.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        worldPosition.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
+        worldPosition.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
+        this.gameObject.position.copy(this.gameObject.parent!.worldToLocal(worldPosition));
         this._currentGridPosition.set(this.gameObject.position.x, this.gameObject.position.y);
     }
 
