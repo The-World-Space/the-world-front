@@ -14,6 +14,7 @@ export class GridPointer extends Component {
     private _pointerObject: GameObject|null = null;
     private _onPointerDownDelegates: ((event: PointerGridEvent) => void)[] = [];
     private _onPointerUpDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _onPointerMoveDelegates: ((event: PointerGridEvent) => void)[] = [];
     private _isMouseDown: boolean = false;
 
     protected start(): void {
@@ -61,12 +62,12 @@ export class GridPointer extends Component {
 
     private onMouseDown(event: PointerGridEvent): void {
         this._isMouseDown = true;
-        this._onPointerDownDelegates.forEach(d => d(event));
+        this._onPointerDownDelegates.forEach(delegate => delegate(event));
     }
 
     private onMouseUp(event: PointerGridEvent): void {
         this._isMouseDown = false;
-        this._onPointerUpDelegates.forEach(d => d(event));
+        this._onPointerUpDelegates.forEach(delegate => delegate(event));
     }
 
     private onMouseMove(event: PointerGridEvent): void {
@@ -75,6 +76,8 @@ export class GridPointer extends Component {
         const positionX = event.gridPosition.x * gridCellWidth;
         const positionY = event.gridPosition.y * gridCellHeight;
         this._pointerObject!.position.set(positionX, positionY, this._pointerZoffset);
+
+        this._onPointerMoveDelegates.forEach(delegate => delegate(event));
     }
 
     public addOnPointerDownEventListener(delegate: (event: PointerGridEvent) => void): void {
@@ -93,6 +96,15 @@ export class GridPointer extends Component {
     public removeOnPointerUpEventListener(delegate: (event: PointerGridEvent) => void): void {
         const index = this._onPointerUpDelegates.indexOf(delegate);
         if (index !== -1) this._onPointerUpDelegates.splice(index, 1);
+    }
+
+    public addOnPointerMoveEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onPointerMoveDelegates.push(delegate);
+    }
+
+    public removeOnPointerMoveEventListener(delegate: (event: PointerGridEvent) => void): void {
+        const index = this._onPointerMoveDelegates.indexOf(delegate);
+        if (index !== -1) this._onPointerMoveDelegates.splice(index, 1);
     }
 
     public get pointerZoffset(): number {

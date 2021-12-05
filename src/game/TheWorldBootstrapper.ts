@@ -2,6 +2,7 @@ import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { GridPointer } from "./component/input/GridPointer";
 import { PointerGridInputListener } from "./component/input/PointerGridInputListener";
+import { TestTileBrush } from "./component/input/TestTileBrush";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { GridCollideMap } from "./component/physics/GridColideMap";
 import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
@@ -24,6 +25,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
         let player: {ref: GameObject|null} = {ref: null};
         let collideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
         let collideMap: {ref: GridCollideMap|null} = {ref: null};
+        let gridPointer: {ref: GridPointer|null} = {ref: null};
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab)
@@ -68,6 +70,13 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     c.inputHeight = 512;
                     c.setGridInfoFromCollideMap(collideTilemap.ref!);
                 })
-                .withComponent(GridPointer, c => c.pointerZoffset = 400));
+                .withComponent(GridPointer, c => c.pointerZoffset = 400)
+                .getComponent(GridPointer, gridPointer))
+
+            .withChild(instantlater.buildGameObject("test_brush")
+                .withComponent(TestTileBrush, c => {
+                    c.colideTilemapChunk = collideTilemap.ref!;
+                    c.gridPointer = gridPointer.ref!;
+                }));
     }
 }
