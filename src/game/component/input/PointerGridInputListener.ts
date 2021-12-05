@@ -143,37 +143,27 @@ export class PointerGridInputListener extends Component {
 
     public removeOnMouseDownEventListener(delegate: (event: PointerGridEvent) => void): void {
         const index = this._onMouseDownDelegates.indexOf(delegate);
-        if (index !== -1) {
-            this._onMouseDownDelegates.splice(index, 1);
-        }
+        if (index !== -1) this._onMouseDownDelegates.splice(index, 1);
     }
 
     public removeOnMouseUpEventListener(delegate: (event: PointerGridEvent) => void): void {
         const index = this._onMouseUpDelegates.indexOf(delegate);
-        if (index !== -1) {
-            this._onMouseUpDelegates.splice(index, 1);
-        }
+        if (index !== -1) this._onMouseUpDelegates.splice(index, 1);
     }
 
     public removeOnMouseEnterEventListener(delegate: (event: PointerGridEvent) => void): void {
         const index = this._onMouseEnterDelegates.indexOf(delegate);
-        if (index !== -1) {
-            this._onMouseEnterDelegates.splice(index, 1);
-        }
+        if (index !== -1) this._onMouseEnterDelegates.splice(index, 1);
     }
 
     public removeOnMouseLeaveEventListener(delegate: (event: PointerGridEvent) => void): void {
         const index = this._onMouseLeaveDelegates.indexOf(delegate);
-        if (index !== -1) {
-            this._onMouseLeaveDelegates.splice(index, 1);
-        }
+        if (index !== -1) this._onMouseLeaveDelegates.splice(index, 1);
     }
 
     public removeOnMouseMoveEventListener(delegate: (event: PointerGridEvent) => void): void {
         const index = this._onMouseMoveDelegates.indexOf(delegate);
-        if (index !== -1) {
-            this._onMouseMoveDelegates.splice(index, 1);
-        }
+        if (index !== -1) this._onMouseMoveDelegates.splice(index, 1);
     }
 
     public get gridCenter(): Vector2 {

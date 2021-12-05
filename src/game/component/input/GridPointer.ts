@@ -12,11 +12,16 @@ export class GridPointer extends Component {
     private _pointerGridInputListener: PointerGridInputListener|null = null;
     private _pointerZoffset: number = 0;
     private _pointerObject: GameObject|null = null;
+    private _onPointerDownDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _onPointerUpDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _isMouseDown: boolean = false;
 
     protected start(): void {
         this._pointerGridInputListener = this.gameObject.getComponent(PointerGridInputListener);
         this._pointerGridInputListener!.addOnMouseEnterEventListener(this.onMouseEnter.bind(this));
         this._pointerGridInputListener!.addOnMouseLeaveEventListener(this.onMouseLeave.bind(this));
+        this._pointerGridInputListener!.addOnMouseDownEventListener(this.onMouseDown.bind(this));
+        this._pointerGridInputListener!.addOnMouseUpEventListener(this.onMouseUp.bind(this));
         this._pointerGridInputListener!.addOnMouseMoveEventListener(this.onMouseMove.bind(this));
 
         const pointerObject: {ref: GameObject|null} = {ref: null};
@@ -35,9 +40,13 @@ export class GridPointer extends Component {
     }
 
     public onDestroy(): void {
-        this._pointerGridInputListener?.removeOnMouseEnterEventListener(this.onMouseEnter.bind(this));
-        this._pointerGridInputListener?.removeOnMouseLeaveEventListener(this.onMouseLeave.bind(this));
-        this._pointerGridInputListener?.removeOnMouseMoveEventListener(this.onMouseMove.bind(this));
+        if (this._pointerGridInputListener) {
+            this._pointerGridInputListener.removeOnMouseEnterEventListener(this.onMouseEnter.bind(this));
+            this._pointerGridInputListener.removeOnMouseLeaveEventListener(this.onMouseLeave.bind(this));
+            this._pointerGridInputListener.removeOnMouseDownEventListener(this.onMouseDown.bind(this));
+            this._pointerGridInputListener.removeOnMouseUpEventListener(this.onMouseUp.bind(this));
+            this._pointerGridInputListener.removeOnMouseMoveEventListener(this.onMouseMove.bind(this));
+        }
     }
 
     private onMouseEnter(event: PointerGridEvent): void {
@@ -46,7 +55,18 @@ export class GridPointer extends Component {
     }
 
     private onMouseLeave(event: PointerGridEvent): void {
+        if (this._isMouseDown) this.onMouseUp(event);
         this._pointerObject!.activeSelf = false;
+    }
+
+    private onMouseDown(event: PointerGridEvent): void {
+        this._isMouseDown = true;
+        this._onPointerDownDelegates.forEach(d => d(event));
+    }
+
+    private onMouseUp(event: PointerGridEvent): void {
+        this._isMouseDown = false;
+        this._onPointerUpDelegates.forEach(d => d(event));
     }
 
     private onMouseMove(event: PointerGridEvent): void {
@@ -55,6 +75,24 @@ export class GridPointer extends Component {
         const positionX = event.gridPosition.x * gridCellWidth;
         const positionY = event.gridPosition.y * gridCellHeight;
         this._pointerObject!.position.set(positionX, positionY, this._pointerZoffset);
+    }
+
+    public addOnPointerDownEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onPointerDownDelegates.push(delegate);
+    }
+
+    public removeOnPointerDownEventListener(delegate: (event: PointerGridEvent) => void): void {
+        const index = this._onPointerDownDelegates.indexOf(delegate);
+        if (index !== -1) this._onPointerDownDelegates.splice(index, 1);
+    }
+
+    public addOnPointerUpEventListener(delegate: (event: PointerGridEvent) => void): void {
+        this._onPointerUpDelegates.push(delegate);
+    }
+
+    public removeOnPointerUpEventListener(delegate: (event: PointerGridEvent) => void): void {
+        const index = this._onPointerUpDelegates.indexOf(delegate);
+        if (index !== -1) this._onPointerUpDelegates.splice(index, 1);
     }
 
     public get pointerZoffset(): number {
