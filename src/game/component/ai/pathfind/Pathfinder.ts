@@ -10,8 +10,12 @@ export class Pathfinder {
 
     private collideMaps: IGridCollidable[];
 
-    public constructor(collideMaps: IGridCollidable[]) {
-        this.collideMaps = collideMaps.slice();
+    public constructor(collideMaps?: IGridCollidable[]) {
+        this.collideMaps = collideMaps?.slice() ?? [];
+    }
+
+    public addCollideMap(collideMap: IGridCollidable) {
+        this.collideMaps.push(collideMap);
     }
 
     public findPath(startGridPosition: Vector2, endGridPosition: Vector2): Vector2[]|null {
