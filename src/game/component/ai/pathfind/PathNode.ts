@@ -25,6 +25,10 @@ export class PathNode {
         this._fCost = this._gCost + this._hCost;
     }
 
+    public equals(other: PathNode): boolean {
+        return this._x === other._x && this._y === other._y;
+    }
+
     public get x(): number {
         return this._x;
     }

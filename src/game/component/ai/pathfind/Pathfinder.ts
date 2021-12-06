@@ -5,8 +5,8 @@ import { IGridCollidable } from "../../physics/IGridCollidable";
 import { PathNode } from "./PathNode";
 
 export class Pathfinder {
-    private static readonly moveCost: number = 10;
     private static readonly checkCollisionScale: number = 8;
+    private static readonly iterationLimit: number = 50;
 
     private collideMaps: IGridCollidable[];
 
@@ -24,31 +24,44 @@ export class Pathfinder {
         const openList: PathNode[] = [];
         const closedList: PathNode[] = [];
         
+        startNode.gCost = 0;
+        startNode.hCost = this.calculateDistanceCost(startNode, endNode);
+        startNode.calculateFCost();
+
         openList.push(startNode);
 
-        while (openList.length > 0) {
+        let iterations = 0;
+        while (openList.length > 0 && iterations < Pathfinder.iterationLimit) {
+            iterations++;
             const currentNode = this.getLowestFcostNode(openList);
-            if (currentNode.x === endNode.x && currentNode.y === endNode.y) {
-                return this.calculatePath(currentNode);
+            if (currentNode.equals(endNode)) {
+                return this.calculatePath(currentNode); //reached the end
             }
+
             openList.splice(openList.indexOf(currentNode), 1);
             closedList.push(currentNode);
 
             const neighbors = this.getNeighbors(currentNode);
             for (const neighbor of neighbors) {
-                if (closedList.find(node => node.x === neighbor.x && node.y === neighbor.y)) {
-                    continue;
+                if (closedList.find(node => node.equals(neighbor)) !== undefined) continue; //already visited
+                else {
+                    neighbor.gCost = Number.MAX_VALUE; 
+                    neighbor.calculateFCost();
+                    neighbor.previousNode = null;
                 }
+
                 if (this.checkCollision(neighbor.x, neighbor.y)) {
                     closedList.push(neighbor);
-                    continue;
+                    continue; //blocked
                 }
-                const newCost = currentNode.gCost + this.calculateDistanceCost(currentNode, neighbor);
-                if (newCost < neighbor.gCost || !openList.find(node => node.x === neighbor.x && node.y === neighbor.y)) {
-                    neighbor.gCost = newCost;
-                    neighbor.hCost = this.calculateDistanceCost(neighbor, endNode);
+
+                const tentativeGCost = currentNode.gCost + this.calculateDistanceCost(currentNode, neighbor);
+                if (tentativeGCost < neighbor.gCost) {
                     neighbor.previousNode = currentNode;
-                    if (!openList.find(node => node.x === neighbor.x && node.y === neighbor.y)) {
+                    neighbor.gCost = tentativeGCost;
+                    neighbor.hCost = this.calculateDistanceCost(neighbor, endNode);
+                    neighbor.calculateFCost();
+                    if (openList.find(node => node.equals(neighbor)) === undefined) {
                         openList.push(neighbor);
                     }
                 }
@@ -59,24 +72,21 @@ export class Pathfinder {
 
     private getNeighbors(node: PathNode): PathNode[] {
         const neighbors: PathNode[] = [];
-        for (let y = node.y - 1; y <= node.y + 1; y++) {
-            for (let x = node.x - 1; x <= node.x + 1; x++) {
-                if (x === node.x && y === node.y) continue;
-                if (this.checkCollision(x, y)) continue;
-                neighbors.push(new PathNode(x, y));
-            }
-        }
+        neighbors.push(new PathNode(node.x, node.y - 1));
+        neighbors.push(new PathNode(node.x + 1, node.y));
+        neighbors.push(new PathNode(node.x, node.y + 1));
+        neighbors.push(new PathNode(node.x - 1, node.y));
         return neighbors;
     }
 
     private calculatePath(endNode: PathNode): Vector2[] {
         const path: Vector2[] = [];
-        path.push(new Vector2(endNode.x, endNode.y));
         let currentNode = endNode;
-        while (currentNode.previousNode !== null) {
+        while (currentNode.previousNode) {
             path.push(new Vector2(currentNode.x, currentNode.y));
             currentNode = currentNode.previousNode;
         }
+        path.push(new Vector2(currentNode.x, currentNode.y));
         return path.reverse();
     }
 
