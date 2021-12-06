@@ -1,3 +1,4 @@
+import { ApolloClient } from "@apollo/client";
 import { Quaternion, Vector2, Vector3 } from "three";
 import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
@@ -20,7 +21,8 @@ const SIZE = 16;
 
 export class NetworkBootstrapper implements IBootstrapper {
 
-    constructor(private readonly serverWorld: ServerWorld) {
+    constructor(private readonly serverWorld: ServerWorld,
+                private readonly apolloClient: ApolloClient<any>) {
 
     }
 

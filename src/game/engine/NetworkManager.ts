@@ -11,10 +11,10 @@ interface User {
 
 
 type characterId = string;
-type MyClassEvents = {
+interface MyClassEvents {
     'join': (user: User, spawnPoint: Point) => void,
-    [_: `move_${characterId}`]: (pos: Point) => void,
-    [_: `leave_${characterId}`]: () => void,
+    // [_: `move_${string}`]: (pos: Point) => void,
+    // [_: `leave_${string}`]: () => void,
 }
 
 export class NetworkManager {
@@ -79,13 +79,13 @@ export class NetworkManager {
         newPlayers.forEach(e => {
             this._ee.emit("join", e.user, e);
         });
-        leftPlayers.forEach(e => {
-            this._ee.emit(`leave_${e}`);
-        });
+        // leftPlayers.forEach(e => {
+        //     this._ee.emit(`leave_${e}`);
+        // });
     }
 
     private moveCharacter(data: Point & {userId: string}) {
-       this._ee.emit(`move_${data.userId}`, data);
+    //    this._ee.emit(`move_${data.userId}`, data);
     }
 
     get ee() {
