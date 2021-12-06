@@ -19,11 +19,11 @@ export class GridPointer extends Component {
 
     protected start(): void {
         this._pointerGridInputListener = this.gameObject.getComponent(PointerGridInputListener);
-        this._pointerGridInputListener!.addOnMouseEnterEventListener(this.onMouseEnter.bind(this));
-        this._pointerGridInputListener!.addOnMouseLeaveEventListener(this.onMouseLeave.bind(this));
-        this._pointerGridInputListener!.addOnMouseDownEventListener(this.onMouseDown.bind(this));
-        this._pointerGridInputListener!.addOnMouseUpEventListener(this.onMouseUp.bind(this));
-        this._pointerGridInputListener!.addOnMouseMoveEventListener(this.onMouseMove.bind(this));
+        this._pointerGridInputListener!.addOnPointerEnterEventListener(this.onMouseEnter.bind(this));
+        this._pointerGridInputListener!.addOnPointerLeaveEventListener(this.onMouseLeave.bind(this));
+        this._pointerGridInputListener!.addOnPointerDownEventListener(this.onMouseDown.bind(this));
+        this._pointerGridInputListener!.addOnPointerUpEventListener(this.onMouseUp.bind(this));
+        this._pointerGridInputListener!.addOnPointerMoveEventListener(this.onMouseMove.bind(this));
 
         const pointerObject: {ref: GameObject|null} = {ref: null};
         this.gameObject.addChildFromBuilder(
@@ -42,11 +42,11 @@ export class GridPointer extends Component {
 
     public onDestroy(): void {
         if (this._pointerGridInputListener) {
-            this._pointerGridInputListener.removeOnMouseEnterEventListener(this.onMouseEnter.bind(this));
-            this._pointerGridInputListener.removeOnMouseLeaveEventListener(this.onMouseLeave.bind(this));
-            this._pointerGridInputListener.removeOnMouseDownEventListener(this.onMouseDown.bind(this));
-            this._pointerGridInputListener.removeOnMouseUpEventListener(this.onMouseUp.bind(this));
-            this._pointerGridInputListener.removeOnMouseMoveEventListener(this.onMouseMove.bind(this));
+            this._pointerGridInputListener.removeOnPointerEnterEventListener(this.onMouseEnter.bind(this));
+            this._pointerGridInputListener.removeOnPointerLeaveEventListener(this.onMouseLeave.bind(this));
+            this._pointerGridInputListener.removeOnPointerDownEventListener(this.onMouseDown.bind(this));
+            this._pointerGridInputListener.removeOnPointerUpEventListener(this.onMouseUp.bind(this));
+            this._pointerGridInputListener.removeOnPointerMoveEventListener(this.onMouseMove.bind(this));
         }
     }
 
