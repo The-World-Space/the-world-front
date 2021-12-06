@@ -159,6 +159,7 @@ export class GameObject extends Object3D {
         this.children.forEach(child => {
             if (child instanceof GameObject) child.destroy();
         });
+        this.removeFromParent();
         this.parent = null;
     }
 
