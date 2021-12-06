@@ -1,4 +1,4 @@
-import { Component } from "../hierarchyObject/Component";
+import { Component } from "../hierarchy_object/Component";
 
 export class HookTestComponent extends Component {
     public startMessage: string = "onStart";

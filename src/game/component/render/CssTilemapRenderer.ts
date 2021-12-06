@@ -1,5 +1,6 @@
+import { Vector2, Vector3 } from "three";
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { Component } from "../../engine/hierarchyObject/Component";
+import { Component } from "../../engine/hierarchy_object/Component";
 import { ZaxisInitializer } from "./ZaxisInitializer";
 
 export class TileAtlasItem {
@@ -37,9 +38,10 @@ export class CssTilemapRenderer extends Component{
     private _rowCount: number = 10;
     private _tileWidth: number = 16;
     private _tileHeight: number = 16;
-    private _sprite: CSS3DObject|null = null;
+    private _css3DObject: CSS3DObject|null = null;
     private _htmlCanvasElement: HTMLCanvasElement|null = null;
     private _imageSources: TileAtlasItem[]|null = null;
+    private _pointerEvents: boolean = true;
     private _zindex: number = 0;
     
     private _initializeFunctions: ((() => void))[] = [];
@@ -53,13 +55,21 @@ export class CssTilemapRenderer extends Component{
     }
 
     public onDestroy(): void {
-        if (this._sprite) this.gameObject.remove(this._sprite);
+        if (this._css3DObject) this.gameObject.remove(this._css3DObject);
+    }
+
+    public onEnable(): void {
+        if (this._css3DObject) this._css3DObject.visible = true;
+    }
+
+    public onDisable(): void {
+        if (this._css3DObject) this._css3DObject.visible = false;
     }
 
     public onSortByZaxis(zaxis: number): void {
         this._zindex = zaxis;
-        if (this._sprite) {
-            this._sprite.element.style.zIndex = Math.floor(this._zindex).toString();
+        if (this._css3DObject) {
+            this._css3DObject.element.style.zIndex = Math.floor(this._zindex).toString();
         }
     }
 
@@ -67,12 +77,13 @@ export class CssTilemapRenderer extends Component{
         const tileMapWidth: number = this._columnCount * this._tileWidth;
         const tileMapHeight: number = this._rowCount * this._tileHeight;
         this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
+        this._css3DObject = new CSS3DObject(this._htmlCanvasElement);
+        this.gameObject.add(this._css3DObject);
         this._htmlCanvasElement.style.imageRendering = "pixelated";
         this._htmlCanvasElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlCanvasElement.width = tileMapWidth;
         this._htmlCanvasElement.height = tileMapHeight;
-        this._sprite = new CSS3DObject(this._htmlCanvasElement);
-        this.gameObject.add(this._sprite);
+        this._htmlCanvasElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
     }
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {
@@ -158,6 +169,17 @@ export class CssTilemapRenderer extends Component{
         this._imageSources = value;
     }
 
+    public get pointerEvents(): boolean {
+        return this._pointerEvents;
+    }
+
+    public set pointerEvents(value: boolean) {
+        this._pointerEvents = value;
+        if (this._htmlCanvasElement) {
+            this._htmlCanvasElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
+        }
+    }
+
     public get columnCount(): number {
         return this._columnCount;
     }
@@ -182,11 +204,11 @@ export class CssTilemapRenderer extends Component{
         }
     }
 
-    public get tileWidth(): number {
+    public get gridCellWidth(): number {
         return this._tileWidth;
     }
 
-    public set tileWidth(value: number) {
+    public set gridCellWidth(value: number) {
         this._tileWidth = value;
 
         if (this._htmlCanvasElement) {
@@ -194,15 +216,34 @@ export class CssTilemapRenderer extends Component{
         }
     }
 
-    public get tileHeight(): number {
+    public get gridCellHeight(): number {
         return this._tileHeight;
     }
 
-    public set tileHeight(value: number) {
+    public set gridCellHeight(value: number) {
         this._tileHeight = value;
 
         if (this._htmlCanvasElement) {
             this._htmlCanvasElement.height = this._rowCount * this._tileHeight;
         }
+    }
+
+    protected readonly _tempVector3: Vector3 = new Vector3();
+    
+    public get gridCenter(): Vector2 {
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const offsetX = this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2;
+        const offsetY = this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2;
+        return new Vector2(worldPosition.x + offsetX, worldPosition.y + offsetY);
+    }
+
+    public get gridCenterX(): number {
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        return worldPosition.x + (this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2);
+    }
+
+    public get gridCenterY(): number {
+        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        return worldPosition.y + (this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2);
     }
 }

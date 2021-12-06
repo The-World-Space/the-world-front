@@ -3,17 +3,17 @@ import { IReadonlyTime } from "./IReadonlyTime";
 import { InputHandler } from "./InputHandler";
 import { Instantiater } from "./Instantiater";
 import { IReadonlyGameState } from "./GameState";
-import { Scene } from "./hierarchyObject/Scene";
+import { Scene } from "./hierarchy_object/Scene";
 
 export class GameManager {
     private readonly _rootScene: Scene;
-    private readonly _camera: THREE.OrthographicCamera;
+    private readonly _camera: THREE.Camera;
     private readonly _time: IReadonlyTime;
     private readonly _inputHandler: InputHandler;
     private readonly _instantlater: Instantiater;
     private readonly _gameState: IReadonlyGameState;
 
-    public constructor(rootScene: Scene, camera: THREE.OrthographicCamera, time: IReadonlyTime, gameState: IReadonlyGameState) {
+    public constructor(rootScene: Scene, camera: THREE.Camera, time: IReadonlyTime, gameState: IReadonlyGameState) {
         this._rootScene = rootScene;
         this._camera = camera;
         this._time = time;
@@ -30,7 +30,7 @@ export class GameManager {
         return this._rootScene;
     }
 
-    public get camera(): THREE.OrthographicCamera {
+    public get camera(): THREE.Camera {
         return this._camera;
     }
 

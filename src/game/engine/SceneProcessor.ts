@@ -1,5 +1,5 @@
-import { GameObject } from "./hierarchyObject/GameObject";
-import { Scene } from "./hierarchyObject/Scene";
+import { GameObject } from "./hierarchy_object/GameObject";
+import { Scene } from "./hierarchy_object/Scene";
 
 export class SceneProcessor {
     public static init(scene: Scene): void {

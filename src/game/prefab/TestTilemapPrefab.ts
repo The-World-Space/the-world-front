@@ -1,19 +1,29 @@
+import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
+import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
 import { CssTilemapRenderer, TileAtlasItem } from "../component/render/CssTilemapRenderer";
-import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
-import { Prefab } from "../engine/hierarchyObject/Prefab";
+import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
+import { Prefab } from "../engine/hierarchy_object/Prefab";
 
 export class TestTilemapPrefab extends Prefab {
+    private _colideTilemapRenderer: {ref: CssCollideTilemapRenderer|null}|null = null;
+
+    public getColideTilemapRendererRef(colideTilemapRenderer: {ref: CssCollideTilemapRenderer|null}): TestTilemapPrefab {
+        this._colideTilemapRenderer = colideTilemapRenderer;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
         const instantlater = this._gameManager.instantlater;
 
         return this._gameObjectBuilder
+            .withComponent(CameraRelativeZaxisSorter)
             .withChild(instantlater.buildGameObject("floor")
                 .withComponent(CssTilemapRenderer, c => {
                     c.rowCount = 16;
                     c.columnCount = 17;
 
                     const tilemap3 = new Image();
-                    tilemap3.src = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
+                    tilemap3.src = `/assets/tilemap/3_tile.png`;
 
                     c.imageSources = [new TileAtlasItem(tilemap3, 10, 10)];
                     
@@ -42,15 +52,15 @@ export class TestTilemapPrefab extends Prefab {
                     }
                 }))
             .withChild(instantlater.buildGameObject("wall")
-                .withComponent(CssTilemapRenderer, c => {
+                .withComponent(CssCollideTilemapRenderer, c => {
                     c.rowCount = 16;
                     c.columnCount = 17;
 
                     const tilemap3 = new Image();
-                    tilemap3.src = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
+                    tilemap3.src = `/assets/tilemap/3_tile.png`;
 
                     const tilemap4 = new Image();
-                    tilemap4.src = `${process.env.PUBLIC_URL}/assets/tilemap/4_tile.png`;
+                    tilemap4.src = `/assets/tilemap/4_tile.png`;
 
                     c.imageSources = [
                         new TileAtlasItem(tilemap3, 10, 10),
@@ -107,6 +117,7 @@ export class TestTilemapPrefab extends Prefab {
                             ], 0, 0);
                         }
                     }
-                }));
+                })
+                .getComponent(CssCollideTilemapRenderer, this._colideTilemapRenderer ?? { ref: null }));
     }
 }

@@ -17,6 +17,7 @@ import MyPage from './pages/MyPage';
 import MyWorldList from './pages/MyWorldList';
 import IngameInterface from './components/organisms/IngameInterface';
 import GamePage from './pages/GamePage';
+import NetworkGamePage from './pages/NetworkGamePage';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/mypage" component={MyPage} />
         <Route path="/interfacetest" component={IngameInterface} />
         <Route path="/game" component={GamePage} />
+        <Route path="/networkgame" component={NetworkGamePage} />
         <Route path="*" component={Notfound} />
       </Switch>
     </Router>

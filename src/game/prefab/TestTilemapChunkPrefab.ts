@@ -1,17 +1,25 @@
-import { CssTilemapChunkRenderer } from "../component/render/CssTilemapChunkRenderer";
 import { TileAtlasItem } from "../component/render/CssTilemapRenderer";
-import { GameObjectBuilder } from "../engine/hierarchyObject/GameObject";
-import { Prefab } from "../engine/hierarchyObject/Prefab";
+import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { Prefab } from "../engine/hierarchy_object/Prefab";
+import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
+import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
 
 export class TestTilemapChunkPrefab extends Prefab {
+    private _colideTilemapRenderer: {ref: CssCollideTilemapChunkRenderer|null}|null = null;
+
+    public getColideTilemapRendererRef(colideTilemapRenderer: {ref: CssCollideTilemapChunkRenderer|null}): TestTilemapChunkPrefab {
+        this._colideTilemapRenderer = colideTilemapRenderer;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
         return this._gameObjectBuilder
-            .withComponent(CssTilemapChunkRenderer, c => {
+            .withComponent(CssCollideTilemapChunkRenderer, c => {
                 const tilemap3 = new Image();
-                tilemap3.src = `${process.env.PUBLIC_URL}/assets/tilemap/3_tile.png`;
+                tilemap3.src = `/assets/tilemap/3_tile.png`;
                 
                 const minecraftTile = new Image();
-                minecraftTile.src = `${process.env.PUBLIC_URL}/assets/tilemap/minecraft custom atlas.png`;
+                minecraftTile.src = `/assets/tilemap/minecraft custom atlas.png`;
 
                 tilemap3.onload = () => {
                     minecraftTile.onload = () => {
@@ -19,9 +27,9 @@ export class TestTilemapChunkPrefab extends Prefab {
                             new TileAtlasItem(tilemap3, 10, 10),
                             new TileAtlasItem(minecraftTile, 13, 9)
                         ];
-                        for (let i = -40; i < 40; i++) {
-                            for (let j = -40; j < 40; j++) {
-                                const random = Math.random() > 0.5;
+                        for (let i = -20; i < 20; i++) {
+                            for (let j = -20; j < 20; j++) {
+                                const random = Math.random() > 0.9;
                                 const random2 = Math.floor(Math.random() * 100);
                                 if (random) c.drawTile(i, j, 1, random2);
                             }
@@ -29,5 +37,7 @@ export class TestTilemapChunkPrefab extends Prefab {
                     }
                 }
             })
+            .withComponent(CameraRelativeZaxisSorter, c => c.offset -= 100)
+            .getComponent(CssCollideTilemapChunkRenderer, this._colideTilemapRenderer ?? {ref: null});
     }
 }
