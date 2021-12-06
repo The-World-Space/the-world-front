@@ -1,8 +1,9 @@
 import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
+import { PathfindTest } from "./component/ai/PathfindTest";
 import { CameraController } from "./component/controller/CameraController";
+import { PlayerGridMovementController } from "./component/controller/PlayerGridMovementController";
 import { GridPointer } from "./component/input/GridPointer";
 import { PointerGridInputListener } from "./component/input/PointerGridInputListener";
-import { TestTileBrush } from "./component/input/TestTileBrush";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { GridCollideMap } from "./component/physics/GridColideMap";
 import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
@@ -73,10 +74,20 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withComponent(GridPointer, c => c.pointerZoffset = 400)
                 .getComponent(GridPointer, gridPointer))
 
-            .withChild(instantlater.buildGameObject("test_brush")
-                .withComponent(TestTileBrush, c => {
-                    c.colideTilemapChunk = collideTilemap.ref!;
+            .withChild(instantlater.buildGameObject("pathfind_test", new Vector3(8, 8, 0))
+                .withComponent(PathfindTest, c => {
+                    c.collideMaps = [
+                        collideMap.ref!,
+                        collideTilemap.ref!,
+                    ];
                     c.gridPointer = gridPointer.ref!;
+                    c.player = player.ref!.getComponent(PlayerGridMovementController)!;
                 }));
+
+            // .withChild(instantlater.buildGameObject("test_brush")
+            //     .withComponent(TestTileBrush, c => {
+            //         c.colideTilemapChunk = collideTilemap.ref!;
+            //         c.gridPointer = gridPointer.ref!;
+            //     }));
     }
 }
