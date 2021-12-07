@@ -7,7 +7,7 @@ export class PointerGridEvent {
     private _gridPosition: Vector2;
     private _position: Vector2;
 
-    constructor(gridPosition: Vector2, position: Vector2) {
+    public constructor(gridPosition: Vector2, position: Vector2) {
         this._gridPosition = new Vector2(gridPosition.x, gridPosition.y);
         this._position = new Vector2(position.x, position.y);
     }
@@ -37,6 +37,8 @@ export class PointerGridInputListener extends Component {
     private _onPointerEnterDelegates: ((event: PointerGridEvent) => void)[] = [];
     private _onPointerLeaveDelegates: ((event: PointerGridEvent) => void)[] = [];
     private _onPointerMoveDelegates: ((event: PointerGridEvent) => void)[] = [];
+    private _onTouchStartFunc: (() => void)|null = null;
+    private _touchMoveOccured: boolean = false;
 
     private readonly _onMouseDownBind = this.onMouseDown.bind(this);
     private readonly _onMouseUpBind = this.onMouseUp.bind(this);
@@ -59,7 +61,7 @@ export class PointerGridInputListener extends Component {
         this._htmlDivElement.addEventListener("mouseenter", this._onMouseEnterBind);
         this._htmlDivElement.addEventListener("mouseleave", this._onMouseLeaveBind);
         this._htmlDivElement.addEventListener("mousemove", this._onMouseMoveBind);
-        this._htmlDivElement.addEventListener("touchstart", this._onTouchStartBind); //todo: fix this
+        this._htmlDivElement.addEventListener("touchstart", this._onTouchStartBind);
         this._htmlDivElement.addEventListener("touchend", this._ononTouchEndBind);
         this._htmlDivElement.addEventListener("touchmove", this._onTouchMoveBind);
         this._htmlDivElement.addEventListener("touchcancel", this._onTouchCancelBind);
@@ -150,20 +152,31 @@ export class PointerGridInputListener extends Component {
     }
 
     private onTouchStart(event: TouchEvent): void {
-        this.simulateMouseEvent("mouseenter", event.touches[0]);
-        this.simulateMouseEvent("mousedown", event.touches[0]);
+        this._onTouchStartFunc = () => {
+            this.simulateMouseEvent("mouseenter", event.touches[0]);
+            this.simulateMouseEvent("mousedown", event.touches[0]);
+        }
     }
 
     private onTouchEnd(event: TouchEvent): void {
+        if (!this._touchMoveOccured) return;
+        this._touchMoveOccured = false;
         this.simulateMouseEvent("mouseup", event.changedTouches[0]);
         this.simulateMouseEvent("mouseleave", event.changedTouches[0]);
     }
 
     private onTouchMove(event: TouchEvent): void {
+        if (this._onTouchStartFunc) {
+            this._onTouchStartFunc();
+            this._onTouchStartFunc = null;
+        }
         this.simulateMouseEvent("mousemove", event.touches[0]);
+        this._touchMoveOccured = true;
     }
 
     private onTouchCancel(event: TouchEvent): void {
+        if (!this._touchMoveOccured) return;
+        this._touchMoveOccured = false;
         this.simulateMouseEvent("mouseleave", event.changedTouches[0]);
     }
 
