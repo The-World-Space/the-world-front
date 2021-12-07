@@ -16,6 +16,7 @@ import { SceneBuilder } from "../bootstrap/SceneBuilder";
 import { GameManager } from "../GameManager";
 import { GameObject } from "../hierarchy_object/GameObject";
 import { Scene } from "../hierarchy_object/Scene";
+import { PrefabRef } from "../PrefabRef";
 
 export class RendererTest1Bootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
@@ -65,7 +66,7 @@ export class RendererTest1Bootstrapper implements IBootstrapper {
                     .withComponent(ZaxisSorter)))
 
             .withChild(instantlater.buildPrefab("test player1", PlayerPrefab, new Vector3(0, -32, 0))
-                .with4x4SpriteAtlasFromPath(`${process.env.PUBLIC_URL}/assets/charactor/Seongwon.png`).make()
+                .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png")).make()
                 .getGameObject(player))
 
             .withChild(instantlater.buildGameObject("obj2", new Vector3(0, 0, 0))
