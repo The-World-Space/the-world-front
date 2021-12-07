@@ -59,7 +59,7 @@ export class PointerGridInputListener extends Component {
         this._htmlDivElement.addEventListener("mouseenter", this._onMouseEnterBind);
         this._htmlDivElement.addEventListener("mouseleave", this._onMouseLeaveBind);
         this._htmlDivElement.addEventListener("mousemove", this._onMouseMoveBind);
-        this._htmlDivElement.addEventListener("touchstart", this._onTouchStartBind);
+        this._htmlDivElement.addEventListener("touchstart", this._onTouchStartBind); //todo: fix this
         this._htmlDivElement.addEventListener("touchend", this._ononTouchEndBind);
         this._htmlDivElement.addEventListener("touchmove", this._onTouchMoveBind);
         this._htmlDivElement.addEventListener("touchcancel", this._onTouchCancelBind);
