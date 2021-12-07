@@ -26,7 +26,7 @@ export class NetworkGridMovementController extends Directionable {
     }
 
     private processNetwork(): void {
-
+        /*calculate target grid position*/
     }
 
     private processMovement(): void {
