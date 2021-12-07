@@ -80,7 +80,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withComponent(PathfindTest, c => {
                     c.collideMaps = [
                         collideMap.ref!,
-                        collideTilemap.ref!,
+                        collideTilemap.ref!
                     ];
                     c.gridPointer = gridPointer.ref!;
                     c.player = player.ref!.getComponent(PlayerGridMovementController)!;
