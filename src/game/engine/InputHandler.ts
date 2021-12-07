@@ -4,6 +4,9 @@ export class InputHandler implements IInputEventHandleable {
     private _map: Map<string, boolean>;
     private _isDisposed: boolean;
 
+    private readonly _handleKeyDownBind = this.handleKeyDown.bind(this);
+    private readonly _handleKeyUpBind = this.handleKeyUp.bind(this);
+
     public constructor() {
         this._map = new Map<string, boolean>();
         this._isDisposed = false;
@@ -22,14 +25,14 @@ export class InputHandler implements IInputEventHandleable {
         if (this._isDisposed) {
             throw new Error("InputHandler is disposed.");
         }
-        window.addEventListener("keydown", this.handleKeyDown.bind(this));
-        window.addEventListener("keyup", this.handleKeyUp.bind(this));
+        window.addEventListener("keydown", this._handleKeyDownBind);
+        window.addEventListener("keyup", this._handleKeyUpBind);
     }
 
     public stopHandleEvents(): void {
         this._map.clear();
-        window.removeEventListener("keydown", this.handleKeyDown.bind(this));
-        window.removeEventListener("keyup", this.handleKeyUp.bind(this));
+        window.removeEventListener("keydown", this._handleKeyDownBind);
+        window.removeEventListener("keyup", this._handleKeyUpBind);
     }
 
     private handleKeyDown(event: KeyboardEvent) {

@@ -16,6 +16,8 @@ export class PathfindTest extends Component {
     private _pathfinder: Pathfinder|null = null;
     private _debugImages: GameObject[] = [];
 
+    private readonly _onPointerDownBind = this.onPointerDown.bind(this);
+
     protected start(): void {
         if (this._player === null) {
             throw new Error("Player not set");
@@ -27,7 +29,11 @@ export class PathfindTest extends Component {
             throw new Error("Grid pointer not set");
         }
         this._pathfinder = new Pathfinder(this._collideMaps);
-        this._gridPointer.addOnPointerDownEventListener(this.onPointerDown.bind(this));
+        this._gridPointer.addOnPointerDownEventListener(this._onPointerDownBind);
+    }
+
+    public onDestroy(): void {
+        this._gridPointer?.removeOnPointerDownEventListener(this._onPointerDownBind);
     }
 
     private onPointerDown(event: PointerGridEvent): void {

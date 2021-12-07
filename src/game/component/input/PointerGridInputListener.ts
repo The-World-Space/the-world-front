@@ -38,21 +38,31 @@ export class PointerGridInputListener extends Component {
     private _onPointerLeaveDelegates: ((event: PointerGridEvent) => void)[] = [];
     private _onPointerMoveDelegates: ((event: PointerGridEvent) => void)[] = [];
 
+    private readonly _onMouseDownBind = this.onMouseDown.bind(this);
+    private readonly _onMouseUpBind = this.onMouseUp.bind(this);
+    private readonly _onMouseEnterBind = this.onMouseEnter.bind(this);
+    private readonly _onMouseLeaveBind = this.onMouseLeave.bind(this);
+    private readonly _onMouseMoveBind = this.onMouseMove.bind(this);
+    private readonly _onTouchStartBind = this.onTouchStart.bind(this);
+    private readonly _ononTouchEndBind = this.onTouchEnd.bind(this);
+    private readonly _onTouchMoveBind = this.onTouchMove.bind(this);
+    private readonly _onTouchCancelBind = this.onTouchCancel.bind(this);
+
     protected start(): void {
         this._htmlDivElement = document.createElement("div");
         this._css3DObject = new CSS3DObject(this._htmlDivElement);
         this._htmlDivElement.style.width = `${this._inputWidth}px`;
         this._htmlDivElement.style.height = `${this._inputHeight}px`;
         this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
-        this._htmlDivElement.addEventListener("mousedown", this.onMouseDown.bind(this));
-        this._htmlDivElement.addEventListener("mouseup", this.onMouseUp.bind(this));
-        this._htmlDivElement.addEventListener("mouseenter", this.onMouseEnter.bind(this));
-        this._htmlDivElement.addEventListener("mouseleave", this.onMouseLeave.bind(this));
-        this._htmlDivElement.addEventListener("mousemove", this.onMouseMove.bind(this));
-        this._htmlDivElement.addEventListener("touchstart", this.onTouchStart.bind(this));
-        this._htmlDivElement.addEventListener("touchend", this.onTouchEnd.bind(this));
-        this._htmlDivElement.addEventListener("touchmove", this.onTouchMove.bind(this));
-        this._htmlDivElement.addEventListener("touchcancel", this.onTouchCancel.bind(this));
+        this._htmlDivElement.addEventListener("mousedown", this._onMouseDownBind);
+        this._htmlDivElement.addEventListener("mouseup", this._onMouseUpBind);
+        this._htmlDivElement.addEventListener("mouseenter", this._onMouseEnterBind);
+        this._htmlDivElement.addEventListener("mouseleave", this._onMouseLeaveBind);
+        this._htmlDivElement.addEventListener("mousemove", this._onMouseMoveBind);
+        this._htmlDivElement.addEventListener("touchstart", this._onTouchStartBind);
+        this._htmlDivElement.addEventListener("touchend", this._ononTouchEndBind);
+        this._htmlDivElement.addEventListener("touchmove", this._onTouchMoveBind);
+        this._htmlDivElement.addEventListener("touchcancel", this._onTouchCancelBind);
         this.gameObject.add(this._css3DObject);
     }
 
@@ -67,15 +77,15 @@ export class PointerGridInputListener extends Component {
 
     public onDestroy(): void {
         if (this._htmlDivElement) { //It's the intended useless branch
-            this._htmlDivElement.removeEventListener("mousedown", this.onMouseDown.bind(this));
-            this._htmlDivElement.removeEventListener("mouseup", this.onMouseUp.bind(this));
-            this._htmlDivElement.removeEventListener("mouseenter", this.onMouseEnter.bind(this));
-            this._htmlDivElement.removeEventListener("mouseleave", this.onMouseLeave.bind(this));
-            this._htmlDivElement.removeEventListener("mousemove", this.onMouseMove.bind(this));
-            this._htmlDivElement.removeEventListener("touchstart", this.onTouchStart.bind(this));
-            this._htmlDivElement.removeEventListener("touchend", this.onTouchEnd.bind(this));
-            this._htmlDivElement.removeEventListener("touchmove", this.onTouchMove.bind(this));
-            this._htmlDivElement.removeEventListener("touchcancel", this.onTouchCancel.bind(this));
+            this._htmlDivElement.removeEventListener("mousedown", this._onMouseDownBind);
+            this._htmlDivElement.removeEventListener("mouseup", this._onMouseUpBind);
+            this._htmlDivElement.removeEventListener("mouseenter", this._onMouseEnterBind);
+            this._htmlDivElement.removeEventListener("mouseleave", this._onMouseLeaveBind);
+            this._htmlDivElement.removeEventListener("mousemove", this._onMouseMoveBind);
+            this._htmlDivElement.removeEventListener("touchstart", this._onTouchStartBind);
+            this._htmlDivElement.removeEventListener("touchend", this._ononTouchEndBind);
+            this._htmlDivElement.removeEventListener("touchmove", this._onTouchMoveBind);
+            this._htmlDivElement.removeEventListener("touchcancel", this._onTouchCancelBind);
         }
         if (this._css3DObject) this.gameObject.remove(this._css3DObject);
     }

@@ -18,6 +18,7 @@ export class PlayerGridMovementController extends Directionable
     private readonly _targetGridPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
 
+    private _onPointerDownBind = this.onPointerDown.bind(this);
     private _gridPointer: GridPointer|null = null;
     private _pathfinder: Pathfinder|null = null;
     private _movingByPathfinder: boolean = false;
@@ -236,11 +237,11 @@ export class PlayerGridMovementController extends Directionable
 
     public set gridPointer(value: GridPointer|null) {
         if (this._gridPointer) {
-            this._gridPointer.removeOnPointerDownEventListener(this.onPointerDown.bind(this));
+            this._gridPointer.removeOnPointerDownEventListener(this._onPointerDownBind);
         }
         this._gridPointer = value;
         if (this._gridPointer) {
-            this._gridPointer.addOnPointerDownEventListener(this.onPointerDown.bind(this));
+            this._gridPointer.addOnPointerDownEventListener(this._onPointerDownBind);
         }
     }
 
