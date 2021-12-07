@@ -72,6 +72,15 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         return cssTilemapRenderer!;
     }
 
+    private getTilemapRenedererOrNull(chunkIndexX: number, chunkIndexY: number): CssCollideTilemapRenderer|null {
+        const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
+        const cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
+        if (cssTilemapRenderer === undefined) {
+            return null;
+        }
+        return cssTilemapRenderer;
+    }
+
     public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
@@ -88,22 +97,6 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
     }
 
-    public addCollider(x: number, y: number): void {
-        if (!this.started && !this.starting) {
-            this._initializeFunctions.push(() => {
-                this.addCollider(x, y);
-            });
-            return;
-        }
-        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
-        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
-        const cssTilemapRenderer = this.getTilemapRenedererOrCreate(chunkIndexX, chunkIndexY);
-        const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
-        const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
-        const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
-        cssTilemapRenderer!.addCollider(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY);
-    }
-
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
@@ -118,6 +111,39 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
                 this.drawTile(x + xOffset, array.length - y + yOffset, array[y][x]!.i, array[y][x]!.a);
             }
         }
+    }
+
+    public clearTile(x: number, y: number): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.clearTile(x, y);
+            });
+            return;
+        }
+        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+        const cssTilemapRenderer = this.getTilemapRenedererOrNull(chunkIndexX, chunkIndexY);
+        if (cssTilemapRenderer === null) return;
+        const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
+        const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
+        const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
+        cssTilemapRenderer!.clearTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY);   
+    }
+
+    public addCollider(x: number, y: number): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.addCollider(x, y);
+            });
+            return;
+        }
+        const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
+        const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
+        const cssTilemapRenderer = this.getTilemapRenedererOrCreate(chunkIndexX, chunkIndexY);
+        const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
+        const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
+        const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
+        cssTilemapRenderer!.addCollider(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY);
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {

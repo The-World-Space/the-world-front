@@ -16,12 +16,6 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
         this._collideMap.set(`${colideX}_${colideY}`, true);
     }
 
-    public addCollider(column: number, row: number): void {
-        const colideX = Math.ceil(column - this.columnCount / 2);
-        const colideY = Math.ceil((this.rowCount - row) - this.rowCount / 2) - 1;
-        this._collideMap.set(`${colideX}_${colideY}`, true);
-    }
-
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], columnOffset: number, rowOffset: number): void {
         super.drawTileFromTwoDimensionalArray(array, columnOffset, rowOffset);
         for (let row = 0; row < array.length; row++) {
@@ -39,6 +33,19 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
                 }
             }
         }
+    }
+
+    public clearTile(column: number, row: number): void {
+        super.clearTile(column, row);
+        const colideX = Math.ceil(column - this.columnCount / 2);
+        const colideY = Math.ceil((this.rowCount - row) - this.rowCount / 2) - 1;
+        this._collideMap.delete(`${colideX}_${colideY}`);
+    }
+
+    public addCollider(column: number, row: number): void {
+        const colideX = Math.ceil(column - this.columnCount / 2);
+        const colideY = Math.ceil((this.rowCount - row) - this.rowCount / 2) - 1;
+        this._collideMap.set(`${colideX}_${colideY}`, true);
     }
 
     private addDebugImage(x: number, y: number) {

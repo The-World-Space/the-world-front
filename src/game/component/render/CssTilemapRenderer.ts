@@ -158,6 +158,18 @@ export class CssTilemapRenderer extends Component{
         }
     }
 
+    public clearTile(column: number, row: number): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.clearTile(column, row);
+            });
+            return;
+        }
+
+        const context: CanvasRenderingContext2D = this._htmlCanvasElement!.getContext("2d")!;
+        context.clearRect(column * this._tileWidth, row * this._tileHeight, this._tileWidth, this._tileHeight);
+    }
+
     public set imageSources(value: TileAtlasItem[]) {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
