@@ -30,7 +30,40 @@ export class NetworkGridMovementController extends Directionable {
     }
 
     private processMovement(): void {
+        if (!this.isMoving) return;
+        const vector2Pos = new Vector2(this.gameObject.position.x, this.gameObject.position.y);
+        let distance = vector2Pos.distanceTo(this._targetGridPosition);
 
+        if (distance < this._speed * this.gameManager.time.deltaTime) {
+            if (/*recalculate target grid position*/ true) {
+                distance = vector2Pos.distanceTo(this._targetGridPosition);
+            }
+        }
+        
+        if (distance > 0.1) {
+            let direction = this._targetGridPosition.clone().sub(vector2Pos);
+
+            let syncCorrectionScalarX = 1;
+            let syncCorrectionScalarY = 1;
+
+            if (this.gridCellWidth < direction.x) {
+                syncCorrectionScalarX = direction.x / this.gridCellWidth;
+            }
+            if (this.gridCellHeight < direction.y) {
+                syncCorrectionScalarY = direction.y / this.gridCellHeight;
+            }
+
+            direction.normalize();
+            direction.multiplyScalar(Math.min(this._speed * this.gameManager.time.deltaTime, distance));
+            direction.x *= syncCorrectionScalarX;
+            direction.y *= syncCorrectionScalarY;
+
+            this.gameObject.position.x += direction.x;
+            this.gameObject.position.y += direction.y;
+        } else {
+            this.isMoving = false;
+            this._currentGridPosition.copy(this._targetGridPosition);
+        }
     }
 
     public get speed(): number {
