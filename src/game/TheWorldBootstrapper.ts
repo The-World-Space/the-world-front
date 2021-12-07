@@ -24,10 +24,10 @@ export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
 
-        let player: PrefabRef<GameObject> = new PrefabRef();
-        let collideTilemap: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
-        let collideMap: PrefabRef<GridCollideMap> = new PrefabRef();
-        let gridPointer: PrefabRef<GridPointer> = new PrefabRef();
+        const player: PrefabRef<GameObject> = new PrefabRef();
+        const collideTilemap: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
+        const collideMap: PrefabRef<GridCollideMap> = new PrefabRef();
+        const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab)
