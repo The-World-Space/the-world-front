@@ -98,10 +98,11 @@ export class PlayerPrefab extends Prefab {
                             padding: "5px 10px",
                             opacity: 0.5,
                             }}>
-                            gimme some iphone
+                            collider place mode
+                            <input type="checkbox" id="test_check_box" checked={true} />
                         </div>
                     );
-                    c.pointerEvents = false;
+                    //c.pointerEvents = false;
                 }));
 
         if (this._nameTagString) {
