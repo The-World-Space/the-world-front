@@ -16,10 +16,10 @@ export class TestTilemapChunkPrefab extends Prefab {
         return this._gameObjectBuilder
             .withComponent(CssCollideTilemapChunkRenderer, c => {
                 const tilemap3 = new Image();
-                tilemap3.src = `/assets/tilemap/3_tile.png`;
+                tilemap3.src = "/assets/tilemap/3_tile.png";
                 
                 const minecraftTile = new Image();
-                minecraftTile.src = `/assets/tilemap/minecraft custom atlas.png`;
+                minecraftTile.src = "/assets/tilemap/minecraft custom atlas.png";
 
                 tilemap3.onload = () => {
                     minecraftTile.onload = () => {

@@ -22,7 +22,7 @@ export class TilemapChunkPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("floor")
                 .withComponent(CssTilemapChunkRenderer, c => {
                     const tilemap3 = new Image();
-                    tilemap3.src = `/assets/tilemap/3_tile.png`;
+                    tilemap3.src = "/assets/tilemap/3_tile.png";
 
                     c.imageSources = [new TileAtlasItem(tilemap3, 10, 10)];
                     c.pointerEvents = false;
@@ -55,10 +55,10 @@ export class TilemapChunkPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("wall")
                 .withComponent(CssCollideTilemapChunkRenderer, c => {
                     const tilemap3 = new Image();
-                    tilemap3.src = `/assets/tilemap/3_tile.png`;
+                    tilemap3.src = "/assets/tilemap/3_tile.png";
 
                     const tilemap4 = new Image();
-                    tilemap4.src = `/assets/tilemap/4_tile.png`;
+                    tilemap4.src = "/assets/tilemap/4_tile.png";
 
                     c.imageSources = [
                         new TileAtlasItem(tilemap3, 10, 10),

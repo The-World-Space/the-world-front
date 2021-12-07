@@ -54,7 +54,7 @@ export class SpriteInstance {
 }
 
 export class SpriteStaticInstancer extends Component {
-    private _imageSource: string = `/assets/tilemap/default.png`;
+    private _imageSource: string = "/assets/tilemap/default.png";
     private _useZaxisSorter: boolean = false;
     private _zaxisSortOffset: number = 0;
     private _pointerEvents: boolean = true;

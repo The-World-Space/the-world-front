@@ -24,7 +24,7 @@ export class CssSpriteAtlasRenderer extends Component {
     
     private _initializeFunction: (() => void)|null = null;
 
-    private static readonly _defaultImagePath: string = `/assets/tilemap/default.png`;
+    private static readonly _defaultImagePath: string = "/assets/tilemap/default.png";
 
     protected start(): void {
         this._initializeFunction?.call(this);
