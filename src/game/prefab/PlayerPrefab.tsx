@@ -13,13 +13,13 @@ import { GridPointer } from "../component/input/GridPointer";
 import { PrefabRef } from "../engine/PrefabRef";
 
 export class PlayerPrefab extends Prefab {
-    private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
+    private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
     private _collideMaps: PrefabRef<IGridCollidable>[] = [];
     private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
     private _nameTagString: PrefabRef<string> = new PrefabRef();
     private _gridPointer: PrefabRef<GridPointer> = new PrefabRef();
 
-    public with4x4SpriteAtlasFromPath(name: string): PlayerPrefab {
+    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): PlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
@@ -49,7 +49,7 @@ export class PlayerPrefab extends Prefab {
 
         this._gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                c.setImage(this._spriteAtlasPath, 4, 4);
+                if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })
