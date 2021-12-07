@@ -5,7 +5,7 @@ import { GameManager } from "../GameManager";
 import { PrefabRef } from "../PrefabRef";
 
 //'visible' property has same value as 'activeInHierarchy'
-//you must not change it directly use 'activeInHierarchy' instead
+//you must not change it directly, use 'activeInHierarchy' instead
 //'add' method is not available for GameObject it for other Object3D classes
 export class GameObject extends Object3D {
     private _activeInHierarchy: boolean;
