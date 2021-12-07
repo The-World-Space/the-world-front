@@ -2,6 +2,7 @@ import { Object3D, Quaternion, Vector3 } from "three";
 import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
 import { GameManager } from "../GameManager";
+import { PrefabRef } from "../PrefabRef";
 
 //'visible' property has same value as 'activeInHierarchy'
 //you must not change it directly use 'activeInHierarchy' instead
@@ -294,12 +295,12 @@ export class GameObject extends Object3D {
             return this;
         }
 
-        public getGameObject(gameObjectRef: {ref: GameObject|null}): Builder {
+        public getGameObject(gameObjectRef: PrefabRef<GameObject>): Builder {
             gameObjectRef.ref = this._gameObject;
             return this;
         }
 
-        public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: {ref: T|null}): Builder {
+        public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: PrefabRef<T>): Builder {
             componentRef.ref = this._gameObject.getComponent(componentCtor);
             return this;
         }            

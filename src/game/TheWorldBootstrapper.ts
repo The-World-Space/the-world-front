@@ -14,6 +14,7 @@ import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { Scene } from "./engine/hierarchy_object/Scene";
+import { PrefabRef } from "./engine/PrefabRef";
 import { InstancedObjectsPrefab } from "./prefab/InstancedObjectsPrefab";
 import { NetworkPlayerPrefab } from "./prefab/NetworkPlayerPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
@@ -23,10 +24,10 @@ export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
 
-        let player: {ref: GameObject|null} = {ref: null};
-        let collideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
-        let collideMap: {ref: GridCollideMap|null} = {ref: null};
-        let gridPointer: {ref: GridPointer|null} = {ref: null};
+        let player: PrefabRef<GameObject> = new PrefabRef();
+        let collideTilemap: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
+        let collideMap: PrefabRef<GridCollideMap> = new PrefabRef();
+        let gridPointer: PrefabRef<GridPointer> = new PrefabRef();
 
         return new SceneBuilder(scene)
             .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab)
@@ -36,16 +37,17 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .getGridCollideMapRef(collideMap).make())
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
-                .withNameTag("Steve Jobs")
-                .withCollideMap(collideTilemap.ref!)
-                .withCollideMap(collideMap.ref!).make()
+                .withNameTag(new PrefabRef("steve jobs"))
+                .withCollideMap(collideTilemap)
+                .withCollideMap(collideMap)
+                .withPathfindPointer(gridPointer).make()
                 .getGameObject(player))
             
             .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
-                .withNameTag("Heewon")
-                .with4x4SpriteAtlasFromPath("/assets/charactor/Heewon.png")
-                .withGridInfo(collideTilemap.ref!)
-                .withGridPosition(-1, -1)
+                .withNameTag(new PrefabRef("Heewon"))
+                .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Heewon.png"))
+                .withGridInfo(collideTilemap)
+                .withGridPosition(new PrefabRef(new Vector2(-1, -1)))
                 .make())
 
             .withChild(instantlater.buildGameObject("iframe", new Vector3(7 * 16 + 1, 5 * 16 + 7, 0),

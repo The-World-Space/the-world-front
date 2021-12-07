@@ -5,11 +5,12 @@ import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
+import { PrefabRef } from "../engine/PrefabRef";
 
 export class InstancedObjectsPrefab extends Prefab {
-    private _gridCollideMap: {ref: GridCollideMap|null}|null = null;
+    private _gridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();
 
-    public getGridCollideMapRef(gridCollideMap: {ref: GridCollideMap|null}): InstancedObjectsPrefab {
+    public getGridCollideMapRef(gridCollideMap: PrefabRef<GridCollideMap>): InstancedObjectsPrefab {
         this._gridCollideMap = gridCollideMap;
         return this;
     }

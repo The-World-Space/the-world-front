@@ -6,35 +6,33 @@ import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { NetworkGridMovementController } from "../component/controller/NetworkGridMovementController";
-import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
-import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
-import { CssTilemapRenderer } from "../component/render/CssTilemapRenderer";
-import { CssTilemapChunkRenderer } from "../component/post_render/CssTilemapChunkRenderer";
 import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
+import { PrefabRef } from "../engine/PrefabRef";
+import { IGridCollidable } from "../component/physics/IGridCollidable";
 
 export class NetworkPlayerPrefab extends Prefab {
-    private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
-    private _tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer|null = null;
-    private _gridPosition: Vector2|null = null;
-    private _nameTagString: string|null = null;
+    private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
+    private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
+    private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
+    private _nameTagString: PrefabRef<string> = new PrefabRef();
 
-    public with4x4SpriteAtlasFromPath(name: string): NetworkPlayerPrefab {
+    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
-    public withGridInfo(tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer): NetworkPlayerPrefab {
+    public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkPlayerPrefab {
         this._tilemap = tilemap;
         return this;
     }
 
-    public withGridPosition(x: number, y: number): NetworkPlayerPrefab {
-        this._gridPosition = new Vector2(x, y);
+    public withGridPosition(gridPosition: PrefabRef<Vector2>): NetworkPlayerPrefab {
+        this._gridPosition = gridPosition;
         return this;
     }
 
-    public withNameTag(name: string): NetworkPlayerPrefab {
+    public withNameTag(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._nameTagString = name;
         return this;
     }
@@ -44,7 +42,7 @@ export class NetworkPlayerPrefab extends Prefab {
         
         this._gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                c.setImage(this._spriteAtlasPath, 4, 4);
+                if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })
@@ -60,12 +58,12 @@ export class NetworkPlayerPrefab extends Prefab {
                 c.frameDuration = 0.2;
             })
             .withComponent(NetworkGridMovementController, c => {
-                if (this._tilemap) {
-                    c.gridCellHeight = this._tilemap.gridCellHeight;
-                    c.gridCellWidth = this._tilemap.gridCellWidth
-                    c.gridCenter = this._tilemap.gridCenter;
+                if (this._tilemap.ref) {
+                    c.gridCellHeight = this._tilemap.ref.gridCellHeight;
+                    c.gridCellWidth = this._tilemap.ref.gridCellWidth
+                    c.gridCenter = this._tilemap.ref.gridCenter;
                 }
-                if (this._gridPosition) c.initPosition = this._gridPosition;
+                if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
             })
             .withComponent(MovementAnimationController)
             .withComponent(ZaxisSorter, c => c.runOnce = false)
@@ -102,7 +100,7 @@ export class NetworkPlayerPrefab extends Prefab {
                         c.fontWeight = FontWeight.Bold;
                         c.textHeight = 16;
                         c.textWidth = 64;
-                        c.text = this._nameTagString;
+                        if (this._nameTagString.ref) c.text = this._nameTagString.ref;
                         c.pointerEvents = false;
                     }))
         }

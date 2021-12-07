@@ -9,30 +9,38 @@ import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
+import { GridPointer } from "../component/input/GridPointer";
+import { PrefabRef } from "../engine/PrefabRef";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
-    private _collideMaps: IGridCollidable[] = [];
-    private _gridPosition: Vector2|null = null;
-    private _nameTagString: string|null = null;
+    private _collideMaps: PrefabRef<IGridCollidable>[] = [];
+    private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
+    private _nameTagString: PrefabRef<string> = new PrefabRef();
+    private _gridPointer: PrefabRef<GridPointer> = new PrefabRef();
 
     public with4x4SpriteAtlasFromPath(name: string): PlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
-    public withCollideMap(colideMap: IGridCollidable): PlayerPrefab {
+    public withCollideMap(colideMap: PrefabRef<IGridCollidable>): PlayerPrefab {
         this._collideMaps.push(colideMap);
         return this;
     }
 
-    public withGridPosition(x: number, y: number): PlayerPrefab {
-        this._gridPosition = new Vector2(x, y);
+    public withGridPosition(gridPosition: PrefabRef<Vector2>): PlayerPrefab {
+        this._gridPosition = gridPosition;
         return this;
     }
 
-    public withNameTag(name: string): PlayerPrefab {
+    public withNameTag(name: PrefabRef<string>): PlayerPrefab {
         this._nameTagString = name;
+        return this;
+    }
+
+    public withPathfindPointer(gridPointer: PrefabRef<GridPointer>): PlayerPrefab {
+        this._gridPointer = gridPointer;
         return this;
     }
 
@@ -58,14 +66,19 @@ export class PlayerPrefab extends Prefab {
             })
             .withComponent(PlayerGridMovementController, c => {
                 if (1 <= this._collideMaps.length) {
-                    c.setGridInfoFromCollideMap(this._collideMaps[0]);
+                    if (this._collideMaps[0].ref) {
+                        c.setGridInfoFromCollideMap(this._collideMaps[0].ref);
+                    }
                 }
 
                 for (let i = 0; i < this._collideMaps.length; i++) {
-                    c.addCollideMap(this._collideMaps[i]);
+                    if (this._collideMaps[i].ref) {
+                        c.addCollideMap(this._collideMaps[i].ref!);
+                    }
                 }
                 
-                if (this._gridPosition) c.initPosition = this._gridPosition;
+                if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
+                if (this._gridPointer) c.gridPointer = this._gridPointer.ref;
             })
             .withComponent(MovementAnimationController)
             .withComponent(ZaxisSorter, c => c.runOnce = false)
@@ -102,7 +115,7 @@ export class PlayerPrefab extends Prefab {
                         c.fontWeight = FontWeight.Bold;
                         c.textHeight = 16;
                         c.textWidth = 64;
-                        c.text = this._nameTagString;
+                        if (this._nameTagString) c.text = this._nameTagString.ref;
                         c.pointerEvents = false;
                     }))
         }

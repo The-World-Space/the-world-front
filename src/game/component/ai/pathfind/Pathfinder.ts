@@ -6,7 +6,7 @@ import { PathNode } from "./PathNode";
 
 export class Pathfinder {
     private static readonly checkCollisionScale: number = 8;
-    private static readonly iterationLimit: number = 50;
+    private static readonly iterationLimit: number = 150;
 
     private collideMaps: IGridCollidable[];
 

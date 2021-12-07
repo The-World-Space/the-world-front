@@ -4,11 +4,12 @@ import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZax
 import { TileAtlasItem } from "../component/render/CssTilemapRenderer";
 import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
+import { PrefabRef } from "../engine/PrefabRef";
 
 export class TilemapChunkPrefab extends Prefab {
-    private _colideTilemapChunkRenderer: {ref: CssCollideTilemapChunkRenderer|null}|null = null;
+    private _colideTilemapChunkRenderer: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
 
-    public getColideTilemapChunkRendererRef(colideTilemapRenderer: {ref: CssCollideTilemapChunkRenderer|null}): TilemapChunkPrefab {
+    public getColideTilemapChunkRendererRef(colideTilemapRenderer: PrefabRef<CssCollideTilemapChunkRenderer>): TilemapChunkPrefab {
         this._colideTilemapChunkRenderer = colideTilemapRenderer;
         return this;
     }
@@ -116,6 +117,6 @@ export class TilemapChunkPrefab extends Prefab {
                         }
                     }
                 })
-                .getComponent(CssCollideTilemapChunkRenderer, this._colideTilemapChunkRenderer ?? { ref: null }));
+                .getComponent(CssCollideTilemapChunkRenderer, this._colideTilemapChunkRenderer ?? new PrefabRef()));
     }
 }

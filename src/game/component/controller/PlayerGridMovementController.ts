@@ -1,4 +1,7 @@
 import { Vector2, Vector3 } from "three";
+import { Pathfinder } from "../ai/pathfind/Pathfinder";
+import { GridPointer } from "../input/GridPointer";
+import { PointerGridEvent } from "../input/PointerGridInputListener";
 import { IGridCollidable } from "../physics/IGridCollidable";
 import { Direction, Directionable } from "./Directionable";
 import { IGridPositionable } from "./IGridPositionable";
@@ -14,10 +17,14 @@ export class PlayerGridMovementController extends Directionable
     private readonly _currentGridPosition: Vector2 = new Vector2();
     private readonly _targetGridPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
+    private _gridPointer: GridPointer|null = null;
+    private _pathfinder: Pathfinder|null = null;
 
     private readonly _tempVector3: Vector3 = new Vector3();
 
     protected start(): void {
+        this._pathfinder = new Pathfinder(this._collideMaps);
+
         const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
         worldPosition.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
         worldPosition.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
@@ -114,6 +121,10 @@ export class PlayerGridMovementController extends Directionable
         return false;
     }
 
+    private onPointerDown(event: PointerGridEvent): void {
+        throw new Error("Method not implemented.");
+    }
+
     public get speed(): number {
         return this._speed;
     }
@@ -150,8 +161,23 @@ export class PlayerGridMovementController extends Directionable
         this._initPosition.copy(value);
     }
 
+    public set gridPointer(value: GridPointer|null) {
+        if (this._gridPointer) {
+            this._gridPointer.removeOnPointerDownEventListener(this.onPointerDown);
+        }
+        this._gridPointer = value;
+        if (this._gridPointer) {
+            this._gridPointer.addOnPointerDownEventListener(this.onPointerDown);
+        }
+    }
+
+    public get gridPointer(): GridPointer|null {
+        return this._gridPointer;
+    }
+
     public addCollideMap(collideMap: IGridCollidable): void {
         this._collideMaps.push(collideMap);
+        this._pathfinder?.addCollideMap(collideMap);
     }
 
     public setGridInfoFromCollideMap(collideMap: IGridCollidable): void {
