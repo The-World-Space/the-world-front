@@ -194,7 +194,7 @@ export class PlayerGridMovementController extends Directionable
         this._pathfindStartFunction = null;
         
         this._findedPath = this._pathfinder!.findPath(this.positionInGrid, targetGridPosition);
-        if (!this._findedPath) return;
+        if (!this._findedPath || this._findedPath.length <= 1) return;
         this._findedPath.forEach((path) => {
             path.x = path.x * this._gridCellWidth + this._gridCenter.x;
             path.y = path.y * this._gridCellHeight + this._gridCenter.y;
