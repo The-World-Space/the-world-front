@@ -119,13 +119,18 @@ export class PlayerGridMovementController extends Directionable
         if (!this._movingByPathfinder) return;
 
         const currentPositionVector2 = this._tempVector2.set(this.gameObject.position.x, this.gameObject.position.y);
-        const distance = this._findedPath![this._currentPathIndex].distanceTo(currentPositionVector2);
+        const currentPath = this._findedPath![this._currentPathIndex];
+        const distance = currentPath.distanceTo(currentPositionVector2);
         if (distance < this._speed * this.gameManager.time.deltaTime) {
             this._currentPathIndex++;
             if (this._currentPathIndex >= this._findedPath!.length) {
                 this._movingByPathfinder = false;
                 return;
             }
+        }
+        if (this.checkCollision(currentPath.x, currentPath.y)) { //path changed while moving
+            this._movingByPathfinder = false;
+            return;
         }
         this._targetGridPosition.copy(this._findedPath![this._currentPathIndex]);
         const prevPositionX = this._findedPath![this._currentPathIndex - 1].x;
