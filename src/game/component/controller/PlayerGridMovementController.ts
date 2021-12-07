@@ -17,10 +17,16 @@ export class PlayerGridMovementController extends Directionable
     private readonly _currentGridPosition: Vector2 = new Vector2();
     private readonly _targetGridPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
+
     private _gridPointer: GridPointer|null = null;
     private _pathfinder: Pathfinder|null = null;
+    private _movingByPathfinder: boolean = false;
+    private _findedPath: Vector2[]|null = null;
+    private _currentPathIndex: number = 0;
+    private _pathfindStartFunction: (() => void)|null = null;
 
     private readonly _tempVector3: Vector3 = new Vector3();
+    private readonly _tempVector2: Vector2 = new Vector2();
 
     protected start(): void {
         this._pathfinder = new Pathfinder(this._collideMaps);
@@ -33,12 +39,18 @@ export class PlayerGridMovementController extends Directionable
     }
 
     public update(): void {
+        this._pathfindStartFunction?.();
         this.processInput();
+        this.processPathfinderInput();
         this.processMovement();
     }
 
     private processInput(): void {
-        if (this.isMoving) return;
+        if (this.isMoving) {
+            this.tryCancelPathfinder();
+            return;
+        }
+
         const inputMap = this.gameManager.inputHandler.map;
         if (inputMap.get("w") || inputMap.get("ArrowUp")) {
             this.direction = Direction.Up;
@@ -89,26 +101,67 @@ export class PlayerGridMovementController extends Directionable
         return false;
     }
 
+    private tryCancelPathfinder(): void {
+        const inputMap = this.gameManager.inputHandler.map;
+        if (inputMap.get("w") || inputMap.get("ArrowUp")) {
+            this._movingByPathfinder = false;
+        } else if (inputMap.get("s") || inputMap.get("ArrowDown")) {
+            this._movingByPathfinder = false;
+        } else if (inputMap.get("a") || inputMap.get("ArrowLeft")) {
+            this._movingByPathfinder = false;
+        } else if (inputMap.get("d") || inputMap.get("ArrowRight")) {
+            this._movingByPathfinder = false;
+        }
+    }
+
+    private processPathfinderInput(): void {
+        if (!this._movingByPathfinder) return;
+
+        const currentPositionVector2 = this._tempVector2.set(this.gameObject.position.x, this.gameObject.position.y);
+        const distance = this._findedPath![this._currentPathIndex].distanceTo(currentPositionVector2);
+        if (distance < this._speed * this.gameManager.time.deltaTime) {
+            this._currentPathIndex++;
+            if (this._currentPathIndex >= this._findedPath!.length) {
+                this._movingByPathfinder = false;
+                return;
+            }
+        }
+        this._targetGridPosition.copy(this._findedPath![this._currentPathIndex]);
+        const prevPositionX = this._findedPath![this._currentPathIndex - 1].x;
+        const prevPositionY = this._findedPath![this._currentPathIndex - 1].y;
+        const currentPositionX = this._findedPath![this._currentPathIndex].x;
+        const currentPositionY = this._findedPath![this._currentPathIndex].y;
+        if (prevPositionY < currentPositionY) {
+            this.direction = Direction.Up;
+        } else if (prevPositionY > currentPositionY) {
+            this.direction = Direction.Down;
+        } else if (prevPositionX < currentPositionX) {
+            this.direction = Direction.Right;
+        } else if (prevPositionX > currentPositionX) {
+            this.direction = Direction.Left;
+        }
+        this.isMoving = true;
+    }
+
     private processMovement(): void {
-        if (this.isMoving) {
-            const vector2Pos = new Vector2(this.gameObject.position.x, this.gameObject.position.y);
-            let distance = vector2Pos.distanceTo(this._targetGridPosition);
+        if (!this.isMoving) return;
+        const vector2Pos = new Vector2(this.gameObject.position.x, this.gameObject.position.y);
+        let distance = vector2Pos.distanceTo(this._targetGridPosition);
 
-            if (distance < this._speed * this.gameManager.time.deltaTime) {
-                if (this.noncheckProcessInput(this._targetGridPosition)) {
-                    distance = vector2Pos.distanceTo(this._targetGridPosition);
-                }
+        if (distance < this._speed * this.gameManager.time.deltaTime) {
+            if (this.noncheckProcessInput(this._targetGridPosition)) {
+                distance = vector2Pos.distanceTo(this._targetGridPosition);
             }
+        }
 
-            if (distance > 0.1) {
-                let direction = this._targetGridPosition.clone().sub(vector2Pos).normalize();
-                direction.multiplyScalar(Math.min(this._speed * this.gameManager.time.deltaTime, distance));
-                this.gameObject.position.x += direction.x;
-                this.gameObject.position.y += direction.y;
-            } else {
-                this.isMoving = false;
-                this._currentGridPosition.copy(this._targetGridPosition);
-            }
+        if (distance > 0.1) {
+            let direction = this._targetGridPosition.clone().sub(vector2Pos).normalize();
+            direction.multiplyScalar(Math.min(this._speed * this.gameManager.time.deltaTime, distance));
+            this.gameObject.position.x += direction.x;
+            this.gameObject.position.y += direction.y;
+        } else {
+            this.isMoving = false;
+            this._currentGridPosition.copy(this._targetGridPosition);
         }
     }
 
@@ -122,7 +175,27 @@ export class PlayerGridMovementController extends Directionable
     }
 
     private onPointerDown(event: PointerGridEvent): void {
-        throw new Error("Method not implemented.");
+        if (this._movingByPathfinder) {
+            this._movingByPathfinder = false;
+            this._pathfindStartFunction = () => this.tryStartPathfind(event.gridPosition);
+            return;
+        }
+        this._pathfindStartFunction = () => this.tryStartPathfind(event.gridPosition);
+    }
+
+    private tryStartPathfind(targetGridPosition: Vector2): void {
+        if (this._movingByPathfinder) return;
+        this._pathfindStartFunction = null;
+        
+        this._findedPath = this._pathfinder!.findPath(this.positionInGrid, targetGridPosition);
+        if (!this._findedPath) return;
+        this._findedPath.forEach((path) => {
+            path.x = path.x * this._gridCellWidth + this._gridCenter.x;
+            path.y = path.y * this._gridCellHeight + this._gridCenter.y;
+        });
+        this._currentPathIndex = 1;
+        this.isMoving = true;
+        this._movingByPathfinder = true;
     }
 
     public get speed(): number {
@@ -163,11 +236,11 @@ export class PlayerGridMovementController extends Directionable
 
     public set gridPointer(value: GridPointer|null) {
         if (this._gridPointer) {
-            this._gridPointer.removeOnPointerDownEventListener(this.onPointerDown);
+            this._gridPointer.removeOnPointerDownEventListener(this.onPointerDown.bind(this));
         }
         this._gridPointer = value;
         if (this._gridPointer) {
-            this._gridPointer.addOnPointerDownEventListener(this.onPointerDown);
+            this._gridPointer.addOnPointerDownEventListener(this.onPointerDown.bind(this));
         }
     }
 
