@@ -1,3 +1,4 @@
+import { Vector3 } from "three";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { ZaxisSortable } from "./ZaxisSortable";
 
@@ -5,9 +6,10 @@ export class CameraRelativeZaxisSorter extends ZaxisSortable {
     protected readonly _disallowMultipleComponent: boolean = true;
 
     private _offset: number = -1000;
+    private readonly _tempVector3: Vector3 = new Vector3();
 
     public update(): void { 
-        this.gameObject.position.z = this.gameManager.cameraContainer.camera!.position.z + this._offset;
+        this.gameObject.position.z = this.gameManager.cameraContainer.camera!.getWorldPosition(this._tempVector3).z + this._offset;
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
                 child.foreachComponent(c => {
