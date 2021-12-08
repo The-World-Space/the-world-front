@@ -1,11 +1,13 @@
 import { Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
+import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { Camera } from "../render/Camera";
 
 export class CameraController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
+    protected readonly _requiredComponents: ComponentConstructor[] = [Camera];
 
-    private _camera: THREE.Camera|null = null;
     private _trackTarget: GameObject|null = null;
     private _cameraDistanceOffset: number = 200;
     private _pixelPerfectUnit: number = 1;
@@ -14,28 +16,29 @@ export class CameraController extends Component {
     private _lerpAlpha: number = 0.1;
 
     protected start(): void {
-        this._camera = this.gameManager.camera;
         if (this._trackTarget) {
-            this._tempVector.copy(this._trackTarget?.position ?? new Vector3());
-            this._tempVector.z += this._cameraDistanceOffset;
-            this._camera!.position.copy(this._tempVector);
+            const targetPosition = this._trackTarget.getWorldPosition(this._tempVector);
+            targetPosition.z += this._cameraDistanceOffset;
+            this.gameObject.parent!.worldToLocal(targetPosition);
+            this.gameObject.position.copy(targetPosition);
         }
     }
 
     private readonly _tempVector: Vector3 = new Vector3();
 
     public update(): void {
-        this._tempVector.copy(this._trackTarget?.position ?? new Vector3());
-        this._tempVector.z += this._cameraDistanceOffset;
+        const targetPosition = this._trackTarget!.getWorldPosition(this._tempVector);
+        targetPosition.z += this._cameraDistanceOffset;
+        this.gameObject.parent!.worldToLocal(targetPosition);
         if (this._lerpTrack) {
-            this._camera!.position.lerp(this._tempVector, 0.1);
+            this.gameObject.position.lerp(targetPosition, 0.1);
         } else {
-            this._camera!.position.copy(this._tempVector);
+            this.gameObject.position.copy(targetPosition);
         }
 
         if (this._pixelPerfect) {
-            this._camera!.position.x = Math.round(this._camera!.position.x / this._pixelPerfectUnit) * this._pixelPerfectUnit;
-            this._camera!.position.y = Math.round(this._camera!.position.y / this._pixelPerfectUnit) * this._pixelPerfectUnit;
+            this.gameObject.position.x = Math.round(this.gameObject.position.x / this._pixelPerfectUnit) * this._pixelPerfectUnit;
+            this.gameObject.position.y = Math.round(this.gameObject.position.y / this._pixelPerfectUnit) * this._pixelPerfectUnit;
         }
     }
 
