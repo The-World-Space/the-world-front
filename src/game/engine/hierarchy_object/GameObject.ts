@@ -2,7 +2,7 @@ import { Object3D, Quaternion, Vector3 } from "three";
 import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
 import { GameManager } from "../GameManager";
-import { PrefabRef } from "../PrefabRef";
+import { PrefabRef } from "./PrefabRef";
 
 //'visible' property has same value as 'activeInHierarchy'
 //you must not change it directly, use 'activeInHierarchy' instead
