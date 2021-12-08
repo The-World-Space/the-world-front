@@ -7,7 +7,7 @@ export class CameraRelativeZaxisSorter extends ZaxisSortable {
     private _offset: number = -1000;
 
     public update(): void { 
-        this.gameObject.position.z = this.gameManager.camera.position.z + this._offset;
+        this.gameObject.position.z = this.gameManager.cameraContainer.camera!.position.z + this._offset;
         this.gameObject.traverseVisible(child => {
             if (child instanceof GameObject) {
                 child.foreachComponent(c => {

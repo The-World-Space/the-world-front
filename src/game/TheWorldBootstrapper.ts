@@ -13,11 +13,12 @@ import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameManager } from "./engine/GameManager";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { Scene } from "./engine/hierarchy_object/Scene";
-import { PrefabRef } from "./engine/PrefabRef";
+import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
 import { InstancedObjectsPrefab } from "./prefab/InstancedObjectsPrefab";
 import { NetworkPlayerPrefab } from "./prefab/NetworkPlayerPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { TilemapChunkPrefab } from "./prefab/TilemapChunkPrefab";
+import { Camera } from "./component/render/Camera";
 
 export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
@@ -60,11 +61,6 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 })
                 .withComponent(ZaxisSorter))
             
-            .withChild(instantlater.buildGameObject("camera_controller")
-                .withComponent(CameraController, c => {
-                    c.setTrackTarget(player.ref!);
-                }))
-            
             .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -450)
                 .withComponent(PointerGridInputListener, c => {
@@ -85,6 +81,12 @@ export class TheWorldBootstrapper implements IBootstrapper {
                             c.enabled = checkbox.checked;
                         };
                     }, 1000);
+                }))
+                
+            .withChild(instantlater.buildGameObject("camera_controller")
+                .withComponent(Camera)
+                .withComponent(CameraController, c => {
+                    c.setTrackTarget(player.ref!);
                 }));
     }
 }

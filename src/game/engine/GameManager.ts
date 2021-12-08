@@ -1,23 +1,32 @@
-import * as THREE from "three";
-import { IReadonlyTime } from "./IReadonlyTime";
-import { InputHandler } from "./InputHandler";
+import { IReadonlyTime } from "./time/IReadonlyTime";
+import { InputHandler } from "./input/InputHandler";
 import { Instantiater } from "./Instantiater";
 import { IReadonlyGameState } from "./GameState";
 import { Scene } from "./hierarchy_object/Scene";
+import { CameraContainer } from "./render/CameraContainer";
+import { IReadonlyGameScreen } from "./render/IReadonlyGameScreen";
 
 export class GameManager {
     private readonly _rootScene: Scene;
-    private readonly _camera: THREE.Camera;
+    private readonly _cameraContainer: CameraContainer;
     private readonly _time: IReadonlyTime;
     private readonly _inputHandler: InputHandler;
     private readonly _instantlater: Instantiater;
     private readonly _gameState: IReadonlyGameState;
+    private readonly _screen: IReadonlyGameScreen;
 
-    public constructor(rootScene: Scene, camera: THREE.Camera, time: IReadonlyTime, gameState: IReadonlyGameState) {
+    public constructor(
+        rootScene: Scene,
+        cameraContainer: CameraContainer,
+        time: IReadonlyTime,
+        gameState: IReadonlyGameState,
+        gameScreen: IReadonlyGameScreen
+    ) {
         this._rootScene = rootScene;
-        this._camera = camera;
+        this._cameraContainer = cameraContainer;
         this._time = time;
         this._gameState = gameState;
+        this._screen = gameScreen;
         this._inputHandler = new InputHandler();
         this._instantlater = new Instantiater(this);
     }
@@ -30,8 +39,12 @@ export class GameManager {
         return this._rootScene;
     }
 
-    public get camera(): THREE.Camera {
-        return this._camera;
+    public get cameraContainer(): CameraContainer {
+        return this._cameraContainer;
+    }
+
+    public get screen(): IReadonlyGameScreen {
+        return this._screen;
     }
 
     public get inputHandler(): InputHandler {

@@ -16,12 +16,12 @@ import { SceneBuilder } from "../bootstrap/SceneBuilder";
 import { GameManager } from "../GameManager";
 import { GameObject } from "../hierarchy_object/GameObject";
 import { Scene } from "../hierarchy_object/Scene";
-import { PrefabRef } from "../PrefabRef";
+import { PrefabRef } from "../hierarchy_object/PrefabRef";
 
 export class RendererTest1Bootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
         const instantlater = gameManager.instantlater;
-        const camera = gameManager.camera;
+        const camera = gameManager.cameraContainer.camera!; 
 
         camera.position.set(0, 0, 50);
 
