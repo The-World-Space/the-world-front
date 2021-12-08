@@ -99,7 +99,7 @@ export class PlayerPrefab extends Prefab {
                             opacity: 0.5,
                             }}>
                             collider place mode
-                            <input type="checkbox" id="test_check_box" checked={true} />
+                            <input type="checkbox" id="test_check_box" defaultChecked />
                         </div>
                     );
                     //c.pointerEvents = false;
