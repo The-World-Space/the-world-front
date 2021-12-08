@@ -1,5 +1,4 @@
 import { Vector2, Vector3 } from "three";
-import { CameraController } from "./component/controller/CameraController";
 import { GridPointer } from "./component/input/GridPointer";
 import { TestTileBrush } from "./component/input/TestTileBrush";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
@@ -14,8 +13,8 @@ import { InstancedObjectsPrefab } from "./prefab/InstancedObjectsPrefab";
 import { NetworkPlayerPrefab } from "./prefab/NetworkPlayerPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { TilemapChunkPrefab } from "./prefab/TilemapChunkPrefab";
-import { Camera } from "./component/render/Camera";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
+import { CameraPrefab } from "./prefab/CameraPrefab";
 
 export class TheWorldBootstrapper implements IBootstrapper {
     public run(scene: Scene, gameManager: GameManager): SceneBuilder {
@@ -44,8 +43,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                 .withNameTag(new PrefabRef("Heewon"))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Heewon.png"))
                 .withGridInfo(collideTilemap)
-                .withGridPosition(new PrefabRef(new Vector2(-1, -1)))
-                .make())
+                .withGridPosition(new PrefabRef(new Vector2(-1, -1))).make())
             
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab, new Vector3(8, 8, 0))
                 .withCollideMap(collideMap)
@@ -63,10 +61,7 @@ export class TheWorldBootstrapper implements IBootstrapper {
                     }, 1000);
                 }))
                 
-            .withChild(instantlater.buildGameObject("camera_controller")
-                .withComponent(Camera)
-                .withComponent(CameraController, c => {
-                    c.setTrackTarget(player.ref!);
-                }));
+            .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
+                .withTrackTarget(player).make());
     }
 }
