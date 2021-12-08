@@ -54,6 +54,8 @@ export class Game {
         sceneBuilder.initialize();
         this._gameState.kind = GameStateKind.Running;
         SceneProcessor.init(this._rootScene);
+        //If a camera exists in the bootstrapper,
+        //it is certain that the camera exists in the global variable from this point on.
         if (!this._cameraContainer.camera) throw new Error("Camera is not exist.");
         SceneProcessor.update(this._rootScene);
         this._time.deltaTime = this._clock.getDelta();
