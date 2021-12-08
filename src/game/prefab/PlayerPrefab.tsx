@@ -10,7 +10,7 @@ import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssT
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
 import { GridPointer } from "../component/input/GridPointer";
-import { PrefabRef } from "../engine/PrefabRef";
+import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");

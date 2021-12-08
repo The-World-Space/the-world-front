@@ -5,7 +5,7 @@ import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/PrefabRef";
+import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 
 export class InstancedObjectsPrefab extends Prefab {
     private _gridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();

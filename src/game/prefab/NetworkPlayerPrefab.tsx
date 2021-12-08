@@ -8,7 +8,7 @@ import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { NetworkGridMovementController } from "../component/controller/NetworkGridMovementController";
 import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
-import { PrefabRef } from "../engine/PrefabRef";
+import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
 
 export class NetworkPlayerPrefab extends Prefab {

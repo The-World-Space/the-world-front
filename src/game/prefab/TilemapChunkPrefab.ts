@@ -4,7 +4,7 @@ import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZax
 import { TileAtlasItem } from "../component/render/CssTilemapRenderer";
 import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/PrefabRef";
+import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 
 export class TilemapChunkPrefab extends Prefab {
     private _colideTilemapChunkRenderer: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
