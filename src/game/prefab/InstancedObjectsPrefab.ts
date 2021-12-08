@@ -1,7 +1,8 @@
-import { Vector2, Vector3 } from "three";
+import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import { GridCollideMap } from "../component/physics/GridColideMap";
 import { SpriteInstance, SpriteStaticInstancer } from "../component/post_render/SpriteStaticInstancer";
 import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
+import { IframeRenderer } from "../component/render/IframeRenderer";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
@@ -10,7 +11,7 @@ import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 export class InstancedObjectsPrefab extends Prefab {
     private _gridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();
 
-    public getGridCollideMapRef(gridCollideMap: PrefabRef<GridCollideMap>): InstancedObjectsPrefab {
+    public getGridCollideMap(gridCollideMap: PrefabRef<GridCollideMap>): InstancedObjectsPrefab {
         this._gridCollideMap = gridCollideMap;
         return this;
     }
@@ -140,6 +141,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.pointerEvents = false;
                 })
                 .withComponent(ZaxisSorter))
+                
             .withChild(instantlater.buildGameObject("colidemap", new Vector3(8, 8))
                 .withComponent(GridCollideMap, c => {
                     for (let i = 0; i < 5; i++) {
@@ -152,6 +154,17 @@ export class InstancedObjectsPrefab extends Prefab {
                     }
                     c.addCollider(6, -1);
                 })
-                .getComponent(GridCollideMap, this._gridCollideMap ?? { ref: null }));
+                .getComponent(GridCollideMap, this._gridCollideMap ?? { ref: null }))
+
+            .withChild(instantlater.buildGameObject("iframe", new Vector3(7 * 16 + 1, 5 * 16 + 7, 0),
+                new Quaternion().setFromEuler(new Euler(MathUtils.degToRad(15), MathUtils.degToRad(-45), 0)))
+                .withComponent(IframeRenderer, c => {
+                    c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
+                    c.width = 36;
+                    c.height = 18;
+                    c.viewScale = 0.1;
+                    c.iframeCenterOffset = new Vector2(0, 0.5);
+                })
+                .withComponent(ZaxisSorter));
     }
 }
