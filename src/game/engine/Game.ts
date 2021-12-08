@@ -56,10 +56,10 @@ export class Game {
         SceneProcessor.init(this._rootScene);
         //If a camera exists in the bootstrapper,
         //it is certain that the camera exists in the global variable from this point on.
-        if (!this._cameraContainer.camera) throw new Error("Camera is not exist.");
+        if (!this._cameraContainer.camera) throw new Error("Camera is not exist in the scene.");
         SceneProcessor.update(this._rootScene);
         this._time.deltaTime = this._clock.getDelta();
-        if (!this._cameraContainer.camera) throw new Error("Camera is not exist.");
+        if (!this._cameraContainer.camera) throw new Error("Camera is not exist in the scene.");
         this._renderer.render(this._rootScene, this._cameraContainer.camera);
         this.loop();
     }
