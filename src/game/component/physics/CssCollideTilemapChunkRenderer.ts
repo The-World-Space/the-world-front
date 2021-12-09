@@ -108,7 +108,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         for (let y = 0; y < array.length; y++) {
             for (let x = 0; x < array[y].length; x++) {
                 if (array[y][x] === null) continue;
-                this.drawTile(x + xOffset, array.length - y + yOffset, array[y][x]!.i, array[y][x]!.a);
+                this.drawTile(x + xOffset, array.length - y + yOffset - 1, array[y][x]!.i, array[y][x]!.a);
             }
         }
     }
