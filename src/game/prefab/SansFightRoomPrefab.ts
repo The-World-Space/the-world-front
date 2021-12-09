@@ -43,7 +43,6 @@ export class SansFightRoomPrefab extends Prefab {
                             const I = {i:0, a:49};
                             const J = {i:0, a:52};
                             const K = {i:0, a:53};
-                            const o = null;
                             c.drawTileFromTwoDimensionalArray([
                                 [G, F, G, F, G, F, G, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, G, F, G, F, G, F, G, F],
                                 [F, G, F, G, F, G, F, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, F, G, F, G, F, G, F, G],
