@@ -1,4 +1,4 @@
-import { Vector3 } from "three";
+import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
@@ -9,6 +9,7 @@ export class CameraController extends Component {
     protected readonly _requiredComponents: ComponentConstructor[] = [Camera];
 
     private _trackTarget: GameObject|null = null;
+    private readonly _targetOffset: Vector2 = new Vector2();
     private _cameraDistanceOffset: number = 200;
     private _pixelPerfectUnit: number = 1;
     private _pixelPerfect: boolean = false;
@@ -29,6 +30,8 @@ export class CameraController extends Component {
     public update(): void {
         const targetPosition = this._trackTarget!.getWorldPosition(this._tempVector);
         targetPosition.z += this._cameraDistanceOffset;
+        targetPosition.x += this._targetOffset.x;
+        targetPosition.y += this._targetOffset.y;
         this.gameObject.parent!.worldToLocal(targetPosition);
         if (this._lerpTrack) {
             this.gameObject.position.lerp(targetPosition, 0.1);
@@ -44,6 +47,14 @@ export class CameraController extends Component {
 
     public setTrackTarget(target: GameObject): void {
         this._trackTarget = target;
+    }
+
+    public get targetOffset(): Vector2 {
+        return this._targetOffset;
+    }
+
+    public set targetOffset(value: Vector2) {
+        this._targetOffset.copy(value);
     }
 
     public get cameraDistanceOffset(): number {
