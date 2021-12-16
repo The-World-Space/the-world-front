@@ -11,7 +11,10 @@ export class GameObject {
     private _activeInHierarchy: boolean;
     private _activeSelf: boolean;
     private _components: (Component|null)[];
+    private _componentCount: number;
     private _gameManager: GameManager;
+
+    private static readonly componentsNeedCompactCount = 16;
 
     public constructor(gameManager: GameManager, name: string) {
         this._activeInHierarchy = true;
@@ -20,6 +23,7 @@ export class GameObject {
         this._transform.name = name;
         this._activeSelf = true;
         this._components = [];
+        this._componentCount = 0;
         this._gameManager = gameManager;
     }
 
@@ -94,15 +98,8 @@ export class GameObject {
                 return;
             }
         }
-        let pushedAtIteration = false;
-        for (let i = 0; i < this._components.length; i++) {
-            if (this._components[i] === null) {
-                this._components[i] = component;
-                pushedAtIteration = true;
-                break;
-            }
-        }
-        if (!pushedAtIteration) this._components.push(component);
+        this._components.push(component);
+        this._componentCount += 1;
 
         if (this._activeInHierarchy) {
             component.onEnable();
@@ -133,14 +130,26 @@ export class GameObject {
                 component.enabled = false;
                 component.onDestroy();
                 this._components[i] = null;
+                this._componentCount -= 1;
                 break;
             }
         }
     }
+
+    private tryComponentsCompact(): void {
+        if (GameObject.componentsNeedCompactCount <= this._components.length - this._componentCount) {
+            const newComponents: Component[] = [];
+            for (const component of this._components) {
+                if (component) newComponents.push(component);
+            }
+            this._components = newComponents;
+        }
+    }
     
     public update(): void {
-        if (!this._activeInHierarchy) return;
+        if (!this._activeInHierarchy) return; // intended useless check
 
+        this.tryComponentsCompact();
         let componentLength = this._components.length;
         for (let i = 0; i < componentLength; i++) {
             if (this._components[i] === null) continue;
