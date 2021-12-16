@@ -1,70 +1,69 @@
-import { Object3D, Quaternion, Vector3 } from "three";
+import { Quaternion, Vector3 } from "three";
 import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
 import { GameManager } from "../GameManager";
 import { PrefabRef } from "./PrefabRef";
+import { Transform } from "./Transform";
+import { ITransform } from "./ITransform";
 
-//'visible' property has same value as 'activeInHierarchy'
-//you must not change it directly, use 'activeInHierarchy' instead
-//'add' method is not available for GameObject it for other Object3D classes
-export class GameObject extends Object3D {
+export class GameObject {
+    private _transform: Transform;
     private _activeInHierarchy: boolean;
     private _activeSelf: boolean;
     private _components: (Component|null)[];
     private _gameManager: GameManager;
 
     public constructor(gameManager: GameManager, name: string) {
-        super();
         this._activeInHierarchy = true;
-        this.visible = true;
+        this._transform = new Transform(this);
+        this._transform.visible = true;
+        this._transform.name = name;
         this._activeSelf = true;
         this._components = [];
         this._gameManager = gameManager;
-        this.name = name;
     }
 
-    public add(...object: Object3D[]): this {
-        super.add(...object);
-        for (const child of object) {
-            if (child instanceof GameObject) {
-                if (child._activeSelf) child.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
+    private registerTransform(transform: Transform): void {
+        this._transform.add(transform);
+        const gameObject = transform.attachedGameObject;
 
-                if (child._activeInHierarchy) {
-                    child.traverseVisible(item => {
-                        if (item instanceof GameObject) item.tryEnableComponents();
-                    });
-
-                    child.traverseVisible(item => {
-                        if (item instanceof GameObject) item.tryStartComponents();
-                    });
-                }
-            }
+        if (gameObject._activeSelf) {
+            gameObject.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
         }
-        return this;
+
+        if (gameObject._activeInHierarchy) {
+            transform.traverseVisible(item => {
+                if (item instanceof Transform) item.attachedGameObject.tryEnableComponents();
+            });
+
+            transform.traverseVisible(item => {
+                if (item instanceof Transform) item.attachedGameObject.tryStartComponents();
+            });
+        }
+    }
+
+    private registerTransformWithNoinit(gameObject: GameObject): void {
+        this._transform.add(gameObject._transform);
+        if (gameObject._activeSelf) gameObject.activeInHierarchyWithoutCallEvent = this._activeInHierarchy; // update child activeInHierarchy        
     }
     
     public addChildFromBuilder(gameObjectBuilder: GameObjectBuilder): void {
         const gameObject = gameObjectBuilder.build();
         gameObjectBuilder.initialize();
-        this.add(gameObject);
-    }
-
-    private addWithNoinit(gameObject: GameObject): void {
-        super.add(gameObject);
-        if (gameObject._activeSelf) gameObject.activeInHierarchyWithoutCallEvent = this._activeInHierarchy; // update child activeInHierarchy        
+        this.registerTransform(gameObject._transform);
     }
 
     public changeParent(newParent: GameObject): void {
         const prevActiveInHierarchy = this._activeInHierarchy;
-        this.removeFromParent();
-        this.addWithNoinit(newParent);
+        this._transform.removeFromParent();
+        this.registerTransformWithNoinit(newParent);
         if (!prevActiveInHierarchy) {
             if (this.activeInHierarchy) {
-                this.traverseVisible(item => {
-                    if (item instanceof GameObject) item.tryEnableComponents();
+                this._transform.traverseVisible(item => {
+                    if (item instanceof Transform) item.attachedGameObject.tryEnableComponents();
                 });
-                this.traverseVisible(item => {
-                    if (item instanceof GameObject) item.tryStartComponents();
+                this._transform.traverseVisible(item => {
+                    if (item instanceof Transform) item.attachedGameObject.tryStartComponents();
                 });
             }
         } else {
@@ -72,8 +71,8 @@ export class GameObject extends Object3D {
                 //traverseVisible is also iterate root so it's not necessary
                 //but there might be a bug, so I leave the code for a memo
                 //this.disableComponents();
-                this.traverseVisible(item => {
-                    if (item instanceof GameObject) item.disableComponents();
+                this._transform.traverseVisible(item => {
+                    if (item instanceof Transform) item.attachedGameObject.disableComponents();
                 });
             }
         }
@@ -157,11 +156,11 @@ export class GameObject extends Object3D {
                 component.onDestroy();
             }
         }
-        this.children.forEach(child => {
-            if (child instanceof GameObject) child.destroy();
+        this._transform.children.forEach(child => {
+            if (child instanceof Transform) child.attachedGameObject.destroy();
         });
-        this.removeFromParent();
-        this.parent = null;
+        this._transform.removeFromParent();
+        this._transform.parent = null;
     }
 
     private checkComponentRequirements(): void {
@@ -220,7 +219,7 @@ export class GameObject extends Object3D {
         if (this._activeInHierarchy === value) return;
 
         this._activeInHierarchy = value;
-        this.visible = this._activeInHierarchy;
+        this._transform.visible = this._activeInHierarchy;
 
         if (this._activeInHierarchy) {
             this.tryEnableComponents();
@@ -229,12 +228,13 @@ export class GameObject extends Object3D {
             this.disableComponents();
         }
 
-        this.children.forEach(child => {
-            if (child instanceof GameObject) {
+        this._transform.children.forEach(child => {
+            if (child instanceof Transform) {
+                const gameObject = child.attachedGameObject;
                 if (this._activeInHierarchy) {
-                    child.activeInHierarchy = child._activeSelf;
+                    gameObject.activeInHierarchy = gameObject._activeSelf;
                 } else {
-                    child.activeInHierarchy = false;
+                    gameObject.activeInHierarchy = false;
                 }
             }
         });
@@ -244,14 +244,15 @@ export class GameObject extends Object3D {
         if (this._activeInHierarchy === value) return;
 
         this._activeInHierarchy = value;
-        this.visible = this._activeInHierarchy;
+        this._transform.visible = this._activeInHierarchy;
 
-        this.children.forEach(child => {
-            if (child instanceof GameObject) {
+        this._transform.children.forEach(child => {
+            if (child instanceof Transform) {
+                const gameObject = child.attachedGameObject;
                 if (this._activeInHierarchy) {
-                    child.activeInHierarchy = child._activeSelf;
+                    gameObject.activeInHierarchy = gameObject._activeSelf;
                 } else {
-                    child.activeInHierarchy = false;
+                    gameObject.activeInHierarchy = false;
                 }
             }
         });
@@ -265,8 +266,8 @@ export class GameObject extends Object3D {
         if (this._activeSelf === value) return;
 
         this._activeSelf = value;
-        if (this.parent instanceof GameObject) { // if parent is a gameobject
-            if (this.parent._activeInHierarchy) {
+        if (this._transform.parent instanceof Transform) { // if parent is a gameobject
+            if (this._transform.parent.attachedGameObject._activeInHierarchy) {
                 this.activeInHierarchy = this._activeSelf;
             } else {
                 this.activeInHierarchy = false;
@@ -276,6 +277,34 @@ export class GameObject extends Object3D {
         }
     }
 
+    //DO NOT cast this to Transform, instead use unsafeGetTransform
+    public get transform(): ITransform {
+        return this._transform;
+    }
+
+    public get name(): string {
+        return this._transform.name;
+    }
+
+    public set name(value: string) {
+        this._transform.name = value;
+    }
+
+    public get uuid(): string {
+        return this._transform.uuid;
+    }
+
+    public get id(): number {
+        return this._transform.id;
+    }
+
+    //'visible' property has same value as 'activeInHierarchy'
+    //you must not change it directly, use 'activeInHierarchy' instead
+    //'add' method is not available for GameObject it for other Object3D classes
+    public unsafeGetTransform(): Transform {
+        return this._transform;
+    }
+
     public static readonly Builder = class Builder{
         private readonly _gameObject: GameObject;
         private readonly _children: Builder[];
@@ -283,9 +312,10 @@ export class GameObject extends Object3D {
 
         public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
             this._gameObject = new GameObject(gameManager, name);
-            if (localPosition) this._gameObject.position.copy(localPosition);
-            if (localRotation) this._gameObject.quaternion.copy(localRotation);
-            if (localScale) this._gameObject.scale.copy(localScale);
+            const transform = this._gameObject.transform;
+            if (localPosition) transform.position.copy(localPosition);
+            if (localRotation) transform.quaternion.copy(localRotation);
+            if (localScale) transform.scale.copy(localScale);
             this._children = [];
             this._componentInitializeFuncList = [];
         }
@@ -338,7 +368,7 @@ export class GameObject extends Object3D {
 
         public build(): GameObject {
             this._gameObject.checkComponentRequirements();
-            for (const child of this._children) this._gameObject.addWithNoinit(child.build());
+            for (const child of this._children) this._gameObject.registerTransformWithNoinit(child.build());
             return this._gameObject;
         }
 

@@ -87,6 +87,7 @@ export class PlayerPrefab extends Prefab {
                 new Vector3(0, 45, 0),
                 new Quaternion(),
                 new Vector3(0.5, 0.5, 0.5))
+                .active(false)
                 .withComponent(CssHtmlElementRenderer, c => {
                     c.autoSize = true;
                     c.setElementFromJSX(
@@ -105,7 +106,7 @@ export class PlayerPrefab extends Prefab {
                     //c.pointerEvents = false;
                 }));
 
-        if (this._nameTagString) {
+        if (this._nameTagString.ref) {
             this._gameObjectBuilder
                 .withChild(instantlater.buildGameObject("nametag",
                     new Vector3(0, 32, 0),

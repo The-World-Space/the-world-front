@@ -27,7 +27,7 @@ export class Camera extends Component {
         if (this._cameraType === CameraType.Perspective) {
             if (!this._camera) {
                 this._camera = this.createNewPerspectiveCamera();
-                this.gameObject.add(this._camera);
+                this.gameObject.unsafeGetTransform().add(this._camera); //it's safe because this._camera is not GameObject
             } else {
                 if (this._camera instanceof THREE.PerspectiveCamera) {
                     this._camera.aspect = aspectRatio;
@@ -38,13 +38,13 @@ export class Camera extends Component {
                 } else {
                     this._camera.removeFromParent();
                     this._camera = this.createNewPerspectiveCamera();
-                    this.gameObject.add(this._camera);
+                    this.gameObject.unsafeGetTransform().add(this._camera); //it's safe because this._camera is not GameObject
                 }
             }
         } else if (this._cameraType === CameraType.Orthographic) {
             if (!this._camera) {
                 this._camera = this.createNewOrthographicCamera();
-                this.gameObject.add(this._camera);
+                this.gameObject.unsafeGetTransform().add(this._camera); //it's safe because this._camera is not GameObject
             } else {
                 if (this._camera instanceof THREE.OrthographicCamera) {
                     this._camera.left = -aspectRatio;
@@ -57,7 +57,7 @@ export class Camera extends Component {
                 } else {
                     this._camera.removeFromParent();
                     this._camera = this.createNewOrthographicCamera();
-                    this.gameObject.add(this._camera);
+                    this.gameObject.unsafeGetTransform().add(this._camera); //it's safe because this._camera is not GameObject
                 }
             }
         } else {

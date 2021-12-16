@@ -30,7 +30,7 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public onDestroy(): void {
-        if (this._css3DObject) this.gameObject.remove(this._css3DObject);
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -86,7 +86,7 @@ export class CssHtmlElementRenderer extends Component {
                 this._htmlDivElement.offsetWidth * this._centerOffset.x,
                 this._htmlDivElement.offsetHeight * this._centerOffset.y, 0
             );
-            this.gameObject.add(this._css3DObject);
+            this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
         }
     }
 

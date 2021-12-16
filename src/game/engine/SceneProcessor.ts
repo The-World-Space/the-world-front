@@ -1,12 +1,13 @@
-import { GameObject } from "./hierarchy_object/GameObject";
 import { Scene } from "./hierarchy_object/Scene";
+import { Transform } from "./hierarchy_object/Transform";
 
 export class SceneProcessor {
     public static init(scene: Scene): void {
         scene.traverse(child => {
-            if (child instanceof GameObject) {
-                if (child.activeInHierarchy && child.activeSelf) {
-                    child.foreachComponent(component => {
+            if (child instanceof Transform) {
+                const gameObject = child.attachedGameObject;
+                if (gameObject.activeInHierarchy && gameObject.activeSelf) {
+                    gameObject.foreachComponent(component => {
                         if (component.enabled) {
                             component.onEnable();
                         }
@@ -16,9 +17,10 @@ export class SceneProcessor {
         });
 
         scene.traverse(child => {
-            if (child instanceof GameObject) {
-                if (child.activeInHierarchy && child.activeSelf) {
-                    child.foreachComponent(component => {
+            if (child instanceof Transform) {
+                const gameObject = child.attachedGameObject;
+                if (gameObject.activeInHierarchy && gameObject.activeSelf) {
+                    gameObject.foreachComponent(component => {
                         if (component.enabled) {
                             component.tryCallStart();
                         }
@@ -30,9 +32,10 @@ export class SceneProcessor {
 
     public static update(scene: Scene): void {
         scene.traverseVisible((object: THREE.Object3D) => {
-            if (object instanceof GameObject) {
-                if (object.activeSelf) {
-                    object.update();
+            if (object instanceof Transform) {
+                const gameObject = object.attachedGameObject;
+                if (gameObject.activeSelf) {
+                    gameObject.update();
                 }
             }
         });

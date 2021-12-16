@@ -22,8 +22,8 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
             for (let column = 0; column < array[row].length; column++) {
                 if (array[row][column] !== null) {
                     //console.log(`${(column + columnOffset) - this.columnCount / 2}_${(this.rowCount - (row + rowOffset)) - this.rowCount / 2}`);
-                    const colideX = Math.ceil(this.gameObject.position.x / this.gridCellWidth + (column + columnOffset) - this.columnCount / 2);
-                    const colideY = Math.ceil(this.gameObject.position.y / this.gridCellHeight + (this.rowCount - (row + rowOffset)) - this.rowCount / 2) - 1;
+                    const colideX = Math.ceil(this.gameObject.transform.position.x / this.gridCellWidth + (column + columnOffset) - this.columnCount / 2);
+                    const colideY = Math.ceil(this.gameObject.transform.position.y / this.gridCellHeight + (this.rowCount - (row + rowOffset)) - this.rowCount / 2) - 1;
                     this._collideMap.set(
                         `${colideX}_${colideY}`, true);
                     // this.addDebugImage(
@@ -49,8 +49,8 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
     }
 
     private addDebugImage(x: number, y: number) {
-        if (this.gameObject.parent instanceof GameObject) {
-            this.gameObject.parent.addChildFromBuilder(
+        if (this.gameObject.transform.parent instanceof GameObject) {
+            this.gameObject.transform.parent.addChildFromBuilder(
                 this.gameManager.instantlater.buildGameObject("debugImage", new Vector3(x, y, 10000), new Quaternion(), new Vector3(0.5, 0.5, 0.5))
                     .withComponent(ZaxisInitializer)
                     .withComponent(CssSpriteRenderer));
@@ -58,7 +58,7 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
-        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         x -= worldPosition.x;
         y -= worldPosition.y;
 

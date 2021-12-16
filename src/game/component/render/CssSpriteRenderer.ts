@@ -31,7 +31,7 @@ export class CssSpriteRenderer extends Component {
     }
 
     public onDestroy(): void {
-        if (this._sprite) this.gameObject.remove(this._sprite);
+        if (this._sprite) this.gameObject.unsafeGetTransform().remove(this._sprite); //it's safe because _sprite is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -90,7 +90,7 @@ export class CssSpriteRenderer extends Component {
                 );
                 this._sprite.scale.x = this._imageFlipX ? -1 : 1;
                 this._sprite.scale.y = this._imageFlipY ? -1 : 1;
-                this.gameObject.add(this._sprite);
+                this.gameObject.unsafeGetTransform().add(this._sprite); //it's safe because _sprite is not GameObject and remove is from onDestroy
             }
         };
         this._htmlImageElement.addEventListener("load", onLoad);

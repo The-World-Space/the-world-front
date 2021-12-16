@@ -16,7 +16,9 @@ export class SceneBuilder {
     }
 
     public build(): void {
-        for (const child of this._children) this._scene.add(child.build());
+        for (const child of this._children) {
+            this._scene.add(child.build().unsafeGetTransform()); //it's safe because component initialize will be called by SceneProsessor
+        }
     }
 
     public initialize(): void {

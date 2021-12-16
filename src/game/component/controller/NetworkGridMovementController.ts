@@ -13,11 +13,12 @@ export class NetworkGridMovementController extends Directionable {
     private readonly _tempVector3: Vector3 = new Vector3();
     
     protected start(): void {
-        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const transform = this.gameObject.transform;
+        const worldPosition = transform.getWorldPosition(this._tempVector3);
         worldPosition.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
         worldPosition.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
-        this.gameObject.position.copy(this.gameObject.parent!.worldToLocal(worldPosition));
-        this._currentGridPosition.set(this.gameObject.position.x, this.gameObject.position.y);
+        transform.position.copy(transform.parent!.worldToLocal(worldPosition));
+        this._currentGridPosition.set(transform.position.x, transform.position.y);
     }
 
     public update(): void {
@@ -31,7 +32,7 @@ export class NetworkGridMovementController extends Directionable {
 
     private processMovement(): void {
         if (!this.isMoving) return;
-        const vector2Pos = new Vector2(this.gameObject.position.x, this.gameObject.position.y);
+        const vector2Pos = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         let distance = vector2Pos.distanceTo(this._targetGridPosition);
 
         if (distance < this._speed * this.gameManager.time.deltaTime) {
@@ -58,8 +59,8 @@ export class NetworkGridMovementController extends Directionable {
             direction.x *= syncCorrectionScalarX;
             direction.y *= syncCorrectionScalarY;
 
-            this.gameObject.position.x += direction.x;
-            this.gameObject.position.y += direction.y;
+            this.gameObject.transform.position.x += direction.x;
+            this.gameObject.transform.position.y += direction.y;
         } else {
             this.isMoving = false;
             this._currentGridPosition.copy(this._targetGridPosition);
@@ -104,8 +105,8 @@ export class NetworkGridMovementController extends Directionable {
 
     public get positionInGrid(): Vector2 {
         return new Vector2(
-            Math.floor(this.gameObject.position.x / this._gridCellWidth),
-            Math.floor(this.gameObject.position.y / this._gridCellHeight)
+            Math.floor(this.gameObject.transform.position.x / this._gridCellWidth),
+            Math.floor(this.gameObject.transform.position.y / this._gridCellHeight)
         );
     }
 }

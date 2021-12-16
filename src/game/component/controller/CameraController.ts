@@ -18,30 +18,31 @@ export class CameraController extends Component {
 
     protected start(): void {
         if (this._trackTarget) {
-            const targetPosition = this._trackTarget.getWorldPosition(this._tempVector);
+            const targetPosition = this._trackTarget.transform.getWorldPosition(this._tempVector);
             targetPosition.z += this._cameraDistanceOffset;
-            this.gameObject.parent!.worldToLocal(targetPosition);
-            this.gameObject.position.copy(targetPosition);
+            this.gameObject.transform.parent!.worldToLocal(targetPosition);
+            this.gameObject.transform.position.copy(targetPosition);
         }
     }
 
     private readonly _tempVector: Vector3 = new Vector3();
 
     public update(): void {
-        const targetPosition = this._trackTarget!.getWorldPosition(this._tempVector);
+        const targetPosition = this._trackTarget!.transform.getWorldPosition(this._tempVector);
         targetPosition.z += this._cameraDistanceOffset;
         targetPosition.x += this._targetOffset.x;
         targetPosition.y += this._targetOffset.y;
-        this.gameObject.parent!.worldToLocal(targetPosition);
+        const transform = this.gameObject.transform;
+        transform.parent!.worldToLocal(targetPosition);
         if (this._lerpTrack) {
-            this.gameObject.position.lerp(targetPosition, 0.1);
+            transform.position.lerp(targetPosition, 0.1);
         } else {
-            this.gameObject.position.copy(targetPosition);
+            transform.position.copy(targetPosition);
         }
 
         if (this._pixelPerfect) {
-            this.gameObject.position.x = Math.round(this.gameObject.position.x / this._pixelPerfectUnit) * this._pixelPerfectUnit;
-            this.gameObject.position.y = Math.round(this.gameObject.position.y / this._pixelPerfectUnit) * this._pixelPerfectUnit;
+            transform.position.x = Math.round(transform.position.x / this._pixelPerfectUnit) * this._pixelPerfectUnit;
+            transform.position.y = Math.round(transform.position.y / this._pixelPerfectUnit) * this._pixelPerfectUnit;
         }
     }
 

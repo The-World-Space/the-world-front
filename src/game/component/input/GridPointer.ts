@@ -81,7 +81,7 @@ export class GridPointer extends Component {
         const gridCellHeight = this._pointerGridInputListener!.gridCellHeight;
         const positionX = event.gridPosition.x * gridCellWidth;
         const positionY = event.gridPosition.y * gridCellHeight;
-        this._pointerObject!.position.set(positionX, positionY, this._pointerZoffset);
+        this._pointerObject!.transform.position.set(positionX, positionY, this._pointerZoffset);
 
         this._onPointerMoveDelegates.forEach(delegate => delegate(event));
     }

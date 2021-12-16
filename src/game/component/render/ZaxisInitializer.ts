@@ -1,4 +1,5 @@
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { Transform } from "../../engine/hierarchy_object/Transform";
 import { ZaxisSortable } from "./ZaxisSortable";
 
 export class ZaxisInitializer extends ZaxisSortable {
@@ -16,13 +17,13 @@ export class ZaxisInitializer extends ZaxisSortable {
     }
 
     private process(): void {
-        this.gameObject.traverseVisible(child => {
-            if (child instanceof GameObject) {
-                child.foreachComponent(c => {
+        this.gameObject.unsafeGetTransform().traverseVisible(child => { //it's safe because it's just for traversing visible children
+            if (child instanceof Transform) {
+                child.attachedGameObject.foreachComponent(c => {
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {
                         if (typeof cAny.onSortByZaxis === "function")
-                        cAny.onSortByZaxis(this.gameObject.position.z);
+                        cAny.onSortByZaxis(this.gameObject.transform.position.z);
                     }
                 });
             }
@@ -30,16 +31,16 @@ export class ZaxisInitializer extends ZaxisSortable {
     }
 
     public static checkAncestorZaxisInitializer(gameObject: GameObject, onSortByZaxis: (z: number) => void): void {
-        if (!gameObject.parent) return;
-        if (gameObject.parent instanceof GameObject) {
-            let currentAncestor: GameObject = gameObject.parent;
+        if (!gameObject.transform.parent) return;
+        if (gameObject.transform.parent instanceof Transform) {
+            let currentAncestor = gameObject.transform.parent;
             while (currentAncestor) {
-                const zaxisInitializer: ZaxisSortable|null = currentAncestor.getComponent(ZaxisSortable);
+                const zaxisInitializer: ZaxisSortable|null = currentAncestor.attachedGameObject.getComponent(ZaxisSortable);
                 if (zaxisInitializer) {
                     onSortByZaxis(currentAncestor.position.z);
                     return;
                 }
-                if (currentAncestor.parent instanceof GameObject) {
+                if (currentAncestor.parent instanceof Transform) {
                     currentAncestor = currentAncestor.parent;
                 } else {
                     break;

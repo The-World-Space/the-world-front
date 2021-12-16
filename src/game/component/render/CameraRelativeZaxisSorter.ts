@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { Transform } from "../../engine/hierarchy_object/Transform";
 import { ZaxisSortable } from "./ZaxisSortable";
 
 export class CameraRelativeZaxisSorter extends ZaxisSortable {
@@ -9,14 +9,14 @@ export class CameraRelativeZaxisSorter extends ZaxisSortable {
     private readonly _tempVector3: Vector3 = new Vector3();
 
     public update(): void { 
-        this.gameObject.position.z = this.gameManager.cameraContainer.camera!.getWorldPosition(this._tempVector3).z + this._offset;
-        this.gameObject.traverseVisible(child => {
-            if (child instanceof GameObject) {
-                child.foreachComponent(c => {
+        this.gameObject.transform.position.z = this.gameManager.cameraContainer.camera!.getWorldPosition(this._tempVector3).z + this._offset;
+        this.gameObject.unsafeGetTransform().traverseVisible(child => { //it's safe because it's just for traversing visible children
+            if (child instanceof Transform) {
+                child.attachedGameObject.foreachComponent(c => {
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {
                         if (typeof cAny.onSortByZaxis === "function")
-                        cAny.onSortByZaxis(this.gameObject.position.z);
+                        cAny.onSortByZaxis(this.gameObject.transform.position.z);
                     }
                 });
             }

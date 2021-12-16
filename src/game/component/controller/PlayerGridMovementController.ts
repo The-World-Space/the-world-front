@@ -32,11 +32,12 @@ export class PlayerGridMovementController extends Directionable
     protected start(): void {
         this._pathfinder = new Pathfinder(this._collideMaps);
 
-        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const transform = this.gameObject.transform;
+        const worldPosition = transform.getWorldPosition(this._tempVector3);
         worldPosition.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
         worldPosition.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
-        this.gameObject.position.copy(this.gameObject.parent!.worldToLocal(worldPosition));
-        this._currentGridPosition.set(this.gameObject.position.x, this.gameObject.position.y);
+        transform.position.copy(transform.parent!.worldToLocal(worldPosition));
+        this._currentGridPosition.set(transform.position.x, transform.position.y);
     }
 
     public update(): void {
@@ -118,7 +119,8 @@ export class PlayerGridMovementController extends Directionable
     private processPathfinderInput(): void {
         if (!this._movingByPathfinder) return;
 
-        const currentPositionVector2 = this._tempVector2.set(this.gameObject.position.x, this.gameObject.position.y);
+        const transform = this.gameObject.transform;
+        const currentPositionVector2 = this._tempVector2.set(transform.position.x, transform.position.y);
         const currentPath = this._findedPath![this._currentPathIndex];
         const distance = currentPath.distanceTo(currentPositionVector2);
         if (distance < this._speed * this.gameManager.time.deltaTime) {
@@ -151,7 +153,8 @@ export class PlayerGridMovementController extends Directionable
 
     private processMovement(): void {
         if (!this.isMoving) return;
-        const vector2Pos = new Vector2(this.gameObject.position.x, this.gameObject.position.y);
+        const transform = this.gameObject.transform;
+        const vector2Pos = new Vector2(transform.position.x, transform.position.y);
         let distance = vector2Pos.distanceTo(this._targetGridPosition);
 
         if (distance < this._speed * this.gameManager.time.deltaTime) {
@@ -163,8 +166,8 @@ export class PlayerGridMovementController extends Directionable
         if (distance > 0.1) {
             let direction = this._targetGridPosition.clone().sub(vector2Pos).normalize();
             direction.multiplyScalar(Math.min(this._speed * this.gameManager.time.deltaTime, distance));
-            this.gameObject.position.x += direction.x;
-            this.gameObject.position.y += direction.y;
+            transform.position.x += direction.x;
+            transform.position.y += direction.y;
         } else {
             this.isMoving = false;
             this._currentGridPosition.copy(this._targetGridPosition);
@@ -267,8 +270,8 @@ export class PlayerGridMovementController extends Directionable
 
     public get positionInGrid(): Vector2 {
         return new Vector2(
-            Math.floor(this.gameObject.position.x / this._gridCellWidth),
-            Math.floor(this.gameObject.position.y / this._gridCellHeight)
+            Math.floor(this.gameObject.transform.position.x / this._gridCellWidth),
+            Math.floor(this.gameObject.transform.position.y / this._gridCellHeight)
         );
     }
 }

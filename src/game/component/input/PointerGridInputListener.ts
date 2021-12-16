@@ -65,14 +65,16 @@ export class PointerGridInputListener extends Component {
         this._htmlDivElement.addEventListener("touchend", this._ononTouchEndBind);
         this._htmlDivElement.addEventListener("touchmove", this._onTouchMoveBind);
         this._htmlDivElement.addEventListener("touchcancel", this._onTouchCancelBind);
-        this.gameObject.add(this._css3DObject);
+
+        this.gameObject.unsafeGetTransform().add(this._css3DObject);
+        //it's safe because _css3DObject is not a GameObject and i'm removing it from the scene in onDestroy
     }
 
     private readonly _tempVector3: Vector3 = new Vector3();
 
     public update(): void {
         this.gameManager.cameraContainer.camera!.getWorldPosition(this._tempVector3);
-        const cameraLocalPosition = this.gameObject.parent!.worldToLocal(this._tempVector3);
+        const cameraLocalPosition = this.gameObject.transform.parent!.worldToLocal(this._tempVector3);
         this._css3DObject!.position.x = cameraLocalPosition.x;
         this._css3DObject!.position.y = cameraLocalPosition.y;
     }
@@ -89,7 +91,10 @@ export class PointerGridInputListener extends Component {
             this._htmlDivElement.removeEventListener("touchmove", this._onTouchMoveBind);
             this._htmlDivElement.removeEventListener("touchcancel", this._onTouchCancelBind);
         }
-        if (this._css3DObject) this.gameObject.remove(this._css3DObject);
+        if (this._css3DObject) {
+            this.gameObject.unsafeGetTransform().remove(this._css3DObject);
+            //it's safe because _css3DObject is not a GameObject and i'm removing it from the scene in onDestroy
+        }
     }
 
     public onSortByZaxis(zaxis: number): void {
@@ -100,7 +105,7 @@ export class PointerGridInputListener extends Component {
     }
 
     private computeGridCellPosition(offsetX: number, offsetY: number): PointerGridEvent {
-        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         
         const positionX = this._css3DObject!.position.x + worldPosition.x - this._inputWidth / 2 + 
             offsetX- this._gridCenter.x;

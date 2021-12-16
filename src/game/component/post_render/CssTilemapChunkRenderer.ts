@@ -22,7 +22,7 @@ export class CssTilemapChunkRenderer extends Component {
         this._cssTilemapRendererMap.forEach((renderer, key) => {
             const chunkIndexX = this.getIndexXFromKey(key) * this._chunkSize * this._tileWidth;
             const chunkIndexY = this.getIndexYFromKey(key) * this._chunkSize * this._tileHeight;
-            renderer.gameObject.position.set(chunkIndexX, chunkIndexY, 0);
+            renderer.gameObject.transform.position.set(chunkIndexX, chunkIndexY, 0);
         });
     }
 
@@ -194,16 +194,16 @@ export class CssTilemapChunkRenderer extends Component {
     public get gridCenter(): Vector2 {
         const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
         const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
-        return new Vector2(this.gameObject.position.x + offsetX, this.gameObject.position.y + offsetY);
+        return new Vector2(this.gameObject.transform.position.x + offsetX, this.gameObject.transform.position.y + offsetY);
     }
     
     public get gridCenterX(): number {
         const offsetX = this._chunkSize % 2 === 1 ? 0 : this._tileWidth / 2;
-        return this.gameObject.position.x + offsetX;
+        return this.gameObject.transform.position.x + offsetX;
     }
 
     public get gridCenterY(): number {
         const offsetY = this._chunkSize % 2 === 1 ? 0 : this._tileHeight / 2;
-        return this.gameObject.position.y + offsetY;
+        return this.gameObject.transform.position.y + offsetY;
     }
 }

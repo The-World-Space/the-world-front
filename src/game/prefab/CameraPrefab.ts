@@ -1,3 +1,4 @@
+import { Vector2 } from "three";
 import { CameraController } from "../component/controller/CameraController";
 import { Camera } from "../component/render/Camera";
 import { GameObject, GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
@@ -17,6 +18,7 @@ export class CameraPrefab extends Prefab {
             .withComponent(Camera)
             .withComponent(CameraController, c => {
                 c.setTrackTarget(this._trackTarget.ref!);
+                c.targetOffset = new Vector2(0, 32);
             });
     }
 }

@@ -55,7 +55,7 @@ export class CssTilemapRenderer extends Component{
     }
 
     public onDestroy(): void {
-        if (this._css3DObject) this.gameObject.remove(this._css3DObject);
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -78,7 +78,7 @@ export class CssTilemapRenderer extends Component{
         const tileMapHeight: number = this._rowCount * this._tileHeight;
         this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
         this._css3DObject = new CSS3DObject(this._htmlCanvasElement);
-        this.gameObject.add(this._css3DObject);
+        this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
         this._htmlCanvasElement.style.imageRendering = "pixelated";
         this._htmlCanvasElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlCanvasElement.width = tileMapWidth;
@@ -243,19 +243,19 @@ export class CssTilemapRenderer extends Component{
     protected readonly _tempVector3: Vector3 = new Vector3();
     
     public get gridCenter(): Vector2 {
-        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         const offsetX = this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2;
         const offsetY = this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2;
         return new Vector2(worldPosition.x + offsetX, worldPosition.y + offsetY);
     }
 
     public get gridCenterX(): number {
-        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         return worldPosition.x + (this.columnCount % 2 === 1 ? 0 : this._tileWidth / 2);
     }
 
     public get gridCenterY(): number {
-        const worldPosition = this.gameObject.getWorldPosition(this._tempVector3);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         return worldPosition.y + (this.rowCount % 2 === 1 ? 0 : this._tileHeight / 2);
     }
 }

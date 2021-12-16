@@ -26,9 +26,10 @@ export class Instantiater {
         localScale?: Vector3
     ): GameObject {
         const gameObject = new GameObject(this._gameManager, name);
-        if (localPosition) gameObject.position.copy(localPosition);
-        if (localRotation) gameObject.quaternion.copy(localRotation);
-        if (localScale) gameObject.scale.copy(localScale);
+        const transform = gameObject.transform;
+        if (localPosition) transform.position.copy(localPosition);
+        if (localRotation) transform.quaternion.copy(localRotation);
+        if (localScale) transform.scale.copy(localScale);
         return gameObject;
     }
 

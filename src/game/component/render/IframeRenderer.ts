@@ -22,7 +22,7 @@ export class IframeRenderer extends Component {
     }
 
     public onDestroy(): void {
-        if (this._css3DObject) this.gameObject.remove(this._css3DObject);
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -54,7 +54,7 @@ export class IframeRenderer extends Component {
             iframeHeight * this._iframeCenterOffset.y, 0
         );
         this._css3DObject.scale.set(this.viewScale, this.viewScale, this.viewScale);
-        this.gameObject.add(this._css3DObject);
+        this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
         this._htmlIframeElement.style.border = "none";
         this._htmlIframeElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlIframeElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";

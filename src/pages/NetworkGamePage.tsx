@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { TheWorldBootstrapper } from '../game/TheWorldBootstrapper';
 import { NetworkBootstrapper } from '../game/NetworkBootstrapper';
 import { Game } from '../game/engine/Game';
 import { useAsync } from 'react-use';
