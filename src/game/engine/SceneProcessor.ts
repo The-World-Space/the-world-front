@@ -35,7 +35,7 @@ export class SceneProcessor {
             if (object instanceof Transform) {
                 const gameObject = object.attachedGameObject;
                 if (gameObject.activeSelf) {
-                    gameObject.update();
+                    gameObject.update(); //TODO: update only active by use caching
                 }
             }
         });
