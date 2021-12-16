@@ -14,7 +14,7 @@ export class GameObject {
     private _componentCount: number;
     private _gameManager: GameManager;
 
-    private static readonly componentsNeedCompactCount = 16;
+    private static readonly _componentsNeedCompactCount = 16;
 
     public constructor(gameManager: GameManager, name: string) {
         this._activeInHierarchy = true;
@@ -137,7 +137,7 @@ export class GameObject {
     }
 
     private tryComponentsCompact(): void {
-        if (GameObject.componentsNeedCompactCount <= this._components.length - this._componentCount) {
+        if (GameObject._componentsNeedCompactCount <= this._components.length - this._componentCount) {
             const newComponents: Component[] = [];
             for (const component of this._components) {
                 if (component) newComponents.push(component);

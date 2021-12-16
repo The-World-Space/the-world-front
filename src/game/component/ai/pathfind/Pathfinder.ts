@@ -5,8 +5,8 @@ import { IGridCollidable } from "../../physics/IGridCollidable";
 import { PathNode } from "./PathNode";
 
 export class Pathfinder {
-    private static readonly checkCollisionScale: number = 8;
-    private static readonly iterationLimit: number = 150;
+    private static readonly _checkCollisionScale: number = 8;
+    private static readonly _iterationLimit: number = 150;
 
     private collideMaps: IGridCollidable[];
 
@@ -35,7 +35,7 @@ export class Pathfinder {
         openList.push(startNode);
 
         let iterations = 0;
-        while (openList.length > 0 && iterations < Pathfinder.iterationLimit) {
+        while (openList.length > 0 && iterations < Pathfinder._iterationLimit) {
             iterations++;
             const currentNode = this.getLowestFcostNode(openList);
             if (currentNode.equals(endNode)) {
@@ -113,7 +113,7 @@ export class Pathfinder {
             if (collideMap.checkCollision(
                 x * collideMap.gridCellWidth + collideMap.gridCenterX,
                 y * collideMap.gridCellHeight + collideMap.gridCenterY,
-                Pathfinder.checkCollisionScale, Pathfinder.checkCollisionScale)
+                Pathfinder._checkCollisionScale, Pathfinder._checkCollisionScale)
             ) {
                 return true;
             }
