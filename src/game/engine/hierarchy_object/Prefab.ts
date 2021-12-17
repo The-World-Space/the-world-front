@@ -9,7 +9,7 @@ export abstract class Prefab {
 
     public constructor(engineGlobalObject: EngineGlobalObject, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
         this._engine = engineGlobalObject;
-        this._gameObjectBuilder = new GameObject.Builder(engineGlobalObject, name, localPosition, localRotation, localScale);
+        this._gameObjectBuilder = new GameObject.GameObjectBuilder(engineGlobalObject, name, localPosition, localRotation, localScale);
     }
 
     public abstract make(): GameObjectBuilder;

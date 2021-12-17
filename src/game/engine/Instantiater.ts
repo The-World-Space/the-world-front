@@ -47,7 +47,7 @@ export class Instantiater {
         localRotation?: Quaternion,
         localScale?: Vector3
     ): GameObjectBuilder {
-        return new GameObject.Builder(this._engineGlobalObject, name, localPosition, localRotation, localScale);
+        return new GameObject.GameObjectBuilder(this._engineGlobalObject, name, localPosition, localRotation, localScale);
     }
 
     /**

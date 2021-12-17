@@ -285,7 +285,7 @@ export class GameObject {
         return this._transform;
     }
 
-    public static readonly Builder = class Builder{
+    public static readonly GameObjectBuilder = class Builder{
         private readonly _gameObject: GameObject;
         private readonly _children: Builder[];
         private readonly _componentInitializeFuncList: (() => void)[];
@@ -361,4 +361,4 @@ export class GameObject {
     }
 }
 
-export type GameObjectBuilder = InstanceType<typeof GameObject.Builder>;
+export type GameObjectBuilder = InstanceType<typeof GameObject.GameObjectBuilder>;
