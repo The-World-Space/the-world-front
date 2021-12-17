@@ -17,12 +17,12 @@ export class Camera extends Component {
     private readonly _onScreenResizeBind = this.onScreenResize.bind(this);
 
     public onEnable(): void {
-        this.gameManager.screen.addOnResizeEventListener(this._onScreenResizeBind);
+        this.engine.screen.addOnResizeEventListener(this._onScreenResizeBind);
         this.createOrUpdateCamera();
     }
 
     private createOrUpdateCamera(): void {
-        const aspectRatio = this.gameManager.screen.width / this.gameManager.screen.height;
+        const aspectRatio = this.engine.screen.width / this.engine.screen.height;
 
         if (this._cameraType === CameraType.Perspective) {
             if (!this._camera) {
@@ -63,11 +63,11 @@ export class Camera extends Component {
         } else {
             throw new Error("Camera type not supported");
         }
-        this.gameManager.cameraContainer.addCamera(this._camera, this._priority);
+        this.engine.cameraContainer.addCamera(this._camera, this._priority);
     }
 
     private createNewPerspectiveCamera(): THREE.PerspectiveCamera {
-        const aspectRatio = this.gameManager.screen.width / this.gameManager.screen.height;
+        const aspectRatio = this.engine.screen.width / this.engine.screen.height;
         const camera = new THREE.PerspectiveCamera(
             this._fov,
             aspectRatio,
@@ -78,7 +78,7 @@ export class Camera extends Component {
     }
 
     private createNewOrthographicCamera(): THREE.OrthographicCamera {
-        const aspectRatio = this.gameManager.screen.width / this.gameManager.screen.height;
+        const aspectRatio = this.engine.screen.width / this.engine.screen.height;
         const viewSizeScalar = this._viewSize * 0.5;
         const camera = new THREE.OrthographicCamera(
             -viewSizeScalar * aspectRatio,
@@ -92,8 +92,8 @@ export class Camera extends Component {
     }
 
     public onDisable(): void {
-        this.gameManager.screen.removeOnResizeEventListener(this._onScreenResizeBind);
-        if (this._camera) this.gameManager.cameraContainer.removeCamera(this._camera);
+        this.engine.screen.removeOnResizeEventListener(this._onScreenResizeBind);
+        if (this._camera) this.engine.cameraContainer.removeCamera(this._camera);
     }
 
     public onDestroy(): void {
@@ -148,7 +148,7 @@ export class Camera extends Component {
         if (this._viewSize === value) return;
         this._viewSize = value;
         if (this._camera instanceof THREE.OrthographicCamera) {
-            const aspectRatio = this.gameManager.screen.width / this.gameManager.screen.height;
+            const aspectRatio = this.engine.screen.width / this.engine.screen.height;
             const viewSizeScalar = this._viewSize * 0.5;
             this._camera.left = -viewSizeScalar * aspectRatio;
             this._camera.right = viewSizeScalar * aspectRatio;
@@ -191,7 +191,7 @@ export class Camera extends Component {
     public set priority(value: number) {
         this._priority = value;
         if (this._camera) {
-            this.gameManager.cameraContainer.changeCameraPriority(this._camera, value);
+            this.engine.cameraContainer.changeCameraPriority(this._camera, value);
         }
     }
 }

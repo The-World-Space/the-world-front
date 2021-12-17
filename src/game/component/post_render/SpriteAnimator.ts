@@ -22,7 +22,7 @@ export class SpriteAnimator extends Component {
     public update(): void {
         if (!this._playing) return;
 
-        this._currentFrameDuration += this.gameManager.time.deltaTime;
+        this._currentFrameDuration += this.engine.time.deltaTime;
         if (this._currentFrameDuration >= this._frameDuration) {
             this._currentFrameDuration = 0;
             this._playingAnimationFrame++;

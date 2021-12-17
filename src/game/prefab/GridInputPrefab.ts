@@ -21,7 +21,7 @@ export class GridInputPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        return this._gameObjectBuilder
+        return this.gameObjectBuilder
             .withComponent(CameraRelativeZaxisSorter, c => c.offset = -450)
             .withComponent(PointerGridInputListener, c => {
                 c.inputWidth = 512;

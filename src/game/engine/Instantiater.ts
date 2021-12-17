@@ -1,14 +1,14 @@
 import { Quaternion, Vector3 } from "three";
-import { GameManager } from "./GameManager";
+import { EngineGlobalObject } from "./EngineGlobalObject";
 import { GameObject, GameObjectBuilder } from "./hierarchy_object/GameObject";
 import { Prefab } from "./hierarchy_object/Prefab";
 import { PrefabConstructor } from "./hierarchy_object/PrefabConstructor";
 
 export class Instantiater {
-    private readonly _gameManager: GameManager;
+    private readonly _engineGlobalObject: EngineGlobalObject;
     
-    public constructor(gameManager: GameManager) {
-        this._gameManager = gameManager;
+    public constructor(engineGlobalObject: EngineGlobalObject) {
+        this._engineGlobalObject = engineGlobalObject;
     }
 
     /**
@@ -25,7 +25,7 @@ export class Instantiater {
         localRotation?: Quaternion,
         localScale?: Vector3
     ): GameObject {
-        const gameObject = new GameObject(this._gameManager, name);
+        const gameObject = new GameObject(this._engineGlobalObject, name);
         const transform = gameObject.transform;
         if (localPosition) transform.position.copy(localPosition);
         if (localRotation) transform.quaternion.copy(localRotation);
@@ -47,7 +47,7 @@ export class Instantiater {
         localRotation?: Quaternion,
         localScale?: Vector3
     ): GameObjectBuilder {
-        return new GameObject.Builder(this._gameManager, name, localPosition, localRotation, localScale);
+        return new GameObject.Builder(this._engineGlobalObject, name, localPosition, localRotation, localScale);
     }
 
     /**
@@ -65,6 +65,6 @@ export class Instantiater {
         localRotation?: Quaternion,
         localScale?: Vector3
     ): T {
-        return new prefabCtor(this._gameManager, name, localPosition, localRotation, localScale);
+        return new prefabCtor(this._engineGlobalObject, name, localPosition, localRotation, localScale);
     }
 }

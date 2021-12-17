@@ -1,9 +1,9 @@
 import { Quaternion, Vector3 } from "three";
-import { GameManager } from "../GameManager";
+import { EngineGlobalObject } from "../EngineGlobalObject";
 import { Prefab } from "./Prefab";
 
 export type PrefabConstructor<T extends Prefab = Prefab> = new (
-    gameManager: GameManager,
+    engineGlobalObject: EngineGlobalObject,
     name: string,
     localPosition?: Vector3,
     localRotation?: Quaternion,

@@ -14,7 +14,7 @@ export class CameraPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        return this._gameObjectBuilder
+        return this.gameObjectBuilder
             .withComponent(Camera)
             .withComponent(CameraController, c => {
                 c.setTrackTarget(this._trackTarget.ref!);

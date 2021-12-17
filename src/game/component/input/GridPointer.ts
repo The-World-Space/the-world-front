@@ -33,7 +33,7 @@ export class GridPointer extends Component {
 
         const pointerObject: {ref: GameObject|null} = {ref: null};
         this.gameObject.addChildFromBuilder(
-            this.gameManager.instantlater.buildGameObject("pointer", new Vector3(0, 0, this._pointerZoffset))
+            this.engine.instantlater.buildGameObject("pointer", new Vector3(0, 0, this._pointerZoffset))
                 .active(false)
                 .withComponent(CssHtmlElementRenderer, c => {
                     c.pointerEvents = false;

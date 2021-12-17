@@ -17,9 +17,9 @@ export class InstancedObjectsPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const instantlater = this._gameManager.instantlater;
+        const instantlater = this.engine.instantlater;
 
-        return this._gameObjectBuilder
+        return this.gameObjectBuilder
             .withChild(instantlater.buildGameObject("chairs")
                 .withComponent(SpriteStaticInstancer, c => {
                     c.useZindexSorter = true;

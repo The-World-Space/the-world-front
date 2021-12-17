@@ -71,7 +71,7 @@ export class SpriteStaticInstancer extends Component {
             return;
         }
 
-        const instantlater = this.gameManager.instantlater;
+        const instantlater = this.engine.instantlater;
         for (let i = 0; i < instances.length; i++) {
             const instance = instances[i];
 

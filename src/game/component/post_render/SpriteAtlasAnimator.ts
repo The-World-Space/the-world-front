@@ -23,7 +23,7 @@ export class SpriteAtlasAnimator extends Component {
         if (this._spriteAtlasRenderer === null) return;
         if (!this._playing) return;
 
-        this._currentFrameDuration += this.gameManager.time.deltaTime;
+        this._currentFrameDuration += this.engine.time.deltaTime;
         if (this._currentFrameDuration >= this._frameDuration) {
             this._currentFrameDuration = 0;
             this._playingAnimationFrame++;

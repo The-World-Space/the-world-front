@@ -21,9 +21,9 @@ export class SansFightRoomPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const instantlater = this._gameManager.instantlater;
+        const instantlater = this.engine.instantlater;
 
-        return this._gameObjectBuilder
+        return this.gameObjectBuilder
             .withChild(instantlater.buildGameObject("tilemap")
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 

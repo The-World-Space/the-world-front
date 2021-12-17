@@ -5,8 +5,9 @@ import { IReadonlyGameState } from "./GameState";
 import { Scene } from "./hierarchy_object/Scene";
 import { CameraContainer } from "./render/CameraContainer";
 import { IReadonlyGameScreen } from "./render/IReadonlyGameScreen";
+import { SceneProcessor } from "./SceneProcessor";
 
-export class GameManager {
+export class EngineGlobalObject {
     private readonly _rootScene: Scene;
     private readonly _cameraContainer: CameraContainer;
     private readonly _time: IReadonlyTime;
@@ -14,19 +15,24 @@ export class GameManager {
     private readonly _instantlater: Instantiater;
     private readonly _gameState: IReadonlyGameState;
     private readonly _screen: IReadonlyGameScreen;
+    
+    //engine internal objects
+    private readonly _sceneProcessor: SceneProcessor;
 
     public constructor(
         rootScene: Scene,
         cameraContainer: CameraContainer,
         time: IReadonlyTime,
         gameState: IReadonlyGameState,
-        gameScreen: IReadonlyGameScreen
+        gameScreen: IReadonlyGameScreen,
+        sceneProcessor: SceneProcessor
     ) {
         this._rootScene = rootScene;
         this._cameraContainer = cameraContainer;
         this._time = time;
         this._gameState = gameState;
         this._screen = gameScreen;
+        this._sceneProcessor = sceneProcessor;
         this._inputHandler = new InputHandler();
         this._instantlater = new Instantiater(this);
     }
@@ -61,5 +67,9 @@ export class GameManager {
 
     public get instantlater(): Instantiater {
         return this._instantlater;
+    }
+
+    public get sceneProcessor(): SceneProcessor {
+        return this._sceneProcessor;
     }
 }

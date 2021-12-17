@@ -9,7 +9,7 @@ export class CameraRelativeZaxisSorter extends ZaxisSortable {
     private readonly _tempVector3: Vector3 = new Vector3();
 
     public update(): void { 
-        this.gameObject.transform.position.z = this.gameManager.cameraContainer.camera!.getWorldPosition(this._tempVector3).z + this._offset;
+        this.gameObject.transform.position.z = this.engine.cameraContainer.camera!.getWorldPosition(this._tempVector3).z + this._offset;
         this.gameObject.unsafeGetTransform().traverseVisible(child => { //it's safe because it's just for traversing visible children
             if (child instanceof Transform) {
                 child.attachedGameObject.foreachComponent(c => {

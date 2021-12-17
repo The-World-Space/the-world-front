@@ -73,7 +73,7 @@ export class PointerGridInputListener extends Component {
     private readonly _tempVector3: Vector3 = new Vector3();
 
     public update(): void {
-        this.gameManager.cameraContainer.camera!.getWorldPosition(this._tempVector3);
+        this.engine.cameraContainer.camera!.getWorldPosition(this._tempVector3);
         const cameraLocalPosition = this.gameObject.transform.parent!.worldToLocal(this._tempVector3);
         this._css3DObject!.position.x = cameraLocalPosition.x;
         this._css3DObject!.position.y = cameraLocalPosition.y;

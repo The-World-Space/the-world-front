@@ -51,7 +51,7 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer implements IGr
     private addDebugImage(x: number, y: number) {
         if (this.gameObject.transform.parent instanceof GameObject) {
             this.gameObject.transform.parent.addChildFromBuilder(
-                this.gameManager.instantlater.buildGameObject("debugImage", new Vector3(x, y, 10000), new Quaternion(), new Vector3(0.5, 0.5, 0.5))
+                this.engine.instantlater.buildGameObject("debugImage", new Vector3(x, y, 10000), new Quaternion(), new Vector3(0.5, 0.5, 0.5))
                     .withComponent(ZaxisInitializer)
                     .withComponent(CssSpriteRenderer));
         }

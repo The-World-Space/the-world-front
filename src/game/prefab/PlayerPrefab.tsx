@@ -45,9 +45,9 @@ export class PlayerPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const instantlater = this._gameManager.instantlater;
+        const instantlater = this.engine.instantlater;
 
-        this._gameObjectBuilder
+        this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
@@ -107,7 +107,7 @@ export class PlayerPrefab extends Prefab {
                 }));
 
         if (this._nameTagString.ref) {
-            this._gameObjectBuilder
+            this.gameObjectBuilder
                 .withChild(instantlater.buildGameObject("nametag",
                     new Vector3(0, 32, 0),
                     new Quaternion(),
@@ -122,6 +122,6 @@ export class PlayerPrefab extends Prefab {
                     }))
         }
 
-        return this._gameObjectBuilder;
+        return this.gameObjectBuilder;
     }
 }

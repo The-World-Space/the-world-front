@@ -1,30 +1,27 @@
 import { Quaternion, Vector3 } from "three";
 import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
-import { GameManager } from "../GameManager";
+import { EngineGlobalObject } from "../EngineGlobalObject";
 import { PrefabRef } from "./PrefabRef";
 import { Transform } from "./Transform";
 import { ITransform } from "./ITransform";
+import { IEngine } from "../IEngine";
 
 export class GameObject {
     private _transform: Transform;
     private _activeInHierarchy: boolean;
     private _activeSelf: boolean;
-    private _components: (Component|null)[];
-    private _componentCount: number;
-    private _gameManager: GameManager;
+    private _components: Component[];
+    private _engineGlobalObject: IEngine;
 
-    private static readonly _componentsNeedCompactCount = 16;
-
-    public constructor(gameManager: GameManager, name: string) {
+    public constructor(engineGlobalObject: EngineGlobalObject, name: string) {
         this._activeInHierarchy = true;
         this._transform = new Transform(this);
         this._transform.visible = true;
         this._transform.name = name;
         this._activeSelf = true;
         this._components = [];
-        this._componentCount = 0;
-        this._gameManager = gameManager;
+        this._engineGlobalObject = engineGlobalObject;
     }
 
     private registerTransform(transform: Transform): void {
@@ -99,7 +96,6 @@ export class GameObject {
             }
         }
         this._components.push(component);
-        this._componentCount += 1;
 
         if (this._activeInHierarchy) {
             component.onEnable();
@@ -120,7 +116,7 @@ export class GameObject {
 
     public foreachComponent(callback: (component: Component) => void): void {
         for (const component of this._components) {
-            if (component) callback(component);
+            callback(component);
         }
     }
 
@@ -129,41 +125,16 @@ export class GameObject {
             if (this._components[i] === component) {
                 component.enabled = false;
                 component.onDestroy();
-                this._components[i] = null;
-                this._componentCount -= 1;
+                this._components.splice(i, 1);
                 break;
             }
         }
     }
 
-    private tryComponentsCompact(): void {
-        if (GameObject._componentsNeedCompactCount <= this._components.length - this._componentCount) {
-            const newComponents: Component[] = [];
-            for (const component of this._components) {
-                if (component) newComponents.push(component);
-            }
-            this._components = newComponents;
-        }
-    }
-    
-    public update(): void {
-        if (!this._activeInHierarchy) return; // intended useless check
-
-        this.tryComponentsCompact();
-        let componentLength = this._components.length;
-        for (let i = 0; i < componentLength; i++) {
-            if (this._components[i] === null) continue;
-            const component = this._components[i]!;
-            if (component.enabled) component.update();
-        }
-    }
-
     public destroy(): void {
         for (const component of this._components) {
-            if (component) {
-                component.enabled = false;
-                component.onDestroy();
-            }
+            component.enabled = false;
+            component.onDestroy();
         }
         this._transform.children.forEach(child => {
             if (child instanceof Transform) child.attachedGameObject.destroy();
@@ -216,8 +187,8 @@ export class GameObject {
         }
     }
 
-    public get gameManager(): GameManager {
-        return this._gameManager;
+    public get engine(): IEngine {
+        return this._engineGlobalObject;
     }
 
     public get activeInHierarchy(): boolean {
@@ -319,8 +290,8 @@ export class GameObject {
         private readonly _children: Builder[];
         private readonly _componentInitializeFuncList: (() => void)[];
 
-        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
-            this._gameObject = new GameObject(gameManager, name);
+        public constructor(engineGlobalObject: EngineGlobalObject, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
+            this._gameObject = new GameObject(engineGlobalObject, name);
             const transform = this._gameObject.transform;
             if (localPosition) transform.position.copy(localPosition);
             if (localRotation) transform.quaternion.copy(localRotation);

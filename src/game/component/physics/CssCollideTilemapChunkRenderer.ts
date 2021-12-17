@@ -54,7 +54,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
             this.gameObject.addChildFromBuilder(
-                this.gameManager.instantlater.buildGameObject(
+                this.engine.instantlater.buildGameObject(
                     `css_tilemap_renderer_${chunkIndexX}_${chunkIndexY}`, 
                     new Vector3(chunkIndexX * this._chunkSize * this._tileWidth, chunkIndexY * this._chunkSize * this._tileHeight, 0))
                     .withComponent(CssCollideTilemapRenderer, c => {

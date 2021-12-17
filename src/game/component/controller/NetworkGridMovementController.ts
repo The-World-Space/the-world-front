@@ -35,7 +35,7 @@ export class NetworkGridMovementController extends Directionable {
         const vector2Pos = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         let distance = vector2Pos.distanceTo(this._targetGridPosition);
 
-        if (distance < this._speed * this.gameManager.time.deltaTime) {
+        if (distance < this._speed * this.engine.time.deltaTime) {
             if (/*recalculate target grid position*/ true) {
                 distance = vector2Pos.distanceTo(this._targetGridPosition);
             }
@@ -55,7 +55,7 @@ export class NetworkGridMovementController extends Directionable {
             }
 
             direction.normalize();
-            direction.multiplyScalar(Math.min(this._speed * this.gameManager.time.deltaTime, distance));
+            direction.multiplyScalar(Math.min(this._speed * this.engine.time.deltaTime, distance));
             direction.x *= syncCorrectionScalarX;
             direction.y *= syncCorrectionScalarY;
 

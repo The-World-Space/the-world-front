@@ -1,11 +1,12 @@
 import { ComponentConstructor } from "./ComponentConstructor";
-import { GameManager } from "../GameManager";
 import { GameObject } from "./GameObject";
 import { GameStateKind } from "../GameState";
+import { IEngine } from "../IEngine";
 
 export abstract class Component {
     protected readonly _disallowMultipleComponent: boolean = false;
     protected readonly _requiredComponents: ComponentConstructor[] = [];
+    protected readonly _executionOrder: number = 0;
 
     private _enabled: boolean;
     private _started: boolean;
@@ -20,8 +21,6 @@ export abstract class Component {
     }
 
     protected start(): void { }
-
-    public update(): void { }
 
     public onDestroy(): void { }
 
@@ -47,7 +46,7 @@ export abstract class Component {
 
         this._enabled = value;
 
-        if (this.gameManager.gameState.kind === GameStateKind.Initializing) {
+        if (this.engine.gameState.kind === GameStateKind.Initializing) {
             return;
         }
         
@@ -76,8 +75,8 @@ export abstract class Component {
         return this._gameObject;
     }
 
-    public get gameManager(): GameManager {
-        return this._gameObject.gameManager;
+    public get engine(): IEngine {
+        return this._gameObject.engine;
     }
 
     public get disallowMultipleComponent(): boolean {
@@ -86,5 +85,9 @@ export abstract class Component {
 
     public get requiredComponents(): ComponentConstructor[] {
         return this._requiredComponents;
+    }
+
+    public get executionOrder(): number {
+        return this._executionOrder;
     }
 }

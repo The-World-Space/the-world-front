@@ -9,10 +9,10 @@ import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { GameObjectType, ServerWorld } from "./connect/types";
 import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
-import { GameManager } from "./engine/GameManager";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
 import { Scene } from "./engine/hierarchy_object/Scene";
+import { IEngine } from "./engine/IEngine";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
@@ -25,8 +25,8 @@ export class NetworkBootstrapper implements IBootstrapper {
 
     }
 
-    public run(scene: Scene, gameManager: GameManager): SceneBuilder {
-        const instantlater = gameManager.instantlater;
+    public run(scene: Scene, engine: IEngine): SceneBuilder {
+        const instantlater = engine.instantlater;
         const sceneBuilder = new SceneBuilder(scene);
 
         let player: PrefabRef<GameObject> = new PrefabRef();
