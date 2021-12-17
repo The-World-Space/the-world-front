@@ -1,7 +1,7 @@
 import { Vector3 } from "three";
 import { GridPointer } from "./component/input/GridPointer";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
-import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
+import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { Scene } from "./engine/hierarchy_object/Scene";
@@ -10,11 +10,10 @@ import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { SansFightRoomPrefab } from "./prefab/SansFightRoomPrefab";
-import { IEngine } from "./engine/IEngine";
 
-export class TheWorldBootstrapper implements IBootstrapper {
-    public run(scene: Scene, engine: IEngine): SceneBuilder {
-        const instantlater = engine.instantlater;
+export class TheWorldBootstrapper extends Bootstrapper {
+    public run(scene: Scene): SceneBuilder {
+        const instantlater = this.engine.instantlater;
 
         const player: PrefabRef<GameObject> = new PrefabRef();
         const collideTilemap: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();

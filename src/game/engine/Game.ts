@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { IBootstrapper } from "./bootstrap/IBootstrapper";
+import { Bootstrapper } from "./bootstrap/Bootstrapper";
 import { CameraContainer } from "./render/CameraContainer";
 import { EngineGlobalObject } from "./EngineGlobalObject";
 import { GameState, GameStateKind } from "./GameState";
@@ -10,6 +10,7 @@ import { IInputEventHandleable } from "./input/IInputEventHandleable";
 import { SceneProcessor } from "./SceneProcessor";
 import { Time } from "./time/Time";
 import { GameScreen } from "./render/GameScreen";
+import { BootstrapperConstructor } from "./bootstrap/BootstrapperConstructor";
 
 export class Game {
     private readonly _rootScene: Scene;
@@ -54,11 +55,12 @@ export class Game {
         this._renderer.setSize(width, height);
     }
 
-    public run(bootstrapper: IBootstrapper): void {
+    public run<T, U extends Bootstrapper<T> = Bootstrapper<T>>(bootstrapperCtor: BootstrapperConstructor<T, U>, interopObject?: T): void {
         if (this._isDisposed) throw new Error("Game is disposed.");
         this._gameState.kind = GameStateKind.Initializing;
         this._clock.start();
-        const sceneBuilder = bootstrapper.run(this._rootScene, this._engineGlobalObject);
+        const bootstrapper = new bootstrapperCtor(this._engineGlobalObject, interopObject);
+        const sceneBuilder = bootstrapper.run(this._rootScene);
         sceneBuilder.build();
         sceneBuilder.initialize();
         this._gameState.kind = GameStateKind.Running;

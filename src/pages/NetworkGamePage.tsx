@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { NetworkBootstrapper } from '../game/NetworkBootstrapper';
+import { NetworkBootstrapper, NetworkInfoObject } from '../game/NetworkBootstrapper';
 import { Game } from '../game/engine/Game';
 import { useAsync } from 'react-use';
 import { getWorld, globalApolloClient } from '../game/connect/gql';
@@ -27,7 +27,7 @@ function NetworkGamePage() {
             if (ref !== null && !loading && world0) {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                game.run(new NetworkBootstrapper(world0, globalApolloClient));
+                game.run(NetworkBootstrapper, new NetworkInfoObject(world0, globalApolloClient));
                 game.inputHandler.startHandleEvents();
             }
         }}/>

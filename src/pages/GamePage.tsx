@@ -24,7 +24,7 @@ function GamePage() {
             if (ref !== null) {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                game.run(new TheWorldBootstrapper());
+                game.run(TheWorldBootstrapper);
                 game.inputHandler.startHandleEvents();
             }
         }}/>

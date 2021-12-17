@@ -7,26 +7,37 @@ import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { GameObjectType, ServerWorld } from "./connect/types";
-import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
+import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
 import { Scene } from "./engine/hierarchy_object/Scene";
-import { IEngine } from "./engine/IEngine";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
 const SIZE = 16;
 
-export class NetworkBootstrapper implements IBootstrapper {
+export class NetworkInfoObject {
+    private readonly _serverWorld: ServerWorld;
+    private readonly _apolloClient: ApolloClient<any>;
 
-    constructor(private readonly serverWorld: ServerWorld,
-                private readonly apolloClient: ApolloClient<any>) {
-
+    public constructor(serverWorld: ServerWorld, apolloClient: ApolloClient<any>) {
+        this._serverWorld = serverWorld;
+        this._apolloClient = apolloClient;
+    }
+    
+    public get serverWorld(): ServerWorld {
+        return this.serverWorld;
     }
 
-    public run(scene: Scene, engine: IEngine): SceneBuilder {
-        const instantlater = engine.instantlater;
+    public get apolloClient(): ApolloClient<any> {
+        return this.apolloClient;
+    }
+}
+
+export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
+    public run(scene: Scene): SceneBuilder {
+        const instantlater = this.engine.instantlater;
         const sceneBuilder = new SceneBuilder(scene);
 
         let player: PrefabRef<GameObject> = new PrefabRef();
@@ -35,7 +46,7 @@ export class NetworkBootstrapper implements IBootstrapper {
         // @ts-ignore
         globalThis.debug = sceneBuilder
 
-        this.serverWorld.iframes.forEach((iframe, idx) => {
+        this.interopObject!.serverWorld.iframes.forEach((iframe, idx) => {
             sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `iframe_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(IframeRenderer, c => {
@@ -54,7 +65,7 @@ export class NetworkBootstrapper implements IBootstrapper {
                     .withComponent(ZaxisInitializer));
         });
 
-        this.serverWorld.images.forEach((image, idx) => {
+        this.interopObject!.serverWorld.images.forEach((image, idx) => {
             sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `image_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(CssSpriteRenderer, c => {
