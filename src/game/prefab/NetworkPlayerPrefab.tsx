@@ -10,12 +10,16 @@ import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssT
 import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
+import { NetworkManager } from "../engine/NetworkManager";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
     private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
     private _nameTagString: PrefabRef<string> = new PrefabRef();
+
+    private _networkManager: NetworkManager | null = null;
+    private _userId: string | null = null;
 
     public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._spriteAtlasPath = name;
@@ -34,6 +38,16 @@ export class NetworkPlayerPrefab extends Prefab {
 
     public withNameTag(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._nameTagString = name;
+        return this;
+    }
+
+    public withNetworkManager(networkManager: NetworkManager): NetworkPlayerPrefab {
+        this._networkManager = networkManager;
+        return this;
+    }
+
+    public withUserId(userId: string) {
+        this._userId = userId;
         return this;
     }
 
@@ -64,6 +78,8 @@ export class NetworkPlayerPrefab extends Prefab {
                     c.gridCenter = this._tilemap.ref.gridCenter;
                 }
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
+                if (this._networkManager && this._userId)
+                    c.initNetwork(this._userId, this._networkManager);
             })
             .withComponent(ZaxisSorter, c => c.runOnce = false)
 

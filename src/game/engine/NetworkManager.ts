@@ -2,7 +2,7 @@ import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { Vector2 } from "three";
 
-interface User {
+export interface User {
     id: string;
     nickname: string;
 }
