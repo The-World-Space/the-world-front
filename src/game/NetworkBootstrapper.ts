@@ -11,6 +11,7 @@ import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
+import { NetworkManager } from "./engine/NetworkManager";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
@@ -19,18 +20,24 @@ const SIZE = 16;
 export class NetworkInfoObject {
     private readonly _serverWorld: ServerWorld;
     private readonly _apolloClient: ApolloClient<any>;
+    private readonly _networkManager: NetworkManager;
 
     public constructor(serverWorld: ServerWorld, apolloClient: ApolloClient<any>) {
         this._serverWorld = serverWorld;
         this._apolloClient = apolloClient;
+        this._networkManager = new NetworkManager(serverWorld.id, apolloClient);
     }
     
     public get serverWorld(): ServerWorld {
-        return this.serverWorld;
+        return this._serverWorld;
     }
 
     public get apolloClient(): ApolloClient<any> {
-        return this.apolloClient;
+        return this._apolloClient;
+    }
+
+    public get networkManager(): NetworkManager {
+        return this._networkManager;
     }
 }
 

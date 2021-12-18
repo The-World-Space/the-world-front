@@ -1,8 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { ArgumentNode } from "graphql";
-import { Point } from "../../core/types/Base";
-import { GameObject } from "../../core/types/GameObject";
 import { TypedEmitter } from 'tiny-typed-emitter';
+import { Vector2 } from "three";
 
 interface User {
     id: string;
@@ -16,17 +14,17 @@ type characterId = string;
 class EEWrapper {
     private ee = new TypedEmitter();
 
-    emit(key: `join`,                   user: User, spawnPoint: Point)  : void;
-    emit(key: `move_${characterId}`,    pos: Point)                     : void;
+    emit(key: `join`,                   user: User, spawnPoint: Vector2): void;
+    emit(key: `move_${characterId}`,    pos: Vector2)                   : void;
     emit(key: `leave_${characterId}`)                                   : void;
     
     emit(key: string, ...args: any[]): void {
         this.ee.emit(key, ...args);
     }
 
-    on(key: `join`,                 cb: (user: User, spawnPoint: Point) => void): void;
-    on(key: `move_${characterId}`,  cb: (pos: Point) => void)                   : void;
-    on(key: `leave_${characterId}`, cb: () => void)                             : void;
+    on(key: `join`,                 cb: (user: User, spawnPoint: Vector2) => void)  : void;
+    on(key: `move_${characterId}`,  cb: (pos: Vector2) => void)                     : void;
+    on(key: `leave_${characterId}`, cb: () => void)                                 : void;
 
     on(key: string, cb: (...args: any[]) => void): void {
         this.ee.on(key, cb);
@@ -94,14 +92,14 @@ export class NetworkManager {
         const leftPlayers = [...this._characterMap.keys()].filter(p => !playerIdSet.has(p));
         
         newPlayers.forEach(e => {
-            this._ee.emit("join", e.user, e);
+            this._ee.emit("join", e.user, new Vector2(e.x, e.y));
         });
         leftPlayers.forEach(e => {
             this._ee.emit(`leave_${e}`);
         });
     }
 
-    private moveCharacter(data: Point & {userId: string}) {
+    private moveCharacter(data: Vector2 & {userId: string}) {
         this._ee.emit(`move_${data.userId}`, data);
     }
 

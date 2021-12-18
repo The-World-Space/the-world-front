@@ -1,4 +1,5 @@
 import { Vector2, Vector3 } from "three";
+import { NetworkManager } from "../../engine/NetworkManager";
 import { Directionable } from "./Directionable";
 
 export class NetworkGridMovementController extends Directionable {
@@ -22,12 +23,18 @@ export class NetworkGridMovementController extends Directionable {
     }
 
     public update(): void {
-        this.processNetwork();
         this.processMovement();
     }
 
-    private processNetwork(): void {
-        /*calculate target grid position*/
+    public initNetwork(userId: string, networkManager: NetworkManager): void {
+        networkManager.ee.on(`move_${userId}`, pos => {
+            this._targetGridPosition.setX(pos.x * this._gridCellWidth);
+            this._targetGridPosition.setY(pos.y * this._gridCellHeight);
+        });
+
+        networkManager.ee.on(`leave_${userId}`, () => {
+            this.gameObject.destroy();
+        });
     }
 
     private processMovement(): void {

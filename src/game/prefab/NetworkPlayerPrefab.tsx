@@ -65,7 +65,6 @@ export class NetworkPlayerPrefab extends Prefab {
                 }
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
             })
-            .withComponent(MovementAnimationController)
             .withComponent(ZaxisSorter, c => c.runOnce = false)
 
             .withChild(instantlater.buildGameObject("chatbox",
