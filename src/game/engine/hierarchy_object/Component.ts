@@ -15,6 +15,7 @@ export abstract class Component {
     private _awakening: boolean;
     private _startEnqueued: boolean;
     private _started: boolean;
+    private _starting: boolean;
     private _updateEnqueued: boolean;
     private _gameObject: GameObject;
 
@@ -24,6 +25,7 @@ export abstract class Component {
         this._awakening = false;
         this._startEnqueued = false;
         this._started = false;
+        this._starting = false;
         this._updateEnqueued = false;
         this._gameObject = gameObject;
     }
@@ -60,7 +62,9 @@ export abstract class Component {
     //this method is called by the engine, do not call it manually
     public tryCallStart(): void {
         if (this._started) return;
+        this._starting = true;
         this.start();
+        this._starting = false;
         this._started = true;
     }
 
@@ -127,8 +131,16 @@ export abstract class Component {
         return this._awakening;
     }
 
-    protected get awakened(): boolean {
+    public get awakened(): boolean {
         return this._awakened;
+    }
+
+    public get starting(): boolean {
+        return this._starting;
+    }
+
+    public get started(): boolean {
+        return this._started;
     }
 
     public get gameObject(): GameObject {
