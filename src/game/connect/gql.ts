@@ -13,6 +13,7 @@ import {
 import { print } from "graphql";
 import { createClient, ClientOptions, Client } from "graphql-ws";
 import { JWT_KEY } from "../../context/consts";
+import { Vector2 } from "three";
 
 
 
@@ -113,6 +114,22 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
     return result.data.myWorlds as ServerWorld[];
 }
 
+
+
+export async function joinWorld(worldId: string, pos: Vector2, apolloClient: ApolloClient<any>) {
+    return apolloClient.mutate({
+        mutation: gql`
+            mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
+                joinWorld(x: $x, y: $y, id: $worldId)
+            }
+        `,
+        variables: {
+            x: pos.x,
+            y: pos.y,
+            worldId,
+        }
+    })
+}
 
 
 export function getSession() {
