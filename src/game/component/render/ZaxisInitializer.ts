@@ -19,7 +19,7 @@ export class ZaxisInitializer extends ZaxisSortable {
     private process(): void {
         this.gameObject.unsafeGetTransform().traverseVisible(child => { //it's safe because it's just for traversing visible children
             if (child instanceof Transform) {
-                child.attachedGameObject.foreachComponent(c => {
+                child.gameObject.foreachComponent(c => {
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {
                         if (typeof cAny.onSortByZaxis === "function")
@@ -31,21 +31,16 @@ export class ZaxisInitializer extends ZaxisSortable {
     }
 
     public static checkAncestorZaxisInitializer(gameObject: GameObject, onSortByZaxis: (z: number) => void): void {
-        if (!gameObject.transform.parent) return;
-        if (gameObject.transform.parent instanceof Transform) {
-            let currentAncestor = gameObject.transform.parent;
-            while (currentAncestor) {
-                const zaxisInitializer: ZaxisSortable|null = currentAncestor.attachedGameObject.getComponent(ZaxisSortable);
-                if (zaxisInitializer) {
-                    onSortByZaxis(currentAncestor.position.z);
-                    return;
-                }
-                if (currentAncestor.parent instanceof Transform) {
-                    currentAncestor = currentAncestor.parent;
-                } else {
-                    break;
-                }
+        if (!gameObject.transform.parentTransform) return;
+        let currentAncestor = gameObject.transform.parentTransform;
+        while (currentAncestor) {
+            const zaxisInitializer: ZaxisSortable|null = currentAncestor.gameObject.getComponent(ZaxisSortable);
+            if (zaxisInitializer) {
+                onSortByZaxis(currentAncestor.position.z);
+                return;
             }
+            if (currentAncestor.parentTransform === null) break;
+            currentAncestor = currentAncestor.parentTransform;
         }
     }   
 

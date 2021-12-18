@@ -15,7 +15,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     
     private _initializeFunctions: ((() => void))[] = [];
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
     }
@@ -82,7 +82,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.drawTile(x, y, imageIndex, atlasIndex);
             });
@@ -98,7 +98,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.drawTileFromTwoDimensionalArray(array, xOffset, yOffset);
             });
@@ -114,7 +114,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public clearTile(x: number, y: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.clearTile(x, y);
             });
@@ -131,7 +131,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public addCollider(x: number, y: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.addCollider(x, y);
             });
@@ -172,7 +172,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public set imageSources(value: TileAtlasItem[]) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.imageSources = value;
             });

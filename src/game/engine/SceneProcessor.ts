@@ -1,9 +1,13 @@
 import { CompactableCollection } from "./collection/CompactableCollection";
 import { Component } from "./hierarchy_object/Component";
 
-type UpdateableComponent = Component & {
+export type UpdateableComponent = Component & {
     update(): void;
 };
+
+export function isUpdateableComponent(component: Component): component is UpdateableComponent {
+    return (component as UpdateableComponent).update !== undefined;
+}
 
 export class SceneProcessor {
     private _startComponents: CompactableCollection<Component>;
@@ -77,8 +81,9 @@ export class SceneProcessor {
         this._updateComponents.forEach(component => component.update());
     }
 
-    public init(): void {
-        this._startComponents.forEach(component => component.onEnable());
+    public init(components: Component[]): void {
+        components.forEach(component => component.tryCallAwake());
+        components.forEach(component => component.onEnable());
     }
 
     public update(): void {

@@ -19,10 +19,15 @@ export class ZaxisSorter extends ZaxisSortable {
     public update(): void {
         const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector);
         worldPosition.z = -worldPosition.y + this._offset;
-        this.gameObject.transform.position.copy(this.gameObject.transform.parent!.worldToLocal(worldPosition));
+        if (this.gameObject.transform.parentTransform) {
+            this.gameObject.transform.position.copy(this.gameObject.transform.parentTransform!.worldToLocal(worldPosition));
+        } else { // if no parent transform, world position is same as local position
+            this.gameObject.transform.position.copy(worldPosition);
+        }
+
         this.gameObject.unsafeGetTransform().traverseVisible(child => { //it's safe because it's just for traversing visible children
             if (child instanceof Transform) {
-                child.attachedGameObject.foreachComponent(c => {
+                child.gameObject.foreachComponent(c => {
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {
                         if (typeof cAny.onSortByZaxis === "function")

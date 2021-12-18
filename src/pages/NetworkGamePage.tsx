@@ -7,7 +7,7 @@ import { getWorld, globalApolloClient } from '../game/connect/gql';
 function NetworkGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
-    let {error, loading, value: world0} = useAsync(() => getWorld('0', globalApolloClient));
+    let {/*error,*/ loading, value: world0} = useAsync(() => getWorld('0', globalApolloClient));
     
     useEffect( () => { //on mount component
         window.addEventListener('resize', onWindowResize);

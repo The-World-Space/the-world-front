@@ -50,7 +50,7 @@ export class PointerGridInputListener extends Component {
     private readonly _onTouchMoveBind = this.onTouchMove.bind(this);
     private readonly _onTouchCancelBind = this.onTouchCancel.bind(this);
 
-    protected start(): void {
+    protected awake(): void {
         this._htmlDivElement = document.createElement("div");
         this._css3DObject = new CSS3DObject(this._htmlDivElement);
         this._htmlDivElement.style.width = `${this._inputWidth}px`;
@@ -73,8 +73,13 @@ export class PointerGridInputListener extends Component {
     private readonly _tempVector3: Vector3 = new Vector3();
 
     public update(): void {
+        let cameraLocalPosition: Vector3;
         this.engine.cameraContainer.camera!.getWorldPosition(this._tempVector3);
-        const cameraLocalPosition = this.gameObject.transform.parent!.worldToLocal(this._tempVector3);
+        if (this.gameObject.transform.parentTransform) {
+            cameraLocalPosition = this.gameObject.transform.parentTransform!.worldToLocal(this._tempVector3);
+        } else { // if no parent transform, world position is same as local position
+            cameraLocalPosition = this._tempVector3;
+        }
         this._css3DObject!.position.x = cameraLocalPosition.x;
         this._css3DObject!.position.y = cameraLocalPosition.y;
     }

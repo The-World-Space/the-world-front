@@ -21,7 +21,7 @@ export class CssSpriteRenderer extends Component {
     
     private static readonly _defaultImagePath: string = "/assets/tilemap/default.png";
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
             this.imagePath = CssSpriteRenderer._defaultImagePath;
@@ -54,7 +54,7 @@ export class CssSpriteRenderer extends Component {
     }
 
     public set imagePath(path: string|null) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.imagePath = path;
             };

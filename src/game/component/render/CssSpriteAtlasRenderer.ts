@@ -26,7 +26,7 @@ export class CssSpriteAtlasRenderer extends Component {
 
     private static readonly _defaultImagePath: string = "/assets/tilemap/default.png";
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
             this.setImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
@@ -59,7 +59,7 @@ export class CssSpriteAtlasRenderer extends Component {
     }
 
     public setImage(path: string, rowCount: number, columnCount: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.setImage(path, rowCount, columnCount);
             };

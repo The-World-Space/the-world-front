@@ -66,7 +66,7 @@ export class SpriteStaticInstancer extends Component {
     }
 
     public setInstances(instances: SpriteInstance[]) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => this.setInstances(instances);
             return;
         }

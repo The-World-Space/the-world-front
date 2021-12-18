@@ -12,7 +12,7 @@ export class MovementAnimationController extends Component {
     private _lastDirection: Direction = Direction.Down;
     private _lastIsMoving: boolean = false;
 
-    protected start(): void {
+    protected awake(): void {
         this._directionable = this.gameObject.getComponent(Directionable);
         this._spriteAtlasAnimator = this.gameObject.getComponent(SpriteAtlasAnimator);
     }

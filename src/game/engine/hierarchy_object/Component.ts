@@ -2,6 +2,7 @@ import { ComponentConstructor } from "./ComponentConstructor";
 import { GameObject } from "./GameObject";
 import { GameStateKind } from "../GameState";
 import { IEngine } from "../IEngine";
+import { EngineGlobalObject } from "../EngineGlobalObject";
 
 export abstract class Component {
     protected readonly _disallowMultipleComponent: boolean = false;
@@ -9,17 +10,31 @@ export abstract class Component {
     protected readonly _executionOrder: number = 0;
 
     private _enabled: boolean;
-    private _started: boolean;
-    private _starting: boolean;
+    private _awakened: boolean;
+    private _awakening: boolean;
+    private _startenqueued: boolean;
     private _gameObject: GameObject;
 
     public constructor(gameObject: GameObject) {
         this._enabled = true;
-        this._started = false;
-        this._starting = false;
+        this._awakened = false;
+        this._awakening = false;
+        this._startenqueued = false;
         this._gameObject = gameObject;
     }
 
+    //Awake is called when the script instance is being loaded.
+    //The order that Unity calls each GameObject's Awake is not deterministic.
+    //Because of this, you should not rely on one GameObject's Awake being called before or after another
+    //(for example, you should not assume that a reference set up by one GameObject's Awake will be usable in another GameObject's Awake).
+    //Instead, you should use Awake to set up references between scripts, and use Start, which is called after all Awake calls are finished, to pass any information back and forth.
+    //
+    //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html
+    protected awake(): void { }
+
+    //Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
+    //
+    //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Start.html
     protected start(): void { }
 
     public onDestroy(): void { }
@@ -28,13 +43,19 @@ export abstract class Component {
 
     public onDisable(): void { }
 
+    public tryCallAwake(): void {
+        if (this._awakened) return;
+        this._awakening = true;
+        this.awake();
+        this._awakening = false;
+        this._awakened = true;
+    }
+
     //you must NOT use this method
     public tryCallStart(): void {
-        if (this._started) return;
-        this._starting = true;
-        this.start();
-        this._starting = false;
-        this._started = true;
+        if (this._startenqueued) return;
+        (this.engine as EngineGlobalObject).sceneProcessor.addStartComponent(this);
+        this._startenqueued = true;
     }
 
     public get enabled(): boolean {
@@ -53,22 +74,20 @@ export abstract class Component {
         if (this._gameObject.activeInHierarchy) {
             if (this._enabled) {
                 this.onEnable();
-                if (!this._started) {
-                    this._starting = true;
-                    this.start();
-                    this._starting = false;
-                    this._started = true;
+                if (!this._startenqueued) {
+                    (this.engine as EngineGlobalObject).sceneProcessor.addStartComponent(this);
+                    this._startenqueued = true;
                 }
             } else this.onDisable();
         }
     }
 
-    public get starting(): boolean {
-        return this._starting;
+    public get awakening(): boolean {
+        return this._awakening;
     }
 
-    public get started(): boolean {
-        return this._started;
+    protected get awakened(): boolean {
+        return this._awakened;
     }
 
     public get gameObject(): GameObject {

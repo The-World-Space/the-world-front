@@ -50,30 +50,14 @@ export class CompactableCollection<T> {
 
     //it can be called when iterating the list
     public remove(item: T): void {
-        const index = this.unCompactBinarySearch(item);
-        this._list.splice(index, 1);
-        this._count -= 1;
-        this._isCompacted = false;
-    }
-
-    private unCompactBinarySearch(item: T): number {
-        let low = 0;
-        let high = this._list.length - 1;
-        while (low <= high) {
-            let middle = Math.floor((low + high) / 2);
-            while (this._list[middle] === null) {
-                middle += 1;
-            }
-            const comp = this._compartor(item, this._list[middle]!);
-            if (comp < 0) {
-                high = middle - 1;
-            } else if (comp > 0) {
-                low = middle + 1;
-            } else {
-                return middle;
+        for (let i = 0; i < this._list.length; i++) {
+            if (this._list[i] === item) {
+                this._list[i] = null;
+                this._count -= 1;
+                this._isCompacted = false;
+                return;
             }
         }
-        return low;
     }
 
     //this method should be called only when the list is compacted

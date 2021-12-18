@@ -1,17 +1,20 @@
 import { Euler, Matrix3, Matrix4, Quaternion, Vector3 } from "three";
+import { GameObject } from "./GameObject";
 
 export interface ITransform {
+	gameObject: GameObject;
+
 	/**
 	 * Object's parent in the scene graph.
 	 * @default null
 	 */
-	parent: ITransform | null;
+	parentTransform: ITransform | null;
 
 	/**
 	 * Array with object's children.
 	 * @default []
 	 */
-	children: ITransform[];
+	childrenTransform: ITransform[];
 
 	/**
 	 * Up direction.

@@ -16,11 +16,13 @@ export class CameraController extends Component {
     private _lerpTrack: boolean = false;
     private _lerpAlpha: number = 0.1;
 
-    protected start(): void {
+    protected awake(): void {
         if (this._trackTarget) {
             const targetPosition = this._trackTarget.transform.getWorldPosition(this._tempVector);
             targetPosition.z += this._cameraDistanceOffset;
-            this.gameObject.transform.parent!.worldToLocal(targetPosition);
+            if (this.gameObject.transform.parentTransform) {
+                this.gameObject.transform.parentTransform.worldToLocal(targetPosition);
+            }
             this.gameObject.transform.position.copy(targetPosition);
         }
     }
@@ -33,7 +35,9 @@ export class CameraController extends Component {
         targetPosition.x += this._targetOffset.x;
         targetPosition.y += this._targetOffset.y;
         const transform = this.gameObject.transform;
-        transform.parent!.worldToLocal(targetPosition);
+        if (transform.parentTransform) {
+            transform.parentTransform.worldToLocal(targetPosition);
+        }
         if (this._lerpTrack) {
             transform.position.lerp(targetPosition, 0.1);
         } else {

@@ -5,17 +5,17 @@ import { Transform } from "./Transform";
 export class Scene extends THREE.Scene {
     private registerTransform(transform: Transform): void {
         this.add(transform);
-        const gameObject = transform.attachedGameObject;
+        const gameObject = transform.gameObject;
 
         if (gameObject.activeInHierarchy) {
             transform.traverseVisible(item => {
-                if (item instanceof Transform) item.attachedGameObject.foreachComponent(c => {
+                if (item instanceof Transform) item.gameObject.foreachComponent(c => {
                     if (c.enabled) c.onEnable();
                 }); //tryEnableComponents
             });
 
             transform.traverseVisible(item => {
-                if (item instanceof Transform) item.attachedGameObject.foreachComponent(c => {
+                if (item instanceof Transform) item.gameObject.foreachComponent(c => {
                     if (c.enabled) c.tryCallStart();
                 }); //tryStartComponents
             });

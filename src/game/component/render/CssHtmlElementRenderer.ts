@@ -20,7 +20,7 @@ export class CssHtmlElementRenderer extends Component {
 
     private static readonly _defaultElement: HTMLDivElement = document.createElement("div");
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.setElement(CssHtmlElementRenderer._defaultElement);
@@ -53,7 +53,7 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public setElement(value: HTMLDivElement|null) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.setElement(value);
             };
@@ -91,7 +91,7 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public setElementFromJSX(element: JSX.Element): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.setElementFromJSX(element);
             };

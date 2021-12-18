@@ -11,7 +11,6 @@ import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
-import { Scene } from "./engine/hierarchy_object/Scene";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
@@ -36,18 +35,17 @@ export class NetworkInfoObject {
 }
 
 export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
-    public run(scene: Scene): SceneBuilder {
+    public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
-        const sceneBuilder = new SceneBuilder(scene);
 
         let player: PrefabRef<GameObject> = new PrefabRef();
         let colideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
 
         // @ts-ignore
-        globalThis.debug = sceneBuilder
+        globalThis.debug = this.sceneBuilder
 
         this.interopObject!.serverWorld.iframes.forEach((iframe, idx) => {
-            sceneBuilder
+            this.sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `iframe_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(IframeRenderer, c => {
                         c.iframeSource = iframe.src;
@@ -66,7 +64,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
         });
 
         this.interopObject!.serverWorld.images.forEach((image, idx) => {
-            sceneBuilder
+            this.sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `image_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(CssSpriteRenderer, c => {
                         c.imagePath = image.src;
@@ -83,7 +81,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     .withComponent(ZaxisInitializer));
         });
 
-        return sceneBuilder
+        return this.sceneBuilder
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))
                 .withCollideMap(colideTilemap)

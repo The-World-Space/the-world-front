@@ -13,7 +13,7 @@ export class CssTilemapChunkRenderer extends Component {
     
     private _initializeFunctions: ((() => void))[] = [];
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
     }
@@ -80,7 +80,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.drawTile(x, y, imageIndex, atlasIndex);
             });
@@ -97,7 +97,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.drawTileFromTwoDimensionalArray(array, xOffset, yOffset);
             });
@@ -113,7 +113,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public clearTile(x: number, y: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.clearTile(x, y);
             });
@@ -144,7 +144,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public set imageSources(value: TileAtlasItem[]) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.imageSources = value;
             });

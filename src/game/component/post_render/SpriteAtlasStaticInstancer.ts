@@ -70,12 +70,12 @@ export class SpriteAtlasStaticInstancer extends Component {
 
     private _initializeFunction: (() => void)|null = null;
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
     }
 
     public setInstances(instances: SpriteAtlasInstance[]) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => this.setInstances(instances);
             return;
         }

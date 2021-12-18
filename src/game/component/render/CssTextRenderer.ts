@@ -33,7 +33,7 @@ export class CssTextRenderer extends Component {
 
     private static readonly _defaultText: string = "Text";
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.text = CssTextRenderer._defaultText;
@@ -66,7 +66,7 @@ export class CssTextRenderer extends Component {
     }
 
     public set text(value: string|null) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.text = value;
             };

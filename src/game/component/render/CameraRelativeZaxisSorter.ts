@@ -12,7 +12,7 @@ export class CameraRelativeZaxisSorter extends ZaxisSortable {
         this.gameObject.transform.position.z = this.engine.cameraContainer.camera!.getWorldPosition(this._tempVector3).z + this._offset;
         this.gameObject.unsafeGetTransform().traverseVisible(child => { //it's safe because it's just for traversing visible children
             if (child instanceof Transform) {
-                child.attachedGameObject.foreachComponent(c => {
+                child.gameObject.foreachComponent(c => {
                     const cAny = c as any;
                     if (cAny.onSortByZaxis) {
                         if (typeof cAny.onSortByZaxis === "function")

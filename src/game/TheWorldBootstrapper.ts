@@ -4,7 +4,6 @@ import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTi
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
-import { Scene } from "./engine/hierarchy_object/Scene";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
@@ -12,14 +11,14 @@ import { CameraPrefab } from "./prefab/CameraPrefab";
 import { SansFightRoomPrefab } from "./prefab/SansFightRoomPrefab";
 
 export class TheWorldBootstrapper extends Bootstrapper {
-    public run(scene: Scene): SceneBuilder {
+    public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
         const player: PrefabRef<GameObject> = new PrefabRef();
         const collideTilemap: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
         const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
 
-        return new SceneBuilder(scene)
+        return this.sceneBuilder
             .withChild(instantlater.buildPrefab("tilemap", SansFightRoomPrefab)
                 .getColideTilemapChunkRendererRef(collideTilemap).make())
 

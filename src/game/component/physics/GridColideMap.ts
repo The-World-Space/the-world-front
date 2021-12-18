@@ -14,13 +14,13 @@ export class GridCollideMap extends Component implements IGridCollidable {
     
     private _initializeFunctions: ((() => void))[] = [];
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
     }
 
     public addCollider(x: number, y: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.addCollider(x, y);
             });
@@ -33,7 +33,7 @@ export class GridCollideMap extends Component implements IGridCollidable {
     }
 
     public addColiderFromTwoDimensionalArray(array: (1|0)[][], xOffset: number, yOffset: number): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunctions.push(() => {
                 this.addColiderFromTwoDimensionalArray(array, xOffset, yOffset);
             });
