@@ -22,6 +22,7 @@ export class IframeRenderer extends Component {
     }
 
     public onDestroy(): void {
+        if (!this.started) return;
         if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
@@ -134,5 +135,9 @@ export class IframeRenderer extends Component {
                 this._height * this._iframeCenterOffset.y, 0
             );
         }
+    }
+
+    public get htmlIframeElement(): HTMLIFrameElement {
+        return this._htmlIframeElement!;
     }
 }
