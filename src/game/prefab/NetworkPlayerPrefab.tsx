@@ -1,5 +1,4 @@
 import { Quaternion, Vector2, Vector3 } from "three";
-import { MovementAnimationController } from "../component/controller/MovementAnimationController";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";

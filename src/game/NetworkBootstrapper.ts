@@ -1,13 +1,11 @@
 import { ApolloClient } from "@apollo/client";
 import { Quaternion, Vector2, Vector3 } from "three";
-import { CameraController } from "./component/controller/CameraController";
 import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { NetworkSpawnner } from "./component/spawner/NetworkSpawnner";
-import { joinWorld } from "./connect/gql";
 import { GameObjectType, ServerWorld } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";

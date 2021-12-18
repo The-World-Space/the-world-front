@@ -1,10 +1,7 @@
-import { Quaternion, Vector2, Vector3 } from "three";
+import { Vector2 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { NetworkManager, User } from "../../engine/NetworkManager";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
-import { CssSpriteAtlasRenderer } from "../render/CssSpriteAtlasRenderer";
-import { ZaxisInitializer } from "../render/ZaxisInitializer";
-import { ZaxisSorter } from "../render/ZaxisSorter";
 
 const prefix = `@@tw/game/component/spawner/NetworkSpawnner`
 
