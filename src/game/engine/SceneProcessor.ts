@@ -73,7 +73,7 @@ export class SceneProcessor {
 
     public init(components: Component[]): void {
         components.forEach(component => component.tryCallAwake()); //depending on the unity implementation, awake order not guaranteed 
-        components.sort(this._componentExecutionOrderCompartor);
+        //components.sort(this._componentExecutionOrderCompartor);
         components.forEach(component => component.onEnable());
     }
 
