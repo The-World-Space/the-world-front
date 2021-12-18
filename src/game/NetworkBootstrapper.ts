@@ -6,12 +6,15 @@ import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
+import { NetworkSpawnner } from "./component/spawner/NetworkSpawnner";
+import { joinWorld } from "./connect/gql";
 import { GameObjectType, ServerWorld } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
 import { NetworkManager } from "./engine/NetworkManager";
+import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
@@ -87,8 +90,13 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     })
                     .withComponent(ZaxisInitializer));
         });
+        
 
         return this.sceneBuilder
+            .withChild(instantlater.buildGameObject('networkGameManager')
+                .withComponent(NetworkSpawnner, c => {
+                    c.initNetwork(this.interopObject!.networkManager);
+                }))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))
                 .withCollideMap(colideTilemap)
@@ -104,9 +112,8 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .withComponent(ZaxisSorter))
             
-            .withChild(instantlater.buildGameObject("camera_controller")
-                .withComponent(CameraController, c => {
-                    c.setTrackTarget(player.ref!);
-                }))
+            .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
+                .withTrackTarget(player).make())
+            
     }
 }

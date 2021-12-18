@@ -2,12 +2,15 @@ import { useEffect } from 'react';
 import { NetworkBootstrapper, NetworkInfoObject } from '../game/NetworkBootstrapper';
 import { Game } from '../game/engine/Game';
 import { useAsync } from 'react-use';
-import { getWorld, globalApolloClient } from '../game/connect/gql';
+import { getWorld, globalApolloClient, joinWorld } from '../game/connect/gql';
+import { Vector2 } from 'three';
 
 function NetworkGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
-    let {/*error,*/ loading, value: world0} = useAsync(() => getWorld('0', globalApolloClient));
+    const worldId = '0';
+    let { loading: world_loading, value: world0} = useAsync(() => getWorld(worldId, globalApolloClient));
+    let { loading: join_loading } = useAsync(() => joinWorld(worldId, new Vector2(0, 0), globalApolloClient));
     
     useEffect( () => { //on mount component
         window.addEventListener('resize', onWindowResize);
@@ -24,7 +27,7 @@ function NetworkGamePage() {
     return (
         <div style = {{height: '100%', width: '100%'}} ref={ref => {
             div = ref;
-            if (ref !== null && !loading && world0) {
+            if (ref !== null && !world_loading && world0 && !join_loading) {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
                 game.run(NetworkBootstrapper, new NetworkInfoObject(world0, globalApolloClient));
