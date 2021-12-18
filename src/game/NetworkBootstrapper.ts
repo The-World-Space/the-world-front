@@ -5,7 +5,7 @@ import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
-import { NetworkSpawnner } from "./component/spawner/NetworkSpawnner";
+import { NetworkSpawner } from "./component/spawner/NetworkSpawner";
 import { GameObjectType, ServerWorld } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
@@ -92,7 +92,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
 
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject('networkGameManager')
-                .withComponent(NetworkSpawnner, c => {
+                .withComponent(NetworkSpawner, c => {
                     c.initNetwork(this.interopObject!.networkManager);
                 }))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))

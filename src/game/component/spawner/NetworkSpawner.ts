@@ -5,7 +5,7 @@ import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 
 const prefix = `@@tw/game/component/spawner/NetworkSpawnner`
 
-export class NetworkSpawnner extends Component {
+export class NetworkSpawner extends Component {
     public initNetwork(networkManager: NetworkManager) {
         networkManager.ee.on('join', (user, pos) => {
             this._buildNetwrokPlayer(user, pos, networkManager);
