@@ -27,8 +27,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
                     tiles {
                         x
                         y
-                        movableRight
-                        movableBottom
+                        standable
                     }
                     iframes {
                         id
@@ -85,8 +84,7 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
                     tiles {
                         x
                         y
-                        movableRight
-                        movableBottom
+                        standable
                     }
                     iframes {
                         id

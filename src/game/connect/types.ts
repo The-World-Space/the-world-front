@@ -16,8 +16,7 @@ export enum GameObjectType {
 export interface Tile {
     x: number;
     y: number;
-    movableRight: boolean;
-    movableBottom: boolean;
+    standable: boolean;
 }
 
 export interface GameObject {
