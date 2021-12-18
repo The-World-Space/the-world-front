@@ -28,9 +28,7 @@ export class SceneBuilder {
         for (const child of this._children) child.initialize();
 
         const componentsInScene = this.getAllComponentsInScene();
-        const updateableComponentsInScene = componentsInScene.filter(c => {
-            if (isUpdateableComponent(c)) return true;
-        }) as UpdateableComponent[];
+        const updateableComponentsInScene = componentsInScene.filter<UpdateableComponent>(isUpdateableComponent);
         this._sceneProcessor.addStartComponent(...componentsInScene);
         this._sceneProcessor.addUpdateComponent(...updateableComponentsInScene);
 
