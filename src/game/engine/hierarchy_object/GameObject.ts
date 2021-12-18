@@ -209,7 +209,7 @@ export class GameObject {
             component.enabled = false;
             component.onDestroy();
         }
-        this._transform.foreachChild(child => {
+        this._transform.childrenTransform.forEach(child => { // modified values in foreach but array is not modified
             if (child instanceof Transform) child.gameObject.destroy();
         });
         this._transform.removeFromParent();

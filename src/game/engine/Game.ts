@@ -11,6 +11,7 @@ import { SceneProcessor } from "./SceneProcessor";
 import { Time } from "./time/Time";
 import { GameScreen } from "./render/GameScreen";
 import { BootstrapperConstructor } from "./bootstrap/BootstrapperConstructor";
+import { Transform } from "./hierarchy_object/Transform";
 
 export class Game {
     private readonly _rootScene: Scene;
@@ -86,8 +87,8 @@ export class Game {
         this._gameState.kind = GameStateKind.Finalizing;
         if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
         this._engineGlobalObject.dispose();
-        this._rootScene.children.forEach(child => {
-            if (child instanceof GameObject) child.destroy();
+        this._rootScene.children.slice().forEach(child => {
+            if (child instanceof Transform) child.gameObject.destroy();
         });
         this._container.removeChild(this._renderer.domElement);
         this._isDisposed = true;
