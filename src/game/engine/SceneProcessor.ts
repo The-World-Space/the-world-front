@@ -10,26 +10,16 @@ export function isUpdateableComponent(component: Component): component is Update
 }
 
 export class SceneProcessor {
+    private _componentExecutionOrderCompartor: <T extends Component>(a: T, b: T) => number;
     private _startComponents: CompactableCollection<Component>;
     private _updateComponents: CompactableCollection<UpdateableComponent>;
     private _addStartComponentBuffer: Component[];
     private _addUpdateComponentBuffer: UpdateableComponent[];
     
     public constructor() {
-        const componentExecutionOrderCompartor = <T extends Component>(a: T, b: T) => {
-            const aOrder = a.executionOrder;
-            const bOrder = b.executionOrder;
-            if (aOrder < bOrder) {
-                return -1;
-            } else if (aOrder > bOrder) {
-                return 1;
-            } else {
-                return 0;
-            }
-        };
-
-        this._startComponents = new CompactableCollection(componentExecutionOrderCompartor);
-        this._updateComponents = new CompactableCollection(componentExecutionOrderCompartor);
+        this._componentExecutionOrderCompartor = (a, b) => a.executionOrder - b.executionOrder;
+        this._startComponents = new CompactableCollection(this._componentExecutionOrderCompartor);
+        this._updateComponents = new CompactableCollection(this._componentExecutionOrderCompartor);
         this._addStartComponentBuffer = [];
         this._addUpdateComponentBuffer = [];
     }
@@ -82,7 +72,8 @@ export class SceneProcessor {
     }
 
     public init(components: Component[]): void {
-        components.forEach(component => component.tryCallAwake());
+        components.forEach(component => component.tryCallAwake()); //depending on the unity implementation, awake order not guaranteed 
+        components.sort(this._componentExecutionOrderCompartor);
         components.forEach(component => component.onEnable());
     }
 

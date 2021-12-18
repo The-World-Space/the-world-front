@@ -2,7 +2,7 @@ import { Component } from "../hierarchy_object/Component";
 import { GameObject, GameObjectBuilder } from "../hierarchy_object/GameObject";
 import { Scene } from "../hierarchy_object/Scene";
 import { Transform } from "../hierarchy_object/Transform";
-import { isUpdateableComponent, SceneProcessor, UpdateableComponent } from "../SceneProcessor";
+import { SceneProcessor } from "../SceneProcessor";
 
 export class SceneBuilder {
     private readonly _sceneProcessor: SceneProcessor;
@@ -28,13 +28,7 @@ export class SceneBuilder {
         for (const child of this._children) child.initialize();
 
         const componentsInScene = this.getAllComponentsInScene();
-        const updateableComponentsInScene: UpdateableComponent[] = [];
-        for (const component of componentsInScene) {
-            if (isUpdateableComponent(component)) updateableComponentsInScene.push(component);
-        }
-
         this._sceneProcessor.addStartComponent(...componentsInScene);
-        this._sceneProcessor.addUpdateComponent(...updateableComponentsInScene);
 
         return componentsInScene;
     }

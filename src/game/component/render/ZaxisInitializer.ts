@@ -1,5 +1,4 @@
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { Transform } from "../../engine/hierarchy_object/Transform";
 import { ZaxisSortable } from "./ZaxisSortable";
 
 export class ZaxisInitializer extends ZaxisSortable {
@@ -17,15 +16,11 @@ export class ZaxisInitializer extends ZaxisSortable {
     }
 
     private process(): void {
-        this.gameObject.unsafeGetTransform().traverseVisible(child => { //it's safe because it's just for traversing visible children
-            if (child instanceof Transform) {
-                child.gameObject.foreachComponent(c => {
-                    const cAny = c as any;
-                    if (cAny.onSortByZaxis) {
-                        if (typeof cAny.onSortByZaxis === "function")
-                        cAny.onSortByZaxis(this.gameObject.transform.position.z);
-                    }
-                });
+        this.gameObject.getComponentsInChildren().forEach(component => {
+            const cAny = component as any;
+            if (cAny.onSortByZaxis) {
+                if (typeof cAny.onSortByZaxis === "function")
+                cAny.onSortByZaxis(this.gameObject.transform.position.z);
             }
         });
     }

@@ -3,6 +3,7 @@ import { GameObject } from "./GameObject";
 import { GameStateKind } from "../GameState";
 import { IEngine } from "../IEngine";
 import { EngineGlobalObject } from "../EngineGlobalObject";
+import { isUpdateableComponent } from "../SceneProcessor";
 
 export abstract class Component {
     protected readonly _disallowMultipleComponent: boolean = false;
@@ -12,14 +13,18 @@ export abstract class Component {
     private _enabled: boolean;
     private _awakened: boolean;
     private _awakening: boolean;
-    private _startenqueued: boolean;
+    private _startEnqueued: boolean;
+    private _started: boolean;
+    private _updateEnqueued: boolean;
     private _gameObject: GameObject;
 
     public constructor(gameObject: GameObject) {
         this._enabled = true;
         this._awakened = false;
         this._awakening = false;
-        this._startenqueued = false;
+        this._startEnqueued = false;
+        this._started = false;
+        this._updateEnqueued = false;
         this._gameObject = gameObject;
     }
 
@@ -43,6 +48,7 @@ export abstract class Component {
 
     public onDisable(): void { }
 
+    //this method is called by the engine, do not call it manually
     public tryCallAwake(): void {
         if (this._awakened) return;
         this._awakening = true;
@@ -51,11 +57,36 @@ export abstract class Component {
         this._awakened = true;
     }
 
-    //you must NOT use this method
+    //this method is called by the engine, do not call it manually
     public tryCallStart(): void {
-        if (this._startenqueued) return;
+        if (this._started) return;
+        this.start();
+        this._started = true;
+    }
+
+    //this method is called by the engine, do not call it manually
+    public tryEnqueueStart(): void {
+        if (this._startEnqueued) return;
         (this.engine as EngineGlobalObject).sceneProcessor.addStartComponent(this);
-        this._startenqueued = true;
+        this._startEnqueued = true;
+    }
+
+    //this method is called by the engine, do not call it manually
+    public tryEnqueueUpdate(): void {
+        if (this._updateEnqueued) return;
+        if (isUpdateableComponent(this)) {
+            (this.engine as EngineGlobalObject).sceneProcessor.addUpdateComponent(this);
+            this._updateEnqueued = true;
+        }
+    }
+
+    //this method is called by the engine, do not call it manually
+    public tryDequeueUpdate(): void {
+        if (!this._updateEnqueued) return;
+        if (isUpdateableComponent(this)) {
+            (this.engine as EngineGlobalObject).sceneProcessor.removeUpdateComponent(this);
+            this._updateEnqueued = false;
+        }
     }
 
     public get enabled(): boolean {
@@ -72,13 +103,23 @@ export abstract class Component {
         }
         
         if (this._gameObject.activeInHierarchy) {
+            const sceneProcessor = (this.engine as EngineGlobalObject).sceneProcessor;
+
             if (this._enabled) {
                 this.onEnable();
-                if (!this._startenqueued) {
-                    (this.engine as EngineGlobalObject).sceneProcessor.addStartComponent(this);
-                    this._startenqueued = true;
+                if (!this._startEnqueued) {
+                    sceneProcessor.addStartComponent(this);
+                    this._startEnqueued = true;
                 }
-            } else this.onDisable();
+                this.tryEnqueueUpdate();
+            } else {
+                this.onDisable();
+                if (this._startEnqueued && !this._started) {
+                    sceneProcessor.removeStartComponent(this);
+                    this._startEnqueued = false;
+                }
+                this.tryDequeueUpdate();
+            }
         }
     }
 

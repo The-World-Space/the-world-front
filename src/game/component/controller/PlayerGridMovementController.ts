@@ -36,7 +36,11 @@ export class PlayerGridMovementController extends Directionable
         const worldPosition = transform.getWorldPosition(this._tempVector3);
         worldPosition.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
         worldPosition.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
-        transform.position.copy(transform.parentTransform!.worldToLocal(worldPosition));
+        if (transform.parentTransform) {
+            transform.position.copy(transform.parentTransform.worldToLocal(worldPosition));
+        } else {
+            transform.position.copy(worldPosition);
+        }
         this._currentGridPosition.set(transform.position.x, transform.position.y);
     }
 
