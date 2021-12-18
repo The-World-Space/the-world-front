@@ -4,7 +4,6 @@ import { Bootstrapper } from "./bootstrap/Bootstrapper";
 import { CameraContainer } from "./render/CameraContainer";
 import { EngineGlobalObject } from "./EngineGlobalObject";
 import { GameState, GameStateKind } from "./GameState";
-import { GameObject } from "./hierarchy_object/GameObject";
 import { Scene } from "./hierarchy_object/Scene";
 import { IInputEventHandleable } from "./input/IInputEventHandleable";
 import { SceneProcessor } from "./SceneProcessor";
