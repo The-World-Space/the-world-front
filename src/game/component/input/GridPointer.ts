@@ -1,8 +1,8 @@
 import { Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
+import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PointerGridEvent, PointerGridInputListener } from "./PointerGridInputListener";
 
 export class GridPointer extends Component {
@@ -23,7 +23,7 @@ export class GridPointer extends Component {
     private readonly _onPointerUpBind = this.onPointerUp.bind(this);
     private readonly _onPointerMoveBind = this.onPointerMove.bind(this);
 
-    protected start(): void {
+    protected awake(): void {
         this._pointerGridInputListener = this.gameObject.getComponent(PointerGridInputListener);
         this._pointerGridInputListener!.addOnPointerEnterEventListener(this._onPointerEnterBind);
         this._pointerGridInputListener!.addOnPointerLeaveEventListener(this._onPointerLeaveBind);

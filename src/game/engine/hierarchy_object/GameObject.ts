@@ -37,14 +37,16 @@ export class GameObject {
         const gameObject = gameObjectBuilder.build();
         gameObjectBuilder.initialize();
         this.registerTransform(gameObject._transform);
+        gameObject.foreachComponentInChildren(component => {
+            component.tryCallAwake();
+        });
         if (gameObject._activeInHierarchy) {
             gameObject.foreachComponentInChildren(component => {
-                component.tryCallAwake();
-            });
-            gameObject.foreachComponentInChildren(component => {
-                component.onEnable();
-                component.tryEnqueueStart();
-                component.tryEnqueueUpdate();
+                if (component.enabled) {
+                    component.onEnable();
+                    component.tryEnqueueStart();
+                    component.tryEnqueueUpdate();
+                }
             });
         }
     }
@@ -56,7 +58,6 @@ export class GameObject {
         if (!prevActiveInHierarchy) {
             if (this.activeInHierarchy) {
                 this.foreachComponentInChildren(component => {
-                    component.tryCallAwake();
                     component.enabled = true;
                 });
             }
@@ -88,11 +89,13 @@ export class GameObject {
         }
         this._components.push(component);
 
+        component.tryCallAwake();
         if (this._activeInHierarchy) {
-            component.tryCallAwake();
-            component.onEnable();
-            component.tryEnqueueStart();
-            component.tryEnqueueUpdate();
+            if (component.enabled) {
+                component.onEnable();
+                component.tryEnqueueStart();
+                component.tryEnqueueUpdate();
+            }
         }
     }
 
@@ -247,18 +250,20 @@ export class GameObject {
         if (this._activeInHierarchy) {
             //enable components
             for (const component of this._components) {
-                component.enabled = true;
-            }
-        } else {
-            //disable components
-            for (const component of this._components) {
                 if (component.enabled) {
-                    component.onDisable();
+                    component.onEnable();
+                    component.tryEnqueueStart();
+                    component.tryEnqueueUpdate();
                 }
             }
-            //dequeue update
+        } else {
             for (const component of this._components) {
-                component.tryDequeueUpdate();
+                if (component.enabled) {
+                    //disable components
+                    component.onDisable();
+                    //dequeue update
+                    component.tryDequeueUpdate();
+                }
             }
         }
 
