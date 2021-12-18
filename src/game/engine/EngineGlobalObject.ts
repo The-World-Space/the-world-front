@@ -6,8 +6,9 @@ import { Scene } from "./hierarchy_object/Scene";
 import { CameraContainer } from "./render/CameraContainer";
 import { IReadonlyGameScreen } from "./render/IReadonlyGameScreen";
 import { SceneProcessor } from "./SceneProcessor";
+import { IEngine } from "./IEngine";
 
-export class EngineGlobalObject {
+export class EngineGlobalObject implements IEngine {
     private readonly _rootScene: Scene;
     private readonly _cameraContainer: CameraContainer;
     private readonly _time: IReadonlyTime;
