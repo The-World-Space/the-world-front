@@ -11,7 +11,6 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Notfound from './pages/Notfound';
 import Register from './pages/Register';
-import WorldPage from './pages/WorldPage';
 import CreateWorld from './pages/CreateWorld';
 import MyPage from './pages/MyPage';
 import MyWorldList from './pages/MyWorldList';
@@ -26,7 +25,6 @@ function App() {
         <Route exact path="/" component={MyWorldList} />
         <Route path="/welcome" exact component={Main} />
         <Route path="/thelab" component={Test} />
-        <Route path="/world/:worldId" component={WorldPage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/logout" component={Logout} />
