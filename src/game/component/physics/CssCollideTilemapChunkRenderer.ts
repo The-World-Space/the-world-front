@@ -96,7 +96,6 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
         const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
         
-        console.log(x, y, imageIndex, atlasIndex);
         cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
     }
 

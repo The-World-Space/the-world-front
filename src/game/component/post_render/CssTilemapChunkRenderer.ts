@@ -51,7 +51,6 @@ export class CssTilemapChunkRenderer extends Component {
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
-            console.log("create new cssTilemapRenderer");
             this.gameObject.addChildFromBuilder(
                 this.engine.instantlater.buildGameObject(
                     `css_tilemap_renderer_${chunkIndexX}_${chunkIndexY}`, 
