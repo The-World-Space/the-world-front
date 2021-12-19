@@ -58,6 +58,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                         c.iframeSource = iframe.src;
                         c.width = iframe.width * SIZE;
                         c.height = iframe.height * SIZE;
+                        c.viewScale = .5;
                         c.gameObject.transform.position.set(iframe.x, iframe.y, 1);
                         c.gameObject.transform.position.multiplyScalar(SIZE);
                         if (iframe.type === GameObjectType.Effect) {
