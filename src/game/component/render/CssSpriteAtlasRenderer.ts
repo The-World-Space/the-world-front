@@ -26,7 +26,7 @@ export class CssSpriteAtlasRenderer extends Component {
 
     private static readonly _defaultImagePath: string = "/assets/tilemap/default.png";
 
-    protected awake(): void {
+    protected start(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
             this.setImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
@@ -36,6 +36,7 @@ export class CssSpriteAtlasRenderer extends Component {
     }
 
     public onDestroy(): void {
+        if (!this.started) return;
         if (this._sprite) this.gameObject.unsafeGetTransform().remove(this._sprite); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
@@ -59,7 +60,7 @@ export class CssSpriteAtlasRenderer extends Component {
     }
 
     public setImage(path: string, rowCount: number, columnCount: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunction = () => {
                 this.setImage(path, rowCount, columnCount);
             };
@@ -106,6 +107,9 @@ export class CssSpriteAtlasRenderer extends Component {
             image.style.pointerEvents = this._pointerEvents ? "auto" : "none";
             image.style.zIndex = this._zindex.toString();
             this.updateImageByIndex();
+
+            if (this.enabled) this._sprite.visible = true;
+            else this._sprite.visible = false;
         };
         this._htmlImageElement.addEventListener("load", onLoad);
     }

@@ -20,7 +20,7 @@ export class CssHtmlElementRenderer extends Component {
 
     private static readonly _defaultElement: HTMLDivElement = document.createElement("div");
 
-    protected awake(): void {
+    protected start(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.setElement(CssHtmlElementRenderer._defaultElement);
@@ -30,6 +30,7 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public onDestroy(): void {
+        if (!this.started) return;
         if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
@@ -53,7 +54,7 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public setElement(value: HTMLDivElement|null) {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunction = () => {
                 this.setElement(value);
             };
@@ -87,11 +88,14 @@ export class CssHtmlElementRenderer extends Component {
                 this._htmlDivElement.offsetHeight * this._centerOffset.y, 0
             );
             this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+    
+            if (this.enabled) this._css3DObject.visible = true;
+            else this._css3DObject.visible = false;
         }
     }
 
     public setElementFromJSX(element: JSX.Element): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunction = () => {
                 this.setElementFromJSX(element);
             };

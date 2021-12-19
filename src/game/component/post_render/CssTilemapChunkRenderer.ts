@@ -13,7 +13,7 @@ export class CssTilemapChunkRenderer extends Component {
     
     private _initializeFunctions: ((() => void))[] = [];
 
-    protected awake(): void {
+    protected start(): void {
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
     }
@@ -51,6 +51,7 @@ export class CssTilemapChunkRenderer extends Component {
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
         let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
+            console.log("create new cssTilemapRenderer");
             this.gameObject.addChildFromBuilder(
                 this.engine.instantlater.buildGameObject(
                     `css_tilemap_renderer_${chunkIndexX}_${chunkIndexY}`, 
@@ -80,7 +81,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.drawTile(x, y, imageIndex, atlasIndex);
             });
@@ -97,7 +98,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.drawTileFromTwoDimensionalArray(array, xOffset, yOffset);
             });
@@ -113,7 +114,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public clearTile(x: number, y: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.clearTile(x, y);
             });
@@ -144,7 +145,7 @@ export class CssTilemapChunkRenderer extends Component {
     }
 
     public set imageSources(value: TileAtlasItem[]) {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.imageSources = value;
             });

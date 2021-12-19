@@ -15,7 +15,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     
     private _initializeFunctions: ((() => void))[] = [];
 
-    protected awake(): void {
+    protected start(): void {
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
     }
@@ -82,23 +82,26 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public drawTile(x: number, y: number, imageIndex: number, atlasIndex?: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.drawTile(x, y, imageIndex, atlasIndex);
             });
             return;
         }
+
         const chunkIndexX = Math.floor((x + this._chunkSize / 2) / this._chunkSize);
         const chunkIndexY = Math.floor((y + this._chunkSize / 2) / this._chunkSize);
         const cssTilemapRenderer = this.getTilemapRenedererOrCreate(chunkIndexX, chunkIndexY);
         const drawPosition = this.computeDrawPosition(chunkIndexX, chunkIndexY, x, y);
         const drawOffsetX = this.chunkSize % 2 === 0 ? 0 : -0.5;
         const drawOffsetY = this.chunkSize % 2 === 0 ? 0 : 0.5;
+        
+        console.log(x, y, imageIndex, atlasIndex);
         cssTilemapRenderer!.drawTile(drawPosition.x + drawOffsetX, this._chunkSize - drawPosition.y - 1 + drawOffsetY, imageIndex, atlasIndex);
     }
 
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], xOffset: number, yOffset: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.drawTileFromTwoDimensionalArray(array, xOffset, yOffset);
             });
@@ -114,7 +117,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public clearTile(x: number, y: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.clearTile(x, y);
             });
@@ -131,7 +134,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public addCollider(x: number, y: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.addCollider(x, y);
             });
@@ -172,7 +175,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public set imageSources(value: TileAtlasItem[]) {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.imageSources = value;
             });

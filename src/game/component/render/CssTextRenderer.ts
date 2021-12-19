@@ -33,7 +33,7 @@ export class CssTextRenderer extends Component {
 
     private static readonly _defaultText: string = "Text";
 
-    protected awake(): void {
+    protected start(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.text = CssTextRenderer._defaultText;
@@ -51,6 +51,7 @@ export class CssTextRenderer extends Component {
     }
 
     public onDestroy(): void {
+        if (!this.started) return;
         if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
@@ -66,7 +67,7 @@ export class CssTextRenderer extends Component {
     }
 
     public set text(value: string|null) {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunction = () => {
                 this.text = value;
             };
@@ -99,6 +100,9 @@ export class CssTextRenderer extends Component {
                 this._htmlDivElement.offsetHeight * this._textCenterOffset.y, 0
             );
             this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+                
+            if (this.enabled) this._css3DObject.visible = true;
+            else this._css3DObject.visible = false;
         }
     }
     

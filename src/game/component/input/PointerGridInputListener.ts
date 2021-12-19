@@ -50,7 +50,7 @@ export class PointerGridInputListener extends Component {
     private readonly _onTouchMoveBind = this.onTouchMove.bind(this);
     private readonly _onTouchCancelBind = this.onTouchCancel.bind(this);
 
-    protected awake(): void {
+    protected start(): void {
         this._htmlDivElement = document.createElement("div");
         this._css3DObject = new CSS3DObject(this._htmlDivElement);
         this._htmlDivElement.style.width = `${this._inputWidth}px`;
@@ -85,6 +85,7 @@ export class PointerGridInputListener extends Component {
     }
 
     public onDestroy(): void {
+        if (!this.started) return;
         if (this._htmlDivElement) { //It's the intended useless branch
             this._htmlDivElement.removeEventListener("mousedown", this._onMouseDownBind);
             this._htmlDivElement.removeEventListener("mouseup", this._onMouseUpBind);

@@ -70,7 +70,7 @@ export class SpriteAtlasStaticInstancer extends Component {
 
     private _initializeFunction: (() => void)|null = null;
 
-    protected awake(): void {
+    protected start(): void {
         this._initializeFunction?.call(this);
     }
 

@@ -23,7 +23,7 @@ export class GridPointer extends Component {
     private readonly _onPointerUpBind = this.onPointerUp.bind(this);
     private readonly _onPointerMoveBind = this.onPointerMove.bind(this);
 
-    protected awake(): void {
+    protected start(): void {
         this._pointerGridInputListener = this.gameObject.getComponent(PointerGridInputListener);
         this._pointerGridInputListener!.addOnPointerEnterEventListener(this._onPointerEnterBind);
         this._pointerGridInputListener!.addOnPointerLeaveEventListener(this._onPointerLeaveBind);
@@ -47,6 +47,7 @@ export class GridPointer extends Component {
     }
 
     public onDestroy(): void {
+        if (!this.started) return;
         if (this._pointerGridInputListener) {
             this._pointerGridInputListener.removeOnPointerEnterEventListener(this._onPointerEnterBind);
             this._pointerGridInputListener.removeOnPointerLeaveEventListener(this._onPointerLeaveBind);

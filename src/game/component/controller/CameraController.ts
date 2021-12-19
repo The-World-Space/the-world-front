@@ -16,7 +16,7 @@ export class CameraController extends Component {
     private _lerpTrack: boolean = false;
     private _lerpAlpha: number = 0.1;
 
-    protected awake(): void {
+    protected start(): void {
         if (this._trackTarget) {
             const targetPosition = this._trackTarget.transform.getWorldPosition(this._tempVector);
             targetPosition.z += this._cameraDistanceOffset;
