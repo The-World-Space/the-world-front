@@ -71,20 +71,20 @@ export class GameObject {
         }
     }
 
-    public addComponent(componentCtor: ComponentConstructor): void {
+    public addComponent<T extends Component>(componentCtor: ComponentConstructor<T>): T|null {
         const component = new componentCtor(this);
         if (component.disallowMultipleComponent) {
             const existingComponent = this.getComponent(componentCtor);
             if (existingComponent) {
                 console.warn(`Component ${componentCtor.name} already exists on GameObject ${this.name}`);
-                return;
+                return null;
             }
         }
         for (const requiredComponentCtor of component.requiredComponents) {
             const requiredComponent = this.getComponent(requiredComponentCtor);
             if (!requiredComponent) {
                 console.warn(`Component ${requiredComponentCtor.name} is required by Component ${componentCtor.name} on GameObject ${this.name}`);
-                return;
+                return null;
             }
         }
         this._components.push(component);
@@ -97,6 +97,7 @@ export class GameObject {
                 component.tryEnqueueUpdate();
             }
         }
+        return component;
     }
 
     public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>): T | null {
