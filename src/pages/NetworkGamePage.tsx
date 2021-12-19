@@ -10,7 +10,7 @@ function NetworkGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
     const worldId = '0';
-    let { loading: world_loading, value: world0, error} = useAsync(() => getWorld(worldId, globalApolloClient));
+    let { loading: world_loading, value: world0 } = useAsync(() => getWorld(worldId, globalApolloClient));
     let user = useUser();
     
     useEffect( () => { //on mount component

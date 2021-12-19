@@ -139,7 +139,7 @@ export class NetworkManager {
         const leftPlayers = [...this._characterMap.keys()].filter(p => !playerIdSet.has(p));
         
         newPlayers.forEach(e => {
-            if (this._playerId == e.user.id) return;
+            if (this._playerId === e.user.id) return;
             this._ee.emit("join", e.user, new Vector2(e.x, e.y));
             this._characterMap.add(e.user.id);
         });
