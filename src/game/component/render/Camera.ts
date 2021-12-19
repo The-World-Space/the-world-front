@@ -47,10 +47,11 @@ export class Camera extends Component {
                 this.gameObject.unsafeGetTransform().add(this._camera); //it's safe because this._camera is not GameObject
             } else {
                 if (this._camera instanceof THREE.OrthographicCamera) {
-                    this._camera.left = -aspectRatio;
-                    this._camera.right = aspectRatio;
-                    this._camera.top = 1;
-                    this._camera.bottom = -1;
+                    const viewSizeScalar = this._viewSize * 0.5;
+                    this._camera.left = -viewSizeScalar * aspectRatio;
+                    this._camera.right = viewSizeScalar * aspectRatio;
+                    this._camera.top = viewSizeScalar;
+                    this._camera.bottom = -viewSizeScalar;
                     this._camera.near = this._near;
                     this._camera.far = this._far;
                     this._camera.updateProjectionMatrix();
