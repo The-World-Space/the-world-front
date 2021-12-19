@@ -32,7 +32,7 @@ function App() {
         <Route path="/mypage" component={MyPage} />
         <Route path="/interfacetest" component={IngameInterface} />
         <Route path="/game" component={GamePage} />
-        <Route path="/networkgame" component={NetworkGamePage} />
+        <Route path="/world/:worldId" component={NetworkGamePage} />
         <Route path="*" component={Notfound} />
       </Switch>
     </Router>
