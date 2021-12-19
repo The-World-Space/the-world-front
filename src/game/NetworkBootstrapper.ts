@@ -18,7 +18,6 @@ import { User } from "../hooks/useUser";
 import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
-const SIZE = 16;
 
 export class NetworkInfoObject {
     private readonly _serverWorld: ServerWorld;
