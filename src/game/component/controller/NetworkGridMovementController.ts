@@ -3,7 +3,7 @@ import { NetworkManager } from "../../engine/NetworkManager";
 import { Directionable } from "./Directionable";
 
 export class NetworkGridMovementController extends Directionable {
-    private _speed: number = 96;
+    private _speed: number = 80;
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;
     private readonly _gridCenter: Vector2 = new Vector2();
@@ -41,12 +41,6 @@ export class NetworkGridMovementController extends Directionable {
         if (!this.isMoving) return;
         const vector2Pos = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         let distance = vector2Pos.distanceTo(this._targetGridPosition);
-
-        if (distance < this._speed * this.engine.time.deltaTime) {
-            if (/*recalculate target grid position*/ true) {
-                distance = vector2Pos.distanceTo(this._targetGridPosition);
-            }
-        }
         
         if (distance > 0.1) {
             let direction = this._targetGridPosition.clone().sub(vector2Pos);
