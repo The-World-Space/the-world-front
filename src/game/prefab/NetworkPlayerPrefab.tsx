@@ -82,7 +82,10 @@ export class NetworkPlayerPrefab extends Prefab {
                     c.initNetwork(this._userId, this._networkManager);
             })
             .withComponent(MovementAnimationController)
-            .withComponent(ZaxisSorter, c => c.runOnce = false)
+            .withComponent(ZaxisSorter, c => {
+                c.runOnce = false;
+                c.offset = 1;
+            })
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
