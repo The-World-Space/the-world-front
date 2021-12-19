@@ -6,11 +6,12 @@ import { getWorld, globalApolloClient, joinWorld } from '../game/connect/gql';
 import { Vector2 } from 'three';
 import useUser from '../hooks/useUser';
 import IngameInterface from "../components/organisms/IngameInterface";
+import { useParams } from 'react-router-dom';
 
 function NetworkGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
-    const worldId = '0';
+    const { worldId } = useParams<{worldId: string}>();
     let { loading: world_loading, value: world0 } = useAsync(() => getWorld(worldId, globalApolloClient));
     let user = useUser();
     
