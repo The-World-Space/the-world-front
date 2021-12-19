@@ -73,7 +73,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                         
                         c.gameObject.transform.position.set(
                             ref.gridCenterX + iframe.x * ref.gridCellWidth - ref.gridCellWidth / 2,
-                            ref.gridCenterY + iframe.y * ref.gridCellHeight, 1);
+                            ref.gridCenterY + iframe.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
                     })
                     .withComponent(ZaxisSorter, c => {
                         if (flatTypes.has(iframe.type))
@@ -111,7 +111,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                         c.imageCenterOffset = new Vector2(0.5, 0.5);
                         c.gameObject.transform.position.set(
                             ref.gridCenterX + image.x * ref.gridCellWidth - ref.gridCellWidth / 2, 
-                            ref.gridCenterY + image.y * ref.gridCellHeight, 1);
+                            ref.gridCenterY + image.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
                     })
                     .withComponent(ZaxisSorter, c => {
                         if (flatTypes.has(image.type))
