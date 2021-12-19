@@ -71,8 +71,8 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                         c.iframeCenterOffset = new Vector2(0.5, 0.5);
                         
                         c.gameObject.transform.position.set(
-                            ref.gridCenterX + iframe.x * ref.gridCellWidth - ref.gridCellWidth / 2, 
-                            ref.gridCenterY + iframe.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
+                            ref.gridCenterX + iframe.x * ref.gridCellWidth - ref.gridCellWidth / 2,
+                            ref.gridCenterY + iframe.y * ref.gridCellHeight, 1);
                     })
                     .withComponent(ZaxisSorter, c => {
                         if (flatTypes.has(iframe.type))
@@ -101,10 +101,16 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
             this.sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `image_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(CssSpriteRenderer, c => {
+                        const ref = colideTilemap.ref;
+                        if (!ref) return;
                         c.imagePath = image.src;
                         // @TODO: image height / width
-                        c.gameObject.transform.position.set(image.x, image.y, 1);
-                        c.gameObject.transform.position.multiplyScalar(SIZE);
+                        c.imageHeight = image.height * ref.gridCellHeight;
+                        c.imageWidth = image.width * ref.gridCellWidth;
+                        c.imageCenterOffset = new Vector2(0.5, 0.5);
+                        c.gameObject.transform.position.set(
+                            ref.gridCenterX + image.x * ref.gridCellWidth - ref.gridCellWidth / 2, 
+                            ref.gridCenterY + image.y * ref.gridCellHeight, 1);
                     })
                     .withComponent(ZaxisSorter, c => {
                         if (flatTypes.has(image.type))
@@ -136,7 +142,9 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.initLocalPlayer(player.ref!);
                 }))
             .withChild(instantlater.buildGameObject('floor')
-                .withComponent(CssCollideTilemapRenderer)
+                .withComponent(CssCollideTilemapRenderer, c => {
+                    c.pointerEvents = false;
+                })
                 .getComponent(CssCollideTilemapRenderer, colideTilemap))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))
@@ -145,7 +153,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .make()
                 .getGameObject(player))
 
-            .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 4, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
+            .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 8, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
                 .withComponent(IframeRenderer, c => {
                     c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
                     c.width = 640 / 2;
