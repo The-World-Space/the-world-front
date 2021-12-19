@@ -78,10 +78,10 @@ export class NetworkGridMovementController extends Directionable {
             let syncCorrectionScalarX = 1;
             let syncCorrectionScalarY = 1;
 
-            if (this.gridCellWidth < direction.x) {
+            if (this.gridCellWidth < Math.abs(direction.x)) {
                 syncCorrectionScalarX = direction.x / this.gridCellWidth;
             }
-            if (this.gridCellHeight < direction.y) {
+            if (this.gridCellHeight < Math.abs(direction.y)) {
                 syncCorrectionScalarY = direction.y / this.gridCellHeight;
             }
 
