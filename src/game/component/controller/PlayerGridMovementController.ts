@@ -8,7 +8,7 @@ import { IGridPositionable } from "./IGridPositionable";
 
 export class PlayerGridMovementController extends Directionable
     implements IGridPositionable {
-    private _speed: number = 96;
+    private _speed: number = 80;
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;
     private _collideMaps: IGridCollidable[] = [];
