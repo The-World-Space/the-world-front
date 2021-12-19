@@ -15,6 +15,7 @@ import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
 import { NetworkManager } from "./engine/NetworkManager";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
+import { User } from "../hooks/useUser";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
 const SIZE = 16;
@@ -23,11 +24,13 @@ export class NetworkInfoObject {
     private readonly _serverWorld: ServerWorld;
     private readonly _apolloClient: ApolloClient<any>;
     private readonly _networkManager: NetworkManager;
+    private readonly _user: User;
 
-    public constructor(serverWorld: ServerWorld, userId: string, apolloClient: ApolloClient<any>) {
+    public constructor(serverWorld: ServerWorld, user: User, apolloClient: ApolloClient<any>) {
         this._serverWorld = serverWorld;
         this._apolloClient = apolloClient;
-        this._networkManager = new NetworkManager(serverWorld.id, userId, apolloClient);
+        this._user = user;
+        this._networkManager = new NetworkManager(serverWorld.id, user.id, apolloClient);
     }
     
     public get serverWorld(): ServerWorld {
@@ -40,6 +43,10 @@ export class NetworkInfoObject {
 
     public get networkManager(): NetworkManager {
         return this._networkManager;
+    }
+
+    public get user(): User {
+        return this._user;
     }
 }
 
@@ -104,6 +111,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))
                 .withCollideMap(colideTilemap)
+                .withNameTag(new PrefabRef(this.interopObject!.user.nickname))
                 .make()
                 .getGameObject(player))
 

@@ -31,7 +31,7 @@ function NetworkGamePage() {
             if (ref !== null && !world_loading && world0 && user) {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                game.run(NetworkBootstrapper, new NetworkInfoObject(world0, user.id, globalApolloClient));
+                game.run(NetworkBootstrapper, new NetworkInfoObject(world0, user, globalApolloClient));
                 joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
                     game!.inputHandler.startHandleEvents();
                 })

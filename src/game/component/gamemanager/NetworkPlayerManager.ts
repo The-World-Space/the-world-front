@@ -38,11 +38,13 @@ export class NetworkPlayerManager extends Component {
     private _buildNetworkPlayer(user: User, pos: Vector2, networkManager: NetworkManager) {
         const instantlater = this.engine.instantlater;
         const posPrefabRef = new PrefabRef<Vector2>(pos);
+        const nameRef = new PrefabRef(user.nickname);
 
         const prefab = 
             instantlater.buildPrefab(`${prefix}/player_${user.id}`, NetworkPlayerPrefab)
                 .withUserId(user.id)
                 .withNetworkManager(networkManager)
+                .withNameTag(nameRef)
                 .withGridPosition(posPrefabRef)
 
         const builder = prefab.make();
