@@ -46,7 +46,7 @@ export class CssTilemapRenderer extends Component{
     
     private _initializeFunctions: ((() => void))[] = [];
 
-    protected awake(): void { 
+    protected start(): void { 
         this.drawTileMap();
 
         this._initializeFunctions.forEach(func => func());
@@ -55,6 +55,7 @@ export class CssTilemapRenderer extends Component{
     }
 
     public onDestroy(): void {
+        if (!this.started) return;
         if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
@@ -84,12 +85,15 @@ export class CssTilemapRenderer extends Component{
         this._htmlCanvasElement.width = tileMapWidth;
         this._htmlCanvasElement.height = tileMapHeight;
         this._htmlCanvasElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
+
+        if (this.enabled) this._css3DObject.visible = true;
+        else this._css3DObject.visible = false;
     }
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
-                this.drawTile(column, row, imageIndex);
+                this.drawTile(column, row, imageIndex, atlasIndex);
             });
             return;
         }
@@ -120,7 +124,7 @@ export class CssTilemapRenderer extends Component{
 
     //i is imageIndex and a is atlasIndex
     public drawTileFromTwoDimensionalArray(array: ({i: number, a: number}|null)[][], columnOffset: number, rowOffset: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.drawTileFromTwoDimensionalArray(array, columnOffset, rowOffset);
             });
@@ -159,7 +163,7 @@ export class CssTilemapRenderer extends Component{
     }
 
     public clearTile(column: number, row: number): void {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.clearTile(column, row);
             });
@@ -171,7 +175,7 @@ export class CssTilemapRenderer extends Component{
     }
 
     public set imageSources(value: TileAtlasItem[]) {
-        if (!this.awakened && !this.awakening) {
+        if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
                 this.imageSources = value;
             });
