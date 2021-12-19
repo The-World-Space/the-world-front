@@ -12,7 +12,6 @@ import ChatIcon from '../atoms/ChatIcon.svg';
 import SendButtonIcon from '../atoms/SendButtonIcon.svg';
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 import { ApolloClient, gql } from "@apollo/client";
-import { useParams } from "react-router";
 
 const OuterDiv = styled.div`
     display: flex;
