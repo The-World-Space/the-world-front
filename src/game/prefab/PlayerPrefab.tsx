@@ -81,7 +81,10 @@ export class PlayerPrefab extends Prefab {
                 if (this._gridPointer) c.gridPointer = this._gridPointer.ref;
             })
             .withComponent(MovementAnimationController)
-            .withComponent(ZaxisSorter, c => c.runOnce = false)
+            .withComponent(ZaxisSorter, c => {
+                c.runOnce = false;
+                c.offset = 1;
+            })
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
@@ -99,11 +102,10 @@ export class PlayerPrefab extends Prefab {
                             padding: "5px 10px",
                             opacity: 0.5,
                             }}>
-                            collider place mode
-                            <input type="checkbox" id="test_check_box" defaultChecked />
+                            gaymusiyo
                         </div>
                     );
-                    //c.pointerEvents = false;
+                    c.pointerEvents = false;
                 }));
 
         if (this._nameTagString.ref) {
