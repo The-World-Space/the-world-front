@@ -22,13 +22,13 @@ export class GridInputPrefab extends Prefab {
 
     public make(): GameObjectBuilder {
         return this.gameObjectBuilder
-            .withComponent(CameraRelativeZaxisSorter, c => c.offset = -450)
+            .withComponent(CameraRelativeZaxisSorter, c => c.offset = -550)
             .withComponent(PointerGridInputListener, c => {
                 c.inputWidth = 512;
                 c.inputHeight = 512;
                 c.setGridInfoFromCollideMap(this._gridCollideMap.ref!);
             })
-            .withComponent(GridPointer, c => c.pointerZoffset = 400)
+            .withComponent(GridPointer, c => c.pointerZoffset = 600)
             .getComponent(GridPointer, this._gridPointer);
     }
 }
