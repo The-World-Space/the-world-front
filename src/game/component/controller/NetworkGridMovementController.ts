@@ -13,7 +13,6 @@ export class NetworkGridMovementController extends Directionable {
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
     private _networkManager: NetworkManager | null = null;
     private _userId: string | null = null;
-    private _lastPos: Vector2 = new Vector2();
 
     constructor(gameObject: GameObject) {
         super(gameObject);
@@ -42,8 +41,8 @@ export class NetworkGridMovementController extends Directionable {
     }
 
     public onMove(pos: Vector2) {
-        this._targetGridPosition.setX(pos.x * this._gridCellWidth);
-        this._targetGridPosition.setY(pos.y * this._gridCellHeight);
+        this._targetGridPosition.setX(pos.x * this._gridCellWidth + this._gridCenter.x);
+        this._targetGridPosition.setY(pos.y * this._gridCellHeight + this._gridCenter.y);
         this.isMoving = true;
     }
 

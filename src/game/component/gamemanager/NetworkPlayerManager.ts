@@ -5,18 +5,24 @@ import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { NetworkManager, User } from "../../engine/NetworkManager";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
+import { IGridCollidable } from "../physics/IGridCollidable";
 
 const prefix = `@@tw/game/component/spawner/NetworkSpawnner`
 
 export class NetworkPlayerManager extends Component {
     private _networkPlayerMap: Map<string, GameObject> = new Map();
     private _networkManager: NetworkManager | null = null;
+    private _iGridCollidable: IGridCollidable | null = null;
 
     public initNetwork(networkManager: NetworkManager) {
         this._networkManager = networkManager;
         networkManager.ee.on('join', (user, pos) => {
             this._buildNetworkPlayer(user, pos, networkManager);
         });
+    }
+
+    public set iGridCollidable(val: IGridCollidable) {
+        this._iGridCollidable = val;
     }
 
     public initLocalPlayer(player: GameObject){
@@ -44,6 +50,7 @@ export class NetworkPlayerManager extends Component {
             instantlater.buildPrefab(`${prefix}/player_${user.id}`, NetworkPlayerPrefab)
                 .withUserId(user.id)
                 .withNetworkManager(networkManager)
+                .withGridInfo(new PrefabRef(this._iGridCollidable))
                 .withNameTag(nameRef)
                 .withGridPosition(posPrefabRef)
 

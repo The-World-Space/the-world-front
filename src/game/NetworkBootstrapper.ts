@@ -139,6 +139,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(NetworkPlayerManager, c => {
                     c.initNetwork(this.interopObject!.networkManager);
                     c.initLocalPlayer(player.ref!);
+                    c.iGridCollidable = colideTilemap.ref!;
                 }))
             .withChild(instantlater.buildGameObject('floor')
                 .withComponent(CssCollideTilemapRenderer, c => {
