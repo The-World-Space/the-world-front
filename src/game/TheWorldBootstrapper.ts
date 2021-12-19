@@ -1,4 +1,3 @@
-import { Vector3 } from "three";
 import { GridPointer } from "./component/input/GridPointer";
 import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
@@ -28,7 +27,7 @@ export class TheWorldBootstrapper extends Bootstrapper {
                 .withPathfindPointer(gridPointer).make()
                 .getGameObject(player))
             
-            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab, new Vector3(8, 8, 0))
+            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(collideTilemap)
                 .getGridPointer(gridPointer).make())
                 
