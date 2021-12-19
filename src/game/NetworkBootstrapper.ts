@@ -16,6 +16,8 @@ import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
 import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
+import { GridInputPrefab } from "./prefab/GridInputPrefab";
+import { GridPointer } from "./component/input/GridPointer";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
 
@@ -54,14 +56,14 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
         const instantlater = this.engine.instantlater;
 
         const player: PrefabRef<GameObject> = new PrefabRef();
-        const colideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
-
+        const collideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
+        const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
 
         this.interopObject!.serverWorld.iframes.forEach((iframe, idx) => {
             this.sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `iframe_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(IframeRenderer, c => {
-                        const ref = colideTilemap.ref;
+                        const ref = collideTilemap.ref;
                         if (!ref) return;
                         c.iframeSource = iframe.src;
                         c.width = iframe.width * ref.gridCellWidth;
@@ -100,7 +102,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
             this.sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `image_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(CssSpriteRenderer, c => {
-                        const ref = colideTilemap.ref;
+                        const ref = collideTilemap.ref;
                         if (!ref) return;
                         c.imagePath = image.src;
                         // @TODO: image height / width
@@ -131,7 +133,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
         //@ts-ignore
         globalThis.debug = {
             player: player,
-            colideTilemap,
+            colideTilemap: collideTilemap,
         }
 
         return this.sceneBuilder
@@ -139,17 +141,18 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(NetworkPlayerManager, c => {
                     c.initNetwork(this.interopObject!.networkManager);
                     c.initLocalPlayer(player.ref!);
-                    c.iGridCollidable = colideTilemap.ref!;
+                    c.iGridCollidable = collideTilemap.ref!;
                 }))
             .withChild(instantlater.buildGameObject('floor')
                 .withComponent(CssCollideTilemapRenderer, c => {
                     c.pointerEvents = false;
                 })
-                .getComponent(CssCollideTilemapRenderer, colideTilemap))
+                .getComponent(CssCollideTilemapRenderer, collideTilemap))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))
-                .withCollideMap(colideTilemap)
+                .withCollideMap(collideTilemap)
                 .withNameTag(new PrefabRef(this.interopObject!.user.nickname))
+                .withPathfindPointer(gridPointer)
                 .make()
                 .getGameObject(player))
 
@@ -164,8 +167,13 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .withComponent(ZaxisSorter))
             
+            
+            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab, new Vector3(8, 8, 0))
+                .withCollideMap(collideTilemap)
+                .getGridPointer(gridPointer).make())
+                
             .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
-                .withTrackTarget(player).make())
+                .withTrackTarget(player).make());
             
     }
 }
