@@ -30,6 +30,7 @@ function NetworkGamePage() {
     return (
         <div style={{
             display: 'flex',
+            width: '100%',
             height: '100%',
         }}>
             <div style={{
@@ -39,17 +40,17 @@ function NetworkGamePage() {
             }}>
                 <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
             </div>
-            <div style = {{height: '100%', width: '100%'}} ref={ref => {
-            div = ref;
-            if (ref !== null && !world_loading && world0 && user) {
-                
-                game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                game.run(NetworkBootstrapper, new NetworkInfoObject(world0, user, globalApolloClient));
-                joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
-                    game!.inputHandler.startHandleEvents();
-                })
-            }
-        }}/>
+            <div style = {{height: '100%', width: 'calc(100% - 130px)'}} ref={ref => {
+                div = ref;
+                if (ref !== null && !world_loading && world0 && user) {
+                    
+                    game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
+                    game.run(NetworkBootstrapper, new NetworkInfoObject(world0, user, globalApolloClient));
+                    joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
+                        game!.inputHandler.startHandleEvents();
+                    })
+                }
+            }}/>
         </div>
     );
 }
