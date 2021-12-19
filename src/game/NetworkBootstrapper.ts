@@ -54,20 +54,25 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
-        let player: PrefabRef<GameObject> = new PrefabRef();
-        let colideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
+        const player: PrefabRef<GameObject> = new PrefabRef();
+        const colideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
 
 
         this.interopObject!.serverWorld.iframes.forEach((iframe, idx) => {
             this.sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `iframe_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
                     .withComponent(IframeRenderer, c => {
+                        const ref = colideTilemap.ref;
+                        if (!ref) return;
                         c.iframeSource = iframe.src;
-                        c.width = iframe.width * SIZE;
-                        c.height = iframe.height * SIZE;
+                        c.width = iframe.width * ref.gridCellWidth;
+                        c.height = iframe.height * ref.gridCellHeight;
                         c.viewScale = .5;
-                        c.gameObject.transform.position.set(iframe.x, iframe.y, 1);
-                        c.gameObject.transform.position.multiplyScalar(SIZE);
+                        c.iframeCenterOffset = new Vector2(0, 0.5);
+                        
+                        c.gameObject.transform.position.set(
+                            ref.gridCenterX + iframe.x * ref.gridCellWidth - ref.gridCellWidth / 2, 
+                            ref.gridCenterY + iframe.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
                     })
                     .withComponent(ZaxisSorter, c => {
                         if (flatTypes.has(iframe.type))
@@ -118,6 +123,11 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     }));
         });
         
+        //@ts-ignore
+        globalThis.debug = {
+            player: player,
+            colideTilemap,
+        }
 
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject('networkGameManager')
@@ -125,6 +135,9 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.initNetwork(this.interopObject!.networkManager);
                     c.initLocalPlayer(player.ref!);
                 }))
+            .withChild(instantlater.buildGameObject('floor')
+                .withComponent(CssCollideTilemapRenderer)
+                .getComponent(CssCollideTilemapRenderer, colideTilemap))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))
                 .withCollideMap(colideTilemap)
@@ -138,6 +151,8 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.width = 640 / 2;
                     c.height = 360 / 2;
                     c.iframeCenterOffset = new Vector2(0, 0.5);
+                    // @ts-ignore
+                    globalThis.debug.iframe = c.gameObject;
                 })
                 .withComponent(ZaxisSorter))
             
