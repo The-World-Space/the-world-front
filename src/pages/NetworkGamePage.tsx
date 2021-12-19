@@ -5,6 +5,7 @@ import { useAsync } from 'react-use';
 import { getWorld, globalApolloClient, joinWorld } from '../game/connect/gql';
 import { Vector2 } from 'three';
 import useUser from '../hooks/useUser';
+import IngameInterface from "../components/organisms/IngameInterface";
 
 function NetworkGamePage() {
     let game: Game | null = null;
@@ -26,7 +27,18 @@ function NetworkGamePage() {
     }
 
     return (
-        <div style = {{height: '100%', width: '100%'}} ref={ref => {
+        <div style={{
+            display: 'flex',
+            height: '100%',
+        }}>
+            <div style={{
+                zIndex: 1,
+                height: '100%',
+                pointerEvents: 'none',
+            }}>
+                <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
+            </div>
+            <div style = {{height: '100%', width: '100%'}} ref={ref => {
             div = ref;
             if (ref !== null && !world_loading && world0 && user) {
                 
@@ -37,6 +49,7 @@ function NetworkGamePage() {
                 })
             }
         }}/>
+        </div>
     );
 }
 

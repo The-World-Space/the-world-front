@@ -77,9 +77,9 @@ const ExpandBarDiv = styled.div`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     width: 350px;
     height: 100%;
-    position: relative;
-    right: 0px;
-    transition: right 0.5s;
+    position: absolute;
+    right: -220px;
+    transition: left 0.5s;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -278,10 +278,10 @@ function onChat(worldId: string, callback: (data: chatMessage) => void, apolloCl
 
 interface PropsType {
     apolloClient: ApolloClient<any>
+    worldId: string;
 }
 
-function IngameInterface({ apolloClient }: PropsType) {
-    const { worldId } = useParams<{worldId: string}>();
+function IngameInterface({ apolloClient, worldId }: PropsType) {
     const [barOpened, setBarOpened] = useState(false);
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState('');
@@ -308,6 +308,8 @@ function IngameInterface({ apolloClient }: PropsType) {
     }
 
     useEffect(() => {
+        if (!worldId) return;
+
         onChat(worldId, data => {
             setChatting(
                 lastState => 
@@ -316,7 +318,7 @@ function IngameInterface({ apolloClient }: PropsType) {
                       : [...lastState, {...data, key: performance.now()}]);
             if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
         }, apolloClient);
-    }, [apolloClient, worldId])
+    }, [apolloClient, worldId]);
 
     return (
         <OuterDiv>
@@ -329,7 +331,7 @@ function IngameInterface({ apolloClient }: PropsType) {
                 <MenuButtonImage src={ChannelBtnIcon} />
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
-            <ExpandBarDiv style={barOpened ? {} : {right: '350px'}}>
+            <ExpandBarDiv style={barOpened ? {left: '130px'} : {left: '-220px'}}>
                 <ListContainer>
                     <ListItem>
                         <ListItemInner>

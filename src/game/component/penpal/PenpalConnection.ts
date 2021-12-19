@@ -37,6 +37,8 @@ export class PenpalConnection extends Component {
         if (!iframeRenderer) return;
         const iframeDom = iframeRenderer.htmlIframeElement;
 
+        iframeDom.allow = "midi;  autoplay";
+
         this._iframeCommunicator = new IframeCommunicator(this._client, iframeDom, this._iframeInfo, this._worldId);
         this._iframeCommunicator.apply();
     }
