@@ -4,7 +4,6 @@ import { PenpalConnection } from "./component/penpal/PenpalConnection";
 import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
-import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { NetworkPlayerManager } from "./component/gamemanager/NetworkPlayerManager";
 import { GameObjectType, ServerWorld } from "./connect/types";
@@ -16,6 +15,7 @@ import { NetworkManager } from "./engine/NetworkManager";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
+import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
 const SIZE = 16;
@@ -68,14 +68,22 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                         c.viewScale = .5;
                         c.gameObject.transform.position.set(iframe.x, iframe.y, 1);
                         c.gameObject.transform.position.multiplyScalar(SIZE);
-                        if (iframe.type === GameObjectType.Effect) {
-                            c.gameObject.transform.position.z += 10;
-                        }
-                        else if (iframe.type === GameObjectType.Floor) {
-                            c.gameObject.transform.position.z -= 10;
-                        }
                     })
-                    .withComponent(ZaxisInitializer)
+                    .withComponent(ZaxisSorter, c => {
+                        if (flatTypes.has(iframe.type))
+                            c.gameObject.removeComponent(c);
+                        
+                        c.runOnce = true;
+                    })
+                    .withComponent(CameraRelativeZaxisSorter, c => {
+                        if (!flatTypes.has(iframe.type))
+                            c.gameObject.removeComponent(c);
+                        
+                        c.offset =
+                            (iframe.type === GameObjectType.Effect) ? 100 :
+                            (iframe.type === GameObjectType.Floor)  ? -500 :
+                            0;
+                    })
                     .withComponent(PenpalConnection, c => {
                         c.setApolloClient(this.interopObject!.apolloClient);
                         c.setIframeInfo(iframe);
@@ -83,6 +91,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     }));
         });
 
+        const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
         this.interopObject!.serverWorld.images.forEach((image, idx) => {
             this.sceneBuilder
                 .withChild(instantlater.buildGameObject(PREFIX + `image_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
@@ -91,14 +100,22 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                         // @TODO: image height / width
                         c.gameObject.transform.position.set(image.x, image.y, 1);
                         c.gameObject.transform.position.multiplyScalar(SIZE);
-                        if (image.type === GameObjectType.Effect) {
-                            c.gameObject.transform.position.z += 10;
-                        }
-                        else if (image.type === GameObjectType.Floor) {
-                            c.gameObject.transform.position.z -= 10;
-                        }
                     })
-                    .withComponent(ZaxisInitializer));
+                    .withComponent(ZaxisSorter, c => {
+                        if (flatTypes.has(image.type))
+                            c.gameObject.removeComponent(c);
+                        
+                        c.runOnce = true;
+                    })
+                    .withComponent(CameraRelativeZaxisSorter, c => {
+                        if (!flatTypes.has(image.type))
+                            c.gameObject.removeComponent(c);
+                        
+                        c.offset = 
+                            (image.type === GameObjectType.Effect) ? 100 :
+                            (image.type === GameObjectType.Floor)  ? -100 :
+                            0;
+                    }));
         });
         
 
