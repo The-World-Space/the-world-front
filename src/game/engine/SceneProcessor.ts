@@ -85,10 +85,12 @@ export class SceneProcessor {
             this.processStart();
             this.flushAddStartComponentBuffer();
         } while (0 < this._addStartComponentBuffer.length);
+        this.processStart();
         
         do {
             this.processUpdate();
             this.flushAddUpdateComponentBuffer();
         } while (0 < this._addUpdateComponentBuffer.length);
+        this.processUpdate();
     }
 }
