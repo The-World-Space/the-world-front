@@ -68,7 +68,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                         c.width = iframe.width * ref.gridCellWidth;
                         c.height = iframe.height * ref.gridCellHeight;
                         c.viewScale = .5;
-                        c.iframeCenterOffset = new Vector2(0, 0.5);
+                        c.iframeCenterOffset = new Vector2(0.5, 0.5);
                         
                         c.gameObject.transform.position.set(
                             ref.gridCenterX + iframe.x * ref.gridCellWidth - ref.gridCellWidth / 2, 
