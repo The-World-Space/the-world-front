@@ -10,6 +10,7 @@ import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRender
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
 import { NetworkManager } from "../engine/NetworkManager";
+import { MovementAnimationController } from "../component/controller/MovementAnimationController";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
@@ -80,6 +81,7 @@ export class NetworkPlayerPrefab extends Prefab {
                 if (this._networkManager && this._userId)
                     c.initNetwork(this._userId, this._networkManager);
             })
+            .withComponent(MovementAnimationController)
             .withComponent(ZaxisSorter, c => c.runOnce = false)
 
             .withChild(instantlater.buildGameObject("chatbox",

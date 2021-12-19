@@ -1,7 +1,7 @@
 import { Vector2, Vector3 } from "three";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { NetworkManager } from "../../engine/NetworkManager";
-import { Directionable } from "./Directionable";
+import { Direction, Directionable } from "./Directionable";
 
 export class NetworkGridMovementController extends Directionable {
     private _speed: number = 80;
@@ -13,6 +13,7 @@ export class NetworkGridMovementController extends Directionable {
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
     private _networkManager: NetworkManager | null = null;
     private _userId: string | null = null;
+    private _lastPos: Vector2 = new Vector2();
 
     constructor(gameObject: GameObject) {
         super(gameObject);
@@ -41,7 +42,6 @@ export class NetworkGridMovementController extends Directionable {
     }
 
     public onMove(pos: Vector2) {
-        console.debug("received", this._userId, this._targetGridPosition)
         this._targetGridPosition.setX(pos.x * this._gridCellWidth);
         this._targetGridPosition.setY(pos.y * this._gridCellHeight);
         this.isMoving = true;
@@ -53,6 +53,19 @@ export class NetworkGridMovementController extends Directionable {
         this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMove);
     }
 
+    private _setDirection(delta: Vector2): void {
+        const useX = Math.abs(delta.x) > Math.abs(delta.y);
+        const dx = useX ? delta.x : 0;
+        const dy = useX ? 0 : delta.y;
+
+        this.direction = 
+            (dx > 0) ? Direction.Right :
+            (dx < 0) ? Direction.Left :
+            (dy > 0) ? Direction.Up :
+            (dy < 0) ? Direction.Down :
+            NaN;
+    }
+
     private processMovement(): void {
         if (!this.isMoving) return;
         const vector2Pos = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
@@ -60,6 +73,7 @@ export class NetworkGridMovementController extends Directionable {
         
         if (distance > 0.1) {
             let direction = this._targetGridPosition.clone().sub(vector2Pos);
+            this._setDirection(direction);
 
             let syncCorrectionScalarX = 1;
             let syncCorrectionScalarY = 1;
