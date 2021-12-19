@@ -1,5 +1,6 @@
 import { ApolloClient } from "@apollo/client";
 import { Quaternion, Vector2, Vector3 } from "three";
+import { PenpalConnection } from "./component/penpal/PenpalConnection";
 import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
@@ -68,7 +69,12 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                             c.gameObject.transform.position.z -= 10;
                         }
                     })
-                    .withComponent(ZaxisInitializer));
+                    .withComponent(ZaxisInitializer)
+                    .withComponent(PenpalConnection, c => {
+                        c.setApolloClient(this.interopObject!.apolloClient);
+                        c.setIframeInfo(iframe);
+                        c.setWorldId(this.interopObject!.serverWorld.id);
+                    }));
         });
 
         this.interopObject!.serverWorld.images.forEach((image, idx) => {

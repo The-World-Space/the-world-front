@@ -9,7 +9,7 @@ function NetworkGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
     const worldId = '0';
-    let { loading: world_loading, value: world0} = useAsync(() => getWorld(worldId, globalApolloClient));
+    let { loading: world_loading, value: world0, error} = useAsync(() => getWorld(worldId, globalApolloClient));
     let { loading: join_loading } = useAsync(() => joinWorld(worldId, new Vector2(0, 0), globalApolloClient));
     
     useEffect( () => { //on mount component
@@ -23,6 +23,8 @@ function NetworkGamePage() {
     function onWindowResize() {
         if (div) game?.resizeFramebuffer(div.offsetWidth, div.offsetHeight);
     }
+
+    console.debug(error);
 
     return (
         <div style = {{height: '100%', width: '100%'}} ref={ref => {
