@@ -168,7 +168,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(ZaxisSorter))
             
             
-            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab, new Vector3(8, 8, 0))
+            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(collideTilemap)
                 .getGridPointer(gridPointer).make())
                 

@@ -114,7 +114,7 @@ export class PointerGridInputListener extends Component {
         const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         
         const positionX = this._css3DObject!.position.x + worldPosition.x - this._inputWidth / 2 + 
-            offsetX- this._gridCenter.x;
+            offsetX - this._gridCenter.x;
         const positionY = this._css3DObject!.position.y + worldPosition.y - this._inputHeight / 2 + 
             (this._inputHeight - offsetY) - this._gridCenter.y;
         
