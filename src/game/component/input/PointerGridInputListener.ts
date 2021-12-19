@@ -6,10 +6,12 @@ import { IGridCollidable } from "../physics/IGridCollidable";
 export class PointerGridEvent {
     private _gridPosition: Vector2;
     private _position: Vector2;
+    private _button: number;
 
-    public constructor(gridPosition: Vector2, position: Vector2) {
+    public constructor(gridPosition: Vector2, position: Vector2, button: number) {
         this._gridPosition = new Vector2(gridPosition.x, gridPosition.y);
         this._position = new Vector2(position.x, position.y);
+        this._button = button;
     }
 
     public get gridPosition(): Vector2 {
@@ -18,6 +20,10 @@ export class PointerGridEvent {
 
     public get position(): Vector2 {
         return this._position;
+    }
+
+    public get button(): number {
+        return this._button;
     }
 }
 
@@ -110,7 +116,7 @@ export class PointerGridInputListener extends Component {
         }
     }
 
-    private computeGridCellPosition(offsetX: number, offsetY: number): PointerGridEvent {
+    private createPointerGridEventFromOffset(offsetX: number, offsetY: number, button: number): PointerGridEvent {
         const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         
         const positionX = this._css3DObject!.position.x + worldPosition.x - this._inputWidth / 2 + 
@@ -123,32 +129,33 @@ export class PointerGridInputListener extends Component {
         
         return new PointerGridEvent(
             new Vector2(gridPositionX, gridPositionY),
-            new Vector2(positionX, positionY)
+            new Vector2(positionX, positionY),
+            button
         );
     }
 
     private onMouseDown(event: MouseEvent): void {
-        const gridEvent = this.computeGridCellPosition(event.offsetX, event.offsetY);
+        const gridEvent = this.createPointerGridEventFromOffset(event.offsetX, event.offsetY, event.button);
         this._onPointerDownDelegates.forEach(delegate => delegate(gridEvent));
     }
     
     private onMouseUp(event: MouseEvent): void {
-        const gridEvent = this.computeGridCellPosition(event.offsetX, event.offsetY);
+        const gridEvent = this.createPointerGridEventFromOffset(event.offsetX, event.offsetY, event.button);
         this._onPointerUpDelegates.forEach(delegate => delegate(gridEvent));
     }
 
     private onMouseEnter(event: MouseEvent): void {
-        const gridEvent = this.computeGridCellPosition(event.offsetX, event.offsetY);
+        const gridEvent = this.createPointerGridEventFromOffset(event.offsetX, event.offsetY, event.button);
         this._onPointerEnterDelegates.forEach(delegate => delegate(gridEvent));
     }
 
     private onMouseLeave(event: MouseEvent): void {
-        const gridEvent = this.computeGridCellPosition(event.offsetX, event.offsetY);
+        const gridEvent = this.createPointerGridEventFromOffset(event.offsetX, event.offsetY, event.button);
         this._onPointerLeaveDelegates.forEach(delegate => delegate(gridEvent));
     }
 
     private onMouseMove(event: MouseEvent): void {
-        const gridEvent = this.computeGridCellPosition(event.offsetX, event.offsetY);
+        const gridEvent = this.createPointerGridEventFromOffset(event.offsetX, event.offsetY, event.button);
         this._onPointerMoveDelegates.forEach(delegate => delegate(gridEvent));
     }
 

@@ -208,6 +208,7 @@ export class PlayerGridMovementController extends Directionable
     }
 
     private onPointerDown(event: PointerGridEvent): void {
+        if (event.button !== 0) return;
         if (this._movingByPathfinder) {
             this._movingByPathfinder = false;
             this._pathfindStartFunction = () => this.tryStartPathfind(event.gridPosition);
