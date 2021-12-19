@@ -13,7 +13,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     private _imageSources: TileAtlasItem[]|null = null;
     private _pointerEvents: boolean = true;
     
-    private _initializeFunctions: ((() => void))[] = [];
+    private _initializeFunctions: (() => void)[] = [];
 
     protected start(): void {
         this._initializeFunctions.forEach(func => func());
