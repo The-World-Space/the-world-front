@@ -1,4 +1,5 @@
 import { Vector2, Vector3 } from "three";
+import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { NetworkManager } from "../../engine/NetworkManager";
 import { Directionable } from "./Directionable";
 
@@ -10,6 +11,13 @@ export class NetworkGridMovementController extends Directionable {
     private readonly _currentGridPosition: Vector2 = new Vector2();
     private readonly _targetGridPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
+    private _networkManager: NetworkManager | null = null;
+    private _userId: string | null = null;
+
+    constructor(gameObject: GameObject) {
+        super(gameObject);
+        this.onMove = this.onMove.bind(this);
+    }
 
     private readonly _tempVector3: Vector3 = new Vector3();
     
@@ -27,14 +35,22 @@ export class NetworkGridMovementController extends Directionable {
     }
 
     public initNetwork(userId: string, networkManager: NetworkManager): void {
-        networkManager.ee.on(`move_${userId}`, pos => {
-            this._targetGridPosition.setX(pos.x * this._gridCellWidth);
-            this._targetGridPosition.setY(pos.y * this._gridCellHeight);
-        });
+        this._networkManager = networkManager;
+        this._userId = userId;
+        networkManager.ee.on(`move_${userId}`, this.onMove);
+    }
 
-        networkManager.ee.on(`leave_${userId}`, () => {
-            this.gameObject.destroy();
-        });
+    public onMove(pos: Vector2) {
+        console.debug("received", this._userId, this._targetGridPosition)
+        this._targetGridPosition.setX(pos.x * this._gridCellWidth);
+        this._targetGridPosition.setY(pos.y * this._gridCellHeight);
+        this.isMoving = true;
+    }
+
+    public onDestroy(): void {
+        if (this._networkManager === null)  return;
+        if (this._userId === null)          return;
+        this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMove);
     }
 
     private processMovement(): void {

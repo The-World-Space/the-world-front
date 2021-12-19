@@ -6,7 +6,7 @@ import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisInitializer } from "./component/render/ZaxisInitializer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
-import { NetworkSpawner } from "./component/spawner/NetworkSpawner";
+import { NetworkPlayerManager } from "./component/gamemanager/NetworkPlayerManager";
 import { GameObjectType, ServerWorld } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
@@ -24,10 +24,10 @@ export class NetworkInfoObject {
     private readonly _apolloClient: ApolloClient<any>;
     private readonly _networkManager: NetworkManager;
 
-    public constructor(serverWorld: ServerWorld, apolloClient: ApolloClient<any>) {
+    public constructor(serverWorld: ServerWorld, userId: string, apolloClient: ApolloClient<any>) {
         this._serverWorld = serverWorld;
         this._apolloClient = apolloClient;
-        this._networkManager = new NetworkManager(serverWorld.id, apolloClient);
+        this._networkManager = new NetworkManager(serverWorld.id, userId, apolloClient);
     }
     
     public get serverWorld(): ServerWorld {
@@ -50,8 +50,6 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
         let player: PrefabRef<GameObject> = new PrefabRef();
         let colideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
 
-        // @ts-ignore
-        globalThis.debug = this.sceneBuilder
 
         this.interopObject!.serverWorld.iframes.forEach((iframe, idx) => {
             this.sceneBuilder
@@ -98,8 +96,9 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
 
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject('networkGameManager')
-                .withComponent(NetworkSpawner, c => {
+                .withComponent(NetworkPlayerManager, c => {
                     c.initNetwork(this.interopObject!.networkManager);
+                    c.initLocalPlayer(player.ref!);
                 }))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))

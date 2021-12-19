@@ -1,11 +1,7 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector2 } from "three";
 import { IframeGameObject } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
-import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { NetworkManager, User } from "../../engine/NetworkManager";
 import { IframeCommunicator } from "../../penpal";
-import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { IframeRenderer } from "../render/IframeRenderer";
 
 

@@ -17,7 +17,7 @@ class EEWrapper {
     emit(key: `join`,                   user: User, spawnPoint: Vector2): void;
     emit(key: `move_${characterId}`,    pos: Vector2)                   : void;
     emit(key: `leave_${characterId}`)                                   : void;
-    emit(key: `player_move`,            pos: Vector2)                   : void; 
+    emit(key: `player_move`,            x: number, y: number)           : void; 
     
     emit(key: string, ...args: any[]): void {
         this.ee.emit(key, ...args);
@@ -30,6 +30,24 @@ class EEWrapper {
     on(key: string, cb: (...args: any[]) => void): void {
         this.ee.on(key, cb);
     }
+
+
+    once(key: `join`,                 cb: (user: User, spawnPoint: Vector2) => void)  : void;
+    once(key: `move_${characterId}`,  cb: (pos: Vector2) => void)                     : void;
+    once(key: `leave_${characterId}`, cb: () => void)                                 : void;
+
+    once(key: string, cb: (...args: any[]) => void): void {
+        this.ee.once(key, cb);
+    }
+
+
+    removeListener(key: `join`,                 cb: (user: User, spawnPoint: Vector2) => void)  : void;
+    removeListener(key: `move_${characterId}`,  cb: (pos: Vector2) => void)                     : void;
+    removeListener(key: `leave_${characterId}`, cb: () => void)                                 : void;
+
+    removeListener(key: string, cb: (...args: any[]) => void): void {
+        this.ee.removeListener(key, cb);
+    }
 }
 
 
@@ -38,6 +56,7 @@ export class NetworkManager {
     private readonly _characterMap: Set<characterId>;
 
     constructor(private readonly _worldId: string,
+                private readonly _playerId: string,
                 private readonly _client: ApolloClient<any>) {
         this._ee = new EEWrapper();
         this._characterMap = new Set();
@@ -91,7 +110,7 @@ export class NetworkManager {
     private _initEEListenters() {
         // player_move should only listened on this method.
         // @ts-ignore
-        this._ee.on("player_move", pos => {
+        this._ee.on("player_move", (x, y) => {
             this._client.mutate({
                 mutation: gql`
                     mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
@@ -103,10 +122,10 @@ export class NetworkManager {
                 `,
                 variables: {
                     characterMove: {
-                        x: pos.x,
-                        y: pos.y
+                        x,
+                        y,
                     },
-                    worldId: this._worldId
+                    worldId: this._worldId,
                 }
             });
         })
@@ -120,16 +139,18 @@ export class NetworkManager {
         const leftPlayers = [...this._characterMap.keys()].filter(p => !playerIdSet.has(p));
         
         newPlayers.forEach(e => {
+            if (this._playerId == e.user.id) return;
             this._ee.emit("join", e.user, new Vector2(e.x, e.y));
-            console.debug("join", e.user);
+            this._characterMap.add(e.user.id);
         });
         leftPlayers.forEach(e => {
             this._ee.emit(`leave_${e}`);
+            this._characterMap.delete(e);
         });
     }
 
-    private moveCharacter(data: Vector2 & {userId: string}) {
-        this._ee.emit(`move_${data.userId}`, data);
+    private moveCharacter(data: {x: number, y: number, userId: string}) {
+        this._ee.emit(`move_${data.userId}`, new Vector2(data.x, data.y));
     }
 
     get ee() {

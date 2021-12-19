@@ -179,7 +179,7 @@ export class WebSocketLink extends ApolloLink {
 
 
 export const link = new WebSocketLink({
-    url: 'wss://localhost:40081/graphql',
+    url: 'wss://computa.lunuy.com:40081/graphql',
     connectionParams: () => {
         const session = getSession();
         if (!session) {
@@ -196,3 +196,10 @@ export const globalApolloClient = new ApolloClient({
     link,
     cache: new InMemoryCache()
 });
+
+
+// @ts-ignore
+globalThis.debug = {
+    globalApolloClient,
+    getWorld
+}
