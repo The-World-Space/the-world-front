@@ -108,7 +108,7 @@ export class CssSpriteAtlasRenderer extends Component {
             image.style.zIndex = this._zindex.toString();
             this.updateImageByIndex();
 
-            if (this.enabled) this._sprite.visible = true;
+            if (this.enabled && this.gameObject.activeInHierarchy) this._sprite.visible = true;
             else this._sprite.visible = false;
         };
         this._htmlImageElement.addEventListener("load", onLoad);

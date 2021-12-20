@@ -86,7 +86,7 @@ export class CssTilemapRenderer extends Component{
         this._htmlCanvasElement.height = tileMapHeight;
         this._htmlCanvasElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
 
-        if (this.enabled) this._css3DObject.visible = true;
+        if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
         else this._css3DObject.visible = false;
     }
 
