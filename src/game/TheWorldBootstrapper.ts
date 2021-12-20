@@ -20,8 +20,7 @@ export class TheWorldBootstrapper extends Bootstrapper {
 
         return this.sceneBuilder
             .withChild(instantlater.buildPrefab("tilemap", SansFightRoomPrefab)
-                .getColideTilemapChunkRendererRef(collideTilemap).make()
-                .withComponent(CoroutineTest))
+                .getColideTilemapChunkRendererRef(collideTilemap).make())
 
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Heewon.png"))
