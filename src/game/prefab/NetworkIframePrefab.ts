@@ -7,6 +7,7 @@ import { IframeGameObject } from "../connect/types";
 import { IframeRenderer } from "../component/render/IframeRenderer";
 import { PenpalConnection } from "../component/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
+import { PenpalNetworkWrapper } from "../penpal/PenpalNetworkWrapper";
 
 export class NetworkIframePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
@@ -14,6 +15,7 @@ export class NetworkIframePrefab extends Prefab {
     private _apolloClient: PrefabRef<ApolloClient<any>> = new PrefabRef();
     private _iframeInfo: PrefabRef<IframeGameObject> = new PrefabRef();
     private _worldId: PrefabRef<string> = new PrefabRef();
+    private _penpalNetworkWrapper: PrefabRef<PenpalNetworkWrapper> = new PrefabRef();
 
     public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkIframePrefab {
         this._tilemap = tilemap;
@@ -35,6 +37,11 @@ export class NetworkIframePrefab extends Prefab {
         return this;
     }
 
+    public withPenpalNetworkWrapper(value: PrefabRef<PenpalNetworkWrapper>): NetworkIframePrefab {
+        this._penpalNetworkWrapper = value;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
         return this.gameObjectBuilder
             .withComponent(IframeRenderer, c => {
@@ -52,12 +59,13 @@ export class NetworkIframePrefab extends Prefab {
                 const iframe = this._iframeInfo.ref;
                 const client = this._apolloClient.ref;
                 const worldId = this._worldId.ref;
+                const penpalNetworkWrapper = this._penpalNetworkWrapper.ref;
                 if (!client) throw new Error("apollo client is not given");
                 if (!worldId) throw new Error("worldId is not given");
                 if (!iframe) throw new Error("iframe info is not given");
-                c.setApolloClient(client);
-                c.setIframeInfo(iframe);
-                c.setWorldId(worldId);
+                if (!penpalNetworkWrapper) throw new Error("penpalNetworkWrapper is not given");
+                c.iframeInfo = iframe;
+                c.penpalNetworkWrapper = penpalNetworkWrapper;
             });
     }
 }

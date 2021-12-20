@@ -4,6 +4,7 @@ import { GameObjectType, IframeGameObject } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { PenpalNetworkWrapper } from "../../penpal/PenpalNetworkWrapper";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
 import { IGridCollidable } from "../physics/IGridCollidable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
@@ -19,6 +20,7 @@ export class NetworkIframeManager extends Component {
     private _iGridCollidable: IGridCollidable | null = null;
     private _worldId: string | null = null;
     private _iframeList: IframeGameObject[] = [];
+    private _penpalNetworkWrapper: PenpalNetworkWrapper | null = null;
 
     public set apolloClient(apolloClient: ApolloClient<any>) {
         this._apolloClient = apolloClient;
@@ -34,6 +36,10 @@ export class NetworkIframeManager extends Component {
 
     public set iframeList(val: IframeGameObject[]) {
         this._iframeList = [...val];
+    }
+
+    public set penpalNetworkWrapper(val: PenpalNetworkWrapper) {
+        this._penpalNetworkWrapper = val;
     }
 
     public start() {
@@ -64,6 +70,7 @@ export class NetworkIframeManager extends Component {
                 .withGridInfo(new PrefabRef(this._iGridCollidable))
                 .withIframeInfo(new PrefabRef(iframeInfo))
                 .withApolloClient(new PrefabRef(apolloClient))
+                .withPenpalNetworkWrapper(new PrefabRef(this._penpalNetworkWrapper))
                 .withWorldId(new PrefabRef(worldId))
         
         const builder = prefab.make();

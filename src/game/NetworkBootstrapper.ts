@@ -17,11 +17,13 @@ import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { GridPointer } from "./component/input/GridPointer";
 import { NetworkIframeManager } from "./component/gamemanager/NetworkIframeManager";
 import { NetworkImageManager } from "./component/gamemanager/NetworkImageManager";
+import { PenpalNetworkWrapper } from "./penpal/PenpalNetworkWrapper";
 
 export class NetworkInfoObject {
     private readonly _serverWorld: ServerWorld;
     private readonly _apolloClient: ApolloClient<any>;
     private readonly _networkManager: NetworkManager;
+    private readonly _penpalNetworkManager: PenpalNetworkWrapper;
     private readonly _user: User;
 
     public constructor(serverWorld: ServerWorld, user: User, apolloClient: ApolloClient<any>) {
@@ -29,6 +31,7 @@ export class NetworkInfoObject {
         this._apolloClient = apolloClient;
         this._user = user;
         this._networkManager = new NetworkManager(serverWorld.id, user.id, apolloClient);
+        this._penpalNetworkManager = new PenpalNetworkWrapper(serverWorld.id, apolloClient);
     }
     
     public get serverWorld(): ServerWorld {
@@ -45,6 +48,10 @@ export class NetworkInfoObject {
 
     public get user(): User {
         return this._user;
+    }
+
+    public get penpalNetworkManager(): PenpalNetworkWrapper {
+        return this._penpalNetworkManager;
     }
 }
 
@@ -74,6 +81,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.iGridCollidable = collideTilemap.ref;
                     c.worldId = this.interopObject!.serverWorld.id;
                     c.iframeList = this.interopObject!.serverWorld.iframes;
+                    c.penpalNetworkWrapper = this.interopObject!.penpalNetworkManager;
                 })
                 .withComponent(NetworkImageManager, c => {
                     c.iGridCollidable = collideTilemap.ref;
