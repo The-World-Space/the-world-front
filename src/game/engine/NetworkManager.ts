@@ -1,59 +1,26 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { TypedEmitter } from 'tiny-typed-emitter';
+import { TypedEmitter } from 'detail-typed-emitter';
 import { Vector2 } from "three";
 import { User } from "../connect/types";
 
 type characterId = string;
 
 
-class EEWrapper {
-    private ee = new TypedEmitter();
-
-    emit(key: `join`,                   user: User, spawnPoint: Vector2): void;
-    emit(key: `move_${characterId}`,    pos: Vector2)                   : void;
-    emit(key: `leave_${characterId}`)                                   : void;
-    emit(key: `player_move`,            x: number, y: number)           : void; 
-    
-    emit(key: string, ...args: any[]): void {
-        this.ee.emit(key, ...args);
-    }
-
-    on(key: `join`,                 cb: (user: User, spawnPoint: Vector2) => void)  : void;
-    on(key: `move_${characterId}`,  cb: (pos: Vector2) => void)                     : void;
-    on(key: `leave_${characterId}`, cb: () => void)                                 : void;
-
-    on(key: string, cb: (...args: any[]) => void): void {
-        this.ee.on(key, cb);
-    }
-
-
-    once(key: `join`,                 cb: (user: User, spawnPoint: Vector2) => void)  : void;
-    once(key: `move_${characterId}`,  cb: (pos: Vector2) => void)                     : void;
-    once(key: `leave_${characterId}`, cb: () => void)                                 : void;
-
-    once(key: string, cb: (...args: any[]) => void): void {
-        this.ee.once(key, cb);
-    }
-
-
-    removeListener(key: `join`,                 cb: (user: User, spawnPoint: Vector2) => void)  : void;
-    removeListener(key: `move_${characterId}`,  cb: (pos: Vector2) => void)                     : void;
-    removeListener(key: `leave_${characterId}`, cb: () => void)                                 : void;
-
-    removeListener(key: string, cb: (...args: any[]) => void): void {
-        this.ee.removeListener(key, cb);
-    }
-}
-
+type EETypes = [
+    [`join`,                    (user: User, spawnPoint: Vector2) => void],
+    [`move_${characterId}`,     (pos: Vector2) => void],
+    [`leave_${characterId}`,    () => void],
+    [`player_move`,             (x: number, y: number) => void]
+]
 
 export class NetworkManager {
-    private readonly _ee: EEWrapper;
+    private readonly _ee: TypedEmitter<EETypes>;
     private readonly _characterMap: Set<characterId>;
 
     constructor(private readonly _worldId: string,
                 private readonly _playerId: string,
                 private readonly _client: ApolloClient<any>) {
-        this._ee = new EEWrapper();
+        this._ee = new TypedEmitter<EETypes>();
         this._characterMap = new Set();
         this._initNetwork();
         this._initEEListenters();
@@ -105,7 +72,6 @@ export class NetworkManager {
 
     private _initEEListenters() {
         // player_move should only listened on this method.
-        // @ts-ignore
         this._ee.on("player_move", (x, y) => {
             this._client.mutate({
                 mutation: gql`
