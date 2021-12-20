@@ -1,8 +1,9 @@
 import { Vector2 } from "three";
+import { User } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { NetworkManager, User } from "../../engine/NetworkManager";
+import { NetworkManager } from "../../engine/NetworkManager";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";
@@ -53,6 +54,7 @@ export class NetworkPlayerManager extends Component {
                 .withGridInfo(new PrefabRef(this._iGridCollidable))
                 .withNameTag(nameRef)
                 .withGridPosition(posPrefabRef)
+                .with4x4SpriteAtlasFromPath(new PrefabRef(user.skinSrc || "/assets/charactor/Seongwon.png"));
 
         const builder = prefab.make();
         const prefabRef = new PrefabRef<GameObject>();

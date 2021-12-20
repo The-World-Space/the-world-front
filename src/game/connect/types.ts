@@ -7,6 +7,12 @@ export interface ServerWorld {
     globalFields: GlobalField[];
 }
 
+export interface User {
+    id: string,
+    nickname: string,
+    skinSrc: string
+}
+
 export enum GameObjectType {
     Floor,
     Wall,

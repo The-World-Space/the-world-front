@@ -1,12 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { Vector2 } from "three";
-
-export interface User {
-    id: string;
-    nickname: string;
-}
-
+import { User } from "../connect/types";
 
 type characterId = string;
 
@@ -74,6 +69,7 @@ export class NetworkManager {
                         user {
                             id
                             nickname
+                            skinSrc
                         }
                     }
                 }
