@@ -18,6 +18,7 @@ import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxi
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { GridPointer } from "./component/input/GridPointer";
 import { NetworkIframeManager } from "./component/gamemanager/NetworkIframeManager";
+import { NetworkImageManager } from "./component/gamemanager/NetworkImageManager";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
 
@@ -58,39 +59,6 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
         const player: PrefabRef<GameObject> = new PrefabRef();
         const collideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
         const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
-
-        const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
-        this.interopObject!.serverWorld.images.forEach((image, idx) => {
-            this.sceneBuilder
-                .withChild(instantlater.buildGameObject(PREFIX + `image_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
-                    .withComponent(CssSpriteRenderer, c => {
-                        const ref = collideTilemap.ref;
-                        if (!ref) return;
-                        c.imagePath = image.src;
-                        // @TODO: image height / width
-                        c.imageHeight = image.height * ref.gridCellHeight;
-                        c.imageWidth = image.width * ref.gridCellWidth;
-                        c.imageCenterOffset = new Vector2(0.5, 0.5);
-                        c.gameObject.transform.position.set(
-                            ref.gridCenterX + image.x * ref.gridCellWidth - ref.gridCellWidth / 2, 
-                            ref.gridCenterY + image.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
-                    })
-                    .withComponent(ZaxisSorter, c => {
-                        if (flatTypes.has(image.type))
-                            c.gameObject.removeComponent(c);
-                        
-                        c.runOnce = true;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => {
-                        if (!flatTypes.has(image.type))
-                            c.gameObject.removeComponent(c);
-                        
-                        c.offset = 
-                            (image.type === GameObjectType.Effect) ? 100 :
-                            (image.type === GameObjectType.Floor)  ? -100 :
-                            0;
-                    }));
-        });
         
         //@ts-ignore
         globalThis.debug = {
@@ -110,6 +78,10 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.iGridCollidable = collideTilemap.ref;
                     c.worldId = this.interopObject!.serverWorld.id;
                     c.iframeList = this.interopObject!.serverWorld.iframes;
+                })
+                .withComponent(NetworkImageManager, c => {
+                    c.iGridCollidable = collideTilemap.ref;
+                    c.imageList = this.interopObject!.serverWorld.images;
                 }))
             .withChild(instantlater.buildGameObject('floor')
                 .withComponent(CssCollideTilemapRenderer, c => {
