@@ -7,7 +7,7 @@ import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";
 
-const prefix = `@@tw/game/component/spawner/NetworkSpawnner`
+const PREFIX = `@@tw/game/component/spawner/NetworkPlayerManager`;
 
 export class NetworkPlayerManager extends Component {
     private _networkPlayerMap: Map<string, GameObject> = new Map();
@@ -47,7 +47,7 @@ export class NetworkPlayerManager extends Component {
         const nameRef = new PrefabRef(user.nickname);
 
         const prefab = 
-            instantlater.buildPrefab(`${prefix}/player_${user.id}`, NetworkPlayerPrefab)
+            instantlater.buildPrefab(`${PREFIX}/player_${user.id}`, NetworkPlayerPrefab)
                 .withUserId(user.id)
                 .withNetworkManager(networkManager)
                 .withGridInfo(new PrefabRef(this._iGridCollidable))

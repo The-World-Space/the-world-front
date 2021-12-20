@@ -18,6 +18,7 @@ import { User } from "../hooks/useUser";
 import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { GridPointer } from "./component/input/GridPointer";
+import { NetworkIframeManager } from "./component/gamemanager/NetworkIframeManager";
 
 const PREFIX = '@@twp/game/NetworkBootstrapper/';
 
@@ -58,44 +59,6 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
         const player: PrefabRef<GameObject> = new PrefabRef();
         const collideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
         const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
-
-        this.interopObject!.serverWorld.iframes.forEach((iframe, idx) => {
-            this.sceneBuilder
-                .withChild(instantlater.buildGameObject(PREFIX + `iframe_${idx}`, new Vector3(0, 0, 0), new Quaternion(), new Vector3(1, 1, 1))
-                    .withComponent(IframeRenderer, c => {
-                        const ref = collideTilemap.ref;
-                        if (!ref) return;
-                        c.iframeSource = iframe.src;
-                        c.width = iframe.width * ref.gridCellWidth;
-                        c.height = iframe.height * ref.gridCellHeight;
-                        c.viewScale = .5;
-                        c.iframeCenterOffset = new Vector2(0.5, 0.5);
-                        
-                        c.gameObject.transform.position.set(
-                            ref.gridCenterX + iframe.x * ref.gridCellWidth - ref.gridCellWidth / 2,
-                            ref.gridCenterY + iframe.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
-                    })
-                    .withComponent(ZaxisSorter, c => {
-                        if (flatTypes.has(iframe.type))
-                            c.gameObject.removeComponent(c);
-                        
-                        c.runOnce = true;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => {
-                        if (!flatTypes.has(iframe.type))
-                            c.gameObject.removeComponent(c);
-                        
-                        c.offset =
-                            (iframe.type === GameObjectType.Effect) ? 100 :
-                            (iframe.type === GameObjectType.Floor)  ? -500 :
-                            0;
-                    })
-                    .withComponent(PenpalConnection, c => {
-                        c.setApolloClient(this.interopObject!.apolloClient);
-                        c.setIframeInfo(iframe);
-                        c.setWorldId(this.interopObject!.serverWorld.id);
-                    }));
-        });
 
         const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
         this.interopObject!.serverWorld.images.forEach((image, idx) => {
@@ -142,6 +105,12 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.initNetwork(this.interopObject!.networkManager);
                     c.initLocalPlayer(player.ref!);
                     c.iGridCollidable = collideTilemap.ref!;
+                })
+                .withComponent(NetworkIframeManager, c => {
+                    c.apolloClient = this.interopObject!.apolloClient;
+                    c.iGridCollidable = collideTilemap.ref;
+                    c.worldId = this.interopObject!.serverWorld.id;
+                    c.iframeList = this.interopObject!.serverWorld.iframes;
                 }))
             .withChild(instantlater.buildGameObject('floor')
                 .withComponent(CssCollideTilemapRenderer, c => {
