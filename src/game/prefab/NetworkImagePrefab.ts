@@ -1,14 +1,10 @@
 import { Vector2 } from "three";
-import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
-import { GameObjectType, ImageGameObject } from "../connect/types";
-import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
+import { ImageGameObject } from "../connect/types";
 import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
-
-const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
 
 export class NetworkImagePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();

@@ -1,11 +1,10 @@
 import { ApolloClient } from "@apollo/client";
 import { Quaternion, Vector2, Vector3 } from "three";
 import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
-import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";
 import { ZaxisSorter } from "./component/render/ZaxisSorter";
 import { NetworkPlayerManager } from "./component/gamemanager/NetworkPlayerManager";
-import { GameObjectType, ServerWorld } from "./connect/types";
+import { ServerWorld } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
@@ -14,13 +13,10 @@ import { NetworkManager } from "./engine/NetworkManager";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
-import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { GridPointer } from "./component/input/GridPointer";
 import { NetworkIframeManager } from "./component/gamemanager/NetworkIframeManager";
 import { NetworkImageManager } from "./component/gamemanager/NetworkImageManager";
-
-const PREFIX = '@@twp/game/NetworkBootstrapper/';
 
 export class NetworkInfoObject {
     private readonly _serverWorld: ServerWorld;

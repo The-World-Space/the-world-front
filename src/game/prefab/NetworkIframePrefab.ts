@@ -1,16 +1,12 @@
 import { Vector2 } from "three";
-import { ZaxisSorter } from "../component/render/ZaxisSorter";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
-import { GameObjectType, IframeGameObject } from "../connect/types";
+import { IframeGameObject } from "../connect/types";
 import { IframeRenderer } from "../component/render/IframeRenderer";
-import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
 import { PenpalConnection } from "../component/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
-
-const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
 
 export class NetworkIframePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
