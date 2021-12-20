@@ -1,6 +1,5 @@
 import { ApolloClient } from "@apollo/client";
 import { Quaternion, Vector2, Vector3 } from "three";
-import { PenpalConnection } from "./component/penpal/PenpalConnection";
 import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
 import { CssSpriteRenderer } from "./component/render/CssSpriteRenderer";
 import { IframeRenderer } from "./component/render/IframeRenderer";

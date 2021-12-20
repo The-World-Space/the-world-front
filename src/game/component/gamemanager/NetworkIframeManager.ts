@@ -1,14 +1,9 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector2 } from "three";
 import { IframeGameObject } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { Prefab } from "../../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { NetworkManager, User } from "../../engine/NetworkManager";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
-import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
-import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";
 
 const PREFIX = `@@tw/game/component/gamemanager/NetworkIframeManager`
@@ -34,7 +29,7 @@ export class NetworkIframeManager extends Component {
     }
 
     public set iframeList(val: IframeGameObject[]) {
-        this._iframeList = val;
+        this._iframeList = [...val];
     }
 
     public start() {
