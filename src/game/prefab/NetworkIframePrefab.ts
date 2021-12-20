@@ -15,35 +15,38 @@ const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
 export class NetworkIframePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
 
-    private _apolloClient: ApolloClient<any> | null = null;
-    private _iframeInfo: IframeGameObject | null = null;
-    private _worldId: string | null = null;
+    private _apolloClient: PrefabRef<ApolloClient<any>> = new PrefabRef();
+    private _iframeInfo: PrefabRef<IframeGameObject> = new PrefabRef();
+    private _worldId: PrefabRef<string> = new PrefabRef();
 
     public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkIframePrefab {
         this._tilemap = tilemap;
         return this;
     }
 
-    public withNetworkManager(networkManager: ApolloClient<any>): NetworkIframePrefab {
-        this._apolloClient = networkManager;
+    public withApolloClient(client: PrefabRef<ApolloClient<any>>): NetworkIframePrefab {
+        this._apolloClient = client;
         return this;
     }
 
-    public withIframeInfo(iframeInfo: IframeGameObject): NetworkIframePrefab {
+    public withIframeInfo(iframeInfo: PrefabRef<IframeGameObject>): NetworkIframePrefab {
         this._iframeInfo = iframeInfo;
         return this;
     }
 
-    public withWorldId(id: string): NetworkIframePrefab {
+    public withWorldId(id: PrefabRef<string>): NetworkIframePrefab {
         this._worldId = id;
         return this;
     }
 
     public make(): GameObjectBuilder {
-        const iframe = this._iframeInfo;
+        const iframe = this._iframeInfo.ref;
+        const client = this._apolloClient.ref;
+        const worldId = this._worldId.ref;
 
         if (!iframe) throw new Error("iframe info is not given");
-        if (!this._apolloClient) throw new Error("apollo client is not given");
+        if (!client) throw new Error("apollo client is not given");
+        if (!worldId) throw new Error("worldId is not given");
 
         return this.gameObjectBuilder
             .withComponent(IframeRenderer, c => {
@@ -76,9 +79,9 @@ export class NetworkIframePrefab extends Prefab {
             })
             .withComponent(PenpalConnection, c => {
                 if (!this._apolloClient || !this._worldId) return;
-                c.setApolloClient(this._apolloClient);
+                c.setApolloClient(client);
                 c.setIframeInfo(iframe);
-                c.setWorldId(this._worldId);
+                c.setWorldId(worldId);
             });
     }
 }

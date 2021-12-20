@@ -51,14 +51,13 @@ export class NetworkIframeManager extends Component {
         const prefab = 
             instantlater.buildPrefab(`${PREFIX}/iframe_${iframeInfo.id}`, NetworkIframePrefab)
                 .withGridInfo(new PrefabRef(this._iGridCollidable))
-                .withIframeInfo(iframeInfo)
-                .withNetworkManager(apolloClient)
-                .withWorldId(worldId)
+                .withIframeInfo(new PrefabRef(iframeInfo))
+                .withApolloClient(new PrefabRef(apolloClient))
+                .withWorldId(new PrefabRef(worldId))
         
         const builder = prefab.make();
         builder.getGameObject(prefabRef);
         this._networkIframerMap.set(iframeInfo.id, prefabRef.ref!);
-        console.log("add one");
         this.gameObject.addChildFromBuilder(builder);
     }
 }
