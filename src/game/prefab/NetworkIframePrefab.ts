@@ -51,31 +51,6 @@ export class NetworkIframePrefab extends Prefab {
                 c.height = iframe.height * ref.gridCellHeight;
                 c.viewScale = .5;
                 c.iframeCenterOffset = new Vector2(0.5, 0.5);
-                
-                c.gameObject.transform.position.set(
-                    ref.gridCenterX + iframe.x * ref.gridCellWidth - ref.gridCellWidth / 2,
-                    ref.gridCenterY + iframe.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
-            })
-            .withComponent(ZaxisSorter, c => {
-                const iframe = this._iframeInfo.ref;
-                if (!iframe) throw new Error("iframe info is not given");
-
-                if (flatTypes.has(iframe.type))
-                    c.gameObject.removeComponent(c);
-                
-                c.runOnce = true;
-            })
-            .withComponent(CameraRelativeZaxisSorter, c => {
-                const iframe = this._iframeInfo.ref;
-                if (!iframe) throw new Error("iframe info is not given");
-
-                if (!flatTypes.has(iframe.type))
-                    c.gameObject.removeComponent(c);
-                
-                c.offset =
-                    (iframe.type === GameObjectType.Effect) ? 100 :
-                    (iframe.type === GameObjectType.Floor)  ? -500 :
-                    0;
             })
             .withComponent(PenpalConnection, c => {
                 const iframe = this._iframeInfo.ref;

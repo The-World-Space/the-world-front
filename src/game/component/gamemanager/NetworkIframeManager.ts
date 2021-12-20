@@ -1,12 +1,16 @@
 import { ApolloClient } from "@apollo/client";
-import { IframeGameObject } from "../../connect/types";
+import { Vector3 } from "three";
+import { GameObjectType, IframeGameObject } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
 import { IGridCollidable } from "../physics/IGridCollidable";
+import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
+import { ZaxisSorter } from "../render/ZaxisSorter";
 
-const PREFIX = `@@tw/game/component/gamemanager/NetworkIframeManager`
+const PREFIX = `@@tw/game/component/gamemanager/NetworkIframeManager`;
+const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
 
 export class NetworkIframeManager extends Component {
     private _networkIframerMap: Map<number, GameObject> = new Map();
@@ -47,9 +51,16 @@ export class NetworkIframeManager extends Component {
     private _buildNetworkIframe(iframeInfo: IframeGameObject, worldId: string, apolloClient: ApolloClient<any>) {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
+        const gcx = this._iGridCollidable?.gridCenterX || 8;
+        const gcy = this._iGridCollidable?.gridCenterY || 8;
+        const gw = this._iGridCollidable?.gridCellWidth || 16;
+        const gh = this._iGridCollidable?.gridCellHeight || 16;
+        const calculated =  new Vector3(
+            gcx + iframeInfo.x * gw - gw / 2,
+            gcy + iframeInfo.y * gh - gh / 2, 1);
         
         const prefab = 
-            instantlater.buildPrefab(`${PREFIX}/iframe_${iframeInfo.id}`, NetworkIframePrefab)
+            instantlater.buildPrefab(`${PREFIX}/iframe_${iframeInfo.id}`, NetworkIframePrefab, calculated)
                 .withGridInfo(new PrefabRef(this._iGridCollidable))
                 .withIframeInfo(new PrefabRef(iframeInfo))
                 .withApolloClient(new PrefabRef(apolloClient))
@@ -59,5 +70,21 @@ export class NetworkIframeManager extends Component {
         builder.getGameObject(prefabRef);
         this._networkIframerMap.set(iframeInfo.id, prefabRef.ref!);
         this.gameObject.addChildFromBuilder(builder);
+
+        // Put soter after build
+        if (flatTypes.has(iframeInfo.type)) {
+            const c = prefabRef.ref!.addComponent(CameraRelativeZaxisSorter);
+            if (!c) throw new Error("fail to add");
+            c.offset =
+                (iframeInfo.type === GameObjectType.Effect) ? 100 :
+                (iframeInfo.type === GameObjectType.Floor)  ? -500 :
+                0;
+        }
+        else {
+            const c = prefabRef.ref!.addComponent(ZaxisSorter);
+            if (!c) throw new Error("fail to add");
+
+            c.runOnce = true;
+        }
     }
 }
