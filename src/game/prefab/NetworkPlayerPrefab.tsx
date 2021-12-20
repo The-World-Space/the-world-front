@@ -2,7 +2,7 @@ import { Quaternion, Vector2, Vector3 } from "three";
 import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../component/render/ZaxisSorter";
-import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { NetworkGridMovementController } from "../component/controller/NetworkGridMovementController";
 import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
@@ -11,6 +11,7 @@ import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../component/physics/IGridCollidable";
 import { NetworkManager } from "../engine/NetworkManager";
 import { MovementAnimationController } from "../component/controller/MovementAnimationController";
+import { PlayerStatusRenderController } from "../component/controller/PlayerStatusRenderController";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
@@ -54,7 +55,12 @@ export class NetworkPlayerPrefab extends Prefab {
     public make(): GameObjectBuilder {
         const instantlater = this.engine.instantlater;
         
-        this.gameObjectBuilder
+        const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
+        const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
+        const nameTagRenderer: PrefabRef<CssTextRenderer> = new PrefabRef();
+        const nameTagObject: PrefabRef<GameObject> = new PrefabRef();
+        
+        return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
@@ -86,6 +92,13 @@ export class NetworkPlayerPrefab extends Prefab {
                 c.runOnce = false;
                 c.offset = 1;
             })
+            .withComponent(PlayerStatusRenderController, c => {
+                c.setChatBoxObject(chatboxObject.ref!);
+                c.setChatBoxRenderer(chatboxRenderer.ref!);
+                c.setNameTagObject(nameTagObject.ref!);
+                c.setNameTagRenderer(nameTagRenderer.ref!);
+                c.nameTag = this._nameTagString.ref;
+            })
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
@@ -103,28 +116,26 @@ export class NetworkPlayerPrefab extends Prefab {
                             padding: "5px 10px",
                             opacity: 0.5,
                             }}>
-                            i'm still busy
+                            chat content
                         </div>
                     );
                     c.pointerEvents = false;
-                }));
-        
-        if (this._nameTagString.ref) {
-            this.gameObjectBuilder
-                .withChild(instantlater.buildGameObject("nametag",
-                    new Vector3(0, 32, 0),
-                    new Quaternion(),
-                    new Vector3(0.5, 0.5, 0.5))
-                    .withComponent(CssTextRenderer, c => {
-                        c.textAlign = TextAlign.Center;
-                        c.fontWeight = FontWeight.Bold;
-                        c.textHeight = 16;
-                        c.textWidth = 64;
-                        if (this._nameTagString.ref) c.text = this._nameTagString.ref;
-                        c.pointerEvents = false;
-                    }))
-        }
-
-        return this.gameObjectBuilder;
+                })
+                .getComponent(CssHtmlElementRenderer, chatboxRenderer)
+                .getGameObject(chatboxObject))
+            .withChild(instantlater.buildGameObject("nametag",
+                new Vector3(0, 32, 0),
+                new Quaternion(),
+                new Vector3(0.5, 0.5, 0.5))
+                .active(false)
+                .withComponent(CssTextRenderer, c => {
+                    c.textAlign = TextAlign.Center;
+                    c.fontWeight = FontWeight.Bold;
+                    c.textHeight = 16;
+                    c.textWidth = 64;
+                    c.pointerEvents = false;
+                })
+                .getComponent(CssTextRenderer, nameTagRenderer)
+                .getGameObject(nameTagObject));
     }
 }
