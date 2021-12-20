@@ -8,7 +8,6 @@ import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { SansFightRoomPrefab } from "./prefab/SansFightRoomPrefab";
-import { CoroutineTest } from "./component/CoroutineTest";
 
 export class TheWorldBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {
