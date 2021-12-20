@@ -15,6 +15,8 @@ export class Coroutine implements ICoroutine {
         this._currentYieldInstruction = null;
         this._isCurrenYieldInstructionExist = false;
         this._onFinish = onFinish;
+
+        this.fatchNextInstruction();
     }
 
     public get elapsedTime(): number {

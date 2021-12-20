@@ -50,13 +50,8 @@ export class CoroutineProcessor {
             if (coroutine.currentYieldInstructionExist) {
                 this.updateAfterProcessSingleInstruction(coroutine);
             } else {
-                coroutine.fatchNextInstruction();
-                if (!coroutine.currentYieldInstructionExist) {
-                    coroutines[i] = null;
-                    this._coroutineCount -= 1;
-                } else {
-                    this.updateAfterProcessSingleInstruction(coroutine);
-                }
+                coroutines[i] = null;
+                this._coroutineCount -= 1;
             }
         }
     }
@@ -91,13 +86,8 @@ export class CoroutineProcessor {
             if (coroutine.currentYieldInstructionExist) {
                 this.endFrameAfterProcessSingleInstruction(coroutine);
             } else {
-                coroutine.fatchNextInstruction();
-                if (!coroutine.currentYieldInstructionExist) {
-                    coroutines[i] = null;
-                    this._coroutineCount -= 1;
-                } else {
-                    this.endFrameAfterProcessSingleInstruction(coroutine);
-                }
+                coroutines[i] = null;
+                this._coroutineCount -= 1;
             }
         }
     }
