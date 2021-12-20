@@ -37,30 +37,6 @@ export class NetworkImagePrefab extends Prefab {
                 c.imageHeight = image.height * ref.gridCellHeight;
                 c.imageWidth = image.width * ref.gridCellWidth;
                 c.imageCenterOffset = new Vector2(0.5, 0.5);
-                c.gameObject.transform.position.set(
-                    ref.gridCenterX + image.x * ref.gridCellWidth - ref.gridCellWidth / 2, 
-                    ref.gridCenterY + image.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
-            })
-            .withComponent(ZaxisSorter, c => {
-                const image = this._imageInfo.ref;
-                if (!image) throw new Error("image info is not given");
-
-                if (flatTypes.has(image.type))
-                    c.gameObject.removeComponent(c);
-                
-                c.runOnce = true;
-            })
-            .withComponent(CameraRelativeZaxisSorter, c => {
-                const image = this._imageInfo.ref;
-                if (!image) throw new Error("image info is not given");
-
-                if (!flatTypes.has(image.type))
-                    c.gameObject.removeComponent(c);
-                
-                c.offset = 
-                    (image.type === GameObjectType.Effect) ? 100 :
-                    (image.type === GameObjectType.Floor)  ? -100 :
-                    0;
             });
     }
 }
