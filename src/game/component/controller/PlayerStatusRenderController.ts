@@ -1,3 +1,6 @@
+import { CoroutineIterator } from "../../engine/coroutine/CoroutineIterator";
+import { ICoroutine } from "../../engine/coroutine/ICoroutine";
+import { WaitForSeconds } from "../../engine/coroutine/YieldInstruction";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
@@ -10,6 +13,7 @@ export class PlayerStatusRenderController extends Component {
     private _chatBoxObject: GameObject|null = null;
     private _chatBox: CssHtmlElementRenderer|null = null;
     private _chatBoxString: string = "";
+    private _chatBoxCoroutine: ICoroutine|null = null;
 
     public setNameTagObject(gameObject: GameObject): void {
         this._nameTagObject = gameObject;
@@ -39,8 +43,15 @@ export class PlayerStatusRenderController extends Component {
         this.setNameTagFromString(value);
     }
 
-    public setChatBoxText(value: string|null): void {
+    public setChatBoxText(value: string|null, showSeconds: number = 5): void {
+        if (this._chatBoxCoroutine) this.stopCoroutine(this._chatBoxCoroutine);
         this.setChatBoxFromString(value);
+        this._chatBoxCoroutine = this.startCorutine(this.chatBoxHideAfterSeconds(showSeconds));
+    }
+
+    private *chatBoxHideAfterSeconds(seconds: number): CoroutineIterator {
+        yield new WaitForSeconds(seconds);
+        this.setChatBoxFromString(null);
     }
 
     private setNameTagFromString(value: string|null): void {
