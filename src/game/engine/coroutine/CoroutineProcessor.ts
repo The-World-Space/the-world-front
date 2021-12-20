@@ -77,6 +77,8 @@ export class CoroutineProcessor {
             if (!currentYieldInstruction.predicate()) {
                 coroutine.fatchNextInstruction();
             }
+        } else if (currentYieldInstruction === null) {
+            coroutine.fatchNextInstruction();
         }
     }
 
