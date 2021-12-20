@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 export interface User {
     id: string,
-    nickname: string
+    nickname: string,
+    skinSrc: string
 }
 
 function useUser(): User | null {
@@ -17,7 +18,8 @@ function useUser(): User | null {
                     query getUser {
                         currentUser {
                             id,
-                            nickname
+                            nickname,
+                            skinSrc
                         }
                     }
                 `

@@ -89,7 +89,7 @@ export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .getComponent(CssCollideTilemapRenderer, collideTilemap))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
-                .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Seongwon.png"))
+                .with4x4SpriteAtlasFromPath(new PrefabRef(this.interopObject!.user.skinSrc || "/assets/charactor/Seongwon.png"))
                 .withCollideMap(collideTilemap)
                 .withNameTag(new PrefabRef(this.interopObject!.user.nickname))
                 .withPathfindPointer(gridPointer)
