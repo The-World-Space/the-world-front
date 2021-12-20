@@ -29,9 +29,9 @@ export class NetworkImagePrefab extends Prefab {
                 if (!image) throw new Error("image info is not given");
                 if (!ref) return;
                 c.imagePath = image.src;
-                // @TODO: image height / width
                 c.imageHeight = image.height * ref.gridCellHeight;
                 c.imageWidth = image.width * ref.gridCellWidth;
+                c.pointerEvents = false;
                 c.imageCenterOffset = new Vector2(0.5, 0.5);
             });
     }
