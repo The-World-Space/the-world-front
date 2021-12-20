@@ -40,17 +40,11 @@ export class NetworkIframePrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const iframe = this._iframeInfo.ref;
-        const client = this._apolloClient.ref;
-        const worldId = this._worldId.ref;
-
-        if (!iframe) throw new Error("iframe info is not given");
-        if (!client) throw new Error("apollo client is not given");
-        if (!worldId) throw new Error("worldId is not given");
-
         return this.gameObjectBuilder
             .withComponent(IframeRenderer, c => {
+                const iframe = this._iframeInfo.ref;
                 const ref = this._tilemap.ref;
+                if (!iframe) throw new Error("iframe info is not given");
                 if (!ref) return;
                 c.iframeSource = iframe.src;
                 c.width = iframe.width * ref.gridCellWidth;
@@ -63,12 +57,18 @@ export class NetworkIframePrefab extends Prefab {
                     ref.gridCenterY + iframe.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
             })
             .withComponent(ZaxisSorter, c => {
+                const iframe = this._iframeInfo.ref;
+                if (!iframe) throw new Error("iframe info is not given");
+
                 if (flatTypes.has(iframe.type))
                     c.gameObject.removeComponent(c);
                 
                 c.runOnce = true;
             })
             .withComponent(CameraRelativeZaxisSorter, c => {
+                const iframe = this._iframeInfo.ref;
+                if (!iframe) throw new Error("iframe info is not given");
+
                 if (!flatTypes.has(iframe.type))
                     c.gameObject.removeComponent(c);
                 
@@ -78,7 +78,12 @@ export class NetworkIframePrefab extends Prefab {
                     0;
             })
             .withComponent(PenpalConnection, c => {
-                if (!this._apolloClient || !this._worldId) return;
+                const iframe = this._iframeInfo.ref;
+                const client = this._apolloClient.ref;
+                const worldId = this._worldId.ref;
+                if (!client) throw new Error("apollo client is not given");
+                if (!worldId) throw new Error("worldId is not given");
+                if (!iframe) throw new Error("iframe info is not given");
                 c.setApolloClient(client);
                 c.setIframeInfo(iframe);
                 c.setWorldId(worldId);

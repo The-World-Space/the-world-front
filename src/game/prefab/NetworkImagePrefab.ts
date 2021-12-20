@@ -26,13 +26,11 @@ export class NetworkImagePrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const image = this._imageInfo.ref;
-
-        if (!image) throw new Error("image info is not given");
-
         return this.gameObjectBuilder
             .withComponent(CssSpriteRenderer, c => {
+                const image = this._imageInfo.ref;
                 const ref = this._tilemap.ref;
+                if (!image) throw new Error("image info is not given");
                 if (!ref) return;
                 c.imagePath = image.src;
                 // @TODO: image height / width
@@ -44,12 +42,18 @@ export class NetworkImagePrefab extends Prefab {
                     ref.gridCenterY + image.y * ref.gridCellHeight - ref.gridCellHeight / 2, 1);
             })
             .withComponent(ZaxisSorter, c => {
+                const image = this._imageInfo.ref;
+                if (!image) throw new Error("image info is not given");
+
                 if (flatTypes.has(image.type))
                     c.gameObject.removeComponent(c);
                 
                 c.runOnce = true;
             })
             .withComponent(CameraRelativeZaxisSorter, c => {
+                const image = this._imageInfo.ref;
+                if (!image) throw new Error("image info is not given");
+
                 if (!flatTypes.has(image.type))
                     c.gameObject.removeComponent(c);
                 
