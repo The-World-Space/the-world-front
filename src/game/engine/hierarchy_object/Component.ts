@@ -4,6 +4,9 @@ import { GameStateKind } from "../GameState";
 import { IEngine } from "../IEngine";
 import { EngineGlobalObject } from "../EngineGlobalObject";
 import { isUpdateableComponent } from "../SceneProcessor";
+import { Coroutine } from "../coroutine/Coroutine";
+import { CoroutineIterator } from "../coroutine/CoroutineIterator";
+import { ICoroutine } from "../coroutine/ICoroutine";
 
 export abstract class Component {
     protected readonly _disallowMultipleComponent: boolean = false;
@@ -18,6 +21,7 @@ export abstract class Component {
     private _starting: boolean;
     private _updateEnqueued: boolean;
     private _gameObject: GameObject;
+    private _runningCoroutines: Coroutine[] = [];
 
     public constructor(gameObject: GameObject) {
         this._enabled = true;
@@ -49,6 +53,33 @@ export abstract class Component {
     public onEnable(): void { }
 
     public onDisable(): void { }
+
+    public startCorutine(coroutineIterator: CoroutineIterator): ICoroutine {
+        const coroutine = new Coroutine(coroutineIterator, () => {
+            const index = this._runningCoroutines.indexOf(coroutine);
+            if (index >= 0) {
+                this._runningCoroutines.splice(index, 1);
+            }
+        });
+        this._runningCoroutines.push(coroutine);
+        (this.engine as EngineGlobalObject).coroutineProcessor.addCoroutine(coroutine);
+        return coroutine;
+    }
+
+    public stopAllCoroutines(): void {
+        this._runningCoroutines.forEach(coroutine => {
+            this.stopCoroutine(coroutine);
+        });
+        this._runningCoroutines = [];
+    }
+
+    public stopCoroutine(coroutine: ICoroutine): void {
+        (this.engine as EngineGlobalObject).coroutineProcessor.removeCoroutine(coroutine as Coroutine);
+        const index = this._runningCoroutines.indexOf(coroutine as Coroutine);
+        if (index >= 0) {
+            this._runningCoroutines.splice(index, 1);
+        }
+    }
 
     //this method is called by the engine, do not call it manually
     public tryCallAwake(): void {

@@ -198,6 +198,7 @@ export class GameObject {
         for (let i = 0; i < this._components.length; i++) {
             if (this._components[i] === component) {
                 component.enabled = false;
+                component.stopAllCoroutines();
                 component.onDestroy();
                 this._components.splice(i, 1);
                 break;
@@ -208,6 +209,7 @@ export class GameObject {
     public destroy(): void {
         for (const component of this._components) {
             component.enabled = false;
+            component.stopAllCoroutines();
             component.onDestroy();
         }
         this._transform.childrenTransform.forEach(child => { // modified values in foreach but array is not modified
@@ -264,6 +266,8 @@ export class GameObject {
                     component.onDisable();
                     //dequeue update
                     component.tryDequeueUpdate();
+                    
+                    component.stopAllCoroutines();
                 }
             }
         }

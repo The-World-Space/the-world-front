@@ -11,6 +11,7 @@ import { Time } from "./time/Time";
 import { GameScreen } from "./render/GameScreen";
 import { BootstrapperConstructor } from "./bootstrap/BootstrapperConstructor";
 import { Transform } from "./hierarchy_object/Transform";
+import { CoroutineProcessor } from "./coroutine/CoroutineProcessor";
 
 export class Game {
     private readonly _rootScene: Scene;
@@ -21,6 +22,7 @@ export class Game {
     private readonly _time: Time;
     private readonly _gameState: GameState;
     private readonly _sceneProcessor: SceneProcessor;
+    private readonly _coroutineProcessor: CoroutineProcessor;
     private readonly _engineGlobalObject: EngineGlobalObject;
     private readonly _container: HTMLElement;
     private _animationFrameId: number|null;
@@ -37,13 +39,15 @@ export class Game {
         this._time = new Time();
         this._gameState = new GameState(GameStateKind.WaitingForStart);
         this._sceneProcessor = new SceneProcessor();
+        this._coroutineProcessor = new CoroutineProcessor(this._time);
         this._engineGlobalObject = new EngineGlobalObject(
             this._rootScene,
             this._cameraContainer,
             this._time,
             this._gameState,
             this._gameScreen,
-            this._sceneProcessor
+            this._sceneProcessor,
+            this._coroutineProcessor
         );
         this._animationFrameId = null;
         this._isDisposed = false;
@@ -59,6 +63,7 @@ export class Game {
         if (this._isDisposed) throw new Error("Game is disposed.");
         this._gameState.kind = GameStateKind.Initializing;
         this._clock.start();
+        this._time.startTime = this._clock.startTime;
         const bootstrapper = new bootstrapperCtor(this._engineGlobalObject, interopObject);
         const sceneBuilder = bootstrapper.run();
         const componentsInScene = sceneBuilder.build();
@@ -68,18 +73,23 @@ export class Game {
         if (!this._cameraContainer.camera) throw new Error("Camera is not exist in the scene.");
         this._gameState.kind = GameStateKind.Running;
         this._sceneProcessor.update();
-        this._time.deltaTime = this._clock.getDelta();
+        this._coroutineProcessor.updateAfterProcess();
         if (!this._cameraContainer.camera) throw new Error("Camera is not exist in the scene.");
         this._renderer.render(this._rootScene, this._cameraContainer.camera);
+        this._coroutineProcessor.endFrameAfterProcess();
         this.loop();
     }
 
     private loop(): void {
         this._animationFrameId = requestAnimationFrame(this.loop.bind(this));
+        this._time.deltaTime = this._clock.getDelta(); //order is matter.
+        this._time.elapsedTime = this._clock.elapsedTime; //order is matter.
         this._sceneProcessor.update();
-        this._time.deltaTime = this._clock.getDelta();
+        this._coroutineProcessor.tryCompact();
+        this._coroutineProcessor.updateAfterProcess();
         if (!this._cameraContainer.camera) throw new Error("Camera is not exist.");
         this._renderer.render(this._rootScene, this._cameraContainer.camera);
+        this._coroutineProcessor.endFrameAfterProcess();
     }
 
     public dispose(): void {

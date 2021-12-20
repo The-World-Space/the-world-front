@@ -7,6 +7,7 @@ import { CameraContainer } from "./render/CameraContainer";
 import { IReadonlyGameScreen } from "./render/IReadonlyGameScreen";
 import { SceneProcessor } from "./SceneProcessor";
 import { IEngine } from "./IEngine";
+import { CoroutineProcessor } from "./coroutine/CoroutineProcessor";
 
 export class EngineGlobalObject implements IEngine {
     private readonly _rootScene: Scene;
@@ -19,6 +20,7 @@ export class EngineGlobalObject implements IEngine {
     
     //engine internal objects
     private readonly _sceneProcessor: SceneProcessor;
+    private readonly _coroutineProcessor: CoroutineProcessor;
 
     public constructor(
         rootScene: Scene,
@@ -26,7 +28,8 @@ export class EngineGlobalObject implements IEngine {
         time: IReadonlyTime,
         gameState: IReadonlyGameState,
         gameScreen: IReadonlyGameScreen,
-        sceneProcessor: SceneProcessor
+        sceneProcessor: SceneProcessor,
+        coroutineProcessor: CoroutineProcessor,
     ) {
         this._rootScene = rootScene;
         this._cameraContainer = cameraContainer;
@@ -34,6 +37,7 @@ export class EngineGlobalObject implements IEngine {
         this._gameState = gameState;
         this._screen = gameScreen;
         this._sceneProcessor = sceneProcessor;
+        this._coroutineProcessor = coroutineProcessor;
         this._inputHandler = new InputHandler();
         this._instantlater = new Instantiater(this);
     }
@@ -72,5 +76,9 @@ export class EngineGlobalObject implements IEngine {
 
     public get sceneProcessor(): SceneProcessor {
         return this._sceneProcessor;
+    }
+
+    public get coroutineProcessor(): CoroutineProcessor {
+        return this._coroutineProcessor;
     }
 }
