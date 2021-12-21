@@ -1,6 +1,6 @@
 import { Vector2, Vector3 } from "three";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { NetworkManager } from "../../engine/NetworkManager";
+import { NetworkManager } from "../NetworkManager";
 import { Direction, Directionable } from "./Directionable";
 
 export class NetworkGridMovementController extends Directionable {

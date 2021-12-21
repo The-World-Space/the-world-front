@@ -7,12 +7,17 @@ import { Vector2 } from 'three';
 import useUser from '../hooks/useUser';
 import IngameInterface from "../components/organisms/IngameInterface";
 import { useParams } from 'react-router-dom';
+import { NetworkManager } from '../game/script/NetworkManager';
+import { PenpalNetworkWrapper } from '../game/penpal/PenpalNetworkWrapper';
 
 function NetworkGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
+    let widgetWrapper: HTMLDivElement | null = null
+    let networkManager: NetworkManager | null = null;
+    let penpalNetworkWrapper: PenpalNetworkWrapper | null = null;
     const { worldId } = useParams<{worldId: string}>();
-    let { loading: world_loading, value: world0 } = useAsync(() => getWorld(worldId, globalApolloClient));
+    let { loading: world_loading, value: world } = useAsync(() => getWorld(worldId, globalApolloClient));
     let user = useUser();
     
     useEffect( () => { //on mount component
@@ -40,17 +45,36 @@ function NetworkGamePage() {
             }}>
                 <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
             </div>
-            <div style = {{height: '100%', width: 'calc(100% - 130px)'}} ref={ref => {
-                div = ref;
-                if (ref !== null && !world_loading && world0 && user) {
+            <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 0}}>
+                <div style = {{height: '0%', width: '0%', zIndex: 1, position: 'absolute', pointerEvents: 'auto'}} ref={ref => {
+                    if (ref) {
+                        widgetWrapper = ref;
+                    }
+                }}>
                     
-                    game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                    game.run(NetworkBootstrapper, new NetworkInfoObject(world0, user, globalApolloClient));
-                    joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
-                        game!.inputHandler.startHandleEvents();
-                    })
-                }
-            }}/>
+                </div>
+                <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 0, position: 'absolute'}} ref={ref => {
+                    div = ref;
+                    if (ref !== null && widgetWrapper && !world_loading && world && user) {
+
+                        widgetWrapper.innerHTML = "<h1>모든게 정상적으로 동작 ^ㅅ^</h1>";
+                        widgetWrapper.querySelector('h1')!.onclick = () => alert("어딜만져! 어딜만지냐고!");
+                        
+
+                        game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
+                        networkManager = new NetworkManager(world.id, user.id, globalApolloClient);
+                        penpalNetworkWrapper = new PenpalNetworkWrapper(world.id, globalApolloClient);
+
+                        game.run(
+                            NetworkBootstrapper, 
+                            new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper));
+                        
+                        joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
+                            game!.inputHandler.startHandleEvents();
+                        });
+                    }
+                }}/>
+            </div>
         </div>
     );
 }

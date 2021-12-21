@@ -3,7 +3,7 @@ import { User } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { NetworkManager } from "../../engine/NetworkManager";
+import { NetworkManager } from "../NetworkManager";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";

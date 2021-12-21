@@ -9,7 +9,7 @@ import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
-import { NetworkManager } from "./engine/NetworkManager";
+import { NetworkManager } from "./script/NetworkManager";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
@@ -26,12 +26,16 @@ export class NetworkInfoObject {
     private readonly _penpalNetworkManager: PenpalNetworkWrapper;
     private readonly _user: User;
 
-    public constructor(serverWorld: ServerWorld, user: User, apolloClient: ApolloClient<any>) {
+    public constructor(
+            serverWorld: ServerWorld, 
+            user: User, apolloClient: ApolloClient<any>, 
+            networkManager: NetworkManager, 
+            penpalNetworkManager: PenpalNetworkWrapper) {
         this._serverWorld = serverWorld;
         this._apolloClient = apolloClient;
         this._user = user;
-        this._networkManager = new NetworkManager(serverWorld.id, user.id, apolloClient);
-        this._penpalNetworkManager = new PenpalNetworkWrapper(serverWorld.id, apolloClient);
+        this._networkManager = networkManager;
+        this._penpalNetworkManager = penpalNetworkManager;
     }
     
     public get serverWorld(): ServerWorld {

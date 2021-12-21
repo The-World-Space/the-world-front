@@ -9,7 +9,7 @@ import { CssTextRenderer, FontWeight, TextAlign } from "../script/render/CssText
 import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../script/physics/IGridCollidable";
-import { NetworkManager } from "../engine/NetworkManager";
+import { NetworkManager } from "../script/NetworkManager";
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
 
