@@ -64,7 +64,10 @@ export class PlayerStatusRenderController extends Component {
         //initialize opacity
         if (this._chatBox) {
             const container = this._chatBox.getElementContainer();
-            if (container) container.style.opacity = `${defaultOpacity}`;
+            if (container) {
+                container.style.transition = `opacity ${duration}s`;
+                container.style.opacity = `${defaultOpacity}`;
+            }
         }
 
         //showing
@@ -86,17 +89,12 @@ export class PlayerStatusRenderController extends Component {
         yield new WaitForSeconds(duration);
 
         //fade out
-        accumulatedTime = 0;
-        while (accumulatedTime < fadeOutSeconds) {
-            const deltaTime = this.engine.time.deltaTime;
-            accumulatedTime += deltaTime;
-            const opacity = (1 - accumulatedTime / fadeOutSeconds) * defaultOpacity;
-            if (this._chatBox) {
-                const container = this._chatBox.getElementContainer();
-                if (container) container.style.opacity = `${opacity}`;
-            }
-            yield null;
+        if (this._chatBox) {
+            const container = this._chatBox.getElementContainer();
+            if (container) container.style.opacity = "0";
         }
+        yield new WaitForSeconds(fadeOutSeconds);
+        
         //hide
         this.setChatBoxFromString(null);
     }
