@@ -33,7 +33,7 @@ export class TheWorldBootstrapper extends Bootstrapper {
                     c.showEvents = true;
 
                     const sansEvent = (_gridX: number, _gridY: number, target: GameObject) => {
-                        playerStatusRenderController.ref!.setChatBoxText("i want some bad time");
+                        playerStatusRenderController.ref!.setChatBoxText("i want some bad time", 1);
                     }
 
                     c.addEvent(32, 0, sansEvent);
