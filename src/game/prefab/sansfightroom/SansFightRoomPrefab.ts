@@ -1,16 +1,16 @@
 import { Vector2, Vector3 } from "three";
-import { CssCollideTilemapChunkRenderer } from "../script/physics/CssCollideTilemapChunkRenderer";
-import { CssTilemapChunkRenderer } from "../script/post_render/CssTilemapChunkRenderer";
-import { ParallaxTranslater } from "../script/post_render/ParallaxTranslater";
-import { CameraRelativeZaxisSorter } from "../script/render/CameraRelativeZaxisSorter";
-import { CssSpriteAtlasRenderer } from "../script/render/CssSpriteAtlasRenderer";
-import { CssSpriteRenderer } from "../script/render/CssSpriteRenderer";
-import { TileAtlasItem } from "../script/render/CssTilemapRenderer";
-import { IframeRenderer } from "../script/render/IframeRenderer";
-import { ZaxisSorter } from "../script/render/ZaxisSorter";
-import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
+import { CssCollideTilemapChunkRenderer } from "../../script/physics/CssCollideTilemapChunkRenderer";
+import { CssTilemapChunkRenderer } from "../../script/post_render/CssTilemapChunkRenderer";
+import { ParallaxTranslater } from "../../script/post_render/ParallaxTranslater";
+import { CameraRelativeZaxisSorter } from "../../script/render/CameraRelativeZaxisSorter";
+import { CssSpriteAtlasRenderer } from "../../script/render/CssSpriteAtlasRenderer";
+import { CssSpriteRenderer } from "../../script/render/CssSpriteRenderer";
+import { TileAtlasItem } from "../../script/render/CssTilemapRenderer";
+import { IframeRenderer } from "../../script/render/IframeRenderer";
+import { ZaxisSorter } from "../../script/render/ZaxisSorter";
+import { GameObjectBuilder, } from "../../engine/hierarchy_object/GameObject";
+import { Prefab } from "../../engine/hierarchy_object/Prefab";
+import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 
 export class SansFightRoomPrefab extends Prefab {
     private _colideTilemapChunkRenderer: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
@@ -27,7 +27,7 @@ export class SansFightRoomPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("tilemap")
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
-                .withChild(instantlater.buildGameObject("floor")
+                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -10))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         const tilemap3 = new Image();
                         tilemap3.src = "/assets/tilemap/room_sanscorridor.png";

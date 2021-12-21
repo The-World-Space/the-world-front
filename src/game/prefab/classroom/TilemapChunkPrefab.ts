@@ -1,10 +1,10 @@
-import { CssCollideTilemapChunkRenderer } from "../script/physics/CssCollideTilemapChunkRenderer";
-import { CssTilemapChunkRenderer } from "../script/post_render/CssTilemapChunkRenderer";
-import { CameraRelativeZaxisSorter } from "../script/render/CameraRelativeZaxisSorter";
-import { TileAtlasItem } from "../script/render/CssTilemapRenderer";
-import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
+import { CssCollideTilemapChunkRenderer } from "../../script/physics/CssCollideTilemapChunkRenderer";
+import { CssTilemapChunkRenderer } from "../../script/post_render/CssTilemapChunkRenderer";
+import { CameraRelativeZaxisSorter } from "../../script/render/CameraRelativeZaxisSorter";
+import { TileAtlasItem } from "../../script/render/CssTilemapRenderer";
+import { GameObjectBuilder, } from "../../engine/hierarchy_object/GameObject";
+import { Prefab } from "../../engine/hierarchy_object/Prefab";
+import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 
 export class TilemapChunkPrefab extends Prefab {
     private _colideTilemapChunkRenderer: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
