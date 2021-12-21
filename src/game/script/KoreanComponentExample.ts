@@ -100,11 +100,13 @@ export class KoreanComponentExample extends Component {
         //코루틴을 실행합니다.
         const coroutine = this.startCorutine(this.someCoroutine());
 
-        //코루틴을 중지합니다.
+        //코루틴을 중지합니다. (이 컴포넌트가 실행한 코루틴만 중지할 수 있습니다.)
         this.stopCoroutine(coroutine);
 
-        //모든 코루틴을 중지합니다.
+        //모든 코루틴을 중지합니다. (이 컴포넌트가 실행한 코루틴만 해당됩니다.)
         this.stopAllCoroutines();
+
+        //this.gameObject의 activeInHierarchy가 false 가 되는 시점에 (게임오브젝트가 비활성화 되는 시점에) 이 컴포넌트에서 실행한 모든 코루틴은 중지됩니다.
     }
 
     private *someCoroutine(): CoroutineIterator {
