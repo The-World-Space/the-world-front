@@ -27,7 +27,7 @@ export class SansFightRoomPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("tilemap")
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
-                .withChild(instantlater.buildGameObject("floor")
+                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -10))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         const tilemap3 = new Image();
                         tilemap3.src = "/assets/tilemap/room_sanscorridor.png";

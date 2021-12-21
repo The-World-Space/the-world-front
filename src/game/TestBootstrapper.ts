@@ -9,8 +9,8 @@ import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { SansFightRoomPrefab } from "./prefab/SansFightRoomPrefab";
 import { GridEventMap } from "./script/event/GridEventMap";
-import { Vector3 } from "three";
 import { PlayerStatusRenderController } from "./script/controller/PlayerStatusRenderController";
+import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
 
 export class TestBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {
@@ -26,7 +26,7 @@ export class TestBootstrapper extends Bootstrapper {
             .withChild(instantlater.buildPrefab("tilemap", SansFightRoomPrefab)
                 .getColideTilemapChunkRendererRef(collideTilemap).make())
 
-            .withChild(instantlater.buildGameObject("eventmap", new Vector3(8, 8, 0))
+            .withChild(instantlater.buildGameObject("eventmap")
                 .withComponent(GridEventMap, c => {
                     c.gridCellWidth = collideTilemap.ref!.gridCellWidth;
                     c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
@@ -39,6 +39,9 @@ export class TestBootstrapper extends Bootstrapper {
                     c.addEvent(32, 0, sansEvent);
                     c.addEvent(32, -1, sansEvent);
                     c.addEvent(32, -2, sansEvent);
+                })
+                .withComponent(GridCenterPositionMatcher, c => {
+                    c.setGridCenter(collideTilemap.ref!.gridCenter);
                 })
                 .getComponent(GridEventMap, gridEventMap))
 

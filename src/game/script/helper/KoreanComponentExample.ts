@@ -1,12 +1,12 @@
-import { CoroutineIterator } from "../engine/coroutine/CoroutineIterator";
-import { WaitForSeconds } from "../engine/coroutine/YieldInstruction";
-import { Component } from "../engine/hierarchy_object/Component";
-import { ComponentConstructor } from "../engine/hierarchy_object/ComponentConstructor";
-import { GameObject } from "../engine/hierarchy_object/GameObject";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { CameraPrefab } from "../prefab/CameraPrefab";
-import { CssSpriteRenderer } from "./render/CssSpriteRenderer";
-import { CssTextRenderer } from "./render/CssTextRenderer";
+import { CoroutineIterator } from "../../engine/coroutine/CoroutineIterator";
+import { WaitForSeconds } from "../../engine/coroutine/YieldInstruction";
+import { Component } from "../../engine/hierarchy_object/Component";
+import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
+import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { CameraPrefab } from "../../prefab/CameraPrefab";
+import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
+import { CssTextRenderer } from "../render/CssTextRenderer";
 import { TestExectuer } from "./TestExecuter";
 
 //유니티의 컴포넌트 시스템은 게임오브젝트에 추가되는 특성입니다.
