@@ -223,8 +223,8 @@ export class PlayerGridMovementController extends Directionable
         return false;
     }
 
-    private _lastPointerDownTime: number = 0;
-    private _lastPointerDownPosition: Vector2 = new Vector2();
+    private _lastPointerDownTime: number = -1;
+    private readonly _lastPointerDownPosition: Vector2 = new Vector2();
     private _doubleClickTime: number = 0.3;
 
     private onPointerDown(event: PointerGridEvent): void {
@@ -233,7 +233,7 @@ export class PlayerGridMovementController extends Directionable
         if (currentElapsedTime - this._lastPointerDownTime < this._doubleClickTime) {
             if (this._lastPointerDownPosition.equals(event.gridPosition)) {
                 this.onDoubleClick(event);
-                this._lastPointerDownTime = 0;
+                this._lastPointerDownTime = -1;
             }
         } else {
             this._lastPointerDownTime = currentElapsedTime;
