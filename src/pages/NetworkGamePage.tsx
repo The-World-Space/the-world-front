@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { NetworkBootstrapper, NetworkInfoObject } from '../game/NetworkBootstrapper';
+import { TheWorldBootstrapper, NetworkInfoObject } from '../game/TheWorldBootstrapper';
 import { Game } from '../game/engine/Game';
 import { useAsync } from 'react-use';
 import { getWorld, globalApolloClient, joinWorld } from '../game/connect/gql';
@@ -66,7 +66,7 @@ function NetworkGamePage() {
                         penpalNetworkWrapper = new PenpalNetworkWrapper(world.id, globalApolloClient);
 
                         game.run(
-                            NetworkBootstrapper, 
+                            TheWorldBootstrapper, 
                             new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper));
                         
                         joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {

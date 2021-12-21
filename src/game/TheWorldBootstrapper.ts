@@ -59,7 +59,7 @@ export class NetworkInfoObject {
     }
 }
 
-export class NetworkBootstrapper extends Bootstrapper<NetworkInfoObject> {
+export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
