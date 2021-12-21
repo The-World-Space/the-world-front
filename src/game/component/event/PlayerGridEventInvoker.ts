@@ -1,7 +1,7 @@
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { GridEventMap } from "../event/GridEventMap";
-import { PlayerGridMovementController } from "./PlayerGridMovementController";
+import { GridEventMap } from "./GridEventMap";
+import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 
 export class PlayerGridEventInvoker extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
