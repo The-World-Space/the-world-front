@@ -12,7 +12,7 @@ import { GridEventMap } from "./script/event/GridEventMap";
 import { Vector3 } from "three";
 import { PlayerStatusRenderController } from "./script/controller/PlayerStatusRenderController";
 
-export class TheWorldBootstrapper extends Bootstrapper {
+export class TestBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 

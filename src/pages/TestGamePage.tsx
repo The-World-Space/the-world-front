@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { TheWorldBootstrapper } from '../game/TheWorldBootstrapper';
+import { TestBootstrapper } from '../game/TestBootstrapper';
 import { Game } from '../game/engine/Game';
 
-function GamePage() {
+function TestGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
 
@@ -24,11 +24,11 @@ function GamePage() {
             if (ref !== null) {
                 
                 game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                game.run(TheWorldBootstrapper);
+                game.run(TestBootstrapper);
                 game.inputHandler.startHandleEvents();
             }
         }}/>
     );
 }
 
-export default GamePage;
+export default TestGamePage;
