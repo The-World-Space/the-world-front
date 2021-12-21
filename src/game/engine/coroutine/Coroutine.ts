@@ -1,15 +1,18 @@
+import { Component } from "../hierarchy_object/Component";
 import { CoroutineIterator } from "./CoroutineIterator";
 import { ICoroutine } from "./ICoroutine";
 import { YieldInstruction } from "./YieldInstruction";
 
 export class Coroutine implements ICoroutine {
+    private _component: Component;
     private _elapsedTime: number;
     private _coroutineIterator: CoroutineIterator;
     private _currentYieldInstruction: YieldInstruction|null;
     private _isCurrenYieldInstructionExist: boolean;
     private _onFinish: (() => void)|null;
 
-    public constructor(coroutineIterator: CoroutineIterator, onFinish: () => void) {
+    public constructor(component: Component, coroutineIterator: CoroutineIterator, onFinish: () => void) {
+        this._component = component;
         this._elapsedTime = 0;
         this._coroutineIterator = coroutineIterator;
         this._currentYieldInstruction = null;
@@ -17,6 +20,10 @@ export class Coroutine implements ICoroutine {
         this._onFinish = onFinish;
 
         this.fatchNextInstruction();
+    }
+
+    public get component(): Component {
+        return this._component;
     }
 
     public get elapsedTime(): number {

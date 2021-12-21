@@ -55,7 +55,7 @@ export abstract class Component {
     public onDisable(): void { }
 
     public startCorutine(coroutineIterator: CoroutineIterator): ICoroutine {
-        const coroutine = new Coroutine(coroutineIterator, () => {
+        const coroutine = new Coroutine(this, coroutineIterator, () => {
             const index = this._runningCoroutines.indexOf(coroutine);
             if (index >= 0) {
                 this._runningCoroutines.splice(index, 1);
@@ -74,12 +74,13 @@ export abstract class Component {
     }
 
     public stopCoroutine(coroutine: ICoroutine): void {
+        if ((coroutine as Coroutine).component !== this) {
+            throw new Error("Coroutine is not owned by this component");
+        }
         (this.engine as EngineGlobalObject).coroutineProcessor.removeCoroutine(coroutine as Coroutine);
         const index = this._runningCoroutines.indexOf(coroutine as Coroutine);
         if (index >= 0) {
             this._runningCoroutines.splice(index, 1);
-        } else {
-            throw new Error("coroutine must be stopped by started component");
         }
     }
 
