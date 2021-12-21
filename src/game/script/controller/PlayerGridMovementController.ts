@@ -223,8 +223,26 @@ export class PlayerGridMovementController extends Directionable
         return false;
     }
 
+    private _lastPointerDownTime: number = 0;
+    private _lastPointerDownPosition: Vector2 = new Vector2();
+    private _doubleClickTime: number = 0.3;
+
     private onPointerDown(event: PointerGridEvent): void {
         if (event.button !== 0) return;
+        const currentElapsedTime = this.engine.time.elapsedTime;
+        if (currentElapsedTime - this._lastPointerDownTime < this._doubleClickTime) {
+            if (this._lastPointerDownPosition.equals(event.gridPosition)) {
+                this.onDoubleClick(event);
+                this._lastPointerDownTime = 0;
+            }
+        } else {
+            this._lastPointerDownTime = currentElapsedTime;
+            this._lastPointerDownPosition.copy(event.gridPosition);
+        }
+    }
+
+    private onDoubleClick(event: PointerGridEvent): void {
+        console.log("double click");
         if (this._movingByPathfinder) {
             this._movingByPathfinder = false;
             this._pathfindStartFunction = () => this.tryStartPathfind(event.gridPosition);
