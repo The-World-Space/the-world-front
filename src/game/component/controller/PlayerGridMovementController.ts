@@ -18,6 +18,7 @@ export class PlayerGridMovementController extends Directionable
     private readonly _targetGridPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
     private readonly _onMoveToTargetDelegates: ((x: number, y: number) => void)[] = []; //integer position
+    private readonly _onMovedToTargetDelegates: ((x: number, y: number) => void)[] = []; //integer position
 
     private _onPointerDownBind = this.onPointerDown.bind(this);
     private _gridPointer: GridPointer|null = null;
@@ -125,6 +126,15 @@ export class PlayerGridMovementController extends Directionable
         );
     }
 
+    private invokeOnMovedToTarget(vector2: Vector2): void {
+        this._onMovedToTargetDelegates.forEach(
+            (delegate) => delegate(
+                Math.floor(this._currentGridPosition.x / this._gridCellWidth),
+                Math.floor(this._currentGridPosition.y / this._gridCellHeight)
+            )
+        );
+    }
+
     private tryCancelPathfinder(): void {
         const inputMap = this.engine.inputHandler.map;
         if (inputMap.get("w") || inputMap.get("ArrowUp")) {
@@ -150,6 +160,8 @@ export class PlayerGridMovementController extends Directionable
             if (this._currentPathIndex >= this._findedPath!.length) {
                 this._movingByPathfinder = false;
                 return;
+            } else {
+                this.invokeOnMovedToTarget(currentPositionVector2);
             }
         }
         if (this.checkCollision(currentPath.x, currentPath.y)) { //path changed while moving
@@ -184,6 +196,7 @@ export class PlayerGridMovementController extends Directionable
         if (distance < this._speed * this.engine.time.deltaTime) {
             if (this.noncheckProcessInput(this._targetGridPosition)) {
                 distance = vector2Pos.distanceTo(this._targetGridPosition);
+                this.invokeOnMovedToTarget(vector2Pos);
             }
         }
 
@@ -195,6 +208,7 @@ export class PlayerGridMovementController extends Directionable
         } else {
             this.isMoving = false;
             this._currentGridPosition.copy(this._targetGridPosition);
+            this.invokeOnMovedToTarget(this._targetGridPosition);
         }
     }
 
@@ -237,7 +251,21 @@ export class PlayerGridMovementController extends Directionable
     }
 
     public removeOnMoveToTargetEventListener(delegate: (x: number, y: number) => void): void {
-        this._onMoveToTargetDelegates.splice(this._onMoveToTargetDelegates.indexOf(delegate), 1);
+        const index = this._onMoveToTargetDelegates.indexOf(delegate);
+        if (index >= 0) {
+            this._onMoveToTargetDelegates.splice(index, 1);
+        }
+    }
+
+    public addOnOnMovedToTargetEventListener(delegate: (x: number, y: number) => void): void {
+        this._onMovedToTargetDelegates.push(delegate);
+    }
+
+    public removeOnOnMovedToTargetEventListener(delegate: (x: number, y: number) => void): void {
+        const index = this._onMovedToTargetDelegates.indexOf(delegate);
+        if (index >= 0) {
+            this._onMovedToTargetDelegates.splice(index, 1);
+        }
     }
 
     public get speed(): number {
