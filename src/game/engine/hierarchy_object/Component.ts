@@ -78,6 +78,8 @@ export abstract class Component {
         const index = this._runningCoroutines.indexOf(coroutine as Coroutine);
         if (index >= 0) {
             this._runningCoroutines.splice(index, 1);
+        } else {
+            throw new Error("coroutine must be stopped by started component");
         }
     }
 
