@@ -4,6 +4,8 @@ import { NetworkManager } from "../../engine/NetworkManager";
 import { Direction, Directionable } from "./Directionable";
 
 export class NetworkGridMovementController extends Directionable {
+    protected readonly _disallowMultipleComponent: boolean = true;
+    
     private _speed: number = 80;
     private _gridCellHeight: number = 16;
     private _gridCellWidth: number = 16;

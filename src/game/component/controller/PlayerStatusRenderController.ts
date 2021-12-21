@@ -7,6 +7,8 @@ import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
 import { CssTextRenderer } from "../render/CssTextRenderer";
 
 export class PlayerStatusRenderController extends Component {
+    protected readonly _disallowMultipleComponent: boolean = true;
+    
     private _nameTagObject: GameObject|null = null;
     private _nameTag: CssTextRenderer|null = null;
     private _nameTagString: string|null = null;
