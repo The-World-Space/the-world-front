@@ -1,8 +1,9 @@
 import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { CssTilemapRenderer, TileAtlasItem } from "../render/CssTilemapRenderer";
+import { IGridCoordinatable } from "./IGridCoordinatable";
 
-export class CssTilemapChunkRenderer extends Component {
+export class CssTilemapChunkRenderer extends Component implements IGridCoordinatable {
     private readonly _cssTilemapRendererMap: Map<`${number}_${number}`, CssTilemapRenderer> = new Map();
     //key is chunk position in string format "x_y"
     private _chunkSize: number = 16;
