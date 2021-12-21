@@ -10,12 +10,14 @@ import { CameraPrefab } from "./prefab/CameraPrefab";
 import { SansFightRoomPrefab } from "./prefab/SansFightRoomPrefab";
 import { GridEventMap } from "./component/event/GridEventMap";
 import { Vector3 } from "three";
+import { PlayerStatusRenderController } from "./component/controller/PlayerStatusRenderController";
 
 export class TheWorldBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
         const player: PrefabRef<GameObject> = new PrefabRef();
+        const playerStatusRenderController: PrefabRef<PlayerStatusRenderController> = new PrefabRef();
         const collideTilemap: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
         const gridEventMap: PrefabRef<GridEventMap> = new PrefabRef();
         const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
@@ -30,9 +32,13 @@ export class TheWorldBootstrapper extends Bootstrapper {
                     c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
                     c.showEvents = true;
 
-                    c.addEvent(0, 0, (gridX: number, gridY: number, target: GameObject) => {
-                        console.log("event 0, 0");
-                    });
+                    const sansEvent = (_gridX: number, _gridY: number, target: GameObject) => {
+                        playerStatusRenderController.ref!.setChatBoxText("i want some bad time");
+                    }
+
+                    c.addEvent(32, 0, sansEvent);
+                    c.addEvent(32, -1, sansEvent);
+                    c.addEvent(32, -2, sansEvent);
                 })
                 .getComponent(GridEventMap, gridEventMap))
 
@@ -41,7 +47,8 @@ export class TheWorldBootstrapper extends Bootstrapper {
                 .withCollideMap(collideTilemap)
                 .withGridEventMap(gridEventMap)
                 .withPathfindPointer(gridPointer).make()
-                .getGameObject(player))
+                .getGameObject(player)
+                .getComponent(PlayerStatusRenderController, playerStatusRenderController))
             
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(collideTilemap)
