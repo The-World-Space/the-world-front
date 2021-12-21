@@ -12,10 +12,13 @@ import { IGridCollidable } from "../component/physics/IGridCollidable";
 import { GridPointer } from "../component/input/GridPointer";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { PlayerStatusRenderController } from "../component/controller/PlayerStatusRenderController";
+import { PlayerGridEventInvoker } from "../component/event/PlayerGridEventInvoker";
+import { GridEventMap } from "../component/event/GridEventMap";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
     private _collideMaps: PrefabRef<IGridCollidable>[] = [];
+    private _gridEventMaps: PrefabRef<GridEventMap>[] = [];
     private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
     private _nameTagString: PrefabRef<string> = new PrefabRef();
     private _gridPointer: PrefabRef<GridPointer> = new PrefabRef();
@@ -27,6 +30,11 @@ export class PlayerPrefab extends Prefab {
 
     public withCollideMap(colideMap: PrefabRef<IGridCollidable>): PlayerPrefab {
         this._collideMaps.push(colideMap);
+        return this;
+    }
+
+    public withGridEventMap(gridEventMap: PrefabRef<GridEventMap>): PlayerPrefab {
+        this._gridEventMaps.push(gridEventMap);
         return this;
     }
 
@@ -98,6 +106,13 @@ export class PlayerPrefab extends Prefab {
                 c.setNameTagRenderer(nameTagRenderer.ref!);
                 c.nameTag = this._nameTagString.ref;
             })
+            .withComponent(PlayerGridEventInvoker, c => {
+                for (let i = 0; i < this._gridEventMaps.length; i++) {
+                    if (this._gridEventMaps[i].ref) {
+                        c.addGridEventMap(this._gridEventMaps[i].ref!);
+                    }
+                }
+            })
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
@@ -122,6 +137,7 @@ export class PlayerPrefab extends Prefab {
                 })
                 .getComponent(CssHtmlElementRenderer, chatboxRenderer)
                 .getGameObject(chatboxObject))
+
             .withChild(instantlater.buildGameObject("nametag",
                 new Vector3(0, 32, 0),
                 new Quaternion(),

@@ -123,6 +123,7 @@ export class NetworkPlayerPrefab extends Prefab {
                 })
                 .getComponent(CssHtmlElementRenderer, chatboxRenderer)
                 .getGameObject(chatboxObject))
+                
             .withChild(instantlater.buildGameObject("nametag",
                 new Vector3(0, 32, 0),
                 new Quaternion(),

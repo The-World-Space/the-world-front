@@ -17,9 +17,18 @@ export class PlayerGridEventInvoker extends Component {
         this._playerGridMovementController!.addOnMoveToTargetEventListener(this._onMoveToTargetBind);
     }
 
+    public onDestroy(): void {
+        this._playerGridMovementController!.removeOnMoveToTargetEventListener(this._onMoveToTargetBind);
+    }
+
     private onMoveToTarget(x: number, y: number): void {
+        const gridCenter = this._playerGridMovementController!.gridCenter;
+        const gridCellWidth = this._playerGridMovementController!.gridCellWidth;
+        const gridCellHeight = this._playerGridMovementController!.gridCellHeight;
+        const worldX = gridCenter.x + x * gridCellWidth;
+        const worldY = gridCenter.y + y * gridCellHeight;
         this._gridEventMaps.forEach((gridEventMap) => {
-            gridEventMap.tryInvokeEvent(x, y, this._collideSize, this._collideSize, this.gameObject);
+            gridEventMap.tryInvokeEvent(worldX, worldY, this._collideSize, this._collideSize, this.gameObject);
         });
     }
 

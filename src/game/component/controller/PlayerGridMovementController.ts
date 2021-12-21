@@ -259,11 +259,11 @@ export class PlayerGridMovementController extends Directionable
         }
     }
 
-    public addOnOnMovedToTargetEventListener(delegate: (x: number, y: number) => void): void {
+    public addOnMovedToTargetEventListener(delegate: (x: number, y: number) => void): void {
         this._onMovedToTargetDelegates.push(delegate);
     }
 
-    public removeOnOnMovedToTargetEventListener(delegate: (x: number, y: number) => void): void {
+    public removeOnMovedToTargetEventListener(delegate: (x: number, y: number) => void): void {
         const index = this._onMovedToTargetDelegates.indexOf(delegate);
         if (index >= 0) {
             this._onMovedToTargetDelegates.splice(index, 1);
