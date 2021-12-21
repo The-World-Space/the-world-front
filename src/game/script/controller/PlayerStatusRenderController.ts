@@ -45,14 +45,59 @@ export class PlayerStatusRenderController extends Component {
         this.setNameTagFromString(value);
     }
 
-    public setChatBoxText(value: string|null, showSeconds: number = 5): void {
+    public setChatBoxText(value: string|null, showSeconds: number = 5, defaultOpacity: number = 0.5): void {
         if (this._chatBoxCoroutine) this.stopCoroutine(this._chatBoxCoroutine);
-        this.setChatBoxFromString(value);
-        this._chatBoxCoroutine = this.startCorutine(this.chatBoxHideAfterSeconds(showSeconds));
+        if (value === null) {
+            this.setChatBoxFromString(null);
+        } else {
+            this._chatBoxCoroutine = this.startCorutine(this.chatBoxShowAnimation(value, 0.5, showSeconds, 0.5, defaultOpacity));
+        }
     }
 
-    private *chatBoxHideAfterSeconds(seconds: number): CoroutineIterator {
-        yield new WaitForSeconds(seconds);
+    private *chatBoxShowAnimation(
+        text: string,
+        showingSeconds: number,
+        duration: number,
+        fadeOutSeconds: number,
+        defaultOpacity: number
+    ): CoroutineIterator {
+        //initialize opacity
+        if (this._chatBox) {
+            const container = this._chatBox.getElementContainer();
+            if (container) container.style.opacity = `${defaultOpacity}`;
+        }
+
+        //showing
+        let accumulatedTime = 0;
+        let lastValue = 0;
+        while (accumulatedTime < showingSeconds) {
+            const deltaTime = this.engine.time.deltaTime;
+            accumulatedTime += deltaTime;
+            const textShowLength = Math.floor(accumulatedTime / showingSeconds * text.length);
+            if (textShowLength > lastValue) {
+                this.setChatBoxFromString(text.substring(0, textShowLength));
+                lastValue = textShowLength;
+            }
+            yield null;
+        }
+        this.setChatBoxFromString(text);
+
+        //waiting
+        yield new WaitForSeconds(duration);
+
+        //fade out
+        accumulatedTime = 0;
+        while (accumulatedTime < fadeOutSeconds) {
+            const deltaTime = this.engine.time.deltaTime;
+            accumulatedTime += deltaTime;
+            const opacity = (1 - accumulatedTime / fadeOutSeconds) * defaultOpacity;
+            if (this._chatBox) {
+                const container = this._chatBox.getElementContainer();
+                if (container) container.style.opacity = `${opacity}`;
+            }
+            yield null;
+        }
+        //hide
         this.setChatBoxFromString(null);
     }
 
