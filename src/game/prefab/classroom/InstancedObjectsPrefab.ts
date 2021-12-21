@@ -1,12 +1,12 @@
 import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
-import { GridCollideMap } from "../script/physics/GridColideMap";
-import { SpriteInstance, SpriteStaticInstancer } from "../script/post_render/SpriteStaticInstancer";
-import { CssSpriteRenderer } from "../script/render/CssSpriteRenderer";
-import { IframeRenderer } from "../script/render/IframeRenderer";
-import { ZaxisSorter } from "../script/render/ZaxisSorter";
-import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
+import { GridCollideMap } from "../../script/physics/GridColideMap";
+import { SpriteInstance, SpriteStaticInstancer } from "../../script/post_render/SpriteStaticInstancer";
+import { CssSpriteRenderer } from "../../script/render/CssSpriteRenderer";
+import { IframeRenderer } from "../../script/render/IframeRenderer";
+import { ZaxisSorter } from "../../script/render/ZaxisSorter";
+import { GameObjectBuilder, } from "../../engine/hierarchy_object/GameObject";
+import { Prefab } from "../../engine/hierarchy_object/Prefab";
+import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 
 export class InstancedObjectsPrefab extends Prefab {
     private _gridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();

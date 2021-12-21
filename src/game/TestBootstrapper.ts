@@ -7,7 +7,7 @@ import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { CameraPrefab } from "./prefab/CameraPrefab";
-import { SansFightRoomPrefab } from "./prefab/SansFightRoomPrefab";
+import { SansFightRoomPrefab } from "./prefab/sansfightroom/SansFightRoomPrefab";
 import { GridEventMap } from "./script/event/GridEventMap";
 import { PlayerStatusRenderController } from "./script/controller/PlayerStatusRenderController";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
