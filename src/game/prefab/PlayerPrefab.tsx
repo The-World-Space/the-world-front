@@ -1,19 +1,19 @@
 import { Quaternion, Vector2, Vector3 } from "three";
-import { MovementAnimationController } from "../component/controller/MovementAnimationController";
-import { PlayerGridMovementController } from "../component/controller/PlayerGridMovementController";
-import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
-import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
-import { ZaxisSorter } from "../component/render/ZaxisSorter";
+import { MovementAnimationController } from "../script/controller/MovementAnimationController";
+import { PlayerGridMovementController } from "../script/controller/PlayerGridMovementController";
+import { CssSpriteAtlasRenderer } from "../script/render/CssSpriteAtlasRenderer";
+import { SpriteAtlasAnimator } from "../script/post_render/SpriteAtlasAnimator";
+import { ZaxisSorter } from "../script/render/ZaxisSorter";
 import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
-import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
-import { IGridCollidable } from "../component/physics/IGridCollidable";
-import { GridPointer } from "../component/input/GridPointer";
+import { CssTextRenderer, FontWeight, TextAlign } from "../script/render/CssTextRenderer";
+import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
+import { IGridCollidable } from "../script/physics/IGridCollidable";
+import { GridPointer } from "../script/input/GridPointer";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { PlayerStatusRenderController } from "../component/controller/PlayerStatusRenderController";
-import { PlayerGridEventInvoker } from "../component/event/PlayerGridEventInvoker";
-import { GridEventMap } from "../component/event/GridEventMap";
+import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
+import { PlayerGridEventInvoker } from "../script/event/PlayerGridEventInvoker";
+import { GridEventMap } from "../script/event/GridEventMap";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");

@@ -1,6 +1,6 @@
-import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
-import { Camera } from "./component/render/Camera";
-import { TileAtlasItem } from "./component/render/CssTilemapRenderer";
+import { CssCollideTilemapChunkRenderer } from "./script/physics/CssCollideTilemapChunkRenderer";
+import { Camera } from "./script/render/Camera";
+import { TileAtlasItem } from "./script/render/CssTilemapRenderer";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 export class EngineTestBootstrapper extends Bootstrapper {

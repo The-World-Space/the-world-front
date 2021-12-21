@@ -1,17 +1,17 @@
 import { Quaternion, Vector2, Vector3 } from "three";
-import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
-import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
-import { ZaxisSorter } from "../component/render/ZaxisSorter";
+import { CssSpriteAtlasRenderer } from "../script/render/CssSpriteAtlasRenderer";
+import { SpriteAtlasAnimator } from "../script/post_render/SpriteAtlasAnimator";
+import { ZaxisSorter } from "../script/render/ZaxisSorter";
 import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { NetworkGridMovementController } from "../component/controller/NetworkGridMovementController";
-import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
-import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
+import { NetworkGridMovementController } from "../script/controller/NetworkGridMovementController";
+import { CssTextRenderer, FontWeight, TextAlign } from "../script/render/CssTextRenderer";
+import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { IGridCollidable } from "../component/physics/IGridCollidable";
+import { IGridCollidable } from "../script/physics/IGridCollidable";
 import { NetworkManager } from "../engine/NetworkManager";
-import { MovementAnimationController } from "../component/controller/MovementAnimationController";
-import { PlayerStatusRenderController } from "../component/controller/PlayerStatusRenderController";
+import { MovementAnimationController } from "../script/controller/MovementAnimationController";
+import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");

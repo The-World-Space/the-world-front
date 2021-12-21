@@ -1,7 +1,7 @@
-import { GridPointer } from "../component/input/GridPointer";
-import { PointerGridInputListener } from "../component/input/PointerGridInputListener";
-import { IGridCollidable } from "../component/physics/IGridCollidable";
-import { CameraRelativeZaxisSorter } from "../component/render/CameraRelativeZaxisSorter";
+import { GridPointer } from "../script/input/GridPointer";
+import { PointerGridInputListener } from "../script/input/PointerGridInputListener";
+import { IGridCollidable } from "../script/physics/IGridCollidable";
+import { CameraRelativeZaxisSorter } from "../script/render/CameraRelativeZaxisSorter";
 import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";

@@ -2,10 +2,10 @@ import { Vector2 } from "three";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { IGridCollidable } from "../component/physics/IGridCollidable";
+import { IGridCollidable } from "../script/physics/IGridCollidable";
 import { IframeGameObject } from "../connect/types";
-import { IframeRenderer } from "../component/render/IframeRenderer";
-import { PenpalConnection } from "../component/penpal/PenpalConnection";
+import { IframeRenderer } from "../script/render/IframeRenderer";
+import { PenpalConnection } from "../script/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
 import { PenpalNetworkWrapper } from "../penpal/PenpalNetworkWrapper";
 

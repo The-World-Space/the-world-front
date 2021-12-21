@@ -1,9 +1,9 @@
 import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
-import { GridCollideMap } from "../component/physics/GridColideMap";
-import { SpriteInstance, SpriteStaticInstancer } from "../component/post_render/SpriteStaticInstancer";
-import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
-import { IframeRenderer } from "../component/render/IframeRenderer";
-import { ZaxisSorter } from "../component/render/ZaxisSorter";
+import { GridCollideMap } from "../script/physics/GridColideMap";
+import { SpriteInstance, SpriteStaticInstancer } from "../script/post_render/SpriteStaticInstancer";
+import { CssSpriteRenderer } from "../script/render/CssSpriteRenderer";
+import { IframeRenderer } from "../script/render/IframeRenderer";
+import { ZaxisSorter } from "../script/render/ZaxisSorter";
 import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";

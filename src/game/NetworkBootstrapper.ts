@@ -1,9 +1,9 @@
 import { ApolloClient } from "@apollo/client";
 import { Quaternion, Vector2, Vector3 } from "three";
-import { CssCollideTilemapRenderer } from "./component/physics/CssCollideTilemapRenderer";
-import { IframeRenderer } from "./component/render/IframeRenderer";
-import { ZaxisSorter } from "./component/render/ZaxisSorter";
-import { NetworkPlayerManager } from "./component/gamemanager/NetworkPlayerManager";
+import { CssCollideTilemapRenderer } from "./script/physics/CssCollideTilemapRenderer";
+import { IframeRenderer } from "./script/render/IframeRenderer";
+import { ZaxisSorter } from "./script/render/ZaxisSorter";
+import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
 import { ServerWorld } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
@@ -14,9 +14,9 @@ import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
-import { GridPointer } from "./component/input/GridPointer";
-import { NetworkIframeManager } from "./component/gamemanager/NetworkIframeManager";
-import { NetworkImageManager } from "./component/gamemanager/NetworkImageManager";
+import { GridPointer } from "./script/input/GridPointer";
+import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
+import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
 import { PenpalNetworkWrapper } from "./penpal/PenpalNetworkWrapper";
 
 export class NetworkInfoObject {

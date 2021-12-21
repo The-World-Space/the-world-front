@@ -2,9 +2,9 @@ import { Vector2 } from "three";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { IGridCollidable } from "../component/physics/IGridCollidable";
+import { IGridCollidable } from "../script/physics/IGridCollidable";
 import { ImageGameObject } from "../connect/types";
-import { CssSpriteRenderer } from "../component/render/CssSpriteRenderer";
+import { CssSpriteRenderer } from "../script/render/CssSpriteRenderer";
 
 export class NetworkImagePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
