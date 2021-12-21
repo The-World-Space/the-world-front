@@ -1,3 +1,5 @@
+import { CoroutineIterator } from "../engine/coroutine/CoroutineIterator";
+import { WaitForSeconds } from "../engine/coroutine/YieldInstruction";
 import { Component } from "../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../engine/hierarchy_object/ComponentConstructor";
 import { GameObject } from "../engine/hierarchy_object/GameObject";
@@ -94,6 +96,26 @@ export class KoreanComponentExample extends Component {
     //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Start.html
     protected start(): void {
         console.log("start");
+
+        //코루틴을 실행합니다.
+        const coroutine = this.startCorutine(this.someCoroutine());
+
+        //코루틴을 중지합니다.
+        this.stopCoroutine(coroutine);
+
+        //모든 코루틴을 중지합니다.
+        this.stopAllCoroutines();
+    }
+
+    private *someCoroutine(): CoroutineIterator {
+        for (let i = 0; i < 10; i++) {
+            console.log(i);
+            //yield 에서 컨텍스트를 엔진에게 전달하고 1초후에 다시 컨텍스트를 엔진으로부터 받습니다.
+            //결과적으로 yield new WaitForSeconds(1); 은 1초동안 이 루틴을 멈춘다 정도의 의미가 됩니다.
+            //WaitForSeconds 는 프레임 단위로 측정되기 때문에 정확하지 않습니다. (미세한 오차가 있음)
+            //여러번의 WaitForSeconds로 정밀한 시간 측정 작업이 요구되는경우에는 코루틴을 쓰는것보다 update 함수에서 직접 로직을 통하여 측정하는것이 더 정확합니다.
+            yield new WaitForSeconds(1);
+        }
     }
 
     //update 함수는 매 프레임마다 실행되는 함수입니다. 자원을 많이 먹는 요소중 하나이므로 update 를 사용할때는 적절히 사용해야합니다.
