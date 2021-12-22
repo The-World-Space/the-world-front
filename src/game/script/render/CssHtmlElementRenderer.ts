@@ -105,7 +105,7 @@ export class CssHtmlElementRenderer extends Component {
         if (element.type !== "div") {
             throw new Error("CssHtmlElementRenderer only support div element");
         }
-        const htmlString = `<div>${renderToStaticMarkup(element)}</div>`;
+        const htmlString = renderToStaticMarkup(element);
         const template = document.createElement("template");
         template.innerHTML = htmlString;
         this.setElement(template.content.firstChild as HTMLDivElement);
