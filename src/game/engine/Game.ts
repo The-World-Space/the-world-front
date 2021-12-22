@@ -82,6 +82,8 @@ export class Game {
 
     private loop(): void {
         this._animationFrameId = requestAnimationFrame(this.loop.bind(this));
+        this._renderer.domElement.scrollLeft = 0;
+        this._renderer.domElement.scrollTop = 0;
         this._time.deltaTime = this._clock.getDelta(); //order is matter.
         this._time.elapsedTime = this._clock.elapsedTime; //order is matter.
         this._sceneProcessor.update();
