@@ -3,20 +3,20 @@ import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../script/physics/IGridCollidable";
-import { ImageGameObject } from "../connect/types";
+import { Server } from "../connect/types";
 import { CssSpriteRenderer } from "../script/render/CssSpriteRenderer";
 
 export class NetworkImagePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
 
-    private _imageInfo: PrefabRef<ImageGameObject> = new PrefabRef();
+    private _imageInfo: PrefabRef<Server.ImageGameObject> = new PrefabRef();
 
     public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkImagePrefab {
         this._tilemap = tilemap;
         return this;
     }
 
-    public withImageInfo(imageInfo: PrefabRef<ImageGameObject>): NetworkImagePrefab {
+    public withImageInfo(imageInfo: PrefabRef<Server.ImageGameObject>): NetworkImagePrefab {
         this._imageInfo = imageInfo;
         return this;
     }

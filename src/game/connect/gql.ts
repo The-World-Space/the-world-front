@@ -1,4 +1,4 @@
-import { ServerWorld } from "./types";
+import { Server } from "./types";
 import {
     ApolloLink,
     Operation,
@@ -70,7 +70,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
         }
     });
 
-    return result.data.World as ServerWorld;
+    return result.data.World as Server.World;
 }
 
 
@@ -109,7 +109,7 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
         `
     });
 
-    return result.data.myWorlds as ServerWorld[];
+    return result.data.myWorlds as Server.World[];
 }
 
 

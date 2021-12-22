@@ -1,6 +1,6 @@
 import { ApolloClient } from "@apollo/client";
 import { Vector3 } from "three";
-import { GameObjectType, IframeGameObject } from "../../connect/types";
+import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
@@ -11,7 +11,7 @@ import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
 const PREFIX = `@@tw/game/component/gamemanager/NetworkIframeManager`;
-const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
+const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
 export class NetworkIframeManager extends Component {
     private _networkIframerMap: Map<number, GameObject> = new Map();
@@ -19,7 +19,7 @@ export class NetworkIframeManager extends Component {
     private _apolloClient: ApolloClient<any> | null = null;
     private _iGridCollidable: IGridCollidable | null = null;
     private _worldId: string | null = null;
-    private _iframeList: IframeGameObject[] = [];
+    private _iframeList: Server.IframeGameObject[] = [];
     private _penpalNetworkWrapper: PenpalNetworkWrapper | null = null;
 
     public set apolloClient(apolloClient: ApolloClient<any>) {
@@ -34,7 +34,7 @@ export class NetworkIframeManager extends Component {
         this._worldId = id;
     }
 
-    public set iframeList(val: IframeGameObject[]) {
+    public set iframeList(val: Server.IframeGameObject[]) {
         this._iframeList = [...val];
     }
 
@@ -46,7 +46,7 @@ export class NetworkIframeManager extends Component {
         this._iframeList.forEach(info => this.addOneIframe(info));
     }
 
-    public addOneIframe(info: IframeGameObject) {
+    public addOneIframe(info: Server.IframeGameObject) {
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!this._worldId) throw new Error("no world id");
         
@@ -54,7 +54,7 @@ export class NetworkIframeManager extends Component {
         this._buildNetworkIframe(info, this._worldId, this._apolloClient);
     }
 
-    private _buildNetworkIframe(iframeInfo: IframeGameObject, worldId: string, apolloClient: ApolloClient<any>) {
+    private _buildNetworkIframe(iframeInfo: Server.IframeGameObject, worldId: string, apolloClient: ApolloClient<any>) {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCollidable?.gridCenterX || 8;
@@ -83,8 +83,8 @@ export class NetworkIframeManager extends Component {
             const c = prefabRef.ref!.addComponent(CameraRelativeZaxisSorter);
             if (!c) throw new Error("fail to add");
             c.offset =
-                (iframeInfo.type === GameObjectType.Effect) ? 100 :
-                (iframeInfo.type === GameObjectType.Floor)  ? -500 :
+                (iframeInfo.type === Server.GameObjectType.Effect) ? 100 :
+                (iframeInfo.type === Server.GameObjectType.Floor)  ? -500 :
                 0;
         }
         else {
