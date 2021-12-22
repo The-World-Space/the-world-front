@@ -57,10 +57,6 @@ function NetworkGamePage() {
                     div = ref;
                     if (ref !== null && widgetWrapper && !world_loading && world && user) {
 
-                        widgetWrapper.innerHTML = "<h1>모든게 정상적으로 동작 ^ㅅ^</h1>";
-                        widgetWrapper.querySelector('h1')!.onclick = () => alert("어딜만져! 어딜만지냐고!");
-                        
-
                         game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
                         networkManager = new NetworkManager(world.id, user.id, globalApolloClient);
                         penpalNetworkWrapper = new PenpalNetworkWrapper(world.id, globalApolloClient);
