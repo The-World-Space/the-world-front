@@ -7,7 +7,7 @@ function TestGamePage() {
 
     useEffect(() => { //on mount component
         if (!div.current) throw new Error("div is null");
-        const game = new Game(div.current!, div.current!.offsetWidth, div.current!.offsetHeight);
+        const game = new Game(div.current!, div.current.offsetWidth, div.current.offsetHeight);
         game.run(TestBootstrapper);
         game.inputHandler.startHandleEvents();
 
