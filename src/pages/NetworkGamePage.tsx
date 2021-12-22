@@ -34,11 +34,9 @@ function NetworkGamePage() {
     const user = useUser();
 
     useEffect(() => { //on mount component
+        if (world_loading || !world || !user) return; 
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
-        if (!world) throw new Error("world is null");
-        if (!user) throw new Error("user is null");
-        if (world_loading) throw new Error("world is loading");
 
         const game = new Game(div.current!, div.current!.offsetWidth, div.current!.offsetHeight);
         const networkManager = new NetworkManager(world.id, user.id, globalApolloClient);
