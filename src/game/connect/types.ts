@@ -59,16 +59,14 @@ export namespace Server {
     }
     
     export interface IframeWidgetObject {
-        width: CssOption,
-        height: CssOption,
+        width: CssOption;
+        height: CssOption;
         fieldPortMappings: IframeFieldPortMapping[];
         broadcasterPortMappings: IframeBroadcasterPortMapping[];
     
         anchor: Anchor;
-        offset: {
-            x: CssOption,
-            y: CssOption
-        }
+        offsetX: CssOption;
+        offsetY: CssOption;
     }
     
     export interface ImageGameObject extends GameObject {
