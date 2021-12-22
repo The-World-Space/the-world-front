@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { TheWorldBootstrapper, NetworkInfoObject } from '../game/TheWorldBootstrapper';
 import { Game } from '../game/engine/Game';
 import { useAsync } from 'react-use';
@@ -19,18 +19,18 @@ function NetworkGamePage() {
     const { worldId } = useParams<{worldId: string}>();
     let { loading: world_loading, value: world } = useAsync(() => getWorld(worldId, globalApolloClient));
     let user = useUser();
+
+    const onWindowResize = useCallback(() => {
+        if (div) game?.resizeFramebuffer(div.offsetWidth, div.offsetHeight);
+    }, [div, game]);
     
     useEffect( () => { //on mount component
         window.addEventListener('resize', onWindowResize);
-    });
+    }, [onWindowResize]);
     useEffect( () => () => { //on unmount component
         window.removeEventListener('resize', onWindowResize);
         game?.dispose();
-    });
-
-    function onWindowResize() {
-        if (div) game?.resizeFramebuffer(div.offsetWidth, div.offsetHeight);
-    }
+    }, [onWindowResize, game]);
 
     return (
         <div style={{
