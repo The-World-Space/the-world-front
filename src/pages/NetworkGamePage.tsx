@@ -9,11 +9,11 @@ import IngameInterface from "../components/organisms/IngameInterface";
 import { useParams } from 'react-router-dom';
 import { NetworkManager } from '../game/script/NetworkManager';
 import { PenpalNetworkWrapper } from '../game/penpal/PenpalNetworkWrapper';
-
+import { WidgetManager } from '../game/script/WidgetManager';
 function NetworkGamePage() {
     let game: Game | null = null;
     let div: HTMLDivElement | null = null;
-    let widgetWrapper: HTMLDivElement | null = null
+    let widgetWrapperdiv: HTMLDivElement | null = null;
     let networkManager: NetworkManager | null = null;
     let penpalNetworkWrapper: PenpalNetworkWrapper | null = null;
     const { worldId } = useParams<{worldId: string}>();
@@ -46,20 +46,23 @@ function NetworkGamePage() {
                 <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
             </div>
             <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 0}}>
-                <div style = {{height: '0%', width: '0%', zIndex: 1, position: 'absolute', pointerEvents: 'auto'}} ref={ref => {
-                    if (ref) {
-                        widgetWrapper = ref;
-                    }
-                }}>
-                    
+                <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 1, position: 'absolute', pointerEvents: 'none', right: '0px'}}>
+                    <div style = {{height: '100%', width: '100%', position: 'relative', pointerEvents: 'none'}} ref={ref => {
+                        if (ref) {
+                            widgetWrapperdiv = ref;
+                        }
+                    }}>
+                    </div>     
                 </div>
                 <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 0, position: 'absolute'}} ref={ref => {
                     div = ref;
-                    if (ref !== null && widgetWrapper && !world_loading && world && user) {
+                    if (ref !== null && widgetWrapperdiv && !world_loading && world && user) {
 
                         game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
                         networkManager = new NetworkManager(world.id, user.id, globalApolloClient);
                         penpalNetworkWrapper = new PenpalNetworkWrapper(world.id, globalApolloClient);
+                        
+                        new WidgetManager(penpalNetworkWrapper, world, widgetWrapperdiv, []);
 
                         game.run(
                             TheWorldBootstrapper, 
