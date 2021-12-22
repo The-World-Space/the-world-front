@@ -3,15 +3,15 @@ import { IframeCommunicator } from "../penpal";
 import { PenpalNetworkWrapper } from "../penpal/PenpalNetworkWrapper";
 
 export class WidgetManager {
-    private readonly _widgetIframeInfos: Server.IframeWidget[];
     private _iframes: HTMLIFrameElement[] = [];
     private _iframeCommunicators: IframeCommunicator[] = [];
 
     constructor(
             private readonly _penpalNetworkManager: PenpalNetworkWrapper,
             private readonly _world: Server.World,
-            private readonly _wrapperDiv: HTMLDivElement) {
-        this._widgetIframeInfos = [];
+            private readonly _wrapperDiv: HTMLDivElement,
+            private _widgetIframeInfos: Server.IframeWidget[]) {
+        this._init();
     }
 
     private _init() {
@@ -38,6 +38,23 @@ export class WidgetManager {
 
             iframe.style.transform += `translate(${translateX}, ${translateY}) translate(${widget.offsetX}, ${widget.offsetY})`;
             return iframe;
+        });
+
+        this._iframeCommunicators = this._iframes.map((iframe, i) => {
+            const widgetInfo = this._widgetIframeInfos[i];
+            
+            return new IframeCommunicator(iframe, widgetInfo, this._penpalNetworkManager);
+        });
+
+        this._wrapperDiv.append(...this._iframes);
+    }
+
+    public dispose() {
+        this._iframes.forEach(iframe => {
+            iframe.remove();
+        });
+        this._iframeCommunicators.forEach(iframeCommunicator => {
+            iframeCommunicator.stop();
         });
     }
 }

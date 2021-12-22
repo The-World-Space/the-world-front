@@ -24,7 +24,7 @@ export class IframeCommunicator {
 
     constructor(
         private readonly iframe: HTMLIFrameElement,
-        private readonly iframeInfo: Server.IframeGameObject,
+        private readonly iframeInfo: Server.PenpalConnectable,
         private readonly penpalNetworkWrapper: PenpalNetworkWrapper) {
         this.internalFieldIdToFieldMap =
             new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [portId, field]));

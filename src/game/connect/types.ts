@@ -42,11 +42,15 @@ export namespace Server {
         width: TileNum;
         height: TileNum;
     }
-    
-    export interface IframeGameObject extends GameObject {
+
+    export interface PenpalConnectable {
+        id: number;
         src: IframeSrc;
         fieldPortMappings: IframeFieldPortMapping[];
         broadcasterPortMappings: IframeBroadcasterPortMapping[];
+    }
+    
+    export interface IframeGameObject extends GameObject, PenpalConnectable {
     }
 
     export interface ImageGameObject extends GameObject {
@@ -68,16 +72,13 @@ export namespace Server {
     interface Widget {
         width: CssOption;
         height: CssOption;
-        fieldPortMappings: IframeFieldPortMapping[];
-        broadcasterPortMappings: IframeBroadcasterPortMapping[];
     
         anchor: Anchor;
         offsetX: CssOption;
         offsetY: CssOption;
     }
 
-    export interface IframeWidget extends Widget {
-        src: IframeSrc;
+    export interface IframeWidget extends Widget, PenpalConnectable {
     }
 
     export interface ImageWidget extends Widget {
