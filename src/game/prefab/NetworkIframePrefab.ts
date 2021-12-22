@@ -3,7 +3,7 @@ import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../script/physics/IGridCollidable";
-import { IframeGameObject } from "../connect/types";
+import { Server } from "../connect/types";
 import { IframeRenderer } from "../script/render/IframeRenderer";
 import { PenpalConnection } from "../script/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
@@ -13,7 +13,7 @@ export class NetworkIframePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
 
     private _apolloClient: PrefabRef<ApolloClient<any>> = new PrefabRef();
-    private _iframeInfo: PrefabRef<IframeGameObject> = new PrefabRef();
+    private _iframeInfo: PrefabRef<Server.IframeGameObject> = new PrefabRef();
     private _worldId: PrefabRef<string> = new PrefabRef();
     private _penpalNetworkWrapper: PrefabRef<PenpalNetworkWrapper> = new PrefabRef();
 
@@ -27,7 +27,7 @@ export class NetworkIframePrefab extends Prefab {
         return this;
     }
 
-    public withIframeInfo(iframeInfo: PrefabRef<IframeGameObject>): NetworkIframePrefab {
+    public withIframeInfo(iframeInfo: PrefabRef<Server.IframeGameObject>): NetworkIframePrefab {
         this._iframeInfo = iframeInfo;
         return this;
     }

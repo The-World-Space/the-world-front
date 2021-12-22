@@ -1,5 +1,5 @@
 import { Vector2 } from "three";
-import { User } from "../../connect/types";
+import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
@@ -35,14 +35,14 @@ export class NetworkPlayerManager extends Component {
         })
     }
 
-    public addOnLeave(user: User, networkManager: NetworkManager) {
+    public addOnLeave(user: Server.User, networkManager: NetworkManager) {
         networkManager.ee.once(`leave_${user.id}`, () => {
             this._networkPlayerMap.get(user.id)?.destroy();
             this._networkPlayerMap.delete(user.id);
         });
     }
 
-    private _buildNetworkPlayer(user: User, pos: Vector2, networkManager: NetworkManager) {
+    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: NetworkManager) {
         const instantlater = this.engine.instantlater;
         const posPrefabRef = new PrefabRef<Vector2>(pos);
         const nameRef = new PrefabRef(user.nickname);

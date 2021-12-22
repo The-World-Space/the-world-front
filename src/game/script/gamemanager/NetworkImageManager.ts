@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { GameObjectType, ImageGameObject } from "../../connect/types";
+import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
@@ -9,19 +9,19 @@ import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
 const PREFIX = `@@tw/game/component/gamemanager/NetworkImageManager`;
-const flatTypes = new Set([GameObjectType.Floor, GameObjectType.Effect]);
+const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
 export class NetworkImageManager extends Component {
     private _networkImageMap: Map<number, GameObject> = new Map();
 
     private _iGridCollidable: IGridCollidable | null = null;
-    private _imageList: ImageGameObject[] = [];
+    private _imageList: Server.ImageGameObject[] = [];
 
     public set iGridCollidable(val: IGridCollidable | null) {
         this._iGridCollidable = val;
     }
 
-    public set imageList(val: ImageGameObject[]) {
+    public set imageList(val: Server.ImageGameObject[]) {
         this._imageList = [...val];
     }
 
@@ -29,13 +29,13 @@ export class NetworkImageManager extends Component {
         this._imageList.forEach(info => this.addOneImage(info));
     }
 
-    public addOneImage(info: ImageGameObject) {
+    public addOneImage(info: Server.ImageGameObject) {
         
         this._imageList.push(info);
         this._buildNetworkImage(info);
     }
 
-    private _buildNetworkImage(imageInfo: ImageGameObject) {
+    private _buildNetworkImage(imageInfo: Server.ImageGameObject) {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCollidable?.gridCenterX || 8;
@@ -61,8 +61,8 @@ export class NetworkImageManager extends Component {
             const c = prefabRef.ref!.addComponent(CameraRelativeZaxisSorter);
             if (!c) throw new Error("fail to add");
             c.offset =
-                (imageInfo.type === GameObjectType.Effect) ? 100 :
-                (imageInfo.type === GameObjectType.Floor)  ? -500 :
+                (imageInfo.type === Server.GameObjectType.Effect) ? 100 :
+                (imageInfo.type === Server.GameObjectType.Floor)  ? -500 :
                 0;
         }
         else {

@@ -1,5 +1,5 @@
 import * as Penpal from 'penpal';
-import { Broadcaster, Field, IframeGameObject } from '../connect/types';
+import { Server } from '../connect/types';
 import { PenpalNetworkWrapper } from './PenpalNetworkWrapper';
 
 
@@ -14,8 +14,8 @@ interface Child {
 }
 
 export class IframeCommunicator {
-    private internalFieldIdToFieldMap: Map<string, Field>;
-    private internalBroadcasterIdToBroadcasterMap: Map<string, Broadcaster>;
+    private internalFieldIdToFieldMap: Map<string, Server.Field>;
+    private internalBroadcasterIdToBroadcasterMap: Map<string, Server.Broadcaster>;
     private publicFieldIdToInternalIdMap: Map<number, string>;
     private publicBroadcasterIdToInternalIdMap: Map<number, string>;
     private child!: Child;
@@ -24,7 +24,7 @@ export class IframeCommunicator {
 
     constructor(
         private readonly iframe: HTMLIFrameElement,
-        private readonly iframeInfo: IframeGameObject,
+        private readonly iframeInfo: Server.IframeGameObject,
         private readonly penpalNetworkWrapper: PenpalNetworkWrapper) {
         this.internalFieldIdToFieldMap =
             new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [portId, field]));

@@ -1,13 +1,13 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter } from 'detail-typed-emitter';
 import { Vector2 } from "three";
-import { User } from "../connect/types";
+import { Server } from "../connect/types";
 
 type characterId = string;
 
 
 type EETypes = [
-    [`join`,                    (user: User, spawnPoint: Vector2) => void],
+    [`join`,                    (user: Server.User, spawnPoint: Vector2) => void],
     [`move_${characterId}`,     (pos: Vector2) => void],
     [`leave_${characterId}`,    () => void],
     [`player_move`,             (x: number, y: number) => void]
@@ -94,7 +94,7 @@ export class NetworkManager {
     }
 
 
-    private onPlayerListUpdate(data: {x: number, y: number, user: User}[]) {
+    private onPlayerListUpdate(data: {x: number, y: number, user: Server.User}[]) {
         const playerList = data;
         const playerIdSet = new Set(data.map(e => e.user.id));
         const newPlayers = playerList.filter(p => !this._characterMap.has(p.user.id));

@@ -4,7 +4,7 @@ import { CssCollideTilemapRenderer } from "./script/physics/CssCollideTilemapRen
 import { IframeRenderer } from "./script/render/IframeRenderer";
 import { ZaxisSorter } from "./script/render/ZaxisSorter";
 import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
-import { ServerWorld } from "./connect/types";
+import { Server } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
@@ -20,14 +20,14 @@ import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
 import { PenpalNetworkWrapper } from "./penpal/PenpalNetworkWrapper";
 
 export class NetworkInfoObject {
-    private readonly _serverWorld: ServerWorld;
+    private readonly _serverWorld: Server.World;
     private readonly _apolloClient: ApolloClient<any>;
     private readonly _networkManager: NetworkManager;
     private readonly _penpalNetworkManager: PenpalNetworkWrapper;
     private readonly _user: User;
 
     public constructor(
-            serverWorld: ServerWorld, 
+            serverWorld: Server.World, 
             user: User, apolloClient: ApolloClient<any>, 
             networkManager: NetworkManager, 
             penpalNetworkManager: PenpalNetworkWrapper) {
@@ -38,7 +38,7 @@ export class NetworkInfoObject {
         this._penpalNetworkManager = penpalNetworkManager;
     }
     
-    public get serverWorld(): ServerWorld {
+    public get serverWorld(): Server.World {
         return this._serverWorld;
     }
 

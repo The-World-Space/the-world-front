@@ -1,6 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter } from 'detail-typed-emitter';
-import { IframeBroadcasterPortMapping, IframeFieldPortMapping } from "../connect/types";
+import { Server } from "../connect/types";
 
 type fieldId = string;
 type broadcastId = string;
@@ -121,7 +121,7 @@ export class PenpalNetworkWrapper {
         }
     }
 
-    public onFieldListUpdate(iframeId: number, cb: (portMappings: IframeFieldPortMapping[]) => void) {
+    public onFieldListUpdate(iframeId: number, cb: (portMappings: Server.IframeFieldPortMapping[]) => void) {
         return this._client.subscribe({
             query: gql`
                 subscription IframeFieldPortMappingList($iframeId: Int!) {
@@ -144,7 +144,7 @@ export class PenpalNetworkWrapper {
     }
 
 
-    public onBroadcastListUpdate(iframeId: number, cb: (portMappings: IframeBroadcasterPortMapping[]) => void) {
+    public onBroadcastListUpdate(iframeId: number, cb: (portMappings: Server.IframeBroadcasterPortMapping[]) => void) {
         return this._client.subscribe({
             query: gql`
                 subscription IframeBroadcasterPortMappingList($iframeId: Int!) {
