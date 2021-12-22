@@ -1,8 +1,8 @@
 
 export namespace Server {
 
-    type TILE_NUM = number;
-    type CSS_OPTION = string;
+    type tileNum = number;
+    type cssOption = string;
     
     export interface World {
         id: string;
@@ -35,10 +35,10 @@ export namespace Server {
         type: GameObjectType;
         src: string;
         id: number;
-        x: TILE_NUM;
-        y: TILE_NUM;
-        width: TILE_NUM;
-        height: TILE_NUM;
+        x: tileNum;
+        y: tileNum;
+        width: tileNum;
+        height: tileNum;
     }
     
     export interface IframeGameObject extends GameObject {
@@ -59,15 +59,15 @@ export namespace Server {
     }
     
     export interface IframeWidgetObject {
-        width: CSS_OPTION,
-        height: CSS_OPTION,
+        width: cssOption,
+        height: cssOption,
         fieldPortMappings: IframeFieldPortMapping[];
         broadcasterPortMappings: IframeBroadcasterPortMapping[];
     
         anchor: Anchor;
         offset: {
-            x: CSS_OPTION,
-            y: CSS_OPTION
+            x: cssOption,
+            y: cssOption
         }
     }
     
