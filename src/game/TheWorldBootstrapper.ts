@@ -1,93 +1,127 @@
-import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
-import { PathfindTest } from "./component/ai/PathfindTest";
-import { CameraController } from "./component/controller/CameraController";
-import { PlayerGridMovementController } from "./component/controller/PlayerGridMovementController";
-import { GridPointer } from "./component/input/GridPointer";
-import { PointerGridInputListener } from "./component/input/PointerGridInputListener";
-import { CssCollideTilemapChunkRenderer } from "./component/physics/CssCollideTilemapChunkRenderer";
-import { GridCollideMap } from "./component/physics/GridColideMap";
-import { CameraRelativeZaxisSorter } from "./component/render/CameraRelativeZaxisSorter";
-import { IframeRenderer } from "./component/render/IframeRenderer";
-import { ZaxisSorter } from "./component/render/ZaxisSorter";
-import { IBootstrapper } from "./engine/bootstrap/IBootstrapper";
+import { ApolloClient } from "@apollo/client";
+import { Quaternion, Vector2, Vector3 } from "three";
+import { CssCollideTilemapRenderer } from "./script/physics/CssCollideTilemapRenderer";
+import { IframeRenderer } from "./script/render/IframeRenderer";
+import { ZaxisSorter } from "./script/render/ZaxisSorter";
+import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
+import { Server } from "./connect/types";
+import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
-import { GameManager } from "./engine/GameManager";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
-import { Scene } from "./engine/hierarchy_object/Scene";
-import { InstancedObjectsPrefab } from "./prefab/InstancedObjectsPrefab";
-import { NetworkPlayerPrefab } from "./prefab/NetworkPlayerPrefab";
+import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
+import { NetworkManager } from "./script/NetworkManager";
+import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
-import { TilemapChunkPrefab } from "./prefab/TilemapChunkPrefab";
+import { User } from "../hooks/useUser";
+import { GridInputPrefab } from "./prefab/GridInputPrefab";
+import { GridPointer } from "./script/input/GridPointer";
+import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
+import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
+import { PenpalNetworkWrapper } from "./penpal/PenpalNetworkWrapper";
 
-export class TheWorldBootstrapper implements IBootstrapper {
-    public run(scene: Scene, gameManager: GameManager): SceneBuilder {
-        const instantlater = gameManager.instantlater;
+export class NetworkInfoObject {
+    private readonly _serverWorld: Server.World;
+    private readonly _apolloClient: ApolloClient<any>;
+    private readonly _networkManager: NetworkManager;
+    private readonly _penpalNetworkManager: PenpalNetworkWrapper;
+    private readonly _user: User;
 
-        let player: {ref: GameObject|null} = {ref: null};
-        let collideTilemap: {ref: CssCollideTilemapChunkRenderer|null} = {ref: null};
-        let collideMap: {ref: GridCollideMap|null} = {ref: null};
-        let gridPointer: {ref: GridPointer|null} = {ref: null};
+    public constructor(
+            serverWorld: Server.World, 
+            user: User, apolloClient: ApolloClient<any>, 
+            networkManager: NetworkManager, 
+            penpalNetworkManager: PenpalNetworkWrapper) {
+        this._serverWorld = serverWorld;
+        this._apolloClient = apolloClient;
+        this._user = user;
+        this._networkManager = networkManager;
+        this._penpalNetworkManager = penpalNetworkManager;
+    }
+    
+    public get serverWorld(): Server.World {
+        return this._serverWorld;
+    }
 
-        return new SceneBuilder(scene)
-            .withChild(instantlater.buildPrefab("tilemap", TilemapChunkPrefab)
-                .getColideTilemapChunkRendererRef(collideTilemap).make())
+    public get apolloClient(): ApolloClient<any> {
+        return this._apolloClient;
+    }
 
-            .withChild(instantlater.buildPrefab("objects", InstancedObjectsPrefab)
-                .getGridCollideMapRef(collideMap).make())
+    public get networkManager(): NetworkManager {
+        return this._networkManager;
+    }
 
-            .withChild(instantlater.buildPrefab("player", PlayerPrefab)
-                .withNameTag("Steve Jobs")
-                .withCollideMap(collideTilemap.ref!)
-                .withCollideMap(collideMap.ref!).make()
+    public get user(): User {
+        return this._user;
+    }
+
+    public get penpalNetworkManager(): PenpalNetworkWrapper {
+        return this._penpalNetworkManager;
+    }
+}
+
+export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
+    public run(): SceneBuilder {
+        const instantlater = this.engine.instantlater;
+
+        const player: PrefabRef<GameObject> = new PrefabRef();
+        const collideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
+        const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
+        
+        //@ts-ignore
+        globalThis.debug = {
+            player: player,
+            colideTilemap: collideTilemap,
+        }
+
+        return this.sceneBuilder
+            .withChild(instantlater.buildGameObject('networkGameManager')
+                .withComponent(NetworkPlayerManager, c => {
+                    c.initNetwork(this.interopObject!.networkManager);
+                    c.initLocalPlayer(player.ref!);
+                    c.iGridCollidable = collideTilemap.ref!;
+                })
+                .withComponent(NetworkIframeManager, c => {
+                    c.apolloClient = this.interopObject!.apolloClient;
+                    c.iGridCollidable = collideTilemap.ref;
+                    c.worldId = this.interopObject!.serverWorld.id;
+                    c.iframeList = this.interopObject!.serverWorld.iframes;
+                    c.penpalNetworkWrapper = this.interopObject!.penpalNetworkManager;
+                })
+                .withComponent(NetworkImageManager, c => {
+                    c.iGridCollidable = collideTilemap.ref;
+                    c.imageList = this.interopObject!.serverWorld.images;
+                }))
+            .withChild(instantlater.buildGameObject('floor')
+                .withComponent(CssCollideTilemapRenderer, c => {
+                    c.pointerEvents = false;
+                })
+                .getComponent(CssCollideTilemapRenderer, collideTilemap))
+            .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
+                .with4x4SpriteAtlasFromPath(new PrefabRef(this.interopObject!.user.skinSrc || "/assets/charactor/Seongwon.png"))
+                .withCollideMap(collideTilemap)
+                .withNameTag(new PrefabRef(this.interopObject!.user.nickname))
+                .withPathfindPointer(gridPointer)
+                .make()
                 .getGameObject(player))
-            
-            .withChild(instantlater.buildPrefab("network_player", NetworkPlayerPrefab)
-                .withNameTag("Heewon")
-                .with4x4SpriteAtlasFromPath("/assets/charactor/Heewon.png")
-                .withGridInfo(collideTilemap.ref!)
-                .withGridPosition(-1, -1)
-                .make())
 
-            .withChild(instantlater.buildGameObject("iframe", new Vector3(7 * 16 + 1, 5 * 16 + 7, 0),
-                new Quaternion().setFromEuler(new Euler(MathUtils.degToRad(15), MathUtils.degToRad(-45), 0)))
+            .withChild(instantlater.buildGameObject("iframe", new Vector3(64, 8, 0), new Quaternion(), new Vector3(0.3, 0.3, 1))
                 .withComponent(IframeRenderer, c => {
                     c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
-                    c.width = 36;
-                    c.height = 18;
-                    c.viewScale = 0.1;
+                    c.width = 640 / 2;
+                    c.height = 360 / 2;
                     c.iframeCenterOffset = new Vector2(0, 0.5);
+                    // @ts-ignore
+                    globalThis.debug.iframe = c.gameObject;
                 })
                 .withComponent(ZaxisSorter))
             
-            .withChild(instantlater.buildGameObject("camera_controller")
-                .withComponent(CameraController, c => {
-                    c.setTrackTarget(player.ref!);
-                }))
             
-            .withChild(instantlater.buildGameObject("grid_input", new Vector3(8, 8, 0))
-                .withComponent(CameraRelativeZaxisSorter, c => c.offset = -450)
-                .withComponent(PointerGridInputListener, c => {
-                    c.inputWidth = 512;
-                    c.inputHeight = 512;
-                    c.setGridInfoFromCollideMap(collideTilemap.ref!);
-                })
-                .withComponent(GridPointer, c => c.pointerZoffset = 400)
-                .getComponent(GridPointer, gridPointer))
-
-            .withChild(instantlater.buildGameObject("pathfind_test", new Vector3(8, 8, 0))
-                .withComponent(PathfindTest, c => {
-                    c.collideMaps = [
-                        collideMap.ref!,
-                        collideTilemap.ref!,
-                    ];
-                    c.gridPointer = gridPointer.ref!;
-                    c.player = player.ref!.getComponent(PlayerGridMovementController)!;
-                }));
-
-            // .withChild(instantlater.buildGameObject("test_brush")
-            //     .withComponent(TestTileBrush, c => {
-            //         c.colideTilemapChunk = collideTilemap.ref!;
-            //         c.gridPointer = gridPointer.ref!;
-            //     }));
+            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
+                .withCollideMap(collideTilemap)
+                .getGridPointer(gridPointer).make())
+                
+            .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
+                .withTrackTarget(player).make());
+            
     }
 }

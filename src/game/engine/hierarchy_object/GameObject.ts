@@ -1,117 +1,103 @@
-import { Object3D, Quaternion, Vector3 } from "three";
+import { Quaternion, Vector3 } from "three";
 import { Component } from "./Component";
 import { ComponentConstructor } from "./ComponentConstructor";
-import { GameManager } from "../GameManager";
+import { EngineGlobalObject } from "../EngineGlobalObject";
+import { PrefabRef } from "./PrefabRef";
+import { Transform } from "./Transform";
+import { ITransform } from "./ITransform";
+import { IEngine } from "../IEngine";
 
-//'visible' property has same value as 'activeInHierarchy'
-//you must not change it directly use 'activeInHierarchy' instead
-//'add' method is not available for GameObject it for other Object3D classes
-export class GameObject extends Object3D {
+export class GameObject {
+    private _transform: Transform;
     private _activeInHierarchy: boolean;
     private _activeSelf: boolean;
-    private _components: (Component|null)[];
-    private _gameManager: GameManager;
+    private _components: Component[];
+    private _engineGlobalObject: EngineGlobalObject;
 
-    public constructor(gameManager: GameManager, name: string) {
-        super();
+    public constructor(engineGlobalObject: EngineGlobalObject, name: string) {
         this._activeInHierarchy = true;
-        this.visible = true;
+        this._transform = new Transform(this);
+        this._transform.visible = true;
+        this._transform.name = name;
         this._activeSelf = true;
         this._components = [];
-        this._gameManager = gameManager;
-        this.name = name;
+        this._engineGlobalObject = engineGlobalObject;
     }
 
-    public add(...object: Object3D[]): this {
-        super.add(...object);
-        for (const child of object) {
-            if (child instanceof GameObject) {
-                if (child._activeSelf) child.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
+    private registerTransform(transform: Transform): void {
+        this._transform.add(transform);
+        const gameObject = transform.gameObject;
 
-                if (child._activeInHierarchy) {
-                    child.traverseVisible(item => {
-                        if (item instanceof GameObject) item.tryEnableComponents();
-                    });
-
-                    child.traverseVisible(item => {
-                        if (item instanceof GameObject) item.tryStartComponents();
-                    });
-                }
-            }
+        if (gameObject._activeSelf) {
+            gameObject.activeInHierarchy = this._activeInHierarchy; // update child activeInHierarchy
         }
-        return this;
     }
-    
+
     public addChildFromBuilder(gameObjectBuilder: GameObjectBuilder): void {
         const gameObject = gameObjectBuilder.build();
         gameObjectBuilder.initialize();
-        this.add(gameObject);
-    }
-
-    private addWithNoinit(gameObject: GameObject): void {
-        super.add(gameObject);
-        if (gameObject._activeSelf) gameObject.activeInHierarchyWithoutCallEvent = this._activeInHierarchy; // update child activeInHierarchy        
+        this.registerTransform(gameObject._transform);
+        gameObject.foreachComponentInChildren(component => {
+            component.tryCallAwake();
+        });
+        if (gameObject._activeInHierarchy) {
+            gameObject.foreachComponentInChildren(component => {
+                if (component.enabled) {
+                    component.onEnable();
+                    component.tryEnqueueStart();
+                    component.tryEnqueueUpdate();
+                }
+            });
+        }
     }
 
     public changeParent(newParent: GameObject): void {
         const prevActiveInHierarchy = this._activeInHierarchy;
-        this.removeFromParent();
-        this.addWithNoinit(newParent);
+        this._transform.removeFromParent();
+        this.registerTransform(newParent._transform);
         if (!prevActiveInHierarchy) {
             if (this.activeInHierarchy) {
-                this.traverseVisible(item => {
-                    if (item instanceof GameObject) item.tryEnableComponents();
-                });
-                this.traverseVisible(item => {
-                    if (item instanceof GameObject) item.tryStartComponents();
+                this.foreachComponentInChildren(component => {
+                    component.enabled = true;
                 });
             }
         } else {
             if (!this.activeInHierarchy) {
-                //traverseVisible is also iterate root so it's not necessary
-                //but there might be a bug, so I leave the code for a memo
-                //this.disableComponents();
-                this.traverseVisible(item => {
-                    if (item instanceof GameObject) item.disableComponents();
+                this.foreachComponentInChildren(component => {
+                    component.onDisable();
+                    component.tryDequeueUpdate();
                 });
             }
         }
     }
 
-    public addComponent(componentCtor: ComponentConstructor): void {
+    public addComponent<T extends Component>(componentCtor: ComponentConstructor<T>): T|null {
         const component = new componentCtor(this);
         if (component.disallowMultipleComponent) {
             const existingComponent = this.getComponent(componentCtor);
             if (existingComponent) {
                 console.warn(`Component ${componentCtor.name} already exists on GameObject ${this.name}`);
-                return;
+                return null;
             }
         }
         for (const requiredComponentCtor of component.requiredComponents) {
             const requiredComponent = this.getComponent(requiredComponentCtor);
             if (!requiredComponent) {
                 console.warn(`Component ${requiredComponentCtor.name} is required by Component ${componentCtor.name} on GameObject ${this.name}`);
-                return;
+                return null;
             }
         }
-        let pushedAtIteration = false;
-        for (let i = 0; i < this._components.length; i++) {
-            if (this._components[i] === null) {
-                this._components[i] = component;
-                pushedAtIteration = true;
-                break;
-            }
-        }
-        if (!pushedAtIteration) this._components.push(component);
+        this._components.push(component);
 
+        component.tryCallAwake();
         if (this._activeInHierarchy) {
-            component.onEnable();
-            component.tryCallStart();
+            if (component.enabled) {
+                component.onEnable();
+                component.tryEnqueueStart();
+                component.tryEnqueueUpdate();
+            }
         }
-    }
-
-    public getComponents(): Component[] {
-        return this._components.filter(c => c !== null) as Component[];
+        return component;
     }
 
     public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>): T | null {
@@ -121,9 +107,90 @@ export class GameObject extends Object3D {
         return null;
     }
 
-    public foreachComponent(callback: (component: Component) => void): void {
+    public getComponents(): Component[];
+
+    public getComponents<T extends Component>(componentCtor: ComponentConstructor<T>): T[];
+
+    public getComponents<T extends Component>(componentCtor?: ComponentConstructor<T>): T[] {
+        if (!componentCtor) return this._components.slice() as T[];
+        const components: T[] = [];
         for (const component of this._components) {
-            if (component) callback(component);
+            if (component instanceof componentCtor) {
+                components.push(component);
+            }
+        }
+        return components;
+    }
+
+    //Returns the component of Type type in the GameObject or any of its children using depth first search.
+    public getComponentInChildren<T extends Component>(componentCtor: ComponentConstructor<T>): T | null {
+        const components = this.getComponent(componentCtor);
+        if (components) return components;
+        this._transform.foreachChild(child => {
+            if (child instanceof Transform) {
+                const component = child.gameObject.getComponentInChildren(componentCtor);
+                if (component) return component;
+            }
+        });
+        return null;
+    }
+
+    public getComponentsInChildren(): Component[];
+
+    public getComponentsInChildren<T extends Component>(componentCtor: ComponentConstructor<T>): T[];
+
+    //Returns all components of Type type in the GameObject or any of its children. Works recursively.
+    public getComponentsInChildren<T extends Component>(componentCtor?: ComponentConstructor<T>): T[] {
+        if (!componentCtor) {
+            const components = this.getComponents();
+            this._transform.foreachChild(child => {
+                components.push(...child.gameObject.getComponentsInChildren());
+            });
+            return components as T[];
+        }
+        else {
+            const components: T[] = this.getComponents(componentCtor);
+            this._transform.foreachChild(child => {
+                const childComponents = child.gameObject.getComponentsInChildren(componentCtor);
+                components.push(...childComponents);
+            });
+            return components;
+        }
+    }
+
+    public foreachComponent(callback: (component: Component) => void): void;
+
+    public foreachComponent<T extends Component>(callback: (component: T) => void, componentCtor: ComponentConstructor<T>): void;
+
+    public foreachComponent<T extends Component>(callback: (component: T) => void, componentCtor?: ComponentConstructor<T>): void {
+        if (!componentCtor) {
+            for (const component of this._components) {
+                callback(component as T);
+            }
+        } else {
+            for (const component of this._components) {
+                if (component instanceof componentCtor) {
+                    callback(component);
+                }
+            }
+        }
+    }
+
+    public foreachComponentInChildren(callback: (component: Component) => void): void;
+
+    public foreachComponentInChildren<T extends Component>(callback: (component: T) => void, componentCtor: ComponentConstructor<T>): void;
+
+    public foreachComponentInChildren<T extends Component>(callback: (component: T) => void, componentCtor?: ComponentConstructor<T>): void {
+        if (!componentCtor) {
+            this.foreachComponent(callback as (component: Component) => void);
+            this._transform.foreachChild(child => {
+                child.gameObject.foreachComponentInChildren(callback as (component: Component) => void);
+            });
+        } else {
+            this.foreachComponent(callback, componentCtor);
+            this._transform.foreachChild(child => {
+                child.gameObject.foreachComponentInChildren(callback, componentCtor);
+            });
         }
     }
 
@@ -131,36 +198,25 @@ export class GameObject extends Object3D {
         for (let i = 0; i < this._components.length; i++) {
             if (this._components[i] === component) {
                 component.enabled = false;
+                component.stopAllCoroutines();
                 component.onDestroy();
-                this._components[i] = null;
+                this._components.splice(i, 1);
                 break;
             }
-        }
-    }
-    
-    public update(): void {
-        if (!this._activeInHierarchy) return;
-
-        let componentLength = this._components.length;
-        for (let i = 0; i < componentLength; i++) {
-            if (this._components[i] === null) continue;
-            const component = this._components[i]!;
-            if (component.enabled) component.update();
         }
     }
 
     public destroy(): void {
         for (const component of this._components) {
-            if (component) {
-                component.enabled = false;
-                component.onDestroy();
-            }
+            component.enabled = false;
+            component.stopAllCoroutines();
+            component.onDestroy();
         }
-        this.children.forEach(child => {
-            if (child instanceof GameObject) child.destroy();
+        this._transform.childrenTransform.forEach(child => { // modified values in foreach but array is not modified
+            if (child instanceof Transform) child.gameObject.destroy();
         });
-        this.removeFromParent();
-        this.parent = null;
+        this._transform.removeFromParent();
+        this._transform.parent = null;
     }
 
     private checkComponentRequirements(): void {
@@ -180,35 +236,8 @@ export class GameObject extends Object3D {
         if (componentRemoved) this.checkComponentRequirements();
     }
 
-    private tryEnableComponents(): void {
-        for (const component of this._components) {
-            if (!component) continue;
-            if (component.enabled) {
-                component.onEnable();
-            }
-        }
-    }
-
-    private tryStartComponents(): void {
-        for (const component of this._components) {
-            if (!component) continue;
-            if (component.enabled) {
-                component.tryCallStart();
-            }
-        }
-    }
-
-    private disableComponents(): void {
-        for (const component of this._components) {
-            if (!component) continue;
-            if (component.enabled) {
-                component.onDisable();
-            }
-        }
-    }
-
-    public get gameManager(): GameManager {
-        return this._gameManager;
+    public get engine(): IEngine {
+        return this._engineGlobalObject;
     }
 
     public get activeInHierarchy(): boolean {
@@ -219,38 +248,37 @@ export class GameObject extends Object3D {
         if (this._activeInHierarchy === value) return;
 
         this._activeInHierarchy = value;
-        this.visible = this._activeInHierarchy;
+        this._transform.visible = this._activeInHierarchy;
 
         if (this._activeInHierarchy) {
-            this.tryEnableComponents();
-            this.tryStartComponents();
-        } else {
-            this.disableComponents();
-        }
-
-        this.children.forEach(child => {
-            if (child instanceof GameObject) {
-                if (this._activeInHierarchy) {
-                    child.activeInHierarchy = child._activeSelf;
-                } else {
-                    child.activeInHierarchy = false;
+            //enable components
+            for (const component of this._components) {
+                if (component.enabled) {
+                    component.onEnable();
+                    component.tryEnqueueStart();
+                    component.tryEnqueueUpdate();
                 }
             }
-        });
-    }
+        } else {
+            for (const component of this._components) {
+                if (component.enabled) {
+                    //disable components
+                    component.onDisable();
+                    //dequeue update
+                    component.tryDequeueUpdate();
+                    
+                    component.stopAllCoroutines();
+                }
+            }
+        }
 
-    private set activeInHierarchyWithoutCallEvent(value: boolean) {
-        if (this._activeInHierarchy === value) return;
-
-        this._activeInHierarchy = value;
-        this.visible = this._activeInHierarchy;
-
-        this.children.forEach(child => {
-            if (child instanceof GameObject) {
+        this._transform.foreachChild(child => {
+            if (child instanceof Transform) {
+                const gameObject = child.gameObject;
                 if (this._activeInHierarchy) {
-                    child.activeInHierarchy = child._activeSelf;
+                    gameObject.activeInHierarchy = gameObject._activeSelf;
                 } else {
-                    child.activeInHierarchy = false;
+                    gameObject.activeInHierarchy = false;
                 }
             }
         });
@@ -264,8 +292,8 @@ export class GameObject extends Object3D {
         if (this._activeSelf === value) return;
 
         this._activeSelf = value;
-        if (this.parent instanceof GameObject) { // if parent is a gameobject
-            if (this.parent._activeInHierarchy) {
+        if (this._transform.parent instanceof Transform) { // if parent is a gameobject
+            if (this._transform.parent.gameObject._activeInHierarchy) {
                 this.activeInHierarchy = this._activeSelf;
             } else {
                 this.activeInHierarchy = false;
@@ -275,46 +303,108 @@ export class GameObject extends Object3D {
         }
     }
 
-    public static readonly Builder = class Builder{
+    //DO NOT cast this to Transform, instead use unsafeGetTransform
+    public get transform(): ITransform {
+        return this._transform;
+    }
+
+    public get name(): string {
+        return this._transform.name;
+    }
+
+    public set name(value: string) {
+        this._transform.name = value;
+    }
+
+    public get uuid(): string {
+        return this._transform.uuid;
+    }
+
+    public get id(): number {
+        return this._transform.id;
+    }
+
+    //'visible' property has same value as 'activeInHierarchy'
+    //you must not change it directly, use 'activeInHierarchy' instead
+    //'add' method is not available for GameObject it for other Object3D classes
+    public unsafeGetTransform(): Transform {
+        return this._transform;
+    }
+
+    public static readonly GameObjectBuilder = class GameObjectBuilder{
         private readonly _gameObject: GameObject;
-        private readonly _children: Builder[];
+        private readonly _children: GameObjectBuilder[];
         private readonly _componentInitializeFuncList: (() => void)[];
 
-        public constructor(gameManager: GameManager, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
-            this._gameObject = new GameObject(gameManager, name);
-            if (localPosition) this._gameObject.position.copy(localPosition);
-            if (localRotation) this._gameObject.quaternion.copy(localRotation);
-            if (localScale) this._gameObject.scale.copy(localScale);
+        public constructor(engineGlobalObject: EngineGlobalObject, name: string, localPosition?: Vector3, localRotation?: Quaternion, localScale?: Vector3) {
+            this._gameObject = new GameObject(engineGlobalObject, name);
+            const transform = this._gameObject.transform;
+            if (localPosition) transform.position.copy(localPosition);
+            if (localRotation) transform.quaternion.copy(localRotation);
+            if (localScale) transform.scale.copy(localScale);
             this._children = [];
             this._componentInitializeFuncList = [];
         }
 
-        public active(active: boolean): Builder {
+        public active(active: boolean): GameObjectBuilder {
             this._gameObject.activeSelf = active;
             return this;
         }
 
-        public getGameObject(gameObjectRef: {ref: GameObject|null}): Builder {
+        public getGameObject(gameObjectRef: PrefabRef<GameObject>): GameObjectBuilder {
             gameObjectRef.ref = this._gameObject;
             return this;
         }
 
-        public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: {ref: T|null}): Builder {
+        public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: PrefabRef<T>): GameObjectBuilder {
             componentRef.ref = this._gameObject.getComponent(componentCtor);
             return this;
-        }            
+        }
 
-        public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): Builder;
+        public getComponents(componentsRef: PrefabRef<Component[]>): GameObjectBuilder;
+
+        public getComponents<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder;
+
+        public getComponents<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder {
+            if (componentCtor) {
+                componentsRef.ref = this._gameObject.getComponents(componentCtor);
+            }
+            else {
+                componentsRef.ref = this._gameObject.getComponents() as T[];
+            }
+            return this;
+        }
+
+        public getComponentInChildren<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: PrefabRef<T>): GameObjectBuilder {
+            componentRef.ref = this._gameObject.getComponentInChildren(componentCtor);
+            return this;
+        }
+
+        public getComponentsInChildren(componentsRef: PrefabRef<Component[]>): GameObjectBuilder;
+
+        public getComponentsInChildren<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder;
+
+        public getComponentsInChildren<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder {
+            if (componentCtor) {
+                componentsRef.ref = this._gameObject.getComponentsInChildren(componentCtor);
+            }
+            else {
+                componentsRef.ref = this._gameObject.getComponentsInChildren() as T[];
+            }
+            return this;
+        }
+
+        public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): GameObjectBuilder;
 
         public withComponent<T extends Component>(
             componentCtor: ComponentConstructor<T>,
             componentInitializeFunc?: (component: T) => void
-        ): Builder;
+        ): GameObjectBuilder;
     
         public withComponent<T extends Component>(
             componentCtor: ComponentConstructor<T>,
             componentInitializeFunc?: (component: T) => void
-        ): Builder {
+        ): GameObjectBuilder {
             const component = new componentCtor(this._gameObject);
             if (component.disallowMultipleComponent) {
                 const existingComponent = this._gameObject.getComponent(componentCtor);
@@ -330,14 +420,14 @@ export class GameObject extends Object3D {
             return this;
         }
 
-        public withChild(child: Builder): Builder {
+        public withChild(child: GameObjectBuilder): GameObjectBuilder {
             this._children.push(child);
             return this;
         }
 
         public build(): GameObject {
             this._gameObject.checkComponentRequirements();
-            for (const child of this._children) this._gameObject.addWithNoinit(child.build());
+            for (const child of this._children) this._gameObject.registerTransform(child.build()._transform);
             return this._gameObject;
         }
 
@@ -350,4 +440,4 @@ export class GameObject extends Object3D {
     }
 }
 
-export type GameObjectBuilder = InstanceType<typeof GameObject.Builder>;
+export type GameObjectBuilder = InstanceType<typeof GameObject.GameObjectBuilder>;

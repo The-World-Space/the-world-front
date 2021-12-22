@@ -1,4 +1,4 @@
-import { ServerWorld } from "./types";
+import { Server } from "./types";
 import {
     ApolloLink,
     Operation,
@@ -13,6 +13,7 @@ import {
 import { print } from "graphql";
 import { createClient, ClientOptions, Client } from "graphql-ws";
 import { JWT_KEY } from "../../context/consts";
+import { Vector2 } from "three";
 
 
 
@@ -26,8 +27,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
                     tiles {
                         x
                         y
-                        movableRight
-                        movableBottom
+                        standable
                     }
                     iframes {
                         id
@@ -70,7 +70,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
         }
     });
 
-    return result.data.World as ServerWorld;
+    return result.data.World as Server.World;
 }
 
 
@@ -84,8 +84,7 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
                     tiles {
                         x
                         y
-                        movableRight
-                        movableBottom
+                        standable
                     }
                     iframes {
                         id
@@ -110,9 +109,25 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
         `
     });
 
-    return result.data.myWorlds as ServerWorld[];
+    return result.data.myWorlds as Server.World[];
 }
 
+
+
+export async function joinWorld(worldId: string, pos: Vector2, apolloClient: ApolloClient<any>) {
+    return apolloClient.mutate({
+        mutation: gql`
+            mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
+                joinWorld(x: $x, y: $y, id: $worldId)
+            }
+        `,
+        variables: {
+            x: pos.x,
+            y: pos.y,
+            worldId,
+        }
+    })
+}
 
 
 export function getSession() {
@@ -164,7 +179,7 @@ export class WebSocketLink extends ApolloLink {
 
 
 export const link = new WebSocketLink({
-    url: 'wss://localhost:40081/graphql',
+    url: 'wss://computa.lunuy.com:40081/graphql',
     connectionParams: () => {
         const session = getSession();
         if (!session) {
@@ -181,3 +196,10 @@ export const globalApolloClient = new ApolloClient({
     link,
     cache: new InMemoryCache()
 });
+
+
+// @ts-ignore
+globalThis.debug = {
+    globalApolloClient,
+    getWorld
+}

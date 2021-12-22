@@ -1,50 +1,68 @@
 import { Quaternion, Vector2, Vector3 } from "three";
-import { MovementAnimationController } from "../component/controller/MovementAnimationController";
-import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
-import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
-import { ZaxisSorter } from "../component/render/ZaxisSorter";
-import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { CssSpriteAtlasRenderer } from "../script/render/CssSpriteAtlasRenderer";
+import { SpriteAtlasAnimator } from "../script/post_render/SpriteAtlasAnimator";
+import { ZaxisSorter } from "../script/render/ZaxisSorter";
+import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { NetworkGridMovementController } from "../component/controller/NetworkGridMovementController";
-import { CssCollideTilemapRenderer } from "../component/physics/CssCollideTilemapRenderer";
-import { CssCollideTilemapChunkRenderer } from "../component/physics/CssCollideTilemapChunkRenderer";
-import { CssTilemapRenderer } from "../component/render/CssTilemapRenderer";
-import { CssTilemapChunkRenderer } from "../component/post_render/CssTilemapChunkRenderer";
-import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
-import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
+import { NetworkGridMovementController } from "../script/controller/NetworkGridMovementController";
+import { CssTextRenderer, FontWeight, TextAlign } from "../script/render/CssTextRenderer";
+import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
+import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
+import { IGridCollidable } from "../script/physics/IGridCollidable";
+import { NetworkManager } from "../script/NetworkManager";
+import { MovementAnimationController } from "../script/controller/MovementAnimationController";
+import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
 
 export class NetworkPlayerPrefab extends Prefab {
-    private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
-    private _tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer|null = null;
-    private _gridPosition: Vector2|null = null;
-    private _nameTagString: string|null = null;
+    private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
+    private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
+    private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
+    private _nameTagString: PrefabRef<string> = new PrefabRef();
 
-    public with4x4SpriteAtlasFromPath(name: string): NetworkPlayerPrefab {
+    private _networkManager: NetworkManager | null = null;
+    private _userId: string | null = null;
+
+    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
-    public withGridInfo(tilemap: CssCollideTilemapRenderer|CssCollideTilemapChunkRenderer|CssTilemapRenderer|CssTilemapChunkRenderer): NetworkPlayerPrefab {
+    public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkPlayerPrefab {
         this._tilemap = tilemap;
         return this;
     }
 
-    public withGridPosition(x: number, y: number): NetworkPlayerPrefab {
-        this._gridPosition = new Vector2(x, y);
+    public withGridPosition(gridPosition: PrefabRef<Vector2>): NetworkPlayerPrefab {
+        this._gridPosition = gridPosition;
         return this;
     }
 
-    public withNameTag(name: string): NetworkPlayerPrefab {
+    public withNameTag(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._nameTagString = name;
         return this;
     }
 
+    public withNetworkManager(networkManager: NetworkManager): NetworkPlayerPrefab {
+        this._networkManager = networkManager;
+        return this;
+    }
+
+    public withUserId(userId: string) {
+        this._userId = userId;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
-        const instantlater = this._gameManager.instantlater;
+        const instantlater = this.engine.instantlater;
         
-        this._gameObjectBuilder
+        const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
+        const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
+        const nameTagRenderer: PrefabRef<CssTextRenderer> = new PrefabRef();
+        const nameTagObject: PrefabRef<GameObject> = new PrefabRef();
+        
+        return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                c.setImage(this._spriteAtlasPath, 4, 4);
+                if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })
@@ -60,20 +78,33 @@ export class NetworkPlayerPrefab extends Prefab {
                 c.frameDuration = 0.2;
             })
             .withComponent(NetworkGridMovementController, c => {
-                if (this._tilemap) {
-                    c.gridCellHeight = this._tilemap.gridCellHeight;
-                    c.gridCellWidth = this._tilemap.gridCellWidth
-                    c.gridCenter = this._tilemap.gridCenter;
+                if (this._tilemap.ref) {
+                    c.gridCellHeight = this._tilemap.ref.gridCellHeight;
+                    c.gridCellWidth = this._tilemap.ref.gridCellWidth
+                    c.gridCenter = this._tilemap.ref.gridCenter;
                 }
-                if (this._gridPosition) c.initPosition = this._gridPosition;
+                if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
+                if (this._networkManager && this._userId)
+                    c.initNetwork(this._userId, this._networkManager);
             })
             .withComponent(MovementAnimationController)
-            .withComponent(ZaxisSorter, c => c.runOnce = false)
+            .withComponent(ZaxisSorter, c => {
+                c.runOnce = false;
+                c.offset = 1;
+            })
+            .withComponent(PlayerStatusRenderController, c => {
+                c.setChatBoxObject(chatboxObject.ref!);
+                c.setChatBoxRenderer(chatboxRenderer.ref!);
+                c.setNameTagObject(nameTagObject.ref!);
+                c.setNameTagRenderer(nameTagRenderer.ref!);
+                c.nameTag = this._nameTagString.ref;
+            })
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
                 new Quaternion(),
                 new Vector3(0.5, 0.5, 0.5))
+                .active(false)
                 .withComponent(CssHtmlElementRenderer, c => {
                     c.autoSize = true;
                     c.setElementFromJSX(
@@ -85,28 +116,27 @@ export class NetworkPlayerPrefab extends Prefab {
                             padding: "5px 10px",
                             opacity: 0.5,
                             }}>
-                            i'm still busy
+                            chat content
                         </div>
                     );
                     c.pointerEvents = false;
-                }));
-        
-        if (this._nameTagString) {
-            this._gameObjectBuilder
-                .withChild(instantlater.buildGameObject("nametag",
-                    new Vector3(0, 32, 0),
-                    new Quaternion(),
-                    new Vector3(0.5, 0.5, 0.5))
-                    .withComponent(CssTextRenderer, c => {
-                        c.textAlign = TextAlign.Center;
-                        c.fontWeight = FontWeight.Bold;
-                        c.textHeight = 16;
-                        c.textWidth = 64;
-                        c.text = this._nameTagString;
-                        c.pointerEvents = false;
-                    }))
-        }
-
-        return this._gameObjectBuilder;
+                })
+                .getComponent(CssHtmlElementRenderer, chatboxRenderer)
+                .getGameObject(chatboxObject))
+                
+            .withChild(instantlater.buildGameObject("nametag",
+                new Vector3(0, 32, 0),
+                new Quaternion(),
+                new Vector3(0.5, 0.5, 0.5))
+                .active(false)
+                .withComponent(CssTextRenderer, c => {
+                    c.textAlign = TextAlign.Center;
+                    c.fontWeight = FontWeight.Bold;
+                    c.textHeight = 16;
+                    c.textWidth = 64;
+                    c.pointerEvents = false;
+                })
+                .getComponent(CssTextRenderer, nameTagRenderer)
+                .getGameObject(nameTagObject));
     }
 }

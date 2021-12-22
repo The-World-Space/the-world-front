@@ -1,47 +1,69 @@
 import { Quaternion, Vector2, Vector3 } from "three";
-import { MovementAnimationController } from "../component/controller/MovementAnimationController";
-import { PlayerGridMovementController } from "../component/controller/PlayerGridMovementController";
-import { CssSpriteAtlasRenderer } from "../component/render/CssSpriteAtlasRenderer";
-import { SpriteAtlasAnimator } from "../component/post_render/SpriteAtlasAnimator";
-import { ZaxisSorter } from "../component/render/ZaxisSorter";
-import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
+import { MovementAnimationController } from "../script/controller/MovementAnimationController";
+import { PlayerGridMovementController } from "../script/controller/PlayerGridMovementController";
+import { CssSpriteAtlasRenderer } from "../script/render/CssSpriteAtlasRenderer";
+import { SpriteAtlasAnimator } from "../script/post_render/SpriteAtlasAnimator";
+import { ZaxisSorter } from "../script/render/ZaxisSorter";
+import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { CssTextRenderer, FontWeight, TextAlign } from "../component/render/CssTextRenderer";
-import { CssHtmlElementRenderer } from "../component/render/CssHtmlElementRenderer";
-import { IGridCollidable } from "../component/physics/IGridCollidable";
+import { CssTextRenderer, FontWeight, TextAlign } from "../script/render/CssTextRenderer";
+import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
+import { IGridCollidable } from "../script/physics/IGridCollidable";
+import { GridPointer } from "../script/input/GridPointer";
+import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
+import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
+import { PlayerGridEventInvoker } from "../script/event/PlayerGridEventInvoker";
+import { GridEventMap } from "../script/event/GridEventMap";
 
 export class PlayerPrefab extends Prefab {
-    private _spriteAtlasPath: string = `/assets/charactor/Seongwon.png`;
-    private _collideMaps: IGridCollidable[] = [];
-    private _gridPosition: Vector2|null = null;
-    private _nameTagString: string|null = null;
+    private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
+    private _collideMaps: PrefabRef<IGridCollidable>[] = [];
+    private _gridEventMaps: PrefabRef<GridEventMap>[] = [];
+    private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
+    private _nameTagString: PrefabRef<string> = new PrefabRef();
+    private _gridPointer: PrefabRef<GridPointer> = new PrefabRef();
 
-    public with4x4SpriteAtlasFromPath(name: string): PlayerPrefab {
+    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): PlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
-    public withCollideMap(colideMap: IGridCollidable): PlayerPrefab {
+    public withCollideMap(colideMap: PrefabRef<IGridCollidable>): PlayerPrefab {
         this._collideMaps.push(colideMap);
         return this;
     }
 
-    public withGridPosition(x: number, y: number): PlayerPrefab {
-        this._gridPosition = new Vector2(x, y);
+    public withGridEventMap(gridEventMap: PrefabRef<GridEventMap>): PlayerPrefab {
+        this._gridEventMaps.push(gridEventMap);
         return this;
     }
 
-    public withNameTag(name: string): PlayerPrefab {
+    public withGridPosition(gridPosition: PrefabRef<Vector2>): PlayerPrefab {
+        this._gridPosition = gridPosition;
+        return this;
+    }
+
+    public withNameTag(name: PrefabRef<string>): PlayerPrefab {
         this._nameTagString = name;
         return this;
     }
 
-    public make(): GameObjectBuilder {
-        const instantlater = this._gameManager.instantlater;
+    public withPathfindPointer(gridPointer: PrefabRef<GridPointer>): PlayerPrefab {
+        this._gridPointer = gridPointer;
+        return this;
+    }
 
-        this._gameObjectBuilder
+    public make(): GameObjectBuilder {
+        const instantlater = this.engine.instantlater;
+
+        const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
+        const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
+        const nameTagRenderer: PrefabRef<CssTextRenderer> = new PrefabRef();
+        const nameTagObject: PrefabRef<GameObject> = new PrefabRef();
+
+        return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                c.setImage(this._spriteAtlasPath, 4, 4);
+                if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })
@@ -58,22 +80,45 @@ export class PlayerPrefab extends Prefab {
             })
             .withComponent(PlayerGridMovementController, c => {
                 if (1 <= this._collideMaps.length) {
-                    c.setGridInfoFromCollideMap(this._collideMaps[0]);
+                    if (this._collideMaps[0].ref) {
+                        c.setGridInfoFromCollideMap(this._collideMaps[0].ref);
+                    }
                 }
 
                 for (let i = 0; i < this._collideMaps.length; i++) {
-                    c.addCollideMap(this._collideMaps[i]);
+                    if (this._collideMaps[i].ref) {
+                        c.addCollideMap(this._collideMaps[i].ref!);
+                    }
                 }
                 
-                if (this._gridPosition) c.initPosition = this._gridPosition;
+                if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
+                if (this._gridPointer) c.gridPointer = this._gridPointer.ref;
             })
             .withComponent(MovementAnimationController)
-            .withComponent(ZaxisSorter, c => c.runOnce = false)
+            .withComponent(ZaxisSorter, c => {
+                c.runOnce = false;
+                c.offset = 1;
+            })
+            .withComponent(PlayerStatusRenderController, c => {
+                c.setChatBoxObject(chatboxObject.ref!);
+                c.setChatBoxRenderer(chatboxRenderer.ref!);
+                c.setNameTagObject(nameTagObject.ref!);
+                c.setNameTagRenderer(nameTagRenderer.ref!);
+                c.nameTag = this._nameTagString.ref;
+            })
+            .withComponent(PlayerGridEventInvoker, c => {
+                for (let i = 0; i < this._gridEventMaps.length; i++) {
+                    if (this._gridEventMaps[i].ref) {
+                        c.addGridEventMap(this._gridEventMaps[i].ref!);
+                    }
+                }
+            })
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
                 new Quaternion(),
                 new Vector3(0.5, 0.5, 0.5))
+                .active(false)
                 .withComponent(CssHtmlElementRenderer, c => {
                     c.autoSize = true;
                     c.setElementFromJSX(
@@ -85,28 +130,27 @@ export class PlayerPrefab extends Prefab {
                             padding: "5px 10px",
                             opacity: 0.5,
                             }}>
-                            gimme some iphone
+                            chat content
                         </div>
                     );
                     c.pointerEvents = false;
-                }));
+                })
+                .getComponent(CssHtmlElementRenderer, chatboxRenderer)
+                .getGameObject(chatboxObject))
 
-        if (this._nameTagString) {
-            this._gameObjectBuilder
-                .withChild(instantlater.buildGameObject("nametag",
-                    new Vector3(0, 32, 0),
-                    new Quaternion(),
-                    new Vector3(0.5, 0.5, 0.5))
-                    .withComponent(CssTextRenderer, c => {
-                        c.textAlign = TextAlign.Center;
-                        c.fontWeight = FontWeight.Bold;
-                        c.textHeight = 16;
-                        c.textWidth = 64;
-                        c.text = this._nameTagString;
-                        c.pointerEvents = false;
-                    }))
-        }
-
-        return this._gameObjectBuilder;
+            .withChild(instantlater.buildGameObject("nametag",
+                new Vector3(0, 32, 0),
+                new Quaternion(),
+                new Vector3(0.5, 0.5, 0.5))
+                .active(false)
+                .withComponent(CssTextRenderer, c => {
+                    c.textAlign = TextAlign.Center;
+                    c.fontWeight = FontWeight.Bold;
+                    c.textHeight = 16;
+                    c.textWidth = 64;
+                    c.pointerEvents = false;
+                })
+                .getComponent(CssTextRenderer, nameTagRenderer)
+                .getGameObject(nameTagObject));
     }
 }
