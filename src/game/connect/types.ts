@@ -34,7 +34,7 @@ export namespace Server {
         standable: boolean;
     }
     
-    export interface GameObject {
+    interface GameObject {
         type: GameObjectType;
         id: number;
         x: TileNum;
@@ -65,7 +65,7 @@ export namespace Server {
         BOTTOM_RIGHT
     }
     
-    export interface Widget {
+    interface Widget {
         width: CssOption;
         height: CssOption;
         fieldPortMappings: IframeFieldPortMapping[];
