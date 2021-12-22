@@ -12,6 +12,33 @@ import { PenpalNetworkWrapper } from '../game/penpal/PenpalNetworkWrapper';
 import { WidgetManager } from '../game/script/WidgetManager';
 import styled from 'styled-components';
 
+const Container = styled.div`
+    display: flex;
+    height: 100%;
+    width: 100%;
+`;
+
+const IngameInterfaceContainer = styled.div`
+    z-index: 1;
+    height: 100%;
+    pointer-events: none;
+`;
+
+const GameContainer = styled.div`
+    height: '100%';
+    width: 'calc(100% - 130px)';
+    z-index: 0;
+`;
+
+const WidgetContainer = styled.div`
+    height: 100%;
+    width: 'calc(100% - 130px)';
+    z-index: 1;
+    position: absolute;
+    pointer-events: none;
+    right: 0px;
+`;
+
 const WidgetWrapper = styled.div`
     height: 100%;
     width: 100%;
@@ -59,25 +86,17 @@ function NetworkGamePage() {
     }, [worldId, world, user, world_loading]);
 
     return (
-        <div style={{
-            display: 'flex',
-            width: '100%',
-            height: '100%',
-        }}>
-            <div style={{
-                zIndex: 1,
-                height: '100%',
-                pointerEvents: 'none',
-            }}>
+        <Container>
+            <IngameInterfaceContainer>
                 <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
-            </div>
-            <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 0}}>
-                <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 1, position: 'absolute', pointerEvents: 'none', right: '0px'}}>
+            </IngameInterfaceContainer>
+            <GameContainer>
+                <WidgetContainer>
                     <WidgetWrapper ref={widgetWrapperdiv}/> 
-                </div>
+                </WidgetContainer>
                 <GameView ref={div}/>
-            </div>
-        </div>
+            </GameContainer>
+        </Container>
     );
 }
 
