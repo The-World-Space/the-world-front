@@ -62,16 +62,16 @@ function NetworkGamePage() {
 
     useEffect(() => { //on mount component
         if (world_loading || !world || !user) return; 
-        if (!div.current) throw new Error("div is null");
+        if (!div.current) throw new Error("div is null");//
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
-
-        const game = new Game(div.current!, div.current!.offsetWidth, div.current!.offsetHeight);
+        console.log("test");
+        const game = new Game(div.current, div.current.offsetWidth, div.current.offsetHeight);
         const networkManager = new NetworkManager(world.id, user.id, globalApolloClient);
         const penpalNetworkWrapper = new PenpalNetworkWrapper(world.id, globalApolloClient);
         new WidgetManager(penpalNetworkWrapper, world, widgetWrapperdiv.current, []);
         game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper));
         joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
-            game!.inputHandler.startHandleEvents();
+            game.inputHandler.startHandleEvents();
         });
 
         function onWindowResize() {
