@@ -25,6 +25,7 @@ export class CssTextRenderer extends Component {
     private _textHeight: number = 16;
     private _fontSize: number = 8;
     private _fontWeight: FontWeight = FontWeight.Normal;
+    private _fontFamily: string = "Arial";
     private _textalign: TextAlign = TextAlign.Left;
     private _opacity: number = 1;
     private _pointerEvents: boolean = true;
@@ -90,6 +91,7 @@ export class CssTextRenderer extends Component {
             this._htmlDivElement.style.height = `${this._textHeight}px`;
             this._htmlDivElement.style.fontSize = `${this._fontSize}px`;
             this._htmlDivElement.style.fontWeight = this._fontWeight;
+            this._htmlDivElement.style.fontFamily = this._fontFamily;
             this._htmlDivElement.style.textAlign = this._textalign;
             this._htmlDivElement.style.opacity = this._opacity.toString();
             this._htmlDivElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
@@ -161,6 +163,17 @@ export class CssTextRenderer extends Component {
         this._fontWeight = value;
         if (this._htmlDivElement) {
             this._htmlDivElement.style.fontWeight = value;
+        }
+    }
+
+    public get fontFamily(): string {
+        return this._fontFamily;
+    }
+
+    public set fontFamily(value: string) {
+        this._fontFamily = value;
+        if (this._htmlDivElement) {
+            this._htmlDivElement.style.fontFamily = value;
         }
     }
 
