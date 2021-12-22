@@ -147,7 +147,7 @@ export class PlayerPrefab extends Prefab {
                     c.textAlign = TextAlign.Center;
                     c.fontWeight = FontWeight.Bold;
                     c.textHeight = 16;
-                    c.textWidth = 64;
+                    c.textWidth = 128;
                     c.pointerEvents = false;
                 })
                 .getComponent(CssTextRenderer, nameTagRenderer)
