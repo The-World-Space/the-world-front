@@ -229,6 +229,7 @@ export class PlayerGridMovementController extends Directionable
 
     private onPointerDown(event: PointerGridEvent): void {
         if (event.button !== 0) return;
+        this._movingByPathfinder = false;
         const currentElapsedTime = this.engine.time.elapsedTime;
         if (currentElapsedTime - this._lastPointerDownTime < this._doubleClickTime) {
             if (this._lastPointerDownPosition.equals(event.gridPosition)) {
