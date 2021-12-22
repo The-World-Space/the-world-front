@@ -60,11 +60,11 @@ function NetworkGamePage() {
     const { value: world } = useAsync(() => getWorld(worldId, globalApolloClient));
     const user = useUser();
 
-    useEffect(() => { //on mount component
+    useEffect(() => { //on component mounted
         if (!world || !user) return; 
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
-        const game = new Game(div.current, div.current.offsetWidth, div.current.offsetHeight);
+        const game = new Game(div.current);
         const networkManager = new NetworkManager(world.id, user.id, globalApolloClient);
         const penpalNetworkWrapper = new PenpalNetworkWrapper(world.id, globalApolloClient);
         const widgetManager = new WidgetManager(penpalNetworkWrapper, world, widgetWrapperdiv.current, []);
@@ -72,14 +72,8 @@ function NetworkGamePage() {
         joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
             game.inputHandler.startHandleEvents();
         });
-
-        function onWindowResize() {
-            if (div.current) game?.resizeFramebuffer(div.current.offsetWidth, div.current.offsetHeight);
-        }
-
-        window.addEventListener("resize", onWindowResize);
-        return () => { //on unmount component
-            window.removeEventListener("resize", onWindowResize);
+        
+        return () => { //on component unmount
             game.dispose();
             widgetManager.dispose();
         };

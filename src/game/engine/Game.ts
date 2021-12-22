@@ -27,14 +27,17 @@ export class Game {
     private readonly _container: HTMLElement;
     private _animationFrameId: number|null;
     private _isDisposed: boolean;
+    private _resizeFrameBufferBind: () => void;
 
-    public constructor(container: HTMLElement, screenWidth: number, screenHeight: number) {
+    public constructor(container: HTMLElement) {
         this._rootScene = new Scene();
         this._cameraContainer = new CameraContainer();
-        this._gameScreen = new GameScreen(screenWidth, screenHeight);
+        this._gameScreen = new GameScreen(container.clientWidth, container.clientHeight);
         this._container = container;
         this._renderer = new CSS3DRenderer();
-        this._renderer.setSize(screenWidth, screenHeight);
+        this._renderer.setSize(container.clientWidth, container.clientHeight);
+        this._renderer.domElement.style.width = "100%";
+        this._renderer.domElement.style.height = "100%";
         this._clock = new THREE.Clock();
         this._time = new Time();
         this._gameState = new GameState(GameStateKind.WaitingForStart);
@@ -56,11 +59,18 @@ export class Game {
             this._renderer.domElement.scrollLeft = 0;
             this._renderer.domElement.scrollTop = 0;
         };
+        this._resizeFrameBufferBind = this.resizeFramebuffer.bind(this);
+        window.addEventListener("resize", this._resizeFrameBufferBind);
     }
 
-    public resizeFramebuffer(width: number, height: number): void {
+    private resizeFramebuffer(): void {
+        const width = this._container.clientWidth;
+        const height = this._container.clientHeight;
+        if (width === this._gameScreen.width && height === this._gameScreen.height) return;
         this._gameScreen.resize(width, height);
         this._renderer.setSize(width, height);
+        this._renderer.domElement.style.width = "100%";
+        this._renderer.domElement.style.height = "100%";
     }
 
     public run<T, U extends Bootstrapper<T> = Bootstrapper<T>>(bootstrapperCtor: BootstrapperConstructor<T, U>, interopObject?: T): void {
@@ -97,6 +107,7 @@ export class Game {
     }
 
     public dispose(): void {
+        if (this._isDisposed) return;
         this._gameState.kind = GameStateKind.Finalizing;
         if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
         this._engineGlobalObject.dispose();
@@ -104,6 +115,7 @@ export class Game {
             if (child instanceof Transform) child.gameObject.destroy();
         });
         this._container.removeChild(this._renderer.domElement);
+        window.removeEventListener("resize", this._resizeFrameBufferBind);
         this._isDisposed = true;
         this._gameState.kind = GameStateKind.Finalized;
     }
