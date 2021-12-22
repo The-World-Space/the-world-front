@@ -3,6 +3,9 @@ export namespace Server {
 
     type TileNum = number;
     type CssOption = string;
+
+    type IframeSrc = string;
+    type ImageSrc = string;
     
     export interface World {
         id: string;
@@ -14,9 +17,9 @@ export namespace Server {
     }
     
     export interface User {
-        id: string,
-        nickname: string,
-        skinSrc: string
+        id: string;
+        nickname: string;
+        skinSrc: ImageSrc;
     }
     
     export enum GameObjectType {
@@ -33,7 +36,6 @@ export namespace Server {
     
     export interface GameObject {
         type: GameObjectType;
-        src: string;
         id: number;
         x: TileNum;
         y: TileNum;
@@ -42,8 +44,13 @@ export namespace Server {
     }
     
     export interface IframeGameObject extends GameObject {
+        src: IframeSrc;
         fieldPortMappings: IframeFieldPortMapping[];
         broadcasterPortMappings: IframeBroadcasterPortMapping[];
+    }
+
+    export interface ImageGameObject extends GameObject {
+        src: ImageSrc;
     }
     
     enum Anchor {
@@ -58,7 +65,7 @@ export namespace Server {
         BOTTOM_RIGHT
     }
     
-    export interface IframeWidgetObject {
+    export interface Widget {
         width: CssOption;
         height: CssOption;
         fieldPortMappings: IframeFieldPortMapping[];
@@ -68,9 +75,13 @@ export namespace Server {
         offsetX: CssOption;
         offsetY: CssOption;
     }
-    
-    export interface ImageGameObject extends GameObject {
-        
+
+    export interface IframeWidget extends Widget {
+        src: IframeSrc;
+    }
+
+    export interface ImageWidget extends Widget {
+        src: ImageSrc;
     }
     
     // Mapping
