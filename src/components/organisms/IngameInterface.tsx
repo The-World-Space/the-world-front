@@ -7,11 +7,11 @@ import twLogo2Black from '../atoms/tw logo 2 black.svg';
 import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
 import ChannelBtnIcon from '../atoms/ChannelBtnIcon.svg';
 import ArrowIcon from '../atoms/ArrowIcon.svg';
-import TrashcanIcon from '../atoms/TrashcanIcon.svg';
 import ChatIcon from '../atoms/ChatIcon.svg';
 import SendButtonIcon from '../atoms/SendButtonIcon.svg';
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 import { ApolloClient, gql } from "@apollo/client";
+import ObjectEditorInner from './ObjectEditorInner';
 
 const OuterDiv = styled.div`
     display: flex;
@@ -71,55 +71,6 @@ const CountIndicatorDiv = styled.div`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
 `;
 
-const ExpandBarDiv = styled.div`
-    background: #D7CCC8;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
-    width: 350px;
-    height: 100%;
-    position: absolute;
-    right: -220px;
-    transition: left 0.5s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    pointer-events: all;
-`;
-
-const ListContainer = styled.ol`
-    display: flex;
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const ListItem = styled.li`
-    background: #A69B97;
-    border-radius: 23px;
-    display: flex;
-    width: 90%;
-    height: 60px;
-    margin-top: 20px;
-    padding: 7px;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-`;
-
-const ListItemInner = styled.div`
-    background: #FFFFFE;
-    border-radius: 23px;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-`;
-
 const ExpandButton = styled.button`
     background: url(${ArrowIcon}) no-repeat;
     border: none;
@@ -133,16 +84,6 @@ const ExpandButton = styled.button`
     pointer-events: all;
 `;
 
-const TrashCanButton = styled.button`
-    background: url(${TrashcanIcon}) no-repeat;
-    border: none;
-    width: 47px;
-    height: 47px;
-    margin-left: auto;
-    margin-right: 18px;
-    margin-bottom: 18px;
-    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
-`;
 
 const ChatButton = styled.button`
     background: url(${ChatIcon}) no-repeat;
@@ -330,19 +271,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                 <MenuButtonImage src={ChannelBtnIcon} />
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
-            <ExpandBarDiv style={barOpened ? {left: '130px'} : {left: '-220px'}}>
-                <ListContainer>
-                    <ListItem>
-                        <ListItemInner>
-                            여기는 아직 작성중 입니다!!!
-                        </ListItemInner>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemInner/>
-                    </ListItem>
-                </ListContainer>
-                <TrashCanButton/>
-            </ExpandBarDiv>
+            <ObjectEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened} datas={[]}/>
             <ExpandButton onClick={() => expandBarToggle()} 
             style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
             <ChatButton onClick={() => chatToggle()}/>
