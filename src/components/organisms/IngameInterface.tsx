@@ -269,6 +269,11 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
         }, apolloClient);
     }, [apolloClient, worldId]);
 
+    const onMenuSelect = (editor: Editor) => {
+        setBarOpened(editor === selectedEditor ? false : true);
+        setSelectedEditor(editor);
+    };
+
     return (
         <OuterDiv>
             <SidebarDiv>
@@ -276,10 +281,10 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                     <LogoImage src={twLogo2Black} />
                 </Link>
                 <BarDivider/>
-                <MenuButtonImage src={VariableBtnIcon} onClick={() => setSelectedEditor(Editor.Variable)} />
-                <MenuButtonImage src={ChannelBtnIcon} onClick={() => setSelectedEditor(Editor.Broadcaster)}/>
-                <MenuButtonImage src={ChannelBtnIcon} onClick={() => setSelectedEditor(Editor.Object)}/>
-                <MenuButtonImage src={ChannelBtnIcon} onClick={() => setSelectedEditor(Editor.World)}/>
+                <MenuButtonImage src={VariableBtnIcon} onClick={() => onMenuSelect(Editor.Variable)} />
+                <MenuButtonImage src={ChannelBtnIcon} onClick={() => onMenuSelect(Editor.Broadcaster)}/>
+                <MenuButtonImage src={ChannelBtnIcon} onClick={() => onMenuSelect(Editor.Object)}/>
+                <MenuButtonImage src={ChannelBtnIcon} onClick={() => onMenuSelect(Editor.World)}/>
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <>
