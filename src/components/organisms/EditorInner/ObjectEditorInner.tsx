@@ -26,10 +26,13 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
 `;
 
 const Container = styled.div`
+    width: 100%;
     height: calc(100% - 70px);
     
     overflow-y: scroll;
     overflow-y: overlay;
+
+    box-sizing: border-box;
 
     ::-webkit-scrollbar {
         width: 14px;
