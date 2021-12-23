@@ -32,10 +32,10 @@ export class GridCollideMap extends Component implements IGridCollidable {
         }
     }
 
-    public addColiderFromTwoDimensionalArray(array: (1|0)[][], xOffset: number, yOffset: number): void {
+    public addColliderFromTwoDimensionalArray(array: (1|0)[][], xOffset: number, yOffset: number): void {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
-                this.addColiderFromTwoDimensionalArray(array, xOffset, yOffset);
+                this.addColliderFromTwoDimensionalArray(array, xOffset, yOffset);
             });
             return;
         }
