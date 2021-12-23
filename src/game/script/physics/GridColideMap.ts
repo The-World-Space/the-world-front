@@ -10,13 +10,29 @@ export class GridCollideMap extends Component implements IGridCollidable {
     private _gridCellWidth: number = 16;
     private _gridCellHeight: number = 16;
     private _showCollider: boolean = false;
+    private _colliderIsShowing: boolean = false;
     private _colliderImages: Map<`${number}_${number}`, GameObject> = new Map();
+    private _collideEnabled: boolean = false;
     
     private _initializeFunctions: ((() => void))[] = [];
 
     protected start(): void {
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
+    }
+
+    public onEnable(): void {
+        if (this._showCollider && !this._colliderIsShowing) {
+            this.addColliderImages();
+            this._colliderIsShowing = true;
+        }
+        this._collideEnabled = true;
+    }
+
+    public onDisable(): void {
+        this.removeColliderImages();
+        this._colliderIsShowing = false;
+        this._collideEnabled = false;
     }
 
     public addCollider(x: number, y: number): void {
@@ -99,6 +115,7 @@ export class GridCollideMap extends Component implements IGridCollidable {
     private readonly _tempVector3 = new Vector3();
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
+        if (!this._collideEnabled) return false;
         const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         x -= worldPosition.x;
         y -= worldPosition.y;
@@ -140,10 +157,12 @@ export class GridCollideMap extends Component implements IGridCollidable {
 
     public set showCollider(value: boolean) {
         this._showCollider = value;
-        if (this._showCollider) {
+        if (this._showCollider && !this._colliderIsShowing) {
             this.addColliderImages();
+            this._colliderIsShowing = true;
         } else {
             this.removeColliderImages();
+            this._colliderIsShowing = false;
         }
     }
 

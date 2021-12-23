@@ -6,6 +6,17 @@ import { ZaxisInitializer } from "../render/ZaxisInitializer";
 
 export class CssCollideTilemapRenderer extends CssTilemapRenderer {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
+    private _collideEnabled: boolean = false;
+
+    public onEnable(): void {
+        super.onEnable();
+        this._collideEnabled = true;
+    }
+
+    public onDisable(): void {
+        super.onDisable();
+        this._collideEnabled = false;
+    }
 
     public drawTile(column: number, row: number, imageIndex: number, atlasIndex?: number): void {
         super.drawTile(column, row, imageIndex, atlasIndex);
@@ -57,6 +68,7 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
+        if (!this._collideEnabled) return false;
         const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         x -= worldPosition.x;
         y -= worldPosition.y;

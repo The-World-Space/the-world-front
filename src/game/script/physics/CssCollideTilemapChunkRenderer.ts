@@ -12,12 +12,21 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     private _tileHeight: number = 16;
     private _imageSources: TileAtlasItem[]|null = null;
     private _pointerEvents: boolean = true;
+    private _collideEnabled: boolean = false;
     
     private _initializeFunctions: (() => void)[] = [];
 
     protected start(): void {
         this._initializeFunctions.forEach(func => func());
         this._initializeFunctions = [];
+    }
+
+    public onEnable(): void {
+        this._collideEnabled = true;
+    }
+
+    public onDisable(): void {
+        this._collideEnabled = false;
     }
 
     private updateTilemapPosition() {
@@ -149,6 +158,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
     }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
+        if (!this._collideEnabled) return false;
         const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
         const chunkIndexX = Math.floor(((x - worldPosition.x) / this._tileWidth + this._chunkSize / 2) / this._chunkSize);
         const chunkIndexY = Math.floor(((y - worldPosition.y) / this._tileHeight + this._chunkSize / 2) / this._chunkSize);
