@@ -28,6 +28,7 @@ export class Game {
     private _animationFrameId: number|null;
     private _isDisposed: boolean;
     private _resizeFrameBufferBind: () => void;
+    private _loopBind: () => void;
 
     public constructor(container: HTMLElement) {
         this._rootScene = new Scene();
@@ -61,6 +62,7 @@ export class Game {
         };
         this._resizeFrameBufferBind = this.resizeFramebuffer.bind(this);
         window.addEventListener("resize", this._resizeFrameBufferBind);
+        this._loopBind = this.loop.bind(this);
     }
 
     private resizeFramebuffer(): void {
@@ -75,6 +77,7 @@ export class Game {
 
     public run<T, U extends Bootstrapper<T> = Bootstrapper<T>>(bootstrapperCtor: BootstrapperConstructor<T, U>, interopObject?: T): void {
         if (this._isDisposed) throw new Error("Game is disposed.");
+        if (this._gameState.kind !== GameStateKind.WaitingForStart) throw new Error("Game is already running.");
         this._gameState.kind = GameStateKind.Initializing;
         this._clock.start();
         this._time.startTime = this._clock.startTime;
@@ -95,7 +98,7 @@ export class Game {
     }
 
     private loop(): void {
-        this._animationFrameId = requestAnimationFrame(this.loop.bind(this));
+        this._animationFrameId = requestAnimationFrame(this._loopBind);
         this._time.deltaTime = this._clock.getDelta(); //order is matter.
         this._time.elapsedTime = this._clock.elapsedTime; //order is matter.
         this._sceneProcessor.update();
@@ -104,6 +107,21 @@ export class Game {
         if (!this._cameraContainer.camera) throw new Error("Camera is not exist.");
         this._renderer.render(this._rootScene, this._cameraContainer.camera);
         this._coroutineProcessor.endFrameAfterProcess();
+    }
+
+    public stop(): void {
+        if (this._isDisposed) throw new Error("Game is disposed.");
+        if (this._gameState.kind !== GameStateKind.Running) throw new Error("Game is not running.");
+        this._gameState.kind = GameStateKind.Stopped;
+        if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
+        this._animationFrameId = null;
+    }
+
+    public resume(): void {
+        if (this._isDisposed) throw new Error("Game is disposed.");
+        if (this._gameState.kind !== GameStateKind.Stopped) throw new Error("Game is not stopped.");
+        this._gameState.kind = GameStateKind.Running;
+        this.loop();
     }
 
     public dispose(): void {
