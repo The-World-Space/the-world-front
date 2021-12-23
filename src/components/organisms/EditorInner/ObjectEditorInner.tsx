@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -7,6 +7,7 @@ import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
 import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
 import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
 import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
+import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -34,70 +35,6 @@ const Container = styled.div`
     overflow-y: overlay;
 
     box-sizing: border-box;
-
-    ::-webkit-scrollbar {
-        width: 14px;
-        padding: 10px 1px 10px 1px;
-    }
-    ::-webkit-scrollbar-thumb {
-        width: 2px;
-        border-radius: 1px;
-        background-color: #2E2E2E60;
-
-        background-clip: padding-box;
-        border: 6px solid transparent;
-        border-bottom: 12px solid transparent;
-    }
-    ::-webkit-scrollbar-track {
-        display: none;
-    }
-
-    scrollbar-color: #2E2E2E60 #00000000; // for FF
-    scrollbar-width: thin; // for FF
-`
-
-const VerticalWrapperList = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 428px;
-    height: 390px;
-    margin: 18px;
-`
-
-const ListTitle = styled.div`
-    height: 48px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-family: 'Noto Sans';
-    font-size: 16px;
-
-    background-color: #A69B97;
-    border-radius: 23px 23px 0px 0px;
-`
-
-const ListFakeHr = styled.div`
-    height: 2px;
-    background-color: #FFFFFF60;
-`
-
-const ListBody = styled.div`
-    height: 350px;
-    
-    overflow-y: scroll; // for FF
-    overflow-y: overlay;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
-
-    padding: 10px;
-
-    background-color: #A69B97;
-    border-radius: 0px 0px 23px 23px;
 
     ::-webkit-scrollbar {
         width: 14px;
@@ -191,39 +128,31 @@ const ToolsWrapper = styled.div`
 interface PropsType {
     worldId: string;
     opened: boolean;
-    datas: PhotoElementData[];
+    datas: {
+        left: PhotoElementData[];
+        right: PhotoElementData[];
+    }
 }
 
 function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
-    const onSelect = useCallback((id: string) => {
-        console.log("select");
-    }, [])
+    const [tab, setTab] = React.useState(0);
+    const [photoId, setPhotoId] = React.useState<number>(0);
     
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
-                <VerticalWrapperList>
-                    <ListTitle>
-                        Tile List
-                    </ListTitle>
-                    <ListFakeHr />
-                    <ListBody>
-                        {datas.map(data => (
-                            <PhotoElement onSelect={onSelect} selected={false} data={data} />
-                        ))}
-                    </ListBody>
-                </VerticalWrapperList>
+                <DualTabList datas={datas} setId={setPhotoId} id={photoId} tab={tab} setTab={setTab} />
                 <TileEditor />
                 <ObjectTypeRadioWrapper>
-                        <ObjectTypeRadioL selected={true}>
-                            Wall
-                        </ObjectTypeRadioL>
-                        <ObjectTypeRadio selected={false}> 
-                            Floor
-                        </ObjectTypeRadio>
-                        <ObjectTypeRadioR selected={false}> 
-                            Effect
-                        </ObjectTypeRadioR>
+                    <ObjectTypeRadioL selected={true}>
+                        Wall
+                    </ObjectTypeRadioL>
+                    <ObjectTypeRadio selected={false}> 
+                        Floor
+                    </ObjectTypeRadio>
+                    <ObjectTypeRadioR selected={false}> 
+                        Effect
+                    </ObjectTypeRadioR>
                 </ObjectTypeRadioWrapper>
             </Container>
             <ToolsWrapper>
@@ -237,48 +166,5 @@ function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
     );
 }
 
-
-
-
-const ElementWrapperDIv = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-
-    margin: 10px;
-`
-
-const ElementThumbnail = styled.img`
-    width: 75px;
-    height: 75px;
-
-`
-
-const ElementName = styled.span`
-    font-family: 'Noto Sans';
-    font-size: 14px;
-`
-
-export interface PhotoElementData {
-    id: string,
-    src: string,
-    name: string,
-}
-
-interface PhotoElementProps {
-    onSelect: (id: PhotoElementData["id"]) => void;
-    selected: boolean;
-    data: PhotoElementData;
-}
-
-const PhotoElement = React.memo(({ onSelect, selected, data }: PhotoElementProps) => {
-    return (
-        <ElementWrapperDIv onClick={() => onSelect(data.id)}>
-            <ElementThumbnail src={data.src} />
-            <ElementName>{data.name}</ElementName>
-        </ElementWrapperDIv>
-    );
-});
 
 export default React.memo(ObjectEditorInner);
