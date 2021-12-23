@@ -283,10 +283,10 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <>
-                <VariableEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.Variable}/>
-                <BroadcasterEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.Broadcaster}/>
-                <ObjectEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.Object} datas={[]}/>
-                <WorldEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.World}/>
+                <VariableEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.Variable}/>
+                <BroadcasterEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
+                <ObjectEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} datas={[]}/>
+                <WorldEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
             </>
             <ExpandButton onClick={() => expandBarToggle()} 
             style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
