@@ -28,6 +28,7 @@ export class Game {
     private _animationFrameId: number|null;
     private _isDisposed: boolean;
     private _resizeFrameBufferBind: () => void;
+    private _loopBind: () => void;
 
     public constructor(container: HTMLElement) {
         this._rootScene = new Scene();
@@ -61,6 +62,7 @@ export class Game {
         };
         this._resizeFrameBufferBind = this.resizeFramebuffer.bind(this);
         window.addEventListener("resize", this._resizeFrameBufferBind);
+        this._loopBind = this.loop.bind(this);
     }
 
     private resizeFramebuffer(): void {
@@ -96,7 +98,7 @@ export class Game {
     }
 
     private loop(): void {
-        this._animationFrameId = requestAnimationFrame(this.loop.bind(this));
+        this._animationFrameId = requestAnimationFrame(this._loopBind);
         this._time.deltaTime = this._clock.getDelta(); //order is matter.
         this._time.elapsedTime = this._clock.elapsedTime; //order is matter.
         this._sceneProcessor.update();
