@@ -131,6 +131,10 @@ const ObjectTypeRadioWrapper = styled.div`
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.12);
 
     margin-bottom: 10px;
+
+    :hover {
+        cursor: pointer;
+    }
 `
 
 const ObjectTypeRadio = styled.div<{selected: boolean}>`
@@ -174,6 +178,10 @@ const ToolsWrapper = styled.div`
     & > svg {
         filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
         margin-right: 10px;
+
+        :hover {
+            cursor: pointer;
+        }
     }
 
 `

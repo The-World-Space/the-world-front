@@ -59,7 +59,7 @@ const MenuButton = styled.div<{selected: boolean}>`
     margin: 0px 0px 10px 0px;
     
     border-radius: 66px;
-    border: ${p => p.selected ? '4px' : '0px'} #FFFFFB solid;
+    border: 4px ${p => p.selected ? '#FFFFFB' : '#2E2E2E'} solid;
 
     display: flex;
     justify-content: center;
@@ -76,6 +76,12 @@ const MenuButton = styled.div<{selected: boolean}>`
     font-weight: 600;
     font-size: 22px;
     line-height: 16px;
+
+    transition: border 200ms;
+
+    :hover {
+        cursor: pointer;
+    }
 `
 
 const CountIndicatorDiv = styled.div`
@@ -106,6 +112,10 @@ const ExpandButton = styled.button`
     transition: transform 0.5s;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
     pointer-events: all;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 
@@ -119,6 +129,10 @@ const ChatButton = styled.button`
     bottom: 18px;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
     pointer-events: all;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const ChatDiv = styled.div`
@@ -191,6 +205,10 @@ const SendButton = styled.button`
     margin-left: auto;
     margin-right: 15px;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 
