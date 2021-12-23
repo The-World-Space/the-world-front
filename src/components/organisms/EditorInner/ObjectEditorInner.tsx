@@ -1,11 +1,12 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
+
+import TileEditor from "../../molecules/TileEditor";
 import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
 import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
 import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
 import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
 import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
-
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -120,18 +121,6 @@ const ListBody = styled.div`
 `
 
 
-const DrawArea = styled.div`
-    width: 427px;
-    height: 390px;
-
-    margin: 0px 18px 18px 18px;
-
-    border-radius: 23px;
-
-    box-shadow: 5px 5px 20px 0px #00000012; 
-    background-color: #FFFFFF;
-`
-
 const ObjectTypeRadioWrapper = styled.div`
     display: flex;
     height: 49px;
@@ -216,7 +205,7 @@ function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
                         ))}
                     </ListBody>
                 </VerticalWrapperList>
-                <DrawArea />
+                <TileEditor />
                 <ObjectTypeRadioWrapper>
                         <ObjectTypeRadioL selected={true}>
                             Wall
