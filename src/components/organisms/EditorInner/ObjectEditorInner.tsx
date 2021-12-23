@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { ApolloClient } from "@apollo/client";
-import { ReactComponent as PenTool } from '../atoms/PenTool.svg';
-import { ReactComponent as EraseTool } from '../atoms/EraseTool.svg';
-import { ReactComponent as ColliderTool } from '../atoms/ColliderTool.svg';
-import { ReactComponent as ImageTool } from '../atoms/ImageTool.svg';
-import { ReactComponent as SizerTool } from '../atoms/SizerTool.svg';
+import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
+import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
+import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
+import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
+import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
 
 
 const SIDE_BAR_WIDTH = 130/* px */;
@@ -135,6 +135,11 @@ const ObjectTypeRadioWrapper = styled.div`
     height: 49px;
 
     margin: 0px 18px 0px 18px;
+
+    border-radius: 24.5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.12);
+
+    margin-bottom: 10px;
 `
 
 const ObjectTypeRadio = styled.div<{selected: boolean}>`

@@ -11,7 +11,10 @@ import ChatIcon from '../atoms/ChatIcon.svg';
 import SendButtonIcon from '../atoms/SendButtonIcon.svg';
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 import { ApolloClient, gql } from "@apollo/client";
-import ObjectEditorInner from './ObjectEditorInner';
+import ObjectEditorInner from './EditorInner/ObjectEditorInner';
+import VariableEditorInner from './EditorInner/VariableEditorInner';
+import BroadcasterEditorInner from './EditorInner/BroadcasterEditorInner';
+import WorldEditorInner from './EditorInner/WorldEditorInner';
 
 const OuterDiv = styled.div`
     display: flex;
@@ -214,7 +217,12 @@ function onChat(worldId: string, callback: (data: chatMessage) => void, apolloCl
     });
 }
 
-
+enum Editor {
+    Variable,
+    Broadcaster,
+    World,
+    Object,
+}
 
 interface PropsType {
     apolloClient: ApolloClient<any>
@@ -223,6 +231,7 @@ interface PropsType {
 
 function IngameInterface({ apolloClient, worldId }: PropsType) {
     const [barOpened, setBarOpened] = useState(false);
+    const [selectedEditor, setSelectedEditor] = useState(Editor.Variable);
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState('');
     const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
@@ -267,11 +276,18 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                     <LogoImage src={twLogo2Black} />
                 </Link>
                 <BarDivider/>
-                <MenuButtonImage src={VariableBtnIcon} />
-                <MenuButtonImage src={ChannelBtnIcon} />
+                <MenuButtonImage src={VariableBtnIcon} onClick={() => setSelectedEditor(Editor.Variable)} />
+                <MenuButtonImage src={ChannelBtnIcon} onClick={() => setSelectedEditor(Editor.Broadcaster)}/>
+                <MenuButtonImage src={ChannelBtnIcon} onClick={() => setSelectedEditor(Editor.Object)}/>
+                <MenuButtonImage src={ChannelBtnIcon} onClick={() => setSelectedEditor(Editor.World)}/>
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
-            <ObjectEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened} datas={[]}/>
+            <>
+                <VariableEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.Variable}/>
+                <BroadcasterEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.Broadcaster}/>
+                <ObjectEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.Object} datas={[]}/>
+                <WorldEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor == Editor.World}/>
+            </>
             <ExpandButton onClick={() => expandBarToggle()} 
             style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
             <ChatButton onClick={() => chatToggle()}/>
