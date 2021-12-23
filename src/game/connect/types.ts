@@ -6,41 +6,79 @@ export namespace Server {
 
     type IframeSrc = string;
     type ImageSrc = string;
-    
+
     export interface World {
         id: string;
         name: string;
-        tiles: Tile[];
+        isPublic: boolean;
+        players: User[];
+        colliders: Collider[];
+        atlasTiles: AtlasTile[];
         iframes: IframeGameObject[];
         images: ImageGameObject[];
+        imageWidgets: ImageWidget[];
         globalFields: GlobalField[];
+        globalBroadcasters: GlobalBroadcaster[];
     }
-    
+
     export interface User {
         id: string;
         nickname: string;
         skinSrc: ImageSrc;
     }
-    
+
     export enum GameObjectType {
         Floor,
         Wall,
         Effect,
     }
-    
-    export interface Tile {
+
+    export interface Collider {
         x: number;
         y: number;
-        standable: boolean;
+        isBlocked: boolean;
     }
-    
+
+    export interface AtlasTile {
+        x: number;
+        y: number;
+        atlasIndex: number;
+        atlas: Atlas;
+        type: GameObjectType;
+    }
+
+    export interface Atlas {
+        id: number;
+        owner: User;
+        isPublic: boolean;
+        columnCount: number;
+        rowCount: number;
+        src: string;
+    }
+
     interface GameObject {
         type: GameObjectType;
         id: number;
         x: TileNum;
         y: TileNum;
+    }
+
+    interface GameObjectProtoCollider extends Collider {
+        gameObject: GameObjectProto;
+    }
+
+    interface GameObjectProto {
+        id: number;
+        owner: User;
+        isPublic: boolean;
         width: TileNum;
         height: TileNum;
+        type: GameObjectType;
+        colliders: GameObjectProtoCollider[];
+    }
+
+    interface IframeGameObjectProto extends GameObjectProto {
+        src: IframeSrc;
     }
 
     export interface PenpalConnectable {
@@ -48,15 +86,22 @@ export namespace Server {
         src: IframeSrc;
         fieldPortMappings: IframeFieldPortMapping[];
         broadcasterPortMappings: IframeBroadcasterPortMapping[];
+        localBroadcasters: LocalBroadcaster[];
+        localFields: LocalField[];
     }
-    
+
     export interface IframeGameObject extends GameObject, PenpalConnectable {
+        proto: IframeGameObjectProto;
     }
 
     export interface ImageGameObject extends GameObject {
+        proto: ImageGameObjectProto;
+    }
+
+    export interface ImageGameObjectProto extends GameObjectProto {
         src: ImageSrc;
     }
-    
+
     enum Anchor {
         TOP_LEFT,
         TOP_MID,
@@ -68,11 +113,12 @@ export namespace Server {
         BOTTOM_MID,
         BOTTOM_RIGHT
     }
-    
+
     interface Widget {
+        id: number;
         width: CssOption;
         height: CssOption;
-    
+
         anchor: Anchor;
         offsetX: CssOption;
         offsetY: CssOption;
@@ -84,45 +130,45 @@ export namespace Server {
     export interface ImageWidget extends Widget {
         src: ImageSrc;
     }
-    
+
     // Mapping
     export interface IframeFieldPortMapping {
         id: number;
         portId: string;
         field: Field;
     }
-    
+
     export interface IframeBroadcasterPortMapping {
         id: number;
         portId: string;
         broadcaster: Broadcaster;
     }
-    
+
     // Field & Broadcaster
     export interface Field {
         id: number;
         name: string;
         value: string;
     }
-    
-    export interface LocalField {
-        iframe: IframeGameObject
+
+    export interface LocalField extends Field {
+        iframe: IframeGameObject;
     }
-    
-    export interface GlobalField {
-        world: World
+
+    export interface GlobalField extends Field {
+        world: World;
     }
-    
+
     export interface Broadcaster {
         id: number;
         name: string;
     }
-    
-    export interface LocalBroadcaster {
-        iframe: IframeGameObject
+
+    export interface LocalBroadcaster extends Broadcaster {
+        iframe: IframeGameObject;
     }
-    
-    export interface GlobalBroadcaster {
-        world: World
+
+    export interface GlobalBroadcaster extends Field {
+        world: World;
     }
 }

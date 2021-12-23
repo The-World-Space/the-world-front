@@ -28,9 +28,9 @@ export class NetworkImagePrefab extends Prefab {
                 const ref = this._tilemap.ref;
                 if (!image) throw new Error("image info is not given");
                 if (!ref) return;
-                c.imagePath = image.src;
-                c.imageHeight = image.height * ref.gridCellHeight;
-                c.imageWidth = image.width * ref.gridCellWidth;
+                c.imagePath = image.proto.src;
+                c.imageHeight = image.proto.height * ref.gridCellHeight;
+                c.imageWidth = image.proto.width * ref.gridCellWidth;
                 c.pointerEvents = false;
                 c.imageCenterOffset = new Vector2(0.5, 0.5);
             });

@@ -24,20 +24,16 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
                 World(id: $id) {
                     id
                     name
-                    tiles {
+                    colliders {
                         x
                         y
-                        standable
+                        isBlocked
                     }
                     iframes {
                         id
                         x
                         y
-                        width
-                        height
-                        type
-                        src
-                      	fieldPortMappings {
+                        fieldPortMappings {
                             id
                             portId
                             field {
@@ -45,11 +41,33 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
                                 id
                             }
                         }
-                      	broadcasterPortMappings {
-                          	id
-                          	portId
+                        broadcasterPortMappings {
+                            id
+                            portId
                             broadcaster {
                                 id
+                            }
+                        }
+                        localFields {
+                            id
+                            name
+                            value
+                        }
+                        localBroadcasters {
+                            id
+                            name
+                        }
+                        proto {
+                            id
+                            isPublic
+                            width
+                            height
+                            type
+                            src
+                            colliders {
+                                x
+                                y
+                                isBlocked
                             }
                         }
                     }
@@ -57,10 +75,19 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
                         id
                         x
                         y
-                        width
-                        height
-                        type
-                        src
+                        proto {
+                            id
+                            isPublic
+                            width
+                            height
+                            type
+                            src
+                            colliders {
+                                x
+                                y
+                                isBlocked
+                            }
+                        }
                     }
                 }
             }
@@ -81,29 +108,6 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
                 myWorlds {
                     id
                     name
-                    tiles {
-                        x
-                        y
-                        standable
-                    }
-                    iframes {
-                        id
-                        x
-                        y
-                        width
-                        height
-                        type
-                        src
-                    }
-                    images {
-                        id
-                        x
-                        y
-                        width
-                        height
-                        type
-                        src
-                    }
                 }
             }
         `

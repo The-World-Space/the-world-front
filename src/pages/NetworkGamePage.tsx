@@ -57,10 +57,11 @@ function NetworkGamePage() {
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
-    const { value: world } = useAsync(() => getWorld(worldId, globalApolloClient));
+    const { value: world, error } = useAsync(() => getWorld(worldId, globalApolloClient));
     const user = useUser();
-
+    
     useEffect(() => { //on component mounted
+        if (error) throw error;
         if (!world || !user) return; 
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
@@ -77,7 +78,7 @@ function NetworkGamePage() {
             game.dispose();
             widgetManager.dispose();
         };
-    }, [worldId, world, user]);
+    }, [worldId, world, user, error]);
 
     return (
         <Container>

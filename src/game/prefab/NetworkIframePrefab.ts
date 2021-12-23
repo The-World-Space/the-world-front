@@ -50,8 +50,8 @@ export class NetworkIframePrefab extends Prefab {
                 if (!iframe) throw new Error("iframe info is not given");
                 if (!ref) return;
                 c.iframeSource = iframe.src;
-                c.width = iframe.width * ref.gridCellWidth;
-                c.height = iframe.height * ref.gridCellHeight;
+                c.width = iframe.proto.width * ref.gridCellWidth;
+                c.height = iframe.proto.height * ref.gridCellHeight;
                 c.viewScale = .5;
                 c.iframeCenterOffset = new Vector2(0.5, 0.5);
             })
