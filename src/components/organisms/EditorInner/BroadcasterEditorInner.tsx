@@ -28,7 +28,6 @@ interface PropsType {
 }
 
 function BroadcasterEditorInner({ worldId, opened }: PropsType) {
-    console.debug("BroadcasterEditorInner");
     return (
         <ExpandBarDiv opened={opened}>
             broadcaster

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
 import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
@@ -195,7 +195,10 @@ interface PropsType {
 }
 
 function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
-    console.debug("ObjectEditorInner");
+    const onSelect = useCallback((id: string) => {
+        console.log("select");
+    }, [])
+    
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
@@ -206,33 +209,8 @@ function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
                     <ListFakeHr />
                     <ListBody>
                         {datas.map(data => (
-                            <PhotoElement onSelect={() => {}} selected={false} data={data} />
+                            <PhotoElement onSelect={onSelect} selected={false} data={data} />
                         ))}
-                        <PhotoElement onSelect={() => {}} key={ '1'} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '2'} selected={false} data={{id: '2', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '3'} selected={false} data={{id: '3', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '4'} selected={false} data={{id: '4', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '5'} selected={false} data={{id: '5', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '6'} selected={false} data={{id: '6', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '7'} selected={false} data={{id: '7', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '8'} selected={false} data={{id: '8', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={ '9'} selected={false} data={{id: '9', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'10'} selected={false} data={{id: '10', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'11'} selected={false} data={{id: '11', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'12'} selected={false} data={{id: '12', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'13'} selected={false} data={{id: '13', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'14'} selected={false} data={{id: '14', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'15'} selected={false} data={{id: '15', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'16'} selected={false} data={{id: '16', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'17'} selected={false} data={{id: '17', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'18'} selected={false} data={{id: '18', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'19'} selected={false} data={{id: '19', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'20'} selected={false} data={{id: '20', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'21'} selected={false} data={{id: '21', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'22'} selected={false} data={{id: '22', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'23'} selected={false} data={{id: '23', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'24'} selected={false} data={{id: '24', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} key={'25'} selected={false} data={{id: '25', name:'사진 캡쳐', src:"/logo192.png"}} />
                     </ListBody>
                 </VerticalWrapperList>
                 <DrawArea />
@@ -289,24 +267,18 @@ export interface PhotoElementData {
 }
 
 interface PhotoElementProps {
-    onSelect: () => void;
+    onSelect: (id: PhotoElementData["id"]) => void;
     selected: boolean;
     data: PhotoElementData;
 }
 
 const PhotoElement = React.memo(({ onSelect, selected, data }: PhotoElementProps) => {
-    console.debug('PhotoElement', onSelect, selected, data);
     return (
-        <ElementWrapperDIv onClick={onSelect}>
+        <ElementWrapperDIv onClick={() => onSelect(data.id)}>
             <ElementThumbnail src={data.src} />
             <ElementName>{data.name}</ElementName>
         </ElementWrapperDIv>
     );
-}, (prev, next) => (
-    prev.data.id === next.data.id
-    && prev.data.name === next.data.name
-    && prev.data.src === next.data.src
-    && prev.selected === next.selected
-));
+});
 
 export default React.memo(ObjectEditorInner);

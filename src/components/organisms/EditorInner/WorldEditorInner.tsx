@@ -28,7 +28,7 @@ interface PropsType {
 }
 
 function WorldEditorInner({ worldId, opened }: PropsType) {
-    console.debug("WorldEditorInner", worldId, opened);
+    
     return (
         <ExpandBarDiv opened={opened}>
             world
