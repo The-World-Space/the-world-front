@@ -11,12 +11,20 @@ import { ZaxisSorter } from "../../script/render/ZaxisSorter";
 import { GameObjectBuilder, } from "../../engine/hierarchy_object/GameObject";
 import { Prefab } from "../../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { GridCollider } from "../../script/physics/GridCollider";
+import { GridObjectCollideMap } from "../../script/physics/GridObjectCollideMap";
 
 export class SansFightRoomPrefab extends Prefab {
-    private _colideTilemapChunkRenderer: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
+    private _colideTilemapChunkRenderer = new PrefabRef<CssCollideTilemapChunkRenderer>();
+    private _gridObjectCollideMap = new PrefabRef<GridObjectCollideMap>();
 
     public getColideTilemapChunkRendererRef(colideTilemapRenderer: PrefabRef<CssCollideTilemapChunkRenderer>): SansFightRoomPrefab {
         this._colideTilemapChunkRenderer = colideTilemapRenderer;
+        return this;
+    }
+
+    public getGridObjectCollideMapRef(gridObjectCollideMap: PrefabRef<GridObjectCollideMap>): SansFightRoomPrefab {
+        this._gridObjectCollideMap = gridObjectCollideMap;
         return this;
     }
 
@@ -139,6 +147,14 @@ export class SansFightRoomPrefab extends Prefab {
                     })
                     .getComponent(CssCollideTilemapChunkRenderer, this._colideTilemapChunkRenderer ?? new PrefabRef())))
 
+            .withChild(instantlater.buildGameObject("object_collide_map", new Vector3(8, 8, 0))
+                .withComponent(GridObjectCollideMap, c => {
+                    c.gridCellHeight = this._colideTilemapChunkRenderer.ref!.gridCellHeight;
+                    c.gridCellWidth = this._colideTilemapChunkRenderer.ref!.gridCellWidth;
+                    c.showCollider = true;
+                })
+                .getComponent(GridObjectCollideMap, this._gridObjectCollideMap))
+
             .withChild(instantlater.buildGameObject("objects")
 
                 .withChild(instantlater.buildGameObject("iframe", new Vector3(8 + 16 * 46, 8, 0))
@@ -151,7 +167,7 @@ export class SansFightRoomPrefab extends Prefab {
                     })
                     .withComponent(ZaxisSorter))
 
-                .withChild(instantlater.buildGameObject("sans", new Vector3(8 + 16 * 39, 8 + 16 * -1, 0))
+                .withChild(instantlater.buildGameObject("sans", new Vector3(/*8 + */16 * 39, 8 + 16 * -1, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
                         c.setImage("/assets/charactor/Sans black.png", 4, 4);
                         c.imageCenterOffset = new Vector2(0, 0.4);
@@ -159,6 +175,12 @@ export class SansFightRoomPrefab extends Prefab {
                         c.imageIndex = 12;
                         c.imageWidth = 16;
                         c.imageHeight = 22;
+                    })
+                    .withComponent(GridCollider, c => {
+                        c.showCollideSpot = true;
+                        c.addCollider(0, 0);
+                        c.addCollider(0, 1);
+                        c.gridObjectCollideMap = this._gridObjectCollideMap.ref!;
                     })
                     .withComponent(ZaxisSorter))
 
