@@ -4,8 +4,6 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from '../atoms/tw logo 2 black.svg';
-import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
-import ChannelBtnIcon from '../atoms/ChannelBtnIcon.svg';
 import ArrowIcon from '../atoms/ArrowIcon.svg';
 import ChatIcon from '../atoms/ChatIcon.svg';
 import SendButtonIcon from '../atoms/SendButtonIcon.svg';
@@ -52,10 +50,39 @@ const BarDivider = styled.div`
     margin: 25px 0px 25px 0px;
 `;
 
-const MenuButtonImage = styled.img`
+const MenuButton = styled.div<{selected: boolean}>`
+    width: 85px;
+    height: 36px;
+
+    box-sizing: border-box;
+
     margin: 0px 0px 10px 0px;
-    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
-`;
+    
+    border-radius: 66px;
+    border: 4px ${p => p.selected ? '#FFFFFB' : '#2E2E2E'} solid;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #FFFFFF;
+
+    background-color: #2E2E2E;
+
+    font-family: 'Noto Sans';
+    font-size: 22px;
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 16px;
+
+    transition: border 200ms;
+
+    :hover {
+        cursor: pointer;
+    }
+`
 
 const CountIndicatorDiv = styled.div`
     margin-top: auto;
@@ -85,6 +112,10 @@ const ExpandButton = styled.button`
     transition: transform 0.5s;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
     pointer-events: all;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 
@@ -98,6 +129,10 @@ const ChatButton = styled.button`
     bottom: 18px;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
     pointer-events: all;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const ChatDiv = styled.div`
@@ -170,6 +205,10 @@ const SendButton = styled.button`
     margin-left: auto;
     margin-right: 15px;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 
@@ -281,16 +320,16 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                     <LogoImage src={twLogo2Black} />
                 </Link>
                 <BarDivider/>
-                <MenuButtonImage src={VariableBtnIcon} onClick={() => onMenuSelect(Editor.Variable)} />
-                <MenuButtonImage src={ChannelBtnIcon} onClick={() => onMenuSelect(Editor.Broadcaster)}/>
-                <MenuButtonImage src={ChannelBtnIcon} onClick={() => onMenuSelect(Editor.Object)}/>
-                <MenuButtonImage src={ChannelBtnIcon} onClick={() => onMenuSelect(Editor.World)}/>
+                <MenuButton selected={barOpened && selectedEditor === Editor.Variable} onClick={() => onMenuSelect(Editor.Variable)}>VAR</MenuButton>
+                <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
+                <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <>
                 <VariableEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Variable}/>
                 <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
-                <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} datas={[]}/>
+                <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} datas={{left:[], right:[]}}/>
                 <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
             </>
             <ExpandButton onClick={() => expandBarToggle()} 
