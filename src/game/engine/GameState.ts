@@ -22,6 +22,7 @@ export enum GameStateKind {
     WaitingForStart,
     Initializing,
     Running,
+    Stopped,
     Finalizing,
     Finalized
 }

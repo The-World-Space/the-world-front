@@ -75,6 +75,7 @@ export class Game {
 
     public run<T, U extends Bootstrapper<T> = Bootstrapper<T>>(bootstrapperCtor: BootstrapperConstructor<T, U>, interopObject?: T): void {
         if (this._isDisposed) throw new Error("Game is disposed.");
+        if (this._gameState.kind !== GameStateKind.WaitingForStart) throw new Error("Game is already running.");
         this._gameState.kind = GameStateKind.Initializing;
         this._clock.start();
         this._time.startTime = this._clock.startTime;
@@ -104,6 +105,21 @@ export class Game {
         if (!this._cameraContainer.camera) throw new Error("Camera is not exist.");
         this._renderer.render(this._rootScene, this._cameraContainer.camera);
         this._coroutineProcessor.endFrameAfterProcess();
+    }
+
+    public stop(): void {
+        if (this._isDisposed) throw new Error("Game is disposed.");
+        if (this._gameState.kind !== GameStateKind.Running) throw new Error("Game is not running.");
+        this._gameState.kind = GameStateKind.Stopped;
+        if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
+        this._animationFrameId = null;
+    }
+
+    public resume(): void {
+        if (this._isDisposed) throw new Error("Game is disposed.");
+        if (this._gameState.kind !== GameStateKind.Stopped) throw new Error("Game is not stopped.");
+        this._gameState.kind = GameStateKind.Running;
+        this.loop();
     }
 
     public dispose(): void {
