@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { ApolloClient } from "@apollo/client";
 
 
 const SIDE_BAR_WIDTH = 130/* px */;
@@ -24,12 +23,12 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
 
 
 interface PropsType {
-    apolloClient: ApolloClient<any>
     worldId: string;
     opened: boolean;
 }
 
-function BroadcasterEditorInner({ apolloClient, worldId, opened }: PropsType) {
+function BroadcasterEditorInner({ worldId, opened }: PropsType) {
+    console.debug("BroadcasterEditorInner");
     return (
         <ExpandBarDiv opened={opened}>
             broadcaster
@@ -38,4 +37,4 @@ function BroadcasterEditorInner({ apolloClient, worldId, opened }: PropsType) {
 }
 
 
-export default BroadcasterEditorInner;
+export default React.memo(BroadcasterEditorInner);

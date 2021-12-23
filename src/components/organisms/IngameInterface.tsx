@@ -1,7 +1,7 @@
 import {
     Link,
 } from 'react-router-dom';
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from '../atoms/tw logo 2 black.svg';
 import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
@@ -269,10 +269,10 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
         }, apolloClient);
     }, [apolloClient, worldId]);
 
-    const onMenuSelect = (editor: Editor) => {
-        setBarOpened(editor === selectedEditor ? false : true);
+    const onMenuSelect = useCallback((editor: Editor) => {
+        setBarOpened(b => editor === selectedEditor ? !b : true);
         setSelectedEditor(editor);
-    };
+    }, [selectedEditor]);
 
     return (
         <OuterDiv>
@@ -288,10 +288,10 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <>
-                <VariableEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.Variable}/>
-                <BroadcasterEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
-                <ObjectEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} datas={[]}/>
-                <WorldEditorInner apolloClient={apolloClient} worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
+                <VariableEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Variable}/>
+                <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
+                <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} datas={[]}/>
+                <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
             </>
             <ExpandButton onClick={() => expandBarToggle()} 
             style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
