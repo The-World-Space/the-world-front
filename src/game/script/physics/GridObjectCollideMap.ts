@@ -5,8 +5,8 @@ import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { ZaxisInitializer } from "../render/ZaxisInitializer";
 import { IGridCollidable } from "./IGridCollidable";
 
-export class GridCollideMap extends Component implements IGridCollidable {
-    private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
+export class GridObjectCollideMap extends Component implements IGridCollidable {
+    private readonly _collideMap: Map<`${number}_${number}`, number> = new Map();
     private _gridCellWidth: number = 16;
     private _gridCellHeight: number = 16;
     private _showCollider: boolean = false;
@@ -26,7 +26,8 @@ export class GridCollideMap extends Component implements IGridCollidable {
             });
             return;
         }
-        this._collideMap.set(`${x}_${y}`, true);
+        const collideValue = this._collideMap.get(`${x}_${y}`);
+        this._collideMap.set(`${x}_${y}`, collideValue === undefined ? 1 : collideValue + 1);
         if (this._showCollider) {
             this.addDebugImage(x * this.gridCellWidth, y * this.gridCellHeight);
         }
@@ -49,15 +50,17 @@ export class GridCollideMap extends Component implements IGridCollidable {
         }
     }
 
-    public removeCollider(x: number, y: number): void {
-        if (!this.started && !this.starting) {
-            this._initializeFunctions.push(() => {
-                this.removeCollider(x, y);
-            });
+    public removeCollider(x: number, y: number) {
+        const collideValue = this._collideMap.get(`${x}_${y}`);
+        if (collideValue === undefined) {
             return;
         }
-        
-        this._collideMap.delete(`${x}_${y}`);
+        if (collideValue === 1) {
+            this._collideMap.delete(`${x}_${y}`);
+        } else {
+            this._collideMap.set(`${x}_${y}`, collideValue - 1);
+        }
+
         if (this._showCollider) {
             this.removeDebugImage(x * this.gridCellWidth, y * this.gridCellHeight);
         }
@@ -110,7 +113,8 @@ export class GridCollideMap extends Component implements IGridCollidable {
         
         for (let y = top; y <= bottom; y++) {
             for (let x = left; x <= right; x++) {
-                if (this._collideMap.get(`${x}_${y}`)) { //note: intended memory leak
+                const collideValue = this._collideMap.get(`${x}_${y}`);
+                if (collideValue !== undefined && collideValue > 0) {
                     return true;
                 }
             }
