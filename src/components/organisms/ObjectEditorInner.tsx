@@ -1,6 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { ApolloClient } from "@apollo/client";
+import { ReactComponent as PenTool } from '../atoms/PenTool.svg';
+import { ReactComponent as EraseTool } from '../atoms/EraseTool.svg';
+import { ReactComponent as ColliderTool } from '../atoms/ColliderTool.svg';
+import { ReactComponent as ImageTool } from '../atoms/ImageTool.svg';
+import { ReactComponent as SizerTool } from '../atoms/SizerTool.svg';
+
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -169,7 +175,14 @@ const ToolsWrapper = styled.div`
     padding-left: 77px;
     margin-bottom: 18px;
 
+    & > svg {
+        filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+        margin-right: 10px;
+    }
+
 `
+
+
 
 interface PropsType {
     apolloClient: ApolloClient<any>
@@ -192,35 +205,30 @@ function ObjectEditorInner({ apolloClient, worldId, opened, datas }: PropsType) 
                             <PhotoElement onSelect={() => {}} selected={false} data={data} />
                         ))}
                         <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
-                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '1', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '2', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '3', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '4', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '5', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '6', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '7', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '8', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '9', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '10', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '11', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '12', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '13', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '14', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '15', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '16', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '17', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '18', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '19', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '20', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '21', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '22', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '23', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '24', name:'사진 캡쳐', src:"/logo192.png"}} />
+                        <PhotoElement onSelect={() => {}} selected={false} data={{id: '25', name:'사진 캡쳐', src:"/logo192.png"}} />
                     </ListBody>
                 </VerticalWrapperList>
                 <DrawArea />
@@ -237,7 +245,11 @@ function ObjectEditorInner({ apolloClient, worldId, opened, datas }: PropsType) 
                 </ObjectTypeRadioWrapper>
             </Container>
             <ToolsWrapper>
-                TOOLS
+                <PenTool />
+                <EraseTool />
+                <ColliderTool />
+                <ImageTool />
+                <SizerTool />
             </ToolsWrapper>
         </ExpandBarDiv>
     );
