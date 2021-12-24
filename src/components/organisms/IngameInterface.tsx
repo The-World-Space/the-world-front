@@ -39,7 +39,7 @@ const SidebarDiv = styled.div`
     -webkit-user-select:none; 
     -moz-user-select:none; 
     -ms-user-select:none; 
-    user-select:none
+    user-select:none;
 `;
 
 const LogoImage = styled.img`
