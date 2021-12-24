@@ -157,7 +157,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
             if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
         setTab(index);
     }, [tab]);
-    
+
     const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Result object"}), []);
 
@@ -166,7 +166,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
     const onSelectTool = useCallback((tool: Tools) => {
         if (tool === Tools.Image) {
             if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
-            setSelectedTool(tool);
+            return ;
         }
         setSelectedTool(tool);
     }, []);
