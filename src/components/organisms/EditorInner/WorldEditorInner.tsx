@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useMemo, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
@@ -97,6 +97,7 @@ const IframeInput = styled.input`
 
     border-radius: 38px;
     border: 0px;
+    outline: none;
 
     background: #FFFFFB;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
@@ -192,8 +193,9 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
         right: PhotoElementData[];
     }>({left: [], right: []});
 
-    const [iframeWidth, setIframeWidth] = useState(1);
-    const [iframeHeight, setIframeHeight] = useState(1);
+    const [iframeWidth, setIframeWidth] = useState('1');
+    const [iframeHeight, setIframeHeight] = useState('1');
+    const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -206,8 +208,8 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
                     <ListFakeHr />
                     <IframeInputSettingWrapper>
                         <IframeInputSettingLeft>
-                            <IframeSettingLeftInput label="W" value={iframeWidth} onChange={e => setIframeWidth(+e.target.value)} />
-                            <IframeSettingLeftInput label="H" value={iframeHeight} onChange={e => setIframeHeight(+e.target.value)} />
+                            <IframeSettingLeftInput label="W" value={iframeWidth} onChange={e => isSafeNum(+e.target.value) && setIframeWidth(e.target.value)} />
+                            <IframeSettingLeftInput label="H" value={iframeHeight} onChange={e => isSafeNum(+e.target.value) && setIframeHeight(e.target.value)} />
                         </IframeInputSettingLeft>
                         <VerticalLine />
                         <IframeInputSettingRight>
@@ -290,7 +292,7 @@ const IframeSettingLeftInputArea = styled.input`
 
 interface IframeSettingLeftInputProps {
     label: string;
-    value: number;
+    value: string;
     onChange: ChangeEventHandler<HTMLInputElement>
 }
 
