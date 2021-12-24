@@ -16,12 +16,12 @@ import { PlayerGridEventInvoker } from "../script/event/PlayerGridEventInvoker";
 import { GridEventMap } from "../script/event/GridEventMap";
 
 export class PlayerPrefab extends Prefab {
-    private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
+    private _spriteAtlasPath = new PrefabRef<string>("/assets/charactor/Seongwon.png");
     private _collideMaps: PrefabRef<IGridCollidable>[] = [];
     private _gridEventMaps: PrefabRef<GridEventMap>[] = [];
-    private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
-    private _nameTagString: PrefabRef<string> = new PrefabRef();
-    private _gridPointer: PrefabRef<GridPointer> = new PrefabRef();
+    private _gridPosition = new PrefabRef<Vector2>();
+    private _nameTagString = new PrefabRef<string>();
+    private _gridPointer = new PrefabRef<GridPointer>();
 
     public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): PlayerPrefab {
         this._spriteAtlasPath = name;
