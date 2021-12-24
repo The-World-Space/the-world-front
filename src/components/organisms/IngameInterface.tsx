@@ -35,6 +35,11 @@ const SidebarDiv = styled.div`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     z-index: 1;
     pointer-events: all;
+
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none
 `;
 
 const LogoImage = styled.img`
