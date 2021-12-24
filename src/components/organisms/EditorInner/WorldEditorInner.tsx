@@ -149,6 +149,10 @@ const IframeInputSettingRightText = styled.span<{selected: boolean}>`
     line-height: 16px;
 
     transition: color 50ms;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const IframeInputSettingRightVerticalLine = styled.div`

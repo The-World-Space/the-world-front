@@ -211,7 +211,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
                         selected={Server.GameObjectType.Effect === selectedObjectType}
                         onClick={() => setSelectedObjectType(Server.GameObjectType.Effect)}
                     >
-                        Effect{selectedTool}
+                        Effect
                     </ObjectTypeRadioR>
                 </ObjectTypeRadioWrapper>
             </Container>
