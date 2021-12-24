@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { TestBootstrapper } from '../game/TestBootstrapper';
+//import { TestBootstrapper } from '../game/TestBootstrapper';
 import { Game } from '../game/engine/Game';
+import { TileEditorBootstraper } from '../components/molecules/TileEditor/TileEditorBootstraper';
 
 function TestGamePage() {
     const div = useRef<HTMLDivElement>(null);
@@ -8,7 +9,7 @@ function TestGamePage() {
     useEffect(() => { //on component mounted
         if (!div.current) throw new Error("div is null");
         const game = new Game(div.current);
-        game.run(TestBootstrapper);
+        game.run(TileEditorBootstraper);
         game.inputHandler.startHandleEvents();
 
         return () => { //on component unmount
