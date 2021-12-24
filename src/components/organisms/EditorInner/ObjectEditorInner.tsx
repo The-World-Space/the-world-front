@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -135,8 +135,8 @@ interface PropsType {
 }
 
 function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
-    const [tab, setTab] = React.useState(0);
-    const [photoId, setPhotoId] = React.useState<number>(0);
+    const [tab, setTab] = useState(0);
+    const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Result object"}), []);
     
     return (

@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 
+import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
+import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
+import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
+import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
+import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
+import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -21,6 +27,60 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
 `;
 
 
+const Container = styled.div`
+    width: 100%;
+    height: calc(100% - 70px);
+    
+    overflow-y: scroll;
+    overflow-y: overlay;
+
+    box-sizing: border-box;
+
+    ::-webkit-scrollbar {
+        width: 14px;
+        padding: 10px 1px 10px 1px;
+    }
+    ::-webkit-scrollbar-thumb {
+        width: 2px;
+        border-radius: 1px;
+        background-color: #2E2E2E60;
+
+        background-clip: padding-box;
+        border: 6px solid transparent;
+        border-bottom: 12px solid transparent;
+    }
+    ::-webkit-scrollbar-track {
+        display: none;
+    }
+
+    scrollbar-color: #2E2E2E60 #00000000; // for FF
+    scrollbar-width: thin; // for FF
+`;
+
+
+const ToolsWrapper = styled.div`
+    width: 100%;
+    height: 38px;
+    
+    display: flex;
+
+    box-sizing: border-box;
+
+    padding-left: 77px;
+    margin-bottom: 18px;
+
+    & > svg {
+        filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+        margin-right: 10px;
+
+        :hover {
+            cursor: pointer;
+        }
+    }
+
+`
+
+
 
 interface PropsType {
     worldId: string;
@@ -28,10 +88,27 @@ interface PropsType {
 }
 
 function WorldEditorInner({ worldId, opened }: PropsType) {
-    
+    const [tab, setTab] = useState(0);
+    const [photoId, setPhotoId] = useState(0);
+    const tabNames = useMemo(() => ({left: "Tile List", right: "Object List"}), []);
+
+    const [datas] = useState<{
+        left: PhotoElementData[];
+        right: PhotoElementData[];
+    }>({left: [], right: []});
+
     return (
         <ExpandBarDiv opened={opened}>
-            world
+            <Container>
+                <DualTabList datas={datas} setId={setPhotoId} id={photoId} tab={tab} setTab={setTab} tabNames={tabNames}/>
+            </Container>
+            <ToolsWrapper>
+                <PenTool />
+                <EraseTool />
+                <ColliderTool />
+                <ImageTool />
+                <SizerTool />
+            </ToolsWrapper>
         </ExpandBarDiv>
     );
 }
