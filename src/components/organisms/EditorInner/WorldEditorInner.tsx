@@ -154,7 +154,8 @@ const IframeInputSettingRightVerticalLine = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.6);
 `
 
-const ToolsWrapper = styled.div`
+
+const ToolsWrapper = styled.div<{selected: number}>`
     width: 100%;
     height: 38px;
     
@@ -165,9 +166,18 @@ const ToolsWrapper = styled.div`
     padding-left: 77px;
     margin-bottom: 18px;
 
+    & > svg:nth-child(${p => p.selected + 1}){
+        border: 3px solid #A69B97;
+    }
+
     & > svg {
         filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
         margin-right: 10px;
+
+        transition: all 50ms;
+        box-sizing: border-box;
+        border-radius: 50%;
+        border: 2px solid #00000000;
 
         :hover {
             cursor: pointer;
@@ -183,6 +193,14 @@ interface PropsType {
     opened: boolean;
 }
 
+enum Tools {
+    Pen,
+    Eraser,
+    Collider,
+    Image,
+    Sizer
+}
+
 function WorldEditorInner({ worldId, opened }: PropsType) {
     const [tab, setTab] = useState(0);
     const [photoId, setPhotoId] = useState(0);
@@ -196,6 +214,11 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
     const [iframeWidth, setIframeWidth] = useState('1');
     const [iframeHeight, setIframeHeight] = useState('1');
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
+
+    const [selectedTool, setSelectedTool] = useState(Tools.Pen);
+    const onSelectTool = useCallback((tool: Tools) => {
+        setSelectedTool(tool);
+    }, []);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -228,12 +251,12 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
                     </IframeInputSettingWrapper>
                 </IframeInputWrapper>
             </Container>
-            <ToolsWrapper>
-                <PenTool />
-                <EraseTool />
-                <ColliderTool />
-                <ImageTool />
-                <SizerTool />
+            <ToolsWrapper selected={selectedTool}>
+                <PenTool onClick={() => onSelectTool(Tools.Pen)} />
+                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
+                <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
+                <ImageTool onClick={() => onSelectTool(Tools.Image)} />
+                <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
             </ToolsWrapper>
         </ExpandBarDiv>
     );

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -7,7 +7,9 @@ import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
 import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
 import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
 import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
+import { ReactComponent as BlueSaveIcon } from '../../atoms/BlueSaveIcon.svg';
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
+import { Server } from "../../../game/connect/types";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -85,6 +87,8 @@ const ObjectTypeRadio = styled.div<{selected: boolean}>`
     flex: 1;
 
     background-color: ${p => p.selected ? "#A69B97" : "#A69B9760"};
+
+    transition: background-color 100ms;
 `
 
 const ObjectTypeRadioL = styled(ObjectTypeRadio)`
@@ -100,21 +104,29 @@ const ObjectTypeRadioR = styled(ObjectTypeRadio)`
 `
 
 
-
-const ToolsWrapper = styled.div`
+const ToolsWrapper = styled.div<{selected: number}>`
     width: 100%;
-    height: 38px;
     
     display: flex;
+    align-items: center;
 
     box-sizing: border-box;
 
     padding-left: 77px;
     margin-bottom: 18px;
 
+    & > svg:nth-child(${p => p.selected + 1}){
+        border: 3px solid #A69B97;
+    }
+
     & > svg {
         filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
         margin-right: 10px;
+
+        transition: all 50ms;
+        box-sizing: border-box;
+        border-radius: 50%;
+        border: 2px solid #00000000;
 
         :hover {
             cursor: pointer;
@@ -130,10 +142,40 @@ interface PropsType {
     opened: boolean;
 }
 
+enum Tools {
+    Pen,
+    Eraser,
+    Collider,
+    Image,
+    Sizer
+}
+
 function ObjectEditorInner({ worldId, opened }: PropsType) {
     const [tab, setTab] = useState(0);
+    const onChangeTab = useCallback((index: number) => {
+        if (index !== tab)
+            if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
+        setTab(index);
+    }, [tab]);
+    
     const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Result object"}), []);
+
+    const [selectedObjectType, setSelectedObjectType] = useState(Server.GameObjectType.Wall);
+    const [selectedTool, setSelectedTool] = useState(Tools.Pen);
+    const onSelectTool = useCallback((tool: Tools) => {
+        if (tool === Tools.Image) {
+            if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
+            setSelectedTool(tool);
+        }
+        setSelectedTool(tool);
+    }, []);
+
+    const save = useCallback(() => {
+        const shouldSave = window.confirm("현재 작업 사항을 저장하시겠습니까?");
+        if (!shouldSave) return;
+        // @TODO: save
+    }, []);
     
     const [datas] = useState<{
         left: PhotoElementData[];
@@ -143,26 +185,46 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
-                <DualTabList datas={datas} setId={setPhotoId} id={photoId} tab={tab} setTab={setTab} tabNames={tabNames}/>
+                <DualTabList 
+                    datas={datas} 
+                    setId={setPhotoId} 
+                    id={photoId} 
+                    tab={tab} 
+                    setTab={onChangeTab}
+                    tabNames={tabNames}
+                />
                 <TileEditor />
                 <ObjectTypeRadioWrapper>
-                    <ObjectTypeRadioL selected={true}>
+                    <ObjectTypeRadioL 
+                        selected={Server.GameObjectType.Wall === selectedObjectType}
+                        onClick={() => setSelectedObjectType(Server.GameObjectType.Wall)}
+                    >
                         Wall
                     </ObjectTypeRadioL>
-                    <ObjectTypeRadio selected={false}> 
+                    <ObjectTypeRadio 
+                        selected={Server.GameObjectType.Floor === selectedObjectType}
+                        onClick={() => setSelectedObjectType(Server.GameObjectType.Floor)}
+                    > 
                         Floor
                     </ObjectTypeRadio>
-                    <ObjectTypeRadioR selected={false}> 
-                        Effect
+                    <ObjectTypeRadioR 
+                        selected={Server.GameObjectType.Effect === selectedObjectType}
+                        onClick={() => setSelectedObjectType(Server.GameObjectType.Effect)}
+                    >
+                        Effect{selectedTool}
                     </ObjectTypeRadioR>
                 </ObjectTypeRadioWrapper>
             </Container>
-            <ToolsWrapper>
-                <PenTool />
-                <EraseTool />
-                <ColliderTool />
-                <ImageTool />
-                <SizerTool />
+            <ToolsWrapper selected={selectedTool}>
+                <PenTool onClick={() => onSelectTool(Tools.Pen)} />
+                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
+                <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
+                <ImageTool onClick={() => onSelectTool(Tools.Image)} />
+                <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
+                <BlueSaveIcon 
+                    style={{marginLeft: 'auto', marginRight: "18px", width: '44px', height: '44px'}}
+                    onClick={save}
+                />
             </ToolsWrapper>
         </ExpandBarDiv>
     );
