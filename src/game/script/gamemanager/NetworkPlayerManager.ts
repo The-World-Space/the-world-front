@@ -3,7 +3,7 @@ import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { NetworkManager } from "../NetworkManager";
+import { Networker } from "../Networker";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";
@@ -12,10 +12,10 @@ const PREFIX = `@@tw/game/component/spawner/NetworkPlayerManager`;
 
 export class NetworkPlayerManager extends Component {
     private _networkPlayerMap: Map<string, GameObject> = new Map();
-    private _networkManager: NetworkManager | null = null;
+    private _networkManager: Networker | null = null;
     private _iGridCollidable: IGridCollidable | null = null;
 
-    public initNetwork(networkManager: NetworkManager) {
+    public initNetwork(networkManager: Networker) {
         this._networkManager = networkManager;
         networkManager.ee.on('join', (user, pos) => {
             this._buildNetworkPlayer(user, pos, networkManager);
@@ -35,14 +35,14 @@ export class NetworkPlayerManager extends Component {
         })
     }
 
-    public addOnLeave(user: Server.User, networkManager: NetworkManager) {
+    public addOnLeave(user: Server.User, networkManager: Networker) {
         networkManager.ee.once(`leave_${user.id}`, () => {
             this._networkPlayerMap.get(user.id)?.destroy();
             this._networkPlayerMap.delete(user.id);
         });
     }
 
-    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: NetworkManager) {
+    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: Networker) {
         const instantlater = this.engine.instantlater;
         const posPrefabRef = new PrefabRef<Vector2>(pos);
         const nameRef = new PrefabRef(user.nickname);

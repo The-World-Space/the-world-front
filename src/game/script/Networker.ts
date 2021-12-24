@@ -13,7 +13,7 @@ type EETypes = [
     [`player_move`,             (x: number, y: number) => void]
 ]
 
-export class NetworkManager {
+export class Networker {
     private readonly _ee: TypedEmitter<EETypes>;
     private readonly _characterMap: Set<characterId>;
 

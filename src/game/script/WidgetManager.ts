@@ -1,13 +1,13 @@
 import { Server } from "../connect/types";
 import { IframeCommunicator } from "../penpal";
-import { PenpalNetworkWrapper } from "../penpal/PenpalNetworkWrapper";
+import { PenpalNetworker } from "../penpal/PenpalNetworker";
 
 export class WidgetManager {
     private _iframes: HTMLIFrameElement[] = [];
     private _iframeCommunicators: IframeCommunicator[] = [];
 
     constructor(
-            private readonly _penpalNetworkManager: PenpalNetworkWrapper,
+            private readonly _penpalNetworkManager: PenpalNetworker,
             private readonly _world: Server.World,
             private readonly _wrapperDiv: HTMLDivElement,
             private _widgetIframeInfos: Server.IframeWidget[]) {

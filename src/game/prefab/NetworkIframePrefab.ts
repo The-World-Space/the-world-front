@@ -7,7 +7,7 @@ import { Server } from "../connect/types";
 import { IframeRenderer } from "../script/render/IframeRenderer";
 import { PenpalConnection } from "../script/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
-import { PenpalNetworkWrapper } from "../penpal/PenpalNetworkWrapper";
+import { PenpalNetworker } from "../penpal/PenpalNetworker";
 
 export class NetworkIframePrefab extends Prefab {
     private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
@@ -15,7 +15,7 @@ export class NetworkIframePrefab extends Prefab {
     private _apolloClient: PrefabRef<ApolloClient<any>> = new PrefabRef();
     private _iframeInfo: PrefabRef<Server.IframeGameObject> = new PrefabRef();
     private _worldId: PrefabRef<string> = new PrefabRef();
-    private _penpalNetworkWrapper: PrefabRef<PenpalNetworkWrapper> = new PrefabRef();
+    private _penpalNetworkWrapper: PrefabRef<PenpalNetworker> = new PrefabRef();
 
     public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkIframePrefab {
         this._tilemap = tilemap;
@@ -37,7 +37,7 @@ export class NetworkIframePrefab extends Prefab {
         return this;
     }
 
-    public withPenpalNetworkWrapper(value: PrefabRef<PenpalNetworkWrapper>): NetworkIframePrefab {
+    public withPenpalNetworkWrapper(value: PrefabRef<PenpalNetworker>): NetworkIframePrefab {
         this._penpalNetworkWrapper = value;
         return this;
     }

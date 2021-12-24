@@ -9,7 +9,7 @@ import { CssTextRenderer, FontWeight, TextAlign } from "../script/render/CssText
 import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../script/physics/IGridCollidable";
-import { NetworkManager } from "../script/NetworkManager";
+import { Networker } from "../script/Networker";
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
 
@@ -19,7 +19,7 @@ export class NetworkPlayerPrefab extends Prefab {
     private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
     private _nameTagString: PrefabRef<string> = new PrefabRef();
 
-    private _networkManager: NetworkManager | null = null;
+    private _networkManager: Networker | null = null;
     private _userId: string | null = null;
 
     public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NetworkPlayerPrefab {
@@ -42,7 +42,7 @@ export class NetworkPlayerPrefab extends Prefab {
         return this;
     }
 
-    public withNetworkManager(networkManager: NetworkManager): NetworkPlayerPrefab {
+    public withNetworkManager(networkManager: Networker): NetworkPlayerPrefab {
         this._networkManager = networkManager;
         return this;
     }

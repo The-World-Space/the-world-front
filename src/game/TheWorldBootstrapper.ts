@@ -9,7 +9,7 @@ import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
-import { NetworkManager } from "./script/NetworkManager";
+import { Networker } from "./script/Networker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
@@ -17,20 +17,20 @@ import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { GridPointer } from "./script/input/GridPointer";
 import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
 import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
-import { PenpalNetworkWrapper } from "./penpal/PenpalNetworkWrapper";
+import { PenpalNetworker } from "./penpal/PenpalNetworker";
 
 export class NetworkInfoObject {
     private readonly _serverWorld: Server.World;
     private readonly _apolloClient: ApolloClient<any>;
-    private readonly _networkManager: NetworkManager;
-    private readonly _penpalNetworkManager: PenpalNetworkWrapper;
+    private readonly _networkManager: Networker;
+    private readonly _penpalNetworkManager: PenpalNetworker;
     private readonly _user: User;
 
     public constructor(
             serverWorld: Server.World, 
             user: User, apolloClient: ApolloClient<any>, 
-            networkManager: NetworkManager, 
-            penpalNetworkManager: PenpalNetworkWrapper) {
+            networkManager: Networker, 
+            penpalNetworkManager: PenpalNetworker) {
         this._serverWorld = serverWorld;
         this._apolloClient = apolloClient;
         this._user = user;
@@ -46,7 +46,7 @@ export class NetworkInfoObject {
         return this._apolloClient;
     }
 
-    public get networkManager(): NetworkManager {
+    public get networkManager(): Networker {
         return this._networkManager;
     }
 
@@ -54,7 +54,7 @@ export class NetworkInfoObject {
         return this._user;
     }
 
-    public get penpalNetworkManager(): PenpalNetworkWrapper {
+    public get penpalNetworkManager(): PenpalNetworker {
         return this._penpalNetworkManager;
     }
 }

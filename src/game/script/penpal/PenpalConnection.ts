@@ -1,7 +1,7 @@
 import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { IframeCommunicator } from "../../penpal";
-import { PenpalNetworkWrapper } from "../../penpal/PenpalNetworkWrapper";
+import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 import { IframeRenderer } from "../render/IframeRenderer";
 
 
@@ -12,13 +12,13 @@ export class PenpalConnection extends Component {
     // info
     private _iframeCommunicator: IframeCommunicator | null = null;
     private _iframeInfo: Server.IframeGameObject | null = null;
-    private _penpalNetworkWrapper: PenpalNetworkWrapper | null = null;
+    private _penpalNetworkWrapper: PenpalNetworker | null = null;
 
     public set iframeInfo(info: Server.IframeGameObject) {
         this._iframeInfo = info;
     }
 
-    public set penpalNetworkWrapper(value: PenpalNetworkWrapper) {
+    public set penpalNetworkWrapper(value: PenpalNetworker) {
         this._penpalNetworkWrapper = value;
     }
 

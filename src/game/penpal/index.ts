@@ -1,6 +1,6 @@
 import * as Penpal from 'penpal';
 import { Server } from '../connect/types';
-import { PenpalNetworkWrapper } from './PenpalNetworkWrapper';
+import { PenpalNetworker } from './PenpalNetworker';
 
 
 interface Child {
@@ -25,7 +25,7 @@ export class IframeCommunicator {
     constructor(
         private readonly iframe: HTMLIFrameElement,
         private readonly iframeInfo: Server.PenpalConnectable,
-        private readonly penpalNetworkWrapper: PenpalNetworkWrapper) {
+        private readonly penpalNetworkWrapper: PenpalNetworker) {
         this.internalFieldIdToFieldMap =
             new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [portId, field]));
         this.publicFieldIdToInternalIdMap =

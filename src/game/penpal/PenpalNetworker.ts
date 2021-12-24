@@ -10,7 +10,7 @@ type EETypes = [
     [`update_broadcast_${broadcastId}`, (message: string, userId: string) => void],
 ]
 
-export class PenpalNetworkWrapper {
+export class PenpalNetworker {
     private readonly _ee: TypedEmitter<EETypes>;
 
     constructor(private readonly _worldId: string,
