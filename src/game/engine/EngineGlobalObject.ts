@@ -29,7 +29,7 @@ export class EngineGlobalObject implements IEngine {
         gameState: IReadonlyGameState,
         gameScreen: IReadonlyGameScreen,
         sceneProcessor: SceneProcessor,
-        coroutineProcessor: CoroutineProcessor,
+        coroutineProcessor: CoroutineProcessor
     ) {
         this._rootScene = rootScene;
         this._cameraContainer = cameraContainer;
