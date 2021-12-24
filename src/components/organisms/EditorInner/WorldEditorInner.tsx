@@ -216,6 +216,9 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
     const [selectedTool, setSelectedTool] = useState(Tools.Pen);
+    const onSelectTool = useCallback((tool: Tools) => {
+        setSelectedTool(tool);
+    }, []);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -249,11 +252,11 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
                 </IframeInputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <PenTool onClick={() => setSelectedTool(Tools.Pen)} />
-                <EraseTool onClick={() => setSelectedTool(Tools.Eraser)} />
-                <ColliderTool onClick={() => setSelectedTool(Tools.Collider)} />
-                <ImageTool onClick={() => setSelectedTool(Tools.Image)} />
-                <SizerTool onClick={() => setSelectedTool(Tools.Sizer)} />
+                <PenTool onClick={() => onSelectTool(Tools.Pen)} />
+                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
+                <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
+                <ImageTool onClick={() => onSelectTool(Tools.Image)} />
+                <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
             </ToolsWrapper>
         </ExpandBarDiv>
     );

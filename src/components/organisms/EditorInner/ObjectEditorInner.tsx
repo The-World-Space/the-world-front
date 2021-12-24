@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -7,6 +7,7 @@ import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
 import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
 import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
 import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
+import { ReactComponent as BlueSaveIcon } from '../../atoms/BlueSaveIcon.svg';
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 
@@ -103,12 +104,11 @@ const ObjectTypeRadioR = styled(ObjectTypeRadio)`
 `
 
 
-
 const ToolsWrapper = styled.div<{selected: number}>`
     width: 100%;
-    height: 38px;
     
     display: flex;
+    align-items: center;
 
     box-sizing: border-box;
 
@@ -152,11 +152,30 @@ enum Tools {
 
 function ObjectEditorInner({ worldId, opened }: PropsType) {
     const [tab, setTab] = useState(0);
+    const onChangeTab = useCallback((index: number) => {
+        if (index !== tab)
+            if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
+        setTab(index);
+    }, [tab]);
+    
     const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Result object"}), []);
 
     const [selectedObjectType, setSelectedObjectType] = useState(Server.GameObjectType.Wall);
     const [selectedTool, setSelectedTool] = useState(Tools.Pen);
+    const onSelectTool = useCallback((tool: Tools) => {
+        if (tool === Tools.Image) {
+            if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
+            setSelectedTool(tool);
+        }
+        setSelectedTool(tool);
+    }, []);
+
+    const save = useCallback(() => {
+        const shouldSave = window.confirm("현재 작업 사항을 저장하시겠습니까?");
+        if (!shouldSave) return;
+        // @TODO: save
+    }, []);
     
     const [datas] = useState<{
         left: PhotoElementData[];
@@ -171,7 +190,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
                     setId={setPhotoId} 
                     id={photoId} 
                     tab={tab} 
-                    setTab={setTab} 
+                    setTab={onChangeTab}
                     tabNames={tabNames}
                 />
                 <TileEditor />
@@ -197,11 +216,15 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
                 </ObjectTypeRadioWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <PenTool onClick={() => setSelectedTool(Tools.Pen)} />
-                <EraseTool onClick={() => setSelectedTool(Tools.Eraser)} />
-                <ColliderTool onClick={() => setSelectedTool(Tools.Collider)} />
-                <ImageTool onClick={() => setSelectedTool(Tools.Image)} />
-                <SizerTool onClick={() => setSelectedTool(Tools.Sizer)} />
+                <PenTool onClick={() => onSelectTool(Tools.Pen)} />
+                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
+                <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
+                <ImageTool onClick={() => onSelectTool(Tools.Image)} />
+                <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
+                <BlueSaveIcon 
+                    style={{marginLeft: 'auto', marginRight: "18px", width: '44px', height: '44px'}}
+                    onClick={save}
+                />
             </ToolsWrapper>
         </ExpandBarDiv>
     );
