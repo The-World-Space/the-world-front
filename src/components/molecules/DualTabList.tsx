@@ -39,6 +39,8 @@ const Tab = styled.div<{selected: boolean}>`
     color: ${p => p.selected ? "#000000" : "#00000060"};
     background-color: ${p => p.selected ? "#A69B97" : "#A69B9760"};
 
+    transition: all 50ms;
+
     :hover {
         cursor: pointer;
     }
