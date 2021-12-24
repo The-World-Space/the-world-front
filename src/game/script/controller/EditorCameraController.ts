@@ -8,7 +8,8 @@ export class EditorCameraController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
     protected readonly _requiredComponents: ComponentConstructor[] = [Camera];
 
-    protected start(): void {
+    public onEnable(): void {
+        this.engine.input
     }
 
     private readonly _tempVector: Vector3 = new Vector3();

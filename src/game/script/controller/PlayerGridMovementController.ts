@@ -61,7 +61,7 @@ export class PlayerGridMovementController extends Directionable
             return;
         }
 
-        const inputMap = this.engine.inputHandler.map;
+        const inputMap = this.engine.input.map;
         if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
             this.direction = Direction.Up;
             if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight)) return;
@@ -90,7 +90,7 @@ export class PlayerGridMovementController extends Directionable
     }
 
     private noncheckProcessInput(currentGridPosotion: Vector2): boolean {
-        const inputMap = this.engine.inputHandler.map;
+        const inputMap = this.engine.input.map;
         if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
             this.direction = Direction.Up;
             if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight)) return false;
@@ -138,7 +138,7 @@ export class PlayerGridMovementController extends Directionable
     }
 
     private tryCancelPathfinder(): void {
-        const inputMap = this.engine.inputHandler.map;
+        const inputMap = this.engine.input.map;
         if (inputMap.get("w") || inputMap.get("ArrowUp")) {
             this._movingByPathfinder = false;
         } else if (inputMap.get("s") || inputMap.get("ArrowDown")) {

@@ -140,6 +140,6 @@ export class Game {
     }
 
     public get inputHandler(): IInputEventHandleable {
-        return this._engineGlobalObject.inputHandler;
+        return this._engineGlobalObject.input;
     }
 }
