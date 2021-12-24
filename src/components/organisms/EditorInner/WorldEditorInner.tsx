@@ -250,6 +250,7 @@ const IframeSettingLeftInputWrapper = styled.div`
     margin: 10px;
 
     border-radius: 13.5px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
 `;
 
 const IframeSettingLeftInputLabel = styled.span`
