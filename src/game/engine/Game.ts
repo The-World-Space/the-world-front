@@ -51,7 +51,8 @@ export class Game {
             this._gameState,
             this._gameScreen,
             this._sceneProcessor,
-            this._coroutineProcessor
+            this._coroutineProcessor,
+            this._renderer.domElement
         );
         this._animationFrameId = null;
         this._isDisposed = false;
