@@ -61,7 +61,7 @@ function NetworkGamePage() {
     const user = useUser();
     
     useEffect(() => { //on component mounted
-        // if (error) throw error;
+        if (error) throw error;
         if (!world || !user) return; 
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
