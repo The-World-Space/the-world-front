@@ -7,8 +7,8 @@ import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 
 export class GridInputPrefab extends Prefab {
-    private _gridCollideMap: PrefabRef<IGridCollidable> = new PrefabRef();
-    private _gridPointer: PrefabRef<GridPointer> = new PrefabRef();
+    private _gridCollideMap = new PrefabRef<IGridCollidable>();
+    private _gridPointer = new PrefabRef<GridPointer>();
 
     public withCollideMap(collideTilemap: PrefabRef<IGridCollidable>): GridInputPrefab {
         this._gridCollideMap = collideTilemap;

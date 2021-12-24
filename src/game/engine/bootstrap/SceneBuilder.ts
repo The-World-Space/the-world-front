@@ -27,12 +27,14 @@ export class SceneBuilder {
 
         for (const child of this._children) child.initialize();
 
-        const componentsInScene = this.getAllComponentsInScene();
-        const updateableComponentsInScene = componentsInScene.filter<UpdateableComponent>(isUpdateableComponent);
-        this._sceneProcessor.addStartComponent(...componentsInScene);
+        const activeComponentsInScene = this.getAllComponentsInScene().filter(c => {
+            return c.gameObject.activeInHierarchy && c.enabled;
+        });
+        const updateableComponentsInScene = activeComponentsInScene.filter<UpdateableComponent>(isUpdateableComponent);
+        this._sceneProcessor.addStartComponent(...activeComponentsInScene);
         this._sceneProcessor.addUpdateComponent(...updateableComponentsInScene);
 
-        return componentsInScene;
+        return activeComponentsInScene;
     }
 
     private getAllComponentsInScene(): Component[] {

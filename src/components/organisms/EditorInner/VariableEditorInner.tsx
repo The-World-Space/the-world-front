@@ -20,7 +20,39 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     pointer-events: all;
 `;
 
+const ListContainer = styled.ol`
+    display: flex;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+`;
 
+const ListItem = styled.li`
+    background: #A69B97;
+    border-radius: 23px;
+    display: flex;
+    width: 90%;
+    height: 60px;
+    margin-top: 20px;
+    padding: 7px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+`;
+
+const ListItemInner = styled.div`
+    background: #FFFFFE;
+    border-radius: 19px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+`;
 
 interface PropsType {
     worldId: string;
@@ -31,7 +63,23 @@ function VariableEditorInner({ worldId, opened }: PropsType) {
     
     return (
         <ExpandBarDiv opened={opened}>
-            var
+            <ListContainer>
+                <ListItem>
+                    <ListItemInner>
+                        ^ㅅ^
+                    </ListItemInner>
+                </ListItem>
+                <ListItem>
+                    <ListItemInner>
+                        ^ㅅ^
+                    </ListItemInner>
+                </ListItem>
+                <ListItem>
+                    <ListItemInner>
+                        ^ㅅ^
+                    </ListItemInner>
+                </ListItem>
+            </ListContainer>
         </ExpandBarDiv>
     );
 }
