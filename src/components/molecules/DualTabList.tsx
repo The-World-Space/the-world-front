@@ -109,17 +109,21 @@ interface DualTabListProps {
         left: PhotoElementData[];
         right: PhotoElementData[];
     }
+    tabNames: {
+        left: string,
+        right: string
+    }
 }
 
-function DualTabList({setId, id, setTab, tab, datas}: DualTabListProps) {
+function DualTabList({setId, id, setTab, tab, datas, tabNames}: DualTabListProps) {
     return (
         <VerticalWrapperList>
             <ListTop>
                 <TabL selected={tab === DualTabType.Left} onClick={() => setTab(DualTabType.Left)}>
-                    Tile List
+                    {tabNames.left}
                 </TabL>
                 <TabR selected={tab === DualTabType.Right} onClick={() => setTab(DualTabType.Right)}>
-                    ResultList
+                    {tabNames.right}
                 </TabR>
             </ListTop>
             <ListFakeHr />
