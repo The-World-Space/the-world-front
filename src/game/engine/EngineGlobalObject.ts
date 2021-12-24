@@ -59,7 +59,7 @@ export class EngineGlobalObject implements IEngine {
         return this._screen;
     }
 
-    public get inputHandler(): InputHandler {
+    public get input(): InputHandler {
         return this._inputHandler;
     }
 
