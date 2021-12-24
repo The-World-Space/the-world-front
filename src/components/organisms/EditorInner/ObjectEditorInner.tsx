@@ -128,17 +128,18 @@ const ToolsWrapper = styled.div`
 interface PropsType {
     worldId: string;
     opened: boolean;
-    datas: {
-        left: PhotoElementData[];
-        right: PhotoElementData[];
-    }
 }
 
-function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
+function ObjectEditorInner({ worldId, opened }: PropsType) {
     const [tab, setTab] = useState(0);
     const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Result object"}), []);
     
+    const [datas] = useState<{
+        left: PhotoElementData[];
+        right: PhotoElementData[];
+    }>({left: [], right: []});
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
