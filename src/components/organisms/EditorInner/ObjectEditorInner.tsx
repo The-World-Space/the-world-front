@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -128,20 +128,22 @@ const ToolsWrapper = styled.div`
 interface PropsType {
     worldId: string;
     opened: boolean;
-    datas: {
-        left: PhotoElementData[];
-        right: PhotoElementData[];
-    }
 }
 
-function ObjectEditorInner({ worldId, opened, datas }: PropsType) {
-    const [tab, setTab] = React.useState(0);
-    const [photoId, setPhotoId] = React.useState<number>(0);
+function ObjectEditorInner({ worldId, opened }: PropsType) {
+    const [tab, setTab] = useState(0);
+    const [photoId, setPhotoId] = useState(0);
+    const tabNames = useMemo(() => ({left: "Tile List", right: "Result object"}), []);
     
+    const [datas] = useState<{
+        left: PhotoElementData[];
+        right: PhotoElementData[];
+    }>({left: [], right: []});
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
-                <DualTabList datas={datas} setId={setPhotoId} id={photoId} tab={tab} setTab={setTab} />
+                <DualTabList datas={datas} setId={setPhotoId} id={photoId} tab={tab} setTab={setTab} tabNames={tabNames}/>
                 <TileEditor />
                 <ObjectTypeRadioWrapper>
                     <ObjectTypeRadioL selected={true}>

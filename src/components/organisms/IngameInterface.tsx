@@ -329,7 +329,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
             <>
                 <VariableEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Variable}/>
                 <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
-                <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} datas={{left:[], right:[]}}/>
+                <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
                 <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
             </>
             <ExpandButton onClick={() => expandBarToggle()} 
