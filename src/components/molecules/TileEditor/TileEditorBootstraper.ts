@@ -1,14 +1,15 @@
-
+import { Vector3 } from "three";
 import { Bootstrapper } from "../../../game/engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "../../../game/engine/bootstrap/SceneBuilder";
-import { CameraPrefab } from "../../../game/prefab/CameraPrefab";
-
+import { Camera } from "../../../game/script/render/Camera";
+import { CssSpriteRenderer } from "../../../game/script/render/CssSpriteRenderer";
 
 export class EditorInfoObject {
     private readonly _eventTargetDom: HTMLElement;
 
     public constructor(
-            eventTargetDom: HTMLElement) {
+        eventTargetDom: HTMLElement
+    ) {
         this._eventTargetDom = eventTargetDom;
     }
     
@@ -17,12 +18,16 @@ export class EditorInfoObject {
     }
 }
 
-
 export class TileEditorBootstraper extends Bootstrapper<EditorInfoObject> {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
         return this.sceneBuilder
-            .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab).make())
+            .withChild(instantlater.buildGameObject("camera", new Vector3(0, 0, 100))
+                .withComponent(Camera, c => {
+                    c.viewSize = 50;
+                }))
+            .withChild(instantlater.buildGameObject("test object")
+                .withComponent(CssSpriteRenderer));
     }
 }
