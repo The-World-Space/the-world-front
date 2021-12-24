@@ -7,6 +7,7 @@ import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
 import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
 import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
+import { Server } from "../../../game/connect/types";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -137,14 +138,17 @@ const IframeInputSettingRight = styled.div`
     align-items: center;
 `;
 
-const IframeInputSettingRightText = styled.span`
+const IframeInputSettingRightText = styled.span<{selected: boolean}>`
     margin: 16px 18px;
 
+    color: ${p => p.selected ? '#000000' : '#00000060'};
     font-family: Noto Sans;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
+
+    transition: color 50ms;
 `;
 
 const IframeInputSettingRightVerticalLine = styled.div`
@@ -213,6 +217,7 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
 
     const [iframeWidth, setIframeWidth] = useState('1');
     const [iframeHeight, setIframeHeight] = useState('1');
+    const [iframeObjectType, setIframeObjectType] = useState(Server.GameObjectType.Wall);
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
     const [selectedTool, setSelectedTool] = useState(Tools.Pen);
@@ -236,15 +241,24 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
                         </IframeInputSettingLeft>
                         <VerticalLine />
                         <IframeInputSettingRight>
-                            <IframeInputSettingRightText>
+                            <IframeInputSettingRightText
+                                selected={iframeObjectType === Server.GameObjectType.Wall}
+                                onClick={() => setIframeObjectType(Server.GameObjectType.Wall)}
+                            >
                                 Wall
                             </IframeInputSettingRightText>
                             <IframeInputSettingRightVerticalLine />
-                            <IframeInputSettingRightText>
+                            <IframeInputSettingRightText
+                                selected={iframeObjectType === Server.GameObjectType.Floor}
+                                onClick={() => setIframeObjectType(Server.GameObjectType.Floor)}
+                            >
                                 floor
                             </IframeInputSettingRightText>
                             <IframeInputSettingRightVerticalLine />
-                            <IframeInputSettingRightText>
+                            <IframeInputSettingRightText
+                                selected={iframeObjectType === Server.GameObjectType.Effect}
+                                onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
+                            >
                                 effect
                             </IframeInputSettingRightText>
                         </IframeInputSettingRight>
