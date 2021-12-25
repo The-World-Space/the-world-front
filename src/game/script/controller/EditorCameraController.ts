@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from "three";
+import { Vector2 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { Camera } from "../render/Camera";
