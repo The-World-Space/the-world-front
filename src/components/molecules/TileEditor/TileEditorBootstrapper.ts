@@ -49,9 +49,13 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
             setToolType(tools) {
                 if (!colliderBrush.ref) return;
                 if (tools === Tools.Collider) {
+                    colliderBrush.ref.enabled = true;
                     colliderBrush.ref.brushMode = BrushMode.Draw;
                 } else if (tools === Tools.Eraser) {
+                    colliderBrush.ref.enabled = true;
                     colliderBrush.ref.brushMode = BrushMode.Erase;
+                } else {
+                    colliderBrush.ref.enabled = false;
                 }
             },
             getColliders(): Vector2[] {
@@ -94,6 +98,7 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
                 .withCollideMap(collideMap)
                 .getGridPointer(gridPointer).make()
                 .withComponent(ColliderBrush, c => {
+                    c.enabled = false;
                     c.gridPointer = gridPointer.ref!;
                     c.collideMap = collideMap.ref!;
                 })
