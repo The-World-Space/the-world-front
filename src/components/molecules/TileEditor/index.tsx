@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Game } from "../../../game/engine/Game";
 import { GameStateKind } from "../../../game/engine/GameState";
@@ -30,7 +30,8 @@ function TileEditor({ opened }: TileEditorProps) {
         if (!divRef.current) throw new Error("divRef.current is null");
         const game = new Game(divRef.current);
         game.run(TileEditorBootstraper, new EditorInfoObject(divRef.current));
-        game.inputHandler.startHandleEvents();
+        divRef.current.onmouseenter = () => game.inputHandler.startHandleEvents();
+        divRef.current.onmouseleave = () => game.inputHandler.stopHandleEvents();
         setGame(game);
 
         return () => {
