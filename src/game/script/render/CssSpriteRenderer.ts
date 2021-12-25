@@ -85,10 +85,7 @@ export class CssSpriteRenderer extends Component {
                 image.style.opacity = this._opacity.toString();
                 image.style.pointerEvents = this._pointerEvents ? "auto" : "none";
                 image.style.zIndex = Math.floor(this._zindex).toString();
-                this._sprite.position.set(
-                    this._imageWidth * this._imageCenterOffset.x,
-                    this._imageHeight * this._imageCenterOffset.y, 0
-                );
+                this.updateCenterOffset();
                 this._sprite.scale.x = this._imageFlipX ? -1 : 1;
                 this._sprite.scale.y = this._imageFlipY ? -1 : 1;
                 this.gameObject.unsafeGetTransform().add(this._sprite); //it"s safe because _sprite is not GameObject and remove is from onDestroy
@@ -99,6 +96,15 @@ export class CssSpriteRenderer extends Component {
         };
         this._htmlImageElement.addEventListener("load", onLoad);
     }
+
+    private updateCenterOffset(): void {
+        if (this._sprite) {
+            this._sprite.position.set(
+                this._imageWidth * this._imageCenterOffset.x,
+                this._imageHeight * this._imageCenterOffset.y, 0
+            );
+        }
+    }
     
     public get imageCenterOffset(): Vector2 {
         return this._imageCenterOffset.clone();
@@ -106,12 +112,7 @@ export class CssSpriteRenderer extends Component {
 
     public set imageCenterOffset(value: Vector2) {
         this._imageCenterOffset.copy(value);
-        if (this._sprite) {
-            this._sprite.position.set(
-                this._imageWidth * this._imageCenterOffset.x,
-                this._imageWidth * this._imageCenterOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get imageWidth(): number {
@@ -123,6 +124,7 @@ export class CssSpriteRenderer extends Component {
         if (this._htmlImageElement) {
             this._htmlImageElement.style.width = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get imageHeight(): number {
@@ -134,6 +136,7 @@ export class CssSpriteRenderer extends Component {
         if (this._htmlImageElement) {
             this._htmlImageElement.style.height = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get imageFlipX(): boolean {

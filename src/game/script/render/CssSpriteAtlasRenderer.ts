@@ -86,10 +86,7 @@ export class CssSpriteAtlasRenderer extends Component {
             image.alt = `${this.gameObject.name}_sprite_atlas`;
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
-                this._sprite.position.set(
-                    this._imageWidth * this._imageCenterOffset.x,
-                    this._imageHeight * this._imageCenterOffset.y, 0
-                );
+                this.updateCenterOffset();
                 this._sprite.scale.set(
                     this._imageWidth / this._croppedImageWidth,
                     this._imageHeight / this._croppedImageHeight,
@@ -122,6 +119,15 @@ export class CssSpriteAtlasRenderer extends Component {
         }
     }
 
+    private updateCenterOffset(): void {
+        if (this._sprite) {
+            this._sprite.position.set(
+                this._imageWidth * this._imageCenterOffset.x,
+                this._imageHeight * this._imageCenterOffset.y, 0
+            );
+        }
+    }
+
     public set imageIndex(value: number) {
         this._currentImageIndex = value;
         this.updateImageByIndex();
@@ -141,12 +147,7 @@ export class CssSpriteAtlasRenderer extends Component {
 
     public set imageCenterOffset(value: Vector2) {
         this._imageCenterOffset.copy(value);
-        if (this._sprite) {
-            this._sprite.position.set(
-                this._imageWidth * this._imageCenterOffset.x,
-                this._imageHeight * this._imageCenterOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get imageWidth(): number {
@@ -158,6 +159,7 @@ export class CssSpriteAtlasRenderer extends Component {
         if (this._sprite) {
             this._sprite.scale.x = this._imageWidth / this._croppedImageWidth;
         }
+        this.updateCenterOffset();
     }
 
     public get imageHeight(): number {
@@ -169,6 +171,7 @@ export class CssSpriteAtlasRenderer extends Component {
         if (this._sprite) {
             this._sprite.scale.y = this._imageHeight / this._croppedImageHeight;
         }
+        this.updateCenterOffset();
     }
 
     public get imageFlipX(): boolean {
