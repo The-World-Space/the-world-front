@@ -104,9 +104,11 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
                 })
                 .getComponent(ColliderBrush, colliderBrush))
             
-            .withChild(instantlater.buildGameObject("view_object")
-                .withComponent(CssSpriteRenderer, c => c.pointerEvents = false)
-                .withComponent(EditorViewObjectController)
+            .withChild(instantlater.buildGameObject("view_object", new Vector3(-8, -8, 0))
+                .withComponent(CssSpriteRenderer, c => {
+                    c.pointerEvents = false;
+                    c.imageCenterOffset = new Vector2(0.5, 0.5);
+                })
                 .getComponent(EditorViewObjectController, editorViewObjectController));
     }
 }
