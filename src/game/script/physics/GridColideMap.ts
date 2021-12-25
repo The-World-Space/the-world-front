@@ -105,7 +105,10 @@ export class GridCollideMap extends Component implements IGridCollidable {
             this.engine.instantlater.buildGameObject(
                 "debugImage", new Vector3(x, y, 10000))
                 .withComponent(ZaxisInitializer)
-                .withComponent(CssSpriteRenderer, c => c.opacity = 0.5)
+                .withComponent(CssSpriteRenderer, c => {
+                    c.opacity = 0.5;
+                    c.pointerEvents = false;
+                })
                 .getGameObject(gameObjectRef));
         this._colliderImages.set(`${x}_${y}`, gameObjectRef.ref!);
     }

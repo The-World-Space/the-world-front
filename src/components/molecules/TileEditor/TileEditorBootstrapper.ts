@@ -87,7 +87,7 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
                 }))
 
             .withChild(instantlater.buildGameObject("collide_map")
-                .withComponent(GridCollideMap)
+                .withComponent(GridCollideMap, c => c.showCollider = true)
                 .getComponent(GridCollideMap, collideMap))
             
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
@@ -96,7 +96,8 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
                 .withComponent(ColliderBrush, c => {
                     c.gridPointer = gridPointer.ref!;
                     c.collideMap = collideMap.ref!;
-                }))
+                })
+                .getComponent(ColliderBrush, colliderBrush))
             
             .withChild(instantlater.buildGameObject("view_object")
                 .withComponent(CssSpriteRenderer, c => c.pointerEvents = false)
