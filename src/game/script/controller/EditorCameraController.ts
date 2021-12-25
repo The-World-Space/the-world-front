@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { Camera } from "../render/Camera";
@@ -10,6 +10,10 @@ export class EditorCameraController extends Component {
     private _camera: Camera|null = null;
     private _mouseMiddleDown: boolean = false;
     private readonly _lastOffset: Vector2 = new Vector2();
+    private _minViewSize: number = 10;
+    private _defaultViewSize: number = 200;
+    private readonly _defaultPosition = new Vector3();
+    private _onKeyDownBind = this.onKeyDown.bind(this);
     private _onWheelBind = this.onWheel.bind(this);
     private _onPointerDownBind = this.onPointerDown.bind(this);
     private _onPointerUpBind = this.onPointerUp.bind(this);
@@ -18,28 +22,41 @@ export class EditorCameraController extends Component {
 
     protected awake(): void {
         this._camera = this.gameObject.getComponent(Camera);
+        this._defaultViewSize = this._camera!.viewSize;
+        this._defaultPosition.copy(this.gameObject.transform.position);
     }
 
     public onEnable(): void {
-        this.engine.input.addOnWheelEventListener(this._onWheelBind);
-        this.engine.input.addOnPointerDownEventListener(this._onPointerDownBind);
-        this.engine.input.addOnPointerUpEventListener(this._onPointerUpBind);
-        this.engine.input.addOnPointerMoveEventListener(this._onPointerMoveBind);
-        this.engine.input.addOnPointerLeaveEventListener(this._onPointerLeaveBind);
+        const input = this.engine.input;
+        input.addOnKeyDownEventListener(this._onKeyDownBind);
+        input.addOnWheelEventListener(this._onWheelBind);
+        input.addOnPointerDownEventListener(this._onPointerDownBind);
+        input.addOnPointerUpEventListener(this._onPointerUpBind);
+        input.addOnPointerMoveEventListener(this._onPointerMoveBind);
+        input.addOnPointerLeaveEventListener(this._onPointerLeaveBind);
     }
 
     public onDisable(): void {
-        this.engine.input.removeOnWheelEventListener(this._onWheelBind);
-        this.engine.input.removeOnPointerDownEventListener(this._onPointerDownBind);
-        this.engine.input.removeOnPointerUpEventListener(this._onPointerUpBind);
-        this.engine.input.removeOnPointerMoveEventListener(this._onPointerMoveBind);
-        this.engine.input.removeOnPointerLeaveEventListener(this._onPointerLeaveBind);
+        const input = this.engine.input;
+        input.removeOnKeyDownEventListener(this._onKeyDownBind);
+        input.removeOnWheelEventListener(this._onWheelBind);
+        input.removeOnPointerDownEventListener(this._onPointerDownBind);
+        input.removeOnPointerUpEventListener(this._onPointerUpBind);
+        input.removeOnPointerMoveEventListener(this._onPointerMoveBind);
+        input.removeOnPointerLeaveEventListener(this._onPointerLeaveBind);
+    }
+
+    private onKeyDown(event: KeyboardEvent): void {
+        if (event.key === " ") {
+            this._camera!.viewSize = this._defaultViewSize;
+            this.gameObject.transform.position.copy(this._defaultPosition);
+        }
     }
 
     private onWheel(event: WheelEvent): void {
         this._camera!.viewSize += event.deltaY * 0.1;
-        if (this._camera!.viewSize < 0.1) {
-            this._camera!.viewSize = 0.1;
+        if (this._camera!.viewSize < this._minViewSize) {
+            this._camera!.viewSize = this._minViewSize;
         }
     }
 
@@ -76,5 +93,17 @@ export class EditorCameraController extends Component {
         this.gameObject.transform.position.y += clientYdiff * this._camera!.viewSize;
 
         this._lastOffset.set(clientOffsetX, clientOffsetY);
+    }
+
+    public get minViewSize(): number {
+        return this._minViewSize;
+    }
+
+    public set minViewSize(value: number) {
+        this._minViewSize = value;
+
+        if (this._camera!.viewSize < this._minViewSize) {
+            this._camera!.viewSize = this._minViewSize;
+        }
     }
 }

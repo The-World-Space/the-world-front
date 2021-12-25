@@ -2,6 +2,7 @@ import { Vector3 } from "three";
 import { Bootstrapper } from "../../../game/engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "../../../game/engine/bootstrap/SceneBuilder";
 import { EditorCameraController } from "../../../game/script/controller/EditorCameraController";
+import { EditorGridRenderer } from "../../../game/script/post_render/EditorGridRenderer";
 import { Camera } from "../../../game/script/render/Camera";
 import { CssSpriteRenderer } from "../../../game/script/render/CssSpriteRenderer";
 
@@ -28,7 +29,8 @@ export class TileEditorBootstraper extends Bootstrapper<EditorInfoObject> {
                 .withComponent(Camera, c => {
                     c.viewSize = 50;
                 })
-                .withComponent(EditorCameraController))
+                .withComponent(EditorCameraController)
+                .withComponent(EditorGridRenderer))
             .withChild(instantlater.buildGameObject("test object")
                 .withComponent(CssSpriteRenderer));
     }
