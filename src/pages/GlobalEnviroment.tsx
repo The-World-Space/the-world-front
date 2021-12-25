@@ -15,7 +15,7 @@ export const FORMTITLE_FONT_WEIGHT = "bold";
 export const FORM_FONT_SIZE = "16px";
 
 export function loadGlobalEnviroments() {
-    var newStyle = document.createElement("style");
+    const newStyle = document.createElement("style");
     newStyle.appendChild(document.createTextNode(`
     @font-face {
         font-family: ${MENU_BUTTON_FONT_FAMILY};

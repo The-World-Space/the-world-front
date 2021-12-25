@@ -4,7 +4,7 @@ export class Color {
     private readonly _b: number;
     private readonly _a: number;
 
-    public constructor(r: number, g: number, b: number, a: number = 1) {
+    public constructor(r: number, g: number, b: number, a = 1) {
         this._r = r;
         this._g = g;
         this._b = b;

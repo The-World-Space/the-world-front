@@ -8,7 +8,7 @@ import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";
 
-const PREFIX = `@@tw/game/component/spawner/NetworkPlayerManager`;
+const PREFIX = "@@tw/game/component/spawner/NetworkPlayerManager";
 
 export class NetworkPlayerManager extends Component {
     private _networkPlayerMap: Map<string, GameObject> = new Map();
@@ -27,12 +27,12 @@ export class NetworkPlayerManager extends Component {
     }
 
     public initLocalPlayer(player: GameObject){
-        const component = player.getComponent(PlayerGridMovementController)
+        const component = player.getComponent(PlayerGridMovementController);
         if (!component) throw new Error("no PlayerGridMovementController component");
         
         component.addOnMoveToTargetEventListener((x, y) => {
             this._networkManager!.dee.emit("player_move", x, y);
-        })
+        });
     }
 
     public addOnLeave(user: Server.User, networkManager: Networker) {

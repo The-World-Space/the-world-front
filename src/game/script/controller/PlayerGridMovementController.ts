@@ -203,7 +203,7 @@ export class PlayerGridMovementController extends Directionable
         }
 
         if (distance > 0.1) {
-            let direction = this._targetGridPosition.clone().sub(vector2Pos).normalize();
+            const direction = this._targetGridPosition.clone().sub(vector2Pos).normalize();
             direction.multiplyScalar(Math.min(this._speed * this.engine.time.deltaTime, distance));
             transform.position.x += direction.x;
             transform.position.y += direction.y;

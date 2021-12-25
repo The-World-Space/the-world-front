@@ -41,17 +41,22 @@ export abstract class Component {
     //Instead, you should use Awake to set up references between scripts, and use Start, which is called after all Awake calls are finished, to pass any information back and forth.
     //
     //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     protected awake(): void { }
 
     //Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
     //
     //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Start.html
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     protected start(): void { }
 
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     public onDestroy(): void { }
 
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     public onEnable(): void { }
 
+    //eslint-disable-next-line @typescript-eslint/no-empty-function
     public onDisable(): void { }
 
     public startCorutine(coroutineIterator: CoroutineIterator): ICoroutine {

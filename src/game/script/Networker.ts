@@ -51,7 +51,7 @@ export class Networker {
             }
         }).subscribe((data) => {
             data.data.playerList && this.onPlayerListUpdate(data.data.playerList);
-        })
+        });
 
         this._client.subscribe({
             query: gql`
@@ -95,7 +95,7 @@ export class Networker {
                     worldId: this._worldId,
                 }
             });
-        })
+        });
     }
 
 

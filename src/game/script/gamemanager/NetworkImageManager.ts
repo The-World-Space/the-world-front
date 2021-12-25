@@ -8,7 +8,7 @@ import { IGridCollidable } from "../physics/IGridCollidable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
-const PREFIX = `@@tw/game/component/gamemanager/NetworkImageManager`;
+const PREFIX = "@@tw/game/component/gamemanager/NetworkImageManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
 export class NetworkImageManager extends Component {
@@ -49,7 +49,7 @@ export class NetworkImageManager extends Component {
         const prefab = 
             instantlater.buildPrefab(`${PREFIX}/image_${imageInfo.id}`, NetworkImagePrefab, calculated)
                 .withGridInfo(new PrefabRef(this._iGridCollidable))
-                .withImageInfo(new PrefabRef(imageInfo))
+                .withImageInfo(new PrefabRef(imageInfo));
         
         const builder = prefab.make();
         builder.getGameObject(prefabRef);

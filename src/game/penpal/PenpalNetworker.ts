@@ -58,7 +58,7 @@ export class PenpalNetworker {
             const { id: publicBroadcastId, message, userId } = result.data.broadcastMessage as { id: number, message: string, userId: string };
 
             this._ee.emit(`update_broadcast_${publicBroadcastId}`, message, userId);
-        })
+        });
     }
 
 
@@ -87,7 +87,7 @@ export class PenpalNetworker {
                 id,
                 message
             }
-        })
+        });
     }
 
     public async getUser(id?: string) {
@@ -162,7 +162,7 @@ export class PenpalNetworker {
             }
         }).subscribe(result => {
             cb(result.data.iframeBroadcasterPortMappingList);
-        })
+        });
     }
 
     get ee() {

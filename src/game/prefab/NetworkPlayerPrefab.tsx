@@ -12,6 +12,7 @@ import { IGridCollidable } from "../script/physics/IGridCollidable";
 import { Networker } from "../script/Networker";
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
+import React from "react";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
@@ -80,7 +81,7 @@ export class NetworkPlayerPrefab extends Prefab {
             .withComponent(NetworkGridMovementController, c => {
                 if (this._tilemap.ref) {
                     c.gridCellHeight = this._tilemap.ref.gridCellHeight;
-                    c.gridCellWidth = this._tilemap.ref.gridCellWidth
+                    c.gridCellWidth = this._tilemap.ref.gridCellWidth;
                     c.gridCenter = this._tilemap.ref.gridCenter;
                 }
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
@@ -115,7 +116,7 @@ export class NetworkPlayerPrefab extends Prefab {
                             textAlign: "center",
                             padding: "5px 10px",
                             opacity: 0.5,
-                            }}>
+                        }}>
                             chat content
                         </div>
                     );

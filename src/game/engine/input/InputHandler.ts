@@ -85,10 +85,10 @@ export class InputHandler implements IInputEventHandleable {
     private simulateMouseEvent(eventName: string, touch: Touch): void {
         const simulatedEvent = new MouseEvent(
             eventName, {
-            bubbles: true, cancelable: true, view: window, detail: 1,
-            screenX: touch.screenX, screenY: touch.screenY, clientX: touch.clientX, clientY: touch.clientY,
-            ctrlKey: false, altKey: false, shiftKey: false, metaKey: false, button: 0, relatedTarget: null
-        });
+                bubbles: true, cancelable: true, view: window, detail: 1,
+                screenX: touch.screenX, screenY: touch.screenY, clientX: touch.clientX, clientY: touch.clientY,
+                ctrlKey: false, altKey: false, shiftKey: false, metaKey: false, button: 0, relatedTarget: null
+            });
         touch.target.dispatchEvent(simulatedEvent);
     }
 
@@ -135,7 +135,7 @@ export class InputHandler implements IInputEventHandleable {
         this._onTouchStartFunc = () => {
             this.simulateMouseEvent("mouseenter", event.touches[0]);
             this.simulateMouseEvent("mousedown", event.touches[0]);
-        }
+        };
     }
 
     private handleTouchEnd(event: TouchEvent): void {

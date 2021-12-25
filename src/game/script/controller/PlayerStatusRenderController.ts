@@ -45,7 +45,7 @@ export class PlayerStatusRenderController extends Component {
         this.setNameTagFromString(value);
     }
 
-    public setChatBoxText(value: string|null, showSeconds: number = 5, defaultOpacity: number = 0.5): void {
+    public setChatBoxText(value: string|null, showSeconds = 5, defaultOpacity = 0.5): void {
         if (this._chatBoxCoroutine) this.stopCoroutine(this._chatBoxCoroutine);
         if (value === null) {
             this.setChatBoxFromString(null);

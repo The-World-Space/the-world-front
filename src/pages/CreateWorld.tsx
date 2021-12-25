@@ -1,5 +1,5 @@
 import { useApolloClient, ApolloClient, gql } from "@apollo/client";
-import { useState } from "react";
+import React, { useState } from "react";
 import NavTemplate from "../components/templates/NavTemplate";
 import {
     useHistory,
@@ -78,7 +78,7 @@ const CreateWorld: React.FC = () => {
                 </BlackSubmitButton>
             </ContentDiv>
         </NavTemplate>
-    )
+    );
 };
 
 

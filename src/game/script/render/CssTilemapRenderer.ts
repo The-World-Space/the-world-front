@@ -132,9 +132,9 @@ export class CssTilemapRenderer extends Component{
         }
 
         const context: CanvasRenderingContext2D = this._htmlCanvasElement!.getContext("2d")!;
-        for (let rowIndex: number = 0; rowIndex < array.length; rowIndex++) {
+        for (let rowIndex = 0; rowIndex < array.length; rowIndex++) {
             const row: ({i: number, a: number}|null)[] = array[rowIndex];
-            for (let columnIndex: number = 0; columnIndex < row.length; columnIndex++) {
+            for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
                 const tile: ({i: number, a: number}|null) = row[columnIndex];
                 if (tile === null) continue;
                 const imageSource: TileAtlasItem = this._imageSources![tile.i];

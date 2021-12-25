@@ -10,7 +10,7 @@ import { IGridCollidable } from "../physics/IGridCollidable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
-const PREFIX = `@@tw/game/component/gamemanager/NetworkIframeManager`;
+const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
 export class NetworkIframeManager extends Component {
@@ -71,7 +71,7 @@ export class NetworkIframeManager extends Component {
                 .withIframeInfo(new PrefabRef(iframeInfo))
                 .withApolloClient(new PrefabRef(apolloClient))
                 .withPenpalNetworkWrapper(new PrefabRef(this._penpalNetworkWrapper))
-                .withWorldId(new PrefabRef(worldId))
+                .withWorldId(new PrefabRef(worldId));
         
         const builder = prefab.make();
         builder.getGameObject(prefabRef);

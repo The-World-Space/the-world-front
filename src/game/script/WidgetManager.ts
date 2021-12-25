@@ -28,17 +28,19 @@ export class WidgetManager {
 
             const anc = widget.anchor;
             
-            iframe.style.left   = (anc % 3 === 0) ? "0px" : 
-                                  (anc % 3 === 1) ? "50%" : "";
-            iframe.style.right  = (anc % 3 === 2) ? "0px" : "";
+            iframe.style.left = 
+                (anc % 3 === 0) ? "0px" : 
+                (anc % 3 === 1) ? "50%" : "";
+            iframe.style.right = (anc % 3 === 2) ? "0px" : "";
 
-            iframe.style.top    = (anc <= 2) ? "0px" : 
-                                  (anc <= 5) ? "50%" : "";
+            iframe.style.top = 
+                (anc <= 2) ? "0px" : 
+                (anc <= 5) ? "50%" : "";
             iframe.style.bottom = (anc >= 6) ? "0px" : "";
 
             iframe.style.pointerEvents = "auto";
 
-            const translateX = (anc % 3 === 1)        ? "-50%" : "0";
+            const translateX = (anc % 3 === 1) ? "-50%" : "0";
             const translateY = (3 <= anc && anc <= 5) ? "-50%" : "0";
 
             iframe.style.transform += `translate(${translateX}, ${translateY}) translate(${widget.offsetX}, ${widget.offsetY})`;

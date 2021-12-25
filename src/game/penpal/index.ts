@@ -129,7 +129,7 @@ export class IframeCommunicator {
         this.internalBroadcasterIdToBroadcasterMap.forEach((broadcaster, internalId) => {
             const cb = (message: string, userId: string) => {
                 this.child.broadcast(internalId, userId, message);
-            }
+            };
             this.penpalNetworkWrapper.ee.on(`update_broadcast_${broadcaster.id}`, cb);
             this.disposeFuncs.push(() => this.penpalNetworkWrapper.ee.removeListener(`update_broadcast_${broadcaster.id}`, cb));
         });

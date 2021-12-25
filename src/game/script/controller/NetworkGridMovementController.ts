@@ -70,10 +70,10 @@ export class NetworkGridMovementController extends Directionable {
     private processMovement(): void {
         if (!this.isMoving) return;
         const vector2Pos = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
-        let distance = vector2Pos.distanceTo(this._targetGridPosition);
+        const distance = vector2Pos.distanceTo(this._targetGridPosition);
         
         if (distance > 0.1) {
-            let direction = this._targetGridPosition.clone().sub(vector2Pos);
+            const direction = this._targetGridPosition.clone().sub(vector2Pos);
             this._setDirection(direction);
 
             let syncCorrectionScalarX = 1;

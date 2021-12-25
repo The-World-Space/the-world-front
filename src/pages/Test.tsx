@@ -25,15 +25,15 @@ function Test() {
                     {
                         jwt &&
                         <>
-                        <div>
-                            <p>id: {user?.id}</p>
-                        </div>
-                        <div>
-                            <p>nickname: {user?.nickname}</p>
-                        </div>
-                        <div>
-                            <button onClick={onSave}>save</button>
-                        </div>
+                            <div>
+                                <p>id: {user?.id}</p>
+                            </div>
+                            <div>
+                                <p>nickname: {user?.nickname}</p>
+                            </div>
+                            <div>
+                                <button onClick={onSave}>save</button>
+                            </div>
                         </>
                     }
                 </div>

@@ -19,8 +19,9 @@ export class ZaxisInitializer extends ZaxisSortable {
         this.gameObject.getComponentsInChildren().forEach(component => {
             const cAny = component as any;
             if (cAny.onSortByZaxis) {
-                if (typeof cAny.onSortByZaxis === "function")
-                cAny.onSortByZaxis(this.gameObject.transform.position.z);
+                if (typeof cAny.onSortByZaxis === "function") {
+                    cAny.onSortByZaxis(this.gameObject.transform.position.z);
+                }
             }
         });
     }

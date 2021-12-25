@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef } from "react";
 //import { TestBootstrapper } from "../game/TestBootstrapper";
 import { Game } from "../game/engine/Game";

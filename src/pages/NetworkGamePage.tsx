@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
 import { Game } from "../game/engine/Game";
 import { useAsync } from "react-use";

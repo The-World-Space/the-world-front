@@ -99,13 +99,13 @@ function Register() {
                 <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
                 <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setConfirmPw(e.target.value)} type="password" placeholder="Password Conform" /> </div>
                 {(pw !== confirmPw && confirmPw !== "") &&
-                    <p style={{color: "red"}}>"패스워드가 서로 같지 않습니다!"</p>
+                    <p style={{color: "red"}}>&quot;패스워드가 서로 같지 않습니다!&quot;</p>
                 }
                 <div> <BlackSubmitButton onClick={() => onSubmit()}>submit</BlackSubmitButton> </div>
                 
             </ContentDiv>
         </NavTemplate>
-    )
+    );
 }
 
 export default Register;

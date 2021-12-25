@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useAsync } from "react-use";
 import styled from "styled-components";
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-`
+`;
 
 const HorizentalLine = styled.div`
     width: 100%;
@@ -25,7 +25,7 @@ const HorizentalLine = styled.div`
 
     margin-bottom: 23px;
 
-`
+`;
 
 const MyworldText = styled.span`
     margin-top: 72px;
@@ -35,7 +35,7 @@ const MyworldText = styled.span`
     font-size: 32px;
     font-weight: 500;
     font-family: Noto Sans;
-`
+`;
 
 
 const WorldListDiv = styled.div`
@@ -49,7 +49,7 @@ const WorldListDiv = styled.div`
     box-sizing: border-box;
     padding-left: 10px;
     padding-right: 10px;
-`
+`;
 
 const WorldItem = styled.div`
     width: 100%;
@@ -70,13 +70,13 @@ const WorldItem = styled.div`
     :hover {
         cursor: pointer;
     }
-`
+`;
 
 const WorldItemLeft = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-`
+`;
 
 const ThumbnailImage = styled.img`
     width: 144px;
@@ -85,7 +85,7 @@ const ThumbnailImage = styled.img`
     border-radius: 100%;
 
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
-`
+`;
 
 const WorldItemInfo = styled.div`
     height: 100%;
@@ -95,19 +95,19 @@ const WorldItemInfo = styled.div`
     justify-content: center;
 
     margin-left: 20px;
-`
+`;
 
 const Title = styled.span`
     font-size: 20px;
     font-weight: 400;
     font-family: Noto Sans;
-`
+`;
     
 const SubTitle = styled.span`
     font-size: 16px;
     font-weight: 400;
     font-family: Noto Sans;
-`
+`;
 
 const WorldItemRight = styled.div`
     width: 144px;
@@ -117,7 +117,7 @@ const WorldItemRight = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`
+`;
 
 const GreenCircle = styled.div`
     width: 56px;
@@ -129,13 +129,13 @@ const GreenCircle = styled.div`
     border-radius: 100%;
 
     background-color: #83CE8B;
-`
+`;
 
 const StyledPlusButton = styled(PlusButton)`
     :hover {
         cursor: pointer;
     }
-`
+`;
 
 
 
@@ -148,39 +148,39 @@ function MyWorldList() {
 
     useEffect(() => {
         if (!logged) history.push("/welcome");
-    })
+    });
 
     return (
         <>
-        {worldList.loading 
-          ? <h1>loading...</h1> 
-          : <NavTemplate showNavContent={true}>
-                <Wrapper>
-                    <MyworldText>MY WORLDS</MyworldText>
-                    <HorizentalLine />
-                    <WorldListDiv>
-                        {worldList.value?.map(item => 
-                            <WorldItem onClick={() => history.push(`/world/${item.id}`)} key={item.id}>
-                                <WorldItemLeft>
-                                    <ThumbnailImage src={twLogo1} />
-                                    <WorldItemInfo>
-                                        <Title>{item.name}</Title>
-                                        <SubTitle></SubTitle>
-                                    </WorldItemInfo>
-                                </WorldItemLeft>
-                                <WorldItemRight>
-                                    <GreenCircle />
-                                    <SubTitle>
-                                        &nbsp;
-                                    </SubTitle>
-                                </WorldItemRight>
-                            </WorldItem>
-                        )}
-                        <StyledPlusButton onClick={() => history.push("/createworld")} />
-                    </WorldListDiv>
-                </Wrapper>
-            </NavTemplate>
-        }
+            {worldList.loading 
+                ? <h1>loading...</h1> 
+                : <NavTemplate showNavContent={true}>
+                    <Wrapper>
+                        <MyworldText>MY WORLDS</MyworldText>
+                        <HorizentalLine />
+                        <WorldListDiv>
+                            {worldList.value?.map(item => 
+                                <WorldItem onClick={() => history.push(`/world/${item.id}`)} key={item.id}>
+                                    <WorldItemLeft>
+                                        <ThumbnailImage src={twLogo1} />
+                                        <WorldItemInfo>
+                                            <Title>{item.name}</Title>
+                                            <SubTitle></SubTitle>
+                                        </WorldItemInfo>
+                                    </WorldItemLeft>
+                                    <WorldItemRight>
+                                        <GreenCircle />
+                                        <SubTitle>
+                                            &nbsp;
+                                        </SubTitle>
+                                    </WorldItemRight>
+                                </WorldItem>
+                            )}
+                            <StyledPlusButton onClick={() => history.push("/createworld")} />
+                        </WorldListDiv>
+                    </Wrapper>
+                </NavTemplate>
+            }
         </>
     );
 }
