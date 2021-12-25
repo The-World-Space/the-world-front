@@ -11,6 +11,7 @@ export class EditorCameraController extends Component {
     private _mouseMiddleDown: boolean = false;
     private readonly _lastOffset: Vector2 = new Vector2();
     private _minViewSize: number = 10;
+    private _maxViewSize: number = 80;
     private _defaultViewSize: number = 200;
     private readonly _defaultPosition = new Vector3();
     private _onKeyDownBind = this.onKeyDown.bind(this);
@@ -57,6 +58,8 @@ export class EditorCameraController extends Component {
         this._camera!.viewSize += event.deltaY * 0.1;
         if (this._camera!.viewSize < this._minViewSize) {
             this._camera!.viewSize = this._minViewSize;
+        } else if (this._camera!.viewSize > this._maxViewSize) {
+            this._camera!.viewSize = this._maxViewSize;
         }
     }
 
@@ -104,6 +107,18 @@ export class EditorCameraController extends Component {
 
         if (this._camera!.viewSize < this._minViewSize) {
             this._camera!.viewSize = this._minViewSize;
+        }
+    }
+
+    public get maxViewSize(): number {
+        return this._maxViewSize;
+    }
+
+    public set maxViewSize(value: number) {
+        this._maxViewSize = value;
+
+        if (this._camera!.viewSize > this._maxViewSize) {
+            this._camera!.viewSize = this._maxViewSize;
         }
     }
 }
