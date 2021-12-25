@@ -146,7 +146,7 @@ interface PropsType {
     opened: boolean;
 }
 
-enum Tools {
+export enum Tools {
     Pen,
     Eraser,
     Collider,
