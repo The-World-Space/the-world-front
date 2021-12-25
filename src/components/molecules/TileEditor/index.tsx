@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { ObjEditorContext } from "../../../context/contexts";
 import { Game } from "../../../game/engine/Game";
 import { GameStateKind } from "../../../game/engine/GameState";
 import { EditorInfoObject, TileEditorBootstraper } from "./TileEditorBootstraper";
-// import { Game } from "../../../game/engine/Game";
-// import { EditorInfoObject, TileEditorBootstraper } from "./TileEditorBootstraper";
 
 const DrawArea = styled.div`
     width: 427px;
@@ -26,7 +25,7 @@ interface TileEditorProps {
 
 function TileEditor({ opened }: TileEditorProps) {
     const divRef = useRef<HTMLDivElement>(null);
-    const [game, setGame] = useState<Game | null>(null);
+    const {game, setGame} = useContext(ObjEditorContext);
     
     useEffect(() => {
         if (!divRef.current) throw new Error("divRef.current is null");
@@ -41,7 +40,7 @@ function TileEditor({ opened }: TileEditorProps) {
         return () => {
             game.dispose();
         }
-    }, []);
+    }, [setGame]);
 
     useEffect(() => {
         if (!game) return;

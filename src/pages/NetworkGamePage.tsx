@@ -11,6 +11,7 @@ import { Networker } from '../game/script/Networker';
 import { PenpalNetworker } from '../game/penpal/PenpalNetworker';
 import { WidgetManager } from '../game/script/WidgetManager';
 import styled from 'styled-components';
+import { GameProvider } from '../context/Provider';
 
 const Container = styled.div`
     display: flex;
@@ -81,17 +82,19 @@ function NetworkGamePage() {
     }, [worldId, world, user, error]);
 
     return (
-        <Container>
-            <IngameInterfaceContainer>
-                <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
-            </IngameInterfaceContainer>
-            <GameContainer>
-                <WidgetContainer>
-                    <WidgetWrapper ref={widgetWrapperdiv}/> 
-                </WidgetContainer>
-                <GameView ref={div}/>
-            </GameContainer>
-        </Container>
+        <GameProvider>
+            <Container>
+                <IngameInterfaceContainer>
+                    <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
+                </IngameInterfaceContainer>
+                <GameContainer>
+                    <WidgetContainer>
+                        <WidgetWrapper ref={widgetWrapperdiv}/> 
+                    </WidgetContainer>
+                    <GameView ref={div}/>
+                </GameContainer>
+            </Container>
+        </GameProvider>
     );
 }
 
