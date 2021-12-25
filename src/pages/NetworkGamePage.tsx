@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { TheWorldBootstrapper, NetworkInfoObject } from '../game/TheWorldBootstrapper';
 import { Game } from '../game/engine/Game';
 import { useAsync } from 'react-use';
@@ -12,6 +12,7 @@ import { PenpalNetworker } from '../game/penpal/PenpalNetworker';
 import { WidgetManager } from '../game/script/WidgetManager';
 import styled from 'styled-components';
 import { GameProvider } from '../context/Provider';
+import { WorldEditorContext } from '../context/contexts';
 
 const Container = styled.div`
     display: flex;
@@ -59,6 +60,7 @@ function NetworkGamePage() {
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
     const { value: world, error } = useAsync(() => getWorld(worldId, globalApolloClient));
+    const { setGame, worldEditorConnector } = useContext(WorldEditorContext);
     const user = useUser();
     
     useEffect(() => { //on component mounted
@@ -70,7 +72,8 @@ function NetworkGamePage() {
         const networkManager = new Networker(world.id, user.id, globalApolloClient);
         const penpalNetworkWrapper = new PenpalNetworker(world.id, globalApolloClient);
         const widgetManager = new WidgetManager(penpalNetworkWrapper, world, widgetWrapperdiv.current, []);
-        game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper));
+        game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper, worldEditorConnector));
+        setGame(game);
         joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
             game.inputHandler.startHandleEvents();
         });
@@ -79,7 +82,7 @@ function NetworkGamePage() {
             game.dispose();
             widgetManager.dispose();
         };
-    }, [worldId, world, user, error]);
+    }, [worldId, world, user, error, setGame, worldEditorConnector]);
 
     return (
         <GameProvider>
