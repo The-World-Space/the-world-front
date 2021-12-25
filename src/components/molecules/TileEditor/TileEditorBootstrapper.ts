@@ -109,6 +109,7 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
                     c.pointerEvents = false;
                     c.imageCenterOffset = new Vector2(0.5, 0.5);
                 })
+                .withComponent(EditorViewObjectController)
                 .getComponent(EditorViewObjectController, editorViewObjectController));
     }
 }
