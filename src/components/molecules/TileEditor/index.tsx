@@ -25,12 +25,12 @@ interface TileEditorProps {
 
 function TileEditor({ opened }: TileEditorProps) {
     const divRef = useRef<HTMLDivElement>(null);
-    const {game, setGame} = useContext(ObjEditorContext);
+    const {game, setGame, objEditorConnector} = useContext(ObjEditorContext);
     
     useEffect(() => {
         if (!divRef.current) throw new Error("divRef.current is null");
         const game = new Game(divRef.current);
-        game.run(TileEditorBootstraper, new EditorInfoObject(divRef.current));
+        game.run(TileEditorBootstraper, new EditorInfoObject(divRef.current, objEditorConnector));
         divRef.current.onmouseenter = () => game.inputHandler.startHandleEvents();
         divRef.current.onmouseleave = () => game.inputHandler.stopHandleEvents();
         divRef.current.onwheel = e => e.preventDefault();
@@ -40,7 +40,7 @@ function TileEditor({ opened }: TileEditorProps) {
         return () => {
             game.dispose();
         }
-    }, [setGame]);
+    }, [setGame, objEditorConnector]);
 
     useEffect(() => {
         if (!game) return;

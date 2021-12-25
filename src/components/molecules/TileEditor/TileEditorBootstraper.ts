@@ -6,6 +6,7 @@ import { Color } from "../../../game/engine/render/Color";
 import { GridInputPrefab } from "../../../game/prefab/GridInputPrefab";
 import { EditorCameraController } from "../../../game/script/controller/EditorCameraController";
 import { GridPointer } from "../../../game/script/input/GridPointer";
+import { ObjEditorConnector } from "../../../game/script/ObjEditorConnector";
 import { GridCollideMap } from "../../../game/script/physics/GridColideMap";
 import { EditorGridRenderer } from "../../../game/script/post_render/EditorGridRenderer";
 import { Camera } from "../../../game/script/render/Camera";
@@ -13,15 +14,22 @@ import { CssSpriteRenderer } from "../../../game/script/render/CssSpriteRenderer
 
 export class EditorInfoObject {
     private readonly _eventTargetDom: HTMLElement;
+    private readonly _objEditorConnector: ObjEditorConnector;
 
     public constructor(
-        eventTargetDom: HTMLElement
+        eventTargetDom: HTMLElement,
+        objEditorConnector: ObjEditorConnector,
     ) {
         this._eventTargetDom = eventTargetDom;
+        this._objEditorConnector = objEditorConnector;
     }
     
     public get eventTargetDom(): HTMLElement {
         return this._eventTargetDom;
+    }
+
+    public get objEditorConnector(): ObjEditorConnector {
+        return this._objEditorConnector;
     }
 }
 

@@ -3,6 +3,7 @@ import { AuthContext, ObjEditorContext } from "./contexts";
 import { useRawState } from "../hooks/StickyState";
 import { JWT_KEY } from "./consts";
 import { Game } from "../game/engine/Game";
+import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 
 export const Provider: React.FC = ({ children }) => {
     return (
@@ -40,10 +41,12 @@ export const GameProvider: React.FC = ({ children }) => {
 
 const ObjEditorContextProvider: React.FC = ({ children }) => {
     const [game, setGame] = useState<Game | null>(null);
-
+    const [objEditorConnector] = useState(new ObjEditorConnector());
+    
     const state = {
         game,
         setGame,
+        objEditorConnector,
     }
 
     return (
