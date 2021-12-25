@@ -40,6 +40,24 @@ export class TileEditorBootstraper extends Bootstrapper<EditorInfoObject> {
         const collideMap = new PrefabRef<GridCollideMap>();
         const gridPointer = new PrefabRef<GridPointer>();
 
+        this.interopObject!.objEditorConnector.action = {
+            setToolType(tools) {
+
+            },
+            getColliders() {
+                return [];
+            },
+            setColliders(colliders) {
+
+            },
+            clearColliders() {
+
+            },
+            setViewObject(shape, width, height) {
+
+            }
+        }
+
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject("camera", new Vector3(0, 0, 100))
                 .withComponent(Camera, c => {
