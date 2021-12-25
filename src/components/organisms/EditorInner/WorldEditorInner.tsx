@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useMemo, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
@@ -8,6 +8,7 @@ import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
 import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
+import { gql, useQuery } from "@apollo/client";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -195,6 +196,24 @@ const ToolsWrapper = styled.div<{selected: number}>`
 `
 
 
+const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
+    query myIframeGOProtos {
+        myImageGameObjectProtos {
+            id
+            isPublic
+            width
+            height
+            type
+            colliders {
+                x
+                y
+                isBlocked
+            }
+            src
+        }
+    }
+`
+
 
 interface PropsType {
     worldId: string;
@@ -214,10 +233,18 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
     const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Object List"}), []);
 
-    const [datas] = useState<{
+    const myImageGameObjectProtos = useQuery(MY_IMAGE_GAME_OBJECT_PROTOS);
+    interface DataType {
         left: PhotoElementData[];
         right: PhotoElementData[];
-    }>({left: [], right: []});
+    }
+    const datas = 
+        useMemo<DataType>(() => ({
+            left: [], 
+            right: myImageGameObjectProtos.data?.myImageGameObjectProtos || []
+        }), [
+            myImageGameObjectProtos.data
+        ]);
 
     const [iframeWidth, setIframeWidth] = useState('1');
     const [iframeHeight, setIframeHeight] = useState('1');
@@ -228,6 +255,13 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
     const onSelectTool = useCallback((tool: Tools) => {
         setSelectedTool(tool);
     }, []);
+
+
+    useEffect(() => {
+        if (myImageGameObjectProtos.error) throw myImageGameObjectProtos.error;
+    }, [
+        myImageGameObjectProtos.error
+    ])
 
     return (
         <ExpandBarDiv opened={opened}>

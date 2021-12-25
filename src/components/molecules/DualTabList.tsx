@@ -159,10 +159,12 @@ const ElementName = styled.span`
     font-size: 14px;
 `
 
-export interface PhotoElementData {
+export type PhotoElementData = PhotoSrcData;
+
+
+interface PhotoSrcData {
     id: number,
     src: string,
-    name: string,
 }
 
 interface PhotoElementProps {
@@ -175,7 +177,7 @@ const PhotoElement = React.memo(({ onSelect, selected, data }: PhotoElementProps
     return (
         <ElementWrapperDIv onClick={() => onSelect(data.id)}>
             <ElementThumbnail src={data.src} />
-            <ElementName>{data.name}</ElementName>
+            <ElementName>{data.id}</ElementName>
         </ElementWrapperDIv>
     );
 });
