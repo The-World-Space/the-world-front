@@ -101,8 +101,10 @@ export class EditorCameraController extends Component {
         const clientXdiff = clientOffsetX - this._lastOffset.x;
         const clientYdiff = clientOffsetY - this._lastOffset.y;
 
-        this.gameObject.transform.position.x -= clientXdiff * this._currentViewSize;
-        this.gameObject.transform.position.y += clientYdiff * this._currentViewSize;
+        const aspect = this.engine.screen.width / this.engine.screen.height;
+
+        this.gameObject.transform.position.x -= clientXdiff * this._camera!.viewSize * aspect;
+        this.gameObject.transform.position.y += clientYdiff * this._camera!.viewSize;
 
         this._lastOffset.set(clientOffsetX, clientOffsetY);
     }

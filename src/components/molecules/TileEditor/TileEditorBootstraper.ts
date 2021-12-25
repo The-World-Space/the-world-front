@@ -49,7 +49,7 @@ export class TileEditorBootstraper extends Bootstrapper<EditorInfoObject> {
                 .withComponent(EditorCameraController)
                 .withComponent(EditorGridRenderer, c => {
                     c.renderWidth = 100;
-                    c.renderHeight = 500;//
+                    c.renderHeight = 500;
                 }))
 
             .withChild(instantlater.buildGameObject("collide_map")
