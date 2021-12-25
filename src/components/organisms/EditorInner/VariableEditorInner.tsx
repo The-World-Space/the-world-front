@@ -59,7 +59,7 @@ interface PropsType {
     opened: boolean;
 }
 
-function VariableEditorInner({ worldId, opened }: PropsType) {
+function VariableEditorInner({ /*worldId,*/ opened }: PropsType) {
     
     return (
         <ExpandBarDiv opened={opened}>

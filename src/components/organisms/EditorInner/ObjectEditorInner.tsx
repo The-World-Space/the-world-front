@@ -155,7 +155,7 @@ export enum Tools {
     Sizer
 }
 
-function ObjectEditorInner({ worldId, opened }: PropsType) {
+function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const {objEditorConnector} = useContext(ObjEditorContext);
 
     const [tab, setTab] = useState(0);

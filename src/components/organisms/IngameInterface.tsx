@@ -342,7 +342,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
             <ChatButton onClick={() => chatToggle()}/>
             <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
                 <ChatContentDiv ref={ref}>
-                    {chatting.map((data, index) => (
+                    {chatting.map((data/*, index*/) => (
                         <p key={data.key}>
                             {data.user.nickname}: {data.message}
                         </p>

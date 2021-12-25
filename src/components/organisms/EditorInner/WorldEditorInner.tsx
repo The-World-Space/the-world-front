@@ -228,7 +228,7 @@ enum Tools {
     Sizer
 }
 
-function WorldEditorInner({ worldId, opened }: PropsType) {
+function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const [tab, setTab] = useState(0);
     const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Object List"}), []);
