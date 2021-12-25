@@ -5,10 +5,8 @@ import /*React,*/ { createContext } from "react";
 //     return (() => { }) as React.Dispatch<React.SetStateAction<T>>;
 // }
 
-const Context = createContext({
+export const AuthContext = createContext({
     jwt: '',
     logged: false,
     setJwt: (_value:string)=>{},
 });
-
-export default Context;

@@ -3,7 +3,7 @@ import {
     useHistory,
     Link
 } from 'react-router-dom';
-import Context from '../context';
+import { AuthContext } from '../context/contexts';
 import { gql, useApolloClient } from '@apollo/client';
 import twLogo1 from '../components/atoms/tw logo 1.svg';
 import NavTemplate from "../components/templates/NavTemplate";
@@ -32,7 +32,7 @@ const LOGIN_QUERY = gql`
 function Login() {
     const history = useHistory();
 
-    const { setJwt } = useContext(Context);
+    const { setJwt } = useContext(AuthContext);
 
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');

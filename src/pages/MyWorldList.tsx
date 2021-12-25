@@ -4,7 +4,7 @@ import { useAsync } from "react-use";
 import styled from "styled-components";
 import twLogo1 from '../components/atoms/tw logo 1.svg';
 import NavTemplate from "../components/templates/NavTemplate";
-import Context from "../context";
+import { AuthContext } from "../context/contexts";
 import { globalApolloClient, getMyWorlds } from "../game/connect/gql";
 import { ReactComponent as PlusButton } from "../components/atoms/PlusIcon.svg";
 
@@ -142,7 +142,7 @@ const StyledPlusButton = styled(PlusButton)`
 
 
 function MyWorldList() {
-    const { logged } = useContext(Context);
+    const { logged } = useContext(AuthContext);
     const history = useHistory();
     const worldList = useAsync(async () => await getMyWorlds(globalApolloClient));
 

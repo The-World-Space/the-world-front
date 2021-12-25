@@ -1,10 +1,18 @@
 import React from "react";
-import Context from "./index";
+import { AuthContext } from "./contexts";
 import { useRawState } from "../hooks/StickyState";
 import { JWT_KEY } from "./consts";
 
 const Provider: React.FC = ({ children }) => {
-    
+    return (
+        <AuthContextProvider>
+            {children}
+        </AuthContextProvider>
+    );
+};
+
+
+const AuthContextProvider: React.FC = ({ children }) => {
     const [jwt, setJwt] = useRawState('', JWT_KEY);
     
     const state = {
@@ -14,10 +22,11 @@ const Provider: React.FC = ({ children }) => {
     }
 
     return (
-        <Context.Provider value={state}>
+        <AuthContext.Provider value={state}>
             {children}
-        </Context.Provider>
+        </AuthContext.Provider>
     );
 };
+
 
 export default Provider;

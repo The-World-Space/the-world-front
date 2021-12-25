@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import {
     useHistory
 } from 'react-router-dom';
-import Context from '../context';
+import { AuthContext } from '../context/contexts';
 import { useContext } from 'react';
 
 function Logout() {
     const history = useHistory();
-    const { setJwt } = useContext(Context);
+    const { setJwt } = useContext(AuthContext);
 
     useEffect(() => {
         setJwt('');

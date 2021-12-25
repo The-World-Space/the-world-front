@@ -1,4 +1,4 @@
-import Context from "../../context";
+import { AuthContext } from "../../context/contexts";
 import {
     Link, useHistory
 } from 'react-router-dom';
@@ -49,7 +49,7 @@ interface NavigationBarProps {
 }
 
 function NavigationBar(props: NavigationBarProps) {
-    const { logged } = useContext(Context);
+    const { logged } = useContext(AuthContext);
     const history = useHistory();
 
     return (

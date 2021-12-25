@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Context from '../context';
+import { AuthContext } from '../context/contexts';
 import { useContext } from 'react';
 import useUser from "../hooks/useUser";
 
 function Test() {
 
-    const { jwt, setJwt } = useContext(Context);
+    const { jwt, setJwt } = useContext(AuthContext);
     const user = useUser();
     const [token, setToken] = useState('');
 
