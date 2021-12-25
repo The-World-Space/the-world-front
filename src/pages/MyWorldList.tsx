@@ -141,7 +141,7 @@ const StyledPlusButton = styled(PlusButton)`
 
 
 
-function MyWorldList() {
+function MyWorldList(): JSX.Element {
     const { logged } = useContext(AuthContext);
     const history = useHistory();
     const worldList = useAsync(async () => await getMyWorlds(globalApolloClient));

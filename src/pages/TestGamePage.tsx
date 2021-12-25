@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { Game } from "../game/engine/Game";
 import { TileEditorBootstrapper } from "../components/molecules/TileEditor/TileEditorBootstrapper";
 
-function TestGamePage() {
+function TestGamePage(): JSX.Element {
     const div = useRef<HTMLDivElement>(null);
 
     useEffect(() => { //on component mounted

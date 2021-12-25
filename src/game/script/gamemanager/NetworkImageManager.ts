@@ -25,17 +25,17 @@ export class NetworkImageManager extends Component {
         this._imageList = [...val];
     }
 
-    public start() {
+    public start(): void {
         this._imageList.forEach(info => this.addOneImage(info));
     }
 
-    public addOneImage(info: Server.ImageGameObject) {
+    public addOneImage(info: Server.ImageGameObject): void {
         
         this._imageList.push(info);
         this._buildNetworkImage(info);
     }
 
-    private _buildNetworkImage(imageInfo: Server.ImageGameObject) {
+    private _buildNetworkImage(imageInfo: Server.ImageGameObject): void {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCollidable?.gridCenterX || 8;

@@ -19,7 +19,7 @@ interface XY {
 
 const circleColors = ["B55FDD", "7997FF", "5AB0FF", "AFF876", "F8FB67", "FA9F5D", "F46969"];
 
-function genCircles(startColor: number) {
+function genCircles(startColor: number): ICircle[] {
     const circles: ICircle[] = [];
 
     let position = 0;
@@ -73,7 +73,7 @@ const Centerer = styled.div`
     flex-direction: column;
 `;
 
-function Circle({ x, y, r, color }: ICircle) {
+function Circle({ x, y, r, color }: ICircle): JSX.Element {
     return (
         <div style={{
             position: "absolute",
@@ -89,7 +89,7 @@ function Circle({ x, y, r, color }: ICircle) {
     );
 }
 
-function CircleContainer() {
+function CircleContainer(): JSX.Element {
     const startColor = Math.floor(Math.random() * circleColors.length);
     const [circles, setCircles] = useState(() => genCircles(startColor));
     
@@ -129,7 +129,7 @@ const Title = styled.h1`
     margin-bottom: 0;
 `;
 
-function Notfound(){
+function Notfound(): JSX.Element {
     return (
         <div>
             <CircleContainer/>

@@ -173,7 +173,7 @@ interface PhotoElementProps {
     data: PhotoElementData;
 }
 
-const PhotoElement_ = ({ onSelect, selected, data }: PhotoElementProps) => {
+const PhotoElement_ = ({ onSelect, /*selected,*/ data }: PhotoElementProps) => {
     return (
         <ElementWrapperDIv onClick={() => onSelect(data.id)}>
             <ElementThumbnail src={data.src} />

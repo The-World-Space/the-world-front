@@ -29,7 +29,7 @@ const LOGIN_QUERY = gql`
     }
 `;
 
-function Login() {
+function Login(): JSX.Element {
     const history = useHistory();
 
     const { setJwt } = useContext(AuthContext);

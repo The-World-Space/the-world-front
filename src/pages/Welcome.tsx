@@ -22,7 +22,7 @@ const ContentDetailDiv = styled.div`
     width: 100%;
 `;
 
-function Welcome() {
+function Welcome(): JSX.Element {
     return (
         <NavTemplate showNavContent={true}>
             <ContentDiv>

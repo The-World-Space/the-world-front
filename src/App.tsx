@@ -18,7 +18,7 @@ import IngameInterface from "./components/organisms/IngameInterface";
 import TestGamePage from "./pages/TestGamePage";
 import NetworkGamePage from "./pages/NetworkGamePage";
 
-function App() {
+function App(): JSX.Element {
     return (
         <Router>
             <Switch>

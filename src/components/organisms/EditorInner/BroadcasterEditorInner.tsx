@@ -27,7 +27,7 @@ interface PropsType {
     opened: boolean;
 }
 
-function BroadcasterEditorInner({ worldId, opened }: PropsType) {
+function BroadcasterEditorInner({ /*worldId,*/ opened }: PropsType) {
     return (
         <ExpandBarDiv opened={opened}>
             broadcaster

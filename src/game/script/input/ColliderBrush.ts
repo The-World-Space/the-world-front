@@ -52,7 +52,7 @@ export class ColliderBrush extends Component {
         }
     }
 
-    private onPointerUp(_: PointerGridEvent) {
+    private onPointerUp() {
         this._pointerDown = false;
     }
 

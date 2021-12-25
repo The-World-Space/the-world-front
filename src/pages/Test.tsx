@@ -3,7 +3,7 @@ import { AuthContext } from "../context/contexts";
 import { useContext } from "react";
 import useUser from "../hooks/useUser";
 
-function Test() {
+function Test(): JSX.Element {
 
     const { jwt, setJwt } = useContext(AuthContext);
     const user = useUser();

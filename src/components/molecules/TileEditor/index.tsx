@@ -24,7 +24,7 @@ interface TileEditorProps {
     opened: boolean;
 }
 
-function TileEditor({ opened }: TileEditorProps) {
+function TileEditor({ opened }: TileEditorProps): JSX.Element {
     const divRef = useRef<HTMLDivElement>(null);
     const {game, setGame, objEditorConnector} = useContext(ObjEditorContext);
     

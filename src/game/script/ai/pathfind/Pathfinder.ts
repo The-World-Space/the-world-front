@@ -14,7 +14,7 @@ export class Pathfinder {
         this.collideMaps = collideMaps?.slice() ?? [];
     }
 
-    public addCollideMap(collideMap: IGridCollidable) {
+    public addCollideMap(collideMap: IGridCollidable): void {
         this.collideMaps.push(collideMap);
     }
 

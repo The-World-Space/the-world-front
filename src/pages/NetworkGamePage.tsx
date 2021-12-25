@@ -55,7 +55,7 @@ const GameView = styled.div`
     position: absolute;
 `;
 
-function NetworkGamePage() {
+function NetworkGamePage(): JSX.Element {
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();

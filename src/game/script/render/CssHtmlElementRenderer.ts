@@ -53,7 +53,7 @@ export class CssHtmlElementRenderer extends Component {
         return this._htmlDivElement;
     }
 
-    public setElement(value: HTMLDivElement|null) {
+    public setElement(value: HTMLDivElement|null): void {
         if (!this.started && !this.starting) {
             this._initializeFunction = () => {
                 this.setElement(value);

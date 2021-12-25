@@ -14,7 +14,7 @@ export const FORM_FONT_WEIGHT = "normal";
 export const FORMTITLE_FONT_WEIGHT = "bold";
 export const FORM_FONT_SIZE = "16px";
 
-export function loadGlobalEnviroments() {
+export function loadGlobalEnviroments(): void {
     const newStyle = document.createElement("style");
     newStyle.appendChild(document.createTextNode(`
     @font-face {

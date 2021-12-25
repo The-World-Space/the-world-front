@@ -20,16 +20,16 @@ export class NetworkColiderManager extends Component {
         this._worldGridColliderMap = val;
     }
 
-    public start() {
+    public start(): void {
         this._colliderList.forEach(info => this.addOneCollider(info));
     }
 
-    public addOneCollider(info: Server.Collider) {
+    public addOneCollider(info: Server.Collider): void {
         this._colliderList.push(info);
         this._buildNetworkIframe(info);
     }
 
-    private _buildNetworkIframe(colliderInfo: Server.Collider) {
+    private _buildNetworkIframe(colliderInfo: Server.Collider): void {
         if (!this._worldGridColliderMap.ref) throw new Error("worldGridColliderMap is null");
         
         if (colliderInfo.isBlocked)

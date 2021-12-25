@@ -31,7 +31,7 @@ const REGISTER = gql`
     }
 `;
 
-function Register() {
+function Register(): JSX.Element {
 
     const history = useHistory();
 

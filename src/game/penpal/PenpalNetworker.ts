@@ -19,7 +19,7 @@ export class PenpalNetworker {
         this._initNetwork();
     }
 
-    private _initNetwork() {
+    private _initNetwork(): void {
         // Update field
         this._client.subscribe({
             query: gql`
@@ -62,7 +62,7 @@ export class PenpalNetworker {
     }
 
 
-    public async setFieldValue(id: number | undefined, value: string) {
+    public async setFieldValue(id: number | undefined, value: string): Promise<void> {
         await this._client.mutate({
             mutation: gql`
             mutation SetFieldValue($id: Int!, $value: String!) {
@@ -76,7 +76,7 @@ export class PenpalNetworker {
         });
     }
 
-    public async broadcast(id: number | undefined, message: string) {
+    public async broadcast(id: number | undefined, message: string): Promise<void> {
         await this._client.mutate({
             mutation: gql`
             mutation Broadcast($id: Int!, $message: String!) {
@@ -90,7 +90,7 @@ export class PenpalNetworker {
         });
     }
 
-    public async getUser(id?: string) {
+    public async getUser(id?: string): Promise<Server.User | null> {
         if (id === undefined) {
             const result = await this._client.query({
                 query: gql`

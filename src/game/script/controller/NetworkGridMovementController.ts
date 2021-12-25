@@ -42,7 +42,7 @@ export class NetworkGridMovementController extends Directionable {
         networkManager.ee.on(`move_${userId}`, this.onMove);
     }
 
-    public onMove(pos: Vector2) {
+    public onMove(pos: Vector2): void {
         this._targetGridPosition.setX(pos.x * this._gridCellWidth + this._gridCenter.x);
         this._targetGridPosition.setY(pos.y * this._gridCellHeight + this._gridCenter.y);
         this.isMoving = true;

@@ -42,11 +42,11 @@ export class NetworkIframeManager extends Component {
         this._penpalNetworkWrapper = val;
     }
 
-    public start() {
+    public start(): void {
         this._iframeList.forEach(info => this.addOneIframe(info));
     }
 
-    public addOneIframe(info: Server.IframeGameObject) {
+    public addOneIframe(info: Server.IframeGameObject): void {
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!this._worldId) throw new Error("no world id");
         
@@ -54,7 +54,7 @@ export class NetworkIframeManager extends Component {
         this._buildNetworkIframe(info, this._worldId, this._apolloClient);
     }
 
-    private _buildNetworkIframe(iframeInfo: Server.IframeGameObject, worldId: string, apolloClient: ApolloClient<any>) {
+    private _buildNetworkIframe(iframeInfo: Server.IframeGameObject, worldId: string, apolloClient: ApolloClient<any>): void {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCollidable?.gridCenterX || 8;

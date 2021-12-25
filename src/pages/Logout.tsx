@@ -6,7 +6,7 @@ import {
 import { AuthContext } from "../context/contexts";
 import { useContext } from "react";
 
-function Logout() {
+function Logout(): JSX.Element {
     const history = useHistory();
     const { setJwt } = useContext(AuthContext);
 

@@ -22,7 +22,7 @@ export class PenpalConnection extends Component {
         this._penpalNetworkWrapper = value;
     }
 
-    public start() {
+    public start(): void {
         if (!this._iframeInfo) throw new Error("Iframe info is not set");
         if (!this._penpalNetworkWrapper) throw new Error("Penpal network wrapper is not set");
         const iframeRenderer = this.gameObject.getComponent(IframeRenderer);
