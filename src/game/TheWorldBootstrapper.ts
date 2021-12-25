@@ -52,6 +52,10 @@ export class NetworkInfoObject {
     public get penpalNetworkManager(): PenpalNetworker {
         return this._penpalNetworkManager;
     }
+
+    public get worldEditorConnector(): WorldEditorConnector {
+        return this._worldEditorConnector;
+    }
 }
 
 export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {

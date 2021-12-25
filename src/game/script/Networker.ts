@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { TypedEmitter } from 'detail-typed-emitter';
+import { TypedEmitter, DumbTypedEmitter } from 'detail-typed-emitter';
 import { Vector2 } from "three";
 import { Server } from "../connect/types";
 
@@ -7,20 +7,25 @@ type characterId = string;
 
 
 type EETypes = [
-    [`join`,                    (user: Server.User, spawnPoint: Vector2) => void],
     [`move_${characterId}`,     (pos: Vector2) => void],
     [`leave_${characterId}`,    () => void],
-    [`player_move`,             (x: number, y: number) => void]
 ]
+
+type DEETypes = {
+    "join"        : (user: Server.User, spawnPoint: Vector2) => void,
+    "player_move" : (x: number, y: number) => void
+}
 
 export class Networker {
     private readonly _ee: TypedEmitter<EETypes>;
+    private readonly _dee: DumbTypedEmitter<DEETypes>;
     private readonly _characterMap: Set<characterId>;
 
     constructor(private readonly _worldId: string,
                 private readonly _playerId: string,
                 private readonly _client: ApolloClient<any>) {
         this._ee = new TypedEmitter<EETypes>();
+        this._dee = new DumbTypedEmitter<DEETypes>();
         this._characterMap = new Set();
         this._initNetwork();
         this._initEEListenters();
@@ -72,7 +77,7 @@ export class Networker {
 
     private _initEEListenters() {
         // player_move should only listened on this method.
-        this._ee.on("player_move", (x, y) => {
+        this._dee.on("player_move", (x, y) => {
             this._client.mutate({
                 mutation: gql`
                     mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
@@ -102,7 +107,7 @@ export class Networker {
         
         newPlayers.forEach(e => {
             if (this._playerId === e.user.id) return;
-            this._ee.emit("join", e.user, new Vector2(e.x, e.y));
+            this._dee.emit("join", e.user, new Vector2(e.x, e.y));
             this._characterMap.add(e.user.id);
         });
         leftPlayers.forEach(e => {
@@ -117,6 +122,10 @@ export class Networker {
 
     get ee() {
         return this._ee;
+    }
+
+    get dee() {
+        return this._dee;
     }
 }
 

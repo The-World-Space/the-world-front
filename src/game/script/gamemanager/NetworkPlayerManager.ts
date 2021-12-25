@@ -17,7 +17,7 @@ export class NetworkPlayerManager extends Component {
 
     public initNetwork(networkManager: Networker) {
         this._networkManager = networkManager;
-        networkManager.ee.on('join', (user, pos) => {
+        networkManager.dee.on('join', (user, pos) => {
             this._buildNetworkPlayer(user, pos, networkManager);
         });
     }
@@ -31,7 +31,7 @@ export class NetworkPlayerManager extends Component {
         if (!component) throw new Error("no PlayerGridMovementController component");
         
         component.addOnMoveToTargetEventListener((x, y) => {
-            this._networkManager!.ee.emit('player_move', x, y);
+            this._networkManager!.dee.emit('player_move', x, y);
         })
     }
 
