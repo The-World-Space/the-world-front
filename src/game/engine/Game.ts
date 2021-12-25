@@ -12,12 +12,13 @@ import { GameScreen } from "./render/GameScreen";
 import { BootstrapperConstructor } from "./bootstrap/BootstrapperConstructor";
 import { Transform } from "./hierarchy_object/Transform";
 import { CoroutineProcessor } from "./coroutine/CoroutineProcessor";
+import { Color } from "./render/Color";
 
 export class Game {
     private readonly _rootScene: Scene;
-    private readonly _cameraContainer: CameraContainer;
     private readonly _gameScreen: GameScreen;
     private readonly _renderer: CSS3DRenderer;
+    private readonly _cameraContainer: CameraContainer;
     private readonly _clock: THREE.Clock;
     private readonly _time: Time;
     private readonly _gameState: GameState;
@@ -32,13 +33,15 @@ export class Game {
 
     public constructor(container: HTMLElement) {
         this._rootScene = new Scene();
-        this._cameraContainer = new CameraContainer();
         this._gameScreen = new GameScreen(container.clientWidth, container.clientHeight);
         this._container = container;
         this._renderer = new CSS3DRenderer();
         this._renderer.setSize(container.clientWidth, container.clientHeight);
         this._renderer.domElement.style.width = "100%";
         this._renderer.domElement.style.height = "100%";
+        this._cameraContainer = new CameraContainer((color: Color) => {
+            this._renderer.domElement.style.backgroundColor = `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${color.a})`;
+        });
         this._clock = new THREE.Clock();
         this._time = new Time();
         this._gameState = new GameState(GameStateKind.WaitingForStart);

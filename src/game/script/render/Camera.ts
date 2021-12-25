@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
+import { CameraInfo } from "../../engine/render/CameraInfo";
+import { Color } from "../../engine/render/Color";
 
 export enum CameraType {
     Perspective,
@@ -14,6 +16,7 @@ export class Camera extends Component {
     private _near: number = 0.1;
     private _far: number = 1000;
     private _priority: number = 0;
+    private _backgroudColor: Color = new Color(1, 1, 1, 0);
     private readonly _onScreenResizeBind = this.onScreenResize.bind(this);
 
     public onEnable(): void {
@@ -64,7 +67,7 @@ export class Camera extends Component {
         } else {
             throw new Error("Camera type not supported");
         }
-        this.engine.cameraContainer.addCamera(this._camera, this._priority);
+        this.engine.cameraContainer.addCamera(this._camera, new CameraInfo(this._priority, this._backgroudColor));
     }
 
     private createNewPerspectiveCamera(): THREE.PerspectiveCamera {
@@ -193,6 +196,17 @@ export class Camera extends Component {
         this._priority = value;
         if (this._camera) {
             this.engine.cameraContainer.changeCameraPriority(this._camera, value);
+        }
+    }
+
+    public get backgroundColor(): Color {
+        return this._backgroudColor;
+    }
+
+    public set backgroundColor(value: Color) {
+        this._backgroudColor = value;
+        if (this._camera) {
+            this.engine.cameraContainer.changeCameraBackgroundColor(this._camera, value);
         }
     }
 }

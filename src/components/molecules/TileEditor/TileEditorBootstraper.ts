@@ -2,6 +2,7 @@ import { Vector3 } from "three";
 import { Bootstrapper } from "../../../game/engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "../../../game/engine/bootstrap/SceneBuilder";
 import { PrefabRef } from "../../../game/engine/hierarchy_object/PrefabRef";
+import { Color } from "../../../game/engine/render/Color";
 import { GridInputPrefab } from "../../../game/prefab/GridInputPrefab";
 import { EditorCameraController } from "../../../game/script/controller/EditorCameraController";
 import { GridPointer } from "../../../game/script/input/GridPointer";
@@ -35,6 +36,7 @@ export class TileEditorBootstraper extends Bootstrapper<EditorInfoObject> {
             .withChild(instantlater.buildGameObject("camera", new Vector3(0, 0, 100))
                 .withComponent(Camera, c => {
                     c.viewSize = 80;
+                    c.backgroundColor = new Color(0.9, 0.9, 0.9);
                 })
                 .withComponent(EditorCameraController)
                 .withComponent(EditorGridRenderer))
