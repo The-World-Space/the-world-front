@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -10,6 +10,7 @@ import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
 import { ReactComponent as BlueSaveIcon } from '../../atoms/BlueSaveIcon.svg';
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
+import { ObjEditorContext } from "../../../context/contexts";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -155,6 +156,8 @@ export enum Tools {
 }
 
 function ObjectEditorInner({ worldId, opened }: PropsType) {
+    const {objEditorConnector} = useContext(ObjEditorContext);
+
     const [tab, setTab] = useState(0);
     const onChangeTab = useCallback((index: number) => {
         if (index !== tab)
@@ -172,6 +175,9 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
             if (!window.confirm("unsaved data will be lost. continue?")) return;
             return ;
         }
+        if (tool === Tools.Collider || tool === Tools.Eraser) {
+            objEditorConnector.setToolType(tool);
+        }
         setSelectedTool(tool);
     }, []);
 
@@ -185,6 +191,8 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
         left: PhotoElementData[];
         right: PhotoElementData[];
     }>({left: [], right: []});
+
+    const inputFile = useRef<HTMLInputElement | null>(null);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -230,6 +238,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
                     onClick={save}
                 />
             </ToolsWrapper>
+            <input type='file' id='file' ref={inputFile} style={{display: 'none'}}/>
         </ExpandBarDiv>
     );
 }
