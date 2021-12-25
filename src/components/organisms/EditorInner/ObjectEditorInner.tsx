@@ -38,6 +38,9 @@ const Container = styled.div`
 
     box-sizing: border-box;
 
+    display: flex;
+    flex-direction: column;
+
     ::-webkit-scrollbar {
         width: 14px;
         padding: 10px 1px 10px 1px;

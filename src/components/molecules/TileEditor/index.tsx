@@ -7,7 +7,8 @@ import { EditorInfoObject, TileEditorBootstraper } from "./TileEditorBootstraper
 
 const DrawArea = styled.div`
     width: 427px;
-    height: 390px;
+    min-height: 390px;
+    flex: 1;
 
     overflow: hidden;
 
@@ -28,6 +29,7 @@ function TileEditor({ opened }: TileEditorProps) {
     const {game, setGame, objEditorConnector} = useContext(ObjEditorContext);
     
     useEffect(() => {
+        console.debug("mount");
         if (!divRef.current) throw new Error("divRef.current is null");
         const game = new Game(divRef.current);
         game.run(TileEditorBootstraper, new EditorInfoObject(divRef.current, objEditorConnector));
@@ -38,6 +40,7 @@ function TileEditor({ opened }: TileEditorProps) {
         setGame(game);
 
         return () => {
+            console.debug("unmount");
             game.dispose();
         }
     }, [setGame, objEditorConnector]);
