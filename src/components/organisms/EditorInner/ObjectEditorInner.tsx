@@ -33,6 +33,7 @@ const Container = styled.div`
     width: 100%;
     height: calc(100% - 70px);
     
+    overflow-x: hidden;
     overflow-y: scroll;
     overflow-y: overlay;
 
