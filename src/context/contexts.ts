@@ -9,7 +9,7 @@ import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 // }
 
 export const AuthContext = createContext({
-    jwt: '',
+    jwt: "",
     logged: false,
     setJwt: (_value:string)=>{},
 });

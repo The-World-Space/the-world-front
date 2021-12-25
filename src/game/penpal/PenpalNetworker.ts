@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { TypedEmitter } from 'detail-typed-emitter';
+import { TypedEmitter } from "detail-typed-emitter";
 import { Server } from "../connect/types";
 
 type fieldId = string;

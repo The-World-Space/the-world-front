@@ -1,18 +1,18 @@
-import { useContext, useEffect, useRef } from 'react';
-import { TheWorldBootstrapper, NetworkInfoObject } from '../game/TheWorldBootstrapper';
-import { Game } from '../game/engine/Game';
-import { useAsync } from 'react-use';
-import { getWorld, globalApolloClient, joinWorld } from '../game/connect/gql';
-import { Vector2 } from 'three';
-import useUser from '../hooks/useUser';
+import { useContext, useEffect, useRef } from "react";
+import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
+import { Game } from "../game/engine/Game";
+import { useAsync } from "react-use";
+import { getWorld, globalApolloClient, joinWorld } from "../game/connect/gql";
+import { Vector2 } from "three";
+import useUser from "../hooks/useUser";
 import IngameInterface from "../components/organisms/IngameInterface";
-import { useParams } from 'react-router-dom';
-import { Networker } from '../game/script/Networker';
-import { PenpalNetworker } from '../game/penpal/PenpalNetworker';
-import { WidgetManager } from '../game/script/WidgetManager';
-import styled from 'styled-components';
-import { GameProvider } from '../context/Provider';
-import { WorldEditorContext } from '../context/contexts';
+import { useParams } from "react-router-dom";
+import { Networker } from "../game/script/Networker";
+import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
+import { WidgetManager } from "../game/script/WidgetManager";
+import styled from "styled-components";
+import { GameProvider } from "../context/Provider";
+import { WorldEditorContext } from "../context/contexts";
 
 const Container = styled.div`
     display: flex;
@@ -27,14 +27,14 @@ const IngameInterfaceContainer = styled.div`
 `;
 
 const GameContainer = styled.div`
-    height: '100%';
-    width: 'calc(100% - 130px)';
+    height: "100%";
+    width: "calc(100% - 130px)";
     z-index: 0;
 `;
 
 const WidgetContainer = styled.div`
     height: 100%;
-    width: 'calc(100% - 130px)';
+    width: "calc(100% - 130px)";
     z-index: 1;
     position: absolute;
     pointer-events: none;

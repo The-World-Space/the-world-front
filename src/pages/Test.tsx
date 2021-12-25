@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { AuthContext } from '../context/contexts';
-import { useContext } from 'react';
+import { AuthContext } from "../context/contexts";
+import { useContext } from "react";
 import useUser from "../hooks/useUser";
 
 function Test() {
 
     const { jwt, setJwt } = useContext(AuthContext);
     const user = useUser();
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState("");
 
     function onSave(){
         setJwt(token);

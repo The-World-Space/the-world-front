@@ -33,7 +33,7 @@ const Tab = styled.div<{selected: boolean}>`
     justify-content: center;
     align-items: center;
 
-    font-family: 'Noto Sans';
+    font-family: "Noto Sans";
     font-size: 16px;
 
     color: ${p => p.selected ? "#000000" : "#00000060"};
@@ -155,7 +155,7 @@ const ElementThumbnail = styled.img`
 `
 
 const ElementName = styled.span`
-    font-family: 'Noto Sans';
+    font-family: "Noto Sans";
     font-size: 14px;
 `
 

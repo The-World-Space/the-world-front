@@ -1,11 +1,11 @@
 import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
-import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
-import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
-import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
-import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
-import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
+import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
+import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
+import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
+import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
+import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { gql, useQuery } from "@apollo/client";
@@ -77,7 +77,7 @@ const IframeInputWrapper = styled.div`
 const IframeTitle = styled.span`
     margin: 16px;
 
-    font-family: 'Noto Sans';
+    font-family: "Noto Sans";
     font-size: 16px;
     font-weight: 500;
 `;
@@ -142,7 +142,7 @@ const IframeInputSettingRight = styled.div`
 const IframeInputSettingRightText = styled.span<{selected: boolean}>`
     margin: 16px 18px;
 
-    color: ${p => p.selected ? '#000000' : '#00000060'};
+    color: ${p => p.selected ? "#000000" : "#00000060"};
     font-family: Noto Sans;
     font-style: normal;
     font-weight: normal;
@@ -246,8 +246,8 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
             myImageGameObjectProtos.data
         ]);
 
-    const [iframeWidth, setIframeWidth] = useState('1');
-    const [iframeHeight, setIframeHeight] = useState('1');
+    const [iframeWidth, setIframeWidth] = useState("1");
+    const [iframeHeight, setIframeHeight] = useState("1");
     const [iframeObjectType, setIframeObjectType] = useState(Server.GameObjectType.Wall);
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 

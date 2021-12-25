@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import {
     Link
-} from 'react-router-dom'
+} from "react-router-dom"
 import styled from "styled-components";
-import { ReactComponent as Error404 } from '../components/atoms/Error404.svg';
+import { ReactComponent as Error404 } from "../components/atoms/Error404.svg";
 
 
 interface ICircle {
@@ -17,7 +17,7 @@ interface XY {
     y: number;
 }
 
-const circleColors = ['B55FDD', '7997FF', '5AB0FF', 'AFF876', 'F8FB67', 'FA9F5D', 'F46969'];
+const circleColors = ["B55FDD", "7997FF", "5AB0FF", "AFF876", "F8FB67", "FA9F5D", "F46969"];
 
 function genCircles(startColor: number) {
     const circles: ICircle[] = [];
@@ -76,14 +76,14 @@ const Centerer = styled.div`
 function Circle({ x, y, r, color }: ICircle) {
     return (
         <div style={{
-            position: 'absolute',
-            top: y + 'px',
-            left: x + 'px',
-            backgroundColor: '#' + circleColors[color],
-            width: 2*r + 'px',
-            height: 2*r + 'px',
-            borderRadius: '100%',
-            transform: 'translate(-50%, -50%)'
+            position: "absolute",
+            top: y + "px",
+            left: x + "px",
+            backgroundColor: "#" + circleColors[color],
+            width: 2*r + "px",
+            height: 2*r + "px",
+            borderRadius: "100%",
+            transform: "translate(-50%, -50%)"
         }}>
         </div>
     );
@@ -102,8 +102,8 @@ function CircleContainer() {
             setCircles(() => genCircles(startColor));
         }
 
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
     }, [startColor]);
 
     return (

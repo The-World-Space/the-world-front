@@ -74,7 +74,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         }
 
         return this.sceneBuilder
-            .withChild(instantlater.buildGameObject('networkGameManager')
+            .withChild(instantlater.buildGameObject("networkGameManager")
                 .withComponent(NetworkPlayerManager, c => {
                     c.initNetwork(this.interopObject!.networkManager);
                     c.initLocalPlayer(player.ref!);
@@ -97,12 +97,12 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     // worldGridCollideMap.ref!.showCollider = true;
                     c.worldGridColliderMap = worldGridCollideMap;
                 }))
-            .withChild(instantlater.buildGameObject('css_collide_tilemap_center')
+            .withChild(instantlater.buildGameObject("css_collide_tilemap_center")
                 .withComponent(CssCollideTilemapRenderer, c => {
                     c.pointerEvents = false;
                 })
                 .getComponent(CssCollideTilemapRenderer, collideTilemap))
-            .withChild(instantlater.buildGameObject('grid_collide_map_center')
+            .withChild(instantlater.buildGameObject("grid_collide_map_center")
                 .withComponent(GridCollideMap)
                 .withComponent(GridCenterPositionMatcher, c => {
                     c.setGridCenter(collideTilemap.ref!.gridCenter);

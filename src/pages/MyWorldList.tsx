@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useAsync } from "react-use";
 import styled from "styled-components";
-import twLogo1 from '../components/atoms/tw logo 1.svg';
+import twLogo1 from "../components/atoms/tw logo 1.svg";
 import NavTemplate from "../components/templates/NavTemplate";
 import { AuthContext } from "../context/contexts";
 import { globalApolloClient, getMyWorlds } from "../game/connect/gql";
@@ -176,7 +176,7 @@ function MyWorldList() {
                                 </WorldItemRight>
                             </WorldItem>
                         )}
-                        <StyledPlusButton onClick={() => history.push('/createworld')} />
+                        <StyledPlusButton onClick={() => history.push("/createworld")} />
                     </WorldListDiv>
                 </Wrapper>
             </NavTemplate>

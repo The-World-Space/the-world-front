@@ -2,12 +2,12 @@ import React, { useCallback, useContext, useMemo, useRef, useState } from "react
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
-import { ReactComponent as PenTool } from '../../atoms/PenTool.svg';
-import { ReactComponent as EraseTool } from '../../atoms/EraseTool.svg';
-import { ReactComponent as ColliderTool } from '../../atoms/ColliderTool.svg';
-import { ReactComponent as ImageTool } from '../../atoms/ImageTool.svg';
-import { ReactComponent as SizerTool } from '../../atoms/SizerTool.svg';
-import { ReactComponent as BlueSaveIcon } from '../../atoms/BlueSaveIcon.svg';
+import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
+import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
+import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
+import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
+import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
+import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { ObjEditorContext } from "../../../context/contexts";
@@ -86,7 +86,7 @@ const ObjectTypeRadio = styled.div<{selected: boolean}>`
     justify-content: center;
     align-items: center;
 
-    font-family: 'Noto Sans';
+    font-family: "Noto Sans";
     font-size: 12px;
 
     flex: 1;
@@ -234,11 +234,11 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
                 <ImageTool onClick={() => onSelectTool(Tools.Image)} />
                 <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
                 <BlueSaveIcon 
-                    style={{marginLeft: 'auto', marginRight: "18px", width: '44px', height: '44px'}}
+                    style={{marginLeft: "auto", marginRight: "18px", width: "44px", height: "44px"}}
                     onClick={save}
                 />
             </ToolsWrapper>
-            <input type='file' id='file' ref={inputFile} style={{display: 'none'}}/>
+            <input type="file" id="file" ref={inputFile} style={{display: "none"}}/>
         </ExpandBarDiv>
     );
 }

@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { TypedEmitter, DumbTypedEmitter } from 'detail-typed-emitter';
+import { TypedEmitter, DumbTypedEmitter } from "detail-typed-emitter";
 import { Vector2 } from "three";
 import { Server } from "../connect/types";
 

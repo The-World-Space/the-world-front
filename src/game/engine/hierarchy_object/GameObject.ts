@@ -324,9 +324,9 @@ export class GameObject {
         return this._transform.id;
     }
 
-    //'visible' property has same value as 'activeInHierarchy'
-    //you must not change it directly, use 'activeInHierarchy' instead
-    //'add' method is not available for GameObject it for other Object3D classes
+    //"visible" property has same value as "activeInHierarchy"
+    //you must not change it directly, use "activeInHierarchy" instead
+    //"add" method is not available for GameObject it for other Object3D classes
     public unsafeGetTransform(): Transform {
         return this._transform;
     }

@@ -16,7 +16,7 @@ export const Provider: React.FC = ({ children }) => {
 
 
 const AuthContextProvider: React.FC = ({ children }) => {
-    const [jwt, setJwt] = useRawState('', JWT_KEY);
+    const [jwt, setJwt] = useRawState("", JWT_KEY);
     
     const state = {
         jwt,

@@ -1,18 +1,18 @@
 import {
     Link,
-} from 'react-router-dom';
+} from "react-router-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import twLogo2Black from '../atoms/tw logo 2 black.svg';
-import ArrowIcon from '../atoms/ArrowIcon.svg';
-import ChatIcon from '../atoms/ChatIcon.svg';
-import SendButtonIcon from '../atoms/SendButtonIcon.svg';
+import twLogo2Black from "../atoms/tw logo 2 black.svg";
+import ArrowIcon from "../atoms/ArrowIcon.svg";
+import ChatIcon from "../atoms/ChatIcon.svg";
+import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 import { ApolloClient, gql } from "@apollo/client";
-import ObjectEditorInner from './EditorInner/ObjectEditorInner';
-import VariableEditorInner from './EditorInner/VariableEditorInner';
-import BroadcasterEditorInner from './EditorInner/BroadcasterEditorInner';
-import WorldEditorInner from './EditorInner/WorldEditorInner';
+import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
+import VariableEditorInner from "./EditorInner/VariableEditorInner";
+import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
+import WorldEditorInner from "./EditorInner/WorldEditorInner";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -64,7 +64,7 @@ const MenuButton = styled.div<{selected: boolean}>`
     margin: 0px 0px 10px 0px;
     
     border-radius: 66px;
-    border: 4px ${p => p.selected ? '#FFFFFB' : '#2E2E2E'} solid;
+    border: 4px ${p => p.selected ? "#FFFFFB" : "#2E2E2E"} solid;
 
     display: flex;
     justify-content: center;
@@ -74,7 +74,7 @@ const MenuButton = styled.div<{selected: boolean}>`
 
     background-color: #2E2E2E;
 
-    font-family: 'Noto Sans';
+    font-family: "Noto Sans";
     font-size: 22px;
 
     font-style: normal;
@@ -277,7 +277,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
     const [barOpened, setBarOpened] = useState(false);
     const [selectedEditor, setSelectedEditor] = useState(Editor.Variable);
     const [chatOpened, setChatOpened] = useState(false);
-    const [inputText, setInputText] = useState('');
+    const [inputText, setInputText] = useState("");
     const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -290,14 +290,14 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
     }
 
     function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
-        if (event.key === 'Enter' && inputText !== '') {
+        if (event.key === "Enter" && inputText !== "") {
             sendChatMessage();
         }
     }
 
     function sendChatMessage() {
         sendChat(worldId, inputText, apolloClient);
-        setInputText('');
+        setInputText("");
     }
 
     useEffect(() => {
@@ -338,9 +338,9 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                 <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
             </>
             <ExpandButton onClick={() => expandBarToggle()} 
-            style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
+            style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
             <ChatButton onClick={() => chatToggle()}/>
-            <ChatDiv style={chatOpened ? {} : {transform: 'translateX(339px)'}}>
+            <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
                 <ChatContentDiv ref={ref}>
                     {chatting.map((data, index) => (
                         <p key={data.key}>

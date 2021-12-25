@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-//import { TestBootstrapper } from '../game/TestBootstrapper';
-import { Game } from '../game/engine/Game';
-import { TileEditorBootstrapper } from '../components/molecules/TileEditor/TileEditorBootstrapper';
+import { useEffect, useRef } from "react";
+//import { TestBootstrapper } from "../game/TestBootstrapper";
+import { Game } from "../game/engine/Game";
+import { TileEditorBootstrapper } from "../components/molecules/TileEditor/TileEditorBootstrapper";
 
 function TestGamePage() {
     const div = useRef<HTMLDivElement>(null);

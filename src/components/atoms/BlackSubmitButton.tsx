@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { FORM_FONT_FAMILY, FORM_FONT_SIZE, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from '../../pages/GlobalEnviroment';
+import styled from "styled-components";
+import { FORM_FONT_FAMILY, FORM_FONT_SIZE, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 
 export default styled.button`
 width: 366px;

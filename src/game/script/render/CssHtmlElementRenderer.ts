@@ -31,7 +31,7 @@ export class CssHtmlElementRenderer extends Component {
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -87,7 +87,7 @@ export class CssHtmlElementRenderer extends Component {
                 this._htmlDivElement.offsetWidth * this._centerOffset.x,
                 this._htmlDivElement.offsetHeight * this._centerOffset.y, 0
             );
-            this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+            this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     
             if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
             else this._css3DObject.visible = false;

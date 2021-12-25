@@ -35,9 +35,9 @@ export abstract class Component {
     }
 
     //Awake is called when the script instance is being loaded.
-    //The order that Unity calls each GameObject's Awake is not deterministic.
-    //Because of this, you should not rely on one GameObject's Awake being called before or after another
-    //(for example, you should not assume that a reference set up by one GameObject's Awake will be usable in another GameObject's Awake).
+    //The order that Unity calls each GameObject"s Awake is not deterministic.
+    //Because of this, you should not rely on one GameObject"s Awake being called before or after another
+    //(for example, you should not assume that a reference set up by one GameObject"s Awake will be usable in another GameObject"s Awake).
     //Instead, you should use Awake to set up references between scripts, and use Start, which is called after all Awake calls are finished, to pass any information back and forth.
     //
     //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html

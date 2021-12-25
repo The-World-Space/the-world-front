@@ -1,5 +1,5 @@
 import { Vector2 } from "three";
-import { Tools } from '../../components/organisms/EditorInner/ObjectEditorInner';
+import { Tools } from "../../components/organisms/EditorInner/ObjectEditorInner";
 
 export interface IObjEditorAction {
     setToolType(tools: Tools): void;

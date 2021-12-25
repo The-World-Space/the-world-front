@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 import {
   HashRouter as Router,
   Switch,
   Route,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import Main from './pages/Welcome';
-import Test from './pages/Test';
-import Login from './pages/Login';
-import Logout from './pages/Logout';
-import Notfound from './pages/Notfound';
-import Register from './pages/Register';
-import CreateWorld from './pages/CreateWorld';
-import MyPage from './pages/MyPage';
-import MyWorldList from './pages/MyWorldList';
-import IngameInterface from './components/organisms/IngameInterface';
-import TestGamePage from './pages/TestGamePage';
-import NetworkGamePage from './pages/NetworkGamePage';
+import Main from "./pages/Welcome";
+import Test from "./pages/Test";
+import Login from "./pages/Login";
+import Logout from "./pages/Logout";
+import Notfound from "./pages/Notfound";
+import Register from "./pages/Register";
+import CreateWorld from "./pages/CreateWorld";
+import MyPage from "./pages/MyPage";
+import MyWorldList from "./pages/MyWorldList";
+import IngameInterface from "./components/organisms/IngameInterface";
+import TestGamePage from "./pages/TestGamePage";
+import NetworkGamePage from "./pages/NetworkGamePage";
 
 function App() {
   return (

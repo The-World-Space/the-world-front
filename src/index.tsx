@@ -1,19 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { Provider } from './context/Provider';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { Provider } from "./context/Provider";
 import {
   ApolloProvider,
   ApolloClient,
   InMemoryCache,
   createHttpLink
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { JWT_KEY } from './context/consts';
-import { loadGlobalEnviroments } from './pages/GlobalEnviroment';
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { JWT_KEY } from "./context/consts";
+import { loadGlobalEnviroments } from "./pages/GlobalEnviroment";
 
 const httpLink = createHttpLink({
-  uri: 'https://computa.lunuy.com:40081/graphql',
+  uri: "https://computa.lunuy.com:40081/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -42,7 +42,7 @@ ReactDOM.render(
       </Provider>
     </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

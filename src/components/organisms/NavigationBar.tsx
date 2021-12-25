@@ -1,10 +1,10 @@
 import { AuthContext } from "../../context/contexts";
 import {
     Link, useHistory
-} from 'react-router-dom';
+} from "react-router-dom";
 import { useContext } from "react";
 import styled from "styled-components";
-import twLogo2 from '../atoms/tw logo 2.svg';
+import twLogo2 from "../atoms/tw logo 2.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 
 const NaviDiv = styled.div`
@@ -55,19 +55,19 @@ function NavigationBar(props: NavigationBarProps) {
     return (
         <NaviDiv>
             <Link to="/">
-                <img src={twLogo2} alt={'logo img'}/> 
+                <img src={twLogo2} alt={"logo img"}/> 
             </Link>
             {props.showNavContent &&
                 <RowButtonDiv>
-                    {/* <MainButton onClick={() => history.push('/thelab')}>TheLab</MainButton> */}
+                    {/* <MainButton onClick={() => history.push("/thelab")}>TheLab</MainButton> */}
                     { logged 
                         ? <>
-                            <MainButton onClick={() => history.push('/world/0')}>world/0</MainButton>
-                            <MainButton onClick={() => history.push('/logout')}>Logout</MainButton>
+                            <MainButton onClick={() => history.push("/world/0")}>world/0</MainButton>
+                            <MainButton onClick={() => history.push("/logout")}>Logout</MainButton>
                           </>
                         : <>
-                            <MainButton onClick={() => history.push('/login')}>Login</MainButton>
-                            <MainButton onClick={() => history.push('/register')}>Register</MainButton>
+                            <MainButton onClick={() => history.push("/login")}>Login</MainButton>
+                            <MainButton onClick={() => history.push("/register")}>Register</MainButton>
                         </>}
                 </RowButtonDiv>
             }

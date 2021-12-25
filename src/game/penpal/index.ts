@@ -1,6 +1,6 @@
-import * as Penpal from 'penpal';
-import { Server } from '../connect/types';
-import { PenpalNetworker } from './PenpalNetworker';
+import * as Penpal from "penpal";
+import { Server } from "../connect/types";
+import { PenpalNetworker } from "./PenpalNetworker";
 
 
 interface Child {
