@@ -142,4 +142,8 @@ export class Game {
     public get inputHandler(): IInputEventHandleable {
         return this._engineGlobalObject.input;
     }
+
+    public get currentGameState(): GameStateKind {
+        return this._gameState.kind;
+    }
 }
