@@ -14,7 +14,7 @@ export class EditorGridRenderer extends Component {
     private _cssHtmlRendererObject: GameObject|null = null;
     private _gridCellWidth: number = 16;
     private _gridCellHeight: number = 16;
-    private _renderWidth: number = 150;
+    private _renderWidth: number = 180;
     private _renderHeight: number = 100;
     private _lineWidth: number = 0.2;
 

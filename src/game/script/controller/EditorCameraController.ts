@@ -10,8 +10,8 @@ export class EditorCameraController extends Component {
     private _camera: Camera|null = null;
     private _mouseMiddleDown: boolean = false;
     private readonly _lastOffset: Vector2 = new Vector2();
-    private _minViewSize: number = 10;
-    private _maxViewSize: number = 80;
+    private _minViewSize: number = 30;
+    private _maxViewSize: number = 100;
     private _defaultViewSize: number = 200;
     private readonly _defaultPosition = new Vector3();
     private _onKeyDownBind = this.onKeyDown.bind(this);
