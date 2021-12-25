@@ -42,6 +42,7 @@ export class GridCollideMap extends Component implements IGridCollidable {
             });
             return;
         }
+        if (this._collideMap.has(`${x}_${y}`)) return;
         this._collideMap.set(`${x}_${y}`, true);
         if (this._showCollider) {
             this.addDebugImage(x * this.gridCellWidth, y * this.gridCellHeight);
@@ -77,6 +78,11 @@ export class GridCollideMap extends Component implements IGridCollidable {
         if (this._showCollider) {
             this.removeDebugImage(x * this.gridCellWidth, y * this.gridCellHeight);
         }
+    }
+
+    public removeAllColliders(): void {
+        this._collideMap.clear();
+        this.removeColliderImages();
     }
 
     private addColliderImages() {
@@ -133,6 +139,15 @@ export class GridCollideMap extends Component implements IGridCollidable {
             }
         }
         return false;
+    }
+
+    public getCollidersToArray(): Vector2[] {
+        const colliders: Vector2[] = [];
+        this._collideMap.forEach((_value, key) => {
+            const [x, y] = key.split("_").map(Number);
+            colliders.push(new Vector2(x, y));
+        });
+        return colliders;
     }
 
     public get gridCellWidth(): number {
