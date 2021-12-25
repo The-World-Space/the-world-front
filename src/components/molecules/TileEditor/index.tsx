@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ObjEditorContext } from "../../../context/contexts";
 import { Game } from "../../../game/engine/Game";
 import { GameStateKind } from "../../../game/engine/GameState";
-import { EditorInfoObject, TileEditorBootstrapper } from "./TileEditorBootstrapper";
+import { TileEditorBootstrapper } from "./TileEditorBootstrapper";
 
 const DrawArea = styled.div`
     width: 427px;
@@ -32,7 +32,7 @@ function TileEditor({ opened }: TileEditorProps): JSX.Element {
         console.debug("mount");
         if (!divRef.current) throw new Error("divRef.current is null");
         const game = new Game(divRef.current);
-        game.run(TileEditorBootstrapper, new EditorInfoObject(divRef.current, objEditorConnector));
+        game.run(TileEditorBootstrapper, objEditorConnector);
         divRef.current.onmouseenter = () => game.inputHandler.startHandleEvents();
         divRef.current.onmouseleave = () => game.inputHandler.stopHandleEvents();
         divRef.current.onwheel = e => e.preventDefault();

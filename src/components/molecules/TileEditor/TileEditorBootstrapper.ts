@@ -15,28 +15,7 @@ import { Camera } from "../../../game/script/render/Camera";
 import { CssSpriteRenderer } from "../../../game/script/render/CssSpriteRenderer";
 import { Tools } from "../../organisms/EditorInner/ObjectEditorInner";
 
-export class EditorInfoObject {
-    private readonly _eventTargetDom: HTMLElement;
-    private readonly _objEditorConnector: ObjEditorConnector;
-
-    public constructor(
-        eventTargetDom: HTMLElement,
-        objEditorConnector: ObjEditorConnector,
-    ) {
-        this._eventTargetDom = eventTargetDom;
-        this._objEditorConnector = objEditorConnector;
-    }
-    
-    public get eventTargetDom(): HTMLElement {
-        return this._eventTargetDom;
-    }
-
-    public get objEditorConnector(): ObjEditorConnector {
-        return this._objEditorConnector;
-    }
-}
-
-export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
+export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
@@ -45,7 +24,7 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
         const editorViewObjectController = new PrefabRef<EditorViewObjectController>();
         const colliderBrush = new PrefabRef<ColliderBrush>();
 
-        this.interopObject!.objEditorConnector.action = {
+        this.interopObject!.action = {
             setToolType(tools) {
                 if (!colliderBrush.ref) return;
                 if (tools === Tools.Collider) {
