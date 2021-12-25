@@ -154,7 +154,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
     const [tab, setTab] = useState(0);
     const onChangeTab = useCallback((index: number) => {
         if (index !== tab)
-            if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
+            if (!window.confirm("unsaved data will be lost. continue?")) return;
         setTab(index);
     }, [tab]);
 
@@ -165,14 +165,14 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
     const [selectedTool, setSelectedTool] = useState(Tools.Pen);
     const onSelectTool = useCallback((tool: Tools) => {
         if (tool === Tools.Image) {
-            if (!window.confirm("저장되지 않은 사항은 사라집니다. 계속하시겠습니까?")) return;
+            if (!window.confirm("unsaved data will be lost. continue?")) return;
             return ;
         }
         setSelectedTool(tool);
     }, []);
 
     const save = useCallback(() => {
-        const shouldSave = window.confirm("현재 작업 사항을 저장하시겠습니까?");
+        const shouldSave = window.confirm("save current work?");
         if (!shouldSave) return;
         // @TODO: save
     }, []);
