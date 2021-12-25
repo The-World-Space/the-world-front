@@ -18,24 +18,16 @@ import { GridPointer } from "./script/input/GridPointer";
 import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
 import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
 import { PenpalNetworker } from "./penpal/PenpalNetworker";
+import { WorldEditorConnector } from "./script/WorldEditorConnector";
 
 export class NetworkInfoObject {
-    private readonly _serverWorld: Server.World;
-    private readonly _apolloClient: ApolloClient<any>;
-    private readonly _networkManager: Networker;
-    private readonly _penpalNetworkManager: PenpalNetworker;
-    private readonly _user: User;
-
     public constructor(
-            serverWorld: Server.World, 
-            user: User, apolloClient: ApolloClient<any>, 
-            networkManager: Networker, 
-            penpalNetworkManager: PenpalNetworker) {
-        this._serverWorld = serverWorld;
-        this._apolloClient = apolloClient;
-        this._user = user;
-        this._networkManager = networkManager;
-        this._penpalNetworkManager = penpalNetworkManager;
+        private readonly _serverWorld: Server.World, 
+        private readonly _user: User, 
+        private readonly _apolloClient: ApolloClient<any>, 
+        private readonly _networkManager: Networker, 
+        private readonly _penpalNetworkManager: PenpalNetworker,
+        private readonly _worldEditorConnector: WorldEditorConnector) {
     }
     
     public get serverWorld(): Server.World {
