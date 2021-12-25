@@ -48,6 +48,6 @@ export class TileEditorBootstraper extends Bootstrapper<EditorInfoObject> {
                 .getGridPointer(gridPointer).make())
             
             .withChild(instantlater.buildGameObject("test object")
-                .withComponent(CssSpriteRenderer));
+                .withComponent(CssSpriteRenderer, c => c.pointerEvents = false));
     }
 }

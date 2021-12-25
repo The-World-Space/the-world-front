@@ -66,8 +66,8 @@ export class EditorGridRenderer extends Component {
 
         if (!position.equals(this._lastPosition)) {
             this._cssHtmlRenderer!.getElementContainer()!.style.backgroundPosition = `
-                ${-position.x / this._lineWidth + xRemainder + scaledGridCellWidth / 2}px 
-                ${position.y / this._lineWidth + yRemainder + scaledGridCellHeight / 2}px
+                ${-position.x / this._lineWidth + xRemainder + scaledGridCellWidth / 2 - 0.5}px 
+                ${position.y / this._lineWidth + yRemainder + scaledGridCellHeight / 2 - 0.5}px
             `;
         }
     }
