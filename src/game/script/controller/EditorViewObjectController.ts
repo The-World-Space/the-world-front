@@ -16,6 +16,7 @@ export class EditorViewObjectController extends Component {
 
     public setViewObject(src: string, width: number, height: number): void {
         if (this._spriteRenderer) {
+            this._spriteRenderer.enabled = true;
             this._spriteRenderer.imagePath = src;
             this._spriteRenderer.imageWidth = width * this._gridCellWidth;
             this._spriteRenderer.imageHeight = height * this._gridCellHeight;

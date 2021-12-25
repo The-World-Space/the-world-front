@@ -106,6 +106,7 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
             
             .withChild(instantlater.buildGameObject("view_object", new Vector3(-8, -8, 0))
                 .withComponent(CssSpriteRenderer, c => {
+                    c.enabled = false;
                     c.pointerEvents = false;
                     c.imageCenterOffset = new Vector2(0.5, 0.5);
                 })
