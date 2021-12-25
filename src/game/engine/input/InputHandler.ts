@@ -4,6 +4,8 @@ export class InputHandler implements IInputEventHandleable {
     private _map: Map<string, boolean>;
     private _isDisposed: boolean;
     private _renderTargetDom: HTMLElement;
+    private _onKeyDownDelegates: ((event: KeyboardEvent) => void)[] = [];
+    private _onKeyUpDelegates: ((event: KeyboardEvent) => void)[] = [];
     private _onWheelDelegates: ((event: WheelEvent) => void)[] = [];
     private _onPointerDownDelegates: ((event: MouseEvent) => void)[] = [];
     private _onPointerUpDelegates: ((event: MouseEvent) => void)[] = [];
@@ -18,15 +20,15 @@ export class InputHandler implements IInputEventHandleable {
     private readonly _handleKeyDownBind = this.handleKeyDown.bind(this);
     private readonly _handleKeyUpBind = this.handleKeyUp.bind(this);
     private readonly _handleWheelBind = this.handleWheel.bind(this);
-    private readonly _onMouseDownBind = this.handleMouseDown.bind(this);
-    private readonly _onMouseUpBind = this.handleMouseUp.bind(this);
-    private readonly _onMouseEnterBind = this.handleMouseEnter.bind(this);
-    private readonly _onMouseLeaveBind = this.handleMouseLeave.bind(this);
-    private readonly _onMouseMoveBind = this.handleMouseMove.bind(this);
-    private readonly _onTouchStartBind = this.handleTouchStart.bind(this);
-    private readonly _ononTouchEndBind = this.handleTouchEnd.bind(this);
-    private readonly _onTouchMoveBind = this.handleTouchMove.bind(this);
-    private readonly _onTouchCancelBind = this.handleTouchCancel.bind(this);
+    private readonly _handleMouseDownBind = this.handleMouseDown.bind(this);
+    private readonly _handleMouseUpBind = this.handleMouseUp.bind(this);
+    private readonly _handleMouseEnterBind = this.handleMouseEnter.bind(this);
+    private readonly _handleMouseLeaveBind = this.handleMouseLeave.bind(this);
+    private readonly _handleMouseMoveBind = this.handleMouseMove.bind(this);
+    private readonly _handleTouchStartBind = this.handleTouchStart.bind(this);
+    private readonly _handleTouchEndBind = this.handleTouchEnd.bind(this);
+    private readonly _handleTouchMoveBind = this.handleTouchMove.bind(this);
+    private readonly _handleTouchCancelBind = this.handleTouchCancel.bind(this);
 
     public constructor(renderTargetDom: HTMLElement) {
         this._map = new Map<string, boolean>();
@@ -34,7 +36,7 @@ export class InputHandler implements IInputEventHandleable {
         this._renderTargetDom = renderTargetDom;
     }
 
-    public get map(): Map<string, boolean> {
+    public get map(): ReadonlyMap<string, boolean> {
         return this._map;
     }
 
@@ -50,15 +52,15 @@ export class InputHandler implements IInputEventHandleable {
         window.addEventListener("keydown", this._handleKeyDownBind);
         window.addEventListener("keyup", this._handleKeyUpBind);
         window.addEventListener("wheel", this._handleWheelBind);
-        this._renderTargetDom.addEventListener("mousedown", this._onMouseDownBind);
-        this._renderTargetDom.addEventListener("mouseup", this._onMouseUpBind);
-        this._renderTargetDom.addEventListener("mouseenter", this._onMouseEnterBind);
-        this._renderTargetDom.addEventListener("mouseleave", this._onMouseLeaveBind);
-        this._renderTargetDom.addEventListener("mousemove", this._onMouseMoveBind);
-        this._renderTargetDom.addEventListener("touchstart", this._onTouchStartBind);
-        this._renderTargetDom.addEventListener("touchend", this._ononTouchEndBind);
-        this._renderTargetDom.addEventListener("touchmove", this._onTouchMoveBind);
-        this._renderTargetDom.addEventListener("touchcancel", this._onTouchCancelBind);
+        this._renderTargetDom.addEventListener("mousedown", this._handleMouseDownBind);
+        this._renderTargetDom.addEventListener("mouseup", this._handleMouseUpBind);
+        this._renderTargetDom.addEventListener("mouseenter", this._handleMouseEnterBind);
+        this._renderTargetDom.addEventListener("mouseleave", this._handleMouseLeaveBind);
+        this._renderTargetDom.addEventListener("mousemove", this._handleMouseMoveBind);
+        this._renderTargetDom.addEventListener("touchstart", this._handleTouchStartBind);
+        this._renderTargetDom.addEventListener("touchend", this._handleTouchEndBind);
+        this._renderTargetDom.addEventListener("touchmove", this._handleTouchMoveBind);
+        this._renderTargetDom.addEventListener("touchcancel", this._handleTouchCancelBind);
     }
 
     public stopHandleEvents(): void {
@@ -69,15 +71,15 @@ export class InputHandler implements IInputEventHandleable {
         window.removeEventListener("keydown", this._handleKeyDownBind);
         window.removeEventListener("keyup", this._handleKeyUpBind);
         window.removeEventListener("wheel", this._handleWheelBind);
-        this._renderTargetDom.removeEventListener("mousedown", this._onMouseDownBind);
-        this._renderTargetDom.removeEventListener("mouseup", this._onMouseUpBind);
-        this._renderTargetDom.removeEventListener("mouseenter", this._onMouseEnterBind);
-        this._renderTargetDom.removeEventListener("mouseleave", this._onMouseLeaveBind);
-        this._renderTargetDom.removeEventListener("mousemove", this._onMouseMoveBind);
-        this._renderTargetDom.removeEventListener("touchstart", this._onTouchStartBind);
-        this._renderTargetDom.removeEventListener("touchend", this._ononTouchEndBind);
-        this._renderTargetDom.removeEventListener("touchmove", this._onTouchMoveBind);
-        this._renderTargetDom.removeEventListener("touchcancel", this._onTouchCancelBind);
+        this._renderTargetDom.removeEventListener("mousedown", this._handleMouseDownBind);
+        this._renderTargetDom.removeEventListener("mouseup", this._handleMouseUpBind);
+        this._renderTargetDom.removeEventListener("mouseenter", this._handleMouseEnterBind);
+        this._renderTargetDom.removeEventListener("mouseleave", this._handleMouseLeaveBind);
+        this._renderTargetDom.removeEventListener("mousemove", this._handleMouseMoveBind);
+        this._renderTargetDom.removeEventListener("touchstart", this._handleTouchStartBind);
+        this._renderTargetDom.removeEventListener("touchend", this._handleTouchEndBind);
+        this._renderTargetDom.removeEventListener("touchmove", this._handleTouchMoveBind);
+        this._renderTargetDom.removeEventListener("touchcancel", this._handleTouchCancelBind);
     }
 
     private simulateMouseEvent(eventName: string, touch: Touch): void {
@@ -92,10 +94,12 @@ export class InputHandler implements IInputEventHandleable {
 
     private handleKeyDown(event: KeyboardEvent) {
         this._map.set(event.key, true);
+        this._onKeyDownDelegates.forEach(delegate => delegate(event));
     }
     
     private handleKeyUp(event: KeyboardEvent) {
         this._map.set(event.key, false);
+        this._onKeyUpDelegates.forEach(delegate => delegate(event));
     }
 
     private handleWheel(event: WheelEvent): void {
@@ -156,6 +160,14 @@ export class InputHandler implements IInputEventHandleable {
         this.simulateMouseEvent("mouseleave", event.changedTouches[0]);
     }
 
+    public addOnKeyDownEventListener(delegate: (event: KeyboardEvent) => void): void {
+        this._onKeyDownDelegates.push(delegate);
+    }
+
+    public addOnKeyUpEventListener(delegate: (event: KeyboardEvent) => void): void {
+        this._onKeyUpDelegates.push(delegate);
+    }
+
     public addOnWheelEventListener(delegate: (event: WheelEvent) => void): void {
         this._onWheelDelegates.push(delegate);
     }
@@ -178,6 +190,16 @@ export class InputHandler implements IInputEventHandleable {
 
     public addOnPointerMoveEventListener(delegate: (event: MouseEvent) => void): void {
         this._onPointerMoveDelegates.push(delegate);
+    }
+
+    public removeOnKeyDownEventListener(delegate: (event: KeyboardEvent) => void): void {
+        const index = this._onKeyDownDelegates.indexOf(delegate);
+        if (index !== -1) this._onKeyDownDelegates.splice(index, 1);
+    }
+
+    public removeOnKeyUpEventListener(delegate: (event: KeyboardEvent) => void): void {
+        const index = this._onKeyUpDelegates.indexOf(delegate);
+        if (index !== -1) this._onKeyUpDelegates.splice(index, 1);
     }
 
     public removeOnWheelEventListener(delegate: (event: WheelEvent) => void): void {
