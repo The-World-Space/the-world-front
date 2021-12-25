@@ -179,7 +179,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
             objEditorConnector.setToolType(tool);
         }
         setSelectedTool(tool);
-    }, []);
+    }, [objEditorConnector]);
 
     const save = useCallback(() => {
         const shouldSave = window.confirm("save current work?");
