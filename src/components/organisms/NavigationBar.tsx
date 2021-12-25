@@ -2,7 +2,7 @@ import { AuthContext } from "../../context/contexts";
 import {
     Link, useHistory
 } from "react-router-dom";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import twLogo2 from "../atoms/tw logo 2.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
@@ -64,7 +64,7 @@ function NavigationBar(props: NavigationBarProps) {
                         ? <>
                             <MainButton onClick={() => history.push("/world/0")}>world/0</MainButton>
                             <MainButton onClick={() => history.push("/logout")}>Logout</MainButton>
-                          </>
+                        </>
                         : <>
                             <MainButton onClick={() => history.push("/login")}>Login</MainButton>
                             <MainButton onClick={() => history.push("/register")}>Register</MainButton>
@@ -77,6 +77,6 @@ function NavigationBar(props: NavigationBarProps) {
 
 NavigationBar.defaultProps = {
     showNavContent: false
-}
+};
 
 export default NavigationBar;

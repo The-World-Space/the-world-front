@@ -130,14 +130,14 @@ export async function joinWorld(worldId: string, pos: Vector2, apolloClient: Apo
             y: pos.y,
             worldId,
         }
-    })
+    });
 }
 
 
 export function getSession() {
     return {
         token: localStorage.getItem(JWT_KEY),
-    }
+    };
 }
 
 
@@ -200,10 +200,3 @@ export const globalApolloClient = new ApolloClient({
     link,
     cache: new InMemoryCache()
 });
-
-
-// @ts-ignore
-globalThis.debug = {
-    globalApolloClient,
-    getWorld
-}

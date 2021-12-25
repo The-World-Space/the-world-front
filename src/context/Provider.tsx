@@ -22,7 +22,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
         jwt,
         logged: !!jwt,
         setJwt,
-    }
+    };
 
     return (
         <AuthContext.Provider value={state}>
@@ -39,8 +39,8 @@ export const GameProvider: React.FC = ({ children }) => {
                 {children}
             </WorldEditorContextProvider>
         </ObjEditorContextProvider>
-    )
-}
+    );
+};
 
 const ObjEditorContextProvider: React.FC = ({ children }) => {
     const [game, setGame] = useState<Game | null>(null);
@@ -50,7 +50,7 @@ const ObjEditorContextProvider: React.FC = ({ children }) => {
         game,
         setGame,
         objEditorConnector,
-    }
+    };
 
     return (
         <ObjEditorContext.Provider value={state}>
@@ -67,11 +67,11 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
         game,
         setGame,
         worldEditorConnector
-    }
+    };
 
     return (
         <WorldEditorContext.Provider value={state}>
             {children}
         </WorldEditorContext.Provider>
-    )
+    );
 };

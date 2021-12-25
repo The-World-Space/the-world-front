@@ -76,7 +76,7 @@ export class TileEditorBootstrapper extends Bootstrapper<EditorInfoObject> {
                 if (!editorViewObjectController.ref) return;
                 editorViewObjectController.ref.setViewObject(shape as any, width, height);
             }
-        }
+        };
 
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject("camera", new Vector3(0, 0, 100))

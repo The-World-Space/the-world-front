@@ -1,4 +1,5 @@
-import React, { useApolloClient, ApolloClient, gql } from "@apollo/client";
+import { useApolloClient, ApolloClient, gql } from "@apollo/client";
+import React from "react";
 import { useAsync } from "react-use";
 
 interface World {

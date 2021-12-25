@@ -62,7 +62,7 @@ const Container = styled.div`
 
     scrollbar-color: #2E2E2E60 #00000000; // for FF
     scrollbar-width: thin; // for FF
-`
+`;
 
 
 const ObjectTypeRadioWrapper = styled.div`
@@ -79,7 +79,7 @@ const ObjectTypeRadioWrapper = styled.div`
     :hover {
         cursor: pointer;
     }
-`
+`;
 
 const ObjectTypeRadio = styled.div<{selected: boolean}>`
     display: flex;
@@ -94,19 +94,19 @@ const ObjectTypeRadio = styled.div<{selected: boolean}>`
     background-color: ${p => p.selected ? "#A69B97" : "#A69B9760"};
 
     transition: background-color 100ms;
-`
+`;
 
 const ObjectTypeRadioL = styled(ObjectTypeRadio)`
     border-radius: 24.5px 0px 0px 24.5px;
 
     border-right: 1px solid #FFFFFF60;
-`
+`;
 
 const ObjectTypeRadioR = styled(ObjectTypeRadio)`
     border-radius: 0px 24.5px 24.5px 0px;
     
     border-left: 1px solid #FFFFFF60;
-`
+`;
 
 
 const ToolsWrapper = styled.div<{selected: number}>`
@@ -138,7 +138,7 @@ const ToolsWrapper = styled.div<{selected: number}>`
         }
     }
 
-`
+`;
 
 
 

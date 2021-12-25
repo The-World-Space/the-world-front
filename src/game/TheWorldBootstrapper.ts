@@ -67,11 +67,10 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         const worldGridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();
         const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
         
-        //@ts-ignore
-        globalThis.debug = {
+        (globalThis as any).debug = {
             player: player,
             colideTilemap: collideTilemap,
-        }
+        };
 
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject("networkGameManager")
@@ -122,8 +121,6 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.width = 640 / 2;
                     c.height = 360 / 2;
                     c.iframeCenterOffset = new Vector2(0, 0.5);
-                    // @ts-ignore
-                    globalThis.debug.iframe = c.gameObject;
                 })
                 .withComponent(ZaxisSorter))
             

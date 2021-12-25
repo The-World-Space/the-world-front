@@ -1,4 +1,4 @@
-import /*React,*/ { createContext } from "react";
+import { createContext } from "react";
 import { Game } from "../game/engine/Game";
 import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
@@ -8,10 +8,15 @@ import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 //     return (() => { }) as React.Dispatch<React.SetStateAction<T>>;
 // }
 
-export const AuthContext = createContext({
+interface AuthContextType {
+    jwt: string;
+    logged: boolean;
+    setJwt: (jwt: string) => void,
+}
+export const AuthContext = createContext<AuthContextType>({
     jwt: "",
     logged: false,
-    setJwt: (_value:string)=>{},
+    setJwt: _=>_,
 });
 
 
@@ -22,9 +27,9 @@ interface ObjEditorContextType {
 }
 export const ObjEditorContext = createContext<ObjEditorContextType>({
     game: null,
-    setGame: _ => {},
+    setGame: _ => _,
     objEditorConnector: {} as ObjEditorConnector,
-})
+});
 
 
 interface WorldEditorContextType {
@@ -34,6 +39,6 @@ interface WorldEditorContextType {
 }
 export const WorldEditorContext = createContext<WorldEditorContextType>({
     game: null,
-    setGame: _ => {},
+    setGame: _ => _,
     worldEditorConnector: {} as ObjEditorConnector,
 });

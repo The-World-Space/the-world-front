@@ -161,7 +161,7 @@ const IframeInputSettingRightVerticalLine = styled.div`
     height: 24px;
 
     border: 1px solid rgba(255, 255, 255, 0.6);
-`
+`;
 
 
 const ToolsWrapper = styled.div<{selected: number}>`
@@ -193,7 +193,7 @@ const ToolsWrapper = styled.div<{selected: number}>`
         }
     }
 
-`
+`;
 
 
 const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
@@ -212,7 +212,7 @@ const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
             src
         }
     }
-`
+`;
 
 
 interface PropsType {
@@ -261,7 +261,7 @@ function WorldEditorInner({ worldId, opened }: PropsType) {
         if (myImageGameObjectProtos.error) throw myImageGameObjectProtos.error;
     }, [
         myImageGameObjectProtos.error
-    ])
+    ]);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -379,5 +379,5 @@ function IframeSettingLeftInput({label, value, onChange}: IframeSettingLeftInput
             </IframeSettingLeftInputLabel>
             <IframeSettingLeftInputArea onChange={onChange} value={value} />
         </IframeSettingLeftInputWrapper>
-    )
+    );
 }

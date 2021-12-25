@@ -18,7 +18,7 @@ const DrawArea = styled.div`
 
     box-shadow: 5px 5px 20px 0px #00000012; 
     background-color: #FFFFFF;
-`
+`;
 
 interface TileEditorProps {
     opened: boolean;
@@ -42,7 +42,7 @@ function TileEditor({ opened }: TileEditorProps) {
         return () => {
             console.debug("unmount");
             game.dispose();
-        }
+        };
     }, [setGame, objEditorConnector]);
 
     useEffect(() => {

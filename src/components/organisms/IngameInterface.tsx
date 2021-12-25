@@ -1,7 +1,7 @@
 import {
     Link,
 } from "react-router-dom";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from "../atoms/tw logo 2 black.svg";
 import ArrowIcon from "../atoms/ArrowIcon.svg";
@@ -87,7 +87,7 @@ const MenuButton = styled.div<{selected: boolean}>`
     :hover {
         cursor: pointer;
     }
-`
+`;
 
 const CountIndicatorDiv = styled.div`
     margin-top: auto;
@@ -307,8 +307,8 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
             setChatting(
                 lastState => 
                     lastState.length > 100 
-                      ? [...lastState.slice(1), {...data, key: performance.now()}] 
-                      : [...lastState, {...data, key: performance.now()}]);
+                        ? [...lastState.slice(1), {...data, key: performance.now()}] 
+                        : [...lastState, {...data, key: performance.now()}]);
             if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
         }, apolloClient);
     }, [apolloClient, worldId]);
@@ -338,7 +338,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
                 <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
             </>
             <ExpandButton onClick={() => expandBarToggle()} 
-            style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
+                style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
             <ChatButton onClick={() => chatToggle()}/>
             <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
                 <ChatContentDiv ref={ref}>

@@ -7,7 +7,7 @@ const VerticalWrapperList = styled.div`
     width: 428px;
     height: 390px;
     margin: 18px;
-`
+`;
 
 const ListTop = styled.div`
     height: 48px;
@@ -18,7 +18,7 @@ const ListTop = styled.div`
     justify-content: space-between;
     align-items: center;
 
-`
+`;
 
 const Tab = styled.div<{selected: boolean}>`
     width: ${p => p.selected ? "55%" : "50%"};
@@ -44,21 +44,21 @@ const Tab = styled.div<{selected: boolean}>`
     :hover {
         cursor: pointer;
     }
-`
+`;
 
 const TabL = styled(Tab)`
     left: 0px;
-`
+`;
 
 const TabR = styled(Tab)`
     right: 0px;
-`
+`;
 
 
 const ListFakeHr = styled.div`
     height: 2px;
     background-color: #FFFFFF60;
-`
+`;
 
 const ListBody = styled.div`
     height: 350px;
@@ -95,7 +95,7 @@ const ListBody = styled.div`
 
     scrollbar-color: #2E2E2E60 #00000000; // for FF
     scrollbar-width: thin; // for FF
-`
+`;
 
 export enum DualTabType {
     Left,
@@ -131,7 +131,7 @@ function DualTabList({setId, id, setTab, tab, datas, tabNames}: DualTabListProps
             <ListFakeHr />
             <ListBody>
                 {(tab === DualTabType.Right ? datas.right : datas.left).map(data => (
-                    <PhotoElement onSelect={setId} selected={id === data.id} data={data} />
+                    <PhotoElement onSelect={setId} selected={id === data.id} data={data} key={data.id} />
                 ))}
             </ListBody>
         </VerticalWrapperList>
@@ -146,18 +146,18 @@ const ElementWrapperDIv = styled.div`
     align-items: center;
 
     margin: 10px;
-`
+`;
 
 const ElementThumbnail = styled.img`
     width: 75px;
     height: 75px;
 
-`
+`;
 
 const ElementName = styled.span`
     font-family: "Noto Sans";
     font-size: 14px;
-`
+`;
 
 export type PhotoElementData = PhotoSrcData;
 
@@ -173,13 +173,14 @@ interface PhotoElementProps {
     data: PhotoElementData;
 }
 
-const PhotoElement = React.memo(({ onSelect, selected, data }: PhotoElementProps) => {
+const PhotoElement_ = ({ onSelect, selected, data }: PhotoElementProps) => {
     return (
         <ElementWrapperDIv onClick={() => onSelect(data.id)}>
             <ElementThumbnail src={data.src} />
             <ElementName>{data.id}</ElementName>
         </ElementWrapperDIv>
     );
-});
+};
+const PhotoElement = React.memo(PhotoElement_);
 
 export default React.memo(DualTabList);
