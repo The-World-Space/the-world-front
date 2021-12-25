@@ -99,7 +99,7 @@ export class IframeCommunicator {
     /// </METHODS FOR IFRAME>
 
 
-    async apply() {
+    async apply(): Promise<void> {
         const connection = Penpal.connectToChild({
             iframe: this.iframe,
             methods: {
@@ -117,7 +117,8 @@ export class IframeCommunicator {
         this.child = child as any;
         this.turnOnListeners();
     }
-    private turnOnListeners() {
+
+    private turnOnListeners(): void {
         this.internalFieldIdToFieldMap.forEach((field, internalId) => {
             const cb = (value: string, userId: string) => {
                 this.child.setFieldValue(internalId, userId, value);
@@ -182,13 +183,13 @@ export class IframeCommunicator {
         ];
     }
 
-    private turnOffListeners() {
+    private turnOffListeners(): void {
         this.disposeFuncs.forEach(f => f());
         for (const subscription of this.subscriptions)
             subscription.unsubscribe();
     }
 
-    async stop() {
+    async stop(): Promise<void> {
         this.turnOffListeners();
     }
 }

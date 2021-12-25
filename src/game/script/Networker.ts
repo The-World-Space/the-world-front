@@ -120,11 +120,11 @@ export class Networker {
         this._ee.emit(`move_${data.userId}`, new Vector2(data.x, data.y));
     }
 
-    get ee() {
+    get ee(): TypedEmitter<EETypes> {
         return this._ee;
     }
 
-    get dee() {
+    get dee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }

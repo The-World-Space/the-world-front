@@ -121,7 +121,7 @@ export class PenpalNetworker {
         }
     }
 
-    public onFieldListUpdate(iframeId: number, cb: (portMappings: Server.IframeFieldPortMapping[]) => void) {
+    public onFieldListUpdate(iframeId: number, cb: (portMappings: Server.IframeFieldPortMapping[]) => void): ZenObservable.Subscription {
         return this._client.subscribe({
             query: gql`
                 subscription IframeFieldPortMappingList($iframeId: Int!) {
@@ -144,7 +144,7 @@ export class PenpalNetworker {
     }
 
 
-    public onBroadcastListUpdate(iframeId: number, cb: (portMappings: Server.IframeBroadcasterPortMapping[]) => void) {
+    public onBroadcastListUpdate(iframeId: number, cb: (portMappings: Server.IframeBroadcasterPortMapping[]) => void): ZenObservable.Subscription {
         return this._client.subscribe({
             query: gql`
                 subscription IframeBroadcasterPortMappingList($iframeId: Int!) {
@@ -165,7 +165,7 @@ export class PenpalNetworker {
         });
     }
 
-    get ee() {
+    get ee(): TypedEmitter<EETypes> {
         return this._ee;
     }
 }

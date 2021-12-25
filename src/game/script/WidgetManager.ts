@@ -14,7 +14,7 @@ export class WidgetManager {
         this._init();
     }
 
-    private _init() {
+    private _init(): void {
         this._iframes = this._widgetIframeInfos.map(widget => {
             const iframe = document.createElement("iframe");
 
@@ -61,7 +61,7 @@ export class WidgetManager {
         this._wrapperDiv.append(...this._iframes);
     }
 
-    public dispose() {
+    public dispose(): void {
         this._iframes.forEach(iframe => {
             iframe.remove();
         });

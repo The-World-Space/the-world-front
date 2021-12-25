@@ -48,7 +48,7 @@ interface NavigationBarProps {
     showNavContent: boolean;
 }
 
-function NavigationBar(props: NavigationBarProps) {
+function NavigationBar(props: NavigationBarProps): JSX.Element {
     const { logged } = useContext(AuthContext);
     const history = useHistory();
 

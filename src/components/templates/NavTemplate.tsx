@@ -26,7 +26,7 @@ interface NavTemplateProps {
     showNavContent: boolean;
 }
 
-function NavTemplate(props: NavTemplateProps) {
+function NavTemplate(props: NavTemplateProps): JSX.Element {
     return (
         <MainDiv>
             <Background/>

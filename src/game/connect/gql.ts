@@ -17,7 +17,7 @@ import { Vector2 } from "three";
 
 
 
-export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
+export async function getWorld(id: string, apolloClient: ApolloClient<any>): Promise<Server.World> {
     const result = await apolloClient.query({
         query: gql`
             query World($id: String!) {
@@ -101,7 +101,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
 }
 
 
-export async function getMyWorlds(apolloClient: ApolloClient<any>) {
+export async function getMyWorlds(apolloClient: ApolloClient<any>): Promise<Server.World[]> {
     const result = await apolloClient.query({
         query: gql`
             query MyWorlds {
@@ -118,7 +118,11 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
 
 
 
-export async function joinWorld(worldId: string, pos: Vector2, apolloClient: ApolloClient<any>) {
+export async function joinWorld(
+    worldId: string, 
+    pos: Vector2, 
+    apolloClient: ApolloClient<any>
+): Promise<FetchResult<any, Record<string, any>, Record<string, any>>> {
     return apolloClient.mutate({
         mutation: gql`
             mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
@@ -134,7 +138,7 @@ export async function joinWorld(worldId: string, pos: Vector2, apolloClient: Apo
 }
 
 
-export function getSession() {
+export function getSession(): { token: string|null } {
     return {
         token: localStorage.getItem(JWT_KEY),
     };

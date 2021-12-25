@@ -48,7 +48,7 @@ export class NetworkPlayerPrefab extends Prefab {
         return this;
     }
 
-    public withUserId(userId: string) {
+    public withUserId(userId: string): NetworkPlayerPrefab {
         this._userId = userId;
         return this;
     }

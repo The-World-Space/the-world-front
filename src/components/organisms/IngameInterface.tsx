@@ -273,7 +273,7 @@ interface PropsType {
     worldId: string;
 }
 
-function IngameInterface({ apolloClient, worldId }: PropsType) {
+function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
     const [barOpened, setBarOpened] = useState(false);
     const [selectedEditor, setSelectedEditor] = useState(Editor.Variable);
     const [chatOpened, setChatOpened] = useState(false);
