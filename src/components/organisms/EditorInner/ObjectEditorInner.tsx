@@ -173,6 +173,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const onSelectTool = useCallback((tool: Tools) => {
         if (tool === Tools.Image) {
             if (!window.confirm("unsaved data will be lost. continue?")) return;
+            objEditorConnector.clearColliders();
+            inputFile.current?.click();
             return ;
         }
         if (tool === Tools.Collider || tool === Tools.Eraser) {
@@ -180,6 +182,17 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         }
         setSelectedTool(tool);
     }, [objEditorConnector]);
+
+    const [_, setFile] = useState<File>();
+    const onFileChange = useCallback(({ target: { validity, files } }: React.ChangeEvent<HTMLInputElement>) => {
+        console.debug("inputed file", validity.valid, files);
+        if (!validity.valid || !files) return;
+        const inputedFile = files[0];
+        const src = window.URL.createObjectURL(inputedFile);
+
+        objEditorConnector.setViewObject(src, 2, 2);
+        setFile(inputedFile);
+    }, []);
 
     const save = useCallback(() => {
         const shouldSave = window.confirm("save current work?");
@@ -192,7 +205,9 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         right: PhotoElementData[];
     }>({left: [], right: []});
 
+    
     const inputFile = useRef<HTMLInputElement | null>(null);
+    (global as any).inputFile = inputFile;
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -238,7 +253,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                     onClick={save}
                 />
             </ToolsWrapper>
-            <input type="file" id="file" ref={inputFile} style={{display: "none"}}/>
+            <input type="file" id="file" ref={inputFile} style={{display: "none"}} onChange={onFileChange} />
         </ExpandBarDiv>
     );
 }

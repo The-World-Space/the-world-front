@@ -3,7 +3,7 @@ import { Tools } from "../../components/organisms/EditorInner/ObjectEditorInner"
 
 export interface IObjEditorAction {
     setToolType(tools: Tools): void;
-    setViewObject(image: unknown, width: number, height: number): void;
+    setViewObject(imageUrl: string, width: number, height: number): void;
     getColliders(): Vector2[];
     setColliders(colliders: Vector2[]): void;
     clearColliders(): void;
@@ -16,7 +16,7 @@ export class ObjEditorConnector {
         return this._action?.setToolType(...args);
     }
 
-    setImageShape(...args: Parameters<IObjEditorAction["setViewObject"]>): void {
+    setViewObject(...args: Parameters<IObjEditorAction["setViewObject"]>): void {
         return this._action?.setViewObject(...args);
     }
 
