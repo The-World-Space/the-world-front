@@ -97,14 +97,20 @@ export class CssTextRenderer extends Component {
             this._htmlDivElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
             
             this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
-            this._css3DObject.position.set(
-                this._htmlDivElement.offsetWidth * this._textCenterOffset.x,
-                this._htmlDivElement.offsetHeight * this._textCenterOffset.y, 0
-            );
+            this.updateCenterOffset();
             this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
                 
             if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
             else this._css3DObject.visible = false;
+        }
+    }
+
+    private updateCenterOffset(): void {
+        if (this._css3DObject) {
+            this._css3DObject.position.set(
+                this._htmlDivElement!.offsetWidth * this._textCenterOffset.x,
+                this._htmlDivElement!.offsetHeight * this._textCenterOffset.y, 0
+            );
         }
     }
     
@@ -114,12 +120,7 @@ export class CssTextRenderer extends Component {
 
     public set textCenterOffset(value: Vector2) {
         this._textCenterOffset.copy(value);
-        if (this._css3DObject) {
-            this._css3DObject.position.set(
-                this._htmlDivElement!.offsetWidth * this._textCenterOffset.x,
-                this._htmlDivElement!.offsetHeight * this._textCenterOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get textWidth(): number {
@@ -131,6 +132,7 @@ export class CssTextRenderer extends Component {
         if (this._htmlDivElement) {
             this._htmlDivElement.style.width = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get textHeight(): number {
@@ -142,6 +144,7 @@ export class CssTextRenderer extends Component {
         if (this._css3DObject) {
             this._css3DObject.element.style.height = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get fontSize(): number {
