@@ -26,9 +26,10 @@ export class EditorCameraController extends Component {
     protected awake(): void {
         this._camera = this.gameObject.getComponent(Camera);
         const aspect = this.engine.screen.width / this.engine.screen.height;
-        this._defaultViewSize = this._camera!.viewSize * aspect;
+        this._defaultViewSize = this._camera!.viewSize;
         this._defaultPosition.copy(this.gameObject.transform.position);
         this._currentViewSize = this._defaultViewSize;
+        this._camera!.viewSize = this._currentViewSize / aspect;
     }
 
     public onEnable(): void {

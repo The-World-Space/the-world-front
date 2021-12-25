@@ -47,7 +47,10 @@ export class TileEditorBootstraper extends Bootstrapper<EditorInfoObject> {
                     c.backgroundColor = new Color(0.9, 0.9, 0.9);
                 })
                 .withComponent(EditorCameraController)
-                .withComponent(EditorGridRenderer))
+                .withComponent(EditorGridRenderer, c => {
+                    c.renderWidth = 100;
+                    c.renderHeight = 500;//
+                }))
 
             .withChild(instantlater.buildGameObject("collide_map")
                 .withComponent(GridCollideMap)

@@ -92,6 +92,22 @@ export class EditorGridRenderer extends Component {
         this._gridCellHeight = value;
     }
 
+    public get renderWidth(): number {
+        return this._renderWidth;
+    }
+
+    public set renderWidth(value: number) {
+        this._renderWidth = value;
+    }
+
+    public get renderHeight(): number {
+        return this._renderHeight;
+    }
+
+    public set renderHeight(value: number) {
+        this._renderHeight = value;
+    }
+
     public get lineWidth(): number {
         return this._lineWidth;
     }
