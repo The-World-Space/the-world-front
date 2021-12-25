@@ -10,6 +10,8 @@ const DrawArea = styled.div`
     width: 427px;
     height: 390px;
 
+    overflow: hidden;
+
     margin: 0px 18px 18px 18px;
 
     border-radius: 23px;
