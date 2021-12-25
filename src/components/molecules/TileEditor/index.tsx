@@ -32,6 +32,8 @@ function TileEditor({ opened }: TileEditorProps) {
         game.run(TileEditorBootstraper, new EditorInfoObject(divRef.current));
         divRef.current.onmouseenter = () => game.inputHandler.startHandleEvents();
         divRef.current.onmouseleave = () => game.inputHandler.stopHandleEvents();
+        divRef.current.onwheel = e => e.preventDefault();
+        divRef.current.onmousedown = e => e.preventDefault();
         setGame(game);
 
         return () => {
