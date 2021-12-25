@@ -19,6 +19,9 @@ import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager"
 import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
 import { PenpalNetworker } from "./penpal/PenpalNetworker";
 import { WorldEditorConnector } from "./script/WorldEditorConnector";
+import { GridCollideMap } from "./script/physics/GridColideMap";
+import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
+import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
 
 export class NetworkInfoObject {
     public constructor(
@@ -57,6 +60,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
 
         const player: PrefabRef<GameObject> = new PrefabRef();
         const collideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
+        const worldGridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();
         const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
         
         //@ts-ignore
@@ -82,12 +86,24 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(NetworkImageManager, c => {
                     c.iGridCollidable = collideTilemap.ref;
                     c.imageList = this.interopObject!.serverWorld.images;
+                })
+                .withComponent(NetworkColiderManager, c => {
+                    c.worldId = this.interopObject!.serverWorld.id;
+                    c.colliderList = this.interopObject!.serverWorld.colliders;
+                    // worldGridCollideMap.ref!.showCollider = true;
+                    c.worldGridColliderMap = worldGridCollideMap;
                 }))
-            .withChild(instantlater.buildGameObject('floor')
+            .withChild(instantlater.buildGameObject('css_collide_tilemap_center')
                 .withComponent(CssCollideTilemapRenderer, c => {
                     c.pointerEvents = false;
                 })
                 .getComponent(CssCollideTilemapRenderer, collideTilemap))
+            .withChild(instantlater.buildGameObject('grid_collide_map_center')
+                .withComponent(GridCollideMap)
+                .withComponent(GridCenterPositionMatcher, c => {
+                    c.setGridCenter(collideTilemap.ref!.gridCenter);
+                })
+                .getComponent(GridCollideMap, worldGridCollideMap))
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef(this.interopObject!.user.skinSrc || "/assets/charactor/Seongwon.png"))
                 .withCollideMap(collideTilemap)
