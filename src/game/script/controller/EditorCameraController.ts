@@ -13,6 +13,7 @@ export class EditorCameraController extends Component {
     private _minViewSize: number = 30;
     private _maxViewSize: number = 100;
     private _defaultViewSize: number = 200;
+    private _currentViewSize: number = 200;
     private readonly _defaultPosition = new Vector3();
     private _onKeyDownBind = this.onKeyDown.bind(this);
     private _onWheelBind = this.onWheel.bind(this);
@@ -20,11 +21,14 @@ export class EditorCameraController extends Component {
     private _onPointerUpBind = this.onPointerUp.bind(this);
     private _onPointerMoveBind = this.onPointerMove.bind(this);
     private _onPointerLeaveBind = this.onPointerLeave.bind(this);
+    private _onResizeBind = this.onResize.bind(this);
 
     protected awake(): void {
         this._camera = this.gameObject.getComponent(Camera);
-        this._defaultViewSize = this._camera!.viewSize;
+        const aspect = this.engine.screen.width / this.engine.screen.height;
+        this._defaultViewSize = this._camera!.viewSize * aspect;
         this._defaultPosition.copy(this.gameObject.transform.position);
+        this._currentViewSize = this._defaultViewSize;
     }
 
     public onEnable(): void {
@@ -35,6 +39,7 @@ export class EditorCameraController extends Component {
         input.addOnPointerUpEventListener(this._onPointerUpBind);
         input.addOnPointerMoveEventListener(this._onPointerMoveBind);
         input.addOnPointerLeaveEventListener(this._onPointerLeaveBind);
+        this.engine.screen.addOnResizeEventListener(this._onResizeBind);
     }
 
     public onDisable(): void {
@@ -45,22 +50,25 @@ export class EditorCameraController extends Component {
         input.removeOnPointerUpEventListener(this._onPointerUpBind);
         input.removeOnPointerMoveEventListener(this._onPointerMoveBind);
         input.removeOnPointerLeaveEventListener(this._onPointerLeaveBind);
+        this.engine.screen.removeOnResizeEventListener(this._onResizeBind);
     }
 
     private onKeyDown(event: KeyboardEvent): void {
         if (event.key === " ") {
-            this._camera!.viewSize = this._defaultViewSize;
+            this._currentViewSize = this._defaultViewSize;
+            this.onResize();
             this.gameObject.transform.position.copy(this._defaultPosition);
         }
     }
 
     private onWheel(event: WheelEvent): void {
-        this._camera!.viewSize += event.deltaY * 0.1;
-        if (this._camera!.viewSize < this._minViewSize) {
-            this._camera!.viewSize = this._minViewSize;
-        } else if (this._camera!.viewSize > this._maxViewSize) {
-            this._camera!.viewSize = this._maxViewSize;
+        this._currentViewSize += event.deltaY * 0.1;
+        if (this._currentViewSize < this._minViewSize) {
+            this._currentViewSize = this._minViewSize;
+        } else if (this._currentViewSize > this._maxViewSize) {
+            this._currentViewSize = this._maxViewSize;
         }
+        this.onResize();
     }
 
     private onPointerDown(event: MouseEvent): void {
@@ -79,7 +87,7 @@ export class EditorCameraController extends Component {
         }
     }
 
-    private onPointerLeave(event: MouseEvent): void {
+    private onPointerLeave(_event: MouseEvent): void {
         this._mouseMiddleDown = false;
     }
 
@@ -92,10 +100,15 @@ export class EditorCameraController extends Component {
         const clientXdiff = clientOffsetX - this._lastOffset.x;
         const clientYdiff = clientOffsetY - this._lastOffset.y;
 
-        this.gameObject.transform.position.x -= clientXdiff * this._camera!.viewSize;
-        this.gameObject.transform.position.y += clientYdiff * this._camera!.viewSize;
+        this.gameObject.transform.position.x -= clientXdiff * this._currentViewSize;
+        this.gameObject.transform.position.y += clientYdiff * this._currentViewSize;
 
         this._lastOffset.set(clientOffsetX, clientOffsetY);
+    }
+
+    private onResize(): void {
+        const aspect = this.engine.screen.width / this.engine.screen.height;
+        this._camera!.viewSize = this._currentViewSize / aspect;
     }
 
     public get minViewSize(): number {
@@ -105,8 +118,9 @@ export class EditorCameraController extends Component {
     public set minViewSize(value: number) {
         this._minViewSize = value;
 
-        if (this._camera!.viewSize < this._minViewSize) {
-            this._camera!.viewSize = this._minViewSize;
+        if (this._currentViewSize < this._minViewSize) {
+            this._currentViewSize = this._minViewSize;
+            this.onResize();
         }
     }
 
@@ -117,8 +131,9 @@ export class EditorCameraController extends Component {
     public set maxViewSize(value: number) {
         this._maxViewSize = value;
 
-        if (this._camera!.viewSize > this._maxViewSize) {
-            this._camera!.viewSize = this._maxViewSize;
+        if (this._currentViewSize > this._maxViewSize) {
+            this._currentViewSize = this._maxViewSize;
+            this.onResize();
         }
     }
 }
