@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useAsync } from "react-use";
 import styled from "styled-components";

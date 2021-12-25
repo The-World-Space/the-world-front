@@ -44,15 +44,18 @@ export class KoreanComponentExample extends Component {
         //gameObject는 컴포넌트가 붙어있는 게임오브젝트입니다.
         //컴포넌트는 한번 생성되면 파괴될때까지 다른 게임오브젝트로 이동할 수 없습니다. 그러므로 this.gameObject 값은 항상 동일합니다.
         const gameObject = this.gameObject;
+        gameObject.activeSelf;
 
         //getcomponent 메서드를 사용하여 컴포넌트가 붙어있는 게임오브젝트에서 원하는 타입의 컴포넌트를 가져올 수 있습니다.
         //만약 컴포넌트가 존재하지 않는다면 null을 반환합니다.
         //https://docs.unity3d.com/ScriptReference/GameObject.GetComponent.html
         const cssTextRenderer = this.gameObject.getComponent(CssTextRenderer);
+        cssTextRenderer?.enabled;
 
         //_requiredComponents 에서 TestExectuer 가 존재하기에 getComponent(TestExectuer) 는 절대로 실패할 수가 없습니다.
         //따라서 여기에는 null forgiving 을 사용할수 있습니다.
         const testExecuter: TestExectuer = this.gameObject.getComponent(TestExectuer)!;
+        testExecuter.enabled;
 
         //addComponent 는 게임오브젝트에 컴포넌트를 추가합니다.
         //_disallowMultipleComponent나 _requiredComponents 옵션에 의해 추가에 실패할 수 있기 떄문에 null 을 반환할수도 있습니다.
@@ -64,6 +67,7 @@ export class KoreanComponentExample extends Component {
 
         //델타타임을 가져옵니다.
         const deltaTime = this.engine.time.deltaTime;
+        deltaTime.toString();
 
         //test_game_object 라는 이름의 게임오브젝트를 차일드로 생성합니다.
         this.gameObject.addChildFromBuilder(this.engine.instantlater.buildGameObject("test_game_object"));
@@ -89,6 +93,7 @@ export class KoreanComponentExample extends Component {
         const prefabRef = new PrefabRef<GameObject>();
         this.gameObject.addChildFromBuilder(this.engine.instantlater.buildGameObject("test_game_object").getGameObject(prefabRef));
         const gameObject2 = prefabRef.ref!; //이 시점에선 null forgiving 을 사용할수 있습니다. (생성이 무조건 보장됨)
+        gameObject2.activeSelf;
     }
 
     //start 함수는 awake 이후에 실행되는 함수입니다. 이 함수는 컴포넌트의 라이프사이클에서 한번 실행됩니다.

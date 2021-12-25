@@ -4,12 +4,12 @@ import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { GridCollideMap } from "../physics/GridColideMap";
 
 export class NetworkColiderManager extends Component {
-    private _worldId: string | null = null;
+    //private _worldId: string | null = null;
     private _colliderList: Server.Collider[] = [];
     private _worldGridColliderMap: PrefabRef<GridCollideMap> = new PrefabRef();
 
-    public set worldId(id: string) {
-        this._worldId = id;
+    public set worldId(_id: string) {
+        //this._worldId = id;
     }
 
     public set colliderList(val: Server.Collider[]) {

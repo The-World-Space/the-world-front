@@ -119,7 +119,7 @@ export class PlayerGridMovementController extends Directionable
         return false;
     }
 
-    private invokeOnMoveToTarget(vector2: Vector2): void {
+    private invokeOnMoveToTarget(_vector2: Vector2): void {
         this._onMoveToTargetDelegates.forEach(
             (delegate) => delegate(
                 Math.floor(this._targetGridPosition.x / this._gridCellWidth),
@@ -128,7 +128,7 @@ export class PlayerGridMovementController extends Directionable
         );
     }
 
-    private invokeOnMovedToTarget(vector2: Vector2): void {
+    private invokeOnMovedToTarget(_vector2: Vector2): void {
         this._onMovedToTargetDelegates.forEach(
             (delegate) => delegate(
                 Math.floor(this._currentGridPosition.x / this._gridCellWidth),

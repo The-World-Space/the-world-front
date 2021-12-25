@@ -12,7 +12,6 @@ import { IGridCollidable } from "../script/physics/IGridCollidable";
 import { Networker } from "../script/Networker";
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
-import React from "react";
 
 export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");

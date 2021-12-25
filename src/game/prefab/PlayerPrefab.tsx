@@ -14,7 +14,6 @@ import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
 import { PlayerGridEventInvoker } from "../script/event/PlayerGridEventInvoker";
 import { GridEventMap } from "../script/event/GridEventMap";
-import React from "react";
 
 export class PlayerPrefab extends Prefab {
     private _spriteAtlasPath = new PrefabRef<string>("/assets/charactor/Seongwon.png");

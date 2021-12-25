@@ -118,8 +118,6 @@ export class GridCollider extends Component {
         });
         this._colliderImages.clear();
     }
-
-    private readonly _tempVector = new Vector3();
     
     private addDebugImage(x: number, y: number) {
         if (!this._gridObjectCollideMap) return;
@@ -147,12 +145,12 @@ export class GridCollider extends Component {
         }
     }
 
-    private readonly _tempVector2 = new Vector3();
+    private readonly _tempVector = new Vector3();
 
     private addCollideInfoToMap(x: number, y: number) {
         if (!this._gridObjectCollideMap) return;
 
-        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector2);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector);
         const gridCellWidth = this._gridObjectCollideMap.gridCellWidth;
         const gridCellHeight = this._gridObjectCollideMap.gridCellHeight;
         const gridCenter = this._gridObjectCollideMap.gridCenter;
@@ -165,7 +163,7 @@ export class GridCollider extends Component {
     private addAllCollideInfoToMap() {
         if (!this._gridObjectCollideMap) return;
 
-        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector2);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector);
         const gridCellWidth = this._gridObjectCollideMap.gridCellWidth;
         const gridCellHeight = this._gridObjectCollideMap.gridCellHeight;
         const gridCenter = this._gridObjectCollideMap.gridCenter;
@@ -182,7 +180,7 @@ export class GridCollider extends Component {
     private removeCollideInfoFromMap(x: number, y: number) {
         if (!this._gridObjectCollideMap) return;
         
-        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector2);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector);
         const gridCellWidth = this._gridObjectCollideMap.gridCellWidth;
         const gridCellHeight = this._gridObjectCollideMap.gridCellHeight;
         const gridCenter = this._gridObjectCollideMap.gridCenter;
@@ -196,7 +194,7 @@ export class GridCollider extends Component {
     private removeAllCollideInfoFromMap() {
         if (!this._gridObjectCollideMap) return;
 
-        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector2);
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector);
         const gridCellWidth = this._gridObjectCollideMap.gridCellWidth;
         const gridCellHeight = this._gridObjectCollideMap.gridCellHeight;
         const gridCenter = this._gridObjectCollideMap.gridCenter;

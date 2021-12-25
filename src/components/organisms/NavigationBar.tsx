@@ -2,7 +2,7 @@ import { AuthContext } from "../../context/contexts";
 import {
     Link, useHistory
 } from "react-router-dom";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import twLogo2 from "../atoms/tw logo 2.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";

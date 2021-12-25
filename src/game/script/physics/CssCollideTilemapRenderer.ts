@@ -1,8 +1,8 @@
-import { Quaternion, Vector3 } from "three";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
+//import { Quaternion, Vector3 } from "three";
+//import { GameObject } from "../../engine/hierarchy_object/GameObject";
+//import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { CssTilemapRenderer } from "../render/CssTilemapRenderer";
-import { ZaxisInitializer } from "../render/ZaxisInitializer";
+//import { ZaxisInitializer } from "../render/ZaxisInitializer";
 
 export class CssCollideTilemapRenderer extends CssTilemapRenderer {
     private readonly _collideMap: Map<`${number}_${number}`, boolean> = new Map();
@@ -58,14 +58,14 @@ export class CssCollideTilemapRenderer extends CssTilemapRenderer {
         this._collideMap.set(`${colideX}_${colideY}`, true);
     }
 
-    private addDebugImage(x: number, y: number) {
-        if (this.gameObject.transform.parentTransform instanceof GameObject) {
-            this.gameObject.transform.parentTransform.addChildFromBuilder(
-                this.engine.instantlater.buildGameObject("debugImage", new Vector3(x, y, 10000), new Quaternion(), new Vector3(0.5, 0.5, 0.5))
-                    .withComponent(ZaxisInitializer)
-                    .withComponent(CssSpriteRenderer));
-        }
-    }
+    // private addDebugImage(x: number, y: number) {
+    //     if (this.gameObject.transform.parentTransform instanceof GameObject) {
+    //         this.gameObject.transform.parentTransform.addChildFromBuilder(
+    //             this.engine.instantlater.buildGameObject("debugImage", new Vector3(x, y, 10000), new Quaternion(), new Vector3(0.5, 0.5, 0.5))
+    //                 .withComponent(ZaxisInitializer)
+    //                 .withComponent(CssSpriteRenderer));
+    //     }
+    // }
 
     public checkCollision(x: number, y: number, width: number, height: number): boolean {
         if (!this._collideEnabled) return false;

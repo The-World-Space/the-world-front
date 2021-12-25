@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import twLogo1 from "../components/atoms/tw logo 1.svg";
 import NavTemplate from "../components/templates/NavTemplate";

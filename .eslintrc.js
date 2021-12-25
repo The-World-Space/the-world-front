@@ -23,7 +23,9 @@ module.exports = {
     "rules": {
         "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-explicit-any": "off",
+        "react/react-in-jsx-scope": "off",
         "indent": [
             "error",
             4,

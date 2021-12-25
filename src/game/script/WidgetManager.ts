@@ -8,7 +8,7 @@ export class WidgetManager {
 
     constructor(
             private readonly _penpalNetworkManager: PenpalNetworker,
-            private readonly _world: Server.World,
+            /*private readonly _world: Server.World,*/
             private readonly _wrapperDiv: HTMLDivElement,
             private _widgetIframeInfos: Server.IframeWidget[]) {
         this._init();

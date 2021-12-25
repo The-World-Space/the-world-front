@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
 import { Game } from "../game/engine/Game";
 import { useAsync } from "react-use";
@@ -71,7 +71,7 @@ function NetworkGamePage(): JSX.Element {
         const game = new Game(div.current);
         const networkManager = new Networker(world.id, user.id, globalApolloClient);
         const penpalNetworkWrapper = new PenpalNetworker(world.id, globalApolloClient);
-        const widgetManager = new WidgetManager(penpalNetworkWrapper, world, widgetWrapperdiv.current, []);
+        const widgetManager = new WidgetManager(penpalNetworkWrapper, /*world,*/ widgetWrapperdiv.current, []);
         game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper, worldEditorConnector));
         setGame(game);
         joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {

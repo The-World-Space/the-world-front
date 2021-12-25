@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { ObjEditorContext } from "../../../context/contexts";
 import { Game } from "../../../game/engine/Game";

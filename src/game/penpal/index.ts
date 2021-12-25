@@ -16,8 +16,8 @@ interface Child {
 export class IframeCommunicator {
     private internalFieldIdToFieldMap: Map<string, Server.Field>;
     private internalBroadcasterIdToBroadcasterMap: Map<string, Server.Broadcaster>;
-    private publicFieldIdToInternalIdMap: Map<number, string>;
-    private publicBroadcasterIdToInternalIdMap: Map<number, string>;
+    // private publicFieldIdToInternalIdMap: Map<number, string>;
+    // private publicBroadcasterIdToInternalIdMap: Map<number, string>;
     private child!: Child;
     private subscriptions: ZenObservable.Subscription[];
     private disposeFuncs: (() => void)[] = [];
@@ -28,12 +28,12 @@ export class IframeCommunicator {
         private readonly penpalNetworkWrapper: PenpalNetworker) {
         this.internalFieldIdToFieldMap =
             new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [portId, field]));
-        this.publicFieldIdToInternalIdMap =
-            new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [field.id, portId]));
+        // this.publicFieldIdToInternalIdMap =
+        //     new Map(iframeInfo.fieldPortMappings.map(({ portId, field }) => [field.id, portId]));
         this.internalBroadcasterIdToBroadcasterMap =
             new Map(iframeInfo.broadcasterPortMappings.map(({ portId, broadcaster }) => [portId, broadcaster]));
-        this.publicBroadcasterIdToInternalIdMap =
-            new Map(iframeInfo.broadcasterPortMappings.map(({ portId, broadcaster }) => [broadcaster.id, portId]));
+        // this.publicBroadcasterIdToInternalIdMap =
+        //     new Map(iframeInfo.broadcasterPortMappings.map(({ portId, broadcaster }) => [broadcaster.id, portId]));
         this.subscriptions = [];
     }
 
@@ -43,12 +43,12 @@ export class IframeCommunicator {
     private internalBroadcasterIdToPublicId(id: string) {
         return this.internalBroadcasterIdToBroadcasterMap.get(id)?.id;
     }
-    private publicFieldIdToInternalId(id: number) {
-        return this.publicFieldIdToInternalIdMap.get(id);
-    }
-    private publicBroadcasterIdToInternalId(id: number) {
-        return this.publicBroadcasterIdToInternalIdMap.get(id);
-    }
+    // private publicFieldIdToInternalId(id: number) {
+    //     return this.publicFieldIdToInternalIdMap.get(id);
+    // }
+    // private publicBroadcasterIdToInternalId(id: number) {
+    //     return this.publicBroadcasterIdToInternalIdMap.get(id);
+    // }
 
 
     /// <METHODS FOR IFRAME>

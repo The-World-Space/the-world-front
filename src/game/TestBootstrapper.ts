@@ -35,9 +35,9 @@ export class TestBootstrapper extends Bootstrapper {
                     c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
                     c.showEvents = true;
 
-                    const sansEvent = (_gridX: number, _gridY: number, target: GameObject) => {
+                    const sansEvent = (_gridX: number, _gridY: number, _target: GameObject) => {
                         playerStatusRenderController.ref!.setChatBoxText("i want some bad time", 1);
-                    }
+                    };
 
                     c.addEvent(32, 0, sansEvent);
                     c.addEvent(32, -1, sansEvent);
