@@ -1,5 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
+import { Game } from "../../../game/engine/Game";
+import { GameStateKind } from "../../../game/engine/GameState";
+import { EditorInfoObject, TileEditorBootstraper } from "./TileEditorBootstraper";
 // import { Game } from "../../../game/engine/Game";
 // import { EditorInfoObject, TileEditorBootstraper } from "./TileEditorBootstraper";
 
@@ -15,14 +18,34 @@ const DrawArea = styled.div`
     background-color: #FFFFFF;
 `
 
-function TileEditor() {
-    const divRef = useRef<HTMLDivElement>(null);
+interface TileEditorProps {
+    opened: boolean;
+}
 
+function TileEditor({ opened }: TileEditorProps) {
+    const divRef = useRef<HTMLDivElement>(null);
+    const [game, setGame] = useState<Game | null>(null);
+    
     useEffect(() => {
         if (!divRef.current) throw new Error("divRef.current is null");
-        // const game = new Game(divRef.current);
-        // game.run(TileEditorBootstraper, new EditorInfoObject(divRef.current));
-        // game.inputHandler.startHandleEvents();
+        const game = new Game(divRef.current);
+        game.run(TileEditorBootstraper, new EditorInfoObject(divRef.current));
+        game.inputHandler.startHandleEvents();
+        setGame(game);
+
+        return () => {
+            game.dispose();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!game) return;
+        if (!opened && game.currentGameState === GameStateKind.Running) {
+            game.stop();
+        }
+        else if (opened && game.currentGameState === GameStateKind.Stopped) {
+            game.resume();
+        }
     });
 
     return (

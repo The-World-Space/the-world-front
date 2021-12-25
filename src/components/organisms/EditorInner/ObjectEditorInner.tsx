@@ -193,7 +193,7 @@ function ObjectEditorInner({ worldId, opened }: PropsType) {
                     setTab={onChangeTab}
                     tabNames={tabNames}
                 />
-                <TileEditor />
+                <TileEditor opened={opened} />
                 <ObjectTypeRadioWrapper>
                     <ObjectTypeRadioL 
                         selected={Server.GameObjectType.Wall === selectedObjectType}
