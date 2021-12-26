@@ -232,6 +232,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             height: imageHeight,
             isPublic: true,
             type: selectedObjectType,
+            offsetX: 0,
+            offsetY: 0,
             colliders: 
                 objEditorConnector.getColliderShape()
                     .map(c => ({x: c.x, y: c.y, isBlocked: true})),
@@ -243,10 +245,14 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         });
         await saveMutate({
             variables: {
-                ...vars,
-                src: imageUploadRes.data.uploadImageAsset.filename
+                protoInput: {
+                    ...vars,
+                    src: `https://computa.lunuy.com:40085/image/${imageUploadRes.data.uploadImageAsset.filename}`,
+                }
             }
         });
+        objEditorConnector.clearColliders();
+        objEditorConnector.clearViewObject();
         apolloClient.resetStore();
     }, [file, imageWidth, imageHeight, selectedObjectType]);
     
