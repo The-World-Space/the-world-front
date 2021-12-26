@@ -60,7 +60,6 @@ interface PropsType {
 }
 
 function VariableEditorInner({ /*worldId,*/ opened }: PropsType) {
-    
     return (
         <ExpandBarDiv opened={opened}>
             <ListContainer>
