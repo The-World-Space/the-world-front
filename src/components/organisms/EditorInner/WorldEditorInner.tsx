@@ -301,17 +301,16 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         ]);
 
     
-    const atlasMap = useMemo<{[key: string]: Server.Atlas}>(() => {
-        const newMap: {[key: string]: Server.Atlas} = {};
+    const atlasMap = useMemo<{[key: string]: (Server.Atlas | undefined)}>(() => {
+        const newMap: {[key: string]: (Server.Atlas | undefined)} = {};
         const atlases: Server.Atlas[] | null = myAtlases.data?.myAtlases;
         atlases?.forEach(a => {
             newMap[a.id] = a;
         });
-        console.log(atlases, newMap);
         return newMap;
     }, [myAtlases.data]);
-    const protoMap = useMemo<{[key: string]: Server.ImageGameObjectProto}>(() => {
-        const newMap: {[key: string]: Server.ImageGameObjectProto} = {};
+    const protoMap = useMemo<{[key: string]: (Server.ImageGameObjectProto | undefined)}>(() => {
+        const newMap: {[key: string]: (Server.ImageGameObjectProto | undefined)} = {};
         const imageProtos: Server.ImageGameObjectProto[] | null = myImageGameObjectProtos.data?.myImageGameObjectProtos;
         imageProtos?.forEach(p => {
             newMap[p.id] = p;
@@ -340,6 +339,10 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         } else if (editorTool === EditorTools.Pen && tab === Tabs.Tile) {
             const [atlasId, atlasIndex] = photoId.split("_");
             const atlas = atlasMap[atlasId];
+            if (!atlas) {
+                alert("Atlas not selected");
+                return;
+            }
             const tool = new Tools.Tile({
                 atlas, 
                 atlasIndex: +atlasIndex,
@@ -349,6 +352,10 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         } else if (editorTool === EditorTools.Pen && tab === Tabs.Object) {
             const protoId = +photoId;
             const proto = protoMap[protoId];
+            if (!proto) {
+                alert("Object not selected");
+                return;
+            }
             const tool = new Tools.ImageGameObject(proto);
             worldEditorConnector.setToolType(tool);
         }
