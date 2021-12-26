@@ -32,6 +32,9 @@ export namespace Tools {
 
     export class EraseObject extends Tool {
     }
+
+    export class EraseCollider extends Tool {
+    }
     
     export class ImageGameObject extends Tool {
         constructor(
@@ -60,14 +63,19 @@ export namespace Tools {
     export class Collider extends Tool {
     }
     
+    type tileType = {
+        atlasIndex: number;
+        atlas: Server.Atlas;
+        type: Server.GameObjectType;
+    }
     export class Tile extends Tool {
         constructor (
-            private readonly _tileInfo: Server.AtlasTile
+            private readonly _tileInfo: tileType
         ) {
             super();
         }
     
-        public get tileInfo(): Server.AtlasTile {
+        public get tileInfo(): tileType {
             return this._tileInfo;
         }
     }

@@ -116,13 +116,15 @@ function LabeledList({setId, id, datas, tabName, height, minHeight}: LabeledList
 }
 
 
-const ElementWrapperDIv = styled.div`
+const ElementWrapperDIv = styled.div<{selected: boolean}>`
     display: flex;
     flex-direction: column;
 
     align-items: center;
 
     margin: 10px;
+
+    background-color: ${p => p.selected ? "#D7CCC8" : "#A69B97"};
 `;
 
 const ElementThumbnail = styled.img`
@@ -169,11 +171,11 @@ interface PhotoElementProps {
 }
 
 const    PhotoElement = React.memo(PhotoElement_);
-function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProps) {
+function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
     const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.horizontalCount) : 0;
-    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.verticalCount) : 0;
+    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.horizontalCount) : 0;
     return (
-        <ElementWrapperDIv onClick={() => onSelect(data.id)}>
+        <ElementWrapperDIv onClick={() => onSelect(data.id)} selected={selected}>
             {
                 data.isAtlas 
                     ? <AtlasThumbnail 
@@ -186,7 +188,7 @@ function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProp
                     />
                     : <ElementThumbnail src={data.isAtlas} />
             }
-            <ElementName>{label}</ElementName>
+            <ElementName>{label}{data.isAtlas ? `:: ${verticalIndex} ${horizontalIndex} ${data.atlasIndex}` : ""}</ElementName>
         </ElementWrapperDIv>
     );
 }

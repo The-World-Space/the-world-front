@@ -135,14 +135,12 @@ const UPLOAD_IMAGE = gql`
 `;
 
 
-const SAVE_IMAGE_PROTO = gql`
-mutation CREATE_IMAGE_PROTO ($protoInput: ImageGameObjectProtoInput!) {
-    createImageGameObjectProto(
-        imageGameObjectProto: $protoInput
-    ) {
-        id
+const CREATE_ATLAS = gql`
+    mutation createAtlas($atlasInput: AtlasInput!) {
+        createAtlas(atlas: $atlasInput) {
+            id
+        }
     }
-}
 `;
 
 
@@ -177,7 +175,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const [imageUploadMutate] = useMutation(UPLOAD_IMAGE, {
         client: globalFileApolloClient,
     });
-    const [saveMutate] = useMutation(SAVE_IMAGE_PROTO);
+    const [crateMutate] = useMutation(CREATE_ATLAS);
     const [file, setFile] = useState<File>();
     const onFileChange = useCallback(({ target: { validity, files } }: React.ChangeEvent<HTMLInputElement>) => {
         if (!validity.valid || !files || files.length < 1) return;
@@ -212,20 +210,18 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
         const vars = {
             name: name,
-            width: +verticalCount,
-            height: +horizontalCount,
+            columnCount: +verticalCount,
+            rowCount: +horizontalCount,
             isPublic: true,
-            offsetX: 0,
-            offsetY: 0,
         };
         const imageUploadRes = await imageUploadMutate({
             variables: {
                 image: file
             }
         });
-        await saveMutate({
+        await crateMutate({
             variables: {
-                protoInput: {
+                atlasInput: {
                     ...vars,
                     src: `https://asset.the-world.space/image/${imageUploadRes.data.uploadImageAsset.filename}`,
                 }

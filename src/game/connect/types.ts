@@ -54,6 +54,7 @@ export namespace Server {
         columnCount: number;
         rowCount: number;
         src: string;
+        name: string;
     }
 
     interface GameObject {
