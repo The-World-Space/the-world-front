@@ -54,6 +54,10 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
             setViewObject(shape, width, height) {
                 if (!editorViewObjectController.ref) return;
                 editorViewObjectController.ref.setViewObject(shape as any, width, height);
+            },
+            clearViewObject() {
+                if (!editorViewObjectController.ref) return;
+                editorViewObjectController.ref.clearViewObject();
             }
         };
 

@@ -23,6 +23,12 @@ export class EditorViewObjectController extends Component {
         }
     }
 
+    public clearViewObject(): void {
+        if (this._spriteRenderer) {
+            this._spriteRenderer.enabled = false;
+        }
+    }
+
     public setGridCellSize(width: number, height: number): void {
         this._gridCellWidth = width;
         this._gridCellHeight = height;
