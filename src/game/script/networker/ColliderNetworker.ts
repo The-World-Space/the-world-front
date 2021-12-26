@@ -15,7 +15,7 @@ export class ColliderNetworker {
                 private readonly _client: ApolloClient<any>) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this._initNetwork();
-        this._initEEListenters();
+        // this._initEEListenters();
     }
 
     private _initNetwork() {
@@ -41,10 +41,10 @@ export class ColliderNetworker {
     }
 
 
-    private _initEEListenters() {
+    // private _initEEListenters() {
         
         
-    }
+    // }
 
 
     get ee(): DumbTypedEmitter<DEETypes> {

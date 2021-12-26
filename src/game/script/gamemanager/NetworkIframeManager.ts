@@ -6,6 +6,7 @@ import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
+import { IframeNetworker } from "../networker/IframeNetworker";
 import { IGridCollidable } from "../physics/IGridCollidable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
@@ -19,8 +20,9 @@ export class NetworkIframeManager extends Component {
     private _apolloClient: ApolloClient<any> | null = null;
     private _iGridCollidable: IGridCollidable | null = null;
     private _worldId: string | null = null;
-    private _iframeList: Server.IframeGameObject[] = [];
+    private _initIframeList: Server.IframeGameObject[] = [];
     private _penpalNetworkWrapper: PenpalNetworker | null = null;
+    private _iframeNetworker: IframeNetworker | null = null;
 
     public set apolloClient(apolloClient: ApolloClient<any>) {
         this._apolloClient = apolloClient;
@@ -34,24 +36,40 @@ export class NetworkIframeManager extends Component {
         this._worldId = id;
     }
 
-    public set iframeList(val: Server.IframeGameObject[]) {
-        this._iframeList = [...val];
+    public set initIframeList(val: Server.IframeGameObject[]) {
+        this._initIframeList = [...val];
     }
 
     public set penpalNetworkWrapper(val: PenpalNetworker) {
         this._penpalNetworkWrapper = val;
     }
 
+    public initNetwork(iframeNetworker: IframeNetworker): void {
+        this._iframeNetworker = iframeNetworker;
+        this._iframeNetworker.ee.on("create", iframeInfo => {
+            this.addOneIframe(iframeInfo);
+        });
+        this._iframeNetworker.ee.on("delete", iframeId => {
+            this.deleteOneIframe(iframeId);
+        });
+    }
+
     public start(): void {
-        this._iframeList.forEach(info => this.addOneIframe(info));
+        this._initIframeList.forEach(info => this.addOneIframe(info));
     }
 
     public addOneIframe(info: Server.IframeGameObject): void {
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!this._worldId) throw new Error("no world id");
         
-        this._iframeList.push(info);
         this._buildNetworkIframe(info, this._worldId, this._apolloClient);
+    }
+
+    public deleteOneIframe(id: number): void {
+        const iframe = this._networkIframerMap.get(id);
+        if (!iframe) return;
+        iframe.destroy();
+        this._networkIframerMap.delete(id);
     }
 
     private _buildNetworkIframe(iframeInfo: Server.IframeGameObject, worldId: string, apolloClient: ApolloClient<any>): void {

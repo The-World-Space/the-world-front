@@ -4,6 +4,7 @@ import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { NetworkImagePrefab } from "../../prefab/NetworkImagePrefab";
+import { ImageNetworker } from "../networker/ImageNetworker";
 import { IGridCollidable } from "../physics/IGridCollidable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
@@ -15,24 +16,40 @@ export class NetworkImageManager extends Component {
     private _networkImageMap: Map<number, GameObject> = new Map();
 
     private _iGridCollidable: IGridCollidable | null = null;
-    private _imageList: Server.ImageGameObject[] = [];
+    private _initImageList: Server.ImageGameObject[] = [];
+    private _imageNetworker: ImageNetworker | null = null;
 
     public set iGridCollidable(val: IGridCollidable | null) {
         this._iGridCollidable = val;
     }
 
-    public set imageList(val: Server.ImageGameObject[]) {
-        this._imageList = [...val];
+    public set initImageList(val: Server.ImageGameObject[]) {
+        this._initImageList = [...val];
+    }
+
+    public initNetwork(imageNetworker: ImageNetworker): void {
+        this._imageNetworker = imageNetworker;
+        this._imageNetworker.ee.on("create", image => {
+            this.addOneImage(image);
+        });
+        this._imageNetworker.ee.on("delete", imageId => {
+            this.removeOneImage(imageId);
+        });
     }
 
     public start(): void {
-        this._imageList.forEach(info => this.addOneImage(info));
+        this._initImageList.forEach(info => this.addOneImage(info));
     }
 
     public addOneImage(info: Server.ImageGameObject): void {
-        
-        this._imageList.push(info);
         this._buildNetworkImage(info);
+    }
+
+    public removeOneImage(imageId: number): void {
+        const image = this._networkImageMap.get(imageId);
+        if (!image) return;
+        image.destroy();
+        this._networkImageMap.delete(imageId);
     }
 
     private _buildNetworkImage(imageInfo: Server.ImageGameObject): void {

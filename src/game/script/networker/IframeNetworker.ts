@@ -55,7 +55,7 @@ fragment IframeFields on IframeGameObject {
         src
     }
 }
-`
+`;
 
 
 type iframeId = number;
@@ -67,14 +67,14 @@ type DEETypes = {
 }
 
 
-export class PlayerNetworker {
+export class IframeNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
     constructor(private readonly _worldId: string,
                 private readonly _client: ApolloClient<any>) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this._initNetwork();
-        this._initEEListenters();
+        // this._initEEListenters();
     }
 
     private _initNetwork() {
@@ -116,10 +116,10 @@ export class PlayerNetworker {
     }
 
 
-    private _initEEListenters() {
+    // private _initEEListenters() {
         
         
-    }
+    // }
 
 
     get ee(): DumbTypedEmitter<DEETypes> {

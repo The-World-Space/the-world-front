@@ -22,15 +22,25 @@ import { WorldEditorConnector } from "./script/WorldEditorConnector";
 import { GridCollideMap } from "./script/physics/GridColideMap";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
 import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
+import { ColliderNetworker } from "./script/networker/ColliderNetworker";
+import { IframeNetworker } from "./script/networker/IframeNetworker";
+import { ImageNetworker } from "./script/networker/ImageNetworker";
 
 export class NetworkInfoObject {
+    private readonly _colliderNetworker: ColliderNetworker;
+    private readonly _iframeNetworker: IframeNetworker;
+    private readonly _imageNetworker: ImageNetworker;
     public constructor(
         private readonly _serverWorld: Server.World, 
         private readonly _user: User, 
         private readonly _apolloClient: ApolloClient<any>, 
         private readonly _networkManager: PlayerNetworker, 
         private readonly _penpalNetworkManager: PenpalNetworker,
-        private readonly _worldEditorConnector: WorldEditorConnector) {
+        private readonly _worldEditorConnector: WorldEditorConnector
+    ) {
+        this._colliderNetworker = new ColliderNetworker(this._serverWorld.id, this._apolloClient);
+        this._iframeNetworker = new IframeNetworker(this._serverWorld.id, this._apolloClient);
+        this._imageNetworker = new ImageNetworker(this._serverWorld.id, this._apolloClient);
     }
     
     public get serverWorld(): Server.World {
@@ -56,6 +66,18 @@ export class NetworkInfoObject {
     public get worldEditorConnector(): WorldEditorConnector {
         return this._worldEditorConnector;
     }
+
+    public get colliderNetworker(): ColliderNetworker {
+        return this._colliderNetworker;
+    }
+
+    public get iframeNetworker(): IframeNetworker {
+        return this._iframeNetworker;
+    }
+
+    public get imageNetworker(): ImageNetworker {
+        return this._imageNetworker;
+    }
 }
 
 export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
@@ -75,26 +97,28 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject("networkGameManager")
                 .withComponent(NetworkPlayerManager, c => {
+                    c.iGridCollidable = collideTilemap.ref!;
                     c.initNetwork(this.interopObject!.networkManager);
                     c.initLocalPlayer(player.ref!);
-                    c.iGridCollidable = collideTilemap.ref!;
                 })
                 .withComponent(NetworkIframeManager, c => {
                     c.apolloClient = this.interopObject!.apolloClient;
                     c.iGridCollidable = collideTilemap.ref;
                     c.worldId = this.interopObject!.serverWorld.id;
-                    c.iframeList = this.interopObject!.serverWorld.iframes;
+                    c.initIframeList = this.interopObject!.serverWorld.iframes;
                     c.penpalNetworkWrapper = this.interopObject!.penpalNetworkManager;
+                    c.initNetwork(this.interopObject!.iframeNetworker);
                 })
                 .withComponent(NetworkImageManager, c => {
                     c.iGridCollidable = collideTilemap.ref;
-                    c.imageList = this.interopObject!.serverWorld.images;
+                    c.initImageList = this.interopObject!.serverWorld.images;
+                    c.initNetwork(this.interopObject!.imageNetworker);
                 })
                 .withComponent(NetworkColiderManager, c => {
-                    c.worldId = this.interopObject!.serverWorld.id;
                     c.colliderList = this.interopObject!.serverWorld.colliders;
                     // worldGridCollideMap.ref!.showCollider = true;
                     c.worldGridColliderMap = worldGridCollideMap;
+                    c.initNetwork(this.interopObject!.colliderNetworker);
                 }))
             .withChild(instantlater.buildGameObject("css_collide_tilemap_center")
                 .withComponent(CssCollideTilemapRenderer, c => {

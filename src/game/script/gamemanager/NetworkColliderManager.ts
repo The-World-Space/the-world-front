@@ -1,16 +1,13 @@
 import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { ColliderNetworker } from "../networker/ColliderNetworker";
 import { GridCollideMap } from "../physics/GridColideMap";
 
 export class NetworkColiderManager extends Component {
-    //private _worldId: string | null = null;
     private _colliderList: Server.Collider[] = [];
     private _worldGridColliderMap: PrefabRef<GridCollideMap> = new PrefabRef();
-
-    public set worldId(_id: string) {
-        //this._worldId = id;
-    }
+    private _colliderNetworker: ColliderNetworker | null = null;
 
     public set colliderList(val: Server.Collider[]) {
         this._colliderList = [...val];
@@ -18,6 +15,13 @@ export class NetworkColiderManager extends Component {
 
     public set worldGridColliderMap(val: PrefabRef<GridCollideMap>) {
         this._worldGridColliderMap = val;
+    }
+
+    public initNetwork(val: ColliderNetworker): void {
+        this._colliderNetworker = val;
+        this._colliderNetworker.ee.on("update", collider => {
+            this.addOneCollider(collider);
+        });
     }
 
     public start(): void {
