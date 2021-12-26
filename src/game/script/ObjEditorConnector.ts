@@ -4,6 +4,7 @@ import { Tools } from "../../components/organisms/EditorInner/ObjectEditorInner"
 export interface IObjEditorAction {
     setToolType(tools: Tools): void;
     setViewObject(imageUrl: string, width: number, height: number): void;
+    setViewObjectSize(width: number, height: number): void;
     clearViewObject(): void;
     getColliders(): Vector2[];
     setColliders(colliders: Vector2[]): void;
@@ -19,6 +20,10 @@ export class ObjEditorConnector {
 
     setViewObject(...args: Parameters<IObjEditorAction["setViewObject"]>): void {
         return this._action?.setViewObject(...args);
+    }
+
+    setViewObjectSize(...args: Parameters<IObjEditorAction["setViewObjectSize"]>): void {
+        return this._action?.setViewObjectSize(...args);
     }
 
     getColliderShape(...args: Parameters<IObjEditorAction["getColliders"]>): Vector2[] {

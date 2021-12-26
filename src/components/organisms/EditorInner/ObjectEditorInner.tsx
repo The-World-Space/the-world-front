@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useContext, useRef, useState } from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -42,8 +42,10 @@ const Container = styled.div`
 
     box-sizing: border-box;
 
-    display: flex;
-    flex-direction: column;
+    padding: 18px;
+
+    /* display: flex;
+    flex-direction: column; */
 
     ::-webkit-scrollbar {
         width: 14px;
@@ -71,7 +73,7 @@ const ObjectTypeRadioWrapper = styled.div`
     display: flex;
     height: 49px;
 
-    margin: 0px 18px 0px 18px;
+    margin: 0px 0px 18px 0px;
 
     border-radius: 24.5px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.12);
@@ -108,6 +110,34 @@ const ObjectTypeRadioR = styled(ObjectTypeRadio)`
     border-radius: 0px 24.5px 24.5px 0px;
     
     border-left: 1px solid #FFFFFF60;
+`;
+
+
+const InputWrapper = styled.div`
+    width: 100%;
+    
+    box-sizing: border-box;
+
+    display: flex;
+
+    background-color: #A69B97;
+
+    border-radius: 27.5px;
+`;
+
+const InputWrapperSide = styled.div`
+    width: calc(50% - 1px);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+`;
+
+const InputWrapperSideVerticalLine = styled.div`
+    width: 0px;
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
 `;
 
 
@@ -205,11 +235,23 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         const inputedFile = files[0];
         setFile(inputedFile);
         const src = window.URL.createObjectURL(inputedFile);
-        objEditorConnector.setViewObject(src, imageWidth, imageHeight);
+        objEditorConnector.setViewObject(src, +imageWidth, +imageHeight);
     }, []);
 
-    const [imageWidth] = useState(2);
-    const [imageHeight] = useState(2);
+    const [imageWidth, setImageWidth] = useState("2");
+    const [imageHeight, setImageHeight] = useState("2");
+    const [name, setName] = useState("");
+    const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
+    const onImageSizeChange = useCallback((width: string, height: string) => {
+        const numWidth = +width;
+        const numHeight = +height;
+        if (!isSafeNum(numWidth) || !isSafeNum(numHeight)) return;
+        setImageWidth(width);
+        setImageHeight(height);
+        if (numHeight > 0 && numHeight > 0) {
+            objEditorConnector.setViewObjectSize(numWidth, numHeight);
+        }
+    }, [isSafeNum]);
 
     const apolloClient = useApolloClient();
     const save = useCallback(async () => {
@@ -281,6 +323,21 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                         Effect
                     </ObjectTypeRadioR>
                 </ObjectTypeRadioWrapper>
+                <InputWrapper>
+                    <InputWrapperSide>
+                        <NameInputWrapper>
+                            <NameInputLabel>
+                                Name :
+                            </NameInputLabel>
+                            <NameInputArea value={name} onChange={e => setName(e.target.value)} />
+                        </NameInputWrapper>
+                    </InputWrapperSide>
+                    <InputWrapperSideVerticalLine />
+                    <InputWrapperSide>
+                        <LabeledInput label="W" value={imageWidth} onChange={e => onImageSizeChange(e.target.value, imageHeight)} />
+                        <LabeledInput label="H" value={imageHeight} onChange={e => onImageSizeChange(imageWidth, e.target.value)} />
+                    </InputWrapperSide>
+                </InputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
                 <PenTool onClick={() => onSelectTool(Tools.Pen)} />
@@ -300,3 +357,84 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
 
 export default React.memo(ObjectEditorInner);
+
+
+
+
+const LabeledInputWrapper = styled.div`
+    width: 70px;
+    height: 27px;
+
+    display: flex;
+
+    margin: 10px;
+
+    border-radius: 13.5px;
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+`;
+
+const NameInputWrapper = styled(LabeledInputWrapper)`
+    width: 182px;
+`;
+
+const LabeledInputLabel = styled.span`
+    width: 30px;
+    height: 27px;
+    line-height: 27px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Noto Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+
+    background-color: #FFFFFB;
+
+    border-radius: 13.5px 0px 0px 13.5px;
+`;
+
+const NameInputLabel = styled(LabeledInputLabel)`
+    width: 50px;
+`;
+
+
+const LabeledInputArea = styled.input`
+    width: calc(100% - 30px);
+    height: 27px;
+    line-height: 27px;
+
+    box-sizing: border-box;
+
+    border: none;
+    outline: none;
+
+    background-color: #FFFFFB;
+
+    border-radius: 0px 13.5px 13.5px 0px;
+`;
+
+const NameInputArea = styled(LabeledInputArea)`
+    width: calc(100% - 50px);
+`;
+
+
+interface LabeledInputProps {
+    label: string;
+    value: string;
+    onChange: ChangeEventHandler<HTMLInputElement>;
+}
+
+function LabeledInput({label, value, onChange}: LabeledInputProps) {
+    return (
+        <LabeledInputWrapper>
+            <LabeledInputLabel>
+                {label} :
+            </LabeledInputLabel>
+            <LabeledInputArea onChange={onChange} value={value} />
+        </LabeledInputWrapper>
+    );
+}

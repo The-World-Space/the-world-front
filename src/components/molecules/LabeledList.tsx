@@ -6,7 +6,7 @@ const VerticalWrapperList = styled.div`
     flex-direction: column;
     width: 428px;
     height: 390px;
-    margin: 18px;
+    margin: 0px 0px 18px 0px;
 `;
 
 const ListTop = styled.div`

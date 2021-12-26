@@ -8,11 +8,11 @@ import { TileEditorBootstrapper } from "./TileEditorBootstrapper";
 const DrawArea = styled.div`
     width: 427px;
     min-height: 390px;
-    flex: 1;
+    height: calc(100% - 600px);
 
     overflow: hidden;
 
-    margin: 0px 18px 18px 18px;
+    margin: 0px 0px 18px 0px;
 
     border-radius: 23px;
 
