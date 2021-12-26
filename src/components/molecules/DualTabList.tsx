@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+const IMAGE_SIZE = 75;
+
 const VerticalWrapperList = styled.div`
     display: flex;
     flex-direction: column;
@@ -139,19 +141,26 @@ function DualTabList({setId, id, setTab, tab, datas, tabNames}: DualTabListProps
 }
 
 
-const ElementWrapperDIv = styled.div`
+const ElementWrapperDIv = styled.div<{selected: boolean}>`
     display: flex;
     flex-direction: column;
 
     align-items: center;
 
     margin: 10px;
+
+    background-color: ${p => p.selected ? "#D7CCC8" : "#A69B97"};
 `;
 
 const ElementThumbnail = styled.img`
-    width: 75px;
-    height: 75px;
+    width: ${IMAGE_SIZE}px;
+    height: ${IMAGE_SIZE}px;
 
+`;
+
+const AtlasThumbnail = styled.div`
+    width: ${IMAGE_SIZE}px;
+    height: ${IMAGE_SIZE}px;
 `;
 
 const ElementName = styled.span`
@@ -159,12 +168,23 @@ const ElementName = styled.span`
     font-size: 14px;
 `;
 
-export type PhotoElementData = PhotoSrcData;
+export type PhotoElementData = PhotoSrcData | PhotoAtlasData;
 
 
-interface PhotoSrcData {
-    id: number,
+export interface PhotoSrcData {
+    id: string,
     src: string,
+    name: string,
+    isAtlas: undefined,
+}
+
+export interface PhotoAtlasData {
+    id: string,
+    src: string,
+    atlasIndex: number,
+    verticalCount: number,
+    horizontalCount: number,
+    isAtlas: true,
     name: string,
 }
 
@@ -176,13 +196,27 @@ interface PhotoElementProps {
 }
 
 const    PhotoElement = React.memo(PhotoElement_);
-function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProps) {
+function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
+    const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.horizontalCount) : 0;
+    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.horizontalCount) : 0;
     return (
-        <ElementWrapperDIv onClick={() => onSelect(data.id)}>
-            <ElementThumbnail src={data.src} />
+        <ElementWrapperDIv onClick={() => onSelect(String(data.id))} selected={selected}>
+            {
+                data.isAtlas 
+                    ? <AtlasThumbnail 
+                        style={{
+                            backgroundImage: `url(${data.src})`,
+                            backgroundSize: `${data.horizontalCount * IMAGE_SIZE}px ${data.verticalCount * IMAGE_SIZE}px`,
+                            objectFit: "none",
+                            backgroundPosition: `${horizontalIndex * -IMAGE_SIZE}px ${verticalIndex * -IMAGE_SIZE}px`,
+                        }}
+                    />
+                    : <ElementThumbnail src={data.src} />
+            }
             <ElementName>{label}</ElementName>
         </ElementWrapperDIv>
     );
 }
+
 
 export default React.memo(DualTabList);
