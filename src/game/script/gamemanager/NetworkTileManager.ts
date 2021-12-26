@@ -23,9 +23,21 @@ export class NetworkTileManager extends Component {
             if (tileSrcMap.has(tile.atlas.src)) return;
             tileSrcMap.set(tile.atlas.src, tile.atlas);
         });
+
+        async function imageLoad(image: HTMLImageElement) {
+            return new Promise<void>((res, rej) => {
+                image.onload = () => {
+                    res();
+                };
+                image.onerror = () => {
+                    rej();
+                };
+            });
+        }
         
         const atlasImageMap = new Map<string, number>();
         const atlasItemList: TileAtlasItem[] = [];
+        const promiseList: Promise<void>[] = [];
         let index = 0;
         tileSrcMap.forEach((atlas, src) => {
             atlasImageMap.set(src, index);
@@ -33,20 +45,23 @@ export class NetworkTileManager extends Component {
             image.src = src;
             const atlasItem = new TileAtlasItem(image, atlas.columnCount, atlas.rowCount);
             atlasItemList.push(atlasItem);
+            promiseList.push(imageLoad(image));
             index++;
         });
         this._floorTileMap.imageSources = atlasItemList;
         this._effectTileMap.imageSources = atlasItemList;
 
-        this._initTileList.map(tile => {
-            if (tile.type === Server.TileType.Floor) {
-                this._floorTileMap!.drawTile(tile.x, tile.y, atlasImageMap.get(tile.atlas.src)!, tile.atlasIndex);
-            } else {
-                this._effectTileMap!.drawTile(tile.x, tile.y, atlasImageMap.get(tile.atlas.src)!, tile.atlasIndex);
-            }
+        Promise.all(promiseList).then(() => {
+            this._initTileList.map(tile => {
+                if (tile.type === Server.TileType.Floor) {
+                    this._floorTileMap!.drawTile(tile.x, tile.y, atlasImageMap.get(tile.atlas.src)!, tile.atlasIndex);
+                } else {
+                    this._effectTileMap!.drawTile(tile.x, tile.y, atlasImageMap.get(tile.atlas.src)!, tile.atlasIndex);
+                }
+            });
+    
+            this._initTileList = [];
         });
-
-        this._initTileList = [];
     }
 
     public set floorTileMap(value: CssTilemapChunkRenderer|null) {
