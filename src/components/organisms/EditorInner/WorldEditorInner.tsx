@@ -242,7 +242,8 @@ enum EditorTools {
     Eraser,
     Collider,
     Image,
-    Sizer
+    Sizer,
+    None
 }
 
 enum Tabs {
@@ -324,7 +325,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const [iframeObjectType, setIframeObjectType] = useState(Server.GameObjectType.Wall);
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
-    const [selectedTool, setSelectedTool] = useState(EditorTools.Pen);
+    const [selectedTool, setSelectedTool] = useState(EditorTools.None);
     const onSelectTool = useCallback((editorTool: EditorTools) => {
         setSelectedTool(editorTool);
         if (editorTool === EditorTools.Collider) {

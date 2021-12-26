@@ -28,9 +28,9 @@ export namespace Server {
     }
 
     export enum GameObjectType {
-        Floor,
-        Wall,
-        Effect,
+        Floor = 0,
+        Wall = 1,
+        Effect = 2,
     }
 
     export interface Collider {
@@ -39,12 +39,17 @@ export namespace Server {
         isBlocked: boolean;
     }
 
+    export enum TileType {
+        Floor = 0,
+        Effect = 1,
+    }
+
     export interface AtlasTile {
         x: number;
         y: number;
         atlasIndex: number;
         atlas: Atlas;
-        type: GameObjectType;
+        type: TileType;
     }
 
     export interface Atlas {
@@ -105,15 +110,15 @@ export namespace Server {
     }
 
     enum Anchor {
-        TOP_LEFT,
-        TOP_MID,
-        TOP_RIGHT,
-        CENTER_LEFT,
-        CENTER_MID,
-        CENTER_RIGHT,
-        BOTTOM_LEFT,
-        BOTTOM_MID,
-        BOTTOM_RIGHT
+        TOP_LEFT = 0,
+        TOP_MID = 1,
+        TOP_RIGHT = 2,
+        CENTER_LEFT = 3,
+        CENTER_MID = 4,
+        CENTER_RIGHT = 5,
+        BOTTOM_LEFT = 6,
+        BOTTOM_MID = 7,
+        BOTTOM_RIGHT = 8,
     }
 
     interface Widget {
