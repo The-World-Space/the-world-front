@@ -192,7 +192,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.initNetwork(this.interopObject!.imageNetworker);
                 })
                 .withComponent(NetworkColiderManager, c => {
-                    c.colliderList = this.interopObject!.serverWorld.colliders;
+                    c.initColliderList = this.interopObject!.serverWorld.colliders;
                     // worldGridCollideMap.ref!.showCollider = true;
                     c.worldGridColliderMap = gridCollideMap;
                     c.initNetwork(this.interopObject!.colliderNetworker);

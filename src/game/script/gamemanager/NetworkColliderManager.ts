@@ -5,12 +5,12 @@ import { ColliderNetworker } from "../networker/ColliderNetworker";
 import { GridCollideMap } from "../physics/GridColideMap";
 
 export class NetworkColiderManager extends Component {
-    private _colliderList: Server.Collider[] = [];
+    private _initColliderList: Server.Collider[] = [];
     private _worldGridColliderMap: PrefabRef<GridCollideMap> = new PrefabRef();
     private _colliderNetworker: ColliderNetworker | null = null;
 
-    public set colliderList(val: Server.Collider[]) {
-        this._colliderList = [...val];
+    public set initColliderList(val: Server.Collider[]) {
+        this._initColliderList = [...val];
     }
 
     public set worldGridColliderMap(val: PrefabRef<GridCollideMap>) {
@@ -25,11 +25,11 @@ export class NetworkColiderManager extends Component {
     }
 
     public start(): void {
-        this._colliderList.forEach(info => this.addOneCollider(info));
+        this._initColliderList.forEach(info => this.addOneCollider(info));
+        this._initColliderList = [];
     }
 
     public addOneCollider(info: Server.Collider): void {
-        this._colliderList.push(info);
         this._buildNetworkIframe(info);
     }
 

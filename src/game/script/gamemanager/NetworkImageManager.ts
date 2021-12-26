@@ -39,6 +39,7 @@ export class NetworkImageManager extends Component {
 
     public start(): void {
         this._initImageList.forEach(info => this.addOneImage(info));
+        this._initImageList = [];
     }
 
     public addOneImage(info: Server.ImageGameObject): void {

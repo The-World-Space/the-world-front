@@ -56,6 +56,7 @@ export class NetworkIframeManager extends Component {
 
     public start(): void {
         this._initIframeList.forEach(info => this.addOneIframe(info));
+        this._initIframeList = [];
     }
 
     public addOneIframe(info: Server.IframeGameObject): void {
