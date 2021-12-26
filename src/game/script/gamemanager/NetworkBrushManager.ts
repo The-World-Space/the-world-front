@@ -44,6 +44,9 @@ export class NetworkBrushManager extends Component {
         else if (this._currentTool instanceof Tools.ImageGameObject) {
             this._updateImageGameObject(gridPos.x, gridPos.y);
         }
+        else if (this._currentTool instanceof Tools.Tile) {
+            this._createTile(gridPos.x, gridPos.y);
+        }
     }
 
     private _updateCollider(x: number, y: number, isBlocked: boolean) {
@@ -92,12 +95,37 @@ export class NetworkBrushManager extends Component {
             }
         });
     }
+
+    private _createTile(x: number, y: number) {
+        if (!this._worldId) throw new Error("no world id");
+        if (!this._apolloClient) throw new Error("no apollo client");
+        if (!(this._currentTool instanceof Tools.Tile)) throw new Error("no image game object");
+        const atlasId = this._currentTool.tileInfo.atlas.id;
+        const atlasIndex = this._currentTool.tileInfo.atlasIndex;
+        const worldId = this._worldId;
+        const type = this._currentTool.tileInfo.type;
+        return this._apolloClient.mutate({
+            mutation: gql`
+                mutation createAtlasTile($type: Int!, $x: Int!, $y: Int!, $worldId: String!, $atlasTile: AtlasTileInput!) {
+                    createAtlasTile(type: $type, x: $x, y: $y, worldId: $worldId, atlasTile:$atlasTile) {
+                        x
+                    }
+                }
+            `,
+            variables: {
+                type,
+                x,
+                y,
+                worldId,
+                atlasTile: {
+                    atlasId,
+                    atlasIndex,
+                }
+            }
+        });
+    }
     
 
-    // public addOneCollider(info: Server.Collider): void {
-    //     this._colliderList.push(info);
-    //     this._buildNetworkIframe(info);
-    // }
 
     // private _buildNetworkIframe(colliderInfo: Server.Collider): void {
     //     if (!this._worldGridColliderMap.ref) throw new Error("worldGridColliderMap is null");

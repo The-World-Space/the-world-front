@@ -20,77 +20,88 @@ import { Vector2 } from "three";
 export async function getWorld(id: string, apolloClient: ApolloClient<any>): Promise<Server.World> {
     const result = await apolloClient.query({
         query: gql`
-            query World($id: String!) {
-                World(id: $id) {
+        query World($id: String!) {
+            World(id: $id) {
+                id
+                name
+                colliders {
+                    x
+                    y
+                    isBlocked
+                }
+                iframes {
                     id
-                    name
-                    colliders {
-                        x
-                        y
-                        isBlocked
-                    }
-                    iframes {
+                    x
+                    y
+                    fieldPortMappings {
                         id
-                        x
-                        y
-                        fieldPortMappings {
-                            id
-                            portId
-                            field {
-                                value
-                                id
-                            }
-                        }
-                        broadcasterPortMappings {
-                            id
-                            portId
-                            broadcaster {
-                                id
-                            }
-                        }
-                        localFields {
-                            id
-                            name
+                        portId
+                        field {
                             value
-                        }
-                        localBroadcasters {
                             id
-                            name
-                        }
-                        proto {
-                            id
-                            isPublic
-                            width
-                            height
-                            type
-                            src
-                            colliders {
-                                x
-                                y
-                                isBlocked
-                            }
                         }
                     }
-                    images {
+                    broadcasterPortMappings {
                         id
-                        x
-                        y
-                        proto {
+                        portId
+                        broadcaster {
                             id
-                            isPublic
-                            width
-                            height
-                            type
-                            src
-                            colliders {
-                                x
-                                y
-                                isBlocked
-                            }
+                        }
+                    }
+                    localFields {
+                        id
+                        name
+                        value
+                    }
+                    localBroadcasters {
+                        id
+                        name
+                    }
+                    proto {
+                        id
+                        isPublic
+                        width
+                        height
+                        type
+                        src
+                        colliders {
+                            x
+                            y
+                            isBlocked
                         }
                     }
                 }
+                images {
+                    id
+                    x
+                    y
+                    proto {
+                        id
+                        isPublic
+                        width
+                        height
+                        type
+                        src
+                        colliders {
+                            x
+                            y
+                            isBlocked
+                        }
+                    }
+                }
+                atlasTiles {
+                    x
+                    y
+                    atlas {
+                        columnCount
+                        rowCount
+                        src
+                    }
+                    atlasIndex
+                    type
+                }
             }
+        }
         `,
         variables: {
             id,
