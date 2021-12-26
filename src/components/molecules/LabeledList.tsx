@@ -186,7 +186,7 @@ function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProp
                     />
                     : <ElementThumbnail src={data.isAtlas} />
             }
-            <ElementName>{label} ${data.isAtlas ? ` :: ${verticalIndex},${horizontalIndex},${data.atlasIndex}` : ""}</ElementName>
+            <ElementName>{label}</ElementName>
         </ElementWrapperDIv>
     );
 }

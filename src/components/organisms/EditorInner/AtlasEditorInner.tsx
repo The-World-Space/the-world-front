@@ -283,8 +283,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />
                     <InputWrapperSide>
-                        <LabeledInput label="W" value={verticalCount} onChange={e => onImageSizeChange(e.target.value, horizontalCount)} />
                         <LabeledInput label="H" value={horizontalCount} onChange={e => onImageSizeChange(verticalCount, e.target.value)} />
+                        <LabeledInput label="V" value={verticalCount} onChange={e => onImageSizeChange(e.target.value, horizontalCount)} />
                     </InputWrapperSide>
                 </InputWrapper>
             </Container>
