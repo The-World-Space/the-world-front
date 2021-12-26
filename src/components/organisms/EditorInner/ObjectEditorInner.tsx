@@ -198,9 +198,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             inputFile.current?.click();
             return ;
         }
-        if (tool === Tools.Collider || tool === Tools.Eraser) {
-            objEditorConnector.setToolType(tool);
-        }
+        objEditorConnector.setToolType(tool);
         setSelectedTool(tool);
     }, [objEditorConnector]);
 
