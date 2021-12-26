@@ -68,6 +68,7 @@ export class GridBrush extends Component {
         this._pointerDown = true;
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
+        this._onDraw(event.gridPosition);
     }
 
     private onPointerUp() {
@@ -75,10 +76,11 @@ export class GridBrush extends Component {
     }
 
     private onPointerMove(event: PointerGridEvent) {
-        if (!this._pointerDown) return;
         if (this._lastGridPosition.equals(event.gridPosition)) return;
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
+        if (!this._pointerDown) return;
+        this._onDraw(event.gridPosition);
     }
 
     private onPointerEnter(event: PointerGridEvent) {
