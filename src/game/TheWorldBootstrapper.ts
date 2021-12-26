@@ -183,6 +183,8 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -10))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
+                        c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
+                        c.gridCellWidth = collideTilemap.ref!.gridCellWidth;
                     }))
                     
                 .withChild(instantlater.buildGameObject("auto_collide_floor")
@@ -194,6 +196,8 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 460))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
+                        c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
+                        c.gridCellWidth = collideTilemap.ref!.gridCellWidth;
                     })))
 
             .withChild(instantlater.buildGameObject("collide_map")
