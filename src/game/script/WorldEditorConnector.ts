@@ -62,12 +62,12 @@ export namespace Tools {
     
     export class Tile extends Tool {
         constructor (
-            private readonly _tileInfo: Server.Atlas
+            private readonly _tileInfo: Server.AtlasTile
         ) {
             super();
         }
     
-        public get tileInfo(): Server.Atlas {
+        public get tileInfo(): Server.AtlasTile {
             return this._tileInfo;
         }
     }
