@@ -16,15 +16,17 @@ export class GridBrush extends Component {
     private _showImage: boolean = false;
     private _pointerImage: CssSpriteAtlasRenderer|null = null;
     private _pointerImageObject: GameObject|null = null;
-    private _gridCellWidth: number = 16;
-    private _gridCellHeight: number = 16;
-    private _onDraw: (gridPosition: Vector2) => void = () => {};
+    private _onDraw: ((gridPosition: Vector2) => void)|null = null;
 
     private readonly _onPointerDownBind = this.onPointerDown.bind(this);
     private readonly _onPointerUpBind = this.onPointerUp.bind(this);
     private readonly _onPointerMoveBind = this.onPointerMove.bind(this);
     private readonly _onPointerEnterBind = this.onPointerEnter.bind(this);
     private readonly _onPointerLeaveBind = this.onPointerLeave.bind(this);
+
+    protected awake(): void {
+        this._gridInputListener = this.gameObject.getComponent(PointerGridInputListener);
+    }
 
     protected start(): void {
         const pointerImageRef = new PrefabRef<CssSpriteAtlasRenderer>();
@@ -46,7 +48,7 @@ export class GridBrush extends Component {
     }
 
     public onEnable(): void {
-        if (!this._gridInputListener) throw new Error("GridBrush: gridInputListener is not set");
+        if (!this._gridInputListener) throw new Error("Unreachable");
         this._gridInputListener.addOnPointerDownEventListener(this._onPointerDownBind);
         this._gridInputListener.addOnPointerUpEventListener(this._onPointerUpBind);
         this._gridInputListener.addOnPointerMoveEventListener(this._onPointerMoveBind);
@@ -70,7 +72,7 @@ export class GridBrush extends Component {
         this._pointerDown = true;
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
-        this._onDraw(event.gridPosition);
+        this._onDraw?.(event.gridPosition);
     }
 
     private onPointerUp() {
@@ -82,7 +84,7 @@ export class GridBrush extends Component {
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
         if (!this._pointerDown) return;
-        this._onDraw(event.gridPosition);
+        this._onDraw?.(event.gridPosition);
     }
 
     private onPointerEnter(event: PointerGridEvent) {
@@ -98,8 +100,9 @@ export class GridBrush extends Component {
 
     private updateImagePosition(gridPosition: Vector2): void {
         if (!this._pointerImageObject) return;
-        this._pointerImageObject.transform.position.x = gridPosition.x * this._gridCellWidth;
-        this._pointerImageObject.transform.position.y = gridPosition.y * this._gridCellHeight;
+        if (!this._gridInputListener) return;
+        this._pointerImageObject.transform.position.x = gridPosition.x * this._gridInputListener.gridCellWidth;
+        this._pointerImageObject.transform.position.y = gridPosition.y * this._gridInputListener.gridCellHeight;
     }
 
     public updateImageShow(): void {
@@ -110,21 +113,12 @@ export class GridBrush extends Component {
             this._pointerImageObject.activeSelf = false;
         }
     }
-
-    public get gridInputListener(): PointerGridInputListener|null {
-        return this._gridInputListener;
-    }
-
-    public set gridInputListener(value: PointerGridInputListener|null) {
-        if (this._gridInputListener) throw new Error("GridBrush: gridInputListener is already set");
-        this._gridInputListener = value;
-    }
-
-    public get onDraw(): (gridPosition: Vector2) => void {
+    
+    public get onDraw(): ((gridPosition: Vector2) => void)|null {
         return this._onDraw;
     }
 
-    public set onDraw(value: (gridPosition: Vector2) => void) {
+    public set onDraw(value: ((gridPosition: Vector2) => void)|null) {
         this._onDraw = value;
     }
 
@@ -181,19 +175,13 @@ export class GridBrush extends Component {
         this.updateImageShow();
     }
 
-    public get gridCellWidth(): number {
-        return this._gridCellWidth;
+    public get gridCellWidth(): number|null {
+        if (!this._gridInputListener) return null;
+        return this._gridInputListener.gridCellWidth;
     }
 
-    public set gridCellWidth(value: number) {
-        this._gridCellWidth = value;
-    }
-
-    public get gridCellHeight(): number {
-        return this._gridCellHeight;
-    }
-
-    public set gridCellHeight(value: number) {
-        this._gridCellHeight = value;
+    public get gridCellHeight(): number|null {
+        if (!this._gridInputListener) return null;
+        return this._gridInputListener.gridCellHeight;
     }
 }
