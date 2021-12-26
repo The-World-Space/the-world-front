@@ -109,7 +109,6 @@ export class GridPointer extends Component {
     public removeOnPointerDownEventListener(delegate: (event: PointerGridEvent) => void): void {
         const index = this._onPointerDownDelegates.indexOf(delegate);
         if (index !== -1) this._onPointerDownDelegates.splice(index, 1);
-        else console.log("GridPointer: delegate not found");
     }
 
     public addOnPointerUpEventListener(delegate: (event: PointerGridEvent) => void): void {

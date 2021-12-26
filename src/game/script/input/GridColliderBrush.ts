@@ -67,6 +67,7 @@ export class GridColliderBrush extends Component {
     }
 
     public set gridPointer(value: GridPointer|null) {
+        if (this._gridPointer) throw new Error("GridPointer is already set");
         this._gridPointer = value;
     }
 
