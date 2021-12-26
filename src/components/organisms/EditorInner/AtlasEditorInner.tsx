@@ -1,6 +1,5 @@
 import React, { ChangeEventHandler, useCallback, useRef, useState } from "react";
 import styled from "styled-components";
-// import * as lodash from "lodash";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
