@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useRef, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
@@ -10,7 +10,7 @@ import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
 import LabeledList, { PhotoAtlasData, PhotoElementData } from "../../molecules/LabeledList";
-import { useDebounce } from "react-use";
+import { WorldEditorContext } from "../../../context/contexts";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -160,6 +160,7 @@ export enum Tools {
 }
 
 function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
+
     const [photoId, setPhotoId] = useState(0);
 
     const [selectedTool, setSelectedTool] = useState(Tools.Pen);
@@ -238,7 +239,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     
     const inputFile = useRef<HTMLInputElement | null>(null);
 
-    useDebounce(() => {
+    useEffect(() => {
         if (!file) return;
         const vc = +verticalCount;
         const hc = +horizontalCount;
@@ -252,7 +253,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             isAtlas: true as const,
         }));
         setTileDatas(newDatas);
-    }, 500, [file, horizontalCount, verticalCount, name]);
+    }, [file, horizontalCount, verticalCount, name]);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -379,13 +380,25 @@ interface LabeledInputProps {
     onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-function LabeledInput({label, value, onChange}: LabeledInputProps) {
+function LabeledInput({label, value, onChange}: LabeledInputProps): JSX.Element {
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        console.log("focus", game);
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        console.log("blur", game);
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
+
     return (
         <LabeledInputWrapper>
             <LabeledInputLabel>
                 {label} :
             </LabeledInputLabel>
-            <LabeledInputArea onChange={onChange} value={value} />
+            <LabeledInputArea onChange={onChange} onFocus={onFocus} onBlur={onBlur} value={value} />
         </LabeledInputWrapper>
     );
 }
