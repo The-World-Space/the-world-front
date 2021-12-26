@@ -29,7 +29,6 @@ function TileEditor({ opened }: TileEditorProps): JSX.Element {
     const {game, setGame, objEditorConnector} = useContext(ObjEditorContext);
     
     useEffect(() => {
-        console.debug("mount");
         if (!divRef.current) throw new Error("divRef.current is null");
         const game = new Game(divRef.current);
         game.run(TileEditorBootstrapper, objEditorConnector);
@@ -40,7 +39,6 @@ function TileEditor({ opened }: TileEditorProps): JSX.Element {
         setGame(game);
 
         return () => {
-            console.debug("unmount");
             game.dispose();
         };
     }, [setGame, objEditorConnector]);

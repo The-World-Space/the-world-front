@@ -197,7 +197,7 @@ const ToolsWrapper = styled.div<{selected: number}>`
 
 
 const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
-    query myIframeGOProtos {
+    query myImageGOProtos {
         myImageGameObjectProtos {
             id
             isPublic
