@@ -14,16 +14,16 @@ export class NetworkBrushManager extends Component {
         this._gridBrush = val;
     }
 
-    public set currentTool(val: Tool) {
-        this._currentTool = val;
-    }
-
     public set apolloClient(val: ApolloClient<any>) {
         this._apolloClient = val;
     }
-
+    
     public set worldId(val: string) {
         this._worldId = val;
+    }
+    
+    public setCurrentTool(val: Tool): void {
+        this._currentTool = val;
     }
 
     public awake(): void {
@@ -41,11 +41,15 @@ export class NetworkBrushManager extends Component {
         else if (this._currentTool instanceof Tools.EraseCollider) {
             this._updateCollider(gridPos.x, gridPos.y, false);
         }
+        else if (this._currentTool instanceof Tools.ImageGameObject) {
+            this._updateImageGameObject(gridPos.x, gridPos.y);
+        }
     }
 
     private _updateCollider(x: number, y: number, isBlocked: boolean) {
         if (!this._worldId) throw new Error("no world id");
         if (!this._apolloClient) throw new Error("no apollo client");
+        console.log("update collider", x, y, isBlocked);
         return this._apolloClient.mutate({
             mutation: gql`
                 mutation CreateCollider($x: Int!, $y: Int!, $isBlocked: Boolean!, $worldId: String!) {
@@ -60,6 +64,30 @@ export class NetworkBrushManager extends Component {
                 x,
                 y,
                 isBlocked,
+                worldId: this._worldId,
+            }
+        });
+    }
+
+    private _updateImageGameObject(x: number, y: number) {
+        if (!this._worldId) throw new Error("no world id");
+        if (!this._apolloClient) throw new Error("no apollo client");
+        if (!(this._currentTool instanceof Tools.ImageGameObject)) throw new Error("no image game object");
+        const protoId = this._currentTool.imageInfo.id;
+        return this._apolloClient.mutate({
+            mutation: gql`
+                mutation CreateImageGO($imageGOInput: ImageGameObjectInput!, $worldId: String!) {
+                    createImageGameObject(imageGameObject: $imageGOInput, worldId: $worldId) {
+                        id
+                    }
+                }
+            `,
+            variables: {
+                imageGOInput: {
+                    x,
+                    y,
+                    protoId,
+                },
                 worldId: this._worldId,
             }
         });

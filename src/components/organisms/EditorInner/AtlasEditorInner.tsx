@@ -380,12 +380,10 @@ function LabeledInput({label, value, onChange}: LabeledInputProps): JSX.Element 
     const {game} = useContext(WorldEditorContext);
 
     const onFocus = useCallback(() => {
-        console.log("focus", game);
         game?.inputHandler.stopHandleEvents();
     }, [game]);
 
     const onBlur = useCallback(() => {
-        console.log("blur", game);
         game?.inputHandler.startHandleEvents();
     }, [game]);
 
