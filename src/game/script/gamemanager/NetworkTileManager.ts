@@ -24,7 +24,7 @@ export class NetworkTileManager extends Component {
             tileSrcMap.set(tile.atlas.src, tile.atlas);
         });
 
-        async function imageLoad(image: HTMLImageElement) {
+        function imageLoad(image: HTMLImageElement) {
             return new Promise<void>((res, rej) => {
                 image.onload = () => {
                     res();
