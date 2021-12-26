@@ -6,7 +6,7 @@ import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
 import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
 import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
-import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
+import DualTabList, { PhotoAtlasData, PhotoSrcData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { gql, useQuery } from "@apollo/client";
 import { WorldEditorContext } from "../../../context/contexts";
@@ -218,6 +218,20 @@ const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
 `;
 
 
+const MY_ATLASES = gql`
+    query myAtlases {
+        myAtlases {
+            id
+            name
+            isPublic
+            columnCount
+            rowCount
+            src
+        }
+    }
+`;
+
+
 interface PropsType {
     worldId: string;
     opened: boolean;
@@ -240,21 +254,68 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const {worldEditorConnector} = useContext(WorldEditorContext);
 
     const [tab, setTab] = useState(0);
-    const [photoId, setPhotoId] = useState(0);
+    const [photoId, setPhotoId] = useState("0_0");
     const tabNames = useMemo(() => ({left: "Tile List", right: "Object List"}), []);
 
     const myImageGameObjectProtos = useQuery(MY_IMAGE_GAME_OBJECT_PROTOS);
+    const myAtlases = useQuery(MY_ATLASES);
+
     interface DataType {
-        left: PhotoElementData[];
-        right: PhotoElementData[];
+        left: PhotoAtlasData[];
+        right: PhotoSrcData[];
     }
     const datas = 
-        useMemo<DataType>(() => ({
-            left: [], 
-            right: myImageGameObjectProtos.data?.myImageGameObjectProtos || []
-        }), [
+        useMemo<DataType>(() => {
+            const atlass: Server.Atlas[] | null = myAtlases.data?.myAtlases;
+            const atlasTiles = atlass?.flatMap(a => {
+                const horizontalCount = a.rowCount;
+                const verticalCount = a.columnCount;
+                const newDatas: PhotoAtlasData[] = 
+                    new Array(horizontalCount * verticalCount).fill(0).map((_, i) => ({
+                        id: `${a.id}_${i}`,
+                        name: `${a.name}_${i}`,
+                        isPublic: a.isPublic,
+                        atlasIndex: i,
+                        horizontalCount,
+                        verticalCount,
+                        src: a.src,
+                        isAtlas: true as const,
+                    }));
+                return newDatas;
+            });
+            const _imageProtos: Server.ImageGameObjectProto[] | null = myImageGameObjectProtos.data?.myImageGameObjectProtos;
+            const imageProtos: PhotoSrcData[] | undefined = _imageProtos?.map(p => ({
+                id: String(p.id),
+                src: p.src,
+                name: p.name,
+                isAtlas: undefined,
+            }));
+            return {
+                left: atlasTiles || [], 
+                right: imageProtos || []
+            };
+        }, [
+            myAtlases.data,
             myImageGameObjectProtos.data
         ]);
+
+    
+    const atlasMap = useMemo<{[key: string]: Server.Atlas}>(() => {
+        const newMap: {[key: string]: Server.Atlas} = {};
+        const atlases: Server.Atlas[] | null = myAtlases.data?.myAtlases;
+        atlases?.forEach(a => {
+            newMap[a.id] = a;
+        });
+        return newMap;
+    }, [myAtlases.data]);
+    const protoMap = useMemo<{[key: string]: Server.ImageGameObjectProto}>(() => {
+        const newMap: {[key: string]: Server.ImageGameObjectProto} = {};
+        const imageProtos: Server.ImageGameObjectProto[] | null = myImageGameObjectProtos.data?.myImageGameObjectProtos;
+        imageProtos?.forEach(p => {
+            newMap[p.id] = p;
+        });
+        return newMap;
+    }, [myImageGameObjectProtos.data]);
 
     const [iframeWidth, setIframeWidth] = useState("1");
     const [iframeHeight, setIframeHeight] = useState("1");
@@ -274,12 +335,22 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         } else if (tool === EditorTools.Eraser && tab === Tabs.Object) {
             const tool = new Tools.EraseObject();
             worldEditorConnector.setToolType(tool);
-        } else if (tool === EditorTools.Pen && tab === Tabs.Object) {
-            const imageList = myImageGameObjectProtos.data?.myImageGameObjectProtos;
-            if (!imageList) return;
-            const tool = new Tools.ImageGameObject(imageList[photoId]);
+        } else if (tool === EditorTools.Pen && tab === Tabs.Tile) {
+            const [atlasId, atlasIndex] = photoId.split("_");
+            const atlas = atlasMap[atlasId];
+            const tool = new Tools.Tile({
+                atlas, 
+                atlasIndex: +atlasIndex,
+                type: iframeObjectType
+            });
             worldEditorConnector.setToolType(tool);
-        } else {
+        } else if (tool === EditorTools.Pen && tab === Tabs.Object) {
+            const protoId = +photoId;
+            const proto = protoMap[protoId];
+            const tool = new Tools.ImageGameObject(proto);
+            worldEditorConnector.setToolType(tool);
+        }
+        else {
             const tool = new Tools.None();
             worldEditorConnector.setToolType(tool);
         }

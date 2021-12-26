@@ -38,7 +38,7 @@ export class NetworkBrushManager extends Component {
         if (this._currentTool instanceof Tools.Collider) {
             this._updateCollider(gridPos.x, gridPos.y, true);
         }
-        if (this._currentTool instanceof Tools.EraseTile) {
+        else if (this._currentTool instanceof Tools.EraseCollider) {
             this._updateCollider(gridPos.x, gridPos.y, false);
         }
     }
