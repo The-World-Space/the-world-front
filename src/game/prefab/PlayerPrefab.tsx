@@ -149,6 +149,7 @@ export class PlayerPrefab extends Prefab {
                     c.fontWeight = FontWeight.Bold;
                     c.textHeight = 16;
                     c.textWidth = 128;
+                    c.fontFamily = "Noto Sans";
                     c.pointerEvents = false;
                 })
                 .getComponent(CssTextRenderer, nameTagRenderer)
