@@ -106,6 +106,17 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         this.interopObject!.worldEditorConnector.action = {
             setToolType(tool: Tool) {
                 networkBrushManager.ref?.setCurrentTool(tool);
+
+                if (tool instanceof Tools.Collider) {
+                    if (gridCollideMap.ref) {
+                        gridCollideMap.ref.showCollider = true;
+                    }
+                } else {
+                    if (gridCollideMap.ref) {
+                        gridCollideMap.ref.showCollider = false;
+                    }
+                }
+
                 if (tool instanceof Tools.None) {
                     gridBrush.ref?.clearImage();
                 } else if (tool instanceof Tools.Collider) {
