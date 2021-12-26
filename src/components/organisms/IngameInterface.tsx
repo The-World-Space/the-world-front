@@ -13,6 +13,7 @@ import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
 import VariableEditorInner from "./EditorInner/VariableEditorInner";
 import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
 import WorldEditorInner from "./EditorInner/WorldEditorInner";
+import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -265,6 +266,7 @@ enum Editor {
     Variable,
     Broadcaster,
     World,
+    Atlas,
     Object,
 }
 
@@ -328,6 +330,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                 <MenuButton selected={barOpened && selectedEditor === Editor.Variable} onClick={() => onMenuSelect(Editor.Variable)}>VAR</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
+                <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
@@ -335,6 +338,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                 <VariableEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Variable}/>
                 <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
                 <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
+                <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />
                 <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
             </>
             <ExpandButton onClick={() => expandBarToggle()} 

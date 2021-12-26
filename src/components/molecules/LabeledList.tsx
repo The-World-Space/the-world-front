@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const VerticalWrapperList = styled.div`
+const IMAGE_SIZE = 75;
+
+const VerticalWrapperList = styled.div<{height?: string, minHeight?: string}>`
     display: flex;
     flex-direction: column;
     width: 428px;
-    height: 390px;
+    height: ${p => p.height || "390px"};
+    ${p => p.minHeight ? `min-height: ${p.minHeight};` : ""}
     margin: 0px 0px 18px 0px;
 `;
 
@@ -47,6 +50,8 @@ const ListFakeHr = styled.div`
 
 const ListBody = styled.div`
     height: 350px;
+
+    flex: 1;
     
     overflow-y: scroll; // for FF
     overflow-y: overlay;
@@ -88,11 +93,13 @@ interface LabeledListProps {
     id: PhotoElementData["id"];
     datas: PhotoElementData[];
     tabName: string;
+    height?: string;
+    minHeight?: string;
 }
 
-function LabeledList({setId, id, datas, tabName}: LabeledListProps) {
+function LabeledList({setId, id, datas, tabName, height, minHeight}: LabeledListProps) {
     return (
-        <VerticalWrapperList>
+        <VerticalWrapperList height={height} minHeight={minHeight}>
             <ListTop>
                 <Tab>
                     {tabName}
@@ -119,9 +126,15 @@ const ElementWrapperDIv = styled.div`
 `;
 
 const ElementThumbnail = styled.img`
-    width: 75px;
-    height: 75px;
+    width: ${IMAGE_SIZE}px;
+    height: ${IMAGE_SIZE}px;
 
+`;
+
+
+const AtlasThumbnail = styled.div`
+    width: ${IMAGE_SIZE}px;
+    height: ${IMAGE_SIZE}px;
 `;
 
 const ElementName = styled.span`
@@ -129,12 +142,23 @@ const ElementName = styled.span`
     font-size: 14px;
 `;
 
-export type PhotoElementData = PhotoSrcData;
+export type PhotoElementData = PhotoSrcData | PhotoAtlasData;
 
 
-interface PhotoSrcData {
+export interface PhotoSrcData {
     id: number,
     src: string,
+    name: string,
+    isAtlas: undefined,
+}
+
+export interface PhotoAtlasData {
+    id: number,
+    src: string,
+    atlasIndex: number,
+    verticalCount: number,
+    horizontalCount: number,
+    isAtlas: true,
 }
 
 interface PhotoElementProps {
@@ -146,9 +170,22 @@ interface PhotoElementProps {
 
 const    PhotoElement = React.memo(PhotoElement_);
 function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProps) {
+    const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.verticalCount) : 0;
+    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.horizontalCount) : 0;
     return (
         <ElementWrapperDIv onClick={() => onSelect(data.id)}>
-            <ElementThumbnail src={data.src} />
+            {
+                data.isAtlas 
+                    ? <AtlasThumbnail 
+                        style={{
+                            backgroundImage: `url(${data.src})`,
+                            backgroundSize: `${data.horizontalCount * IMAGE_SIZE}px ${data.verticalCount * IMAGE_SIZE}px`,
+                            objectFit: "none",
+                            backgroundPosition: `${horizontalIndex * -IMAGE_SIZE}px ${verticalIndex * -IMAGE_SIZE}px`,
+                        }}
+                    />
+                    : <ElementThumbnail src={data.isAtlas} />
+            }
             <ElementName>{label}</ElementName>
         </ElementWrapperDIv>
     );
