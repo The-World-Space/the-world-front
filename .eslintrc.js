@@ -18,6 +18,7 @@ module.exports = {
     },
     "plugins": [
         "react",
+        "react-hooks",
         "@typescript-eslint"
     ],
     "rules": {
@@ -26,6 +27,7 @@ module.exports = {
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "react/react-in-jsx-scope": "off",
+        "react-hooks/exhaustive-deps": "warn",
         "no-debugger": "warn",
         "indent": [
             "error",
