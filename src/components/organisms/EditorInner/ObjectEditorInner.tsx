@@ -245,7 +245,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             variables: {
                 protoInput: {
                     ...vars,
-                    src: `https://computa.lunuy.com:40085/image/${imageUploadRes.data.uploadImageAsset.filename}`,
+                    src: `https://asset.the-world.space/image/${imageUploadRes.data.uploadImageAsset.filename}`,
                 }
             }
         });

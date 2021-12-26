@@ -7,7 +7,7 @@ import { JWT_KEY } from "../../context/consts";
 import { createUploadLink } from "apollo-upload-client";
 
 const uploadLink = createUploadLink({
-    uri: "https://computa.lunuy.com:40084/graphql",
+    uri: "https://asset-api.the-world.space/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

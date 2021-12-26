@@ -13,7 +13,7 @@ import { JWT_KEY } from "./context/consts";
 import { loadGlobalEnviroments } from "./pages/GlobalEnviroment";
 
 const httpLink = createHttpLink({
-    uri: "https://computa.lunuy.com:40081/graphql",
+    uri: "https://api.the-world.space/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
