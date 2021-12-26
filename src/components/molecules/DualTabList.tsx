@@ -183,8 +183,8 @@ export interface PhotoAtlasData {
     id: string,
     src: string,
     atlasIndex: number,
-    verticalCount: number,
-    horizontalCount: number,
+    rowCount: number,
+    columnCount: number,
     isAtlas: true,
     name: string,
 }
@@ -198,8 +198,8 @@ interface PhotoElementProps {
 
 const    PhotoElement = React.memo(PhotoElement_);
 function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
-    const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.horizontalCount) : 0;
-    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.horizontalCount) : 0;
+    const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.columnCount) : 0;
+    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.columnCount) : 0;
     return (
         <ElementWrapperDIv onClick={() => onSelect(String(data.id))} selected={selected}>
             {
@@ -207,7 +207,7 @@ function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
                     ? <AtlasThumbnail 
                         style={{
                             backgroundImage: `url(${data.src})`,
-                            backgroundSize: `${data.horizontalCount * IMAGE_SIZE}px ${data.verticalCount * IMAGE_SIZE}px`,
+                            backgroundSize: `${data.columnCount * IMAGE_SIZE}px ${data.rowCount * IMAGE_SIZE}px`,
                             objectFit: "none",
                             backgroundPosition: `${horizontalIndex * -IMAGE_SIZE}px ${verticalIndex * -IMAGE_SIZE}px`,
                         }}

@@ -268,16 +268,16 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         useMemo<DataType>(() => {
             const atlass: Server.Atlas[] | null = myAtlases.data?.myAtlases;
             const atlasTiles = atlass?.flatMap(a => {
-                const horizontalCount = a.rowCount;
-                const verticalCount = a.columnCount;
+                const rowCount = a.rowCount;
+                const columnCount = a.columnCount;
                 const newDatas: PhotoAtlasData[] = 
-                    new Array(horizontalCount * verticalCount).fill(0).map((_, i) => ({
+                    new Array(rowCount * columnCount).fill(0).map((_, i) => ({
                         id: `${a.id}_${i}`,
                         name: `${a.name}_${i}`,
                         isPublic: a.isPublic,
                         atlasIndex: i,
-                        horizontalCount,
-                        verticalCount,
+                        rowCount,
+                        columnCount,
                         src: a.src,
                         isAtlas: true as const,
                     }));

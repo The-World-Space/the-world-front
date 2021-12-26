@@ -184,8 +184,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         setFile(inputedFile);
     }, []);
 
-    const [verticalCount, setVerticalCount] = useState("2");
-    const [horizontalCount, setHorizontalCount] = useState("2");
+    const [rowCount, setVerticalCount] = useState("2");
+    const [columnCount, setHorizontalCount] = useState("2");
     const [name, setName] = useState("");
     const isSafeNum = useCallback((num: string) => /^\d*$/.test(num) && +num >= 0 && +num < Infinity, []);
     const onImageSizeChange = useCallback((width: string, height: string) => {
@@ -200,9 +200,9 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         if (!shouldSave) return;
         try{
             if (!file) throw new Error("no file");
-            if (!isSafeNum(verticalCount)) throw new Error("invalid image width");
-            if (!isSafeNum(horizontalCount)) throw new Error("invalid image height");
-            if (+verticalCount <= 0 || +horizontalCount <= 0) throw new Error("invalid image size");
+            if (!isSafeNum(rowCount)) throw new Error("invalid image width");
+            if (!isSafeNum(columnCount)) throw new Error("invalid image height");
+            if (+rowCount <= 0 || +columnCount <= 0) throw new Error("invalid image size");
             if (!name) throw new Error("no name");
         } catch(e) {
             alert("ERROR: " + (e as Error).message);
@@ -211,8 +211,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
         const vars = {
             name: name,
-            columnCount: +verticalCount,
-            rowCount: +horizontalCount,
+            columnCount: +columnCount,
+            rowCount: +rowCount,
             isPublic: true,
         };
         const imageUploadRes = await imageUploadMutate({
@@ -229,7 +229,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             }
         });
         apolloClient.resetStore();
-    }, [file, verticalCount, horizontalCount, name, imageUploadMutate, crateMutate, apolloClient, isSafeNum]);
+    }, [file, rowCount, columnCount, name, imageUploadMutate, crateMutate, apolloClient, isSafeNum]);
     
     const [atlasDatas] = useState<PhotoElementData[]>([]);
     const [tileDatas, setTileDatas] = useState<PhotoAtlasData[]>([]);
@@ -238,19 +238,19 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     useDebounce(() => {
         if (!file) return;
-        const vc = +verticalCount;
-        const hc = +horizontalCount;
+        const rc = +rowCount;
+        const cc = +columnCount;
         const src = window.URL.createObjectURL(file);
-        const newDatas: PhotoAtlasData[] = new Array(vc * hc).fill(0).map((_, i) => ({
+        const newDatas: PhotoAtlasData[] = new Array(rc * cc).fill(0).map((_, i) => ({
             id: i,
             atlasIndex: i,
             src,
-            verticalCount: vc,
-            horizontalCount: hc,
+            rowCount: rc,
+            columnCount: cc,
             isAtlas: true as const,
         }));
         setTileDatas(newDatas);
-    }, 500, [file, horizontalCount, verticalCount]);
+    }, 500, [file, columnCount, rowCount]);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -281,8 +281,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />
                     <InputWrapperSide>
-                        <LabeledInput label="H" value={horizontalCount} onChange={e => onImageSizeChange(verticalCount, e.target.value)} />
-                        <LabeledInput label="V" value={verticalCount} onChange={e => onImageSizeChange(e.target.value, horizontalCount)} />
+                        <LabeledInput label="H" value={columnCount} onChange={e => onImageSizeChange(rowCount, e.target.value)} />
+                        <LabeledInput label="V" value={rowCount} onChange={e => onImageSizeChange(e.target.value, columnCount)} />
                     </InputWrapperSide>
                 </InputWrapper>
             </Container>
