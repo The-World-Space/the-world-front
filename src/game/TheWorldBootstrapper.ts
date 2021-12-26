@@ -29,6 +29,7 @@ import { CameraRelativeZaxisSorter } from "./script/render/CameraRelativeZaxisSo
 import { CssTilemapChunkRenderer } from "./script/post_render/CssTilemapChunkRenderer";
 import { GridObjectCollideMap } from "./script/physics/GridObjectCollideMap";
 import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
+import { NetworkTileManager } from "./script/gamemanager/NetworkTileManager";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
@@ -200,6 +201,10 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.gridBrush = gridBrush.ref!;
                     c.apolloClient = this.interopObject!.apolloClient;
                     c.worldId = this.interopObject!.serverWorld.id;
+                })
+                .withComponent(NetworkTileManager, c => {
+                    c.floorTileMap = floorTilemap.ref!;
+                    c.effectTileMap = effectTilemap.ref!;
                 })
                 .getComponent(NetworkBrushManager, networkBrushManager))
 
