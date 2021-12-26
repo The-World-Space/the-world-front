@@ -1,5 +1,6 @@
 import { Vector2 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
+import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { CssSpriteAtlasRenderer } from "../render/CssSpriteAtlasRenderer";
@@ -7,6 +8,7 @@ import { PointerGridEvent, PointerGridInputListener } from "./PointerGridInputLi
 
 export class GridBrush extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
+    protected readonly _requiredComponents: ComponentConstructor[] = [PointerGridInputListener];
     
     private _gridInputListener: PointerGridInputListener|null = null;
     private _pointerDown: boolean = false;
@@ -29,7 +31,7 @@ export class GridBrush extends Component {
         const pointerImageObjectRef = new PrefabRef<GameObject>();
 
         this.gameObject.addChildFromBuilder(
-            this.engine.instantlater.buildGameObject("pointer-image")
+            this.engine.instantlater.buildGameObject("pointer_image")
                 .active(false)
                 .withComponent(CssSpriteAtlasRenderer, c => {
                     c.imageCenterOffset = new Vector2(0.5, 0.5);

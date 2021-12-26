@@ -18,13 +18,14 @@ import { GridPointer } from "./script/input/GridPointer";
 import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
 import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
 import { PenpalNetworker } from "./penpal/PenpalNetworker";
-import { WorldEditorConnector } from "./script/WorldEditorConnector";
+import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
 import { GridCollideMap } from "./script/physics/GridColideMap";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
 import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
 import { ColliderNetworker } from "./script/networker/ColliderNetworker";
 import { IframeNetworker } from "./script/networker/IframeNetworker";
 import { ImageNetworker } from "./script/networker/ImageNetworker";
+import { GridBrush } from "./script/input/GridBrush";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
@@ -84,10 +85,29 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
-        const player: PrefabRef<GameObject> = new PrefabRef();
-        const collideTilemap: PrefabRef<CssCollideTilemapRenderer> = new PrefabRef();
-        const worldGridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();
-        const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
+        const player = new PrefabRef<GameObject>();
+        const collideTilemap = new PrefabRef<CssCollideTilemapRenderer>();
+        const worldGridCollideMap = new PrefabRef<GridCollideMap>();
+        const gridPointer = new PrefabRef<GridPointer>();
+        const gridBrush = new PrefabRef<GridBrush>();
+
+        this.interopObject!.worldEditorConnector.action = {
+            setToolType(tool: Tool) {
+                if (tool instanceof Tools.None) {
+                    gridBrush.ref?.clearImage();
+                } else if (tool instanceof Tools.Collider) {
+                    if (gridBrush.ref) {
+                        gridBrush.ref.setImage(
+                    }
+                } else if (tool instanceof Tools.IframeGameObject) {
+
+                } else if (tool instanceof Tools.ImageGameObject) {
+
+                } else if (tool instanceof Tools.Tile) {
+
+                }
+            }
+        };
         
         (globalThis as any).debug = {
             player: player,
@@ -120,17 +140,20 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.worldGridColliderMap = worldGridCollideMap;
                     c.initNetwork(this.interopObject!.colliderNetworker);
                 }))
+
             .withChild(instantlater.buildGameObject("css_collide_tilemap_center")
                 .withComponent(CssCollideTilemapRenderer, c => {
                     c.pointerEvents = false;
                 })
                 .getComponent(CssCollideTilemapRenderer, collideTilemap))
+
             .withChild(instantlater.buildGameObject("grid_collide_map_center")
                 .withComponent(GridCollideMap)
                 .withComponent(GridCenterPositionMatcher, c => {
                     c.setGridCenter(collideTilemap.ref!.gridCenter);
                 })
                 .getComponent(GridCollideMap, worldGridCollideMap))
+
             .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
                 .with4x4SpriteAtlasFromPath(new PrefabRef(this.interopObject!.user.skinSrc || "/assets/charactor/Seongwon.png"))
                 .withCollideMap(collideTilemap)
@@ -148,10 +171,11 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .withComponent(ZaxisSorter))
             
-            
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(collideTilemap)
-                .getGridPointer(gridPointer).make())
+                .getGridPointer(gridPointer).make()
+                .withComponent(GridBrush)
+                .getComponent(GridBrush, gridBrush))
                 
             .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
                 .withTrackTarget(player).make());
