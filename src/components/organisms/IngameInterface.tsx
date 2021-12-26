@@ -10,7 +10,7 @@ import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 import { ApolloClient, gql } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
-import VariableEditorInner from "./EditorInner/VariableEditorInner";
+import FieldEditorInner from "./EditorInner/FieldEditorInner";
 import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
 import WorldEditorInner from "./EditorInner/WorldEditorInner";
 import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
@@ -263,7 +263,7 @@ function onChat(worldId: string, callback: (data: chatMessage) => void, apolloCl
 }
 
 enum Editor {
-    Variable,
+    Field,
     Broadcaster,
     World,
     Atlas,
@@ -277,7 +277,7 @@ interface PropsType {
 
 function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
     const [barOpened, setBarOpened] = useState(false);
-    const [selectedEditor, setSelectedEditor] = useState(Editor.Variable);
+    const [selectedEditor, setSelectedEditor] = useState(Editor.Field);
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState("");
     const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
@@ -327,7 +327,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     <LogoImage src={twLogo2Black} />
                 </Link>
                 <BarDivider/>
-                <MenuButton selected={barOpened && selectedEditor === Editor.Variable} onClick={() => onMenuSelect(Editor.Variable)}>VAR</MenuButton>
+                <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
@@ -335,7 +335,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
             <>
-                <VariableEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Variable}/>
+                <FieldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Field}/>
                 <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
                 <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
                 <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />

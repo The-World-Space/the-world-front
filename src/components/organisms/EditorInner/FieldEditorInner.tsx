@@ -59,8 +59,7 @@ interface PropsType {
     opened: boolean;
 }
 
-function VariableEditorInner({ /*worldId,*/ opened }: PropsType) {
-    
+function FieldEditorInner({ /*worldId,*/ opened }: PropsType) {
     return (
         <ExpandBarDiv opened={opened}>
             <ListContainer>
@@ -86,4 +85,4 @@ function VariableEditorInner({ /*worldId,*/ opened }: PropsType) {
 
 
 
-export default React.memo(VariableEditorInner);
+export default React.memo(FieldEditorInner);
