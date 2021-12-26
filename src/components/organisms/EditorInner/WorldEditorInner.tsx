@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
@@ -9,6 +9,8 @@ import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { gql, useQuery } from "@apollo/client";
+import { WorldEditorContext } from "../../../context/contexts";
+import { Tools } from "../../../game/script/WorldEditorConnector";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -220,7 +222,7 @@ interface PropsType {
     opened: boolean;
 }
 
-enum Tools {
+enum EditorTools {
     Pen,
     Eraser,
     Collider,
@@ -228,7 +230,14 @@ enum Tools {
     Sizer
 }
 
+enum Tabs {
+    Tile,
+    Object,
+}
+
 function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
+    const {worldEditorConnector} = useContext(WorldEditorContext);
+
     const [tab, setTab] = useState(0);
     const [photoId, setPhotoId] = useState(0);
     const tabNames = useMemo(() => ({left: "Tile List", right: "Object List"}), []);
@@ -248,13 +257,39 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const [iframeWidth, setIframeWidth] = useState("1");
     const [iframeHeight, setIframeHeight] = useState("1");
+    const [iframeSrc, setIframesSrc] = useState("");
     const [iframeObjectType, setIframeObjectType] = useState(Server.GameObjectType.Wall);
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
-    const [selectedTool, setSelectedTool] = useState(Tools.Pen);
-    const onSelectTool = useCallback((tool: Tools) => {
+    const [selectedTool, setSelectedTool] = useState(EditorTools.Pen);
+    const onSelectTool = useCallback((tool: EditorTools) => {
         setSelectedTool(tool);
+        if (tool === EditorTools.Collider) {
+            const tool = new Tools.Collider();
+            worldEditorConnector.setToolType(tool);
+        } else if (tool === EditorTools.Eraser && tab === Tabs.Tile) {
+            const tool = new Tools.EraseTile();
+            worldEditorConnector.setToolType(tool);
+        } else if (tool === EditorTools.Eraser && tab === Tabs.Object) {
+            const tool = new Tools.EraseObject();
+            worldEditorConnector.setToolType(tool);
+        } else if (tool === EditorTools.Pen && tab === Tabs.Object) {
+            const imageList = myImageGameObjectProtos.data?.myImageGameObjectProtos;
+            if (!imageList) return;
+            const tool = new Tools.ImageGameObject(imageList[photoId]);
+            worldEditorConnector.setToolType(tool);
+        } else {
+            const tool = new Tools.None();
+            worldEditorConnector.setToolType(tool);
+        }
     }, []);
+
+
+    useEffect(() => {
+        if (opened) return;
+        const tool = new Tools.None();
+        worldEditorConnector.setToolType(tool);
+    }, [opened]);
 
 
     useEffect(() => {
@@ -270,7 +305,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 <IframeInputWrapper>
                     <IframeTitle>iframe address</IframeTitle>
                     <ListFakeHr />
-                    <IframeInput type="text" placeholder="Add iframe address" />
+                    <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframesSrc(e.target.value)} />
                     <ListFakeHr />
                     <IframeInputSettingWrapper>
                         <IframeInputSettingLeft>
@@ -304,11 +339,11 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 </IframeInputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <PenTool onClick={() => onSelectTool(Tools.Pen)} />
-                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
-                <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
-                <ImageTool onClick={() => onSelectTool(Tools.Image)} />
-                <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
+                <PenTool onClick={() => onSelectTool(EditorTools.Pen)} />
+                <EraseTool onClick={() => onSelectTool(EditorTools.Eraser)} />
+                <ColliderTool onClick={() => onSelectTool(EditorTools.Collider)} />
+                <ImageTool onClick={() => onSelectTool(EditorTools.Image)} />
+                <SizerTool onClick={() => onSelectTool(EditorTools.Sizer)} />
             </ToolsWrapper>
         </ExpandBarDiv>
     );
