@@ -130,8 +130,8 @@ function DualTabList({setId, id, setTab, tab, datas, tabNames}: DualTabListProps
             </ListTop>
             <ListFakeHr />
             <ListBody>
-                {(tab === DualTabType.Right ? datas.right : datas.left).map(data => (
-                    <PhotoElement onSelect={setId} selected={id === data.id} data={data} key={data.id} />
+                {(tab === DualTabType.Right ? datas.right : datas.left).map((data, i) => (
+                    <PhotoElement onSelect={setId} selected={id === data.id} data={data} key={data.id} label={String(i)} />
                 ))}
             </ListBody>
         </VerticalWrapperList>
@@ -171,13 +171,14 @@ interface PhotoElementProps {
     onSelect: (id: PhotoElementData["id"]) => void;
     selected: boolean;
     data: PhotoElementData;
+    label: string;
 }
 
-const PhotoElement_ = ({ onSelect, /*selected,*/ data }: PhotoElementProps) => {
+const PhotoElement_ = ({ onSelect, /*selected,*/ data, label }: PhotoElementProps) => {
     return (
         <ElementWrapperDIv onClick={() => onSelect(data.id)}>
             <ElementThumbnail src={data.src} />
-            <ElementName>{data.id}</ElementName>
+            <ElementName>{label}</ElementName>
         </ElementWrapperDIv>
     );
 };

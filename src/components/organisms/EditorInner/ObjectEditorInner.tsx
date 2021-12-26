@@ -11,6 +11,8 @@ import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { ObjEditorContext } from "../../../context/contexts";
+import { gql, useApolloClient, useMutation } from "@apollo/client";
+import { globalFileApolloClient } from "../../../game/connect/files";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -141,6 +143,25 @@ const ToolsWrapper = styled.div<{selected: number}>`
 `;
 
 
+const UPLOAD_IMAGE = gql`
+    mutation UploadFile($image: Upload!) {
+        uploadImageAsset(image: $image) {
+            filename
+        }
+    }
+`;
+
+
+const SAVE_IMAGE_PROTO = gql`
+mutation CREATE_IMAGE_PROTO ($protoInput: ImageGameObjectProtoInput!) {
+    createImageGameObjectProto(
+        imageGameObjectProto: $protoInput
+    ) {
+        id
+    }
+}
+`;
+
 
 interface PropsType {
     worldId: string;
@@ -183,22 +204,51 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         setSelectedTool(tool);
     }, [objEditorConnector]);
 
-    const [_, setFile] = useState<File>();
+    
+    const [imageUploadMutate] = useMutation(UPLOAD_IMAGE, {
+        client: globalFileApolloClient,
+    });
+    const [saveMutate] = useMutation(SAVE_IMAGE_PROTO);
+    const [file, setFile] = useState<File>();
     const onFileChange = useCallback(({ target: { validity, files } }: React.ChangeEvent<HTMLInputElement>) => {
-        console.debug("inputed file", validity.valid, files);
-        if (!validity.valid || !files) return;
+        if (!validity.valid || !files || files.length < 1) return;
         const inputedFile = files[0];
-        const src = window.URL.createObjectURL(inputedFile);
-
-        objEditorConnector.setViewObject(src, 2, 2);
         setFile(inputedFile);
+        const src = window.URL.createObjectURL(inputedFile);
+        objEditorConnector.setViewObject(src, imageWidth, imageHeight);
     }, []);
 
-    const save = useCallback(() => {
+    const [imageWidth] = useState(2);
+    const [imageHeight] = useState(2);
+
+    const apolloClient = useApolloClient();
+    const save = useCallback(async () => {
         const shouldSave = window.confirm("save current work?");
         if (!shouldSave) return;
-        // @TODO: save
-    }, []);
+        if (!file) throw new Error("no file");
+        const vars = {
+            name: "noname",
+            width: imageWidth,
+            height: imageHeight,
+            isPublic: true,
+            type: selectedObjectType,
+            colliders: 
+                objEditorConnector.getColliderShape()
+                    .map(c => ({x: c.x, y: c.y, isBlocked: true})),
+        };
+        const imageUploadRes = await imageUploadMutate({
+            variables: {
+                image: file
+            }
+        });
+        await saveMutate({
+            variables: {
+                ...vars,
+                src: imageUploadRes.data.uploadImageAsset.filename
+            }
+        });
+        apolloClient.resetStore();
+    }, [file, imageWidth, imageHeight, selectedObjectType]);
     
     const [datas] = useState<{
         left: PhotoElementData[];
