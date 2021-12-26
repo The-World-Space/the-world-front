@@ -37,7 +37,8 @@ async function createWorld(apolloClient: ApolloClient<any>, id: string, name: st
         variables: {
             world: {
                 id,
-                name
+                name,
+                isPublic: true,
             }
         }
     });
@@ -54,6 +55,7 @@ const CreateWorld: React.FC = () => {
     const submit = async () => {
         try {
             await createWorld(apolloClient, worldId, worldName);
+            await apolloClient.resetStore();
             history.push("/");
         } catch(e) {
             alert(e);
