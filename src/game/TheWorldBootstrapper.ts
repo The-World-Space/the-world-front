@@ -1,6 +1,5 @@
 import { ApolloClient } from "@apollo/client";
 import { Quaternion, Vector2, Vector3 } from "three";
-import { CssCollideTilemapRenderer } from "./script/physics/CssCollideTilemapRenderer";
 import { IframeRenderer } from "./script/render/IframeRenderer";
 import { ZaxisSorter } from "./script/render/ZaxisSorter";
 import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
@@ -90,7 +89,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         const instantlater = this.engine.instantlater;
 
         const player = new PrefabRef<GameObject>();
-        const collideTilemap = new PrefabRef<CssCollideTilemapRenderer>();
+        const collideTilemap = new PrefabRef<CssCollideTilemapChunkRenderer>();
         const worldGridCollideMap = new PrefabRef<GridCollideMap>();
         const gridPointer = new PrefabRef<GridPointer>();
         const gridBrush = new PrefabRef<GridBrush>();
@@ -190,7 +189,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     .withComponent(CssCollideTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                     })
-                    .getComponent(CssCollideTilemapRenderer, collideTilemap))
+                    .getComponent(CssCollideTilemapChunkRenderer, collideTilemap))
                     
                 .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 460))
                     .withComponent(CssTilemapChunkRenderer, c => {
