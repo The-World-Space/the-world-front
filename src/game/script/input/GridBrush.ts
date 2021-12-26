@@ -1,29 +1,21 @@
+import { Vector2 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
-import { CssCollideTilemapChunkRenderer } from "../physics/CssCollideTilemapChunkRenderer";
 import { GridPointer } from "./GridPointer";
 import { PointerGridEvent } from "./PointerGridInputListener";
 
-export class TestTileBrush extends Component {
+export class GridBrush extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
     
     private _gridPointer: GridPointer|null = null;
-    private _colideTilemapChunk: CssCollideTilemapChunkRenderer|null = null;
     private _pointerDown: boolean = false;
+    private _onDraw: (gridPosition: Vector2) => void = () => {};
 
     private readonly _onPointerDownBind = this.onPointerDown.bind(this);
     private readonly _onPointerUpBind = this.onPointerUp.bind(this);
     private readonly _onPointerMoveBind = this.onPointerMove.bind(this);
 
-    protected start(): void {
-        if (!this._colideTilemapChunk) {
-            throw new Error("TestTileBrush: colideTilemapChunk is not set");
-        }
-    }
-
     public onEnable(): void {
-        if (!this._gridPointer) {
-            throw new Error("TestTileBrush: gridPointer is not set");
-        }
+        if (!this._gridPointer) throw new Error("GridBrush: gridPointer is not set");
         this._gridPointer.addOnPointerDownEventListener(this._onPointerDownBind);
         this._gridPointer.addOnPointerUpEventListener(this._onPointerUpBind);
         this._gridPointer.addOnPointerMoveEventListener(this._onPointerMoveBind);
@@ -37,19 +29,20 @@ export class TestTileBrush extends Component {
         }
     }
 
+    private readonly _lastGridPosition = new Vector2();
+
     private onPointerDown(event: PointerGridEvent) {
         this._pointerDown = true;
-        this._colideTilemapChunk!.drawTile(event.gridPosition.x, event.gridPosition.y, 0, 10);
+        this._lastGridPosition.copy(event.gridPosition);
     }
 
-    private onPointerUp(_: PointerGridEvent) {
+    private onPointerUp() {
         this._pointerDown = false;
     }
 
     private onPointerMove(event: PointerGridEvent) {
-        if (this._pointerDown) {
-            this._colideTilemapChunk!.drawTile(event.gridPosition.x, event.gridPosition.y, 0, 10);
-        }
+        if (!this._pointerDown) return;
+        if (this._lastGridPosition.equals(event.gridPosition)) return;
     }
 
     public get gridPointer(): GridPointer|null {
@@ -60,11 +53,11 @@ export class TestTileBrush extends Component {
         this._gridPointer = value;
     }
 
-    public get colideTilemapChunk(): CssCollideTilemapChunkRenderer|null {
-        return this._colideTilemapChunk;
+    public get onDraw(): (gridPosition: Vector2) => void {
+        return this._onDraw;
     }
 
-    public set colideTilemapChunk(value: CssCollideTilemapChunkRenderer|null) {
-        this._colideTilemapChunk = value;
+    public set onDraw(value: (gridPosition: Vector2) => void) {
+        this._onDraw = value;
     }
 }
