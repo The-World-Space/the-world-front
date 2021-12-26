@@ -55,17 +55,18 @@ const GameView = styled.div`
     position: absolute;
 `;
 
-function NetworkGamePage(): JSX.Element {
+function NetworkGamePage_(): JSX.Element {
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
     const { value: world, error } = useAsync(() => getWorld(worldId, globalApolloClient));
     const { setGame, worldEditorConnector } = useContext(WorldEditorContext);
     const user = useUser();
-    
+
     useEffect(() => { //on component mounted
         if (error) throw error;
         if (!world || !user) return; 
+        if (!worldEditorConnector) return;
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
         const game = new Game(div.current);
@@ -85,18 +86,24 @@ function NetworkGamePage(): JSX.Element {
     }, [worldId, world, user, error, setGame, worldEditorConnector]);
 
     return (
+        <Container>
+            <IngameInterfaceContainer>
+                <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
+            </IngameInterfaceContainer>
+            <GameContainer>
+                <WidgetContainer>
+                    <WidgetWrapper ref={widgetWrapperdiv}/> 
+                </WidgetContainer>
+                <GameView ref={div}/>
+            </GameContainer>
+        </Container>
+    );
+}
+
+function NetworkGamePage(): JSX.Element {
+    return (
         <GameProvider>
-            <Container>
-                <IngameInterfaceContainer>
-                    <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
-                </IngameInterfaceContainer>
-                <GameContainer>
-                    <WidgetContainer>
-                        <WidgetWrapper ref={widgetWrapperdiv}/> 
-                    </WidgetContainer>
-                    <GameView ref={div}/>
-                </GameContainer>
-            </Container>
+            <NetworkGamePage_ />
         </GameProvider>
     );
 }

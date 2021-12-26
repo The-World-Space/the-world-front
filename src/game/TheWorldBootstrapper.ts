@@ -28,6 +28,7 @@ import { GridBrush } from "./script/input/GridBrush";
 import { CameraRelativeZaxisSorter } from "./script/render/CameraRelativeZaxisSorter";
 import { CssTilemapChunkRenderer } from "./script/post_render/CssTilemapChunkRenderer";
 import { GridObjectCollideMap } from "./script/physics/GridObjectCollideMap";
+import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
@@ -100,9 +101,11 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         //tool
         const gridPointer = new PrefabRef<GridPointer>();
         const gridBrush = new PrefabRef<GridBrush>();
+        const networkBrushManager = new PrefabRef<NetworkBrushManager>();
 
         this.interopObject!.worldEditorConnector.action = {
             setToolType(tool: Tool) {
+                networkBrushManager.ref?.setCurrentTool(tool);
                 if (tool instanceof Tools.None) {
                     gridBrush.ref?.clearImage();
                 } else if (tool instanceof Tools.Collider) {
@@ -181,7 +184,13 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     // worldGridCollideMap.ref!.showCollider = true;
                     c.worldGridColliderMap = gridCollideMap;
                     c.initNetwork(this.interopObject!.colliderNetworker);
-                }))
+                })
+                .withComponent(NetworkBrushManager, c => {
+                    c.gridBrush = gridBrush.ref!;
+                    c.apolloClient = this.interopObject!.apolloClient;
+                    c.worldId = this.interopObject!.serverWorld.id;
+                })
+                .getComponent(NetworkBrushManager, networkBrushManager))
 
             .withChild(instantlater.buildGameObject("tilemap")
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)

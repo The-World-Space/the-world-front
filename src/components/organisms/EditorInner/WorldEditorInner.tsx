@@ -324,18 +324,18 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
     const [selectedTool, setSelectedTool] = useState(EditorTools.Pen);
-    const onSelectTool = useCallback((tool: EditorTools) => {
-        setSelectedTool(tool);
-        if (tool === EditorTools.Collider) {
+    const onSelectTool = useCallback((editorTool: EditorTools) => {
+        setSelectedTool(editorTool);
+        if (editorTool === EditorTools.Collider) {
             const tool = new Tools.Collider();
             worldEditorConnector.setToolType(tool);
-        } else if (tool === EditorTools.Eraser && tab === Tabs.Tile) {
+        } else if (editorTool === EditorTools.Eraser && tab === Tabs.Tile) {
             const tool = new Tools.EraseTile();
             worldEditorConnector.setToolType(tool);
-        } else if (tool === EditorTools.Eraser && tab === Tabs.Object) {
+        } else if (editorTool === EditorTools.Eraser && tab === Tabs.Object) {
             const tool = new Tools.EraseObject();
             worldEditorConnector.setToolType(tool);
-        } else if (tool === EditorTools.Pen && tab === Tabs.Tile) {
+        } else if (editorTool === EditorTools.Pen && tab === Tabs.Tile) {
             const [atlasId, atlasIndex] = photoId.split("_");
             const atlas = atlasMap[atlasId];
             const tool = new Tools.Tile({
@@ -344,7 +344,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 type: iframeObjectType
             });
             worldEditorConnector.setToolType(tool);
-        } else if (tool === EditorTools.Pen && tab === Tabs.Object) {
+        } else if (editorTool === EditorTools.Pen && tab === Tabs.Object) {
             const protoId = +photoId;
             const proto = protoMap[protoId];
             const tool = new Tools.ImageGameObject(proto);
@@ -354,7 +354,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             const tool = new Tools.None();
             worldEditorConnector.setToolType(tool);
         }
-    }, []);
+    }, [worldEditorConnector]);
 
 
     useEffect(() => {
