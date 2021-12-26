@@ -110,7 +110,8 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>): Promise<Serv
                     name
                 }
             }
-        `
+        `,
+        fetchPolicy: "no-cache"
     });
 
     return result.data.myWorlds as Server.World[];
