@@ -2,6 +2,7 @@ import styled from "styled-components";
 import NavTemplate from "../components/templates/NavTemplate";
 import { FORM_FONT_FAMILY } from "./GlobalEnviroment";
 import accountIcon from "../components/atoms/AccountIcon.svg";
+import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
 
 const ContentDiv = styled.div`
     display: flex;
@@ -28,7 +29,8 @@ const SeparatorDiv = styled.div`
 
 const UserInfoCardDiv = styled.div`
     height: 350px;
-    width: 80%;
+    width: 100%;
+    max-width: 1100px;
     margin: 0% 2% 0% 2%;
     border-radius: 35px;
     background-color: #FFFFFF;
@@ -89,6 +91,51 @@ const ChangePasswordButton = styled.button`
     }
 `;
 
+const SkinDiv = styled.div`
+    position: relative;
+    width: 60%;
+    height: 90%;
+    background-color: #C4C4C4;
+    border-radius: 40px;
+    overflow: hidden;
+`;
+
+const SkinImg = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
+const SkinDiv2 = styled.div`
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #000000;
+    opacity: 0;
+
+    transition: opacity 0.5s;
+
+    &:hover {
+        opacity: 0.5;
+    }
+`;
+
+const SkinUploadButton = styled.button`
+    border: none;
+    position: absolute;
+    background: url(${skinUploadIcon});
+    width: 44px;
+    height: 44px;
+`;
+
 function UserInfo(): JSX.Element {
     return (
         <NavTemplate showNavContent={true}>
@@ -111,13 +158,12 @@ function UserInfo(): JSX.Element {
                     </CardLeftDiv>
                     <CardSeparatorDiv/>
                     <CardRightDiv>
-                        <div style={{
-                            width: "60%",
-                            height: "90%",
-                            backgroundColor: "#C4C4C4",
-                            borderRadius: "40px",
-                        }}>
-                        </div>
+                        <SkinDiv>
+                            <SkinImg src={"assets/tilemap/3_tile.png"} alt={"account icon"}/>
+                            <SkinDiv2>
+                                <SkinUploadButton/>
+                            </SkinDiv2>
+                        </SkinDiv>
                         Current skin
                     </CardRightDiv>
                 </UserInfoCardDiv>
