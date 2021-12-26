@@ -26,6 +26,12 @@ export abstract class Tool {
 export namespace Tools {
     export class None extends Tool {
     }
+
+    export class EraseTile extends Tool {
+    }
+
+    export class EraseObject extends Tool {
+    }
     
     export class ImageGameObject extends Tool {
         constructor(
