@@ -17,13 +17,12 @@ export class NetworkTileManager extends Component {
         if (!this._floorTileMap) throw new Error("floor tilemap not set");
         if (!this._effectTileMap) throw new Error("effect tilemap not set");
 
-        this._initTileList.forEach(info => this._addOneImage(info));
+        const tileSrcMap = new Set<string>();
+        this._initTileList.map(tile => {
+            tileSrcMap.add(tile.atlas.src);
+        });
+
         this._initTileList = [];
-    }
-
-
-    private _addOneImage(info: Server.AtlasTile): void {
-        void info;
     }
 
     public set floorTileMap(value: CssTilemapChunkRenderer|null) {
