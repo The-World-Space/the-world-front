@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
@@ -10,6 +10,7 @@ import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
 import LabeledList, { PhotoAtlasData, PhotoElementData } from "../../molecules/LabeledList";
+import { WorldEditorContext } from "../../../context/contexts";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -379,13 +380,25 @@ interface LabeledInputProps {
     onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-function LabeledInput({label, value, onChange}: LabeledInputProps) {
+function LabeledInput({label, value, onChange}: LabeledInputProps): JSX.Element {
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        console.log("focus", game);
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        console.log("blur", game);
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
+
     return (
         <LabeledInputWrapper>
             <LabeledInputLabel>
                 {label} :
             </LabeledInputLabel>
-            <LabeledInputArea onChange={onChange} value={value} />
+            <LabeledInputArea onChange={onChange} onFocus={onFocus} onBlur={onBlur} value={value} />
         </LabeledInputWrapper>
     );
 }
