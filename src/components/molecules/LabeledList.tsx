@@ -130,13 +130,14 @@ const ElementWrapperDIv = styled.div<{selected: boolean}>`
 const ElementThumbnail = styled.img`
     width: ${IMAGE_SIZE}px;
     height: ${IMAGE_SIZE}px;
-
+    image-rendering: pixelated;
 `;
 
 
 const AtlasThumbnail = styled.div`
     width: ${IMAGE_SIZE}px;
     height: ${IMAGE_SIZE}px;
+    image-rendering: pixelated;
 `;
 
 const ElementName = styled.span`
