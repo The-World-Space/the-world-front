@@ -77,7 +77,7 @@ export namespace Server {
         colliders: GameObjectProtoCollider[];
     }
 
-    interface IframeGameObjectProto extends GameObjectProto {
+    export interface IframeGameObjectProto extends GameObjectProto {
         src: IframeSrc;
     }
 

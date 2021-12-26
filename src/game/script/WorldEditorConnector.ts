@@ -1,12 +1,9 @@
 // import { Vector2 } from "three";
-import { Tools } from "../../components/organisms/EditorInner/ObjectEditorInner";
+import { Server } from "../connect/types";
 // import { GameObject } from "../engine/hierarchy_object/GameObject";
 
 export interface IWorldEditorAction {
-    setToolType(tools: Tools): void;
-    setViewObject(imageUrl: string, width: number, height: number): void;
-    clearViewObject(): void;
-    clearColliders(): void;
+    setToolType(tools: Tool): void;
 }
 
 
@@ -19,5 +16,53 @@ export class WorldEditorConnector {
 
     set action(action: IWorldEditorAction) {
         this._action = action;
+    }
+}
+
+
+export abstract class Tool {
+}
+
+export namespace Tools {
+    export class None extends Tool {
+    }
+    
+    export class ImageGameObject extends Tool {
+        constructor(
+            private readonly _imageInfo: Server.ImageGameObjectProto
+        ) {
+            super();
+        }
+    
+        public get imageInfo(): Server.ImageGameObjectProto {
+            return this._imageInfo;
+        }
+    }
+    
+    export class IframeGameObject extends Tool {
+        constructor(
+            private readonly _iframeInfo: Server.IframeGameObjectProto
+        ) {
+            super();
+        }
+    
+        public get iframeInfo(): Server.IframeGameObjectProto {
+            return this._iframeInfo;
+        }
+    }
+    
+    export class Collider extends Tool {
+    }
+    
+    export class Tile extends Tool {
+        constructor (
+            private readonly _tileInfo: Server.Atlas
+        ) {
+            super();
+        }
+    
+        public get tileInfo(): Server.Atlas {
+            return this._tileInfo;
+        }
     }
 }
