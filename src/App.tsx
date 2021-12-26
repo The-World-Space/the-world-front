@@ -13,9 +13,9 @@ import Register from "./pages/Register";
 import CreateWorld from "./pages/CreateWorld";
 import MyPage from "./pages/MyPage";
 import MyWorldList from "./pages/MyWorldList";
-import IngameInterface from "./components/organisms/IngameInterface";
 import TestGamePage from "./pages/TestGamePage";
 import NetworkGamePage from "./pages/NetworkGamePage";
+import UserInfo from "./pages/UserInfo";
 
 function App(): JSX.Element {
     return (
@@ -27,9 +27,9 @@ function App(): JSX.Element {
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/logout" component={Logout} />
+                <Route path="/user" component={UserInfo} />
                 <Route path="/createworld" component={CreateWorld} />
                 <Route path="/mypage" component={MyPage} />
-                <Route path="/interfacetest" component={IngameInterface} />
                 <Route path="/game" component={TestGamePage} />
                 <Route path="/world/:worldId" component={NetworkGamePage} />
                 <Route path="*" component={Notfound} />
