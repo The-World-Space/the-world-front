@@ -115,6 +115,7 @@ export class NetworkPlayerPrefab extends Prefab {
                             textAlign: "center",
                             padding: "5px 10px",
                             opacity: 0.5,
+                            fontFamily: "Noto Sans",
                         }}>
                             chat content
                         </div>
