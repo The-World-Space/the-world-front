@@ -170,8 +170,8 @@ interface PhotoElementProps {
 
 const    PhotoElement = React.memo(PhotoElement_);
 function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProps) {
-    const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.verticalCount) : 0;
-    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.horizontalCount) : 0;
+    const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.horizontalCount) : 0;
+    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.verticalCount) : 0;
     return (
         <ElementWrapperDIv onClick={() => onSelect(data.id)}>
             {
@@ -186,7 +186,7 @@ function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProp
                     />
                     : <ElementThumbnail src={data.isAtlas} />
             }
-            <ElementName>{label}</ElementName>
+            <ElementName>{label} ${data.isAtlas ? ` :: ${verticalIndex},${horizontalIndex},${data.atlasIndex}` : ""}</ElementName>
         </ElementWrapperDIv>
     );
 }
