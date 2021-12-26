@@ -6,7 +6,7 @@ import { Color } from "../../../game/engine/render/Color";
 import { GridInputPrefab } from "../../../game/prefab/GridInputPrefab";
 import { EditorCameraController } from "../../../game/script/controller/EditorCameraController";
 import { EditorViewObjectController } from "../../../game/script/controller/EditorViewObjectController";
-import { BrushMode, ColliderBrush } from "../../../game/script/input/ColliderBrush";
+import { BrushMode, GridColliderBrush } from "../../../game/script/input/GridColliderBrush";
 import { GridPointer } from "../../../game/script/input/GridPointer";
 import { ObjEditorConnector } from "../../../game/script/ObjEditorConnector";
 import { GridCollideMap } from "../../../game/script/physics/GridColideMap";
@@ -22,7 +22,7 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
         const collideMap = new PrefabRef<GridCollideMap>();
         const gridPointer = new PrefabRef<GridPointer>();
         const editorViewObjectController = new PrefabRef<EditorViewObjectController>();
-        const colliderBrush = new PrefabRef<ColliderBrush>();
+        const colliderBrush = new PrefabRef<GridColliderBrush>();
 
         this.interopObject!.action = {
             setToolType(tools) {
@@ -80,12 +80,12 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(collideMap)
                 .getGridPointer(gridPointer).make()
-                .withComponent(ColliderBrush, c => {
+                .withComponent(GridColliderBrush, c => {
                     c.enabled = false;
                     c.gridPointer = gridPointer.ref!;
                     c.collideMap = collideMap.ref!;
                 })
-                .getComponent(ColliderBrush, colliderBrush))
+                .getComponent(GridColliderBrush, colliderBrush))
             
             .withChild(instantlater.buildGameObject("view_object", new Vector3(-8, -8, 0))
                 .withComponent(CssSpriteRenderer, c => {

@@ -8,7 +8,7 @@ export enum BrushMode {
     Erase
 }
 
-export class ColliderBrush extends Component {
+export class GridColliderBrush extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
     
     private _gridPointer: GridPointer|null = null;
@@ -21,15 +21,11 @@ export class ColliderBrush extends Component {
     private readonly _onPointerMoveBind = this.onPointerMove.bind(this);
 
     protected start(): void {
-        if (!this._colideMap) {
-            throw new Error("TestTileBrush: colideMap is not set");
-        }
+        if (!this._colideMap) throw new Error("ColliderBrush: colideMap is not set");
     }
 
     public onEnable(): void {
-        if (!this._gridPointer) {
-            throw new Error("TestTileBrush: gridPointer is not set");
-        }
+        if (!this._gridPointer) throw new Error("ColliderBrush: gridPointer is not set");
         this._gridPointer.addOnPointerDownEventListener(this._onPointerDownBind);
         this._gridPointer.addOnPointerUpEventListener(this._onPointerUpBind);
         this._gridPointer.addOnPointerMoveEventListener(this._onPointerMoveBind);
@@ -66,27 +62,27 @@ export class ColliderBrush extends Component {
         }
     }
 
-    get gridPointer(): GridPointer|null {
+    public get gridPointer(): GridPointer|null {
         return this._gridPointer;
     }
 
-    set gridPointer(value: GridPointer|null) {
+    public set gridPointer(value: GridPointer|null) {
         this._gridPointer = value;
     }
 
-    get collideMap(): GridCollideMap|null {
+    public get collideMap(): GridCollideMap|null {
         return this._colideMap;
     }
 
-    set collideMap(value: GridCollideMap|null) {
+    public set collideMap(value: GridCollideMap|null) {
         this._colideMap = value;
     }
 
-    get brushMode(): BrushMode {
+    public get brushMode(): BrushMode {
         return this._brushMode;
     }
 
-    set brushMode(value: BrushMode) {
+    public set brushMode(value: BrushMode) {
         this._brushMode = value;
     }
 }
