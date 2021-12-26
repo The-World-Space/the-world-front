@@ -159,8 +159,8 @@ export interface PhotoAtlasData {
     id: number,
     src: string,
     atlasIndex: number,
-    verticalCount: number,
-    horizontalCount: number,
+    rowCount: number,
+    columnCount: number,
     isAtlas: true,
 }
 
@@ -173,8 +173,8 @@ interface PhotoElementProps {
 
 const    PhotoElement = React.memo(PhotoElement_);
 function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
-    const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.horizontalCount) : 0;
-    const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.horizontalCount) : 0;
+    const rowIndex = data.isAtlas ? ~~(data.atlasIndex / data.columnCount) : 0;
+    const columnIndex = data.isAtlas ? (data.atlasIndex % data.columnCount) : 0;
     return (
         <ElementWrapperDIv onClick={() => onSelect(data.id)} selected={selected}>
             {
@@ -182,14 +182,14 @@ function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
                     ? <AtlasThumbnail 
                         style={{
                             backgroundImage: `url(${data.src})`,
-                            backgroundSize: `${data.horizontalCount * IMAGE_SIZE}px ${data.verticalCount * IMAGE_SIZE}px`,
+                            backgroundSize: `${data.columnCount * IMAGE_SIZE}px ${data.rowCount * IMAGE_SIZE}px`,
                             objectFit: "none",
-                            backgroundPosition: `${horizontalIndex * -IMAGE_SIZE}px ${verticalIndex * -IMAGE_SIZE}px`,
+                            backgroundPosition: `${columnIndex * -IMAGE_SIZE}px ${rowIndex * -IMAGE_SIZE}px`,
                         }}
                     />
                     : <ElementThumbnail src={data.isAtlas} />
             }
-            <ElementName>{label}{data.isAtlas ? `:: ${verticalIndex} ${horizontalIndex} ${data.atlasIndex}` : ""}</ElementName>
+            <ElementName>{label}{data.isAtlas ? `:: ${rowIndex} ${columnIndex} ${data.atlasIndex}` : ""}</ElementName>
         </ElementWrapperDIv>
     );
 }
