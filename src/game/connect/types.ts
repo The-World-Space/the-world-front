@@ -68,6 +68,7 @@ export namespace Server {
     }
 
     interface GameObjectProto {
+        name: string;
         id: number;
         owner: User;
         isPublic: boolean;

@@ -257,11 +257,21 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const save = useCallback(async () => {
         const shouldSave = window.confirm("save current work?");
         if (!shouldSave) return;
-        if (!file) throw new Error("no file");
+        try{
+            if (!file) throw new Error("no file");
+            if (!isSafeNum(+imageWidth)) throw new Error("invalid image width");
+            if (!isSafeNum(+imageHeight)) throw new Error("invalid image height");
+            if (+imageWidth <= 0 || +imageHeight <= 0) throw new Error("invalid image size");
+            if (!name) throw new Error("no name");
+        } catch(e) {
+            alert("ERROR: " + (e as Error).message);
+            return;
+        }
+
         const vars = {
-            name: "noname",
-            width: imageWidth,
-            height: imageHeight,
+            name: name,
+            width: +imageWidth,
+            height: +imageHeight,
             isPublic: true,
             type: selectedObjectType,
             offsetX: 0,
@@ -286,7 +296,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         objEditorConnector.clearColliders();
         objEditorConnector.clearViewObject();
         apolloClient.resetStore();
-    }, [file, imageWidth, imageHeight, selectedObjectType]);
+    }, [file, imageWidth, imageHeight, selectedObjectType, name]);
     
     const [datas] = useState<PhotoElementData[]>([]);
     
@@ -381,6 +391,8 @@ const LabeledInputLabel = styled.span`
     width: 30px;
     height: 27px;
     line-height: 27px;
+
+    padding-left: 5px;
 
     display: flex;
     justify-content: center;

@@ -202,6 +202,7 @@ const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
     query myImageGOProtos {
         myImageGameObjectProtos {
             id
+            name
             isPublic
             width
             height
