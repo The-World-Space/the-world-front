@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
@@ -16,6 +16,7 @@ export class GridBrush extends Component {
     private _showImage: boolean = false;
     private _pointerImage: CssSpriteAtlasRenderer|null = null;
     private _pointerImageObject: GameObject|null = null;
+    private _imageZoffset: number = 0;
     private _onDraw: ((gridPosition: Vector2) => void)|null = null;
 
     private readonly _onPointerDownBind = this.onPointerDown.bind(this);
@@ -33,7 +34,7 @@ export class GridBrush extends Component {
         const pointerImageObjectRef = new PrefabRef<GameObject>();
 
         this.gameObject.addChildFromBuilder(
-            this.engine.instantlater.buildGameObject("pointer_image")
+            this.engine.instantlater.buildGameObject("pointer_image", new Vector3(0, 0, this._imageZoffset))
                 .active(false)
                 .withComponent(CssSpriteAtlasRenderer, c => {
                     c.imageCenterOffset = new Vector2(0.5, 0.5);
@@ -183,5 +184,13 @@ export class GridBrush extends Component {
     public get gridCellHeight(): number|null {
         if (!this._gridInputListener) return null;
         return this._gridInputListener.gridCellHeight;
+    }
+
+    public get imageZoffset(): number {
+        return this._imageZoffset;
+    }
+
+    public set imageZoffset(value: number) {
+        this._imageZoffset = value;
     }
 }

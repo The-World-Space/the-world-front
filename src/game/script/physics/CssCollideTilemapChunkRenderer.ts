@@ -163,7 +163,7 @@ export class CssCollideTilemapChunkRenderer extends Component implements IGridCo
         const chunkIndexX = Math.floor(((x - worldPosition.x) / this._tileWidth + this._chunkSize / 2) / this._chunkSize);
         const chunkIndexY = Math.floor(((y - worldPosition.y) / this._tileHeight + this._chunkSize / 2) / this._chunkSize);
         const chunkIndex = this.getKeyFromIndex(chunkIndexX, chunkIndexY);
-        let cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
+        const cssTilemapRenderer = this._cssTilemapRendererMap.get(chunkIndex);
         if (cssTilemapRenderer === undefined) {
             return false;
         }

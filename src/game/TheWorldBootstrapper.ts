@@ -26,6 +26,10 @@ import { ColliderNetworker } from "./script/networker/ColliderNetworker";
 import { IframeNetworker } from "./script/networker/IframeNetworker";
 import { ImageNetworker } from "./script/networker/ImageNetworker";
 import { GridBrush } from "./script/input/GridBrush";
+import { CameraRelativeZaxisSorter } from "./script/render/CameraRelativeZaxisSorter";
+import { CssCollideTilemapChunkRenderer } from "./script/physics/CssCollideTilemapChunkRenderer";
+import { CssTilemapChunkRenderer } from "./script/post_render/CssTilemapChunkRenderer";
+import { GridObjectCollideMap } from "./script/physics/GridObjectCollideMap";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
@@ -148,7 +152,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         };
 
         return this.sceneBuilder
-            .withChild(instantlater.buildGameObject("networkGameManager")
+            .withChild(instantlater.buildGameObject("network_gamemanager")
                 .withComponent(NetworkPlayerManager, c => {
                     c.iGridCollidable = collideTilemap.ref!;
                     c.initNetwork(this.interopObject!.networkManager);
@@ -174,20 +178,40 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.initNetwork(this.interopObject!.colliderNetworker);
                 }))
 
-            .withChild(instantlater.buildGameObject("css_collide_tilemap_center")
-                .withComponent(CssCollideTilemapRenderer, c => {
-                    c.pointerEvents = false;
-                })
-                .getComponent(CssCollideTilemapRenderer, collideTilemap))
+            .withChild(instantlater.buildGameObject("tilemap")
+                .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
-            .withChild(instantlater.buildGameObject("grid_collide_map_center")
-                .withComponent(GridCollideMap)
+                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -10))
+                    .withComponent(CssTilemapChunkRenderer, c => {
+                        c.pointerEvents = false;
+                    }))
+                    
+                .withChild(instantlater.buildGameObject("auto_collide_floor")
+                    .withComponent(CssCollideTilemapChunkRenderer, c => {
+                        c.pointerEvents = false;
+                    })
+                    .getComponent(CssCollideTilemapRenderer, collideTilemap))
+                    
+                .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 460))
+                    .withComponent(CssTilemapChunkRenderer, c => {
+                        c.pointerEvents = false;
+                    })))
+
+            .withChild(instantlater.buildGameObject("collide_map")
+                .withComponent(GridCollideMap, c => {
+                    c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
+                    c.gridCellWidth = collideTilemap.ref!.gridCellWidth;
+                })
+                .withComponent(GridObjectCollideMap, c => {
+                    c.gridCellWidth = collideTilemap.ref!.gridCellWidth;
+                    c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
+                })
                 .withComponent(GridCenterPositionMatcher, c => {
                     c.setGridCenter(collideTilemap.ref!.gridCenter);
                 })
                 .getComponent(GridCollideMap, worldGridCollideMap))
 
-            .withChild(instantlater.buildPrefab("player", PlayerPrefab, new Vector3(0, 0, 0))
+            .withChild(instantlater.buildPrefab("player", PlayerPrefab)
                 .with4x4SpriteAtlasFromPath(new PrefabRef(this.interopObject!.user.skinSrc || "/assets/charactor/Seongwon.png"))
                 .withCollideMap(collideTilemap)
                 .withNameTag(new PrefabRef(this.interopObject!.user.nickname))

@@ -66,7 +66,7 @@ export class GridObjectCollideMap extends Component implements IGridCollidable {
         }
     }
 
-    public removeCollider(x: number, y: number) {
+    public removeCollider(x: number, y: number): void {
         const collideValue = this._collideMap.get(`${x}_${y}`);
         if (collideValue === undefined) {
             return;
@@ -82,21 +82,21 @@ export class GridObjectCollideMap extends Component implements IGridCollidable {
         }
     }
 
-    private addColliderImages() {
+    private addColliderImages(): void {
         this._collideMap.forEach((_value, key) => {
             const [x, y] = key.split("_").map(Number);
             this.addDebugImage(x * this.gridCellWidth, y * this.gridCellHeight);
         });
     }
 
-    private removeColliderImages() {
+    private removeColliderImages(): void {
         this._colliderImages.forEach(image => {
             image.destroy();
         });
         this._colliderImages.clear();
     }
     
-    private addDebugImage(x: number, y: number) {
+    private addDebugImage(x: number, y: number): void {
         const gameObjectRef: {ref: GameObject|null} = {ref: null};
         this.gameObject.addChildFromBuilder(
             this.engine.instantlater.buildGameObject(
@@ -107,7 +107,7 @@ export class GridObjectCollideMap extends Component implements IGridCollidable {
         this._colliderImages.set(`${x}_${y}`, gameObjectRef.ref!);
     }
 
-    private removeDebugImage(x: number, y: number) {
+    private removeDebugImage(x: number, y: number): void {
         const image = this._colliderImages.get(`${x}_${y}`);
         if (image) {
             image.destroy();
