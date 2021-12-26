@@ -7,7 +7,7 @@ import { Vector2 } from "three";
 import useUser from "../hooks/useUser";
 import IngameInterface from "../components/organisms/IngameInterface";
 import { useParams } from "react-router-dom";
-import { Networker } from "../game/script/Networker";
+import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
 import { WidgetManager } from "../game/script/WidgetManager";
 import styled from "styled-components";
@@ -69,7 +69,7 @@ function NetworkGamePage(): JSX.Element {
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
         const game = new Game(div.current);
-        const networkManager = new Networker(world.id, user.id, globalApolloClient);
+        const networkManager = new PlayerNetworker(world.id, user.id, globalApolloClient);
         const penpalNetworkWrapper = new PenpalNetworker(world.id, globalApolloClient);
         const widgetManager = new WidgetManager(penpalNetworkWrapper, /*world,*/ widgetWrapperdiv.current, []);
         game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper, worldEditorConnector));

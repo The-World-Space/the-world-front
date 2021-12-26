@@ -3,7 +3,7 @@ import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { Networker } from "../Networker";
+import { PlayerNetworker } from "../networker/PlayerNetworker";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";
@@ -12,10 +12,10 @@ const PREFIX = "@@tw/game/component/spawner/NetworkPlayerManager";
 
 export class NetworkPlayerManager extends Component {
     private _networkPlayerMap: Map<string, GameObject> = new Map();
-    private _networkManager: Networker | null = null;
+    private _networkManager: PlayerNetworker | null = null;
     private _iGridCollidable: IGridCollidable | null = null;
 
-    public initNetwork(networkManager: Networker): void {
+    public initNetwork(networkManager: PlayerNetworker): void {
         this._networkManager = networkManager;
         networkManager.dee.on("join", (user, pos) => {
             this._buildNetworkPlayer(user, pos, networkManager);
@@ -35,14 +35,14 @@ export class NetworkPlayerManager extends Component {
         });
     }
 
-    public addOnLeave(user: Server.User, networkManager: Networker): void {
+    public addOnLeave(user: Server.User, networkManager: PlayerNetworker): void {
         networkManager.ee.once(`leave_${user.id}`, () => {
             this._networkPlayerMap.get(user.id)?.destroy();
             this._networkPlayerMap.delete(user.id);
         });
     }
 
-    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: Networker) {
+    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: PlayerNetworker) {
         const instantlater = this.engine.instantlater;
         const posPrefabRef = new PrefabRef<Vector2>(pos);
         const nameRef = new PrefabRef(user.nickname);

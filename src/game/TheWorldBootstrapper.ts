@@ -9,7 +9,7 @@ import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
 import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
-import { Networker } from "./script/Networker";
+import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
@@ -28,7 +28,7 @@ export class NetworkInfoObject {
         private readonly _serverWorld: Server.World, 
         private readonly _user: User, 
         private readonly _apolloClient: ApolloClient<any>, 
-        private readonly _networkManager: Networker, 
+        private readonly _networkManager: PlayerNetworker, 
         private readonly _penpalNetworkManager: PenpalNetworker,
         private readonly _worldEditorConnector: WorldEditorConnector) {
     }
@@ -41,7 +41,7 @@ export class NetworkInfoObject {
         return this._apolloClient;
     }
 
-    public get networkManager(): Networker {
+    public get networkManager(): PlayerNetworker {
         return this._networkManager;
     }
 

@@ -1,6 +1,6 @@
 import { Vector2, Vector3 } from "three";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { Networker } from "../Networker";
+import { PlayerNetworker } from "../networker/PlayerNetworker";
 import { Direction, Directionable } from "./Directionable";
 
 export class NetworkGridMovementController extends Directionable {
@@ -13,7 +13,7 @@ export class NetworkGridMovementController extends Directionable {
     private readonly _currentGridPosition: Vector2 = new Vector2();
     private readonly _targetGridPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
-    private _networkManager: Networker | null = null;
+    private _networkManager: PlayerNetworker | null = null;
     private _userId: string | null = null;
 
     constructor(gameObject: GameObject) {
@@ -36,7 +36,7 @@ export class NetworkGridMovementController extends Directionable {
         this.processMovement();
     }
 
-    public initNetwork(userId: string, networkManager: Networker): void {
+    public initNetwork(userId: string, networkManager: PlayerNetworker): void {
         this._networkManager = networkManager;
         this._userId = userId;
         networkManager.ee.on(`move_${userId}`, this.onMove);

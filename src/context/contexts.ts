@@ -40,5 +40,5 @@ interface WorldEditorContextType {
 export const WorldEditorContext = createContext<WorldEditorContextType>({
     game: null,
     setGame: _ => _,
-    worldEditorConnector: {} as ObjEditorConnector,
+    worldEditorConnector: {} as WorldEditorConnector,
 });
