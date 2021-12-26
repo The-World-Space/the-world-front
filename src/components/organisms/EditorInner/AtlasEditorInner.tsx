@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState, useContext } from "react";
+import React, { ChangeEventHandler, useCallback, useRef, useState, useContext } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
@@ -11,6 +11,7 @@ import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
 import LabeledList, { PhotoAtlasData, PhotoElementData } from "../../molecules/LabeledList";
 import { WorldEditorContext } from "../../../context/contexts";
+import { useDebounce } from "react-use";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -228,14 +229,14 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             }
         });
         apolloClient.resetStore();
-    }, [file, verticalCount, horizontalCount, name]);
+    }, [file, verticalCount, horizontalCount, name, imageUploadMutate, crateMutate, apolloClient, isSafeNum]);
     
     const [atlasDatas] = useState<PhotoElementData[]>([]);
     const [tileDatas, setTileDatas] = useState<PhotoAtlasData[]>([]);
     
     const inputFile = useRef<HTMLInputElement | null>(null);
 
-    useEffect(() => {
+    useDebounce(() => {
         if (!file) return;
         const vc = +verticalCount;
         const hc = +horizontalCount;
@@ -249,7 +250,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             isAtlas: true as const,
         }));
         setTileDatas(newDatas);
-    }, [file, horizontalCount, verticalCount, name]);
+    }, 500, [file, horizontalCount, verticalCount]);
 
     return (
         <ExpandBarDiv opened={opened}>

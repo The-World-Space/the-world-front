@@ -224,19 +224,6 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         setSelectedTool(tool);
     }, [objEditorConnector]);
 
-    
-    const [imageUploadMutate] = useMutation(UPLOAD_IMAGE, {
-        client: globalFileApolloClient,
-    });
-    const [saveMutate] = useMutation(SAVE_IMAGE_PROTO);
-    const [file, setFile] = useState<File>();
-    const onFileChange = useCallback(({ target: { validity, files } }: React.ChangeEvent<HTMLInputElement>) => {
-        if (!validity.valid || !files || files.length < 1) return;
-        const inputedFile = files[0];
-        setFile(inputedFile);
-        const src = window.URL.createObjectURL(inputedFile);
-        objEditorConnector.setViewObject(src, +imageWidth, +imageHeight);
-    }, []);
 
     const [imageWidth, setImageWidth] = useState("2");
     const [imageHeight, setImageHeight] = useState("2");
@@ -251,7 +238,22 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         if (numHeight > 0 && numHeight > 0) {
             objEditorConnector.setViewObjectSize(numWidth, numHeight);
         }
-    }, [isSafeNum]);
+    }, [isSafeNum, objEditorConnector]);
+
+
+    const [imageUploadMutate] = useMutation(UPLOAD_IMAGE, {
+        client: globalFileApolloClient,
+    });
+    const [saveMutate] = useMutation(SAVE_IMAGE_PROTO);
+    const [file, setFile] = useState<File>();
+    const onFileChange = useCallback(({ target: { validity, files } }: React.ChangeEvent<HTMLInputElement>) => {
+        if (!validity.valid || !files || files.length < 1) return;
+        const inputedFile = files[0];
+        setFile(inputedFile);
+        const src = window.URL.createObjectURL(inputedFile);
+        objEditorConnector.setViewObject(src, +imageWidth, +imageHeight);
+    }, [objEditorConnector, imageWidth, imageHeight]);
+
 
     const apolloClient = useApolloClient();
     const save = useCallback(async () => {
@@ -296,7 +298,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         objEditorConnector.clearColliders();
         objEditorConnector.clearViewObject();
         apolloClient.resetStore();
-    }, [file, imageWidth, imageHeight, selectedObjectType, name]);
+    }, [file, imageWidth, imageHeight, selectedObjectType, name, imageUploadMutate, saveMutate, apolloClient, objEditorConnector, isSafeNum]);
     
     const [datas] = useState<PhotoElementData[]>([]);
     

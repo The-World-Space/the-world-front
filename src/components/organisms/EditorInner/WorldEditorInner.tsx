@@ -306,6 +306,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         atlases?.forEach(a => {
             newMap[a.id] = a;
         });
+        console.log(atlases, newMap);
         return newMap;
     }, [myAtlases.data]);
     const protoMap = useMemo<{[key: string]: Server.ImageGameObjectProto}>(() => {
@@ -354,14 +355,14 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             const tool = new Tools.None();
             worldEditorConnector.setToolType(tool);
         }
-    }, [worldEditorConnector]);
+    }, [worldEditorConnector, atlasMap, protoMap, photoId, iframeObjectType, tab]);
 
 
     useEffect(() => {
         if (opened) return;
         const tool = new Tools.None();
         worldEditorConnector.setToolType(tool);
-    }, [opened]);
+    }, [opened, worldEditorConnector]);
 
 
     useEffect(() => {

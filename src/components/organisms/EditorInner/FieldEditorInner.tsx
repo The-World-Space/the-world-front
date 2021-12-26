@@ -139,7 +139,7 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
             const fields = await getGlobalFields(globalApolloClient, worldId);
             setFields(fields);
         })();
-    }, []);
+    }, [worldId]);
 
     useEffect(() => {
         let fieldCreatingSubscription: null | ZenObservable.Subscription;
@@ -161,7 +161,7 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
             fieldCreatingSubscription?.unsubscribe();
             fieldUpdatingSubscription?.unsubscribe();
         };
-    }, []);
+    }, [worldId]);
 
     return (
         <ExpandBarDiv opened={opened}>
