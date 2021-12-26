@@ -174,6 +174,17 @@ export class CssTilemapRenderer extends Component{
         context.clearRect(column * this._tileWidth, row * this._tileHeight, this._tileWidth, this._tileHeight);
     }
 
+    public addImageSource(tileAtlasItem: TileAtlasItem): void {
+        if (!this.started && !this.starting) {
+            this._initializeFunctions.push(() => {
+                this.addImageSource(tileAtlasItem);
+            });
+            return;
+        }
+
+        this._imageSources!.push(tileAtlasItem);
+    }
+
     public set imageSources(value: TileAtlasItem[]) {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
