@@ -56,6 +56,10 @@ const BarDivider = styled.div`
     margin: 25px 0px 25px 0px;
 `;
 
+const LittleDivider = styled(BarDivider)`
+    margin: 0px 0px 10px 0px;
+`;
+
 const MenuButton = styled.div<{selected: boolean}>`
     width: 85px;
     height: 36px;
@@ -329,8 +333,10 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                 <BarDivider/>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                <LittleDivider/>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
                 <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
+                <LittleDivider/>
                 <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
                 <CountIndicatorDiv>5/10</CountIndicatorDiv>
             </SidebarDiv>
