@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
@@ -8,11 +8,11 @@ import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
 import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
 import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
-import DualTabList, { PhotoElementData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { ObjEditorContext } from "../../../context/contexts";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
+import LabeledList, { PhotoElementData } from "../../molecules/LabeledList";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -179,15 +179,7 @@ export enum Tools {
 function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const {objEditorConnector} = useContext(ObjEditorContext);
 
-    const [tab, setTab] = useState(0);
-    const onChangeTab = useCallback((index: number) => {
-        if (index !== tab)
-            if (!window.confirm("unsaved data will be lost. continue?")) return;
-        setTab(index);
-    }, [tab]);
-
     const [photoId, setPhotoId] = useState(0);
-    const tabNames = useMemo(() => ({left: "Tile List", right: "Result object"}), []);
 
     const [selectedObjectType, setSelectedObjectType] = useState(Server.GameObjectType.Wall);
     const [selectedTool, setSelectedTool] = useState(Tools.Pen);
@@ -254,11 +246,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         apolloClient.resetStore();
     }, [file, imageWidth, imageHeight, selectedObjectType]);
     
-    const [datas] = useState<{
-        left: PhotoElementData[];
-        right: PhotoElementData[];
-    }>({left: [], right: []});
-
+    const [datas] = useState<PhotoElementData[]>([]);
     
     const inputFile = useRef<HTMLInputElement | null>(null);
     (global as any).inputFile = inputFile;
@@ -266,13 +254,11 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
-                <DualTabList 
+                <LabeledList 
                     datas={datas} 
                     setId={setPhotoId} 
-                    id={photoId} 
-                    tab={tab} 
-                    setTab={onChangeTab}
-                    tabNames={tabNames}
+                    id={photoId}
+                    tabName="Result object"
                 />
                 <TileEditor opened={opened} />
                 <ObjectTypeRadioWrapper>

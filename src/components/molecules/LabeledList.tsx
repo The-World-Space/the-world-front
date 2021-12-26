@@ -20,12 +20,9 @@ const ListTop = styled.div`
 
 `;
 
-const Tab = styled.div<{selected: boolean}>`
-    width: ${p => p.selected ? "55%" : "50%"};
-    height: ${p => p.selected ? "48px" : "36px"};
-
-    position: absolute;
-    bottom: 0px;
+const Tab = styled.div`
+    width: 100%;
+    height: 48px;
 
     border-radius: 23px 23px 0px 0px;
 
@@ -36,22 +33,10 @@ const Tab = styled.div<{selected: boolean}>`
     font-family: "Noto Sans";
     font-size: 16px;
 
-    color: ${p => p.selected ? "#000000" : "#00000060"};
-    background-color: ${p => p.selected ? "#A69B97" : "#A69B9760"};
+    color: "#000000";
+    background-color: #A69B97;
 
     transition: all 50ms;
-
-    :hover {
-        cursor: pointer;
-    }
-`;
-
-const TabL = styled(Tab)`
-    left: 0px;
-`;
-
-const TabR = styled(Tab)`
-    right: 0px;
 `;
 
 
@@ -97,40 +82,25 @@ const ListBody = styled.div`
     scrollbar-width: thin; // for FF
 `;
 
-export enum DualTabType {
-    Left,
-    Right
-}
 
-interface DualTabListProps {
+interface LabeledListProps {
     setId: (id: PhotoElementData["id"]) => void;
     id: PhotoElementData["id"];
-    setTab: (tab: DualTabType) => void;
-    tab: DualTabType;
-    datas: {
-        left: PhotoElementData[];
-        right: PhotoElementData[];
-    }
-    tabNames: {
-        left: string,
-        right: string
-    }
+    datas: PhotoElementData[];
+    tabName: string;
 }
 
-function DualTabList({setId, id, setTab, tab, datas, tabNames}: DualTabListProps) {
+function LabeledList({setId, id, datas, tabName}: LabeledListProps) {
     return (
         <VerticalWrapperList>
             <ListTop>
-                <TabL selected={tab === DualTabType.Left} onClick={() => setTab(DualTabType.Left)}>
-                    {tabNames.left}
-                </TabL>
-                <TabR selected={tab === DualTabType.Right} onClick={() => setTab(DualTabType.Right)}>
-                    {tabNames.right}
-                </TabR>
+                <Tab>
+                    {tabName}
+                </Tab>
             </ListTop>
             <ListFakeHr />
             <ListBody>
-                {(tab === DualTabType.Right ? datas.right : datas.left).map((data, i) => (
+                {datas.map((data, i) => (
                     <PhotoElement onSelect={setId} selected={id === data.id} data={data} key={data.id} label={String(i)} />
                 ))}
             </ListBody>
@@ -184,4 +154,4 @@ function PhotoElement_({ onSelect, /*selected,*/ data, label }: PhotoElementProp
     );
 }
 
-export default React.memo(DualTabList);
+export default React.memo(LabeledList);
