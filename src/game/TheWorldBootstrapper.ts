@@ -97,14 +97,47 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     gridBrush.ref?.clearImage();
                 } else if (tool instanceof Tools.Collider) {
                     if (gridBrush.ref) {
+                        if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
+                        if (!gridBrush.ref.gridCellHeight) throw new Error("Unreachable");
                         gridBrush.ref.setImage(
+                            "/assets/tilemap/default.png",
+                            gridBrush.ref.gridCellWidth, 
+                            gridBrush.ref.gridCellHeight
+                        );
                     }
                 } else if (tool instanceof Tools.IframeGameObject) {
-
+                    if (gridBrush.ref) {
+                        if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
+                        if (!gridBrush.ref.gridCellHeight) throw new Error("Unreachable");
+                        gridBrush.ref.setImage(
+                            "/assets/tilemap/default.png",
+                            tool.iframeInfo.width * gridBrush.ref.gridCellWidth, 
+                            tool.iframeInfo.height * gridBrush.ref.gridCellHeight
+                        );
+                    }
                 } else if (tool instanceof Tools.ImageGameObject) {
-
+                    if (gridBrush.ref) {
+                        if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
+                        if (!gridBrush.ref.gridCellHeight) throw new Error("Unreachable");
+                        gridBrush.ref.setImage(
+                            tool.imageInfo.src,
+                            tool.imageInfo.width * gridBrush.ref.gridCellWidth, 
+                            tool.imageInfo.height * gridBrush.ref.gridCellHeight
+                        );
+                    }
                 } else if (tool instanceof Tools.Tile) {
-
+                    if (gridBrush.ref) {
+                        if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
+                        if (!gridBrush.ref.gridCellHeight) throw new Error("Unreachable");
+                        gridBrush.ref.setImageFromAtlas(
+                            tool.tileInfo.atlas.src,
+                            tool.tileInfo.atlas.rowCount,
+                            tool.tileInfo.atlas.columnCount,
+                            tool.tileInfo.atlasIndex,
+                            gridBrush.ref.gridCellWidth, 
+                            gridBrush.ref.gridCellHeight
+                        );
+                    }
                 }
             }
         };
