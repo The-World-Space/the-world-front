@@ -221,12 +221,14 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
                 .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -10))
+                    .withComponent(ZaxisSorter)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
                 .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 460))
+                    .withComponent(ZaxisSorter)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                     })
