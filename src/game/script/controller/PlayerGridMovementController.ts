@@ -139,13 +139,13 @@ export class PlayerGridMovementController extends Directionable
 
     private tryCancelPathfinder(): void {
         const inputMap = this.engine.input.map;
-        if (inputMap.get("w") || inputMap.get("ArrowUp")) {
+        if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
             this._movingByPathfinder = false;
-        } else if (inputMap.get("s") || inputMap.get("ArrowDown")) {
+        } else if (inputMap.get("s") || inputMap.get("S") || inputMap.get("ArrowDown")) {
             this._movingByPathfinder = false;
-        } else if (inputMap.get("a") || inputMap.get("ArrowLeft")) {
+        } else if (inputMap.get("a") || inputMap.get("A") || inputMap.get("ArrowLeft")) {
             this._movingByPathfinder = false;
-        } else if (inputMap.get("d") || inputMap.get("ArrowRight")) {
+        } else if (inputMap.get("d") || inputMap.get("D") || inputMap.get("ArrowRight")) {
             this._movingByPathfinder = false;
         }
     }
