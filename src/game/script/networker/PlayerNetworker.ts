@@ -8,11 +8,11 @@ type characterId = string;
 
 type EETypes = [
     [`move_${characterId}`,     (pos: Vector2) => void],
-    [`leave_${characterId}`,    () => void],
 ]
 
 type DEETypes = {
     "join"        : (user: Server.User, spawnPoint: Vector2) => void,
+    "leave"       : (id: characterId) => void,
     "player_move" : (x: number, y: number) => void
 }
 
@@ -111,7 +111,7 @@ export class PlayerNetworker {
             this._characterSet.add(e.user.id);
         });
         leftPlayers.forEach(e => {
-            this._ee.emit(`leave_${e}`);
+            this._dee.emit("leave", e);
             this._characterSet.delete(e);
         });
     }

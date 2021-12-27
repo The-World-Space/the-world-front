@@ -20,6 +20,10 @@ export class NetworkPlayerManager extends Component {
         networkManager.dee.on("join", (user, pos) => {
             this._buildNetworkPlayer(user, pos, networkManager);
         });
+        networkManager.dee.on("leave", id => {
+            this._networkPlayerMap.get(id)?.destroy();
+            this._networkPlayerMap.delete(id);
+        });
     }
 
     public set iGridCollidable(val: IGridCollidable) {
@@ -32,13 +36,6 @@ export class NetworkPlayerManager extends Component {
         
         component.addOnMoveToTargetEventListener((x, y) => {
             this._networkManager!.dee.emit("player_move", x, y);
-        });
-    }
-
-    public addOnLeave(user: Server.User, networkManager: PlayerNetworker): void {
-        networkManager.ee.once(`leave_${user.id}`, () => {
-            this._networkPlayerMap.get(user.id)?.destroy();
-            this._networkPlayerMap.delete(user.id);
         });
     }
 
@@ -59,7 +56,6 @@ export class NetworkPlayerManager extends Component {
         const builder = prefab.make();
         const prefabRef = new PrefabRef<GameObject>();
         
-        this.addOnLeave(user, networkManager);
         builder.getGameObject(prefabRef);
         this._networkPlayerMap.set(user.id, prefabRef.ref!);
 

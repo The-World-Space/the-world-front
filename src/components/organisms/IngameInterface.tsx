@@ -1,19 +1,20 @@
 import {
     Link,
 } from "react-router-dom";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from "../atoms/tw logo 2 black.svg";
 import ArrowIcon from "../atoms/ArrowIcon.svg";
 import ChatIcon from "../atoms/ChatIcon.svg";
 import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
-import { ApolloClient, gql, useQuery } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
 import FieldEditorInner from "./EditorInner/FieldEditorInner";
 import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
 import WorldEditorInner from "./EditorInner/WorldEditorInner";
 import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
+import { WorldEditorContext } from "../../context/contexts";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -409,36 +410,17 @@ const PopupDiv = styled.div<{opened: boolean}>`
     border-radius: 38px;
 `;
 
-const GET_PLAYERS = gql`
-    query GetPlayers($worldId: String!) {
-        World(id: $worldId) {
-            players {
-                id
-                nickname
-            }
-        }
-    }
-`;
-
 interface PopupProps {
     opened: boolean;
     worldId: string;
 }
 
-const    PlayerListPopup = React.memo(PlayerListPopup_);
-function PlayerListPopup_({ opened, worldId }: PopupProps) {
-    const { data } = useQuery(GET_PLAYERS, {
-        fetchPolicy: "no-cache",
-        variables: {
-            worldId,
-        }
-    });
-
-    const players: undefined | {id: string, nickname: string}[] = data?.World?.players;
+function PlayerListPopup({ opened/*, worldId*/}: PopupProps) {
+    const { playerList } = useContext(WorldEditorContext);
 
     return (
         <PopupDiv opened={opened}>
-            {players?.map(player => (
+            {playerList.map(player => (
                 <p key={player.id}>
                     {player.nickname}
                 </p>

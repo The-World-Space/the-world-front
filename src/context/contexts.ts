@@ -1,5 +1,7 @@
 import { createContext } from "react";
+import { Server } from "../game/connect/types";
 import { Game } from "../game/engine/Game";
+import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 
@@ -35,10 +37,18 @@ export const ObjEditorContext = createContext<ObjEditorContextType>({
 interface WorldEditorContextType {
     game: null | Game;
     setGame: (game: null | Game) => void;
+    playerNetworker: null | PlayerNetworker;
+    setPlayerNetworker: (networkPlayerManager: null | PlayerNetworker) => void;
+    playerList: Server.User[];
+    setPlayerList: (players: Server.User[]) => void;
     worldEditorConnector: WorldEditorConnector;
 }
 export const WorldEditorContext = createContext<WorldEditorContextType>({
     game: null,
     setGame: _ => _,
+    playerNetworker: null,
+    setPlayerNetworker: _ => _,
+    playerList: [],
+    setPlayerList: _ => _,
     worldEditorConnector: {} as WorldEditorConnector,
 });
