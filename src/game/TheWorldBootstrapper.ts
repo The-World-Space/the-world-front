@@ -205,6 +205,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(NetworkTileManager, c => {
                     c.floorTileMap = floorTilemap.ref!;
                     c.effectTileMap = effectTilemap.ref!;
+                    c.initTileList = this.interopObject!.serverWorld.atlasTiles;
                 })
                 .getComponent(NetworkBrushManager, networkBrushManager))
 
