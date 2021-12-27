@@ -256,7 +256,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
 
             .withChild(instantlater.buildGameObject("collide_map")
                 .withComponent(GridCollideMap)
-                .withComponent(GridObjectCollideMap, c => c.showCollider = true)
+                .withComponent(GridObjectCollideMap)
                 .withComponent(GridCenterPositionMatcher, c => c.setGridCenter(floorTilemap.ref!.gridCenter))
                 .getComponent(GridCollideMap, gridCollideMap)
                 .getComponent(GridObjectCollideMap, gridObjectCollideMap))
