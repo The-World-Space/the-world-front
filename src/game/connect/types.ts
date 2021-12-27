@@ -10,6 +10,7 @@ export namespace Server {
     export interface World {
         id: string;
         name: string;
+        admins: User[];
         amIAdmin: boolean;
         amIOwner: boolean;
         isPublic: boolean;

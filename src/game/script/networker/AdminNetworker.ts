@@ -1,0 +1,85 @@
+import { ApolloClient, gql } from "@apollo/client";
+import { DumbTypedEmitter } from "detail-typed-emitter";
+import { Server } from "../../connect/types";
+
+
+type DEETypes = {
+    "amI" : () => void,
+    "amnt" : () => void,
+}
+
+
+export class AdminNetworker {
+    private readonly _dee: DumbTypedEmitter<DEETypes>;
+
+    constructor(private readonly _userId: string,
+                private readonly _worldId: string,
+                private readonly _client: ApolloClient<any>) {
+        this._dee = new DumbTypedEmitter<DEETypes>();
+        this._initNetwork();
+        // this._initEEListenters();
+    }
+
+    private _initNetwork() {
+        this._client.query({
+            query: gql`
+                query World($id: String!) {
+                    World(id: $id) {
+                        admins {
+                            id
+                            nickname
+                            skinSrc
+                        }
+                    }
+                }
+            `,
+            variables: {
+                id: this._worldId,
+            }
+        }).then(data => {
+            if (!data.data.World) throw new Error("data.data.World is falsy");
+            const world = data.data.World as Server.World;
+            const isAdmin = world.admins.some(admin => admin.id === this._userId);
+            if (isAdmin)
+                this._dee.emit("amI");
+            else
+                this._dee.emit("amnt");
+        });
+
+
+        this._client.subscribe({
+            query: gql`
+                subscription worldAdminList($worldId: String!) {
+                    worldAdminList(worldId: $worldId) {
+                        id
+                        nickname
+                        skinSrc
+                    }
+                }
+            `,
+            variables: {
+                worldId: this._worldId,
+            }
+        }).subscribe(data => {
+            if (!data.data.colliderUpdating) throw new Error("data.data.iframeGameObjectCreating is falsy");
+            const admins = data.data.worldAdminList as Server.User[];
+            
+            if (admins.find(admin => admin.id === this._userId))
+                this._dee.emit("amI");
+            else
+                this._dee.emit("amnt");
+        });
+    }
+
+
+    // private _initEEListenters() {
+        
+        
+    // }
+
+
+    get ee(): DumbTypedEmitter<DEETypes> {
+        return this._dee;
+    }
+}
+
