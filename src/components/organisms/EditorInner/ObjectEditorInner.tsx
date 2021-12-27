@@ -12,7 +12,6 @@ import { Server } from "../../../game/connect/types";
 import { ObjEditorContext } from "../../../context/contexts";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
-import LabeledList, { PhotoElementData } from "../../molecules/LabeledList";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -209,7 +208,7 @@ export enum Tools {
 function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const {objEditorConnector} = useContext(ObjEditorContext);
 
-    const [photoId, setPhotoId] = useState(0);
+    //const [photoId, setPhotoId] = useState(0);
 
     const [selectedObjectType, setSelectedObjectType] = useState(Server.GameObjectType.Wall);
     const [selectedTool, setSelectedTool] = useState(Tools.Pen);
@@ -300,7 +299,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         apolloClient.resetStore();
     }, [file, imageWidth, imageHeight, selectedObjectType, name, imageUploadMutate, saveMutate, apolloClient, objEditorConnector, isSafeNum]);
     
-    const [datas] = useState<PhotoElementData[]>([]);
+    //const [datas] = useState<PhotoElementData[]>([]);
     
     const inputFile = useRef<HTMLInputElement | null>(null);
     (global as any).inputFile = inputFile;
@@ -308,12 +307,6 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
-                <LabeledList 
-                    datas={datas} 
-                    setId={setPhotoId} 
-                    id={photoId}
-                    tabName="Result object"
-                />
                 <TileEditor opened={opened} />
                 <ObjectTypeRadioWrapper>
                     <ObjectTypeRadioL 

@@ -9,7 +9,7 @@ import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
 import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
-import LabeledList, { PhotoAtlasData, PhotoElementData } from "../../molecules/LabeledList";
+import LabeledList, { PhotoAtlasData } from "../../molecules/LabeledList";
 import { WorldEditorContext } from "../../../context/contexts";
 import { useDebounce } from "react-use";
 
@@ -231,7 +231,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         apolloClient.resetStore();
     }, [file, rowCount, columnCount, name, imageUploadMutate, crateMutate, apolloClient, isSafeNum]);
     
-    const [atlasDatas] = useState<PhotoElementData[]>([]);
+    //const [atlasDatas] = useState<PhotoElementData[]>([]);
     const [tileDatas, setTileDatas] = useState<PhotoAtlasData[]>([]);
     
     const inputFile = useRef<HTMLInputElement | null>(null);
@@ -256,18 +256,11 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         <ExpandBarDiv opened={opened}>
             <Container>
                 <LabeledList 
-                    datas={atlasDatas} 
-                    setId={setPhotoId} 
-                    id={photoId}
-                    tabName="Result object"
-                    height="290px"
-                />
-                <LabeledList 
                     datas={tileDatas} 
                     setId={setPhotoId} 
                     id={photoId}
                     tabName="Result object"
-                    height="calc(100% - 375px)"
+                    height="calc(100% - 65px)"
                     minHeight="400px"
                 />
                 <InputWrapper>
