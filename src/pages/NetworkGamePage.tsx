@@ -60,10 +60,11 @@ function NetworkGamePage_(): JSX.Element {
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
     const { value: world, error } = useAsync(() => getWorld(worldId, globalApolloClient));
-    const { setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
+    const { game: gamectx, setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
     const user = useUser();
 
     useEffect(() => { //on component mounted
+        if (gamectx) location.reload();
         if (error) throw error;
         if (!world || !user) return; 
         if (!worldEditorConnector) return;
