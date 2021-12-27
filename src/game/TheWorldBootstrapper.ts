@@ -138,6 +138,8 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                             gridBrush.ref.gridCellHeight
                         );
                     }
+                } else if (tool instanceof Tools.EraseCollider) {
+                    gridBrush.ref?.clearImage();
                 } else if (tool instanceof Tools.IframeGameObject) {
                     if (gridBrush.ref) {
                         if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
@@ -148,6 +150,8 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                             tool.iframeInfo.height * gridBrush.ref.gridCellHeight
                         );
                     }
+                } else if (tool instanceof Tools.EraseObject) {
+                    gridBrush.ref?.clearImage();
                 } else if (tool instanceof Tools.ImageGameObject) {
                     if (gridBrush.ref) {
                         if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
@@ -171,6 +175,8 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                             gridBrush.ref.gridCellHeight
                         );
                     }
+                } else if (tool instanceof Tools.EraseTile) {
+                    gridBrush.ref?.clearImage();
                 }
             }
         };
