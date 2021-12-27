@@ -1,11 +1,7 @@
 import React, { ChangeEventHandler, useCallback, useRef, useState, useContext } from "react";
 import styled from "styled-components";
 
-import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
-import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
-import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
-import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
 import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
@@ -151,18 +147,14 @@ interface PropsType {
 }
 
 export enum Tools {
-    Pen,
-    Eraser,
-    Collider,
-    Image,
-    Sizer
+    Image
 }
 
 function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const [photoId, setPhotoId] = useState(0);
 
-    const [selectedTool, setSelectedTool] = useState(Tools.Pen);
+    const [selectedTool, setSelectedTool] = useState(Tools.Image);
     const onSelectTool = useCallback((tool: Tools) => {
         if (tool === Tools.Image) {
             if (!window.confirm("unsaved data will be lost. continue?")) return;
@@ -274,17 +266,13 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />
                     <InputWrapperSide>
-                        <LabeledInput label="H" value={columnCount} onChange={e => onImageSizeChange(rowCount, e.target.value)} />
-                        <LabeledInput label="V" value={rowCount} onChange={e => onImageSizeChange(e.target.value, columnCount)} />
+                        <LabeledInput label="C" value={columnCount} onChange={e => onImageSizeChange(rowCount, e.target.value)} />
+                        <LabeledInput label="R" value={rowCount} onChange={e => onImageSizeChange(e.target.value, columnCount)} />
                     </InputWrapperSide>
                 </InputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <PenTool onClick={() => onSelectTool(Tools.Pen)} />
-                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
-                <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
                 <ImageTool onClick={() => onSelectTool(Tools.Image)} />
-                <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
                 <BlueSaveIcon 
                     style={{marginLeft: "auto", marginRight: "18px", width: "44px", height: "44px"}}
                     onClick={save}

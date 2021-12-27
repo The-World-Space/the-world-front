@@ -2,11 +2,9 @@ import React, { ChangeEventHandler, useCallback, useContext, useRef, useState } 
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
-import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
 import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
-import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
 import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import { Server } from "../../../game/connect/types";
 import { ObjEditorContext } from "../../../context/contexts";
@@ -198,11 +196,9 @@ interface PropsType {
 }
 
 export enum Tools {
-    Pen,
-    Eraser,
     Collider,
-    Image,
-    Sizer
+    Eraser,
+    Image
 }
 
 function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
@@ -211,7 +207,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     //const [photoId, setPhotoId] = useState(0);
 
     const [selectedObjectType, setSelectedObjectType] = useState(Server.GameObjectType.Wall);
-    const [selectedTool, setSelectedTool] = useState(Tools.Pen);
+    const [selectedTool, setSelectedTool] = useState(Tools.Collider);
     const onSelectTool = useCallback((tool: Tools) => {
         if (tool === Tools.Image) {
             if (!window.confirm("unsaved data will be lost. continue?")) return;
@@ -345,11 +341,9 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                 </InputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <PenTool onClick={() => onSelectTool(Tools.Pen)} />
-                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
                 <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
+                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
                 <ImageTool onClick={() => onSelectTool(Tools.Image)} />
-                <SizerTool onClick={() => onSelectTool(Tools.Sizer)} />
                 <BlueSaveIcon 
                     style={{marginLeft: "auto", marginRight: "18px", width: "44px", height: "44px"}}
                     onClick={save}
