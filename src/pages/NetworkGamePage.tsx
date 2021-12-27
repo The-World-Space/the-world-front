@@ -87,6 +87,10 @@ function NetworkGamePage_(): JSX.Element {
         };
     }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld]);
 
+    useEffect(() => () => {
+        location.reload();
+    }, [worldId]);
+
     return (
         <Container>
             <IngameInterfaceContainer>
