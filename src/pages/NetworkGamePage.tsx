@@ -60,7 +60,7 @@ function NetworkGamePage_(): JSX.Element {
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
     const { value: world, error } = useAsync(() => getWorld(worldId, globalApolloClient));
-    const { setGame, worldEditorConnector, setPlayerNetworker } = useContext(WorldEditorContext);
+    const { setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
     const user = useUser();
 
     useEffect(() => { //on component mounted
@@ -69,6 +69,7 @@ function NetworkGamePage_(): JSX.Element {
         if (!worldEditorConnector) return;
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
+        setWorld(world);
         const game = new Game(div.current);
         const playerNetworker = new PlayerNetworker(world.id, user.id, globalApolloClient);
         const penpalNetworkWrapper = new PenpalNetworker(world.id, globalApolloClient);
@@ -84,7 +85,7 @@ function NetworkGamePage_(): JSX.Element {
             game.dispose();
             widgetManager.dispose();
         };
-    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker]);
+    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld]);
 
     return (
         <Container>

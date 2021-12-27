@@ -41,6 +41,8 @@ interface WorldEditorContextType {
     setPlayerNetworker: (networkPlayerManager: null | PlayerNetworker) => void;
     playerList: Server.User[];
     setPlayerList: (players: Server.User[]) => void;
+    world: Server.World | null;
+    setWorld: (world: Server.World | null) => void;
     worldEditorConnector: WorldEditorConnector;
 }
 export const WorldEditorContext = createContext<WorldEditorContextType>({
@@ -50,5 +52,7 @@ export const WorldEditorContext = createContext<WorldEditorContextType>({
     setPlayerNetworker: _ => _,
     playerList: [],
     setPlayerList: _ => _,
+    world: null,
+    setWorld: _ => _,
     worldEditorConnector: {} as WorldEditorConnector,
 });

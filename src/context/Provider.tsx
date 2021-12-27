@@ -65,6 +65,7 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
     const [game, setGame] = useState<Game | null>(null);
     const [playerNetworker, setPlayerNetworker] = useState<PlayerNetworker | null>(null);
     const [playerList, setPlayerList] = useState<Server.User[]>([]);
+    const [world, setWorld] = useState<Server.World | null>(null);
     const [worldEditorConnector] = useState(new WorldEditorConnector());
 
     const state = {
@@ -74,6 +75,8 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
         setPlayerNetworker,
         playerList,
         setPlayerList,
+        world,
+        setWorld,
         worldEditorConnector
     };
 
