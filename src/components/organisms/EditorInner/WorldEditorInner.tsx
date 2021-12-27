@@ -591,6 +591,15 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         }
     }, []);
 
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -599,7 +608,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 <IframeInputWrapper>
                     <IframeTitle>Iframe Address</IframeTitle>
                     <ListFakeHr />
-                    <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframesSrc(e.target.value)} />
+                    <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframesSrc(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
                     <ListFakeHr />
                     <IframeInputSettingWrapper>
                         <IframeSettingLeftInput label="W" value={iframeWidth} onChange={e => isSafeNum(+e.target.value) && setIframeWidth(e.target.value)} />
@@ -736,12 +745,22 @@ interface IframeSettingLeftInputProps {
 }
 
 function IframeSettingLeftInput({label, value, onChange}: IframeSettingLeftInputProps) {
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
+
     return (
         <IframeSettingLeftInputWrapper>
             <IframeSettingLeftInputLabel>
                 {label} :
             </IframeSettingLeftInputLabel>
-            <IframeSettingLeftInputArea onChange={onChange} value={value} />
+            <IframeSettingLeftInputArea onChange={onChange} onFocus={onFocus} onBlur={onBlur} value={value} />
         </IframeSettingLeftInputWrapper>
     );
 }

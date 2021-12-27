@@ -1,6 +1,7 @@
 import { ApolloClient, gql, useApolloClient } from "@apollo/client";
-import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState } from "react";
+import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState, useContext, useCallback} from "react";
 import styled from "styled-components";
+import { WorldEditorContext } from "../../../context/contexts";
 import { globalApolloClient } from "../../../game/connect/gql";
 import { Server } from "../../../game/connect/types";
 import PlusIcon from "../../atoms/PlusIcon.svg";
@@ -167,21 +168,29 @@ function ListItem({ field, update }: { field: Server.GlobalField, update: (field
 
     const onNameBlur: FocusEventHandler<HTMLInputElement> = () => {
         updateField(apolloClient, field.id, field.name, field.value);
+        game?.inputHandler.startHandleEvents();
     };
     const onValueBlur: FocusEventHandler<HTMLTextAreaElement> = () => {
         updateField(apolloClient, field.id, field.name, field.value);
+        game?.inputHandler.startHandleEvents();
     };
     const onClickDeleteButton = () => {
         deleteField(apolloClient, field.id);
     };
 
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
     return (
         <StyledListItem>
             <ListItemTitleBox>
-                <ListItemTitle value={field.name} onChange={onNameChange} onBlur={onNameBlur} placeholder="Field Name"/>
+                <ListItemTitle value={field.name} onChange={onNameChange} onFocus={onFocus} onBlur={onNameBlur} placeholder="Field Name"/>
                 <DeleteButton onClick={onClickDeleteButton}>X</DeleteButton>
             </ListItemTitleBox>
-            <ListItemBody value={field.value} onChange={onValueChange} onBlur={onValueBlur} placeholder="Field Value"/>
+            <ListItemBody value={field.value} onChange={onValueChange} onFocus={onFocus} onBlur={onValueBlur} placeholder="Field Value"/>
         </StyledListItem>
     );
 }

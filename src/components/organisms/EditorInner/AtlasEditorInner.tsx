@@ -244,6 +244,16 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         setTileDatas(newDatas);
     }, 500, [file, columnCount, rowCount]);
 
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
@@ -261,7 +271,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                             <NameInputLabel>
                                 Name :
                             </NameInputLabel>
-                            <NameInputArea value={name} onChange={e => setName(e.target.value)} />
+                            <NameInputArea value={name} onChange={e => setName(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
                         </NameInputWrapper>
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />

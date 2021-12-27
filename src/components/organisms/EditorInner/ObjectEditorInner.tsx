@@ -7,7 +7,7 @@ import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
 import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import { Server } from "../../../game/connect/types";
-import { ObjEditorContext } from "../../../context/contexts";
+import { ObjEditorContext, WorldEditorContext } from "../../../context/contexts";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
 
@@ -300,6 +300,16 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const inputFile = useRef<HTMLInputElement | null>(null);
     (global as any).inputFile = inputFile;
 
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
@@ -330,7 +340,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                             <NameInputLabel>
                                 Name :
                             </NameInputLabel>
-                            <NameInputArea value={name} onChange={e => setName(e.target.value)} />
+                            <NameInputArea value={name} onChange={e => setName(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
                         </NameInputWrapper>
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />
@@ -430,12 +440,22 @@ interface LabeledInputProps {
 }
 
 function LabeledInput({label, value, onChange}: LabeledInputProps) {
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
+
     return (
         <LabeledInputWrapper>
             <LabeledInputLabel>
                 {label} :
             </LabeledInputLabel>
-            <LabeledInputArea onChange={onChange} value={value} />
+            <LabeledInputArea onChange={onChange} onFocus={onFocus} onBlur={onBlur} value={value} />
         </LabeledInputWrapper>
     );
 }

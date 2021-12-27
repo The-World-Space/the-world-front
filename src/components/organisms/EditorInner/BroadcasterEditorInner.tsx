@@ -1,6 +1,7 @@
 import { ApolloClient, gql, useApolloClient } from "@apollo/client";
-import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState } from "react";
+import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState, useContext, useCallback } from "react";
 import styled from "styled-components";
+import { WorldEditorContext } from "../../../context/contexts";
 import { globalApolloClient } from "../../../game/connect/gql";
 import { Server } from "../../../game/connect/types";
 import PlusIcon from "../../atoms/PlusIcon.svg";
@@ -121,15 +122,22 @@ function ListItem({ broadcaster, update }: { broadcaster: Server.GlobalBroadcast
 
     const onNameBlur: FocusEventHandler<HTMLInputElement> = () => {
         updateBroadcaster(apolloClient, broadcaster.id, broadcaster.name);
+        game?.inputHandler.startHandleEvents();
     };
     const onClickDeleteButton = () => {
         deleteBroadcaster(apolloClient, broadcaster.id);
     };
 
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
     return (
         <StyledListItem>
             <ListItemTitleBox>
-                <ListItemTitle value={broadcaster.name} onChange={onNameChange} onBlur={onNameBlur} placeholder="Broadcaster Name"/>
+                <ListItemTitle value={broadcaster.name} onChange={onNameChange} onFocus={onFocus} onBlur={onNameBlur} placeholder="Broadcaster Name"/>
                 <DeleteButton onClick={onClickDeleteButton}>X</DeleteButton>
             </ListItemTitleBox>
         </StyledListItem>
