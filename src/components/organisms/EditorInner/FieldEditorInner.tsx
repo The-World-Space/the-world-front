@@ -99,7 +99,7 @@ const AddButton = styled.div`
 const DeleteButton = styled.div`
     width: 24px;
     height: 24px;
-    &: hover {
+    &:hover {
         cursor: pointer
     }
 

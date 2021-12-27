@@ -415,7 +415,8 @@ interface PopupProps {
     worldId: string;
 }
 
-function PlayerListPopup({ opened/*, worldId*/}: PopupProps) {
+const    PlayerListPopup = React.memo(PlayerListPopup_);
+function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
     const { playerList } = useContext(WorldEditorContext);
 
     return (
