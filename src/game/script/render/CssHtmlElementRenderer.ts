@@ -92,7 +92,6 @@ export class CssHtmlElementRenderer extends Component {
             this.updateCenterOffset();
             this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     
-            console.log(this.enabled, this.gameObject.activeInHierarchy);
             if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
             else this._css3DObject.visible = false;
         }

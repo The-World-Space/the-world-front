@@ -231,6 +231,7 @@ export class GridCollider extends Component {
     }
 
     public set showCollideSpot(value: boolean) {
+        if (this._showCollideSpot === value) return;
         this._showCollideSpot = value;
         if (this._showCollideSpot && !this._collideSpotIsShowing) {
             this.addColliderImages();

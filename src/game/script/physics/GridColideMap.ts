@@ -175,6 +175,7 @@ export class GridCollideMap extends Component implements IGridCollidable {
     }
 
     public set showCollider(value: boolean) {
+        if (this._showCollider === value) return;
         this._showCollider = value;
         if (this._showCollider && !this._colliderIsShowing) {
             this.addColliderImages();
