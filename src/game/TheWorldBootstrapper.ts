@@ -136,11 +136,13 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
 
                 if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseObject) {
                     if (iframeManager.ref) {
-                        iframeManager.ref.enableIframePointerEvents();
+                        console.log("show iframe");
+                        iframeManager.ref.disableIframePointerEvents();
                     }
                 } else {
                     if (iframeManager.ref) {
-                        iframeManager.ref.disableIframePointerEvents();
+                        console.log("hide iframe");
+                        iframeManager.ref.enableIframePointerEvents();
                     }
                 }
 
