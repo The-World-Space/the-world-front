@@ -5,7 +5,6 @@ import { globalApolloClient } from "../../../game/connect/gql";
 import { Server } from "../../../game/connect/types";
 import PlusIcon from "../../atoms/PlusIcon.svg";
 
-
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
 
@@ -21,6 +20,8 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     flex-direction: column;
     align-items: center;
     pointer-events: all;
+
+    overflow-y: scroll;
 `;
 
 const ListContainer = styled.ol`
@@ -30,19 +31,18 @@ const ListContainer = styled.ol`
     width: 100%;
     flex-direction: column;
     align-items: center;
+    list-style: none;
 `;
 
 const StyledListItem = styled.li`
     background: #A69B97;
     border-radius: 23px;
-    display: flex;
     width: 90%;
-    min-height: 60px;
+    min-height: 100px;
     margin-top: 20px;
     padding: 7px;
+    display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
 `;
 
@@ -75,10 +75,12 @@ const ListItemBody = styled.textarea`
     padding: 14px 18px;
 
     resize: vertical;
+    flex: 1;
 `;
 
 const AddContainer = styled.div`
     margin-top: 20px;
+    margin-bottom: 40px;
     display: flex;
     justify-content: center;
 `;
@@ -92,6 +94,31 @@ const AddButton = styled.div`
     &:hover {
         cursor: pointer;
     }
+`;
+
+const DeleteButton = styled.div`
+    width: 24px;
+    height: 24px;
+    &: hover {
+        cursor: pointer
+    }
+
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    transform: translate(0, -50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+const ListItemTitleBox = styled.div`
+    position: relative;
 `;
 
 interface PropsType {
@@ -118,11 +145,17 @@ function ListItem({ field, update }: { field: Server.GlobalField, update: (field
     const onValueBlur: FocusEventHandler<HTMLTextAreaElement> = () => {
         updateField(apolloClient, field.id, field.name, field.value);
     };
+    const onClickDeleteButton = () => {
+        deleteField(apolloClient, field.id);
+    };
 
     return (
         <StyledListItem>
-            <ListItemTitle value={field.name} onChange={onNameChange} onBlur={onNameBlur}/>
-            <ListItemBody value={field.value} onChange={onValueChange} onBlur={onValueBlur}/>
+            <ListItemTitleBox>
+                <ListItemTitle value={field.name} onChange={onNameChange} onBlur={onNameBlur} placeholder="Field Name"/>
+                <DeleteButton onClick={onClickDeleteButton}>X</DeleteButton>
+            </ListItemTitleBox>
+            <ListItemBody value={field.value} onChange={onValueChange} onBlur={onValueBlur} placeholder="Field Value"/>
         </StyledListItem>
     );
 }
@@ -142,8 +175,9 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
     }, [worldId]);
 
     useEffect(() => {
-        let fieldCreatingSubscription: null | ZenObservable.Subscription;
-        let fieldUpdatingSubscription: null | ZenObservable.Subscription;
+        let fieldCreatingSubscription: undefined | ZenObservable.Subscription;
+        let fieldUpdatingSubscription: undefined | ZenObservable.Subscription;
+        let fieldDeletingSubscription: undefined | ZenObservable.Subscription;
         (async () => {
             fieldCreatingSubscription =
                 (await getGlobalFieldCreatingObservable(globalApolloClient, worldId))
@@ -155,11 +189,17 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
                     .subscribe(field => {
                         setFields(fields => fields.map(field_ => field_.id === field.id ? { ...field_, ...field } : field_));
                     });
+            fieldDeletingSubscription =
+                (await getFieldDeletingObservable(globalApolloClient, worldId))
+                    .subscribe(id => {
+                        setFields(fields => fields.filter(field => field.id !== id));
+                    });
         })();
 
         return () => {
             fieldCreatingSubscription?.unsubscribe();
             fieldUpdatingSubscription?.unsubscribe();
+            fieldDeletingSubscription?.unsubscribe();
         };
     }, [worldId]);
 
@@ -246,6 +286,19 @@ async function updateField(apolloClient: ApolloClient<any>, id: number, name: st
     });
 }
 
+async function deleteField(apolloClient: ApolloClient<any>, id: number) {
+    await apolloClient.mutate({
+        mutation: gql`
+            mutation DeleteField($id: Int!) {
+                deleteField(id: $id)
+            }
+        `,
+        variables: {
+            id
+        }
+    });
+}
+
 async function getGlobalFieldCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
     return await apolloClient.subscribe({
         query: gql`
@@ -280,15 +333,15 @@ async function getFieldUpdatingObservable(apolloClient: ApolloClient<any>, world
     }).map(result => result.data.fieldUpdating as Server.Field);
 }
 
-// async function getGlobalFieldDeletingObservable(apolloClient: ApolloClient<any>, worldId: string) {
-//     return await apolloClient.subscribe({
-//         query: gql`
-//             subscription GlobalFieldDeleting($worldId: String!) {
-//                 globalFieldDeleting(worldId: $worldId)
-//             }
-//         `,
-//         variables: {
-//             worldId
-//         }
-//     }).map(result => result.data.globalFieldDeleting as number);
-// }
+async function getFieldDeletingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+    return await apolloClient.subscribe({
+        query: gql`
+            subscription FieldDeleting($worldId: String!) {
+                fieldDeleting(worldId: $worldId)
+            }
+        `,
+        variables: {
+            worldId
+        }
+    }).map(result => result.data.fieldDeleting as number);
+}
