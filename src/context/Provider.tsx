@@ -90,6 +90,7 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
         return () => {
             playerNetworker?.dee.removeListener("join", joinListener);
             playerNetworker?.dee.removeListener("leave", leaveListener);
+            setPlayerList([]);
         };
     }, [playerNetworker?.dee]);
 
