@@ -32,20 +32,31 @@ export class NetworkBrushManager extends Component {
         this._gridBrush.onDraw = this._onDraw.bind(this);
     }
 
-    private _onDraw(gridPos: Vector2) {
+    private async _onDraw(gridPos: Vector2) {
         if (!this._currentTool) return;
 
-        if (this._currentTool instanceof Tools.Collider) {
-            this._updateCollider(gridPos.x, gridPos.y, true);
-        }
-        else if (this._currentTool instanceof Tools.EraseCollider) {
-            this._updateCollider(gridPos.x, gridPos.y, false);
-        }
-        else if (this._currentTool instanceof Tools.ImageGameObject) {
-            this._updateImageGameObject(gridPos.x, gridPos.y);
-        }
-        else if (this._currentTool instanceof Tools.Tile) {
-            this._updateTile(gridPos.x, gridPos.y);
+        try {
+            if (this._currentTool instanceof Tools.Collider) {
+                await this._updateCollider(gridPos.x, gridPos.y, true);   
+            }
+            else if (this._currentTool instanceof Tools.EraseCollider) {
+                await this._updateCollider(gridPos.x, gridPos.y, false);
+            }
+            else if (this._currentTool instanceof Tools.ImageGameObject) {
+                await this._updateImageGameObject(gridPos.x, gridPos.y);
+            }
+            else if (this._currentTool instanceof Tools.Tile) {
+                await this._updateTile(gridPos.x, gridPos.y);
+            }
+            else if (this._currentTool instanceof Tools.EraseTile) {
+                await this._deleteAtlasTile(gridPos.x, gridPos.y);
+            }
+            else if (this._currentTool instanceof Tools.EraseObject) {
+                console.log("delete object");
+                await this._deleteObject(gridPos.x, gridPos.y);
+            }
+        } catch(e) {
+            console.warn(e);
         }
     }
 
@@ -122,6 +133,42 @@ export class NetworkBrushManager extends Component {
                     atlasId,
                     atlasIndex,
                 }
+            }
+        });
+    }
+
+    private _deleteAtlasTile(x: number, y: number) {
+        if (!this._worldId) throw new Error("no world id");
+        if (!this._apolloClient) throw new Error("no apollo client");
+        if (!(this._currentTool instanceof Tools.EraseTile)) throw new Error("no image game object");
+        return this._apolloClient.mutate({
+            mutation: gql`
+                mutation deleteAtlasTile($type: Int!, $x: Int!, $y: Int!, $worldId: String!) {
+                    deleteAtlasTile(type: $type, x: $x, y: $y, worldId: $worldId)
+                }
+            `,
+            variables: {
+                type: this._currentTool.type,
+                x,
+                y,
+                worldId: this._worldId,
+            }
+        });
+    }
+
+    private _deleteObject(x: number, y: number) {
+        if (!this._worldId) throw new Error("no world id");
+        if (!this._apolloClient) throw new Error("no apollo client");
+        return this._apolloClient.mutate({
+            mutation: gql`
+                mutation deleteGameObjectsAt($x: Int!, $y: Int!, $worldId: String!) {
+                    deleteGameObjectsAt(x: $x, y: $y, worldId: $worldId)
+                }
+            `,
+            variables: {
+                x,
+                y,
+                worldId: this._worldId,
             }
         });
     }

@@ -28,6 +28,15 @@ export namespace Tools {
     }
 
     export class EraseTile extends Tool {
+        constructor(
+            private readonly _type: Server.TileType,
+        ) {
+            super();
+        }
+
+        public get type(): Server.TileType {
+            return this._type;
+        }
     }
 
     export class EraseObject extends Tool {

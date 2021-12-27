@@ -409,7 +409,9 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         else if (selectedTool === EditorTools.Eraser) {
             switch (placeKind) {
             case PlaceKind.Tile: {
-                const tool = new Tools.EraseTile();
+                if (placeObjectType === Server.GameObjectType.Wall) throw new Error("Wall is not supported in atlas");
+                const type = placeObjectType === Server.GameObjectType.Floor ? Server.TileType.Floor : Server.TileType.Effect;
+                const tool = new Tools.EraseTile(type);
                 worldEditorConnector.setToolType(tool);
                 break;
             }
