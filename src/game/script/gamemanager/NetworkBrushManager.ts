@@ -45,7 +45,7 @@ export class NetworkBrushManager extends Component {
             this._updateImageGameObject(gridPos.x, gridPos.y);
         }
         else if (this._currentTool instanceof Tools.Tile) {
-            this._createTile(gridPos.x, gridPos.y);
+            this._updateTile(gridPos.x, gridPos.y);
         }
     }
 
@@ -96,7 +96,7 @@ export class NetworkBrushManager extends Component {
         });
     }
 
-    private _createTile(x: number, y: number) {
+    private _updateTile(x: number, y: number) {
         if (!this._worldId) throw new Error("no world id");
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!(this._currentTool instanceof Tools.Tile)) throw new Error("no image game object");
@@ -106,9 +106,10 @@ export class NetworkBrushManager extends Component {
         const type = this._currentTool.tileInfo.type;
         return this._apolloClient.mutate({
             mutation: gql`
-                mutation createAtlasTile($type: Int!, $x: Int!, $y: Int!, $worldId: String!, $atlasTile: AtlasTileInput!) {
-                    createAtlasTile(type: $type, x: $x, y: $y, worldId: $worldId, atlasTile:$atlasTile) {
-                        x
+                mutation updateAtlasTile($type: Int!, $x: Int!, $y: Int!, $worldId: String!, $atlasTile: AtlasTileInput!) {
+                    updateAtlasTile(type: $type, x: $x, y: $y, worldId: $worldId, atlasTile:$atlasTile) {
+                        x,
+                        y,
                     }
                 }
             `,

@@ -80,6 +80,11 @@ export class NetworkTileManager extends Component {
             if (type === Server.TileType.Effect)
                 this._effectTileMap!.clearTile(x, y);
         });
+
+        this._tileNetworker.ee.on("update", data => {
+            this._floorTileMap!.clearTile(data.x, data.y);
+            this.drawTile(data);
+        });
     }
 
     //you must not call this function in initialization(performance issue)
