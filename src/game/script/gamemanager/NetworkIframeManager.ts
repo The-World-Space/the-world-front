@@ -14,6 +14,7 @@ import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
 import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
+import { IframeRenderer } from "../render/IframeRenderer";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
@@ -30,6 +31,9 @@ export class NetworkIframeManager extends Component {
     private _penpalNetworkWrapper: PenpalNetworker | null = null;
     private _iframeNetworker: IframeNetworker | null = null;
     private _adminNetworker: AdminNetworker | null = null;
+
+    private _iframeStatusRenderControllers: IframeStatusRenderController[] = [];
+    private _iframeRenderers: IframeRenderer[] = [];
 
     public set apolloClient(apolloClient: ApolloClient<any>) {
         this._apolloClient = apolloClient;
@@ -69,9 +73,11 @@ export class NetworkIframeManager extends Component {
         this._adminNetworker = adminNetworker;
         this._adminNetworker.ee.on("amI", () => {
             // i'm admin!
+            this.enableIframeStatusRenderControllers();
         });
         this._adminNetworker.ee.on("amnt", () => {
             // i'm not admin!
+            this.disableIframeStatusRenderControllers();
         });
     }
 
@@ -108,6 +114,8 @@ export class NetworkIframeManager extends Component {
         if (!iframeInfo.proto_) return;
         const colliders = iframeInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
 
+        const iframeRenderer = new PrefabRef<IframeRenderer>();
+
         const prefab = 
             instantlater.buildPrefab(`${PREFIX}/iframe_${iframeInfo.id}`, NetworkIframePrefab, calculated)
                 .withGridInfo(new PrefabRef(this._iGridCoordinatable))
@@ -118,7 +126,8 @@ export class NetworkIframeManager extends Component {
                 .withWorldId(new PrefabRef(worldId));
         
         const builder = prefab.make();
-        builder.getGameObject(prefabRef);
+        builder.getGameObject(prefabRef)
+            .getComponent(IframeRenderer, iframeRenderer);
         this._networkIframerMap.set(iframeInfo.id, prefabRef.ref!);
         this.gameObject.addChildFromBuilder(builder);
 
@@ -157,6 +166,25 @@ export class NetworkIframeManager extends Component {
         statusRenderController.setIdBoxObject(idBoxObject.ref!);
         statusRenderController.setIdBoxRenderer(idBoxRenderer.ref!);
         statusRenderController.setIdBoxText(iframeInfo.id);
-        //statusRenderController.enabled = false;
+        statusRenderController.enabled = false;
+
+        this._iframeStatusRenderControllers.push(statusRenderController);
+        this._iframeRenderers.push(iframeRenderer.ref!);
+    }
+
+    private enableIframeStatusRenderControllers(): void {
+        this._iframeStatusRenderControllers.forEach(c => c.enabled = true);
+    }
+
+    private disableIframeStatusRenderControllers(): void {
+        this._iframeStatusRenderControllers.forEach(c => c.enabled = false);
+    }
+
+    public enableIframePointerEvents(): void {
+        this._iframeRenderers.forEach(c => c.pointerEvents = true);
+    }
+
+    public disableIframePointerEvents(): void {
+        this._iframeRenderers.forEach(c => c.pointerEvents = false);
     }
 }

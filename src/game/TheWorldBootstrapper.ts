@@ -118,6 +118,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         const gridPointer = new PrefabRef<GridPointer>();
         const gridBrush = new PrefabRef<GridBrush>();
         const networkBrushManager = new PrefabRef<NetworkBrushManager>();
+        const iframeManager = new PrefabRef<NetworkIframeManager>();
 
         this.interopObject!.worldEditorConnector.action = {
             setToolType(tool: Tool) {
@@ -130,6 +131,16 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 } else {
                     if (gridCollideMap.ref) {
                         gridCollideMap.ref.showCollider = false;
+                    }
+                }
+
+                if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseObject) {
+                    if (iframeManager.ref) {
+                        iframeManager.ref.enableIframePointerEvents();
+                    }
+                } else {
+                    if (iframeManager.ref) {
+                        iframeManager.ref.disableIframePointerEvents();
                     }
                 }
 
@@ -243,7 +254,8 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.initTileList = this.interopObject!.serverWorld.atlasTiles;
                     c.tileNetworker = this.interopObject!.tileNetworker;
                 })
-                .getComponent(NetworkBrushManager, networkBrushManager))
+                .getComponent(NetworkBrushManager, networkBrushManager)
+                .getComponent(NetworkIframeManager, iframeManager))
 
             .withChild(instantlater.buildGameObject("tilemap")
                 .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
