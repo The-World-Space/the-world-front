@@ -281,6 +281,7 @@ interface PropsType {
 }
 
 function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
+    const { world } = useContext(WorldEditorContext);
     const [barOpened, setBarOpened] = useState(false);
     const [selectedEditor, setSelectedEditor] = useState(Editor.Field);
     const [chatOpened, setChatOpened] = useState(false);
@@ -338,14 +339,18 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     <Link to="/">
                         <LogoImage src={twLogo2Black} />
                     </Link>
-                    <BarDivider/>
-                    <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
-                    <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
-                    <LittleDivider/>
-                    <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
-                    <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
-                    <LittleDivider/>
-                    <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
+                    { (world?.amIAdmin || world?.amIOwner) &&
+                        <>
+                            <BarDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                            <LittleDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
+                            <LittleDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
+                        </>
+                    }
                     <CountIndicatorDiv onClick={onPeopleCountClick}>
                         5/10
                     </CountIndicatorDiv>
@@ -357,8 +362,10 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />
                     <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
                 </>
-                <ExpandButton onClick={() => expandBarToggle()} 
-                    style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
+                { (world?.amIAdmin || world?.amIOwner) &&
+                    <ExpandButton onClick={() => expandBarToggle()} 
+                        style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
+                }
                 <ChatButton onClick={() => chatToggle()}/>
                 <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
                     <ChatContentDiv ref={ref}>

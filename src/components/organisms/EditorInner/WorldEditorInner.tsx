@@ -114,10 +114,12 @@ const IframeInputSettingWrapper = styled.div`
     justify-content: center;
 `;
 
-const IframeInputSettingRightText = styled.span<{selected: boolean}>`
+const IframeInputSettingRightText = styled.span<{selected: boolean, selectable: boolean}>`
     margin: 16px 53px;
 
-    color: ${p => p.selected ? "#000000" : "#00000060"};
+    color: ${p => 
+        p.selected ? "#000000" : 
+        p.selectable ? "#00000060" : "#00000060"};
     font-family: Noto Sans;
     font-style: normal;
     font-weight: normal;
@@ -134,7 +136,7 @@ const IframeInputSettingRightText = styled.span<{selected: boolean}>`
 const PlaceModeBottomText = styled.span<{selected: boolean}>`
     margin: 16px 33px;
 
-    color: ${p => p.selected ? "#000000" : "#00000060"};
+    color: ${p => p.selected ? "#000000" :"#00000060"};
     font-family: Noto Sans;
     font-style: normal;
     font-weight: normal;
@@ -550,6 +552,12 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         apolloClient,
     ]);
 
+
+    const [wallSelectable] = useState(false);
+    const [floorSelectable] = useState(true);
+    const [effectSelectable] = useState(true);
+
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
@@ -600,6 +608,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     <PlaceModeLayerSelect>
                         <IframeInputSettingRightText
                             selected={placeObjectType === Server.GameObjectType.Wall}
+                            selectable={wallSelectable}
                             onClick={() => setPlaceObjectType(Server.GameObjectType.Wall)}
                         >
                             wall
@@ -607,6 +616,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                         <LittleVerticalLine />
                         <IframeInputSettingRightText
                             selected={placeObjectType === Server.GameObjectType.Floor}
+                            selectable={floorSelectable}
                             onClick={() => setPlaceObjectType(Server.GameObjectType.Floor)}
                         >
                             floor
@@ -614,6 +624,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                         <LittleVerticalLine />
                         <IframeInputSettingRightText
                             selected={placeObjectType === Server.GameObjectType.Effect}
+                            selectable={effectSelectable}
                             onClick={() => setPlaceObjectType(Server.GameObjectType.Effect)}
                         >
                             effect
