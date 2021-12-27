@@ -7,6 +7,8 @@ import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 import { Server } from "../game/connect/types";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
+import { gql, useQuery } from "@apollo/client";
+import { globalApolloClient } from "../game/connect/gql";
 
 export const Provider: React.FC = ({ children }) => {
     return (
@@ -61,12 +63,28 @@ const ObjEditorContextProvider: React.FC = ({ children }) => {
     );
 };
 
+
+const WORLD_ADMIN_LIST = gql`
+    subscription worldAdminList($worldId: String!) {
+        worldAdminList(worldId: $worldId) {
+            id
+            nickname
+            skinSrc
+        }
+    }
+`;
+
 const WorldEditorContextProvider: React.FC = ({ children }) => {
     const [game, setGame] = useState<Game | null>(null);
     const [playerNetworker, setPlayerNetworker] = useState<PlayerNetworker | null>(null);
     const [playerList, setPlayerList] = useState<Server.User[]>([]);
+    const [adminPlayerList, setAdminPlayerList] = useState<Server.User[]>([]);
     const [world, setWorld] = useState<Server.World | null>(null);
     const [worldEditorConnector] = useState(new WorldEditorConnector());
+
+    const worldAdminList = useQuery(WORLD_ADMIN_LIST, {
+        client: globalApolloClient
+    });
 
     const state = {
         game,
@@ -74,11 +92,15 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
         playerNetworker,
         setPlayerNetworker,
         playerList,
-        setPlayerList,
+        adminPlayerList,
         world,
         setWorld,
         worldEditorConnector
     };
+
+    useEffect(() => {
+        setAdminPlayerList(worldAdminList.data?.worldAdminList || []);
+    }, [worldAdminList.data]);
 
     useEffect(() => {
         const joinListener = (user: Server.User) => {
