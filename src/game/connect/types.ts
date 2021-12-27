@@ -82,21 +82,32 @@ export namespace Server {
         type: GameObjectType;
         colliders: GameObjectProtoCollider[];
     }
-
+    
     export interface IframeGameObjectProto extends GameObjectProto {
         src: IframeSrc;
     }
 
-    export interface PenpalConnectable {
+    export type PenpalConnectable = WidgetPenpalConnectable | GameObjectPenpalConnectable;
+
+    interface PenpalConnectableBase {
         id: number;
-        src: IframeSrc;
         fieldPortMappings: IframeFieldPortMapping[];
         broadcasterPortMappings: IframeBroadcasterPortMapping[];
         localBroadcasters: LocalBroadcaster[];
         localFields: LocalField[];
     }
 
-    export interface IframeGameObject extends GameObject, PenpalConnectable {
+    export interface WidgetPenpalConnectable extends PenpalConnectableBase {
+        src: IframeSrc;
+    }
+
+    export interface GameObjectPenpalConnectable extends PenpalConnectableBase {
+        proto_: {
+            src: IframeSrc;
+        };
+    }
+
+    export interface IframeGameObject extends GameObject, GameObjectPenpalConnectable {
         proto_: IframeGameObjectProto;
     }
 
@@ -130,7 +141,8 @@ export namespace Server {
         offsetY: CssOption;
     }
 
-    export interface IframeWidget extends Widget, PenpalConnectable {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    export interface IframeWidget extends Widget, WidgetPenpalConnectable {
     }
 
     export interface ImageWidget extends Widget {

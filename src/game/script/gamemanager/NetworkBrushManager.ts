@@ -52,8 +52,10 @@ export class NetworkBrushManager extends Component {
                 await this._deleteAtlasTile(gridPos.x, gridPos.y);
             }
             else if (this._currentTool instanceof Tools.EraseObject) {
-                console.log("delete object");
                 await this._deleteObject(gridPos.x, gridPos.y);
+            }
+            else if (this._currentTool instanceof Tools.IframeGameObject) {
+                await this._createIframeGameObject(gridPos.x, gridPos.y);
             }
         } catch(e) {
             console.warn(e);
@@ -86,7 +88,7 @@ export class NetworkBrushManager extends Component {
     private _updateImageGameObject(x: number, y: number) {
         if (!this._worldId) throw new Error("no world id");
         if (!this._apolloClient) throw new Error("no apollo client");
-        if (!(this._currentTool instanceof Tools.ImageGameObject)) throw new Error("no image game object");
+        if (!(this._currentTool instanceof Tools.ImageGameObject)) throw new Error("tool is not image game object");
         const protoId = this._currentTool.imageInfo.id;
         return this._apolloClient.mutate({
             mutation: gql`
@@ -110,7 +112,7 @@ export class NetworkBrushManager extends Component {
     private _updateTile(x: number, y: number) {
         if (!this._worldId) throw new Error("no world id");
         if (!this._apolloClient) throw new Error("no apollo client");
-        if (!(this._currentTool instanceof Tools.Tile)) throw new Error("no image game object");
+        if (!(this._currentTool instanceof Tools.Tile)) throw new Error("tool is not tile");
         const atlasId = this._currentTool.tileInfo.atlas.id;
         const atlasIndex = this._currentTool.tileInfo.atlasIndex;
         const worldId = this._worldId;
@@ -140,7 +142,7 @@ export class NetworkBrushManager extends Component {
     private _deleteAtlasTile(x: number, y: number) {
         if (!this._worldId) throw new Error("no world id");
         if (!this._apolloClient) throw new Error("no apollo client");
-        if (!(this._currentTool instanceof Tools.EraseTile)) throw new Error("no image game object");
+        if (!(this._currentTool instanceof Tools.EraseTile)) throw new Error("tool is not erase tile");
         return this._apolloClient.mutate({
             mutation: gql`
                 mutation deleteAtlasTile($type: Int!, $x: Int!, $y: Int!, $worldId: String!) {
@@ -173,6 +175,36 @@ export class NetworkBrushManager extends Component {
         });
     }
     
+
+    private _createIframeGameObject(x: number, y: number) {
+        console.log(x, y, this._currentTool);
+        if (!this._worldId) throw new Error("no world id");
+        if (!this._apolloClient) throw new Error("no apollo client");
+        if (!(this._currentTool instanceof Tools.IframeGameObject)) throw new Error("tool is not iframe game object");
+        return this._apolloClient.mutate({
+            mutation: gql`
+                mutation createIframeGameObjectInstantly(
+                    $x: Int!, 
+                    $y: Int!, 
+                    $protoInput: IframeGameObjectProtoInput!, 
+                    $worldId: String! 
+                ) {
+                    createIframeGameObjectInstantly(x: $x, y: $y, iframeGameObjectProto: $protoInput, worldId: $worldId) {
+                        id
+                    }
+                }
+            `,
+            variables: {
+                x,
+                y,
+                worldId: this._worldId,
+                protoInput: {
+                    ...this._currentTool.iframeInfo,
+                    colliders: [],
+                },
+            }
+        });
+    }
 
 
     // private _buildNetworkIframe(colliderInfo: Server.Collider): void {

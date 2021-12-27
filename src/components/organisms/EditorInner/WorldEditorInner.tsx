@@ -8,6 +8,7 @@ import { Server } from "../../../game/connect/types";
 import { gql, useQuery } from "@apollo/client";
 import { WorldEditorContext } from "../../../context/contexts";
 import { Tools } from "../../../game/script/WorldEditorConnector";
+import { useDebounce } from "react-use";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -363,7 +364,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             setPlaceObjectType(proto.type);
         }
     }, [tab, photoId, protoMap]);
-    const updatePlaceType = useCallback(() => {
+    useDebounce(() => {
         if (selectedTool === EditorTools.Pen) {
             switch (placeKind) {
             case PlaceKind.Tile: {
@@ -395,7 +396,16 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 break;
             }
             case PlaceKind.Iframe: {
-                const tool = new Tools.Collider();
+                const tool = new Tools.IframeGameObject({
+                    src: iframeSrc,
+                    width: +iframeWidth,
+                    height: +iframeHeight,
+                    isPublic: true,
+                    offsetX: 0,
+                    offsetY: 0,
+                    name: `${iframeSrc}_instantIframe`,
+                    type: placeObjectType,
+                });
                 worldEditorConnector.setToolType(tool);
                 break;
             }
@@ -432,20 +442,26 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             }
             }
         }
-    }, [
+    }, 100, [
         atlasMap,
         photoId,
         placeKind,
         placeObjectType,
         protoMap,
         selectedTool,
-        worldEditorConnector
+        worldEditorConnector,
+        // react to input
+        iframeHeight,
+        iframeWidth,
+        iframeSrc,
+        selectedTool,
+        placeKind,
+        placeObjectType,
     ]);
 
     const onSelectTool = useCallback((editorTool: EditorTools) => {
         setSelectedTool(editorTool);
-        updatePlaceType();
-    }, [updatePlaceType, setSelectedTool]);
+    }, [setSelectedTool]);
 
 
     useEffect(() => {
@@ -470,10 +486,6 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         setTab(tab);
         autoMaticFindTool();
     }, [autoMaticFindTool]);
-
-    useEffect(() => {
-        updatePlaceType();
-    }, [placeKind, placeObjectType, updatePlaceType]);
 
     return (
         <ExpandBarDiv opened={opened}>
