@@ -8,7 +8,7 @@ import ArrowIcon from "../atoms/ArrowIcon.svg";
 import ChatIcon from "../atoms/ChatIcon.svg";
 import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql, useQuery } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
 import FieldEditorInner from "./EditorInner/FieldEditorInner";
 import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
@@ -324,51 +324,125 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
         setSelectedEditor(editor);
     }, [selectedEditor]);
 
+    const [popupOpened, setPopupOpened] = useState(false);
+    const onPeopleCountClick = useCallback(() => {
+        setPopupOpened(p => !p);
+    }, []);
+
     return (
-        <OuterDiv>
-            <SidebarDiv>
-                <Link to="/">
-                    <LogoImage src={twLogo2Black} />
-                </Link>
-                <BarDivider/>
-                <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
-                <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
-                <LittleDivider/>
-                <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
-                <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
-                <LittleDivider/>
-                <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
-                <CountIndicatorDiv>5/10</CountIndicatorDiv>
-            </SidebarDiv>
-            <>
-                <FieldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Field}/>
-                <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
-                <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
-                <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />
-                <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
-            </>
-            <ExpandButton onClick={() => expandBarToggle()} 
-                style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
-            <ChatButton onClick={() => chatToggle()}/>
-            <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
-                <ChatContentDiv ref={ref}>
-                    {chatting.map((data/*, index*/) => (
-                        <p key={data.key}>
-                            {data.user.nickname}: {data.message}
-                        </p>
-                    ))}
-                </ChatContentDiv>
-                <ChatInputDiv>
-                    <ChatInput 
-                        placeholder="Enter message here." 
-                        value={inputText} 
-                        onKeyPress={(event) => onKeyPress(event)} 
-                        onChange={e => setInputText(e.currentTarget.value)}/>
-                    <SendButton onClick={() => sendChatMessage()}/>
-                </ChatInputDiv>
-            </ChatDiv>
-        </OuterDiv>
+        <>
+            <PlayerListPopup opened={popupOpened} worldId={worldId} />
+            <OuterDiv>
+                <SidebarDiv>
+                    <Link to="/">
+                        <LogoImage src={twLogo2Black} />
+                    </Link>
+                    <BarDivider/>
+                    <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
+                    <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                    <LittleDivider/>
+                    <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
+                    <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
+                    <LittleDivider/>
+                    <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
+                    <CountIndicatorDiv onClick={onPeopleCountClick}>
+                        5/10
+                    </CountIndicatorDiv>
+                </SidebarDiv>
+                <>
+                    <FieldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Field}/>
+                    <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
+                    <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
+                    <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />
+                    <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
+                </>
+                <ExpandButton onClick={() => expandBarToggle()} 
+                    style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
+                <ChatButton onClick={() => chatToggle()}/>
+                <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
+                    <ChatContentDiv ref={ref}>
+                        {chatting.map((data/*, index*/) => (
+                            <p key={data.key}>
+                                {data.user.nickname}: {data.message}
+                            </p>
+                        ))}
+                    </ChatContentDiv>
+                    <ChatInputDiv>
+                        <ChatInput 
+                            placeholder="Enter message here." 
+                            value={inputText} 
+                            onKeyPress={(event) => onKeyPress(event)} 
+                            onChange={e => setInputText(e.currentTarget.value)}/>
+                        <SendButton onClick={() => sendChatMessage()}/>
+                    </ChatInputDiv>
+                </ChatDiv>
+            </OuterDiv>
+        </>
     );
 }
 
 export default IngameInterface;
+
+
+const PopupDiv = styled.div<{opened: boolean}>`
+    width: 80%;
+    height: 300px;
+    max-width: 700px;
+    
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    box-sizing: border-box;
+    padding: 30px;
+
+    overflow-x: auto;
+
+    display: ${props => props.opened ? "flex" : "none"};
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    transform: translate(-50%, -50%);
+
+    background: #FFFFFF;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
+    border-radius: 38px;
+`;
+
+const GET_PLAYERS = gql`
+    query GetPlayers($worldId: String!) {
+        World(id: $worldId) {
+            players {
+                id
+                nickname
+            }
+        }
+    }
+`;
+
+interface PopupProps {
+    opened: boolean;
+    worldId: string;
+}
+
+const    PlayerListPopup = React.memo(PlayerListPopup_);
+function PlayerListPopup_({ opened, worldId }: PopupProps) {
+    const { data } = useQuery(GET_PLAYERS, {
+        fetchPolicy: "no-cache",
+        variables: {
+            worldId,
+        }
+    });
+
+    const players: undefined | {id: string, nickname: string}[] = data?.World?.players;
+
+    return (
+        <PopupDiv opened={opened}>
+            {players?.map(player => (
+                <p key={player.id}>
+                    {player.nickname}
+                </p>
+            ))}
+        </PopupDiv>
+    );
+}
