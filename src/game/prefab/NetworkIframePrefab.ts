@@ -2,23 +2,27 @@ import { Vector2 } from "three";
 import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { IGridCollidable } from "../script/physics/IGridCollidable";
 import { Server } from "../connect/types";
 import { IframeRenderer } from "../script/render/IframeRenderer";
 import { PenpalConnection } from "../script/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
 import { PenpalNetworker } from "../penpal/PenpalNetworker";
+import { GridObjectCollideMap } from "../script/physics/GridObjectCollideMap";
+import { GridCollider } from "../script/physics/GridCollider";
+import { IGridCoordinatable } from "../script/post_render/IGridCoordinatable";
 
 export class NetworkIframePrefab extends Prefab {
-    private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
+    private _collideMap: PrefabRef<IGridCoordinatable> = new PrefabRef();
 
     private _apolloClient: PrefabRef<ApolloClient<any>> = new PrefabRef();
     private _iframeInfo: PrefabRef<Server.IframeGameObject> = new PrefabRef();
     private _worldId: PrefabRef<string> = new PrefabRef();
     private _penpalNetworkWrapper: PrefabRef<PenpalNetworker> = new PrefabRef();
+    private _gridObjectCollideMap = new PrefabRef<GridObjectCollideMap>();
+    private _colliders = new PrefabRef<Vector2[]>();
 
-    public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkIframePrefab {
-        this._tilemap = tilemap;
+    public withGridInfo(collideMap: PrefabRef<IGridCoordinatable>): NetworkIframePrefab {
+        this._collideMap = collideMap;
         return this;
     }
 
@@ -42,11 +46,20 @@ export class NetworkIframePrefab extends Prefab {
         return this;
     }
 
+    public withCollideInfo(
+        gridObjectCollideMap: PrefabRef<GridObjectCollideMap>,
+        colliders: PrefabRef<Vector2[]>
+    ): NetworkIframePrefab {
+        this._gridObjectCollideMap = gridObjectCollideMap;
+        this._colliders = colliders;
+        return this;
+    }
+
     public make(): GameObjectBuilder {
         return this.gameObjectBuilder
             .withComponent(IframeRenderer, c => {
                 const iframe = this._iframeInfo.ref;
-                const ref = this._tilemap.ref;
+                const ref = this._collideMap.ref;
                 if (!iframe) throw new Error("iframe info is not given");
                 if (!ref) return;
                 c.iframeSource = iframe.proto_.src;
@@ -54,6 +67,14 @@ export class NetworkIframePrefab extends Prefab {
                 c.height = iframe.proto_.height * ref.gridCellHeight;
                 c.viewScale = .5;
                 c.iframeCenterOffset = new Vector2(0.5, 0.5);
+            })
+            .withComponent(GridCollider, c => {
+                c.gridObjectCollideMap = this._gridObjectCollideMap.ref;
+                if (this._colliders.ref) {
+                    for (const point of this._colliders.ref) {
+                        c.addCollider(point.x, point.y);
+                    }
+                }
             })
             .withComponent(PenpalConnection, c => {
                 const iframe = this._iframeInfo.ref;

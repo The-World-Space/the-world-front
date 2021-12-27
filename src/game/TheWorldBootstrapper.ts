@@ -186,7 +186,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         };
 
         return this.sceneBuilder
-            .withChild(instantlater.buildGameObject("network_gamemanager")
+            .withChild(instantlater.buildGameObject("gamemanager")
                 .withComponent(NetworkPlayerManager, c => {
                     c.iGridCollidable = gridCollideMap.ref!;
                     c.initNetwork(this.interopObject!.networkManager);
@@ -194,7 +194,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .withComponent(NetworkIframeManager, c => {
                     c.apolloClient = this.interopObject!.apolloClient;
-                    c.iGridCollidable = gridCollideMap.ref;
+                    c.iGridCoordinatable = gridCollideMap.ref;
                     c.worldId = this.interopObject!.serverWorld.id;
                     c.initIframeList = this.interopObject!.serverWorld.iframes;
                     c.penpalNetworkWrapper = this.interopObject!.penpalNetworkManager;

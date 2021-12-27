@@ -1,5 +1,5 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector3 } from "three";
+import { Vector2, Vector3 } from "three";
 import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
@@ -7,7 +7,8 @@ import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
 import { IframeNetworker } from "../networker/IframeNetworker";
-import { IGridCollidable } from "../physics/IGridCollidable";
+import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
+import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
@@ -18,7 +19,8 @@ export class NetworkIframeManager extends Component {
     private _networkIframerMap: Map<number, GameObject> = new Map();
 
     private _apolloClient: ApolloClient<any> | null = null;
-    private _iGridCollidable: IGridCollidable | null = null;
+    private _iGridCoordinatable: IGridCoordinatable | null = null;
+    private _gridObjectCollideMap: GridObjectCollideMap | null = null;
     private _worldId: string | null = null;
     private _initIframeList: Server.IframeGameObject[] = [];
     private _penpalNetworkWrapper: PenpalNetworker | null = null;
@@ -28,8 +30,12 @@ export class NetworkIframeManager extends Component {
         this._apolloClient = apolloClient;
     }
 
-    public set iGridCollidable(val: IGridCollidable | null) {
-        this._iGridCollidable = val;
+    public set iGridCoordinatable(val: IGridCoordinatable | null) {
+        this._iGridCoordinatable = val;
+    }
+
+    public set gridObjectCollideMap(val: GridObjectCollideMap | null) {
+        this._gridObjectCollideMap = val;
     }
 
     public set worldId(id: string) {
@@ -76,17 +82,20 @@ export class NetworkIframeManager extends Component {
     private _buildNetworkIframe(iframeInfo: Server.IframeGameObject, worldId: string, apolloClient: ApolloClient<any>): void {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
-        const gcx = this._iGridCollidable?.gridCenterX || 8;
-        const gcy = this._iGridCollidable?.gridCenterY || 8;
-        const gw = this._iGridCollidable?.gridCellWidth || 16;
-        const gh = this._iGridCollidable?.gridCellHeight || 16;
+        const gcx = this._iGridCoordinatable?.gridCenterX || 8;
+        const gcy = this._iGridCoordinatable?.gridCenterY || 8;
+        const gw = this._iGridCoordinatable?.gridCellWidth || 16;
+        const gh = this._iGridCoordinatable?.gridCellHeight || 16;
         const calculated =  new Vector3(
             gcx + iframeInfo.x * gw - gw / 2,
             gcy + iframeInfo.y * gh - gh / 2, 1);
         
+        const colliders = iframeInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
+
         const prefab = 
             instantlater.buildPrefab(`${PREFIX}/iframe_${iframeInfo.id}`, NetworkIframePrefab, calculated)
-                .withGridInfo(new PrefabRef(this._iGridCollidable))
+                .withGridInfo(new PrefabRef(this._iGridCoordinatable))
+                .withCollideInfo(new PrefabRef(this._gridObjectCollideMap), new PrefabRef(colliders))
                 .withIframeInfo(new PrefabRef(iframeInfo))
                 .withApolloClient(new PrefabRef(apolloClient))
                 .withPenpalNetworkWrapper(new PrefabRef(this._penpalNetworkWrapper))
