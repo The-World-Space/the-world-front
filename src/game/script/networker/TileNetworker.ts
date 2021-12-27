@@ -5,8 +5,25 @@ import { Server } from "../../connect/types";
 
 type DEETypes = {
     "create" : (collider: Server.AtlasTile) => void,
+    "update" : (collider: Server.AtlasTile) => void,
     "delete" : (x: number, y: number, type: number) => void,
 }
+
+const ATLAS_FIELDS = gql`
+    fragment atlasFields on AtlasTile {
+        x
+        y
+        type
+        atlasIndex
+        atlas {
+            id
+            name
+            columnCount
+            rowCount
+            src
+        }
+    }
+`;
 
 
 export class TileNetworker {
@@ -24,19 +41,10 @@ export class TileNetworker {
             query: gql`
                 subscription atlasTileCreating($worldId: String!) {
                     atlasTileCreating(worldId: $worldId) {
-                        x
-                        y
-                        type
-                        atlasIndex
-                        atlas {
-                            id
-                            name
-                            columnCount
-                            rowCount
-                            src
-                        }
+                        ...atlasFields
                     }
                 }
+                ${ATLAS_FIELDS}
             `,
             variables: {
                 worldId: this._worldId,
@@ -66,6 +74,25 @@ export class TileNetworker {
             const tile = data.data.atlasTileDeleting as Server.AtlasTile;
 
             this._dee.emit("delete", tile.x, tile.y, tile.type);
+        });
+
+        this._client.subscribe({
+            query: gql`
+                subscription atlasTileUpating($worldId: String!) {
+                    atlasTileUpating(worldId: $worldId) {
+                        ...atlasFields
+                    }
+                }
+                ${ATLAS_FIELDS}
+            `,
+            variables: {
+                worldId: this._worldId,
+            }
+        }).subscribe(data => {
+            if (!data.data.atlasTileUpating) throw new Error("data.data.atlasTileDeleting is falsy");
+            const tile = data.data.atlasTileUpating as Server.AtlasTile;
+
+            this._dee.emit("update", tile);
         });
     }
 
