@@ -119,7 +119,7 @@ const IframeInputSettingRightText = styled.span<{selected: boolean, selectable: 
 
     color: ${p => 
         p.selected ? "#000000" : 
-        p.selectable ? "#00000060" : "#00000060"};
+        p.selectable ? "#00000060" : "#00000000"};
     font-family: Noto Sans;
     font-style: normal;
     font-weight: normal;
@@ -367,7 +367,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const [iframeWidth, setIframeWidth] = useState("1");
     const [iframeHeight, setIframeHeight] = useState("1");
     const [iframeSrc, setIframesSrc] = useState("");
-    const [placeObjectType, setPlaceObjectType] = useState(Server.GameObjectType.Wall);
+    const [placeObjectType, setPlaceObjectType] = useState(Server.GameObjectType.Floor);
     const [placeKind, setPlaceKind] = useState(PlaceKind.Tile);
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
@@ -553,9 +553,37 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     ]);
 
 
-    const [wallSelectable] = useState(false);
-    const [floorSelectable] = useState(true);
-    const [effectSelectable] = useState(true);
+    const [wallSelectable, setWallSelectable] = useState(false);
+    const [floorSelectable, setFloorSelectable] = useState(true);
+    const [effectSelectable, setEffectSelectable] = useState(true);
+    const unselectable = useMemo(() => (
+        !wallSelectable && !floorSelectable && !effectSelectable
+    ), [effectSelectable, floorSelectable, wallSelectable]);
+
+    const onPlaceKindSelect = useCallback((type: PlaceKind) => {
+        setPlaceKind(type);
+        if (type === PlaceKind.Collider) {
+            setWallSelectable(false);
+            setFloorSelectable(false);
+            setEffectSelectable(false);
+        }
+        else if (type === PlaceKind.Tile) {
+            setWallSelectable(false);
+            setFloorSelectable(true);
+            setEffectSelectable(true);
+            setPlaceObjectType(Server.GameObjectType.Floor);
+        }
+        else if (type === PlaceKind.Object) {
+            setWallSelectable(false);
+            setFloorSelectable(false);
+            setEffectSelectable(false);
+        }
+        else if (type === PlaceKind.Iframe) {
+            setWallSelectable(true);
+            setFloorSelectable(true);
+            setEffectSelectable(true);
+        }
+    }, []);
 
 
     return (
@@ -578,28 +606,28 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     <PlaceModeLayerSelect>
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Tile}
-                            onClick={() => setPlaceKind(PlaceKind.Tile)}
+                            onClick={() => onPlaceKindSelect(PlaceKind.Tile)}
                         >
                             tile
                         </PlaceModeBottomText>
                         <LittleVerticalLine />
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Object}
-                            onClick={() => setPlaceKind(PlaceKind.Object)}
+                            onClick={() => onPlaceKindSelect(PlaceKind.Object)}
                         >
                             object
                         </PlaceModeBottomText>
                         <LittleVerticalLine />
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Iframe}
-                            onClick={() => setPlaceKind(PlaceKind.Iframe)}
+                            onClick={() => onPlaceKindSelect(PlaceKind.Iframe)}
                         >
                             iframe
                         </PlaceModeBottomText>
                         <LittleVerticalLine />
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Collider}
-                            onClick={() => setPlaceKind(PlaceKind.Collider)}
+                            onClick={() => onPlaceKindSelect(PlaceKind.Collider)}
                         >
                             collider
                         </PlaceModeBottomText>
@@ -607,25 +635,25 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     <ListFakeHr />
                     <PlaceModeLayerSelect>
                         <IframeInputSettingRightText
-                            selected={placeObjectType === Server.GameObjectType.Wall}
-                            selectable={wallSelectable}
-                            onClick={() => setPlaceObjectType(Server.GameObjectType.Wall)}
+                            selected={!unselectable && placeObjectType === Server.GameObjectType.Wall}
+                            selectable={!unselectable && wallSelectable}
+                            onClick={() => wallSelectable && setPlaceObjectType(Server.GameObjectType.Wall)}
                         >
                             wall
                         </IframeInputSettingRightText>
                         <LittleVerticalLine />
                         <IframeInputSettingRightText
-                            selected={placeObjectType === Server.GameObjectType.Floor}
-                            selectable={floorSelectable}
-                            onClick={() => setPlaceObjectType(Server.GameObjectType.Floor)}
+                            selected={!unselectable && placeObjectType === Server.GameObjectType.Floor}
+                            selectable={!unselectable && floorSelectable}
+                            onClick={() => floorSelectable && setPlaceObjectType(Server.GameObjectType.Floor)}
                         >
                             floor
                         </IframeInputSettingRightText>
                         <LittleVerticalLine />
                         <IframeInputSettingRightText
-                            selected={placeObjectType === Server.GameObjectType.Effect}
-                            selectable={effectSelectable}
-                            onClick={() => setPlaceObjectType(Server.GameObjectType.Effect)}
+                            selected={!unselectable && placeObjectType === Server.GameObjectType.Effect}
+                            selectable={!unselectable && effectSelectable}
+                            onClick={() => effectSelectable && setPlaceObjectType(Server.GameObjectType.Effect)}
                         >
                             effect
                         </IframeInputSettingRightText>
