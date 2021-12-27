@@ -393,7 +393,6 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 const atlas = atlasMap[atlasId];
                 const type = placeObjectType === Server.GameObjectType.Floor ? Server.TileType.Floor : Server.TileType.Effect;
                 if (!atlas) {
-                    alert("Atlas not selected");
                     return;
                 }
                 const tool = new Tools.Tile({
@@ -408,7 +407,6 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 const protoId = +photoId;
                 const proto = protoMap[protoId];
                 if (!proto) {
-                    alert("Object not selected");
                     return;
                 }
                 const tool = new Tools.ImageGameObject(proto);
@@ -513,7 +511,6 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             const protoId = +photoId;
             const proto = protoMap[protoId];
             if (!proto) {
-                alert("Object not selected");
                 return;
             }
             if(!confirm("are you sure?")) return;
@@ -527,7 +524,6 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             const [atlasId, _] = photoId.split("_");
             const atlas = atlasMap[atlasId];
             if (!atlas) {
-                alert("Atlas not selected");
                 return;
             }
             if(!confirm("are you sure?")) return;
