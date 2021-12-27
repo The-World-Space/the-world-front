@@ -32,12 +32,14 @@ import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
 import { NetworkTileManager } from "./script/gamemanager/NetworkTileManager";
 import { TileNetworker } from "./script/networker/TileNetworker";
 import { ZaxisInitializer } from "./script/render/ZaxisInitializer";
+import { AdminNetworker } from "./script/networker/AdminNetworker";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
     private readonly _iframeNetworker: IframeNetworker;
     private readonly _imageNetworker: ImageNetworker;
     private readonly _tileNetworker: TileNetworker;
+    private readonly _adminNetwoker: AdminNetworker;
     public constructor(
         private readonly _serverWorld: Server.World, 
         private readonly _user: User, 
@@ -50,6 +52,7 @@ export class NetworkInfoObject {
         this._iframeNetworker = new IframeNetworker(this._serverWorld.id, this._apolloClient);
         this._imageNetworker = new ImageNetworker(this._serverWorld.id, this._apolloClient);
         this._tileNetworker = new TileNetworker(this._serverWorld.id, this._apolloClient);
+        this._adminNetwoker = new AdminNetworker(this._user.id, this._serverWorld.id, this._apolloClient);
     }
     
     public get serverWorld(): Server.World {
@@ -90,6 +93,10 @@ export class NetworkInfoObject {
 
     public get tileNetworker(): TileNetworker {
         return this._tileNetworker;
+    }
+
+    public get adminNetworker(): AdminNetworker {
+        return this._adminNetwoker;
     }
 }
 
@@ -211,6 +218,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.initIframeList = this.interopObject!.serverWorld.iframes;
                     c.penpalNetworkWrapper = this.interopObject!.penpalNetworkManager;
                     c.initNetwork(this.interopObject!.iframeNetworker);
+                    c.initAdminNetwork(this.interopObject!.adminNetworker);
                 })
                 .withComponent(NetworkImageManager, c => {
                     c.iGridCollidable = gridCollideMap.ref;

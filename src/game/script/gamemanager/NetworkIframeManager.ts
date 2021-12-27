@@ -8,6 +8,7 @@ import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 import { IframeIdBoxPrefab } from "../../prefab/IframeIdBoxPrefab";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
 import { IframeStatusRenderController } from "../controller/IframeStatusRenderController";
+import { AdminNetworker } from "../networker/AdminNetworker";
 import { IframeNetworker } from "../networker/IframeNetworker";
 import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
 import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
@@ -28,6 +29,7 @@ export class NetworkIframeManager extends Component {
     private _initIframeList: Server.IframeGameObject[] = [];
     private _penpalNetworkWrapper: PenpalNetworker | null = null;
     private _iframeNetworker: IframeNetworker | null = null;
+    private _adminNetworker: AdminNetworker | null = null;
 
     public set apolloClient(apolloClient: ApolloClient<any>) {
         this._apolloClient = apolloClient;
@@ -60,6 +62,16 @@ export class NetworkIframeManager extends Component {
         });
         this._iframeNetworker.ee.on("delete", iframeId => {
             this.deleteOneIframe(iframeId);
+        });
+    }
+
+    public initAdminNetwork(adminNetworker: AdminNetworker): void {
+        this._adminNetworker = adminNetworker;
+        this._adminNetworker.ee.on("amI", () => {
+            // i'm admin!
+        });
+        this._adminNetworker.ee.on("amnt", () => {
+            // i'm not admin!
         });
     }
 
