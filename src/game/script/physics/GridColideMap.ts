@@ -1,6 +1,7 @@
 import { Vector2, Vector3 } from "three";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
 import { ZaxisInitializer } from "../render/ZaxisInitializer";
 import { IGridCollidable } from "./IGridCollidable";
@@ -100,7 +101,7 @@ export class GridCollideMap extends Component implements IGridCollidable {
     }
     
     private addDebugImage(x: number, y: number) {
-        const gameObjectRef: {ref: GameObject|null} = {ref: null};
+        const gameObjectRef = new PrefabRef<GameObject>();
         this.gameObject.addChildFromBuilder(
             this.engine.instantlater.buildGameObject(
                 "debugImage", new Vector3(x, y, 10000))

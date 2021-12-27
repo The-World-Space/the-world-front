@@ -149,14 +149,14 @@ export class GridCollider extends Component {
 
     private addCollideInfoToMap(x: number, y: number) {
         if (!this._gridObjectCollideMap) return;
-
+        
         const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector);
         const gridCellWidth = this._gridObjectCollideMap.gridCellWidth;
         const gridCellHeight = this._gridObjectCollideMap.gridCellHeight;
         const gridCenter = this._gridObjectCollideMap.gridCenter;
 
-        const GridObjectCollideMapX = Math.floor(x + (worldPosition.x - gridCenter.x) / gridCellWidth);
-        const GridObjectCollideMapY = Math.floor(y + (worldPosition.y - gridCenter.y) / gridCellHeight);
+        const GridObjectCollideMapX = Math.floor(x + (worldPosition.x + gridCenter.x) / gridCellWidth);
+        const GridObjectCollideMapY = Math.floor(y + (worldPosition.y + gridCenter.y) / gridCellHeight);
         this._gridObjectCollideMap!.addCollider(GridObjectCollideMapX, GridObjectCollideMapY);
     }
 
@@ -171,8 +171,8 @@ export class GridCollider extends Component {
         this._collideMap.forEach((_value, key) => {
             const [x, y] = key.split("_").map(Number);
             
-            const GridObjectCollideMapX = Math.floor(x + worldPosition.x / gridCellWidth - gridCenter.x);
-            const GridObjectCollideMapY = Math.floor(y + worldPosition.y / gridCellHeight - gridCenter.y);
+            const GridObjectCollideMapX = Math.floor(x + worldPosition.x / gridCellWidth + gridCenter.x);
+            const GridObjectCollideMapY = Math.floor(y + worldPosition.y / gridCellHeight + gridCenter.y);
             this._gridObjectCollideMap!.addCollider(GridObjectCollideMapX, GridObjectCollideMapY);
         });
     }
@@ -185,8 +185,8 @@ export class GridCollider extends Component {
         const gridCellHeight = this._gridObjectCollideMap.gridCellHeight;
         const gridCenter = this._gridObjectCollideMap.gridCenter;
 
-        const GridObjectCollideMapX = Math.floor(x + (worldPosition.x - gridCenter.x) / gridCellWidth);
-        const GridObjectCollideMapY = Math.floor(y + (worldPosition.y - gridCenter.y) / gridCellHeight);
+        const GridObjectCollideMapX = Math.floor(x + (worldPosition.x + gridCenter.x) / gridCellWidth);
+        const GridObjectCollideMapY = Math.floor(y + (worldPosition.y + gridCenter.y) / gridCellHeight);
 
         this._gridObjectCollideMap!.removeCollider(GridObjectCollideMapX, GridObjectCollideMapY);
     }
@@ -202,8 +202,8 @@ export class GridCollider extends Component {
         this._collideMap.forEach((_value, key) => {
             const [x, y] = key.split("_").map(Number);
             
-            const GridObjectCollideMapX = Math.floor(x + (worldPosition.x - gridCenter.x) / gridCellWidth);
-            const GridObjectCollideMapY = Math.floor(y + (worldPosition.y - gridCenter.y) / gridCellHeight);
+            const GridObjectCollideMapX = Math.floor(x + (worldPosition.x + gridCenter.x) / gridCellWidth);
+            const GridObjectCollideMapY = Math.floor(y + (worldPosition.y + gridCenter.y) / gridCellHeight);
             this._gridObjectCollideMap!.removeCollider(GridObjectCollideMapX, GridObjectCollideMapY);
         });
     }
