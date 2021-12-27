@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 
 const IMAGE_SIZE = 75;
@@ -196,10 +196,12 @@ interface PhotoElementProps {
     label: string;
 }
 
+const LIMIT = 8;
 const    PhotoElement = React.memo(PhotoElement_);
 function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
     const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.columnCount) : 0;
     const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.columnCount) : 0;
+    const cutedLabel = useMemo(() => label.slice(0,LIMIT + 1) + ((label.length > LIMIT) ? "..." : ""), [label]);
     return (
         <ElementWrapperDIv onClick={() => onSelect(String(data.id))} selected={selected}>
             {
@@ -214,7 +216,7 @@ function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
                     />
                     : <ElementThumbnail src={data.src} />
             }
-            <ElementName>{label}</ElementName>
+            <ElementName title={label}>{cutedLabel}</ElementName>
         </ElementWrapperDIv>
     );
 }
