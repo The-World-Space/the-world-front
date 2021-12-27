@@ -32,17 +32,6 @@ export class NetworkTileManager extends Component {
             if (tileSrcMap.has(tile.atlas.src)) return;
             tileSrcMap.set(tile.atlas.src, tile.atlas);
         });
-
-        function imageLoad(image: HTMLImageElement) {
-            return new Promise<void>((res, rej) => {
-                image.onload = () => {
-                    res();
-                };
-                image.onerror = () => {
-                    rej();
-                };
-            });
-        }
         
         const atlasItemList: TileAtlasItem[] = [];
         const promiseList: Promise<void>[] = [];
@@ -55,8 +44,17 @@ export class NetworkTileManager extends Component {
             promiseList.push(imageLoad(image));
             this._atlasImageAddIndex += 1;
         });
-        this._floorTileMap.imageSources = atlasItemList;
-        this._effectTileMap.imageSources = atlasItemList;
+
+        function imageLoad(image: HTMLImageElement) {
+            return new Promise<void>((res, rej) => {
+                image.onload = () => {
+                    res();
+                };
+                image.onerror = () => {
+                    rej();
+                };
+            });
+        }
 
         Promise.all(promiseList).then(() => {
             this._initTileList.map(tile => {
@@ -69,6 +67,9 @@ export class NetworkTileManager extends Component {
     
             this._initTileList = [];
         });
+        
+        this._floorTileMap.imageSources = atlasItemList;
+        this._effectTileMap.imageSources = atlasItemList;
 
         this._tileNetworker.ee.on("create", data => {
             this.drawTile(data);
@@ -99,11 +100,19 @@ export class NetworkTileManager extends Component {
             this._floorTileMap!.addImageSource(atlasItem);
             this._effectTileMap!.addImageSource(atlasItem);
             imageIndex = this._atlasImageAddIndex - 1;
-        }
-        if (atlasTile.type === Server.TileType.Floor) {
-            this._floorTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex, atlasTile.atlasIndex);
+            image.onload = () => {
+                if (atlasTile.type === Server.TileType.Floor) {
+                    this._floorTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex!, atlasTile.atlasIndex);
+                } else {
+                    this._effectTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex!, atlasTile.atlasIndex);
+                }
+            };
         } else {
-            this._effectTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex, atlasTile.atlasIndex);
+            if (atlasTile.type === Server.TileType.Floor) {
+                this._floorTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex, atlasTile.atlasIndex);
+            } else {
+                this._effectTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex, atlasTile.atlasIndex);
+            }
         }
     }
 
