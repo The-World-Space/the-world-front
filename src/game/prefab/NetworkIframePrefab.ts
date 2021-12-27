@@ -49,7 +49,7 @@ export class NetworkIframePrefab extends Prefab {
                 const ref = this._tilemap.ref;
                 if (!iframe) throw new Error("iframe info is not given");
                 if (!ref) return;
-                c.iframeSource = iframe.src;
+                c.iframeSource = iframe.proto_.src;
                 c.width = iframe.proto_.width * ref.gridCellWidth;
                 c.height = iframe.proto_.height * ref.gridCellHeight;
                 c.viewScale = .5;

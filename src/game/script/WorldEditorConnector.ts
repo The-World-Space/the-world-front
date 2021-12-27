@@ -57,14 +57,24 @@ export namespace Tools {
         }
     }
     
+    interface IframeGameObjectProtoInput {
+        name: string;
+        width: number;
+        height: number;
+        offsetX: number;
+        offsetY: number;
+        isPublic: boolean;
+        type: Server.GameObjectType;
+        src: string;
+    }
     export class IframeGameObject extends Tool {
         constructor(
-            private readonly _iframeInfo: Server.IframeGameObjectProto
+            private readonly _iframeInfo: IframeGameObjectProtoInput
         ) {
             super();
         }
     
-        public get iframeInfo(): Server.IframeGameObjectProto {
+        public get iframeInfo(): IframeGameObjectProtoInput {
             return this._iframeInfo;
         }
     }
