@@ -5,11 +5,14 @@ import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
+import { IframeIdBoxPrefab } from "../../prefab/IframeIdBoxPrefab";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
+import { IframeStatusRenderController } from "../controller/IframeStatusRenderController";
 import { IframeNetworker } from "../networker/IframeNetworker";
 import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
 import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
+import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
@@ -122,5 +125,20 @@ export class NetworkIframeManager extends Component {
 
             c.runOnce = true;
         }
+
+        const idBoxObject = new PrefabRef<GameObject>();
+        const idBoxRenderer = new PrefabRef<CssHtmlElementRenderer>();
+
+        prefabRef.ref!.addChildFromBuilder(
+            instantlater.buildPrefab("id_box", IframeIdBoxPrefab, new Vector3(0, 0, 0))
+                .getIdBoxObject(idBoxObject)
+                .getIdBoxRenderer(idBoxRenderer).make()
+                .active(false));
+        
+        const statusRenderController = prefabRef.ref!.addComponent(IframeStatusRenderController);
+        if (!statusRenderController) throw new Error("fail to add");
+        statusRenderController.setIdBoxObject(idBoxObject.ref!);
+        statusRenderController.setIdBoxRenderer(idBoxRenderer.ref!);
+        //statusRenderController.enabled = false;
     }
 }
