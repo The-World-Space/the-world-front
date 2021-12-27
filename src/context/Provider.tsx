@@ -7,7 +7,7 @@ import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 import { Server } from "../game/connect/types";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useSubscription } from "@apollo/client";
 import { globalApolloClient } from "../game/connect/gql";
 
 export const Provider: React.FC = ({ children }) => {
@@ -82,7 +82,7 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
     const [world, setWorld] = useState<Server.World | null>(null);
     const [worldEditorConnector] = useState(new WorldEditorConnector());
 
-    const worldAdminList = useQuery(WORLD_ADMIN_LIST, {
+    const worldAdminList = useSubscription(WORLD_ADMIN_LIST, {
         client: globalApolloClient
     });
 
