@@ -20,12 +20,18 @@ export class CssHtmlElementRenderer extends Component {
 
     private static readonly _defaultElement: HTMLDivElement = document.createElement("div");
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.setElement(CssHtmlElementRenderer._defaultElement);
         }
+    }
 
+    protected start(): void {
+        if (this._css3DObject) {
+            if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
+            else this._css3DObject.visible = false;
+        }
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
@@ -54,7 +60,7 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public setElement(value: HTMLDivElement|null): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.setElement(value);
             };
@@ -86,13 +92,14 @@ export class CssHtmlElementRenderer extends Component {
             this.updateCenterOffset();
             this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     
+            console.log(this.enabled, this.gameObject.activeInHierarchy);
             if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
             else this._css3DObject.visible = false;
         }
     }
 
     public setElementFromJSX(element: JSX.Element): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.setElementFromJSX(element);
             };

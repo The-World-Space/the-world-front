@@ -130,15 +130,21 @@ export class NetworkIframeManager extends Component {
         const idBoxRenderer = new PrefabRef<CssHtmlElementRenderer>();
 
         prefabRef.ref!.addChildFromBuilder(
-            instantlater.buildPrefab("id_box", IframeIdBoxPrefab, new Vector3(0, 0, 0))
+            instantlater.buildPrefab(
+                "id_box", 
+                IframeIdBoxPrefab, 
+                new Vector3(0, iframeInfo.proto_.height * gh + 8, 0), 
+                undefined,
+                new Vector3(0.4, 0.4, 0.4))
                 .getIdBoxObject(idBoxObject)
                 .getIdBoxRenderer(idBoxRenderer).make()
-                .active(false));
-        
+                .active(false)
+        );
         const statusRenderController = prefabRef.ref!.addComponent(IframeStatusRenderController);
         if (!statusRenderController) throw new Error("fail to add");
         statusRenderController.setIdBoxObject(idBoxObject.ref!);
         statusRenderController.setIdBoxRenderer(idBoxRenderer.ref!);
+        statusRenderController.setIdBoxText(iframeInfo.id);
         //statusRenderController.enabled = false;
     }
 }

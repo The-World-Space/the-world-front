@@ -8,6 +8,7 @@ export class IframeStatusRenderController extends Component {
     private _idBoxObject: GameObject|null = null;
     private _idBox: CssHtmlElementRenderer|null = null;
     private _idBoxString: string = "";
+    private _id: number = 0;
     private _onKeyDownBind = this.onKeyDown.bind(this);
     private _onKeyUpBind = this.onKeyUp.bind(this);
 
@@ -34,8 +35,8 @@ export class IframeStatusRenderController extends Component {
     }
 
     private onKeyUp(e: KeyboardEvent): void {
-        if (e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
-            if (this._idBoxObject) { 
+        if (e.key === "Control") {
+            if (this._idBoxObject) {
                 this._idBoxObject.activeSelf = false;
             }
         }
@@ -51,11 +52,16 @@ export class IframeStatusRenderController extends Component {
         if (container) container.innerHTML = this._idBoxString;
     }
 
-    public setIdBoxText(value: string): void {
-        this._idBoxString = value;
+    public setIdBoxText(value: number): void {
+        this._id = value;
+        this._idBoxString = `id: ${value}`;
         if (this._idBox) {
             const container = this._idBox.getElementContainer();
-            if (container) container.innerText = value;
+            if (container) container.innerText = this._idBoxString;
         }
+    }
+
+    public get id(): number {
+        return this._id;
     }
 }

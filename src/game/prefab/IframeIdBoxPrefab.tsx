@@ -31,7 +31,7 @@ export class IframeIdBoxPrefab extends Prefab {
                         opacity: 0.5,
                         fontFamily: "Noto Sans",
                     }}>
-                        chat content
+                        content
                     </div>
                 );
                 c.pointerEvents = false;

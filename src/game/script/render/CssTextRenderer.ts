@@ -34,12 +34,18 @@ export class CssTextRenderer extends Component {
 
     private static readonly _defaultText: string = "Text";
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.text = CssTextRenderer._defaultText;
         }
-        
+    }
+
+    protected start(): void {
+        if (this._css3DObject) {
+            if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
+            else this._css3DObject.visible = false;
+        }
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
@@ -68,7 +74,7 @@ export class CssTextRenderer extends Component {
     }
 
     public set text(value: string|null) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.text = value;
             };
