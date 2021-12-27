@@ -81,19 +81,19 @@ const UserIdTextDiv = styled.div`
     margin-bottom: 15px;
 `;
 
-const ChangePasswordButton = styled.button`
-    border: none;
-    border-radius: 63px;
-    background-color: #DD7A7A;
-    color: white;
-    padding: 5px 15px;
-    font-size: 16px;
-    font-family: ${FORM_FONT_FAMILY};
+// const ChangePasswordButton = styled.button`
+//     border: none;
+//     border-radius: 63px;
+//     background-color: #DD7A7A;
+//     color: white;
+//     padding: 5px 15px;
+//     font-size: 16px;
+//     font-family: ${FORM_FONT_FAMILY};
 
-    &:active {
-        background-color: #b65e5e;
-    }
-`;
+//     &:active {
+//         background-color: #b65e5e;
+//     }
+// `;
 
 const SkinDiv = styled.div`
     position: relative;
@@ -203,9 +203,6 @@ function UserInfo(): JSX.Element {
                             <UserIdTextDiv>
                                 ID: {user?.id}
                             </UserIdTextDiv>
-                            <ChangePasswordButton>
-                                Change Password
-                            </ChangePasswordButton>
                         </div>
                     </CardLeftDiv>
                     <CardSeparatorDiv/>
