@@ -404,7 +404,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             <Container>
                 <DualTabList datas={datas} setId={setPhotoId} id={photoId} tab={tab} setTab={setTab} tabNames={tabNames}/>
                 <IframeInputWrapper>
-                    <IframeTitle>iframe address</IframeTitle>
+                    <IframeTitle>Iframe Address</IframeTitle>
                     <ListFakeHr />
                     <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframesSrc(e.target.value)} />
                     <ListFakeHr />
