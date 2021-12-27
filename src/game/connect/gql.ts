@@ -24,6 +24,8 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
             World(id: $id) {
                 id
                 name
+                amIAdmin
+                amIOwner
                 colliders {
                     x
                     y

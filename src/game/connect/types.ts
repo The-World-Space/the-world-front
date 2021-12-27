@@ -10,6 +10,8 @@ export namespace Server {
     export interface World {
         id: string;
         name: string;
+        amIAdmin: boolean;
+        amIOwner: boolean;
         isPublic: boolean;
         players: User[];
         colliders: Collider[];
