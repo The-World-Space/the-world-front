@@ -372,18 +372,6 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
     const [selectedTool, setSelectedTool] = useState(EditorTools.None);
-    const autoMaticFindTool = useCallback(() => {
-        if (tab === Tabs.Tile) {
-            setPlaceKind(PlaceKind.Tile);
-        }
-        else if (tab === Tabs.Object) {
-            setPlaceKind(PlaceKind.Object);
-            const protoId = +photoId;
-            const proto = protoMap[protoId];
-            if (!proto) return;
-            setPlaceObjectType(proto.type);
-        }
-    }, [tab, photoId, protoMap]);
     useDebounce(() => {
         if (selectedTool === EditorTools.Pen) {
             switch (placeKind) {
@@ -495,16 +483,36 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         myImageGameObjectProtos.error
     ]);
 
+
+    useEffect(() => {
+        if (tab === Tabs.Tile) {
+            setPlaceKind(PlaceKind.Tile);
+            setWallSelectable(false);
+            setFloorSelectable(true);
+            setEffectSelectable(true);
+            setPlaceObjectType(Server.GameObjectType.Floor);
+        }
+        else if (tab === Tabs.Object) {
+            setPlaceKind(PlaceKind.Object);
+            setWallSelectable(false);
+            setFloorSelectable(false);
+            setEffectSelectable(false);
+            const protoId = +photoId;
+            const proto = protoMap[protoId];
+            if (!proto) return;
+            setPlaceObjectType(proto.type);
+        }
+    }, [tab, photoId, protoMap]);
+
+
     const onTabListPhotoSet = useCallback((photoId: string) => {
         setPhotoId(photoId);
         setSelectedTool(EditorTools.Pen);
-        autoMaticFindTool();
-    }, [autoMaticFindTool]);
+    }, []);
 
     const onSetTab = useCallback((tab: DualTabType) => {
         setTab(tab);
-        autoMaticFindTool();
-    }, [autoMaticFindTool]);
+    }, []);
 
     const onRemoveBtnClick = useCallback(async () => {
         if (tab === Tabs.Object) {
