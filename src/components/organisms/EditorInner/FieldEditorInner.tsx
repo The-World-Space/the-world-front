@@ -8,6 +8,28 @@ import PlusIcon from "../../atoms/PlusIcon.svg";
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
 
+export const FANCY_SCROLLBAR_CSS = `
+::-webkit-scrollbar {
+    width: 14px;
+    padding: 10px 1px 10px 1px;
+}
+::-webkit-scrollbar-thumb {
+    width: 2px;
+    border-radius: 1px;
+    background-color: #2E2E2E60;
+
+    background-clip: padding-box;
+    border: 6px solid transparent;
+    border-bottom: 12px solid transparent;
+}
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+scrollbar-color: #2E2E2E60 #00000000; // for FF
+scrollbar-width: thin; // for FF
+`;
+
 const ExpandBarDiv = styled.div<{opened: boolean}>`
     background: #D7CCC8;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
@@ -22,26 +44,8 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     pointer-events: all;
 
     overflow-y: scroll;
-        
-    ::-webkit-scrollbar {
-        width: 14px;
-        padding: 10px 1px 10px 1px;
-    }
-    ::-webkit-scrollbar-thumb {
-        width: 2px;
-        border-radius: 1px;
-        background-color: #2E2E2E60;
 
-        background-clip: padding-box;
-        border: 6px solid transparent;
-        border-bottom: 12px solid transparent;
-    }
-    ::-webkit-scrollbar-track {
-        display: none;
-    }
-
-    scrollbar-color: #2E2E2E60 #00000000; // for FF
-    scrollbar-width: thin; // for FF
+    ${FANCY_SCROLLBAR_CSS}
 `;
 
 const ListContainer = styled.ol`
@@ -94,8 +98,10 @@ const ListItemBody = styled.textarea`
     box-sizing: border-box;
     padding: 14px 18px;
 
-    resize: vertical;
+    resize: none;
     flex: 1;
+    
+    ${FANCY_SCROLLBAR_CSS}
 `;
 
 const AddContainer = styled.div`
