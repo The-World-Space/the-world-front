@@ -126,6 +126,17 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     }
                 }
 
+                if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseObject
+                    || tool instanceof Tools.ImageGameObject) {
+                    if (gridObjectCollideMap.ref) {
+                        gridObjectCollideMap.ref.showCollider = true;
+                    }
+                } else {
+                    if (gridObjectCollideMap.ref) {
+                        gridObjectCollideMap.ref.showCollider = false;
+                    }
+                }
+
                 if (tool instanceof Tools.None) {
                     gridBrush.ref?.clearImage();
                 } else if (tool instanceof Tools.Collider) {
