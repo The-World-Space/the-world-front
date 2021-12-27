@@ -96,6 +96,7 @@ export class GridBrush extends Component {
 
     private onPointerLeave() {
         this._pointerHover = false;
+        this._pointerDown = false;
         this.updateImageShow();
     }
 
