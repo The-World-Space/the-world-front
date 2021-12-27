@@ -271,6 +271,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .getGameObject(player))
 
             .withChild(instantlater.buildGameObject("iframe", new Vector3(4 * 16, 8, 0), undefined, new Vector3(0.3, 0.3, 1))
+                .active(false)
                 .withComponent(IframeRenderer, c => {
                     c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
                     c.width = 640 / 2;
