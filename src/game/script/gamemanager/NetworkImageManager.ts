@@ -1,11 +1,12 @@
-import { Vector3 } from "three";
+import { Vector2, Vector3 } from "three";
 import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { NetworkImagePrefab } from "../../prefab/NetworkImagePrefab";
 import { ImageNetworker } from "../networker/ImageNetworker";
-import { IGridCollidable } from "../physics/IGridCollidable";
+import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
+import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
 import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
@@ -15,12 +16,17 @@ const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Ef
 export class NetworkImageManager extends Component {
     private _networkImageMap: Map<number, GameObject> = new Map();
 
-    private _iGridCollidable: IGridCollidable | null = null;
+    private _iGridCoordinateable: IGridCoordinatable | null = null;
+    private _gridObjectCollideMap: GridObjectCollideMap | null = null;
     private _initImageList: Server.ImageGameObject[] = [];
     private _imageNetworker: ImageNetworker | null = null;
 
-    public set iGridCollidable(val: IGridCollidable | null) {
-        this._iGridCollidable = val;
+    public set iGridCollidable(val: IGridCoordinatable | null) {
+        this._iGridCoordinateable = val;
+    }
+
+    public set gridObjectCollideMap(val: GridObjectCollideMap | null) {
+        this._gridObjectCollideMap = val;
     }
 
     public set initImageList(val: Server.ImageGameObject[]) {
@@ -56,18 +62,21 @@ export class NetworkImageManager extends Component {
     private _buildNetworkImage(imageInfo: Server.ImageGameObject): void {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
-        const gcx = this._iGridCollidable?.gridCenterX || 8;
-        const gcy = this._iGridCollidable?.gridCenterY || 8;
-        const gw = this._iGridCollidable?.gridCellWidth || 16;
-        const gh = this._iGridCollidable?.gridCellHeight || 16;
+        const gcx = this._iGridCoordinateable?.gridCenterX || 8;
+        const gcy = this._iGridCoordinateable?.gridCenterY || 8;
+        const gw = this._iGridCoordinateable?.gridCellWidth || 16;
+        const gh = this._iGridCoordinateable?.gridCellHeight || 16;
         const calculated =  new Vector3(
             gcx + imageInfo.x * gw - gw / 2,
             gcy + imageInfo.y * gh - gh / 2, 1);
         
+        const colliders = imageInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
+        
         const prefab = 
             instantlater.buildPrefab(`${PREFIX}/image_${imageInfo.id}`, NetworkImagePrefab, calculated)
-                .withGridInfo(new PrefabRef(this._iGridCollidable))
-                .withImageInfo(new PrefabRef(imageInfo));
+                .withGridInfo(new PrefabRef(this._iGridCoordinateable))
+                .withImageInfo(new PrefabRef(imageInfo))
+                .withCollideInfo(new PrefabRef(this._gridObjectCollideMap), new PrefabRef(colliders));
         
         const builder = prefab.make();
         builder.getGameObject(prefabRef);
