@@ -115,7 +115,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         this.interopObject!.worldEditorConnector.action = {
             setToolType(tool: Tool) {
                 networkBrushManager.ref?.setCurrentTool(tool);
-                
+
                 if (tool instanceof Tools.Collider || tool instanceof Tools.EraseCollider) {
                     if (gridCollideMap.ref) {
                         gridCollideMap.ref.showCollider = true;
@@ -283,7 +283,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(gridCollideMap)
                 .getGridPointer(gridPointer).make()
-                .withComponent(GridBrush)
+                .withComponent(GridBrush, c => c.imageZoffset = 600)
                 .getComponent(GridBrush, gridBrush))
                 
             .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
