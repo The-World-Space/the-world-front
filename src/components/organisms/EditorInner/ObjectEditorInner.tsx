@@ -2,8 +2,8 @@ import React, { ChangeEventHandler, useCallback, useContext, useRef, useState } 
 import styled from "styled-components";
 
 import TileEditor from "../../molecules/TileEditor";
+import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
-import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
 import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
 import { Server } from "../../../game/connect/types";
@@ -341,7 +341,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                 </InputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <ColliderTool onClick={() => onSelectTool(Tools.Collider)} />
+                <PenTool onClick={() => onSelectTool(Tools.Collider)} />
                 <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
                 <ImageTool onClick={() => onSelectTool(Tools.Image)} />
                 <BlueSaveIcon 
