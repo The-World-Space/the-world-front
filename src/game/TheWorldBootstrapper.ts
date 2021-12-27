@@ -206,6 +206,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(NetworkIframeManager, c => {
                     c.apolloClient = this.interopObject!.apolloClient;
                     c.iGridCoordinatable = gridCollideMap.ref;
+                    c.gridObjectCollideMap = gridObjectCollideMap.ref;
                     c.worldId = this.interopObject!.serverWorld.id;
                     c.initIframeList = this.interopObject!.serverWorld.iframes;
                     c.penpalNetworkWrapper = this.interopObject!.penpalNetworkManager;
