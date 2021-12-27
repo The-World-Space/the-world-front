@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
+import { ReactComponent as Trashcan } from "../../atoms/TrashcanIcon.svg";
 import DualTabList, { DualTabType, PhotoAtlasData, PhotoSrcData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { WorldEditorContext } from "../../../context/contexts";
 import { Tools } from "../../../game/script/WorldEditorConnector";
 import { useDebounce } from "react-use";
@@ -253,6 +254,12 @@ const MY_ATLASES = gql`
     }
 `;
 
+const REMOVE_IMAGE_GAME_OBJECT_PROTO = gql`
+    mutation deleteImageGameObject($id: Int!) {
+        deleteImageGameObject(id: $id)
+    }
+`;
+
 
 interface PropsType {
     worldId: string;
@@ -278,6 +285,7 @@ enum Tabs {
 }
 
 function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
+    const apolloClient = useApolloClient();
     const {worldEditorConnector} = useContext(WorldEditorContext);
 
     const [tab, setTab] = useState(0);
@@ -286,6 +294,8 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const myImageGameObjectProtos = useQuery(MY_IMAGE_GAME_OBJECT_PROTOS);
     const myAtlases = useQuery(MY_ATLASES);
+
+    const [removeImageGameObjectProto] = useMutation(REMOVE_IMAGE_GAME_OBJECT_PROTO);
 
     interface DataType {
         left: PhotoAtlasData[];
@@ -479,6 +489,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const onTabListPhotoSet = useCallback((photoId: string) => {
         setPhotoId(photoId);
+        setSelectedTool(EditorTools.Pen);
         autoMaticFindTool();
     }, [autoMaticFindTool]);
 
@@ -486,6 +497,18 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         setTab(tab);
         autoMaticFindTool();
     }, [autoMaticFindTool]);
+
+    const onRemoveBtnClick = useCallback(() => {
+        if(tab === Tabs.Object) {
+            if(!confirm("are you sure?")) return;
+            removeImageGameObjectProto({
+                variables: {
+                    id: +photoId,
+                }
+            });
+            apolloClient.resetStore();
+        }
+    }, [photoId, removeImageGameObjectProto, tab, apolloClient]);
 
     return (
         <ExpandBarDiv opened={opened}>
@@ -561,6 +584,10 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             <ToolsWrapper selected={selectedTool}>
                 <PenTool onClick={() => onSelectTool(EditorTools.Pen)} />
                 <EraseTool onClick={() => onSelectTool(EditorTools.Eraser)} />
+                <Trashcan style={{
+                    marginLeft: "auto", 
+                    marginRight: "18px"
+                }} onClick={onRemoveBtnClick} />
             </ToolsWrapper>
         </ExpandBarDiv>
     );
