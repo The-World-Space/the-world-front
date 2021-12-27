@@ -98,11 +98,11 @@ export namespace Server {
     }
 
     export interface IframeGameObject extends GameObject, PenpalConnectable {
-        proto: IframeGameObjectProto;
+        proto_: IframeGameObjectProto;
     }
 
     export interface ImageGameObject extends GameObject {
-        proto: ImageGameObjectProto;
+        proto_: ImageGameObjectProto;
     }
 
     export interface ImageGameObjectProto extends GameObjectProto {

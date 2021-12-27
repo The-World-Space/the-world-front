@@ -3,6 +3,10 @@ import NavTemplate from "../components/templates/NavTemplate";
 import { FORM_FONT_FAMILY } from "./GlobalEnviroment";
 import accountIcon from "../components/atoms/AccountIcon.svg";
 import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
+import useUser from "../hooks/useUser";
+import { gql, useApolloClient, useMutation } from "@apollo/client";
+import { useCallback, useRef } from "react";
+import { globalFileApolloClient } from "../game/connect/files";
 
 const ContentDiv = styled.div`
     display: flex;
@@ -63,7 +67,7 @@ const CardRightDiv = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    font-family: ${FORM_FONT_FAMILY}
+    font-family: ${FORM_FONT_FAMILY};
 `;
 
 const AccountIconImg = styled.img`
@@ -126,6 +130,10 @@ const SkinDiv2 = styled.div`
     &:hover {
         opacity: 0.5;
     }
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const SkinUploadButton = styled.button`
@@ -134,9 +142,53 @@ const SkinUploadButton = styled.button`
     background: url(${skinUploadIcon});
     width: 44px;
     height: 44px;
+
+    :hover {
+        cursor: pointer;
+    }
+`;
+
+
+const UPLOAD_IMAGE = gql`
+    mutation UploadFile($image: Upload!) {
+        uploadImageAsset(image: $image) {
+            filename
+        }
+    }
+`;
+
+
+const UPDATE_USER = gql`
+    mutation updateUser($nickname: String!, $skinSrc: String!) {
+        updateUser(user: {nickname:$nickname, skinSrc: $skinSrc}) {
+            id
+        }
+    }
 `;
 
 function UserInfo(): JSX.Element {
+    const user = useUser();
+    const [updateUser] = useMutation(UPDATE_USER);
+    const [uploadImage] = useMutation(UPLOAD_IMAGE, {
+        client: globalFileApolloClient,
+    });
+    const inputFile = useRef<HTMLInputElement>(null);
+    const apolloClient = useApolloClient();
+
+    const onFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.validity.valid || !e.target.files || e.target.files.length < 1) return;
+        if (!user) return;
+        const file = e.target.files[0];
+        const res = await uploadImage({ variables: { image: file } });
+        const { filename } = res.data.uploadImageAsset;
+        await updateUser({ variables: { nickname: user.nickname, skinSrc: `https://asset.the-world.space/image/${filename}` } });
+        await apolloClient.resetStore();
+    }, [user, updateUser, uploadImage, apolloClient]);
+
+    const onSkinUploadButtonClick = useCallback(() => {
+        inputFile.current?.click();
+    }, []);
+
     return (
         <NavTemplate showNavContent={true}>
             <ContentDiv>
@@ -149,7 +201,7 @@ function UserInfo(): JSX.Element {
                         <AccountIconImg src={accountIcon} alt={"account icon"}/>
                         <div>
                             <UserIdTextDiv>
-                                ID: user1
+                                ID: {user?.id}
                             </UserIdTextDiv>
                             <ChangePasswordButton>
                                 Change Password
@@ -158,8 +210,8 @@ function UserInfo(): JSX.Element {
                     </CardLeftDiv>
                     <CardSeparatorDiv/>
                     <CardRightDiv>
-                        <SkinDiv>
-                            <SkinImg src={"assets/tilemap/3_tile.png"} alt={"account icon"}/>
+                        <SkinDiv onClick={onSkinUploadButtonClick}>
+                            <SkinImg src={user?.skinSrc || "/assets/charactor/Seongwon.png"} alt={"account icon"}/>
                             <SkinDiv2>
                                 <SkinUploadButton/>
                             </SkinDiv2>
@@ -168,6 +220,7 @@ function UserInfo(): JSX.Element {
                     </CardRightDiv>
                 </UserInfoCardDiv>
             </ContentDiv>
+            <input type="file" id="file" ref={inputFile} style={{display: "none"}} onChange={onFileChange} />
         </NavTemplate>
     );
 }

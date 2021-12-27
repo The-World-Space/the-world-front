@@ -33,7 +33,7 @@ fragment IframeFields on IframeGameObject {
     }
     x
     y
-    proto {
+    proto_ {
         id
         name
         owner {

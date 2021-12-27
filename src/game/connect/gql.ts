@@ -57,7 +57,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
                         id
                         name
                     }
-                    proto {
+                    proto_ {
                         id
                         isPublic
                         width
@@ -75,7 +75,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
                     id
                     x
                     y
-                    proto {
+                    proto_ {
                         id
                         isPublic
                         width

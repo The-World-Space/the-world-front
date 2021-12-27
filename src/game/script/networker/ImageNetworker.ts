@@ -7,7 +7,7 @@ fragment ImageFields on ImageGameObject {
     id
     x
     y
-    proto {
+    proto_ {
         id
         name
         owner {
