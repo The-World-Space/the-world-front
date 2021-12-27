@@ -202,6 +202,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .withComponent(NetworkImageManager, c => {
                     c.iGridCollidable = gridCollideMap.ref;
+                    c.gridObjectCollideMap = gridObjectCollideMap.ref;
                     c.initImageList = this.interopObject!.serverWorld.images;
                     c.initNetwork(this.interopObject!.imageNetworker);
                 })
