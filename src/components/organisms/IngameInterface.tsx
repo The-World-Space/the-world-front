@@ -16,6 +16,7 @@ import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
 import WorldEditorInner from "./EditorInner/WorldEditorInner";
 import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
 import { WorldEditorContext } from "../../context/contexts";
+import useUser from "../../hooks/useUser";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -356,7 +357,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     }
                     <CountIndicatorDiv onClick={onPeopleCountClick}>
                         <PeopleIcon style={{marginTop: "10px"}} /> 
-                        {playerList?.length}
+                        {playerList?.length + 1}
                     </CountIndicatorDiv>
                 </SidebarDiv>
                 <>
@@ -432,9 +433,13 @@ interface PopupProps {
 const    PlayerListPopup = React.memo(PlayerListPopup_);
 function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
     const { playerList } = useContext(WorldEditorContext);
+    const user = useUser();
 
     return (
         <PopupDiv opened={opened}>
+            <p>
+                {user?.nickname}
+            </p>
             {playerList.map(player => (
                 <p key={player.id}>
                     {player.nickname}
