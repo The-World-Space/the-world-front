@@ -397,7 +397,8 @@ const PopupDiv = styled.div<{opened: boolean}>`
     height: 300px;
     max-width: 700px;
     
-    position: absolute;
+    position: fixed;
+    z-index: 10;
     left: 50%;
     top: ${p => p.opened ? "50%" : "100%"};
 
