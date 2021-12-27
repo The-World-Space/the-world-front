@@ -7,6 +7,7 @@ import twLogo2Black from "../atoms/tw logo 2 black.svg";
 import ArrowIcon from "../atoms/ArrowIcon.svg";
 import ChatIcon from "../atoms/ChatIcon.svg";
 import SendButtonIcon from "../atoms/SendButtonIcon.svg";
+import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 import { ApolloClient, gql } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
@@ -99,12 +100,14 @@ const CountIndicatorDiv = styled.div`
     margin-top: auto;
     margin-bottom: 26px;
     border-radius: 50%;
+    padding: 10px;
+    box-sizing: border-box;
     width: 59px;
     height: 59px;
     background: #FFFFFB;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     font-family: ${MENU_BUTTON_FONT_FAMILY};
     font-size: 14px;
     font-style: ${MENU_BUTTON_FONT_STYLE};
@@ -281,7 +284,7 @@ interface PropsType {
 }
 
 function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
-    const { world } = useContext(WorldEditorContext);
+    const { world, playerList } = useContext(WorldEditorContext);
     const [barOpened, setBarOpened] = useState(false);
     const [selectedEditor, setSelectedEditor] = useState(Editor.Field);
     const [chatOpened, setChatOpened] = useState(false);
@@ -352,7 +355,8 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                         </>
                     }
                     <CountIndicatorDiv onClick={onPeopleCountClick}>
-                        5/10
+                        <PeopleIcon style={{marginTop: "10px"}} /> 
+                        {playerList?.length}
                     </CountIndicatorDiv>
                 </SidebarDiv>
                 <>
