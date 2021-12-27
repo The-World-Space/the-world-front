@@ -395,6 +395,8 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 const protoId = +photoId;
                 const proto = protoMap[protoId];
                 if (!proto) {
+                    const tool = new Tools.None();
+                    worldEditorConnector.setToolType(tool);
                     return;
                 }
                 const tool = new Tools.ImageGameObject(proto);
