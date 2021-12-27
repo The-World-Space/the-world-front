@@ -143,21 +143,7 @@ export class CssTilemapChunkRenderer extends Component implements IGridCoordinat
             renderer.columnCount = this._chunkSize;
         });
     }
-
-    public addImageSource(tileAtlasItem: TileAtlasItem): void {
-        if (!this.started && !this.starting) {
-            this._initializeFunctions.push(() => {
-                this.addImageSource(tileAtlasItem);
-            });
-            return;
-        }
-        
-        this._imageSources!.push(tileAtlasItem);
-        this._cssTilemapRendererMap.forEach((renderer, _) => {
-            renderer.addImageSource(tileAtlasItem);
-        });
-    }
-
+    
     public set imageSources(value: TileAtlasItem[]) {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {

@@ -14,6 +14,8 @@ export class NetworkTileManager extends Component {
     private _initTileList: Server.AtlasTile[] = [];
     private _tileNetworker: TileNetworker | null = null;
 
+    private _atlasItemList: TileAtlasItem[] = [];
+
     public set initTileList(value: Server.AtlasTile[]) {
         this._initTileList = [...value];
     }
@@ -33,14 +35,13 @@ export class NetworkTileManager extends Component {
             tileSrcMap.set(tile.atlas.src, tile.atlas);
         });
         
-        const atlasItemList: TileAtlasItem[] = [];
         const promiseList: Promise<void>[] = [];
         tileSrcMap.forEach((atlas, src) => {
             this._atlasImageMap.set(src, this._atlasImageAddIndex);
             const image = new Image();
             image.src = src;
             const atlasItem = new TileAtlasItem(image, atlas.columnCount, atlas.rowCount);
-            atlasItemList.push(atlasItem);
+            this._atlasItemList.push(atlasItem);
             promiseList.push(imageLoad(image));
             this._atlasImageAddIndex += 1;
         });
@@ -68,8 +69,8 @@ export class NetworkTileManager extends Component {
             this._initTileList = [];
         });
         
-        this._floorTileMap.imageSources = atlasItemList;
-        this._effectTileMap.imageSources = atlasItemList;
+        this._floorTileMap.imageSources = this._atlasItemList;
+        this._effectTileMap.imageSources = this._atlasItemList;
 
         this._tileNetworker.ee.on("create", data => {
             this.drawTile(data);
@@ -97,8 +98,7 @@ export class NetworkTileManager extends Component {
             const image = new Image();
             image.src = atlasTile.atlas.src;
             const atlasItem = new TileAtlasItem(image, atlasTile.atlas.columnCount, atlasTile.atlas.rowCount);
-            this._floorTileMap!.addImageSource(atlasItem);
-            this._effectTileMap!.addImageSource(atlasItem);
+            this._atlasItemList.push(atlasItem);
             imageIndex = this._atlasImageAddIndex - 1;
             image.onload = () => {
                 if (atlasTile.type === Server.TileType.Floor) {
