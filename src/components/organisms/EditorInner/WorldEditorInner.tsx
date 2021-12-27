@@ -3,9 +3,6 @@ import styled from "styled-components";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
-import { ReactComponent as ColliderTool } from "../../atoms/ColliderTool.svg";
-import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
-import { ReactComponent as SizerTool } from "../../atoms/SizerTool.svg";
 import DualTabList, { PhotoAtlasData, PhotoSrcData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { gql, useQuery } from "@apollo/client";
@@ -112,37 +109,28 @@ const IframeInputSettingWrapper = styled.div`
     height: 48px;
 
     display: flex;
-`;
-
-const IframeInputSettingLeft = styled.div`
-    width: calc(50% - 1px);
-    height: 100%;
-
-    display: flex;
     justify-content: center;
-    align-items: center;
-`;
-
-const VerticalLine = styled.div`
-    width: 0px;
-    height: 48px;
-
-    border: 1px solid rgba(255, 255, 255, 0.6);
-`;
-
-const IframeInputSettingRight = styled.div`
-    width: calc(50% - 1px);
-    height: 100%;
-
-    display: flex;
-
-    flex-direction: center;
-    justify-content: center;
-    align-items: center;
 `;
 
 const IframeInputSettingRightText = styled.span<{selected: boolean}>`
-    margin: 16px 18px;
+    margin: 16px 53px;
+
+    color: ${p => p.selected ? "#000000" : "#00000060"};
+    font-family: Noto Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+
+    transition: color 50ms;
+
+    :hover {
+        cursor: pointer;
+    }
+`;
+
+const PalceModeBottomText = styled.span<{selected: boolean}>`
+    margin: 16px 33px;
 
     color: ${p => p.selected ? "#000000" : "#00000060"};
     font-family: Noto Sans;
@@ -165,6 +153,39 @@ const IframeInputSettingRightVerticalLine = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.6);
 `;
 
+const PlaceModeInputWrapper = styled.div`
+    width: 428px;
+
+    margin: 18px;
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 23px;
+
+    background: #A69B97;
+`;
+
+const PlaceModeTitle = styled.span`
+    margin: 16px;
+
+    font-family: "Noto Sans";
+    font-size: 16px;
+    font-weight: 500;
+`;
+
+const PlaceModeLayerSelect = styled.div`
+    width: calc(50% - 1px);
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: center;
+    justify-content: space-around;
+    align-items: center;
+`;
 
 const ToolsWrapper = styled.div<{selected: number}>`
     width: 100%;
@@ -242,7 +263,6 @@ enum EditorTools {
     Eraser,
     Collider,
     Image,
-    Sizer,
     None
 }
 
@@ -389,42 +409,70 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframesSrc(e.target.value)} />
                     <ListFakeHr />
                     <IframeInputSettingWrapper>
-                        <IframeInputSettingLeft>
-                            <IframeSettingLeftInput label="W" value={iframeWidth} onChange={e => isSafeNum(+e.target.value) && setIframeWidth(e.target.value)} />
-                            <IframeSettingLeftInput label="H" value={iframeHeight} onChange={e => isSafeNum(+e.target.value) && setIframeHeight(e.target.value)} />
-                        </IframeInputSettingLeft>
-                        <VerticalLine />
-                        <IframeInputSettingRight>
-                            <IframeInputSettingRightText
-                                selected={iframeObjectType === Server.GameObjectType.Wall}
-                                onClick={() => setIframeObjectType(Server.GameObjectType.Wall)}
-                            >
-                                Wall
-                            </IframeInputSettingRightText>
-                            <IframeInputSettingRightVerticalLine />
-                            <IframeInputSettingRightText
-                                selected={iframeObjectType === Server.GameObjectType.Floor}
-                                onClick={() => setIframeObjectType(Server.GameObjectType.Floor)}
-                            >
-                                floor
-                            </IframeInputSettingRightText>
-                            <IframeInputSettingRightVerticalLine />
-                            <IframeInputSettingRightText
-                                selected={iframeObjectType === Server.GameObjectType.Effect}
-                                onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
-                            >
-                                effect
-                            </IframeInputSettingRightText>
-                        </IframeInputSettingRight>
+                        <IframeSettingLeftInput label="W" value={iframeWidth} onChange={e => isSafeNum(+e.target.value) && setIframeWidth(e.target.value)} />
+                        <IframeSettingLeftInput label="H" value={iframeHeight} onChange={e => isSafeNum(+e.target.value) && setIframeHeight(e.target.value)} />
                     </IframeInputSettingWrapper>
                 </IframeInputWrapper>
+                <PlaceModeInputWrapper>
+                    <PlaceModeTitle>Place Mode</PlaceModeTitle>
+                    <ListFakeHr />
+                    <PlaceModeLayerSelect>
+                        <IframeInputSettingRightText
+                            selected={iframeObjectType === Server.GameObjectType.Wall}
+                            onClick={() => setIframeObjectType(Server.GameObjectType.Wall)}
+                        >
+                            wall
+                        </IframeInputSettingRightText>
+                        <IframeInputSettingRightVerticalLine />
+                        <IframeInputSettingRightText
+                            selected={iframeObjectType === Server.GameObjectType.Floor}
+                            onClick={() => setIframeObjectType(Server.GameObjectType.Floor)}
+                        >
+                            floor
+                        </IframeInputSettingRightText>
+                        <IframeInputSettingRightVerticalLine />
+                        <IframeInputSettingRightText
+                            selected={iframeObjectType === Server.GameObjectType.Effect}
+                            onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
+                        >
+                            effect
+                        </IframeInputSettingRightText>
+                    </PlaceModeLayerSelect>
+                    <ListFakeHr />
+                    <PlaceModeLayerSelect>
+                        <PalceModeBottomText
+                            selected={iframeObjectType === Server.GameObjectType.Wall}
+                            // onClick={() => setIframeObjectType(Server.GameObjectType.Wall)}
+                        >
+                            tile
+                        </PalceModeBottomText>
+                        <IframeInputSettingRightVerticalLine />
+                        <PalceModeBottomText
+                            selected={iframeObjectType === Server.GameObjectType.Floor}
+                            // onClick={() => setIframeObjectType(Server.GameObjectType.Floor)}
+                        >
+                            object
+                        </PalceModeBottomText>
+                        <IframeInputSettingRightVerticalLine />
+                        <PalceModeBottomText
+                            selected={iframeObjectType === Server.GameObjectType.Effect}
+                            // onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
+                        >
+                            iframe
+                        </PalceModeBottomText>
+                        <IframeInputSettingRightVerticalLine />
+                        <PalceModeBottomText
+                            selected={iframeObjectType === Server.GameObjectType.Effect}
+                            // onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
+                        >
+                            collider
+                        </PalceModeBottomText>
+                    </PlaceModeLayerSelect>
+                </PlaceModeInputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
                 <PenTool onClick={() => onSelectTool(EditorTools.Pen)} />
                 <EraseTool onClick={() => onSelectTool(EditorTools.Eraser)} />
-                <ColliderTool onClick={() => onSelectTool(EditorTools.Collider)} />
-                <ImageTool onClick={() => onSelectTool(EditorTools.Image)} />
-                <SizerTool onClick={() => onSelectTool(EditorTools.Sizer)} />
             </ToolsWrapper>
         </ExpandBarDiv>
     );

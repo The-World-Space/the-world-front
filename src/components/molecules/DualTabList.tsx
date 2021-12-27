@@ -7,7 +7,7 @@ const VerticalWrapperList = styled.div`
     display: flex;
     flex-direction: column;
     width: 428px;
-    height: 390px;
+    height: calc(100% - 388px);
     margin: 18px;
 `;
 
@@ -63,7 +63,7 @@ const ListFakeHr = styled.div`
 `;
 
 const ListBody = styled.div`
-    height: 350px;
+    height: calc(100% - 48px);
     
     overflow-y: scroll; // for FF
     overflow-y: overlay;
