@@ -436,6 +436,7 @@ function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
                     {player.nickname}
                 </p>
             ))}
+            {playerList.length === 0 && <p>No players online.</p>}
         </PopupDiv>
     );
 }
