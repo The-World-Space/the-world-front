@@ -399,22 +399,24 @@ const PopupDiv = styled.div<{opened: boolean}>`
     
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: ${p => p.opened ? "50%" : "100%"};
 
     box-sizing: border-box;
     padding: 30px;
 
     overflow-x: auto;
 
-    display: ${props => props.opened ? "flex" : "none"};
+    display: flex;
     flex-direction: column;
     flex-wrap: wrap;
 
-    transform: translate(-50%, -50%);
+    transform: ${p => p.opened ? "translate(-50%, -50%)" : "translate(-50%, 0)"};
 
-    background: #FFFFFF;
+    background: #FFFFFFDD;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     border-radius: 38px;
+
+    transition: all 0.3s ease-in-out;
 `;
 
 interface PopupProps {
