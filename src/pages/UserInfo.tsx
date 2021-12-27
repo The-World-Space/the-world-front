@@ -3,10 +3,10 @@ import NavTemplate from "../components/templates/NavTemplate";
 import { FORM_FONT_FAMILY } from "./GlobalEnviroment";
 import accountIcon from "../components/atoms/AccountIcon.svg";
 import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
-import useUser from "../hooks/useUser";
-import { gql, useApolloClient, useMutation } from "@apollo/client";
-import { useCallback, useRef } from "react";
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { useCallback, useMemo, useRef } from "react";
 import { globalFileApolloClient } from "../game/connect/files";
+import { User } from "../hooks/useUser";
 
 const ContentDiv = styled.div`
     display: flex;
@@ -166,8 +166,21 @@ const UPDATE_USER = gql`
     }
 `;
 
+
+const GET_USER = gql`
+    query getUser {
+        currentUser {
+            id,
+            nickname,
+            skinSrc
+        }
+    }
+`;
+
+
 function UserInfo(): JSX.Element {
-    const user = useUser();
+    const user_ = useQuery(GET_USER);
+    const user: User = useMemo(() => user_.data?.currentUser, [user_.data]);
     const [updateUser] = useMutation(UPDATE_USER);
     const [uploadImage] = useMutation(UPLOAD_IMAGE, {
         client: globalFileApolloClient,
@@ -178,12 +191,30 @@ function UserInfo(): JSX.Element {
     const onFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.validity.valid || !e.target.files || e.target.files.length < 1) return;
         if (!user) return;
+        const reader = new FileReader();
         const file = e.target.files[0];
         const res = await uploadImage({ variables: { image: file } });
         const { filename } = res.data.uploadImageAsset;
-        await updateUser({ variables: { nickname: user.nickname, skinSrc: `https://asset.the-world.space/image/${filename}` } });
-        await apolloClient.resetStore();
-    }, [user, updateUser, uploadImage, apolloClient]);
+        reader.onload = (e) => {
+            const img = new Image();
+            if (!e.target?.result) throw new Error("Image load failed");
+            img.onload = async function() {
+                if (img.width > 98) {
+                    alert("image width is too large (max 98px)");
+                    return;
+                }
+                if (img.height > 128) {
+                    alert("image height is too large (max 128px)");
+                    return;
+                }
+                await updateUser({ variables: { nickname: user.nickname, skinSrc: `https://asset.the-world.space/image/${filename}` } });
+                await apolloClient.resetStore();
+                await user_.refetch();
+            };
+            img.src = e.target.result as string;
+        };
+        reader.readAsDataURL(file);
+    }, [updateUser, uploadImage, apolloClient, user_, user]);
 
     const onSkinUploadButtonClick = useCallback(() => {
         inputFile.current?.click();
