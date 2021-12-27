@@ -261,6 +261,13 @@ const REMOVE_IMAGE_GAME_OBJECT_PROTO = gql`
 `;
 
 
+const DELETE_ATLAS = gql`
+    mutation deleteAtlas($atlasId: Int!) {
+        deleteAtlas(id: $atlasId)
+    }
+`;
+
+
 interface PropsType {
     worldId: string;
     opened: boolean;
@@ -296,6 +303,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const myAtlases = useQuery(MY_ATLASES);
 
     const [removeImageGameObjectProto] = useMutation(REMOVE_IMAGE_GAME_OBJECT_PROTO);
+    const [deleteAtlas] = useMutation(DELETE_ATLAS);
 
     interface DataType {
         left: PhotoAtlasData[];
@@ -498,17 +506,49 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         autoMaticFindTool();
     }, [autoMaticFindTool]);
 
-    const onRemoveBtnClick = useCallback(() => {
-        if(tab === Tabs.Object) {
+    const onRemoveBtnClick = useCallback(async () => {
+        if (tab === Tabs.Object) {
+            const protoId = +photoId;
+            const proto = protoMap[protoId];
+            if (!proto) {
+                alert("Object not selected");
+                return;
+            }
             if(!confirm("are you sure?")) return;
             removeImageGameObjectProto({
                 variables: {
-                    id: +photoId,
+                    id: protoId,
                 }
             });
-            apolloClient.resetStore();
         }
-    }, [photoId, removeImageGameObjectProto, tab, apolloClient]);
+        else if (tab === Tabs.Tile) {
+            const [atlasId, _] = photoId.split("_");
+            const atlas = atlasMap[atlasId];
+            if (!atlas) {
+                alert("Atlas not selected");
+                return;
+            }
+            if(!confirm("are you sure?")) return;
+            deleteAtlas({
+                variables: {
+                    atlasId: +atlasId,
+                }
+            });
+        }
+        await apolloClient.resetStore();
+        await myImageGameObjectProtos.refetch();
+        await myAtlases.refetch();
+    }, [
+        photoId, 
+        removeImageGameObjectProto, 
+        tab,
+        atlasMap,
+        deleteAtlas,
+        myImageGameObjectProtos,
+        protoMap,
+        myAtlases,
+        apolloClient,
+    ]);
 
     return (
         <ExpandBarDiv opened={opened}>
