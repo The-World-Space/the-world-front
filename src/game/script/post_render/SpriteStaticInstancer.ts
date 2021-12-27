@@ -81,7 +81,7 @@ export class SpriteStaticInstancer extends Component {
                 instance.rotation,
                 instance.scale)
                 .withComponent(CssSpriteRenderer, c => {
-                    c.imagePath = this._imageSource;
+                    c.asyncSetImagePath(this._imageSource);
                     c.imageWidth = instance.width;
                     c.imageHeight = instance.height;
                     if (instance.centerOffset) c.imageCenterOffset = instance.centerOffset;

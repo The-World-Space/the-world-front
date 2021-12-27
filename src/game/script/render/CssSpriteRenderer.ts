@@ -24,7 +24,7 @@ export class CssSpriteRenderer extends Component {
     protected start(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
-            this.imagePath = CssSpriteRenderer._defaultImagePath;
+            this.asyncSetImagePath(CssSpriteRenderer._defaultImagePath);
         }
         
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
@@ -54,10 +54,10 @@ export class CssSpriteRenderer extends Component {
         return this._htmlImageElement?.src || null;
     }
 
-    public set imagePath(path: string|null) {
+    public asyncSetImagePath(path: string|null, onComplete?: () => void): void {
         if (!this.started && !this.starting) {
             this._initializeFunction = () => {
-                this.imagePath = path;
+                this.asyncSetImagePath(path, onComplete);
             };
             return;
         }
@@ -93,6 +93,8 @@ export class CssSpriteRenderer extends Component {
                 if (this.enabled && this.gameObject.activeInHierarchy) this._sprite.visible = true;
                 else this._sprite.visible = false;
             }
+
+            onComplete?.();
         };
         this._htmlImageElement.addEventListener("load", onLoad);
     }

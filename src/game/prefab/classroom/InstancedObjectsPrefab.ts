@@ -113,7 +113,7 @@ export class InstancedObjectsPrefab extends Prefab {
                 
             .withChild(instantlater.buildGameObject("trashcan", new Vector3(-6 * 16 - 8, -4 * 16, 0))
                 .withComponent(CssSpriteRenderer, c => {
-                    c.imagePath = "/assets/object/recycle bin/Recycle Bin(R&L).png";
+                    c.asyncSetImagePath("/assets/object/recycle bin/Recycle Bin(R&L).png");
                     c.imageWidth = 18;
                     c.imageHeight = 18;
                     c.imageCenterOffset = new Vector2(0, 0.5);
@@ -123,7 +123,7 @@ export class InstancedObjectsPrefab extends Prefab {
             
             .withChild(instantlater.buildGameObject("centerdesk", new Vector3(7 * 16 - 8, -1 * 16, 0))
                 .withComponent(CssSpriteRenderer, c => {
-                    c.imagePath = "/assets/object/shoe rack/Shoe Rack(L&R).png";
+                    c.asyncSetImagePath("/assets/object/shoe rack/Shoe Rack(L&R).png");
                     c.imageWidth = 30;
                     c.imageHeight = 25;
                     c.imageCenterOffset = new Vector2(0, 0.5);
@@ -133,7 +133,7 @@ export class InstancedObjectsPrefab extends Prefab {
             
             .withChild(instantlater.buildGameObject("tv", new Vector3(7 * 16 + 2, 7 * 16 + 10, 0))
                 .withComponent(CssSpriteRenderer, c => {
-                    c.imagePath = "/assets/object/tv/tv.png";
+                    c.asyncSetImagePath("/assets/object/tv/tv.png");
                     c.imageWidth = 40;
                     c.imageHeight = 0;
                     c.imageFlipX = true;

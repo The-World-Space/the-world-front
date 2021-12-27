@@ -62,7 +62,7 @@ export class NetworkPlayerPrefab extends Prefab {
         
         return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
+                if (this._spriteAtlasPath.ref) c.asyncSetImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })

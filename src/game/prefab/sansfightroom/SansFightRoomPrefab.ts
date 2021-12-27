@@ -169,7 +169,7 @@ export class SansFightRoomPrefab extends Prefab {
 
                 .withChild(instantlater.buildGameObject("sans", new Vector3(/*8 + */16 * 39, 8 + 16 * -1, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
-                        c.setImage("/assets/charactor/Sans black.png", 4, 4);
+                        c.asyncSetImage("/assets/charactor/Sans black.png", 4, 4);
                         c.imageCenterOffset = new Vector2(0, 0.4);
                         c.pointerEvents = false;
                         c.imageIndex = 12;
@@ -186,7 +186,7 @@ export class SansFightRoomPrefab extends Prefab {
 
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 5, 16 * -2, 0))
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;
@@ -200,7 +200,7 @@ export class SansFightRoomPrefab extends Prefab {
                     
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 11, 16 * -2, 0))
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;
@@ -214,7 +214,7 @@ export class SansFightRoomPrefab extends Prefab {
                     
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 17, 16 * -2, 0))
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;
@@ -228,7 +228,7 @@ export class SansFightRoomPrefab extends Prefab {
                     
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 23, 16 * -2, 0))
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;
@@ -242,7 +242,7 @@ export class SansFightRoomPrefab extends Prefab {
                     
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 29, 16 * -2, 0))
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;
@@ -256,7 +256,7 @@ export class SansFightRoomPrefab extends Prefab {
                     
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 35, 16 * -2, 0))
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;
@@ -270,7 +270,7 @@ export class SansFightRoomPrefab extends Prefab {
                     
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 41, 16 * -2, 0))
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;
@@ -285,7 +285,7 @@ export class SansFightRoomPrefab extends Prefab {
                 .withChild(instantlater.buildGameObject("pillar", new Vector3(8 + 16 * 47, 16 * -2, 0))
                     .active(false)
                     .withComponent(CssSpriteRenderer, c => {
-                        c.imagePath = "/assets/object/spr_foregroundpillar.png";
+                        c.asyncSetImagePath("/assets/object/spr_foregroundpillar.png");
                         c.imageCenterOffset = new Vector2(0, 0.5);
                         c.pointerEvents = false;
                         c.imageWidth = 16 * 3.5;

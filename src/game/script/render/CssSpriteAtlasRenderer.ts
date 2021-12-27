@@ -29,7 +29,7 @@ export class CssSpriteAtlasRenderer extends Component {
     protected start(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
-            this.setImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
+            this.asyncSetImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
         }
         
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
@@ -59,10 +59,10 @@ export class CssSpriteAtlasRenderer extends Component {
         return this._htmlImageElement?.src || null;
     }
 
-    public setImage(path: string, rowCount: number, columnCount: number): void {
+    public asyncSetImage(path: string, rowCount: number, columnCount: number, onComplete?: () => void): void {
         if (!this.started && !this.starting) {
             this._initializeFunction = () => {
-                this.setImage(path, rowCount, columnCount);
+                this.asyncSetImage(path, rowCount, columnCount, onComplete);
             };
             return;
         }
@@ -75,7 +75,6 @@ export class CssSpriteAtlasRenderer extends Component {
         }
 
         this._htmlImageElement.src = path;
-
         const onLoad = (e: Event) => {
             const image = e.target as HTMLImageElement;
             image.removeEventListener("load", onLoad);
@@ -107,6 +106,8 @@ export class CssSpriteAtlasRenderer extends Component {
 
             if (this.enabled && this.gameObject.activeInHierarchy) this._sprite.visible = true;
             else this._sprite.visible = false;
+
+            onComplete?.();
         };
         this._htmlImageElement.addEventListener("load", onLoad);
     }
@@ -158,6 +159,7 @@ export class CssSpriteAtlasRenderer extends Component {
         this._imageWidth = value;
         if (this._sprite) {
             this._sprite.scale.x = this._imageWidth / this._croppedImageWidth;
+            this._sprite.scale.x *= this._imageFlipX ? -1 : 1;
         }
         this.updateCenterOffset();
     }
@@ -170,6 +172,7 @@ export class CssSpriteAtlasRenderer extends Component {
         this._imageHeight = value;
         if (this._sprite) {
             this._sprite.scale.y = this._imageHeight / this._croppedImageHeight;
+            this._sprite.scale.y *= this._imageFlipY ? -1 : 1;
         }
         this.updateCenterOffset();
     }

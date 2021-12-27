@@ -128,9 +128,10 @@ export class GridBrush extends Component {
         if (!this._pointerImage) return;
         this._showImage = true;
         this.updateImageShow();
-        this._pointerImage.setImage(src, 1, 1);
-        this._pointerImage.imageWidth = width;
-        this._pointerImage.imageHeight = height;
+        this._pointerImage.asyncSetImage(src, 1, 1, () => {
+            this._pointerImage!.imageWidth = width;
+            this._pointerImage!.imageHeight = height;
+        });
     }
     
     public setImageFromAtlas(
@@ -145,10 +146,11 @@ export class GridBrush extends Component {
         if (!this._pointerImage) return;
         this._showImage = true;
         this.updateImageShow();
-        this._pointerImage.setImage(src, rowCount, columnCount);
-        this._pointerImage.imageIndex = atlasIndex;
-        this._pointerImage.imageWidth = width;
-        this._pointerImage.imageHeight = height;
+        this._pointerImage.asyncSetImage(src, rowCount, columnCount, () => {
+            this._pointerImage!.imageIndex = atlasIndex;
+            this._pointerImage!.imageWidth = width;
+            this._pointerImage!.imageHeight = height;
+        });
     }
 
     public setImageOffset(x: number, y: number): void {

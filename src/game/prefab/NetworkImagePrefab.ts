@@ -28,7 +28,7 @@ export class NetworkImagePrefab extends Prefab {
                 const ref = this._tilemap.ref;
                 if (!image) throw new Error("image info is not given");
                 if (!ref) return;
-                c.imagePath = image.proto_.src;
+                c.asyncSetImagePath(image.proto_.src);
                 c.imageHeight = image.proto_.height * ref.gridCellHeight;
                 c.imageWidth = image.proto_.width * ref.gridCellWidth;
                 c.pointerEvents = false;
