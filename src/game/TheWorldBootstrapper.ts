@@ -30,11 +30,13 @@ import { CssTilemapChunkRenderer } from "./script/post_render/CssTilemapChunkRen
 import { GridObjectCollideMap } from "./script/physics/GridObjectCollideMap";
 import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
 import { NetworkTileManager } from "./script/gamemanager/NetworkTileManager";
+import { TileNetworker } from "./script/networker/TileNetworker";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
     private readonly _iframeNetworker: IframeNetworker;
     private readonly _imageNetworker: ImageNetworker;
+    private readonly _tileNetworker: TileNetworker;
     public constructor(
         private readonly _serverWorld: Server.World, 
         private readonly _user: User, 
@@ -46,6 +48,7 @@ export class NetworkInfoObject {
         this._colliderNetworker = new ColliderNetworker(this._serverWorld.id, this._apolloClient);
         this._iframeNetworker = new IframeNetworker(this._serverWorld.id, this._apolloClient);
         this._imageNetworker = new ImageNetworker(this._serverWorld.id, this._apolloClient);
+        this._tileNetworker = new TileNetworker(this._serverWorld.id, this._apolloClient);
     }
     
     public get serverWorld(): Server.World {
@@ -82,6 +85,10 @@ export class NetworkInfoObject {
 
     public get imageNetworker(): ImageNetworker {
         return this._imageNetworker;
+    }
+
+    public get tileNetworker(): TileNetworker {
+        return this._tileNetworker;
     }
 }
 
@@ -206,6 +213,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.floorTileMap = floorTilemap.ref!;
                     c.effectTileMap = effectTilemap.ref!;
                     c.initTileList = this.interopObject!.serverWorld.atlasTiles;
+                    c.tileNetworker = this.interopObject!.tileNetworker;
                 })
                 .getComponent(NetworkBrushManager, networkBrushManager))
 
