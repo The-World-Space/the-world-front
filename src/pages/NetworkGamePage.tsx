@@ -86,7 +86,7 @@ function NetworkGamePage_(): JSX.Element {
             game.dispose();
             widgetManager.dispose();
         };
-    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld]);
+    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld, gamectx]);
 
     return (
         <Container>
