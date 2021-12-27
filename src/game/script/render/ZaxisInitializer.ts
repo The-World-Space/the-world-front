@@ -40,11 +40,11 @@ export class ZaxisInitializer extends ZaxisSortable {
         }
     }   
 
-    get runOnce(): boolean {
+    public get runOnce(): boolean {
         return this._runOnce;
     }
 
-    set runOnce(value: boolean) {
+    public set runOnce(value: boolean) {
         this._runOnce = value;
     }
 }
