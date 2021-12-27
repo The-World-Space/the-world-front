@@ -256,7 +256,7 @@ const MY_ATLASES = gql`
 
 const REMOVE_IMAGE_GAME_OBJECT_PROTO = gql`
     mutation deleteImageGameObject($id: Int!) {
-        deleteImageGameObject(id: $id)
+        deleteImageGameObjectProto(id: $id)
     }
 `;
 

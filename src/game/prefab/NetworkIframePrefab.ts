@@ -62,6 +62,10 @@ export class NetworkIframePrefab extends Prefab {
                 const ref = this._collideMap.ref;
                 if (!iframe) throw new Error("iframe info is not given");
                 if (!ref) return;
+                if (!iframe.proto_) {
+                    c.gameObject.destroy();
+                    return;
+                }
                 c.iframeSource = iframe.proto_.src;
                 c.width = iframe.proto_.width * ref.gridCellWidth;
                 c.height = iframe.proto_.height * ref.gridCellHeight;

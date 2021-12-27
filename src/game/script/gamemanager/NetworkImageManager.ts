@@ -70,6 +70,7 @@ export class NetworkImageManager extends Component {
             gcx + imageInfo.x * gw - gw / 2,
             gcy + imageInfo.y * gh - gh / 2, 1);
         
+        if (!imageInfo.proto_) return;
         const colliders = imageInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
         
         const prefab = 

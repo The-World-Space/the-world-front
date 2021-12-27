@@ -104,15 +104,15 @@ export namespace Server {
     export interface GameObjectPenpalConnectable extends PenpalConnectableBase {
         proto_: {
             src: IframeSrc;
-        };
+        } | null;
     }
 
     export interface IframeGameObject extends GameObject, GameObjectPenpalConnectable {
-        proto_: IframeGameObjectProto;
+        proto_: IframeGameObjectProto | null;
     }
 
     export interface ImageGameObject extends GameObject {
-        proto_: ImageGameObjectProto;
+        proto_: ImageGameObjectProto | null;
     }
 
     export interface ImageGameObjectProto extends GameObjectProto {

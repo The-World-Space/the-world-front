@@ -40,6 +40,10 @@ export class NetworkImagePrefab extends Prefab {
                 const ref = this._collideMap.ref;
                 if (!image) throw new Error("image info is not given");
                 if (!ref) return;
+                if (!image.proto_) {
+                    c.gameObject.destroy();
+                    return;
+                }
                 c.asyncSetImagePath(image.proto_.src);
                 c.imageHeight = image.proto_.height * ref.gridCellHeight;
                 c.imageWidth = image.proto_.width * ref.gridCellWidth;

@@ -90,6 +90,7 @@ export class NetworkIframeManager extends Component {
             gcx + iframeInfo.x * gw - gw / 2,
             gcy + iframeInfo.y * gh - gh / 2, 1);
         
+        if (!iframeInfo.proto_) return;
         const colliders = iframeInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
 
         const prefab = 
