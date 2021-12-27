@@ -98,12 +98,12 @@ export class NetworkIframeManager extends Component {
         this.gameObject.addChildFromBuilder(builder);
 
         // Put soter after build
-        if (flatTypes.has(iframeInfo.type)) {
+        if (flatTypes.has(iframeInfo.proto_.type)) {
             const c = prefabRef.ref!.addComponent(CameraRelativeZaxisSorter);
             if (!c) throw new Error("fail to add");
             c.offset =
-                (iframeInfo.type === Server.GameObjectType.Effect) ? 100 :
-                (iframeInfo.type === Server.GameObjectType.Floor)  ? -500 :
+                (iframeInfo.proto_.type === Server.GameObjectType.Effect) ? 100 :
+                (iframeInfo.proto_.type === Server.GameObjectType.Floor)  ? -500 :
                 0;
         }
         else {

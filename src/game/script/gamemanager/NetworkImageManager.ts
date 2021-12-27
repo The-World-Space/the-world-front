@@ -75,12 +75,12 @@ export class NetworkImageManager extends Component {
         this.gameObject.addChildFromBuilder(builder);
 
         // Put soter after build
-        if (flatTypes.has(imageInfo.type)) {
+        if (flatTypes.has(imageInfo.proto_.type)) {
             const c = prefabRef.ref!.addComponent(CameraRelativeZaxisSorter);
             if (!c) throw new Error("fail to add");
             c.offset =
-                (imageInfo.type === Server.GameObjectType.Effect) ? 100 :
-                (imageInfo.type === Server.GameObjectType.Floor)  ? -500 :
+                (imageInfo.proto_.type === Server.GameObjectType.Effect) ? 100 :
+                (imageInfo.proto_.type === Server.GameObjectType.Floor)  ? -500 :
                 0;
         }
         else {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
-import DualTabList, { PhotoAtlasData, PhotoSrcData } from "../../molecules/DualTabList";
+import DualTabList, { DualTabType, PhotoAtlasData, PhotoSrcData } from "../../molecules/DualTabList";
 import { Server } from "../../../game/connect/types";
 import { gql, useQuery } from "@apollo/client";
 import { WorldEditorContext } from "../../../context/contexts";
@@ -129,7 +129,7 @@ const IframeInputSettingRightText = styled.span<{selected: boolean}>`
     }
 `;
 
-const PalceModeBottomText = styled.span<{selected: boolean}>`
+const PlaceModeBottomText = styled.span<{selected: boolean}>`
     margin: 16px 33px;
 
     color: ${p => p.selected ? "#000000" : "#00000060"};
@@ -146,7 +146,7 @@ const PalceModeBottomText = styled.span<{selected: boolean}>`
     }
 `;
 
-const IframeInputSettingRightVerticalLine = styled.div`
+const LittleVerticalLine = styled.div`
     width: 0px;
     height: 24px;
 
@@ -198,7 +198,7 @@ const ToolsWrapper = styled.div<{selected: number}>`
     padding-left: 77px;
     margin-bottom: 18px;
 
-    & > svg:nth-child(${p => p.selected + 1}){
+    & > svg:nth-child(${p => p.selected}){
         border: 3px solid #A69B97;
     }
 
@@ -258,12 +258,17 @@ interface PropsType {
     opened: boolean;
 }
 
+enum PlaceKind {
+    Tile = 1,
+    Object = 2,
+    Iframe = 3,
+    Collider = 4,
+}
+
 enum EditorTools {
+    None,
     Pen,
     Eraser,
-    Collider,
-    Image,
-    None
 }
 
 enum Tabs {
@@ -341,49 +346,104 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     const [iframeWidth, setIframeWidth] = useState("1");
     const [iframeHeight, setIframeHeight] = useState("1");
     const [iframeSrc, setIframesSrc] = useState("");
-    const [iframeObjectType, setIframeObjectType] = useState(Server.GameObjectType.Wall);
+    const [placeObjectType, setPlaceObjectType] = useState(Server.GameObjectType.Wall);
+    const [placeKind, setPlaceKind] = useState(PlaceKind.Tile);
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
 
     const [selectedTool, setSelectedTool] = useState(EditorTools.None);
-    const onSelectTool = useCallback((editorTool: EditorTools) => {
-        setSelectedTool(editorTool);
-        if (editorTool === EditorTools.Collider) {
-            const tool = new Tools.Collider();
-            worldEditorConnector.setToolType(tool);
-        } else if (editorTool === EditorTools.Eraser && tab === Tabs.Tile) {
-            const tool = new Tools.EraseTile();
-            worldEditorConnector.setToolType(tool);
-        } else if (editorTool === EditorTools.Eraser && tab === Tabs.Object) {
-            const tool = new Tools.EraseObject();
-            worldEditorConnector.setToolType(tool);
-        } else if (editorTool === EditorTools.Pen && tab === Tabs.Tile) {
-            const [atlasId, atlasIndex] = photoId.split("_");
-            const atlas = atlasMap[atlasId];
-            if (!atlas) {
-                alert("Atlas not selected");
-                return;
-            }
-            const tool = new Tools.Tile({
-                atlas, 
-                atlasIndex: +atlasIndex,
-                type: iframeObjectType
-            });
-            worldEditorConnector.setToolType(tool);
-        } else if (editorTool === EditorTools.Pen && tab === Tabs.Object) {
+    const autoMaticFindTool = useCallback(() => {
+        if (tab === Tabs.Tile) {
+            setPlaceKind(PlaceKind.Tile);
+        }
+        else if (tab === Tabs.Object) {
+            setPlaceKind(PlaceKind.Object);
             const protoId = +photoId;
             const proto = protoMap[protoId];
-            if (!proto) {
-                alert("Object not selected");
-                return;
+            if (!proto) return;
+            setPlaceObjectType(proto.type);
+        }
+    }, [tab, photoId, protoMap]);
+    const updatePlaceType = useCallback(() => {
+        if (selectedTool === EditorTools.Pen) {
+            switch (placeKind) {
+            case PlaceKind.Tile: {
+                if (placeObjectType === Server.GameObjectType.Wall) throw new Error("Wall is not supported in atlas");
+                const [atlasId, atlasIndex] = photoId.split("_");
+                const atlas = atlasMap[atlasId];
+                const type = placeObjectType === Server.GameObjectType.Floor ? Server.TileType.Floor : Server.TileType.Effect;
+                if (!atlas) {
+                    alert("Atlas not selected");
+                    return;
+                }
+                const tool = new Tools.Tile({
+                    atlas, 
+                    atlasIndex: +atlasIndex,
+                    type,
+                });
+                worldEditorConnector.setToolType(tool);
+                break;
             }
-            const tool = new Tools.ImageGameObject(proto);
-            worldEditorConnector.setToolType(tool);
+            case PlaceKind.Object: {
+                const protoId = +photoId;
+                const proto = protoMap[protoId];
+                if (!proto) {
+                    alert("Object not selected");
+                    return;
+                }
+                const tool = new Tools.ImageGameObject(proto);
+                worldEditorConnector.setToolType(tool);
+                break;
+            }
+            case PlaceKind.Iframe: {
+                const tool = new Tools.Collider();
+                worldEditorConnector.setToolType(tool);
+                break;
+            }
+            case PlaceKind.Collider: {
+                const tool = new Tools.Collider();
+                worldEditorConnector.setToolType(tool);
+                break;
+            }
+            }
         }
-        else {
-            const tool = new Tools.None();
-            worldEditorConnector.setToolType(tool);
+        else if (selectedTool === EditorTools.Eraser) {
+            switch (placeKind) {
+            case PlaceKind.Tile: {
+                const tool = new Tools.EraseTile();
+                worldEditorConnector.setToolType(tool);
+                break;
+            }
+            case PlaceKind.Object: {
+                const tool = new Tools.EraseObject();
+                worldEditorConnector.setToolType(tool);
+                break;
+            }
+            case PlaceKind.Iframe: {
+                const tool = new Tools.EraseObject();
+                worldEditorConnector.setToolType(tool);
+                break;
+            }
+            case PlaceKind.Collider: {
+                const tool = new Tools.EraseCollider();
+                worldEditorConnector.setToolType(tool);
+                break;
+            }
+            }
         }
-    }, [worldEditorConnector, atlasMap, protoMap, photoId, iframeObjectType, tab]);
+    }, [
+        atlasMap,
+        photoId,
+        placeKind,
+        placeObjectType,
+        protoMap,
+        selectedTool,
+        worldEditorConnector
+    ]);
+
+    const onSelectTool = useCallback((editorTool: EditorTools) => {
+        setSelectedTool(editorTool);
+        updatePlaceType();
+    }, [updatePlaceType, setSelectedTool]);
 
 
     useEffect(() => {
@@ -399,10 +459,24 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         myImageGameObjectProtos.error
     ]);
 
+    const onTabListPhotoSet = useCallback((photoId: string) => {
+        setPhotoId(photoId);
+        autoMaticFindTool();
+    }, [autoMaticFindTool]);
+
+    const onSetTab = useCallback((tab: DualTabType) => {
+        setTab(tab);
+        autoMaticFindTool();
+    }, [autoMaticFindTool]);
+
+    useEffect(() => {
+        updatePlaceType();
+    }, [placeKind, placeObjectType, updatePlaceType]);
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
-                <DualTabList datas={datas} setId={setPhotoId} id={photoId} tab={tab} setTab={setTab} tabNames={tabNames}/>
+                <DualTabList datas={datas} setId={onTabListPhotoSet} id={photoId} tab={tab} setTab={onSetTab} tabNames={tabNames}/>
                 <IframeInputWrapper>
                     <IframeTitle>Iframe Address</IframeTitle>
                     <ListFakeHr />
@@ -417,56 +491,56 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     <PlaceModeTitle>Place Mode</PlaceModeTitle>
                     <ListFakeHr />
                     <PlaceModeLayerSelect>
-                        <IframeInputSettingRightText
-                            selected={iframeObjectType === Server.GameObjectType.Wall}
-                            onClick={() => setIframeObjectType(Server.GameObjectType.Wall)}
+                        <PlaceModeBottomText
+                            selected={placeKind === PlaceKind.Tile}
+                            onClick={() => setPlaceKind(PlaceKind.Tile)}
                         >
-                            wall
-                        </IframeInputSettingRightText>
-                        <IframeInputSettingRightVerticalLine />
-                        <IframeInputSettingRightText
-                            selected={iframeObjectType === Server.GameObjectType.Floor}
-                            onClick={() => setIframeObjectType(Server.GameObjectType.Floor)}
+                            tile
+                        </PlaceModeBottomText>
+                        <LittleVerticalLine />
+                        <PlaceModeBottomText
+                            selected={placeKind === PlaceKind.Object}
+                            onClick={() => setPlaceKind(PlaceKind.Object)}
                         >
-                            floor
-                        </IframeInputSettingRightText>
-                        <IframeInputSettingRightVerticalLine />
-                        <IframeInputSettingRightText
-                            selected={iframeObjectType === Server.GameObjectType.Effect}
-                            onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
+                            object
+                        </PlaceModeBottomText>
+                        <LittleVerticalLine />
+                        <PlaceModeBottomText
+                            selected={placeKind === PlaceKind.Iframe}
+                            onClick={() => setPlaceKind(PlaceKind.Iframe)}
                         >
-                            effect
-                        </IframeInputSettingRightText>
+                            iframe
+                        </PlaceModeBottomText>
+                        <LittleVerticalLine />
+                        <PlaceModeBottomText
+                            selected={placeKind === PlaceKind.Collider}
+                            onClick={() => setPlaceKind(PlaceKind.Collider)}
+                        >
+                            collider
+                        </PlaceModeBottomText>
                     </PlaceModeLayerSelect>
                     <ListFakeHr />
                     <PlaceModeLayerSelect>
-                        <PalceModeBottomText
-                            selected={iframeObjectType === Server.GameObjectType.Wall}
-                            // onClick={() => setIframeObjectType(Server.GameObjectType.Wall)}
+                        <IframeInputSettingRightText
+                            selected={placeObjectType === Server.GameObjectType.Wall}
+                            onClick={() => setPlaceObjectType(Server.GameObjectType.Wall)}
                         >
-                            tile
-                        </PalceModeBottomText>
-                        <IframeInputSettingRightVerticalLine />
-                        <PalceModeBottomText
-                            selected={iframeObjectType === Server.GameObjectType.Floor}
-                            // onClick={() => setIframeObjectType(Server.GameObjectType.Floor)}
+                            wall
+                        </IframeInputSettingRightText>
+                        <LittleVerticalLine />
+                        <IframeInputSettingRightText
+                            selected={placeObjectType === Server.GameObjectType.Floor}
+                            onClick={() => setPlaceObjectType(Server.GameObjectType.Floor)}
                         >
-                            object
-                        </PalceModeBottomText>
-                        <IframeInputSettingRightVerticalLine />
-                        <PalceModeBottomText
-                            selected={iframeObjectType === Server.GameObjectType.Effect}
-                            // onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
+                            floor
+                        </IframeInputSettingRightText>
+                        <LittleVerticalLine />
+                        <IframeInputSettingRightText
+                            selected={placeObjectType === Server.GameObjectType.Effect}
+                            onClick={() => setPlaceObjectType(Server.GameObjectType.Effect)}
                         >
-                            iframe
-                        </PalceModeBottomText>
-                        <IframeInputSettingRightVerticalLine />
-                        <PalceModeBottomText
-                            selected={iframeObjectType === Server.GameObjectType.Effect}
-                            // onClick={() => setIframeObjectType(Server.GameObjectType.Effect)}
-                        >
-                            collider
-                        </PalceModeBottomText>
+                            effect
+                        </IframeInputSettingRightText>
                     </PlaceModeLayerSelect>
                 </PlaceModeInputWrapper>
             </Container>

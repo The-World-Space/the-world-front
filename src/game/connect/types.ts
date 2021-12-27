@@ -63,7 +63,6 @@ export namespace Server {
     }
 
     interface GameObject {
-        type: GameObjectType;
         id: number;
         x: TileNum;
         y: TileNum;

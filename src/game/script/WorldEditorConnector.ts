@@ -66,7 +66,7 @@ export namespace Tools {
     type tileType = {
         atlasIndex: number;
         atlas: Server.Atlas;
-        type: Server.GameObjectType;
+        type: Server.TileType;
     }
     export class Tile extends Tool {
         constructor (
