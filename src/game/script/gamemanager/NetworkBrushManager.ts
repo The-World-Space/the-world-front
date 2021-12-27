@@ -65,7 +65,6 @@ export class NetworkBrushManager extends Component {
     private _updateCollider(x: number, y: number, isBlocked: boolean) {
         if (!this._worldId) throw new Error("no world id");
         if (!this._apolloClient) throw new Error("no apollo client");
-        console.log("update collider", x, y, isBlocked);
         return this._apolloClient.mutate({
             mutation: gql`
                 mutation CreateCollider($x: Int!, $y: Int!, $isBlocked: Boolean!, $worldId: String!) {
@@ -177,7 +176,6 @@ export class NetworkBrushManager extends Component {
     
 
     private _createIframeGameObject(x: number, y: number) {
-        console.log(x, y, this._currentTool);
         if (!this._worldId) throw new Error("no world id");
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!(this._currentTool instanceof Tools.IframeGameObject)) throw new Error("tool is not iframe game object");
