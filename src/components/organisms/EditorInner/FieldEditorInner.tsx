@@ -83,6 +83,8 @@ const ListItemTitle = styled.input`
     box-sizing: border-box;
 
     border-style: none;
+    font-family: Noto Sans;
+    font-weight: bold;
 `;
 
 const ListItemBody = styled.textarea`
@@ -101,6 +103,8 @@ const ListItemBody = styled.textarea`
 
     resize: none;
     flex: 1;
+    font-family: Noto Sans;
+    font-size: 14px;
     
     ${FANCY_SCROLLBAR_CSS}
 `;
@@ -142,6 +146,7 @@ const DeleteButton = styled.div`
     &:hover {
         cursor: pointer;
     }
+    font-family: Noto Sans;
 `;
 
 const ListItemTitleBox = styled.div`

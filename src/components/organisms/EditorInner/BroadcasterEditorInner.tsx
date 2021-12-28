@@ -60,6 +60,7 @@ const ListItemTitle = styled.input`
     padding-left: 20px;
     height: 40px;
     box-sizing: border-box;
+    font-family: Noto Sans;
 
     border-style: none;
 `;
@@ -97,6 +98,7 @@ const DeleteButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: Noto Sans;
 
     &:hover {
         cursor: pointer;

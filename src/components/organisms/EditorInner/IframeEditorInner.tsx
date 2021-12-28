@@ -65,7 +65,12 @@ function PortMappingListItem({ targetName, portId, isGlobal, remove }: { targetN
     return (
         <li>
             <span>{portId}: {isGlobal ? "G |" : ""}{targetName}</span>
-            <input style={{marginLeft: "5px"}} type="button" onClick={remove} value="X" />
+            <input style={{
+                marginLeft: "5px",
+                borderStyle: "none",
+                borderRadius: "10px",
+                background: "#D7CCC8",
+            }} type="button" onClick={remove} value="X" />
         </li>
     );
 }
