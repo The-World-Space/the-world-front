@@ -25,7 +25,6 @@ import { ColliderNetworker } from "./script/networker/ColliderNetworker";
 import { IframeNetworker } from "./script/networker/IframeNetworker";
 import { ImageNetworker } from "./script/networker/ImageNetworker";
 import { GridBrush } from "./script/input/GridBrush";
-import { CameraRelativeZaxisSorter } from "./script/render/CameraRelativeZaxisSorter";
 import { CssTilemapChunkRenderer } from "./script/post_render/CssTilemapChunkRenderer";
 import { GridObjectCollideMap } from "./script/physics/GridObjectCollideMap";
 import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
@@ -188,6 +187,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     if (gridBrush.ref) {
                         if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
                         if (!gridBrush.ref.gridCellHeight) throw new Error("Unreachable");
+                        console.log(tool.imageInfo.width * gridBrush.ref.gridCellWidth);
                         gridBrush.ref.setImage(
                             tool.imageInfo.src,
                             tool.imageInfo.width * gridBrush.ref.gridCellWidth, 
@@ -261,16 +261,16 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .getComponent(NetworkIframeManager, iframeManager))
 
             .withChild(instantlater.buildGameObject("tilemap")
-                .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
+            //.withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
-                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -10))
+                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -1000000))
                     .withComponent(ZaxisInitializer, c => c.runOnce = false)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
-                .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 460))
+                .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 4600000))
                     .withComponent(ZaxisInitializer, c => c.runOnce = false)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
