@@ -238,6 +238,58 @@ function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extend
     );
 }
 
+function FieldItem({field}: {field: Server.LocalField}) {
+    return (
+        <li>{field.name} {field.value}</li>
+    );
+}
+
+function LocalFieldEditor({
+    fields
+}: {
+    fields: Server.LocalField[]
+}) {
+    return (
+        <div>
+            <ul>
+                {
+                    fields.map(field => {
+                        return (
+                            <FieldItem key={field.id} field={field}/>
+                        );
+                    })
+                }
+            </ul>
+        </div>
+    );
+}
+
+function BroadcasterItem({broadcaster}: {broadcaster: Server.LocalBroadcaster}) {
+    return (
+        <li>{broadcaster.name}</li>
+    );
+}
+
+function LocalBroadcasterEditor({
+    broadcasters
+}: {
+    broadcasters: Server.LocalBroadcaster[]
+}) {
+    return (
+        <div>
+            <ul>
+                {
+                    broadcasters.map(broadcaster => {
+                        return (
+                            <BroadcasterItem key={broadcaster.id} broadcaster={broadcaster}/>
+                        );
+                    })
+                }
+            </ul>
+        </div>
+    );
+}
+
 const Title = styled.span`
     margin-left: auto;
     margin-right: auto;
@@ -286,6 +338,10 @@ function ListItem({
             <PortMappingEditor mappings={iframe.fieldPortMappings} add={addFieldPortMapping} remove={removeFieldPortMapping} globals={globalFields as Server.Field[]} locals={iframe.localFields}/>
             <Subtitle>Broadcaster</Subtitle>
             <PortMappingEditor mappings={iframe.broadcasterPortMappings} add={addBroadcasterPortMapping} remove={removeBroadcasterPortMapping} globals={globalBroadcasters as Server.Broadcaster[]} locals={iframe.localBroadcasters}/>
+            <Subtitle>Local Fields</Subtitle>
+            <LocalFieldEditor fields={iframe.localFields}/>
+            <Subtitle>Local Broadcasters</Subtitle>
+            <LocalBroadcasterEditor broadcasters={iframe.localBroadcasters}/>
         </StyledListItem>
     );
 }
