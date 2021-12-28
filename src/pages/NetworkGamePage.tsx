@@ -103,7 +103,7 @@ function NetworkGamePage_(): JSX.Element {
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
-    const { value: world, error, loading } = useAsync(() => getWorld(worldId, globalApolloClient));
+    const { value: world, error, loading } = useAsync(() => getWorld(worldId, globalApolloClient), [worldId]);
     const { setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
     const user = useUser();
 
