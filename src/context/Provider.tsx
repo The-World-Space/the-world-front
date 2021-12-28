@@ -7,7 +7,7 @@ import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 import { Server } from "../game/connect/types";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
-import { gql, useSubscription } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { globalApolloClient } from "../game/connect/gql";
 import useUser from "../hooks/useUser";
 
@@ -85,10 +85,6 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
     const [amIadmin, setAmIadmin] = useState(false);
     const [worldEditorConnector] = useState(new WorldEditorConnector());
 
-    const worldAdminList = useSubscription(WORLD_ADMIN_LIST, {
-        client: globalApolloClient
-    });
-
     const state = {
         game,
         setGame,
@@ -103,11 +99,28 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
     };
 
     useEffect(() => {
-        setAdminPlayerList(worldAdminList.data?.worldAdminList || []);
-    }, [worldAdminList.data]);
+        if (!world) return;
+        if (!user) return;
+
+        globalApolloClient.subscribe({
+            query: WORLD_ADMIN_LIST,
+            variables: {
+                worldId: world.id
+            }
+        }).subscribe(res => {
+            if (!res.data.worldAdminList) throw new Error("worldAdminList is null");
+            setAdminPlayerList(res.data.worldAdminList);
+        });
+
+        if (world.admins.find(admin => admin.id === user.id))
+            setAmIadmin(true);
+    }, [world, user]);
 
     useEffect(() => {
-        adminPlayerList.find(admin => admin.id === user?.id) && setAmIadmin(true);
+        if (adminPlayerList.find(admin => admin.id === user?.id)) 
+            setAmIadmin(true);
+        else 
+            setAmIadmin(false);
     }, [adminPlayerList, user]);
 
     useEffect(() => {

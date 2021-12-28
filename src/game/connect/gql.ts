@@ -102,6 +102,10 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
                     atlasIndex
                     type
                 }
+                admins {
+                    id
+                    nickname
+                }
             }
         }
         `,

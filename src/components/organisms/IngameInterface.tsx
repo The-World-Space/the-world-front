@@ -1,7 +1,7 @@
 import {
     Link,
 } from "react-router-dom";
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from "../atoms/tw logo 2 black.svg";
 import ArrowIcon from "../atoms/ArrowIcon.svg";
@@ -10,7 +10,7 @@ import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
 import { FANCY_SCROLLBAR_CSS } from "./EditorInner/FieldEditorInner";
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql, useMutation } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
 import FieldEditorInner from "./EditorInner/FieldEditorInner";
 import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
@@ -19,6 +19,7 @@ import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
 import { WorldEditorContext } from "../../context/contexts";
 import useUser from "../../hooks/useUser";
 import IframeEditorInner from "./EditorInner/IframeEditorInner";
+import { Server } from "../../game/connect/types";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -179,6 +180,8 @@ const ChatContentDiv = styled.div`
         margin: 0;
         margin-top: 10px;
         margin-bottom: 10px;
+
+        overflow-wrap: break-word;
     }
     
     font-size: ${FORM_FONT_SIZE};
@@ -297,7 +300,13 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState("");
     const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
+    const previledge = useMemo(() => amIadmin || !!world?.amIOwner, [amIadmin, world]);
+
     const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setBarOpened(barOpened && previledge);
+    }, [barOpened, previledge]);
 
     function expandBarToggle() {
         setBarOpened((lastState) => !lastState);
@@ -454,10 +463,49 @@ interface PopupProps {
     worldId: string;
 }
 
+const ADD_WORLD_ADMIN = gql`
+    mutation addWorldAdmin($userId: String!, $worldId: String!) {
+        addWorldAdmin(userId: $userId, worldId: $worldId) {
+            id
+        }
+    }
+`;
+
+const REMOVE_WORLD_ADMIN = gql`
+    mutation removeWorldAdmin($userId: String!, $worldId: String!) {
+        removeWorldAdmin(userId: $userId, worldId: $worldId) {
+            id
+        }
+    }
+`;
+
 const    PlayerListPopup = React.memo(PlayerListPopup_);
 function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
-    const { playerList, world } = useContext(WorldEditorContext);
+    const { playerList, world, adminPlayerList } = useContext(WorldEditorContext);
+    const [addWorldAdmin] = useMutation(ADD_WORLD_ADMIN);
+    const [removeWorldAdmin] = useMutation(REMOVE_WORLD_ADMIN);
+    const adminSet = useMemo(() => new Set(adminPlayerList.map(a => a.id)), [adminPlayerList]);
     const user = useUser();
+
+    const onSelect = useCallback((player: Server.User, admin: boolean) => {
+        if (!world) return;
+        if (admin) {
+            addWorldAdmin({
+                variables: {
+                    userId: player.id,
+                    worldId: world.id
+                }
+            });
+        }
+        else {
+            removeWorldAdmin({
+                variables: {
+                    userId: player.id,
+                    worldId: world.id
+                }
+            });
+        }
+    }, [addWorldAdmin, world, removeWorldAdmin]);
 
     return (
         <PopupDiv opened={opened}>
@@ -467,7 +515,8 @@ function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
             {playerList.map(player => (
                 <div style={{display: "flex", alignItems: "center"}} key={player.id}>
                     {
-                        world?.amIOwner && <input type="checkbox"/>
+                        world?.amIOwner && 
+                            <input type="checkbox" defaultChecked={adminSet.has(player.id)} onChange={e => onSelect(player, e.target.checked)} />
                     }
                     <p>
                         {player.nickname}

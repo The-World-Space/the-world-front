@@ -61,7 +61,7 @@ export class AdminNetworker {
                 worldId: this._worldId,
             }
         }).subscribe(data => {
-            if (!data.data.colliderUpdating) throw new Error("data.data.iframeGameObjectCreating is falsy");
+            if (!data.data.worldAdminList) throw new Error("data.data.iframeGameObjectCreating is falsy");
             const admins = data.data.worldAdminList as Server.User[];
             
             if (admins.find(admin => admin.id === this._userId))
