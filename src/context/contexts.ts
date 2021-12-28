@@ -42,6 +42,7 @@ interface WorldEditorContextType {
     playerList: Server.User[];
     adminPlayerList: Server.User[];
     world: Server.World | null;
+    amIadmin: boolean;
     setWorld: (world: Server.World | null) => void;
     worldEditorConnector: WorldEditorConnector;
 }
@@ -54,5 +55,6 @@ export const WorldEditorContext = createContext<WorldEditorContextType>({
     adminPlayerList: [],
     world: null,
     setWorld: _ => _,
+    amIadmin: false,
     worldEditorConnector: {} as WorldEditorConnector,
 });

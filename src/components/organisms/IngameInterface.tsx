@@ -290,7 +290,7 @@ interface PropsType {
 }
 
 function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
-    const { world, playerList } = useContext(WorldEditorContext);
+    const { world, playerList, amIadmin } = useContext(WorldEditorContext);
     const [barOpened, setBarOpened] = useState(false);
     const [selectedEditor, setSelectedEditor] = useState(Editor.Field);
     const [chatOpened, setChatOpened] = useState(false);
@@ -358,7 +358,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     <Link to="/">
                         <LogoImage src={twLogo2Black} />
                     </Link>
-                    { (world?.amIAdmin || world?.amIOwner) &&
+                    { (amIadmin || world?.amIOwner) &&
                         <>
                             <BarDivider/>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
@@ -384,7 +384,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
                     <IframeEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Iframe}/>
                 </>
-                { (world?.amIAdmin || world?.amIOwner) &&
+                { (amIadmin || world?.amIOwner) &&
                     <ExpandButton onClick={() => expandBarToggle()} 
                         style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
                 }
