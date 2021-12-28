@@ -80,6 +80,7 @@ const STYLED_UL = styled.ul`
     & > li {
         overflow-wrap: break-word;
     }
+    font-family: Noto Sans;
 `;
 
 function PortMappingList<U extends Server.IframeFieldPortMapping | Server.IframeBroadcasterPortMapping>({
@@ -128,6 +129,7 @@ const PortIdInput = styled.input`
     padding-left: 10px;
 
     margin: 6px 0px 6px 0px;
+    font-family: Noto Sans;
 `;
 
 const AddArea = styled.div`
@@ -153,6 +155,7 @@ const Select = styled.select`
     padding-left: 10px;
 
     background-color: #D7CCC8;
+    font-family: Noto Sans;
 `;
 
 const AddBtn = styled.input`
@@ -235,12 +238,14 @@ const Title = styled.span`
     margin-right: auto;
     font-size: 20px;
     font-weight: bold;
+    font-family: Noto Sans;
 `;
 
 const Subtitle = styled.span`
     font-size: 16px;
     margin: 12px 0px 3px 9px;
     font-weight: bold;
+    font-family: Noto Sans;
 `;
 
 function ListItem({
