@@ -348,14 +348,14 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     { (world?.amIAdmin || world?.amIOwner) &&
                         <>
                             <BarDivider/>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>FRAME</MenuButton>
-                            <LittleDivider/>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
                             <LittleDivider/>
                             <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
+                            <LittleDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>PORT</MenuButton>
                         </>
                     }
                     <CountIndicatorDiv onClick={onPeopleCountClick}>
