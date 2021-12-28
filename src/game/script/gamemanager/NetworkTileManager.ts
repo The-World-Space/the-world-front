@@ -29,17 +29,11 @@ export class NetworkTileManager extends Component {
         if (!this._effectTileMap) throw new Error("effect tilemap not set");
         if (!this._tileNetworker) throw new Error("tile networker not set");
 
-        const tileSrcMap = new Map<string, Server.Atlas>();
-        this._initTileList.map(tile => {
-            if (tileSrcMap.has(tile.atlas.src)) return;
-            tileSrcMap.set(tile.atlas.src, tile.atlas);
-        });
-        
         const promiseList: Promise<void>[] = [];
-        tileSrcMap.forEach((atlas, src) => {
-            this._atlasImageMap.set(src, this._atlasImageAddIndex);
+        this._initTileList.forEach(atlas => {
+            this._atlasImageMap.set(atlas.src, this._atlasImageAddIndex);
             const image = new Image();
-            image.src = src;
+            image.src = atlas.src;
             const atlasItem = new TileAtlasItem(image, atlas.columnCount, atlas.rowCount);
             this._atlasItemList.push(atlasItem);
             promiseList.push(imageLoad(image));
@@ -56,21 +50,24 @@ export class NetworkTileManager extends Component {
                 };
             });
         }
-
-        Promise.all(promiseList).then(() => {
-            this._initTileList.map(tile => {
-                if (tile.type === Server.TileType.Floor) {
-                    this._floorTileMap!.drawTile(tile.x, tile.y, this._atlasImageMap.get(tile.atlas.src)!, tile.atlasIndex);
-                } else {
-                    this._effectTileMap!.drawTile(tile.x, tile.y, this._atlasImageMap.get(tile.atlas.src)!, tile.atlasIndex);
-                }
-            });
-    
-            this._initTileList = [];
-        });
         
         this._floorTileMap.imageSources = this._atlasItemList;
         this._effectTileMap.imageSources = this._atlasItemList;
+
+        Promise.all(promiseList).then(() => {
+            for (let i = 0; i < this._initTileList.length; i++) {
+                const atlas = this._initTileList[i];
+                for (let j = 0; j < atlas.tiles.length; j++) {
+                    const tile = atlas.tiles[j];
+                    if (tile.type === Server.TileType.Floor) {
+                        this._floorTileMap!.drawTile(tile.x, tile.y, i, tile.atlasIndex);
+                    } else if (tile.type === Server.TileType.Effect) {
+                        this._effectTileMap!.drawTile(tile.x, tile.y, i, tile.atlasIndex);
+                    }
+                }
+            }
+            this._initTileList = [];
+        });
 
         this._tileNetworker.ee.on("create", data => {
             this.drawTile(data);
