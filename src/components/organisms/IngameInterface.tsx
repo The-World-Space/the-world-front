@@ -17,6 +17,7 @@ import WorldEditorInner from "./EditorInner/WorldEditorInner";
 import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
 import { WorldEditorContext } from "../../context/contexts";
 import useUser from "../../hooks/useUser";
+import IframeEditorInner from "./EditorInner/IframeEditorInner";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -277,6 +278,7 @@ enum Editor {
     World,
     Atlas,
     Object,
+    Iframe
 }
 
 interface PropsType {
@@ -346,13 +348,14 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     { (world?.amIAdmin || world?.amIOwner) &&
                         <>
                             <BarDivider/>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
-                            <LittleDivider/>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
                             <LittleDivider/>
                             <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
+                            <LittleDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>PORT</MenuButton>
                         </>
                     }
                     <CountIndicatorDiv onClick={onPeopleCountClick}>
@@ -366,6 +369,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
                     <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />
                     <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
+                    <IframeEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Iframe}/>
                 </>
                 { (world?.amIAdmin || world?.amIOwner) &&
                     <ExpandButton onClick={() => expandBarToggle()} 
@@ -422,6 +426,8 @@ const PopupDiv = styled.div<{opened: boolean}>`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     border-radius: 38px;
 
+    pointer-events: auto;
+
     transition: all 0.3s ease-in-out;
 `;
 
@@ -432,18 +438,23 @@ interface PopupProps {
 
 const    PlayerListPopup = React.memo(PlayerListPopup_);
 function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
-    const { playerList } = useContext(WorldEditorContext);
+    const { playerList, world } = useContext(WorldEditorContext);
     const user = useUser();
 
     return (
         <PopupDiv opened={opened}>
-            <p>
+            <p style={{marginLeft: world?.amIOwner ? "20px" : "0px"}}>
                 {user?.nickname}
             </p>
             {playerList.map(player => (
-                <p key={player.id}>
-                    {player.nickname}
-                </p>
+                <div style={{display: "flex", alignItems: "center"}} key={player.id}>
+                    {
+                        world?.amIOwner && <input type="checkbox"/>
+                    }
+                    <p>
+                        {player.nickname}
+                    </p>
+                </div>
             ))}
             {playerList.length === 0 && <p>No players online.</p>}
         </PopupDiv>

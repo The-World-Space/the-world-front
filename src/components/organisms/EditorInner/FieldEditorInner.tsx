@@ -261,8 +261,49 @@ export default React.memo(FieldEditorInner);
 
 
 
+export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string): Server.GlobalField[] {
+    const [fields, setFields] = useState<Server.GlobalField[]>([]);
 
-async function getGlobalFields(apolloClient: ApolloClient<any>, worldId: string) {
+    useEffect(() => {
+        (async () => {
+            const fields = await getGlobalFields(apolloClient, worldId);
+            setFields(fields);
+        })();
+    }, [worldId, apolloClient]);
+
+    useEffect(() => {
+        let fieldCreatingSubscription: undefined | ZenObservable.Subscription;
+        let fieldUpdatingSubscription: undefined | ZenObservable.Subscription;
+        let fieldDeletingSubscription: undefined | ZenObservable.Subscription;
+        (async () => {
+            fieldCreatingSubscription =
+                (await getGlobalFieldCreatingObservable(apolloClient, worldId))
+                    .subscribe(field => {
+                        setFields(fields => [...fields, field]);
+                    });
+            fieldUpdatingSubscription = 
+                (await getFieldUpdatingObservable(apolloClient, worldId))
+                    .subscribe(field => {
+                        setFields(fields => fields.map(field_ => field_.id === field.id ? { ...field_, ...field } : field_));
+                    });
+            fieldDeletingSubscription =
+                (await getFieldDeletingObservable(apolloClient, worldId))
+                    .subscribe(id => {
+                        setFields(fields => fields.filter(field => field.id !== id));
+                    });
+        })();
+
+        return () => {
+            fieldCreatingSubscription?.unsubscribe();
+            fieldUpdatingSubscription?.unsubscribe();
+            fieldDeletingSubscription?.unsubscribe();
+        };
+    }, [worldId, apolloClient]);
+
+    return fields;
+}
+
+async function getGlobalFields(apolloClient: ApolloClient<any>, worldId: string): Promise<Server.GlobalField[]> {
     const result = await apolloClient.query({
         query: gql`
             query World($id: String!) {
@@ -283,7 +324,7 @@ async function getGlobalFields(apolloClient: ApolloClient<any>, worldId: string)
     return result.data.World.globalFields as Server.GlobalField[];
 }
 
-async function createGlobalField(apolloClient: ApolloClient<any>, worldId: string, name: string, value: string) {
+async function createGlobalField(apolloClient: ApolloClient<any>, worldId: string, name: string, value: string): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
             mutation CreateGlobalField($worldId: String!, $field: FieldInput!) {
@@ -334,7 +375,7 @@ async function deleteField(apolloClient: ApolloClient<any>, id: number) {
     });
 }
 
-async function getGlobalFieldCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getGlobalFieldCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
     return await apolloClient.subscribe({
         query: gql`
             subscription GlobalFieldCreating($worldId: String!) {
@@ -351,7 +392,7 @@ async function getGlobalFieldCreatingObservable(apolloClient: ApolloClient<any>,
     }).map(result => result.data.globalFieldCreating as Server.GlobalField);
 }
 
-async function getFieldUpdatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getFieldUpdatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
     return await apolloClient.subscribe({
         query: gql`
             subscription FieldUpdating($worldId: String!) {
@@ -368,7 +409,7 @@ async function getFieldUpdatingObservable(apolloClient: ApolloClient<any>, world
     }).map(result => result.data.fieldUpdating as Server.Field);
 }
 
-async function getFieldDeletingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getFieldDeletingObservable(apolloClient: ApolloClient<any>, worldId: string) {
     return await apolloClient.subscribe({
         query: gql`
             subscription FieldDeleting($worldId: String!) {
