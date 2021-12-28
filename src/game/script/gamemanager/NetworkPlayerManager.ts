@@ -24,6 +24,11 @@ export class NetworkPlayerManager extends Component {
             this._networkPlayerMap.get(id)?.destroy();
             this._networkPlayerMap.delete(id);
         });
+        networkManager.dee.on("player_chat", (id, msg) => {
+            // do something
+            void id;
+            void msg;
+        });
     }
 
     public set iGridCollidable(val: IGridCollidable) {
