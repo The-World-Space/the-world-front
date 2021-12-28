@@ -264,14 +264,14 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
             //.withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
                 .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -1000000))
-                    .withComponent(ZaxisInitializer, c => c.runOnce = false)
+                    .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
                 .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 4600000))
-                    .withComponent(ZaxisInitializer, c => c.runOnce = false)
+                    .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                     })
