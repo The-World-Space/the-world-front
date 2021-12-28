@@ -128,21 +128,22 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     if (gridCollideMap.ref) {
                         gridCollideMap.ref.showCollider = true;
                     }
+                    if (iframeManager.ref) {
+                        iframeManager.ref.disableIframePointerEvents();
+                    }
                 } else {
                     if (gridCollideMap.ref) {
                         gridCollideMap.ref.showCollider = false;
                     }
-                }
-
-                if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseIframeObject) {
-                    if (iframeManager.ref) {
-                        console.log("show iframe");
-                        iframeManager.ref.disableIframePointerEvents();
-                    }
-                } else {
-                    if (iframeManager.ref) {
-                        console.log("hide iframe");
-                        iframeManager.ref.enableIframePointerEvents();
+                    
+                    if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseIframeObject) {
+                        if (iframeManager.ref) {
+                            iframeManager.ref.disableIframePointerEvents();
+                        }
+                    } else {
+                        if (iframeManager.ref) {
+                            iframeManager.ref.enableIframePointerEvents();
+                        }
                     }
                 }
 
