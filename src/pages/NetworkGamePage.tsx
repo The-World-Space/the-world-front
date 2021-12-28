@@ -15,6 +15,7 @@ import { GameProvider } from "../context/Provider";
 import { WorldEditorContext } from "../context/contexts";
 import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
 import { gql } from "@apollo/client";
+import { GameStateKind } from "../game/engine/GameState";
 
 const Container = styled.div`
     display: flex;
@@ -131,7 +132,8 @@ function NetworkGamePage_(): JSX.Element {
         game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
         setGame(game);
         joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
-            game.inputHandler.startHandleEvents();
+            if (game.currentGameState !== GameStateKind.Finalized)
+                game.inputHandler.startHandleEvents();
         });
 
         globalApolloClient.subscribe({
