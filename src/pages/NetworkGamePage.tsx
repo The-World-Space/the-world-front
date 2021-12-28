@@ -13,6 +13,7 @@ import { WidgetManager } from "../game/script/WidgetManager";
 import styled from "styled-components";
 import { GameProvider } from "../context/Provider";
 import { WorldEditorContext } from "../context/contexts";
+import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
 
 const Container = styled.div`
     display: flex;
@@ -55,11 +56,54 @@ const GameView = styled.div`
     position: absolute;
 `;
 
+const Loading = styled.div`
+    height: 100%;
+    width: calc(100% - 130px);
+    z-index: 0;
+
+    position: absolute;
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+`;
+
+
+const LodingLogo = styled(TWLogo)`
+    transform-origin: center center;
+
+    width: 100px;
+    height: 60px;
+
+    animation-duration: 3s;
+    animation-name: spin;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+
+    @keyframes spin {
+
+        0% {
+            transform: rotateY(0);
+        }
+
+        50% {
+            transform: rotateY(3.142rad);
+        }
+
+        100% {
+            transform: rotateY(2*3.142rad);
+        }
+
+    }
+`;
+
+
 function NetworkGamePage_(): JSX.Element {
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
-    const { value: world, error } = useAsync(() => getWorld(worldId, globalApolloClient));
+    const { value: world, error, loading } = useAsync(() => getWorld(worldId, globalApolloClient));
     const { setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
     const user = useUser();
 
@@ -100,6 +144,11 @@ function NetworkGamePage_(): JSX.Element {
                 <WidgetContainer>
                     <WidgetWrapper ref={widgetWrapperdiv}/> 
                 </WidgetContainer>
+                {
+                    loading && <Loading>
+                        <LodingLogo />
+                    </Loading>
+                }
                 <GameView ref={div}/>
             </GameContainer>
         </Container>
