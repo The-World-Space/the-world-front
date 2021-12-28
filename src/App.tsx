@@ -16,6 +16,7 @@ import MyWorldList from "./pages/MyWorldList";
 import TestGamePage from "./pages/TestGamePage";
 import NetworkGamePage from "./pages/NetworkGamePage";
 import UserInfo from "./pages/UserInfo";
+import UploadHtml from "./pages/UploadHtml";
 
 function App(): JSX.Element {
     return (
@@ -32,6 +33,7 @@ function App(): JSX.Element {
                 <Route path="/mypage" component={MyPage} />
                 <Route path="/game" component={TestGamePage} />
                 <Route path="/world/:worldId" component={NetworkGamePage} />
+                <Route path="/upload" component={UploadHtml} />
                 <Route path="*" component={Notfound} />
             </Switch>
         </Router>
