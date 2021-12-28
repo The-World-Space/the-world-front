@@ -373,6 +373,11 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const [selectedTool, setSelectedTool] = useState(EditorTools.None);
     useDebounce(() => {
+        if (!opened) {
+            const tool = new Tools.None();
+            worldEditorConnector.setToolType(tool);
+            return;
+        }
         if (selectedTool === EditorTools.Pen) {
             switch (placeKind) {
             case PlaceKind.Tile: {
@@ -465,18 +470,12 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         selectedTool,
         placeKind,
         placeObjectType,
+        opened,
     ]);
 
     const onSelectTool = useCallback((editorTool: EditorTools) => {
         setSelectedTool(editorTool);
     }, [setSelectedTool]);
-
-
-    useEffect(() => {
-        if (opened) return;
-        const tool = new Tools.None();
-        worldEditorConnector.setToolType(tool);
-    }, [opened, worldEditorConnector]);
 
 
     useEffect(() => {
