@@ -20,8 +20,8 @@ import { Vector2 } from "three";
 export async function getWorld(id: string, apolloClient: ApolloClient<any>): Promise<Server.World> {
     const result = await apolloClient.query({
         query: gql`
-        query World($id: String!) {
-            World(id: $id) {
+        query PlayWorld($id: String!) {
+            PlayWorld(id: $id) {
                 id
                 name
                 amIAdmin
@@ -110,7 +110,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
         }
     });
 
-    return result.data.World as Server.World;
+    return result.data.PlayWorld as Server.World;
 }
 
 
