@@ -185,7 +185,6 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     if (gridBrush.ref) {
                         if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
                         if (!gridBrush.ref.gridCellHeight) throw new Error("Unreachable");
-                        console.log(tool.imageInfo.width * gridBrush.ref.gridCellWidth);
                         gridBrush.ref.setImage(
                             tool.imageInfo.src,
                             tool.imageInfo.width * gridBrush.ref.gridCellWidth, 
