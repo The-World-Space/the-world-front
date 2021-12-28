@@ -206,7 +206,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
 
             setIframes(world.iframes);
         })();
-    }, [worldId]);
+    }, [worldId, apolloClient]);
 
     // Portmapping events
     useEffect(() => {
@@ -256,7 +256,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                 subscription.unsubscribe();
             }
         };
-    }, []);
+    }, [worldId]);
 
     // Local braodcaster events
     useEffect(() => {
@@ -284,7 +284,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                 subscription.unsubscribe();
             }
         };
-    }, []);
+    }, [worldId]);
 
     // Broadcaster / field events
     useEffect(() => {
@@ -349,7 +349,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
             fieldUpdatingSubscription?.unsubscribe();
             fieldDeletingSubscription?.unsubscribe();
         };
-    }, [worldId]);
+    }, [worldId, iframes]);
 
     return (
         <ExpandBarDiv opened={opened}>

@@ -1,4 +1,4 @@
-import { ApolloClient, gql, useApolloClient } from "@apollo/client";
+import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState, useContext, useCallback } from "react";
 import styled from "styled-components";
 import { WorldEditorContext } from "../../../context/contexts";
@@ -210,7 +210,7 @@ function BroadcasterEditorInner({ worldId, opened }: PropsType) {
 export default React.memo(BroadcasterEditorInner);
 
 
-export function useGlobalBroadcasters(apolloClient: ApolloClient<any>, worldId: string) {
+export function useGlobalBroadcasters(apolloClient: ApolloClient<any>, worldId: string): Server.GlobalBroadcaster[] {
     const [broadcasters, setBroadcasters] = useState<Server.GlobalBroadcaster[]>([]);
 
     useEffect(() => {
@@ -218,7 +218,7 @@ export function useGlobalBroadcasters(apolloClient: ApolloClient<any>, worldId: 
             const broadcasters = await getGlobalBroadcasters(apolloClient, worldId);
             setBroadcasters(broadcasters);
         })();
-    }, [worldId]);
+    }, [worldId, apolloClient]);
 
     useEffect(() => {
         let broadcasterCreatingSubscription: undefined | ZenObservable.Subscription;
@@ -247,13 +247,13 @@ export function useGlobalBroadcasters(apolloClient: ApolloClient<any>, worldId: 
             broadcasterUpdatingSubscription?.unsubscribe();
             broadcasterDeletingSubscription?.unsubscribe();
         };
-    }, [worldId]);
+    }, [worldId, apolloClient]);
 
     return broadcasters;
 }
 
 
-export async function getGlobalBroadcasterCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getGlobalBroadcasterCreatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.GlobalBroadcaster>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription GlobalBroadcasterCreating($worldId: String!) {
@@ -339,7 +339,7 @@ async function deleteBroadcaster(apolloClient: ApolloClient<any>, id: number) {
     });
 }
 
-export async function getBroadcasterUpdatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getBroadcasterUpdatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.Broadcaster>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription BroadcasterUpdating($worldId: String!) {
@@ -355,7 +355,7 @@ export async function getBroadcasterUpdatingObservable(apolloClient: ApolloClien
     }).map(result => result.data.broadcasterUpdating as Server.Broadcaster);
 }
 
-export async function getBroadcasterDeletingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getBroadcasterDeletingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<number>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription BroadcasterDeleting($worldId: String!) {

@@ -261,7 +261,7 @@ export default React.memo(FieldEditorInner);
 
 
 
-export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string) {
+export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string): Server.GlobalField[] {
     const [fields, setFields] = useState<Server.GlobalField[]>([]);
 
     useEffect(() => {
@@ -269,7 +269,7 @@ export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string
             const fields = await getGlobalFields(apolloClient, worldId);
             setFields(fields);
         })();
-    }, [worldId]);
+    }, [worldId, apolloClient]);
 
     useEffect(() => {
         let fieldCreatingSubscription: undefined | ZenObservable.Subscription;
@@ -298,12 +298,12 @@ export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string
             fieldUpdatingSubscription?.unsubscribe();
             fieldDeletingSubscription?.unsubscribe();
         };
-    }, [worldId]);
+    }, [worldId, apolloClient]);
 
     return fields;
 }
 
-async function getGlobalFields(apolloClient: ApolloClient<any>, worldId: string) {
+async function getGlobalFields(apolloClient: ApolloClient<any>, worldId: string): Promise<Server.GlobalField[]> {
     const result = await apolloClient.query({
         query: gql`
             query World($id: String!) {
@@ -324,7 +324,7 @@ async function getGlobalFields(apolloClient: ApolloClient<any>, worldId: string)
     return result.data.World.globalFields as Server.GlobalField[];
 }
 
-async function createGlobalField(apolloClient: ApolloClient<any>, worldId: string, name: string, value: string) {
+async function createGlobalField(apolloClient: ApolloClient<any>, worldId: string, name: string, value: string): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
             mutation CreateGlobalField($worldId: String!, $field: FieldInput!) {
