@@ -303,10 +303,10 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .withComponent(ZaxisSorter))
             
-            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
+            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab, new Vector3(0, 0, -500000))
                 .withCollideMap(gridCollideMap)
                 .getGridPointer(gridPointer).make()
-                .withComponent(GridBrush, c => c.imageZoffset = 510000)
+                .withComponent(GridBrush, c => c.imageZoffset = 1010000)
                 .getComponent(GridBrush, gridBrush))
                 
             .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
