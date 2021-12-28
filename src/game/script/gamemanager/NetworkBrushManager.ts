@@ -61,7 +61,7 @@ export class NetworkBrushManager extends Component {
                 await this._createIframeGameObject(gridPos.x, gridPos.y);
             }
         } catch(e) {
-            console.warn(e);
+            // console.warn(e);
         }
     }
 

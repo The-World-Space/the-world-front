@@ -509,6 +509,10 @@ function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
 
     return (
         <PopupDiv opened={opened}>
+            {
+                world?.amIOwner &&
+                <span style={{fontWeight: 900, fontFamily: "Noto Sans"}}>Select Admin</span>
+            }
             <p style={{marginLeft: world?.amIOwner ? "20px" : "0px"}}>
                 {user?.nickname}
             </p>
