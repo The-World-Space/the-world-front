@@ -204,6 +204,7 @@ function BroadcasterEditorInner({ worldId, opened }: PropsType) {
             <AddContainer>
                 <AddButton onClick={onAddButtonClick}/>
             </AddContainer>
+            <div style={{height: "70px"}}/>
         </ExpandBarDiv>
     );
 }
