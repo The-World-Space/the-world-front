@@ -199,31 +199,44 @@ export class NetworkBrushManager extends Component {
     
 
     private _createIframeGameObject(x: number, y: number) {
-        if (!this._worldId) throw new Error("no world id");
-        if (!this._apolloClient) throw new Error("no apollo client");
         if (!(this._currentTool instanceof Tools.IframeGameObject)) throw new Error("tool is not iframe game object");
-        return this._apolloClient.mutate({
-            mutation: gql`
-                mutation createIframeGameObjectInstantly(
-                    $x: Int!, 
-                    $y: Int!, 
-                    $protoInput: IframeGameObjectProtoInput!, 
-                    $worldId: String! 
-                ) {
-                    createIframeGameObjectInstantly(x: $x, y: $y, iframeGameObjectProto: $protoInput, worldId: $worldId) {
-                        id
+        const tool = this._currentTool;
+        const req = new Request(this._currentTool.iframeInfo.src);
+        const sendIframe = (src?: string) => {
+            console.log(req.url);
+            if (!this._worldId) throw new Error("no world id");
+            if (!this._apolloClient) throw new Error("no apollo client");
+            return this._apolloClient.mutate({
+                mutation: gql`
+                    mutation createIframeGameObjectInstantly(
+                        $x: Int!, 
+                        $y: Int!, 
+                        $protoInput: IframeGameObjectProtoInput!, 
+                        $worldId: String! 
+                    ) {
+                        createIframeGameObjectInstantly(x: $x, y: $y, iframeGameObjectProto: $protoInput, worldId: $worldId) {
+                            id
+                        }
                     }
+                `,
+                variables: {
+                    x,
+                    y,
+                    worldId: this._worldId,
+                    protoInput: {
+                        ...tool.iframeInfo,
+                        src: src || req.url,
+                        colliders: [],
+                    },
                 }
-            `,
-            variables: {
-                x,
-                y,
-                worldId: this._worldId,
-                protoInput: {
-                    ...this._currentTool.iframeInfo,
-                    colliders: [],
-                },
-            }
+            });
+        };
+        return fetch(req).then(() => {
+            if(!this._apolloClient) return;
+            return sendIframe();
+        }).catch(() => {
+            if(!this._apolloClient) return;
+            return sendIframe("invalid");
         });
     }
 
