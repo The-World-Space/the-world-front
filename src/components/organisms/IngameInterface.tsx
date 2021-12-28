@@ -290,6 +290,7 @@ interface PropsType {
 }
 
 function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
+    const { playerNetworker } = useContext(WorldEditorContext);
     const { world, playerList, amIadmin } = useContext(WorldEditorContext);
     const [barOpened, setBarOpened] = useState(false);
     const [selectedEditor, setSelectedEditor] = useState(Editor.Field);
@@ -319,8 +320,10 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
 
     useEffect(() => {
         if (!worldId) return;
+        if (!playerNetworker) return;
 
         onChat(worldId, data => {
+            playerNetworker.showNetworkPlayerChat(data.user.id, data.message);
             setChatting(
                 lastState => 
                     lastState.length > 100 
@@ -328,7 +331,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                         : [...lastState, {...data, key: performance.now()}]);
             if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
         }, apolloClient);
-    }, [apolloClient, worldId]);
+    }, [apolloClient, worldId, playerNetworker]);
 
     const onMenuSelect = useCallback((editor: Editor) => {
         setBarOpened(b => editor === selectedEditor ? !b : true);
