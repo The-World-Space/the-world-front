@@ -7,6 +7,7 @@ import { PlayerNetworker } from "../networker/PlayerNetworker";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
 import { IGridCollidable } from "../physics/IGridCollidable";
+import { PlayerStatusRenderController } from "../controller/PlayerStatusRenderController";
 
 const PREFIX = "@@tw/game/component/spawner/NetworkPlayerManager";
 
@@ -14,6 +15,7 @@ export class NetworkPlayerManager extends Component {
     private _networkPlayerMap: Map<string, GameObject> = new Map();
     private _networkManager: PlayerNetworker | null = null;
     private _iGridCollidable: IGridCollidable | null = null;
+    private _localPlayer: GameObject | null = null;
 
     public initNetwork(networkManager: PlayerNetworker): void {
         this._networkManager = networkManager;
@@ -24,11 +26,13 @@ export class NetworkPlayerManager extends Component {
             this._networkPlayerMap.get(id)?.destroy();
             this._networkPlayerMap.delete(id);
         });
-        networkManager.dee.on("player_chat", (id, msg) => {
-            // do something
-            void id;
-            void msg;
+        networkManager.dee.on("player_chat", (_id, msg) => {
+            this._localPlayer?.getComponent(PlayerStatusRenderController)!.setChatBoxText(msg);
         });
+        networkManager.dee.on("network_player_chat", (id, msg) => {
+            this._networkPlayerMap.get(id)?.getComponent(PlayerStatusRenderController)!.setChatBoxText(msg);
+        });
+        
     }
 
     public set iGridCollidable(val: IGridCollidable) {
@@ -42,6 +46,8 @@ export class NetworkPlayerManager extends Component {
         component.addOnMoveToTargetEventListener((x, y) => {
             this._networkManager!.dee.emit("player_move", x, y);
         });
+        
+        this._localPlayer = player;
     }
 
     private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: PlayerNetworker) {
