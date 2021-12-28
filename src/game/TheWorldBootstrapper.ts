@@ -134,7 +134,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     }
                 }
 
-                if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseObject) {
+                if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseIframeObject) {
                     if (iframeManager.ref) {
                         console.log("show iframe");
                         iframeManager.ref.disableIframePointerEvents();
@@ -146,8 +146,8 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     }
                 }
 
-                if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseObject
-                    || tool instanceof Tools.ImageGameObject) {
+                if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseIframeObject
+                    || tool instanceof Tools.ImageGameObject || tool instanceof Tools.EraseImageObject) {
                     if (gridObjectCollideMap.ref) {
                         gridObjectCollideMap.ref.showCollider = true;
                     }
@@ -181,7 +181,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                             tool.iframeInfo.height * gridBrush.ref.gridCellHeight
                         );
                     }
-                } else if (tool instanceof Tools.EraseObject) {
+                } else if (tool instanceof Tools.EraseIframeObject || tool instanceof Tools.EraseImageObject) {
                     gridBrush.ref?.clearImage();
                 } else if (tool instanceof Tools.ImageGameObject) {
                     if (gridBrush.ref) {
