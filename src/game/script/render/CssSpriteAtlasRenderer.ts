@@ -29,7 +29,7 @@ export class CssSpriteAtlasRenderer extends Component {
     protected start(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
-            this.setImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
+            this.asyncSetImage(CssSpriteAtlasRenderer._defaultImagePath, 1, 1);
         }
         
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
@@ -37,7 +37,7 @@ export class CssSpriteAtlasRenderer extends Component {
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._sprite) this.gameObject.unsafeGetTransform().remove(this._sprite); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        if (this._sprite) this.gameObject.unsafeGetTransform().remove(this._sprite); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -59,10 +59,10 @@ export class CssSpriteAtlasRenderer extends Component {
         return this._htmlImageElement?.src || null;
     }
 
-    public setImage(path: string, rowCount: number, columnCount: number): void {
+    public asyncSetImage(path: string, rowCount: number, columnCount: number, onComplete?: () => void): void {
         if (!this.started && !this.starting) {
             this._initializeFunction = () => {
-                this.setImage(path, rowCount, columnCount);
+                this.asyncSetImage(path, rowCount, columnCount, onComplete);
             };
             return;
         }
@@ -75,7 +75,6 @@ export class CssSpriteAtlasRenderer extends Component {
         }
 
         this._htmlImageElement.src = path;
-
         const onLoad = (e: Event) => {
             const image = e.target as HTMLImageElement;
             image.removeEventListener("load", onLoad);
@@ -86,10 +85,7 @@ export class CssSpriteAtlasRenderer extends Component {
             image.alt = `${this.gameObject.name}_sprite_atlas`;
             if (!this._sprite) {
                 this._sprite = new CSS3DSprite(this._htmlImageElement as HTMLImageElement);
-                this._sprite.position.set(
-                    this._imageWidth * this._imageCenterOffset.x,
-                    this._imageHeight * this._imageCenterOffset.y, 0
-                );
+                this.updateCenterOffset();
                 this._sprite.scale.set(
                     this._imageWidth / this._croppedImageWidth,
                     this._imageHeight / this._croppedImageHeight,
@@ -97,7 +93,7 @@ export class CssSpriteAtlasRenderer extends Component {
                 );
                 this._sprite.scale.x *= this._imageFlipX ? -1 : 1;
                 this._sprite.scale.y *= this._imageFlipY ? -1 : 1;
-                this.gameObject.unsafeGetTransform().add(this._sprite); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+                this.gameObject.unsafeGetTransform().add(this._sprite); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
             }
             image.style.width = `${this._croppedImageWidth}px`;
             image.style.height = `${this._croppedImageHeight}px`;
@@ -110,6 +106,8 @@ export class CssSpriteAtlasRenderer extends Component {
 
             if (this.enabled && this.gameObject.activeInHierarchy) this._sprite.visible = true;
             else this._sprite.visible = false;
+
+            onComplete?.();
         };
         this._htmlImageElement.addEventListener("load", onLoad);
     }
@@ -119,6 +117,15 @@ export class CssSpriteAtlasRenderer extends Component {
             const width = -(this._currentImageIndex % this._columnCount * this._croppedImageWidth);
             const height = -Math.floor(this._currentImageIndex / this._columnCount) * this._croppedImageHeight;
             this._sprite.element.style.objectPosition = `${width}px ${height}px`;
+        }
+    }
+
+    private updateCenterOffset(): void {
+        if (this._sprite) {
+            this._sprite.position.set(
+                this._imageWidth * this._imageCenterOffset.x,
+                this._imageHeight * this._imageCenterOffset.y, 0
+            );
         }
     }
 
@@ -141,12 +148,7 @@ export class CssSpriteAtlasRenderer extends Component {
 
     public set imageCenterOffset(value: Vector2) {
         this._imageCenterOffset.copy(value);
-        if (this._sprite) {
-            this._sprite.position.set(
-                this._imageWidth * this._imageCenterOffset.x,
-                this._imageHeight * this._imageCenterOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get imageWidth(): number {
@@ -157,7 +159,9 @@ export class CssSpriteAtlasRenderer extends Component {
         this._imageWidth = value;
         if (this._sprite) {
             this._sprite.scale.x = this._imageWidth / this._croppedImageWidth;
+            this._sprite.scale.x *= this._imageFlipX ? -1 : 1;
         }
+        this.updateCenterOffset();
     }
 
     public get imageHeight(): number {
@@ -168,7 +172,9 @@ export class CssSpriteAtlasRenderer extends Component {
         this._imageHeight = value;
         if (this._sprite) {
             this._sprite.scale.y = this._imageHeight / this._croppedImageHeight;
+            this._sprite.scale.y *= this._imageFlipY ? -1 : 1;
         }
+        this.updateCenterOffset();
     }
 
     public get imageFlipX(): boolean {

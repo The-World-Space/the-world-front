@@ -25,6 +25,7 @@ export class CssTextRenderer extends Component {
     private _textHeight: number = 16;
     private _fontSize: number = 8;
     private _fontWeight: FontWeight = FontWeight.Normal;
+    private _fontFamily: string = "Arial";
     private _textalign: TextAlign = TextAlign.Left;
     private _opacity: number = 1;
     private _pointerEvents: boolean = true;
@@ -33,12 +34,18 @@ export class CssTextRenderer extends Component {
 
     private static readonly _defaultText: string = "Text";
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.text = CssTextRenderer._defaultText;
         }
-        
+    }
+
+    protected start(): void {
+        if (this._css3DObject) {
+            if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
+            else this._css3DObject.visible = false;
+        }
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
@@ -52,7 +59,7 @@ export class CssTextRenderer extends Component {
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onSortByZaxis(zaxis: number): void {
@@ -67,7 +74,7 @@ export class CssTextRenderer extends Component {
     }
 
     public set text(value: string|null) {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.text = value;
             };
@@ -90,19 +97,26 @@ export class CssTextRenderer extends Component {
             this._htmlDivElement.style.height = `${this._textHeight}px`;
             this._htmlDivElement.style.fontSize = `${this._fontSize}px`;
             this._htmlDivElement.style.fontWeight = this._fontWeight;
+            this._htmlDivElement.style.fontFamily = this._fontFamily;
             this._htmlDivElement.style.textAlign = this._textalign;
             this._htmlDivElement.style.opacity = this._opacity.toString();
             this._htmlDivElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
             
             this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
-            this._css3DObject.position.set(
-                this._htmlDivElement.offsetWidth * this._textCenterOffset.x,
-                this._htmlDivElement.offsetHeight * this._textCenterOffset.y, 0
-            );
-            this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+            this.updateCenterOffset();
+            this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
                 
             if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
             else this._css3DObject.visible = false;
+        }
+    }
+
+    private updateCenterOffset(): void {
+        if (this._css3DObject) {
+            this._css3DObject.position.set(
+                this._htmlDivElement!.offsetWidth * this._textCenterOffset.x,
+                this._htmlDivElement!.offsetHeight * this._textCenterOffset.y, 0
+            );
         }
     }
     
@@ -112,12 +126,7 @@ export class CssTextRenderer extends Component {
 
     public set textCenterOffset(value: Vector2) {
         this._textCenterOffset.copy(value);
-        if (this._css3DObject) {
-            this._css3DObject.position.set(
-                this._htmlDivElement!.offsetWidth * this._textCenterOffset.x,
-                this._htmlDivElement!.offsetHeight * this._textCenterOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get textWidth(): number {
@@ -129,6 +138,7 @@ export class CssTextRenderer extends Component {
         if (this._htmlDivElement) {
             this._htmlDivElement.style.width = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get textHeight(): number {
@@ -140,6 +150,7 @@ export class CssTextRenderer extends Component {
         if (this._css3DObject) {
             this._css3DObject.element.style.height = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get fontSize(): number {
@@ -161,6 +172,17 @@ export class CssTextRenderer extends Component {
         this._fontWeight = value;
         if (this._htmlDivElement) {
             this._htmlDivElement.style.fontWeight = value;
+        }
+    }
+
+    public get fontFamily(): string {
+        return this._fontFamily;
+    }
+
+    public set fontFamily(value: string) {
+        this._fontFamily = value;
+        if (this._htmlDivElement) {
+            this._htmlDivElement.style.fontFamily = value;
         }
     }
 

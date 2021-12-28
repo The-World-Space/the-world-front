@@ -143,7 +143,7 @@ export class CssTilemapChunkRenderer extends Component implements IGridCoordinat
             renderer.columnCount = this._chunkSize;
         });
     }
-
+    
     public set imageSources(value: TileAtlasItem[]) {
         if (!this.started && !this.starting) {
             this._initializeFunctions.push(() => {
@@ -153,6 +153,9 @@ export class CssTilemapChunkRenderer extends Component implements IGridCoordinat
         }
 
         this._imageSources = value;
+        this._cssTilemapRendererMap.forEach((renderer, _) => {
+            renderer.imageSources = value;
+        });
     }
 
     public get pointerEvents(): boolean {

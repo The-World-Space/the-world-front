@@ -52,19 +52,19 @@ export class TestTileBrush extends Component {
         }
     }
 
-    get gridPointer(): GridPointer|null {
+    public get gridPointer(): GridPointer|null {
         return this._gridPointer;
     }
 
-    set gridPointer(value: GridPointer|null) {
+    public set gridPointer(value: GridPointer|null) {
         this._gridPointer = value;
     }
 
-    get colideTilemapChunk(): CssCollideTilemapChunkRenderer|null {
+    public get colideTilemapChunk(): CssCollideTilemapChunkRenderer|null {
         return this._colideTilemapChunk;
     }
 
-    set colideTilemapChunk(value: CssCollideTilemapChunkRenderer|null) {
+    public set colideTilemapChunk(value: CssCollideTilemapChunkRenderer|null) {
         this._colideTilemapChunk = value;
     }
 }

@@ -16,12 +16,12 @@ import { PlayerGridEventInvoker } from "../script/event/PlayerGridEventInvoker";
 import { GridEventMap } from "../script/event/GridEventMap";
 
 export class PlayerPrefab extends Prefab {
-    private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
+    private _spriteAtlasPath = new PrefabRef<string>("/assets/charactor/Seongwon.png");
     private _collideMaps: PrefabRef<IGridCollidable>[] = [];
     private _gridEventMaps: PrefabRef<GridEventMap>[] = [];
-    private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
-    private _nameTagString: PrefabRef<string> = new PrefabRef();
-    private _gridPointer: PrefabRef<GridPointer> = new PrefabRef();
+    private _gridPosition = new PrefabRef<Vector2>();
+    private _nameTagString = new PrefabRef<string>();
+    private _gridPointer = new PrefabRef<GridPointer>();
 
     public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): PlayerPrefab {
         this._spriteAtlasPath = name;
@@ -63,7 +63,7 @@ export class PlayerPrefab extends Prefab {
 
         return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
+                if (this._spriteAtlasPath.ref) c.asyncSetImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })
@@ -129,7 +129,8 @@ export class PlayerPrefab extends Prefab {
                             textAlign: "center",
                             padding: "5px 10px",
                             opacity: 0.5,
-                            }}>
+                            fontFamily: "Noto Sans",
+                        }}>
                             chat content
                         </div>
                     );
@@ -147,7 +148,8 @@ export class PlayerPrefab extends Prefab {
                     c.textAlign = TextAlign.Center;
                     c.fontWeight = FontWeight.Bold;
                     c.textHeight = 16;
-                    c.textWidth = 64;
+                    c.textWidth = 128;
+                    c.fontFamily = "Noto Sans";
                     c.pointerEvents = false;
                 })
                 .getComponent(CssTextRenderer, nameTagRenderer)

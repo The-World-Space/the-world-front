@@ -2,7 +2,7 @@ import { IEngine } from "../IEngine";
 import { SceneBuilder } from "./SceneBuilder";
 import { EngineGlobalObject } from "../EngineGlobalObject";
 
-export abstract class Bootstrapper<T = {}> {
+export abstract class Bootstrapper<T = any> {
     private _engineGlobalObject: EngineGlobalObject;
     private _interopObject: T|null;
     private _sceneBuilder: SceneBuilder;

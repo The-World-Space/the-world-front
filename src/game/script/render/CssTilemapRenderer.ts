@@ -56,7 +56,7 @@ export class CssTilemapRenderer extends Component{
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -79,7 +79,7 @@ export class CssTilemapRenderer extends Component{
         const tileMapHeight: number = this._rowCount * this._tileHeight;
         this._htmlCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
         this._css3DObject = new CSS3DObject(this._htmlCanvasElement);
-        this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
         this._htmlCanvasElement.style.imageRendering = "pixelated";
         this._htmlCanvasElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlCanvasElement.width = tileMapWidth;
@@ -132,9 +132,9 @@ export class CssTilemapRenderer extends Component{
         }
 
         const context: CanvasRenderingContext2D = this._htmlCanvasElement!.getContext("2d")!;
-        for (let rowIndex: number = 0; rowIndex < array.length; rowIndex++) {
+        for (let rowIndex = 0; rowIndex < array.length; rowIndex++) {
             const row: ({i: number, a: number}|null)[] = array[rowIndex];
-            for (let columnIndex: number = 0; columnIndex < row.length; columnIndex++) {
+            for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
                 const tile: ({i: number, a: number}|null) = row[columnIndex];
                 if (tile === null) continue;
                 const imageSource: TileAtlasItem = this._imageSources![tile.i];

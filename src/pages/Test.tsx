@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Context from '../context';
-import { useContext } from 'react';
+import { useState } from "react";
+import { AuthContext } from "../context/contexts";
+import { useContext } from "react";
 import useUser from "../hooks/useUser";
 
-function Test() {
+function Test(): JSX.Element {
 
-    const { jwt, setJwt } = useContext(Context);
+    const { jwt, setJwt } = useContext(AuthContext);
     const user = useUser();
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState("");
 
     function onSave(){
         setJwt(token);
@@ -25,15 +25,15 @@ function Test() {
                     {
                         jwt &&
                         <>
-                        <div>
-                            <p>id: {user?.id}</p>
-                        </div>
-                        <div>
-                            <p>nickname: {user?.nickname}</p>
-                        </div>
-                        <div>
-                            <button onClick={onSave}>save</button>
-                        </div>
+                            <div>
+                                <p>id: {user?.id}</p>
+                            </div>
+                            <div>
+                                <p>nickname: {user?.nickname}</p>
+                            </div>
+                            <div>
+                                <button onClick={onSave}>save</button>
+                            </div>
                         </>
                     }
                 </div>

@@ -1,27 +1,35 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { TypedEmitter } from 'detail-typed-emitter';
+import { TypedEmitter, DumbTypedEmitter } from "detail-typed-emitter";
 import { Vector2 } from "three";
-import { Server } from "../connect/types";
+import { Server } from "../../connect/types";
 
 type characterId = string;
 
 
 type EETypes = [
-    [`join`,                    (user: Server.User, spawnPoint: Vector2) => void],
     [`move_${characterId}`,     (pos: Vector2) => void],
-    [`leave_${characterId}`,    () => void],
-    [`player_move`,             (x: number, y: number) => void]
 ]
 
-export class NetworkManager {
+type DEETypes = {
+    "join"        : (user: Server.User, spawnPoint: Vector2) => void,
+    "leave"       : (id: characterId) => void,
+    "player_move" : (x: number, y: number) => void,
+    // for chatting.
+    "network_player_chat" : (id: characterId, msg: string) => void,
+    "player_chat": (id: characterId, msg: string) => void,
+}
+
+export class PlayerNetworker {
     private readonly _ee: TypedEmitter<EETypes>;
-    private readonly _characterMap: Set<characterId>;
+    private readonly _dee: DumbTypedEmitter<DEETypes>;
+    private readonly _characterSet: Set<characterId>;
 
     constructor(private readonly _worldId: string,
                 private readonly _playerId: string,
                 private readonly _client: ApolloClient<any>) {
         this._ee = new TypedEmitter<EETypes>();
-        this._characterMap = new Set();
+        this._dee = new DumbTypedEmitter<DEETypes>();
+        this._characterSet = new Set();
         this._initNetwork();
         this._initEEListenters();
     }
@@ -46,7 +54,7 @@ export class NetworkManager {
             }
         }).subscribe((data) => {
             data.data.playerList && this.onPlayerListUpdate(data.data.playerList);
-        })
+        });
 
         this._client.subscribe({
             query: gql`
@@ -63,7 +71,7 @@ export class NetworkManager {
             },
         }).subscribe((data) => {
             if (data.data.characterMove) {
-                const user = this._characterMap.has(data.data?.characterMove?.userId);
+                const user = this._characterSet.has(data.data?.characterMove?.userId);
                 user && this.moveCharacter(data.data.characterMove);
             }
         });
@@ -72,7 +80,7 @@ export class NetworkManager {
 
     private _initEEListenters() {
         // player_move should only listened on this method.
-        this._ee.on("player_move", (x, y) => {
+        this._dee.on("player_move", (x, y) => {
             this._client.mutate({
                 mutation: gql`
                     mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
@@ -90,33 +98,46 @@ export class NetworkManager {
                     worldId: this._worldId,
                 }
             });
-        })
+        });
     }
 
 
     private onPlayerListUpdate(data: {x: number, y: number, user: Server.User}[]) {
         const playerList = data;
         const playerIdSet = new Set(data.map(e => e.user.id));
-        const newPlayers = playerList.filter(p => !this._characterMap.has(p.user.id));
-        const leftPlayers = [...this._characterMap.keys()].filter(p => !playerIdSet.has(p));
+        const newPlayers = playerList.filter(p => !this._characterSet.has(p.user.id));
+        const leftPlayers = [...this._characterSet.keys()].filter(p => !playerIdSet.has(p));
         
         newPlayers.forEach(e => {
             if (this._playerId === e.user.id) return;
-            this._ee.emit("join", e.user, new Vector2(e.x, e.y));
-            this._characterMap.add(e.user.id);
+            this._dee.emit("join", e.user, new Vector2(e.x, e.y));
+            this._characterSet.add(e.user.id);
         });
         leftPlayers.forEach(e => {
-            this._ee.emit(`leave_${e}`);
-            this._characterMap.delete(e);
+            this._dee.emit("leave", e);
+            this._characterSet.delete(e);
         });
+    }
+
+    public showNetworkPlayerChat(userId: string, message: string): void {
+        if (userId === this._playerId) {
+            this._dee.emit("player_chat", userId, message);
+        }
+        else {
+            this._dee.emit("network_player_chat", userId, message);
+        }
     }
 
     private moveCharacter(data: {x: number, y: number, userId: string}) {
         this._ee.emit(`move_${data.userId}`, new Vector2(data.x, data.y));
     }
 
-    get ee() {
+    get ee(): TypedEmitter<EETypes> {
         return this._ee;
+    }
+
+    get dee(): DumbTypedEmitter<DEETypes> {
+        return this._dee;
     }
 }
 

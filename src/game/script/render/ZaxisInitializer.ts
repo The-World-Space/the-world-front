@@ -1,3 +1,4 @@
+import { Vector3 } from "three";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { ZaxisSortable } from "./ZaxisSortable";
 
@@ -15,12 +16,17 @@ export class ZaxisInitializer extends ZaxisSortable {
         this.process();
     }
 
+    private readonly _tempVector3 = new Vector3();
+
     private process(): void {
+        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
+
         this.gameObject.getComponentsInChildren().forEach(component => {
             const cAny = component as any;
             if (cAny.onSortByZaxis) {
-                if (typeof cAny.onSortByZaxis === "function")
-                cAny.onSortByZaxis(this.gameObject.transform.position.z);
+                if (typeof cAny.onSortByZaxis === "function") {
+                    cAny.onSortByZaxis(worldPosition.z);
+                }
             }
         });
     }
@@ -39,11 +45,11 @@ export class ZaxisInitializer extends ZaxisSortable {
         }
     }   
 
-    get runOnce(): boolean {
+    public get runOnce(): boolean {
         return this._runOnce;
     }
 
-    set runOnce(value: boolean) {
+    public set runOnce(value: boolean) {
         this._runOnce = value;
     }
 }

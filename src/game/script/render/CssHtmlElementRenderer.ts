@@ -2,7 +2,7 @@ import { Vector2 } from "three";
 import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ZaxisInitializer } from "./ZaxisInitializer";
-import { renderToStaticMarkup } from "react-dom/server"
+import { renderToStaticMarkup } from "react-dom/server";
 
 export class CssHtmlElementRenderer extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;
@@ -20,18 +20,24 @@ export class CssHtmlElementRenderer extends Component {
 
     private static readonly _defaultElement: HTMLDivElement = document.createElement("div");
 
-    protected start(): void {
+    protected awake(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlDivElement) {
             this.setElement(CssHtmlElementRenderer._defaultElement);
         }
+    }
 
+    protected start(): void {
+        if (this._css3DObject) {
+            if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
+            else this._css3DObject.visible = false;
+        }
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
     }
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -53,8 +59,8 @@ export class CssHtmlElementRenderer extends Component {
         return this._htmlDivElement;
     }
 
-    public setElement(value: HTMLDivElement|null) {
-        if (!this.started && !this.starting) {
+    public setElement(value: HTMLDivElement|null): void {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.setElement(value);
             };
@@ -83,11 +89,8 @@ export class CssHtmlElementRenderer extends Component {
             this._htmlDivElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
             
             this._htmlDivElement.style.zIndex = Math.floor(this._zindex).toString();
-            this._css3DObject.position.set(
-                this._htmlDivElement.offsetWidth * this._centerOffset.x,
-                this._htmlDivElement.offsetHeight * this._centerOffset.y, 0
-            );
-            this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+            this.updateCenterOffset();
+            this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     
             if (this.enabled && this.gameObject.activeInHierarchy) this._css3DObject.visible = true;
             else this._css3DObject.visible = false;
@@ -95,7 +98,7 @@ export class CssHtmlElementRenderer extends Component {
     }
 
     public setElementFromJSX(element: JSX.Element): void {
-        if (!this.started && !this.starting) {
+        if (!this.awakened && !this.awakening) {
             this._initializeFunction = () => {
                 this.setElementFromJSX(element);
             };
@@ -110,6 +113,15 @@ export class CssHtmlElementRenderer extends Component {
         template.innerHTML = htmlString;
         this.setElement(template.content.firstChild as HTMLDivElement);
     }
+
+    private updateCenterOffset(): void {
+        if (this._css3DObject) {
+            this._css3DObject.position.set(
+                this._htmlDivElement!.offsetWidth * this._centerOffset.x,
+                this._htmlDivElement!.offsetHeight * this._centerOffset.y, 0
+            );
+        }
+    }
     
     public get centerOffset(): Vector2 {
         return this._centerOffset.clone();
@@ -117,12 +129,7 @@ export class CssHtmlElementRenderer extends Component {
 
     public set centerOffset(value: Vector2) {
         this._centerOffset.copy(value);
-        if (this._css3DObject) {
-            this._css3DObject.position.set(
-                this._htmlDivElement!.offsetWidth * this._centerOffset.x,
-                this._htmlDivElement!.offsetHeight * this._centerOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get elementWidth(): number {
@@ -134,6 +141,7 @@ export class CssHtmlElementRenderer extends Component {
         if (this._htmlDivElement) {
             this._htmlDivElement.style.width = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get elementHeight(): number {
@@ -145,6 +153,7 @@ export class CssHtmlElementRenderer extends Component {
         if (this._htmlDivElement) {
             this._htmlDivElement.style.height = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get autoSize(): boolean {

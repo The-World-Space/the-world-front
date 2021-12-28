@@ -61,7 +61,7 @@ export class PlayerGridMovementController extends Directionable
             return;
         }
 
-        const inputMap = this.engine.inputHandler.map;
+        const inputMap = this.engine.input.map;
         if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
             this.direction = Direction.Up;
             if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight)) return;
@@ -90,7 +90,7 @@ export class PlayerGridMovementController extends Directionable
     }
 
     private noncheckProcessInput(currentGridPosotion: Vector2): boolean {
-        const inputMap = this.engine.inputHandler.map;
+        const inputMap = this.engine.input.map;
         if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
             this.direction = Direction.Up;
             if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight)) return false;
@@ -119,7 +119,7 @@ export class PlayerGridMovementController extends Directionable
         return false;
     }
 
-    private invokeOnMoveToTarget(vector2: Vector2): void {
+    private invokeOnMoveToTarget(_vector2: Vector2): void {
         this._onMoveToTargetDelegates.forEach(
             (delegate) => delegate(
                 Math.floor(this._targetGridPosition.x / this._gridCellWidth),
@@ -128,7 +128,7 @@ export class PlayerGridMovementController extends Directionable
         );
     }
 
-    private invokeOnMovedToTarget(vector2: Vector2): void {
+    private invokeOnMovedToTarget(_vector2: Vector2): void {
         this._onMovedToTargetDelegates.forEach(
             (delegate) => delegate(
                 Math.floor(this._currentGridPosition.x / this._gridCellWidth),
@@ -138,14 +138,14 @@ export class PlayerGridMovementController extends Directionable
     }
 
     private tryCancelPathfinder(): void {
-        const inputMap = this.engine.inputHandler.map;
-        if (inputMap.get("w") || inputMap.get("ArrowUp")) {
+        const inputMap = this.engine.input.map;
+        if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
             this._movingByPathfinder = false;
-        } else if (inputMap.get("s") || inputMap.get("ArrowDown")) {
+        } else if (inputMap.get("s") || inputMap.get("S") || inputMap.get("ArrowDown")) {
             this._movingByPathfinder = false;
-        } else if (inputMap.get("a") || inputMap.get("ArrowLeft")) {
+        } else if (inputMap.get("a") || inputMap.get("A") || inputMap.get("ArrowLeft")) {
             this._movingByPathfinder = false;
-        } else if (inputMap.get("d") || inputMap.get("ArrowRight")) {
+        } else if (inputMap.get("d") || inputMap.get("D") || inputMap.get("ArrowRight")) {
             this._movingByPathfinder = false;
         }
     }
@@ -203,7 +203,7 @@ export class PlayerGridMovementController extends Directionable
         }
 
         if (distance > 0.1) {
-            let direction = this._targetGridPosition.clone().sub(vector2Pos).normalize();
+            const direction = this._targetGridPosition.clone().sub(vector2Pos).normalize();
             direction.multiplyScalar(Math.min(this._speed * this.engine.time.deltaTime, distance));
             transform.position.x += direction.x;
             transform.position.y += direction.y;
@@ -229,6 +229,7 @@ export class PlayerGridMovementController extends Directionable
 
     private onPointerDown(event: PointerGridEvent): void {
         if (event.button !== 0) return;
+        this._movingByPathfinder = false;
         const currentElapsedTime = this.engine.time.elapsedTime;
         if (currentElapsedTime - this._lastPointerDownTime < this._doubleClickTime) {
             if (this._lastPointerDownPosition.equals(event.gridPosition)) {

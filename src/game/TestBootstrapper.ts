@@ -11,20 +11,23 @@ import { SansFightRoomPrefab } from "./prefab/sansfightroom/SansFightRoomPrefab"
 import { GridEventMap } from "./script/event/GridEventMap";
 import { PlayerStatusRenderController } from "./script/controller/PlayerStatusRenderController";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
+import { GridObjectCollideMap } from "./script/physics/GridObjectCollideMap";
 
 export class TestBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {
         const instantlater = this.engine.instantlater;
 
-        const player: PrefabRef<GameObject> = new PrefabRef();
-        const playerStatusRenderController: PrefabRef<PlayerStatusRenderController> = new PrefabRef();
-        const collideTilemap: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();
-        const gridEventMap: PrefabRef<GridEventMap> = new PrefabRef();
-        const gridPointer: PrefabRef<GridPointer> = new PrefabRef();
+        const player = new PrefabRef<GameObject>();
+        const playerStatusRenderController = new PrefabRef<PlayerStatusRenderController>();
+        const collideTilemap = new PrefabRef<CssCollideTilemapChunkRenderer>();
+        const collideTilemap2 = new PrefabRef<GridObjectCollideMap>();
+        const gridEventMap = new PrefabRef<GridEventMap>();
+        const gridPointer = new PrefabRef<GridPointer>();
 
         return this.sceneBuilder
             .withChild(instantlater.buildPrefab("tilemap", SansFightRoomPrefab)
-                .getColideTilemapChunkRendererRef(collideTilemap).make())
+                .getColideTilemapChunkRendererRef(collideTilemap)
+                .getGridObjectCollideMapRef(collideTilemap2).make())
 
             .withChild(instantlater.buildGameObject("eventmap")
                 .withComponent(GridEventMap, c => {
@@ -32,9 +35,9 @@ export class TestBootstrapper extends Bootstrapper {
                     c.gridCellHeight = collideTilemap.ref!.gridCellHeight;
                     c.showEvents = true;
 
-                    const sansEvent = (_gridX: number, _gridY: number, target: GameObject) => {
+                    const sansEvent = (_gridX: number, _gridY: number, _target: GameObject) => {
                         playerStatusRenderController.ref!.setChatBoxText("i want some bad time", 1);
-                    }
+                    };
 
                     c.addEvent(32, 0, sansEvent);
                     c.addEvent(32, -1, sansEvent);
@@ -48,6 +51,7 @@ export class TestBootstrapper extends Bootstrapper {
             .withChild(instantlater.buildPrefab("player", PlayerPrefab)
                 .with4x4SpriteAtlasFromPath(new PrefabRef("/assets/charactor/Heewon.png"))
                 .withCollideMap(collideTilemap)
+                .withCollideMap(collideTilemap2)
                 .withGridEventMap(gridEventMap)
                 .withPathfindPointer(gridPointer).make()
                 .getGameObject(player)

@@ -27,8 +27,9 @@ export class ZaxisSorter extends ZaxisSortable {
         this.gameObject.getComponentsInChildren().forEach(component => {
             const cAny = component as any;
             if (cAny.onSortByZaxis) {
-                if (typeof cAny.onSortByZaxis === "function")
-                cAny.onSortByZaxis(worldPosition.z);
+                if (typeof cAny.onSortByZaxis === "function") {
+                    cAny.onSortByZaxis(worldPosition.z);
+                }
             }
         });
     }

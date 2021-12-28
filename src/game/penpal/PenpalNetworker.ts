@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { TypedEmitter } from 'detail-typed-emitter';
+import { TypedEmitter } from "detail-typed-emitter";
 import { Server } from "../connect/types";
 
 type fieldId = string;
@@ -10,7 +10,7 @@ type EETypes = [
     [`update_broadcast_${broadcastId}`, (message: string, userId: string) => void],
 ]
 
-export class PenpalNetworkWrapper {
+export class PenpalNetworker {
     private readonly _ee: TypedEmitter<EETypes>;
 
     constructor(private readonly _worldId: string,
@@ -19,7 +19,7 @@ export class PenpalNetworkWrapper {
         this._initNetwork();
     }
 
-    private _initNetwork() {
+    private _initNetwork(): void {
         // Update field
         this._client.subscribe({
             query: gql`
@@ -58,11 +58,11 @@ export class PenpalNetworkWrapper {
             const { id: publicBroadcastId, message, userId } = result.data.broadcastMessage as { id: number, message: string, userId: string };
 
             this._ee.emit(`update_broadcast_${publicBroadcastId}`, message, userId);
-        })
+        });
     }
 
 
-    public async setFieldValue(id: number | undefined, value: string) {
+    public async setFieldValue(id: number | undefined, value: string): Promise<void> {
         await this._client.mutate({
             mutation: gql`
             mutation SetFieldValue($id: Int!, $value: String!) {
@@ -76,7 +76,7 @@ export class PenpalNetworkWrapper {
         });
     }
 
-    public async broadcast(id: number | undefined, message: string) {
+    public async broadcast(id: number | undefined, message: string): Promise<void> {
         await this._client.mutate({
             mutation: gql`
             mutation Broadcast($id: Int!, $message: String!) {
@@ -87,10 +87,10 @@ export class PenpalNetworkWrapper {
                 id,
                 message
             }
-        })
+        });
     }
 
-    public async getUser(id?: string) {
+    public async getUser(id?: string): Promise<Server.User | null> {
         if (id === undefined) {
             const result = await this._client.query({
                 query: gql`
@@ -121,7 +121,7 @@ export class PenpalNetworkWrapper {
         }
     }
 
-    public onFieldListUpdate(iframeId: number, cb: (portMappings: Server.IframeFieldPortMapping[]) => void) {
+    public onFieldListUpdate(iframeId: number, cb: (portMappings: Server.IframeFieldPortMapping[]) => void): ZenObservable.Subscription {
         return this._client.subscribe({
             query: gql`
                 subscription IframeFieldPortMappingList($iframeId: Int!) {
@@ -144,7 +144,7 @@ export class PenpalNetworkWrapper {
     }
 
 
-    public onBroadcastListUpdate(iframeId: number, cb: (portMappings: Server.IframeBroadcasterPortMapping[]) => void) {
+    public onBroadcastListUpdate(iframeId: number, cb: (portMappings: Server.IframeBroadcasterPortMapping[]) => void): ZenObservable.Subscription {
         return this._client.subscribe({
             query: gql`
                 subscription IframeBroadcasterPortMappingList($iframeId: Int!) {
@@ -162,10 +162,10 @@ export class PenpalNetworkWrapper {
             }
         }).subscribe(result => {
             cb(result.data.iframeBroadcasterPortMappingList);
-        })
+        });
     }
 
-    get ee() {
+    get ee(): TypedEmitter<EETypes> {
         return this._ee;
     }
 }

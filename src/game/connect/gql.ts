@@ -17,53 +17,87 @@ import { Vector2 } from "three";
 
 
 
-export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
+export async function getWorld(id: string, apolloClient: ApolloClient<any>): Promise<Server.World> {
     const result = await apolloClient.query({
         query: gql`
-            query World($id: String!) {
-                World(id: $id) {
+        query World($id: String!) {
+            World(id: $id) {
+                id
+                name
+                amIAdmin
+                amIOwner
+                colliders {
+                    x
+                    y
+                    isBlocked
+                }
+                iframes {
                     id
-                    name
-                    tiles {
-                        x
-                        y
-                        standable
-                    }
-                    iframes {
+                    x
+                    y
+                    fieldPortMappings {
                         id
-                        x
-                        y
-                        width
-                        height
-                        type
-                        src
-                      	fieldPortMappings {
+                        portId
+                        field {
+                            value
                             id
-                            portId
-                            field {
-                                value
-                                id
-                            }
-                        }
-                      	broadcasterPortMappings {
-                          	id
-                          	portId
-                            broadcaster {
-                                id
-                            }
                         }
                     }
-                    images {
+                    broadcasterPortMappings {
                         id
-                        x
-                        y
+                        portId
+                        broadcaster {
+                            id
+                        }
+                    }
+                    localFields {
+                        id
+                        name
+                        value
+                    }
+                    localBroadcasters {
+                        id
+                        name
+                    }
+                    proto_ {
+                        id
+                        isPublic
                         width
                         height
                         type
                         src
+                        colliders {
+                            x
+                            y
+                            isBlocked
+                        }
                     }
                 }
+                images {
+                    id
+                    x
+                    y
+                    proto_ {
+                        id
+                        isPublic
+                        width
+                        height
+                        type
+                        src
+                        colliders {
+                            x
+                            y
+                            isBlocked
+                        }
+                    }
+                }
+                atlasInfoScalar
+                admins {
+                    id
+                    nickname
+                }
             }
+        }
         `,
         variables: {
             id,
@@ -74,39 +108,17 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>) {
 }
 
 
-export async function getMyWorlds(apolloClient: ApolloClient<any>) {
+export async function getMyWorlds(apolloClient: ApolloClient<any>): Promise<Server.World[]> {
     const result = await apolloClient.query({
         query: gql`
             query MyWorlds {
                 myWorlds {
                     id
                     name
-                    tiles {
-                        x
-                        y
-                        standable
-                    }
-                    iframes {
-                        id
-                        x
-                        y
-                        width
-                        height
-                        type
-                        src
-                    }
-                    images {
-                        id
-                        x
-                        y
-                        width
-                        height
-                        type
-                        src
-                    }
                 }
             }
-        `
+        `,
+        fetchPolicy: "no-cache"
     });
 
     return result.data.myWorlds as Server.World[];
@@ -114,7 +126,11 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>) {
 
 
 
-export async function joinWorld(worldId: string, pos: Vector2, apolloClient: ApolloClient<any>) {
+export async function joinWorld(
+    worldId: string, 
+    pos: Vector2, 
+    apolloClient: ApolloClient<any>
+): Promise<FetchResult<any, Record<string, any>, Record<string, any>>> {
     return apolloClient.mutate({
         mutation: gql`
             mutation JOIN_WORLD($x: Int!, $y: Int!, $worldId: String!) {
@@ -126,14 +142,14 @@ export async function joinWorld(worldId: string, pos: Vector2, apolloClient: Apo
             y: pos.y,
             worldId,
         }
-    })
+    });
 }
 
 
-export function getSession() {
+export function getSession(): { token: string|null } {
     return {
         token: localStorage.getItem(JWT_KEY),
-    }
+    };
 }
 
 
@@ -179,7 +195,7 @@ export class WebSocketLink extends ApolloLink {
 
 
 export const link = new WebSocketLink({
-    url: 'wss://computa.lunuy.com:40081/graphql',
+    url: "wss://api.the-world.space/graphql",
     connectionParams: () => {
         const session = getSession();
         if (!session) {
@@ -196,10 +212,3 @@ export const globalApolloClient = new ApolloClient({
     link,
     cache: new InMemoryCache()
 });
-
-
-// @ts-ignore
-globalThis.debug = {
-    globalApolloClient,
-    getWorld
-}

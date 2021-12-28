@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import {
     Link
-} from 'react-router-dom'
+} from "react-router-dom";
 import styled from "styled-components";
-import { ReactComponent as Error404 } from '../components/atoms/Error404.svg';
+import { ReactComponent as Error404 } from "../components/atoms/Error404.svg";
 
 
 interface ICircle {
@@ -17,9 +17,9 @@ interface XY {
     y: number;
 }
 
-const circleColors = ['B55FDD', '7997FF', '5AB0FF', 'AFF876', 'F8FB67', 'FA9F5D', 'F46969'];
+const circleColors = ["B55FDD", "7997FF", "5AB0FF", "AFF876", "F8FB67", "FA9F5D", "F46969"];
 
-function genCircles(startColor: number) {
+function genCircles(startColor: number): ICircle[] {
     const circles: ICircle[] = [];
 
     let position = 0;
@@ -73,23 +73,23 @@ const Centerer = styled.div`
     flex-direction: column;
 `;
 
-function Circle({ x, y, r, color }: ICircle) {
+function Circle({ x, y, r, color }: ICircle): JSX.Element {
     return (
         <div style={{
-            position: 'absolute',
-            top: y + 'px',
-            left: x + 'px',
-            backgroundColor: '#' + circleColors[color],
-            width: 2*r + 'px',
-            height: 2*r + 'px',
-            borderRadius: '100%',
-            transform: 'translate(-50%, -50%)'
+            position: "absolute",
+            top: y + "px",
+            left: x + "px",
+            backgroundColor: "#" + circleColors[color],
+            width: 2*r + "px",
+            height: 2*r + "px",
+            borderRadius: "100%",
+            transform: "translate(-50%, -50%)"
         }}>
         </div>
     );
 }
 
-function CircleContainer() {
+function CircleContainer(): JSX.Element {
     const startColor = Math.floor(Math.random() * circleColors.length);
     const [circles, setCircles] = useState(() => genCircles(startColor));
     
@@ -102,8 +102,8 @@ function CircleContainer() {
             setCircles(() => genCircles(startColor));
         }
 
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
     }, [startColor]);
 
     return (
@@ -129,7 +129,7 @@ const Title = styled.h1`
     margin-bottom: 0;
 `;
 
-function Notfound(){
+function Notfound(): JSX.Element {
     return (
         <div>
             <CircleContainer/>

@@ -1,9 +1,16 @@
 import * as THREE from "three";
+import { CameraInfo } from "./CameraInfo";
+import { Color } from "./Color";
 
 export class CameraContainer {
     private _camera: THREE.Camera|null = null;
     private _currentCameraPriority: number = Number.MIN_SAFE_INTEGER;
-    private _cameraList: {priority: number, camera: THREE.Camera}[] = [];
+    private _cameraList: {camera: THREE.Camera, info: CameraInfo}[] = [];
+    private _onChangeBackgroundColor: (color: Color) => void;
+
+    public constructor(onChangeBackgroundColor: (color: Color) => void) {
+        this._onChangeBackgroundColor = onChangeBackgroundColor;
+    }
 
     public get camera(): THREE.Camera|null {
         return this._camera;
@@ -13,9 +20,9 @@ export class CameraContainer {
         return this._currentCameraPriority;
     }
 
-    public addCamera(camera: THREE.Camera, priority: number): void {
-        this._cameraList.push({priority, camera});
-        this._cameraList.sort((a, b) => a.priority - b.priority);
+    public addCamera(camera: THREE.Camera, info: CameraInfo): void {
+        this._cameraList.push({camera, info});
+        this._cameraList.sort((a, b) => a.info.priority - b.info.priority);
         this.setCamera();
     }
 
@@ -27,9 +34,19 @@ export class CameraContainer {
     public changeCameraPriority(camera: THREE.Camera, priority: number): void {
         const index = this._cameraList.findIndex(c => c.camera === camera);
         if (index !== -1) {
-            this._cameraList[index].priority = priority;
-            this._cameraList.sort((a, b) => a.priority - b.priority);
+            this._cameraList[index].info.priority = priority;
+            this._cameraList.sort((a, b) => a.info.priority - b.info.priority);
             this.setCamera();
+        }
+    }
+
+    public changeCameraBackgroundColor(camera: THREE.Camera, color: Color): void {
+        const index = this._cameraList.findIndex(c => c.camera === camera);
+        if (index !== -1) {
+            this._cameraList[index].info.backgroundColor = color;
+        }
+        if (this._camera === camera) {
+            this._onChangeBackgroundColor(color);
         }
     }
 
@@ -41,6 +58,7 @@ export class CameraContainer {
 
         const camera = this._cameraList[0].camera;
         this._camera = camera;
-        this._currentCameraPriority = this._cameraList[0].priority;
+        this._currentCameraPriority = this._cameraList[0].info.priority;
+        this._onChangeBackgroundColor(this._cameraList[0].info.backgroundColor);
     }
 }

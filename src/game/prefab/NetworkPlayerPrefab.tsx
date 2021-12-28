@@ -9,7 +9,7 @@ import { CssTextRenderer, FontWeight, TextAlign } from "../script/render/CssText
 import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { IGridCollidable } from "../script/physics/IGridCollidable";
-import { NetworkManager } from "../script/NetworkManager";
+import { PlayerNetworker } from "../script/networker/PlayerNetworker";
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
 
@@ -19,7 +19,7 @@ export class NetworkPlayerPrefab extends Prefab {
     private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
     private _nameTagString: PrefabRef<string> = new PrefabRef();
 
-    private _networkManager: NetworkManager | null = null;
+    private _networkManager: PlayerNetworker | null = null;
     private _userId: string | null = null;
 
     public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NetworkPlayerPrefab {
@@ -42,12 +42,12 @@ export class NetworkPlayerPrefab extends Prefab {
         return this;
     }
 
-    public withNetworkManager(networkManager: NetworkManager): NetworkPlayerPrefab {
+    public withNetworkManager(networkManager: PlayerNetworker): NetworkPlayerPrefab {
         this._networkManager = networkManager;
         return this;
     }
 
-    public withUserId(userId: string) {
+    public withUserId(userId: string): NetworkPlayerPrefab {
         this._userId = userId;
         return this;
     }
@@ -62,7 +62,7 @@ export class NetworkPlayerPrefab extends Prefab {
         
         return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                if (this._spriteAtlasPath.ref) c.setImage(this._spriteAtlasPath.ref, 4, 4);
+                if (this._spriteAtlasPath.ref) c.asyncSetImage(this._spriteAtlasPath.ref, 4, 4);
                 c.imageCenterOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })
@@ -80,7 +80,7 @@ export class NetworkPlayerPrefab extends Prefab {
             .withComponent(NetworkGridMovementController, c => {
                 if (this._tilemap.ref) {
                     c.gridCellHeight = this._tilemap.ref.gridCellHeight;
-                    c.gridCellWidth = this._tilemap.ref.gridCellWidth
+                    c.gridCellWidth = this._tilemap.ref.gridCellWidth;
                     c.gridCenter = this._tilemap.ref.gridCenter;
                 }
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
@@ -115,7 +115,8 @@ export class NetworkPlayerPrefab extends Prefab {
                             textAlign: "center",
                             padding: "5px 10px",
                             opacity: 0.5,
-                            }}>
+                            fontFamily: "Noto Sans",
+                        }}>
                             chat content
                         </div>
                     );
@@ -133,7 +134,8 @@ export class NetworkPlayerPrefab extends Prefab {
                     c.textAlign = TextAlign.Center;
                     c.fontWeight = FontWeight.Bold;
                     c.textHeight = 16;
-                    c.textWidth = 64;
+                    c.textWidth = 128;
+                    c.fontFamily = "Noto Sans";
                     c.pointerEvents = false;
                 })
                 .getComponent(CssTextRenderer, nameTagRenderer)

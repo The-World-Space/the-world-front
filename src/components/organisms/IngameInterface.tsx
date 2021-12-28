@@ -1,17 +1,25 @@
 import {
     Link,
-} from 'react-router-dom';
-import { useEffect, useRef, useState } from "react";
+} from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import twLogo2Black from '../atoms/tw logo 2 black.svg';
-import VariableBtnIcon from '../atoms/VariableBtnIcon.svg';
-import ChannelBtnIcon from '../atoms/ChannelBtnIcon.svg';
-import ArrowIcon from '../atoms/ArrowIcon.svg';
-import TrashcanIcon from '../atoms/TrashcanIcon.svg';
-import ChatIcon from '../atoms/ChatIcon.svg';
-import SendButtonIcon from '../atoms/SendButtonIcon.svg';
+import twLogo2Black from "../atoms/tw logo 2 black.svg";
+import ArrowIcon from "../atoms/ArrowIcon.svg";
+import ChatIcon from "../atoms/ChatIcon.svg";
+import SendButtonIcon from "../atoms/SendButtonIcon.svg";
+import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
-import { ApolloClient, gql } from "@apollo/client";
+import { FANCY_SCROLLBAR_CSS } from "./EditorInner/FieldEditorInner";
+import { ApolloClient, gql, useMutation } from "@apollo/client";
+import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
+import FieldEditorInner from "./EditorInner/FieldEditorInner";
+import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
+import WorldEditorInner from "./EditorInner/WorldEditorInner";
+import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
+import { WorldEditorContext } from "../../context/contexts";
+import useUser from "../../hooks/useUser";
+import IframeEditorInner from "./EditorInner/IframeEditorInner";
+import { Server } from "../../game/connect/types";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -34,6 +42,11 @@ const SidebarDiv = styled.div`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     z-index: 1;
     pointer-events: all;
+
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
 `;
 
 const LogoImage = styled.img`
@@ -49,75 +62,61 @@ const BarDivider = styled.div`
     margin: 25px 0px 25px 0px;
 `;
 
-const MenuButtonImage = styled.img`
+const LittleDivider = styled(BarDivider)`
     margin: 0px 0px 10px 0px;
-    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+`;
+
+const MenuButton = styled.div<{selected: boolean}>`
+    width: 85px;
+    height: 36px;
+
+    box-sizing: border-box;
+
+    margin: 0px 0px 10px 0px;
+    
+    border-radius: 66px;
+    border: 4px ${p => p.selected ? "#FFFFFB" : "#2E2E2E"} solid;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #FFFFFF;
+
+    background-color: #2E2E2E;
+
+    font-family: "Noto Sans";
+    font-size: 22px;
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 16px;
+
+    transition: border 200ms;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const CountIndicatorDiv = styled.div`
     margin-top: auto;
     margin-bottom: 26px;
     border-radius: 50%;
+    padding: 10px;
+    box-sizing: border-box;
     width: 59px;
     height: 59px;
     background: #FFFFFB;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     font-family: ${MENU_BUTTON_FONT_FAMILY};
     font-size: 14px;
     font-style: ${MENU_BUTTON_FONT_STYLE};
     font-weight: ${MENU_BUTTON_FONT_WEIGHT};
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
-`;
-
-const ExpandBarDiv = styled.div`
-    background: #D7CCC8;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
-    width: 350px;
-    height: 100%;
-    position: absolute;
-    right: -220px;
-    transition: left 0.5s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    pointer-events: all;
-`;
-
-const ListContainer = styled.ol`
-    display: flex;
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const ListItem = styled.li`
-    background: #A69B97;
-    border-radius: 23px;
-    display: flex;
-    width: 90%;
-    height: 60px;
-    margin-top: 20px;
-    padding: 7px;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-`;
-
-const ListItemInner = styled.div`
-    background: #FFFFFE;
-    border-radius: 23px;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
 `;
 
 const ExpandButton = styled.button`
@@ -131,18 +130,12 @@ const ExpandButton = styled.button`
     transition: transform 0.5s;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
     pointer-events: all;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
-const TrashCanButton = styled.button`
-    background: url(${TrashcanIcon}) no-repeat;
-    border: none;
-    width: 47px;
-    height: 47px;
-    margin-left: auto;
-    margin-right: 18px;
-    margin-bottom: 18px;
-    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
-`;
 
 const ChatButton = styled.button`
     background: url(${ChatIcon}) no-repeat;
@@ -154,6 +147,10 @@ const ChatButton = styled.button`
     bottom: 18px;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
     pointer-events: all;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const ChatDiv = styled.div`
@@ -183,12 +180,16 @@ const ChatContentDiv = styled.div`
         margin: 0;
         margin-top: 10px;
         margin-bottom: 10px;
+
+        overflow-wrap: break-word;
     }
     
     font-size: ${FORM_FONT_SIZE};
     font-weight: ${FORM_FONT_WEIGHT};
     font-family: ${FORM_FONT_FAMILY};
     font-style: ${FORM_FONT_STYLE};
+
+    ${FANCY_SCROLLBAR_CSS}
 `;
 
 const ChatInputDiv = styled.div`
@@ -226,6 +227,10 @@ const SendButton = styled.button`
     margin-left: auto;
     margin-right: 15px;
     filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.12));
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 
@@ -273,19 +278,35 @@ function onChat(worldId: string, callback: (data: chatMessage) => void, apolloCl
     });
 }
 
-
+enum Editor {
+    Field,
+    Broadcaster,
+    World,
+    Atlas,
+    Object,
+    Iframe
+}
 
 interface PropsType {
     apolloClient: ApolloClient<any>
     worldId: string;
 }
 
-function IngameInterface({ apolloClient, worldId }: PropsType) {
+function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
+    const { playerNetworker } = useContext(WorldEditorContext);
+    const { world, playerList, amIadmin } = useContext(WorldEditorContext);
     const [barOpened, setBarOpened] = useState(false);
+    const [selectedEditor, setSelectedEditor] = useState(Editor.Field);
     const [chatOpened, setChatOpened] = useState(false);
-    const [inputText, setInputText] = useState('');
+    const [inputText, setInputText] = useState("");
     const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
+    const previledge = useMemo(() => amIadmin || !!world?.amIOwner, [amIadmin, world]);
+
     const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setBarOpened(barOpened && previledge);
+    }, [barOpened, previledge]);
 
     function expandBarToggle() {
         setBarOpened((lastState) => !lastState);
@@ -296,75 +317,213 @@ function IngameInterface({ apolloClient, worldId }: PropsType) {
     }
 
     function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
-        if (event.key === 'Enter' && inputText !== '') {
+        if (event.key === "Enter" && inputText !== "") {
             sendChatMessage();
         }
     }
 
     function sendChatMessage() {
         sendChat(worldId, inputText, apolloClient);
-        setInputText('');
+        setInputText("");
     }
 
     useEffect(() => {
         if (!worldId) return;
+        if (!playerNetworker) return;
 
         onChat(worldId, data => {
+            playerNetworker.showNetworkPlayerChat(data.user.id, data.message);
             setChatting(
                 lastState => 
                     lastState.length > 100 
-                      ? [...lastState.slice(1), {...data, key: performance.now()}] 
-                      : [...lastState, {...data, key: performance.now()}]);
+                        ? [...lastState.slice(1), {...data, key: performance.now()}] 
+                        : [...lastState, {...data, key: performance.now()}]);
             if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
         }, apolloClient);
-    }, [apolloClient, worldId]);
+    }, [apolloClient, worldId, playerNetworker]);
+
+    const onMenuSelect = useCallback((editor: Editor) => {
+        setBarOpened(b => editor === selectedEditor ? !b : true);
+        setSelectedEditor(editor);
+    }, [selectedEditor]);
+
+    const [popupOpened, setPopupOpened] = useState(false);
+    const onPeopleCountClick = useCallback(() => {
+        setPopupOpened(p => !p);
+    }, []);
+
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
 
     return (
-        <OuterDiv>
-            <SidebarDiv>
-                <Link to="/">
-                    <LogoImage src={twLogo2Black} />
-                </Link>
-                <BarDivider/>
-                <MenuButtonImage src={VariableBtnIcon} />
-                <MenuButtonImage src={ChannelBtnIcon} />
-                <CountIndicatorDiv>5/10</CountIndicatorDiv>
-            </SidebarDiv>
-            <ExpandBarDiv style={barOpened ? {left: '130px'} : {left: '-220px'}}>
-                <ListContainer>
-                    <ListItem>
-                        <ListItemInner>
-                            여기는 아직 작성중 입니다!!!
-                        </ListItemInner>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemInner/>
-                    </ListItem>
-                </ListContainer>
-                <TrashCanButton/>
-            </ExpandBarDiv>
-            <ExpandButton onClick={() => expandBarToggle()} 
-            style={barOpened ? {} : {transform: 'rotate(180deg)'}}/>
-            <ChatButton onClick={() => chatToggle()}/>
-            <ChatDiv style={chatOpened ? {} : {transform: 'translateX(339px)'}}>
-                <ChatContentDiv ref={ref}>
-                    {chatting.map((data, index) => (
-                        <p key={data.key}>
-                            {data.user.nickname}: {data.message}
-                        </p>
-                    ))}
-                </ChatContentDiv>
-                <ChatInputDiv>
-                    <ChatInput 
-                        placeholder="Enter message here." 
-                        value={inputText} 
-                        onKeyPress={(event) => onKeyPress(event)} 
-                        onChange={e => setInputText(e.currentTarget.value)}/>
-                    <SendButton onClick={() => sendChatMessage()}/>
-                </ChatInputDiv>
-            </ChatDiv>
-        </OuterDiv>
+        <>
+            <PlayerListPopup opened={popupOpened} worldId={worldId} />
+            <OuterDiv>
+                <SidebarDiv>
+                    <Link to="/">
+                        <LogoImage src={twLogo2Black} />
+                    </Link>
+                    { (amIadmin || world?.amIOwner) &&
+                        <>
+                            <BarDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
+                            <LittleDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
+                            <LittleDivider/>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>PORT</MenuButton>
+                        </>
+                    }
+                    <CountIndicatorDiv onClick={onPeopleCountClick}>
+                        <PeopleIcon style={{marginTop: "10px"}} /> 
+                        {playerList?.length + 1}
+                    </CountIndicatorDiv>
+                </SidebarDiv>
+                <>
+                    <FieldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Field}/>
+                    <BroadcasterEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Broadcaster}/>
+                    <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
+                    <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />
+                    <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
+                    <IframeEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Iframe}/>
+                </>
+                { (amIadmin || world?.amIOwner) &&
+                    <ExpandButton onClick={() => expandBarToggle()} 
+                        style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
+                }
+                <ChatButton onClick={() => chatToggle()}/>
+                <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
+                    <ChatContentDiv ref={ref}>
+                        {chatting.map((data/*, index*/) => (
+                            <p key={data.key}>
+                                {data.user.nickname}: {data.message}
+                            </p>
+                        ))}
+                    </ChatContentDiv>
+                    <ChatInputDiv>
+                        <ChatInput 
+                            placeholder="Enter message here." 
+                            value={inputText} 
+                            onKeyPress={(event) => onKeyPress(event)} 
+                            onChange={e => setInputText(e.currentTarget.value)}
+                            onFocus={onFocus}
+                            onBlur={onBlur}/>
+                        <SendButton onClick={() => sendChatMessage()}/>
+                    </ChatInputDiv>
+                </ChatDiv>
+            </OuterDiv>
+        </>
     );
 }
 
 export default IngameInterface;
+
+
+const PopupDiv = styled.div<{opened: boolean}>`
+    width: 80%;
+    height: 300px;
+    max-width: 700px;
+    
+    position: fixed;
+    z-index: 10;
+    left: 50%;
+    top: ${p => p.opened ? "50%" : "100%"};
+
+    box-sizing: border-box;
+    padding: 30px;
+
+    overflow-x: auto;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    transform: ${p => p.opened ? "translate(-50%, -50%)" : "translate(-50%, 0)"};
+
+    background: #FFFFFFDD;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
+    border-radius: 38px;
+
+    pointer-events: auto;
+
+    transition: all 0.3s ease-in-out;
+`;
+
+interface PopupProps {
+    opened: boolean;
+    worldId: string;
+}
+
+const ADD_WORLD_ADMIN = gql`
+    mutation addWorldAdmin($userId: String!, $worldId: String!) {
+        addWorldAdmin(userId: $userId, worldId: $worldId) {
+            id
+        }
+    }
+`;
+
+const REMOVE_WORLD_ADMIN = gql`
+    mutation removeWorldAdmin($userId: String!, $worldId: String!) {
+        removeWorldAdmin(userId: $userId, worldId: $worldId) {
+            id
+        }
+    }
+`;
+
+const    PlayerListPopup = React.memo(PlayerListPopup_);
+function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
+    const { playerList, world, adminPlayerList } = useContext(WorldEditorContext);
+    const [addWorldAdmin] = useMutation(ADD_WORLD_ADMIN);
+    const [removeWorldAdmin] = useMutation(REMOVE_WORLD_ADMIN);
+    const adminSet = useMemo(() => new Set(adminPlayerList.map(a => a.id)), [adminPlayerList]);
+    const user = useUser();
+
+    const onSelect = useCallback((player: Server.User, admin: boolean) => {
+        if (!world) return;
+        if (admin) {
+            addWorldAdmin({
+                variables: {
+                    userId: player.id,
+                    worldId: world.id
+                }
+            });
+        }
+        else {
+            removeWorldAdmin({
+                variables: {
+                    userId: player.id,
+                    worldId: world.id
+                }
+            });
+        }
+    }, [addWorldAdmin, world, removeWorldAdmin]);
+
+    return (
+        <PopupDiv opened={opened}>
+            <p style={{marginLeft: world?.amIOwner ? "20px" : "0px"}}>
+                {user?.nickname}
+            </p>
+            {playerList.map(player => (
+                <div style={{display: "flex", alignItems: "center"}} key={player.id}>
+                    {
+                        world?.amIOwner && 
+                            <input type="checkbox" defaultChecked={adminSet.has(player.id)} onChange={e => onSelect(player, e.target.checked)} />
+                    }
+                    <p>
+                        {player.nickname}
+                    </p>
+                </div>
+            ))}
+            {playerList.length === 0 && <p>No players online.</p>}
+        </PopupDiv>
+    );
+}

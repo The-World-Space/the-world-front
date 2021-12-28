@@ -13,7 +13,7 @@ export interface IEngine {
 
     get screen(): IReadonlyGameScreen;
 
-    get inputHandler(): InputHandler;
+    get input(): InputHandler;
 
     get time(): IReadonlyTime;
 

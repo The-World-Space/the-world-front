@@ -6,7 +6,7 @@ import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 
 export class CameraPrefab extends Prefab {
-    private _trackTarget: PrefabRef<GameObject> = new PrefabRef();
+    private _trackTarget = new PrefabRef<GameObject>();
 
     public withTrackTarget(target: PrefabRef<GameObject>): CameraPrefab {
         this._trackTarget = target;

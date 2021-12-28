@@ -96,7 +96,7 @@ const Circle8 = styled.div`
     z-index: -1;
 `;
 
-function Background() {
+function Background(): JSX.Element {
     return (
         <>
             <Circle1/>

@@ -23,7 +23,7 @@ export class IframeRenderer extends Component {
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        if (this._css3DObject) this.gameObject.unsafeGetTransform().remove(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -50,15 +50,21 @@ export class IframeRenderer extends Component {
         this._htmlIframeElement.height = (iframeHeight / this.viewScale).toString();
         this._htmlIframeElement.src = this._iframeSource;
         this._css3DObject = new CSS3DObject(this._htmlIframeElement);
-        this._css3DObject.position.set(
-            iframeWidth * this._iframeCenterOffset.x,
-            iframeHeight * this._iframeCenterOffset.y, 0
-        );
+        this.updateCenterOffset();
         this._css3DObject.scale.set(this.viewScale, this.viewScale, this.viewScale);
-        this.gameObject.unsafeGetTransform().add(this._css3DObject); //it's safe because _css3DObject is not GameObject and remove is from onDestroy
+        this.gameObject.unsafeGetTransform().add(this._css3DObject); //it"s safe because _css3DObject is not GameObject and remove is from onDestroy
         this._htmlIframeElement.style.border = "none";
         this._htmlIframeElement.style.zIndex = Math.floor(this._zindex).toString();
         this._htmlIframeElement.style.pointerEvents = this._pointerEvents ? "auto" : "none";
+    }
+
+    private updateCenterOffset(): void {
+        if (this._css3DObject) {
+            this._css3DObject.position.set(
+                this._width * this._iframeCenterOffset.x,
+                this._height * this._iframeCenterOffset.y, 0
+            );
+        }
     }
 
     public get width(): number {
@@ -71,6 +77,7 @@ export class IframeRenderer extends Component {
         if (this._htmlIframeElement) {
             this._htmlIframeElement.width = value.toString();
         }
+        this.updateCenterOffset();
     }
 
     public get height(): number {
@@ -83,6 +90,7 @@ export class IframeRenderer extends Component {
         if (this._htmlIframeElement) {
             this._htmlIframeElement.height = value.toString();
         }
+        this.updateCenterOffset();
     }
 
     public get viewScale(): number {
@@ -129,12 +137,7 @@ export class IframeRenderer extends Component {
 
     public set iframeCenterOffset(value: Vector2) {
         this._iframeCenterOffset.copy(value);
-        if (this._css3DObject) {
-            this._css3DObject.position.set(
-                this._width * this._iframeCenterOffset.x,
-                this._height * this._iframeCenterOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get htmlIframeElement(): HTMLIFrameElement {

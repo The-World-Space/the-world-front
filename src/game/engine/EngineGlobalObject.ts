@@ -30,6 +30,7 @@ export class EngineGlobalObject implements IEngine {
         gameScreen: IReadonlyGameScreen,
         sceneProcessor: SceneProcessor,
         coroutineProcessor: CoroutineProcessor,
+        renderTargetDom: HTMLElement
     ) {
         this._rootScene = rootScene;
         this._cameraContainer = cameraContainer;
@@ -38,7 +39,7 @@ export class EngineGlobalObject implements IEngine {
         this._screen = gameScreen;
         this._sceneProcessor = sceneProcessor;
         this._coroutineProcessor = coroutineProcessor;
-        this._inputHandler = new InputHandler();
+        this._inputHandler = new InputHandler(renderTargetDom);
         this._instantlater = new Instantiater(this);
     }
 
@@ -58,7 +59,7 @@ export class EngineGlobalObject implements IEngine {
         return this._screen;
     }
 
-    public get inputHandler(): InputHandler {
+    public get input(): InputHandler {
         return this._inputHandler;
     }
 

@@ -24,7 +24,7 @@ export class CssSpriteRenderer extends Component {
     protected start(): void {
         this._initializeFunction?.call(this);
         if (!this._htmlImageElement) {
-            this.imagePath = CssSpriteRenderer._defaultImagePath;
+            this.asyncSetImagePath(CssSpriteRenderer._defaultImagePath);
         }
         
         ZaxisInitializer.checkAncestorZaxisInitializer(this.gameObject, this.onSortByZaxis.bind(this));
@@ -32,7 +32,7 @@ export class CssSpriteRenderer extends Component {
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._sprite) this.gameObject.unsafeGetTransform().remove(this._sprite); //it's safe because _sprite is not GameObject and remove is from onDestroy
+        if (this._sprite) this.gameObject.unsafeGetTransform().remove(this._sprite); //it"s safe because _sprite is not GameObject and remove is from onDestroy
     }
 
     public onEnable(): void {
@@ -54,10 +54,10 @@ export class CssSpriteRenderer extends Component {
         return this._htmlImageElement?.src || null;
     }
 
-    public set imagePath(path: string|null) {
+    public asyncSetImagePath(path: string|null, onComplete?: () => void): void {
         if (!this.started && !this.starting) {
             this._initializeFunction = () => {
-                this.imagePath = path;
+                this.asyncSetImagePath(path, onComplete);
             };
             return;
         }
@@ -85,19 +85,27 @@ export class CssSpriteRenderer extends Component {
                 image.style.opacity = this._opacity.toString();
                 image.style.pointerEvents = this._pointerEvents ? "auto" : "none";
                 image.style.zIndex = Math.floor(this._zindex).toString();
-                this._sprite.position.set(
-                    this._imageWidth * this._imageCenterOffset.x,
-                    this._imageHeight * this._imageCenterOffset.y, 0
-                );
+                this.updateCenterOffset();
                 this._sprite.scale.x = this._imageFlipX ? -1 : 1;
                 this._sprite.scale.y = this._imageFlipY ? -1 : 1;
-                this.gameObject.unsafeGetTransform().add(this._sprite); //it's safe because _sprite is not GameObject and remove is from onDestroy
+                this.gameObject.unsafeGetTransform().add(this._sprite); //it"s safe because _sprite is not GameObject and remove is from onDestroy
                 
                 if (this.enabled && this.gameObject.activeInHierarchy) this._sprite.visible = true;
                 else this._sprite.visible = false;
             }
+
+            onComplete?.();
         };
         this._htmlImageElement.addEventListener("load", onLoad);
+    }
+
+    private updateCenterOffset(): void {
+        if (this._sprite) {
+            this._sprite.position.set(
+                this._imageWidth * this._imageCenterOffset.x,
+                this._imageHeight * this._imageCenterOffset.y, 0
+            );
+        }
     }
     
     public get imageCenterOffset(): Vector2 {
@@ -106,12 +114,7 @@ export class CssSpriteRenderer extends Component {
 
     public set imageCenterOffset(value: Vector2) {
         this._imageCenterOffset.copy(value);
-        if (this._sprite) {
-            this._sprite.position.set(
-                this._imageWidth * this._imageCenterOffset.x,
-                this._imageWidth * this._imageCenterOffset.y, 0
-            );
-        }
+        this.updateCenterOffset();
     }
 
     public get imageWidth(): number {
@@ -123,6 +126,7 @@ export class CssSpriteRenderer extends Component {
         if (this._htmlImageElement) {
             this._htmlImageElement.style.width = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get imageHeight(): number {
@@ -134,6 +138,7 @@ export class CssSpriteRenderer extends Component {
         if (this._htmlImageElement) {
             this._htmlImageElement.style.height = `${value}px`;
         }
+        this.updateCenterOffset();
     }
 
     public get imageFlipX(): boolean {

@@ -1,18 +1,22 @@
-import React from "react";
 import { useEffect } from "react";
 import {
     useHistory
-} from 'react-router-dom';
-import Context from '../context';
-import { useContext } from 'react';
+} from "react-router-dom";
+import { AuthContext } from "../context/contexts";
+import { useContext } from "react";
+import { useApolloClient } from "@apollo/client";
 
-function Logout() {
+function Logout(): JSX.Element {
+    const apolloClient = useApolloClient();
     const history = useHistory();
-    const { setJwt } = useContext(Context);
+    const { setJwt } = useContext(AuthContext);
 
     useEffect(() => {
-        setJwt('');
-        history.push('/');
+        setJwt("");
+        apolloClient.resetStore()
+            .then(() => {
+                history.push("/");
+            });
     });
 
     return (

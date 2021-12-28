@@ -6,7 +6,7 @@ import { PathNode } from "./PathNode";
 
 export class Pathfinder {
     private static readonly _checkCollisionScale: number = 8;
-    private static readonly _iterationLimit: number = 150;
+    private static readonly _iterationLimit: number = 1000;
 
     private collideMaps: IGridCollidable[];
 
@@ -14,7 +14,7 @@ export class Pathfinder {
         this.collideMaps = collideMaps?.slice() ?? [];
     }
 
-    public addCollideMap(collideMap: IGridCollidable) {
+    public addCollideMap(collideMap: IGridCollidable): void {
         this.collideMaps.push(collideMap);
     }
 

@@ -1,81 +1,163 @@
-import { useEffect } from 'react';
-import { TheWorldBootstrapper, NetworkInfoObject } from '../game/TheWorldBootstrapper';
-import { Game } from '../game/engine/Game';
-import { useAsync } from 'react-use';
-import { getWorld, globalApolloClient, joinWorld } from '../game/connect/gql';
-import { Vector2 } from 'three';
-import useUser from '../hooks/useUser';
+import { useContext, useEffect, useRef } from "react";
+import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
+import { Game } from "../game/engine/Game";
+import { useAsync } from "react-use";
+import { getWorld, globalApolloClient, joinWorld } from "../game/connect/gql";
+import { Vector2 } from "three";
+import useUser from "../hooks/useUser";
 import IngameInterface from "../components/organisms/IngameInterface";
-import { useParams } from 'react-router-dom';
-import { NetworkManager } from '../game/script/NetworkManager';
-import { PenpalNetworkWrapper } from '../game/penpal/PenpalNetworkWrapper';
+import { useParams } from "react-router-dom";
+import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
+import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
+import { WidgetManager } from "../game/script/WidgetManager";
+import styled from "styled-components";
+import { GameProvider } from "../context/Provider";
+import { WorldEditorContext } from "../context/contexts";
+import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
 
-function NetworkGamePage() {
-    let game: Game | null = null;
-    let div: HTMLDivElement | null = null;
-    let widgetWrapper: HTMLDivElement | null = null
-    let networkManager: NetworkManager | null = null;
-    let penpalNetworkWrapper: PenpalNetworkWrapper | null = null;
-    const { worldId } = useParams<{worldId: string}>();
-    let { loading: world_loading, value: world } = useAsync(() => getWorld(worldId, globalApolloClient));
-    let user = useUser();
+const Container = styled.div`
+    display: flex;
+    height: 100%;
+    width: 100%;
+`;
+
+const IngameInterfaceContainer = styled.div`
+    z-index: 1;
+    height: 100%;
+    pointer-events: none;
+`;
+
+const GameContainer = styled.div`
+    height: "100%";
+    width: "calc(100% - 130px)";
+    z-index: 0;
+`;
+
+const WidgetContainer = styled.div`
+    height: 100%;
+    width: "calc(100% - 130px)";
+    z-index: 1;
+    position: absolute;
+    pointer-events: none;
+    right: 0px;
+`;
+
+const WidgetWrapper = styled.div`
+    height: 100%;
+    width: 100%;
+    position: relative;
+    pointer-events: none;
+`;
+
+const GameView = styled.div`
+    height: 100%;
+    width: calc(100% - 130px);
+    z-index: 0;
+    position: absolute;
+`;
+
+const Loading = styled.div`
+    height: 100%;
+    width: calc(100% - 130px);
+    z-index: 0;
+
+    position: absolute;
+    display: flex;
     
-    useEffect( () => { //on mount component
-        window.addEventListener('resize', onWindowResize);
-    });
-    useEffect( () => () => { //on unmount component
-        window.removeEventListener('resize', onWindowResize);
-        game?.dispose();
-    });
+    align-items: center;
+    justify-content: center;
+`;
 
-    function onWindowResize() {
-        if (div) game?.resizeFramebuffer(div.offsetWidth, div.offsetHeight);
+
+const LodingLogo = styled(TWLogo)`
+    transform-origin: center center;
+
+    width: 100px;
+    height: 60px;
+
+    animation-duration: 3s;
+    animation-name: spin;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+
+    @keyframes spin {
+
+        0% {
+            transform: rotateY(0);
+        }
+
+        50% {
+            transform: rotateY(3.142rad);
+        }
+
+        100% {
+            transform: rotateY(2*3.142rad);
+        }
+
     }
+`;
+
+
+function NetworkGamePage_(): JSX.Element {
+    const div = useRef<HTMLDivElement>(null);
+    const widgetWrapperdiv = useRef<HTMLDivElement>(null);
+    const { worldId } = useParams<{worldId: string}>();
+    const { value: world, error, loading } = useAsync(() => getWorld(worldId, globalApolloClient), [worldId]);
+    const { setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
+    const user = useUser();
+
+    useEffect(() => { //on component mounted
+        console.log("component mounted", worldId);
+        if (error) throw error;
+        if (!world || !user) return; 
+        if (!worldEditorConnector) return;
+        if (!div.current) throw new Error("div is null");
+        if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
+        setWorld(world);
+        const game = new Game(div.current);
+        const playerNetworker = new PlayerNetworker(world.id, user.id, globalApolloClient);
+        const penpalNetworkWrapper = new PenpalNetworker(world.id, globalApolloClient);
+        const widgetManager = new WidgetManager(penpalNetworkWrapper, /*world,*/ widgetWrapperdiv.current, []);
+        setPlayerNetworker(playerNetworker);
+        game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
+        setGame(game);
+        joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
+            game.inputHandler.startHandleEvents();
+        });
+        
+        return () => { //on component unmount
+            console.log("dispose");
+            game.dispose();
+            widgetManager.dispose();
+        };
+    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld]);
 
     return (
-        <div style={{
-            display: 'flex',
-            width: '100%',
-            height: '100%',
-        }}>
-            <div style={{
-                zIndex: 1,
-                height: '100%',
-                pointerEvents: 'none',
-            }}>
+        <Container>
+            <IngameInterfaceContainer>
                 <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
-            </div>
-            <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 0}}>
-                <div style = {{height: '0%', width: '0%', zIndex: 1, position: 'absolute', pointerEvents: 'auto'}} ref={ref => {
-                    if (ref) {
-                        widgetWrapper = ref;
-                    }
-                }}>
-                    
-                </div>
-                <div style = {{height: '100%', width: 'calc(100% - 130px)', zIndex: 0, position: 'absolute'}} ref={ref => {
-                    div = ref;
-                    if (ref !== null && widgetWrapper && !world_loading && world && user) {
+            </IngameInterfaceContainer>
+            <GameContainer>
+                <WidgetContainer>
+                    <WidgetWrapper ref={widgetWrapperdiv}/> 
+                </WidgetContainer>
+                {
+                    loading && <Loading>
+                        <LodingLogo />
+                    </Loading>
+                }
+                <GameView ref={div}/>
+            </GameContainer>
+        </Container>
+    );
+}
 
-                        widgetWrapper.innerHTML = "<h1>모든게 정상적으로 동작 ^ㅅ^</h1>";
-                        widgetWrapper.querySelector('h1')!.onclick = () => alert("어딜만져! 어딜만지냐고!");
-                        
-
-                        game = new Game(ref, ref.offsetWidth, ref.offsetHeight);
-                        networkManager = new NetworkManager(world.id, user.id, globalApolloClient);
-                        penpalNetworkWrapper = new PenpalNetworkWrapper(world.id, globalApolloClient);
-
-                        game.run(
-                            TheWorldBootstrapper, 
-                            new NetworkInfoObject(world, user, globalApolloClient, networkManager, penpalNetworkWrapper));
-                        
-                        joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
-                            game!.inputHandler.startHandleEvents();
-                        });
-                    }
-                }}/>
-            </div>
-        </div>
+function NetworkGamePage(): JSX.Element {
+    return (
+        <GameProvider>
+            <NetworkGamePage_ />
+        </GameProvider>
     );
 }
 

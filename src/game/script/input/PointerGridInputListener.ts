@@ -73,7 +73,7 @@ export class PointerGridInputListener extends Component {
         this._htmlDivElement.addEventListener("touchcancel", this._onTouchCancelBind);
 
         this.gameObject.unsafeGetTransform().add(this._css3DObject);
-        //it's safe because _css3DObject is not a GameObject and i'm removing it from the scene in onDestroy
+        //it"s safe because _css3DObject is not a GameObject and i"m removing it from the scene in onDestroy
     }
 
     private readonly _tempVector3: Vector3 = new Vector3();
@@ -92,7 +92,7 @@ export class PointerGridInputListener extends Component {
 
     public onDestroy(): void {
         if (!this.started) return;
-        if (this._htmlDivElement) { //It's the intended useless branch
+        if (this._htmlDivElement) { //It"s the intended useless branch
             this._htmlDivElement.removeEventListener("mousedown", this._onMouseDownBind);
             this._htmlDivElement.removeEventListener("mouseup", this._onMouseUpBind);
             this._htmlDivElement.removeEventListener("mouseenter", this._onMouseEnterBind);
@@ -105,7 +105,7 @@ export class PointerGridInputListener extends Component {
         }
         if (this._css3DObject) {
             this.gameObject.unsafeGetTransform().remove(this._css3DObject);
-            //it's safe because _css3DObject is not a GameObject and i'm removing it from the scene in onDestroy
+            //it"s safe because _css3DObject is not a GameObject and i"m removing it from the scene in onDestroy
         }
     }
 
@@ -162,10 +162,10 @@ export class PointerGridInputListener extends Component {
     private simulateMouseEvent(eventName: string, touch: Touch): void {
         const simulatedEvent = new MouseEvent(
             eventName, {
-            bubbles: true, cancelable: true, view: window, detail: 1,
-            screenX: touch.screenX, screenY: touch.screenY, clientX: touch.clientX, clientY: touch.clientY,
-            ctrlKey: false, altKey: false, shiftKey: false, metaKey: false, button: 0, relatedTarget: null
-        });
+                bubbles: true, cancelable: true, view: window, detail: 1,
+                screenX: touch.screenX, screenY: touch.screenY, clientX: touch.clientX, clientY: touch.clientY,
+                ctrlKey: false, altKey: false, shiftKey: false, metaKey: false, button: 0, relatedTarget: null
+            });
         touch.target.dispatchEvent(simulatedEvent);
     }
 
@@ -173,7 +173,7 @@ export class PointerGridInputListener extends Component {
         this._onTouchStartFunc = () => {
             this.simulateMouseEvent("mouseenter", event.touches[0]);
             this.simulateMouseEvent("mousedown", event.touches[0]);
-        }
+        };
     }
 
     private onTouchEnd(event: TouchEvent): void {

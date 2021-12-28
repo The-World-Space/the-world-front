@@ -5,13 +5,13 @@ export interface ITransform {
 	gameObject: GameObject;
 
 	/**
-	 * Object's parent in the scene graph.
+	 * Object"s parent in the scene graph.
 	 * @default null
 	 */
 	parentTransform: ITransform | null;
 
 	/**
-	 * Array with object's children.
+	 * Array with object"s children.
 	 * @default []
 	 */
 	childrenTransform: ITransform[];
@@ -23,25 +23,25 @@ export interface ITransform {
 	up: Vector3;
 
 	/**
-	 * Object's local position.
+	 * Object"s local position.
 	 * @default new THREE.Vector3()
 	 */
 	readonly position: Vector3;
 
 	/**
-	 * Object's local rotation (Euler angles), in radians.
+	 * Object"s local rotation (Euler angles), in radians.
 	 * @default new THREE.Euler()
 	 */
 	readonly rotation: Euler;
 
 	/**
-	 * Object's local rotation as a Quaternion.
+	 * Object"s local rotation as a Quaternion.
 	 * @default new THREE.Quaternion()
 	 */
 	readonly quaternion: Quaternion;
 
 	/**
-	 * Object's local scale.
+	 * Object"s local scale.
 	 * @default new THREE.Vector3()
 	 */
 	readonly scale: Vector3;
@@ -63,7 +63,7 @@ export interface ITransform {
 	matrix: Matrix4;
 
 	/**
-	 * The global transform of the object. If the Object3d has no parent, then it's identical to the local transform.
+	 * The global transform of the object. If the Object3d has no parent, then it"s identical to the local transform.
 	 * @default new THREE.Matrix4()
 	 */
 	matrixWorld: Matrix4;
