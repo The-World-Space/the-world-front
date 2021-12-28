@@ -140,6 +140,7 @@ function NetworkGamePage_(): JSX.Element {
                 worldId: world.id
             }
         }).subscribe(() => {
+            alert("You have been kicked from the world");
             history.push("/");
         });
         
