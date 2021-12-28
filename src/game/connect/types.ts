@@ -16,13 +16,27 @@ export namespace Server {
         isPublic: boolean;
         players: User[];
         colliders: Collider[];
-        atlasTiles: AtlasTile[];
+        atlasInfoScalar: AtlasInfoScalar;
         iframes: IframeGameObject[];
         images: ImageGameObject[];
         imageWidgets: ImageWidget[];
         globalFields: GlobalField[];
         globalBroadcasters: GlobalBroadcaster[];
     }
+
+    export type AtlasInfoScalar = ({
+        id: number;
+        src: string;
+        rowCount: number;
+        columnCount: number;
+        tiles: ({
+            x: number;
+            y: number;
+            atlasIndex: number;
+            type: number;
+        })[];
+    })[];
+    
 
     export interface User {
         id: string;
