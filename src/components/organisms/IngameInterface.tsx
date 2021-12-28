@@ -337,6 +337,16 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
         setPopupOpened(p => !p);
     }, []);
 
+    const {game} = useContext(WorldEditorContext);
+
+    const onFocus = useCallback(() => {
+        game?.inputHandler.stopHandleEvents();
+    }, [game]);
+
+    const onBlur = useCallback(() => {
+        game?.inputHandler.startHandleEvents();
+    }, [game]);
+
     return (
         <>
             <PlayerListPopup opened={popupOpened} worldId={worldId} />
@@ -390,6 +400,8 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                             value={inputText} 
                             onKeyPress={(event) => onKeyPress(event)} 
                             onChange={e => setInputText(e.currentTarget.value)}/>
+                            onFocus={onFocus}
+                            onBlur={onBlur}
                         <SendButton onClick={() => sendChatMessage()}/>
                     </ChatInputDiv>
                 </ChatDiv>
