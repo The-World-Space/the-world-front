@@ -30,7 +30,8 @@ export class NetworkTileManager extends Component {
         if (!this._tileNetworker) throw new Error("tile networker not set");
 
         const promiseList: Promise<void>[] = [];
-        this._initTileList.forEach(atlas => {
+        for (let i = 0; i < this._initTileList.length; i++) {
+            const atlas = this._initTileList[i];
             this._atlasImageMap.set(atlas.src, this._atlasImageAddIndex);
             const image = new Image();
             image.src = atlas.src;
@@ -38,7 +39,7 @@ export class NetworkTileManager extends Component {
             this._atlasItemList.push(atlasItem);
             promiseList.push(imageLoad(image));
             this._atlasImageAddIndex += 1;
-        });
+        }
 
         function imageLoad(image: HTMLImageElement) {
             return new Promise<void>((res, rej) => {
