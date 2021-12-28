@@ -9,6 +9,7 @@ import ChatIcon from "../atoms/ChatIcon.svg";
 import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
+import { FANCY_SCROLLBAR_CSS } from "./EditorInner/FieldEditorInner";
 import { ApolloClient, gql } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
 import FieldEditorInner from "./EditorInner/FieldEditorInner";
@@ -184,6 +185,8 @@ const ChatContentDiv = styled.div`
     font-weight: ${FORM_FONT_WEIGHT};
     font-family: ${FORM_FONT_FAMILY};
     font-style: ${FORM_FONT_STYLE};
+
+    ${FANCY_SCROLLBAR_CSS}
 `;
 
 const ChatInputDiv = styled.div`
