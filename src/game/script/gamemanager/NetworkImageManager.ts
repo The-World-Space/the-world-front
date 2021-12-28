@@ -7,7 +7,7 @@ import { NetworkImagePrefab } from "../../prefab/NetworkImagePrefab";
 import { ImageNetworker } from "../networker/ImageNetworker";
 import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
 import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
-import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
+import { ZaxisInitializer } from "../render/ZaxisInitializer";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkImageManager";
@@ -66,11 +66,20 @@ export class NetworkImageManager extends Component {
         const gcy = this._iGridCoordinateable?.gridCenterY || 8;
         const gw = this._iGridCoordinateable?.gridCellWidth || 16;
         const gh = this._iGridCoordinateable?.gridCellHeight || 16;
-        const calculated =  new Vector3(
-            gcx + imageInfo.x * gw - gw / 2,
-            gcy + imageInfo.y * gh - gh / 2, 1);
         
         if (!imageInfo.proto_) return;
+        
+        const zindex = 
+            (imageInfo.proto_.type === Server.GameObjectType.Effect) ? 3800000 :
+            (imageInfo.proto_.type === Server.GameObjectType.Floor)  ? -3800000 :
+            0;
+
+        const calculated =  new Vector3(
+            gcx + imageInfo.x * gw - gw / 2,
+            gcy + imageInfo.y * gh - gh / 2,
+            zindex
+        );
+        
         const colliders = imageInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
         
         const prefab = 
@@ -86,12 +95,7 @@ export class NetworkImageManager extends Component {
 
         // Put soter after build
         if (flatTypes.has(imageInfo.proto_.type)) {
-            const c = prefabRef.ref!.addComponent(CameraRelativeZaxisSorter);
-            if (!c) throw new Error("fail to add");
-            c.offset =
-                (imageInfo.proto_.type === Server.GameObjectType.Effect) ? 100 :
-                (imageInfo.proto_.type === Server.GameObjectType.Floor)  ? -500 :
-                0;
+            prefabRef.ref!.addComponent(ZaxisInitializer);
         }
         else {
             const c = prefabRef.ref!.addComponent(ZaxisSorter);

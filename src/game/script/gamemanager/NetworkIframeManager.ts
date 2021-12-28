@@ -12,9 +12,9 @@ import { AdminNetworker } from "../networker/AdminNetworker";
 import { IframeNetworker } from "../networker/IframeNetworker";
 import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
 import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
-import { CameraRelativeZaxisSorter } from "../render/CameraRelativeZaxisSorter";
 import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
 import { IframeRenderer } from "../render/IframeRenderer";
+import { ZaxisInitializer } from "../render/ZaxisInitializer";
 import { ZaxisSorter } from "../render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
@@ -107,11 +107,20 @@ export class NetworkIframeManager extends Component {
         const gcy = this._iGridCoordinatable?.gridCenterY || 8;
         const gw = this._iGridCoordinatable?.gridCellWidth || 16;
         const gh = this._iGridCoordinatable?.gridCellHeight || 16;
-        const calculated =  new Vector3(
-            gcx + iframeInfo.x * gw - gw / 2,
-            gcy + iframeInfo.y * gh - gh / 2, 1);
         
         if (!iframeInfo.proto_) return;
+        
+        const zindex = 
+            (iframeInfo.proto_.type === Server.GameObjectType.Effect) ? 3900000 :
+            (iframeInfo.proto_.type === Server.GameObjectType.Floor)  ? -3900000 :
+            0;
+
+        const calculated =  new Vector3(
+            gcx + iframeInfo.x * gw - gw / 2,
+            gcy + iframeInfo.y * gh - gh / 2,
+            zindex
+        );
+
         const colliders = iframeInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
 
         const iframeRenderer = new PrefabRef<IframeRenderer>();
@@ -133,12 +142,7 @@ export class NetworkIframeManager extends Component {
 
         // Put soter after build
         if (flatTypes.has(iframeInfo.proto_.type)) {
-            const c = prefabRef.ref!.addComponent(CameraRelativeZaxisSorter);
-            if (!c) throw new Error("fail to add");
-            c.offset =
-                (iframeInfo.proto_.type === Server.GameObjectType.Effect) ? 100 :
-                (iframeInfo.proto_.type === Server.GameObjectType.Floor)  ? -500 :
-                0;
+            prefabRef.ref!.addComponent(ZaxisInitializer);
         }
         else {
             const c = prefabRef.ref!.addComponent(ZaxisSorter);
