@@ -10,6 +10,7 @@ import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { WorldEditorContext } from "../../../context/contexts";
 import { Tools } from "../../../game/script/WorldEditorConnector";
 import { useDebounce } from "react-use";
+import { Link } from "react-router-dom";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -110,8 +111,13 @@ const IframeInputSettingWrapper = styled.div`
     width: 100%;
     height: 48px;
 
+    padding: 0px 10px 0px 10px;
+
+    box-sizing: border-box;
+
     display: flex;
     justify-content: center;
+    align-items: center;
 `;
 
 const IframeInputSettingRightText = styled.span<{selected: boolean, selectable: boolean}>`
@@ -220,6 +226,12 @@ const ToolsWrapper = styled.div<{selected: number}>`
         }
     }
 
+`;
+
+const STYLED_LINK = styled(Link)`
+    color: #00000080;
+    font-weight: 800;
+    text-decoration: none;
 `;
 
 
@@ -610,8 +622,16 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframesSrc(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
                     <ListFakeHr />
                     <IframeInputSettingWrapper>
+                        <span style={{marginRight: "auto", opacity: "0"}}>
+                            Upload
+                        </span>
                         <IframeSettingLeftInput label="W" value={iframeWidth} onChange={e => isSafeNum(+e.target.value) && setIframeWidth(e.target.value)} />
                         <IframeSettingLeftInput label="H" value={iframeHeight} onChange={e => isSafeNum(+e.target.value) && setIframeHeight(e.target.value)} />
+                        <span style={{marginLeft: "auto"}}>
+                            <STYLED_LINK to="/upload" target="_blank" rel="noopener noreferrer">
+                                Upload
+                            </STYLED_LINK>
+                        </span>
                     </IframeInputSettingWrapper>
                 </IframeInputWrapper>
                 <PlaceModeInputWrapper>
