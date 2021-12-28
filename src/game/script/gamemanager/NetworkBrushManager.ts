@@ -202,7 +202,7 @@ export class NetworkBrushManager extends Component {
         if (!(this._currentTool instanceof Tools.IframeGameObject)) throw new Error("tool is not iframe game object");
         const tool = this._currentTool;
         const req = new Request(this._currentTool.iframeInfo.src);
-        const sendIframe = (src?: string) => {
+        const sendIframe = () => {
             console.log(req.url);
             if (!this._worldId) throw new Error("no world id");
             if (!this._apolloClient) throw new Error("no apollo client");
@@ -225,19 +225,13 @@ export class NetworkBrushManager extends Component {
                     worldId: this._worldId,
                     protoInput: {
                         ...tool.iframeInfo,
-                        src: src || req.url,
+                        src: req.url,
                         colliders: [],
                     },
                 }
             });
         };
-        return fetch(req).then(() => {
-            if(!this._apolloClient) return;
-            return sendIframe();
-        }).catch(() => {
-            if(!this._apolloClient) return;
-            return sendIframe("invalid");
-        });
+        return sendIframe();
     }
 
 
