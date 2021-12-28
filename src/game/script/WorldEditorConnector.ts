@@ -39,7 +39,10 @@ export namespace Tools {
         }
     }
 
-    export class EraseObject extends Tool {
+    export class EraseIframeObject extends Tool {
+    }
+
+    export class EraseImageObject extends Tool {
     }
 
     export class EraseCollider extends Tool {

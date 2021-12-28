@@ -51,9 +51,9 @@ export class NetworkBrushManager extends Component {
             else if (this._currentTool instanceof Tools.EraseTile) {
                 await this._deleteAtlasTile(gridPos.x, gridPos.y);
             }
-            else if (this._currentTool instanceof Tools.EraseObject) {
-                await this._deleteObject(gridPos.x, gridPos.y);
-            }
+            // else if (this._currentTool instanceof Tools.Eras) {
+            //     await this._deleteObject(gridPos.x, gridPos.y);
+            // }
             else if (this._currentTool instanceof Tools.IframeGameObject) {
                 await this._createIframeGameObject(gridPos.x, gridPos.y);
             }
@@ -157,22 +157,22 @@ export class NetworkBrushManager extends Component {
         });
     }
 
-    private _deleteObject(x: number, y: number) {
-        if (!this._worldId) throw new Error("no world id");
-        if (!this._apolloClient) throw new Error("no apollo client");
-        return this._apolloClient.mutate({
-            mutation: gql`
-                mutation deleteGameObjectsAt($x: Int!, $y: Int!, $worldId: String!) {
-                    deleteGameObjectsAt(x: $x, y: $y, worldId: $worldId)
-                }
-            `,
-            variables: {
-                x,
-                y,
-                worldId: this._worldId,
-            }
-        });
-    }
+    // private _deleteObject(x: number, y: number) {
+    //     if (!this._worldId) throw new Error("no world id");
+    //     if (!this._apolloClient) throw new Error("no apollo client");
+    //     return this._apolloClient.mutate({
+    //         mutation: gql`
+    //             mutation deleteGameObjectsAt($x: Int!, $y: Int!, $worldId: String!) {
+    //                 deleteGameObjectsAt(x: $x, y: $y, worldId: $worldId)
+    //             }
+    //         `,
+    //         variables: {
+    //             x,
+    //             y,
+    //             worldId: this._worldId,
+    //         }
+    //     });
+    // }
     
 
     private _createIframeGameObject(x: number, y: number) {
