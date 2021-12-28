@@ -108,6 +108,7 @@ function NetworkGamePage_(): JSX.Element {
     const user = useUser();
 
     useEffect(() => { //on component mounted
+        console.log("component mounted", worldId);
         if (error) throw error;
         if (!world || !user) return; 
         if (!worldEditorConnector) return;
@@ -126,14 +127,11 @@ function NetworkGamePage_(): JSX.Element {
         });
         
         return () => { //on component unmount
+            console.log("dispose");
             game.dispose();
             widgetManager.dispose();
         };
     }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld]);
-
-    useEffect(() => () => {
-        location.reload();
-    }, [worldId]);
 
     return (
         <Container>

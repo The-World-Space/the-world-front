@@ -11,13 +11,13 @@ export class NetworkTileManager extends Component {
     private _effectTileMap: CssTilemapChunkRenderer|null = null;
     private _atlasImageMap: Map<string, number> = new Map();
     private _atlasImageAddIndex: number = 0;
-    private _initTileList: Server.AtlasTile[] = [];
+    private _initTileList: Server.AtlasInfoScalar = [];
     private _tileNetworker: TileNetworker | null = null;
 
     private _atlasItemList: TileAtlasItem[] = [];
 
-    public set initTileList(value: Server.AtlasTile[]) {
-        this._initTileList = [...value];
+    public set initTileList(value: Server.AtlasInfoScalar) {
+        this._initTileList = value;
     }
 
     public set tileNetworker(value: TileNetworker|null) {
