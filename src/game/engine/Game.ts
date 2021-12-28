@@ -87,8 +87,8 @@ export class Game {
         this._time.startTime = this._clock.startTime;
         const bootstrapper = new bootstrapperCtor(this._engineGlobalObject, interopObject);
         const sceneBuilder = bootstrapper.run();
-        const componentsInScene = sceneBuilder.build();
-        this._sceneProcessor.init(componentsInScene);
+        const initializeComponents = sceneBuilder.build();
+        this._sceneProcessor.init(initializeComponents);
         //If a camera exists in the bootstrapper,
         //it is certain that the camera exists in the global variable from this point on.
         if (!this._cameraContainer.camera) throw new Error("Camera is not exist in the scene.");

@@ -71,10 +71,10 @@ export class SceneProcessor {
         this._updateComponents.forEach(component => component.update());
     }
 
-    public init(components: Component[]): void {
-        components.forEach(component => component.tryCallAwake()); //depending on the unity implementation, awake order not guaranteed 
+    public init(initializeComponents: { awakeComponents: Component[], enableComponents: Component[] }): void {
+        initializeComponents.awakeComponents.forEach(component => component.tryCallAwake()); //depending on the unity implementation, awake order not guaranteed 
         //components.sort(this._componentExecutionOrderCompartor);
-        components.forEach(component => component.onEnable());
+        initializeComponents.enableComponents.forEach(component => component.onEnable());
     }
 
     public update(): void {

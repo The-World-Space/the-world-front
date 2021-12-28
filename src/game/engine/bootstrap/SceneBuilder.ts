@@ -20,21 +20,22 @@ export class SceneBuilder {
         return this;
     }
 
-    public build(): Component[] {
+    public build(): { awakeComponents: Component[], enableComponents: Component[] } {
         for (const child of this._children) {
             this._scene.add(child.build().unsafeGetTransform()); //it"s safe because component initialize will be called by SceneProsessor
         }
 
         for (const child of this._children) child.initialize();
 
-        const activeComponentsInScene = this.getAllComponentsInScene().filter(c => {
+        const ComponentsInScene = this.getAllComponentsInScene();
+        const activeComponentsInScene = ComponentsInScene.filter(c => {
             return c.gameObject.activeInHierarchy && c.enabled;
         });
         const updateableComponentsInScene = activeComponentsInScene.filter<UpdateableComponent>(isUpdateableComponent);
         this._sceneProcessor.addStartComponent(...activeComponentsInScene);
         this._sceneProcessor.addUpdateComponent(...updateableComponentsInScene);
 
-        return activeComponentsInScene;
+        return { awakeComponents: ComponentsInScene, enableComponents: activeComponentsInScene };
     }
 
     private getAllComponentsInScene(): Component[] {
