@@ -14,7 +14,9 @@ type DEETypes = {
     "join"        : (user: Server.User, spawnPoint: Vector2) => void,
     "leave"       : (id: characterId) => void,
     "player_move" : (x: number, y: number) => void,
-    "player_chat" : (id: characterId, msg: string) => void,
+    // for chatting.
+    "network_player_chat" : (id: characterId, msg: string) => void,
+    "player_chat": (id: characterId, msg: string) => void,
 }
 
 export class PlayerNetworker {
@@ -118,7 +120,12 @@ export class PlayerNetworker {
     }
 
     public showNetworkPlayerChat(userId: string, message: string): void {
-        this._dee.emit("player_chat", userId, message);
+        if (userId === this._playerId) {
+            this._dee.emit("player_chat", userId, message);
+        }
+        else {
+            this._dee.emit("network_player_chat", userId, message);
+        }
     }
 
     private moveCharacter(data: {x: number, y: number, userId: string}) {
