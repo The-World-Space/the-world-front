@@ -422,6 +422,8 @@ const PopupDiv = styled.div<{opened: boolean}>`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     border-radius: 38px;
 
+    pointer-events: auto;
+
     transition: all 0.3s ease-in-out;
 `;
 
@@ -432,18 +434,23 @@ interface PopupProps {
 
 const    PlayerListPopup = React.memo(PlayerListPopup_);
 function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
-    const { playerList } = useContext(WorldEditorContext);
+    const { playerList, world } = useContext(WorldEditorContext);
     const user = useUser();
 
     return (
         <PopupDiv opened={opened}>
-            <p>
+            <p style={{marginLeft: world?.amIOwner ? "20px" : "0px"}}>
                 {user?.nickname}
             </p>
             {playerList.map(player => (
-                <p key={player.id}>
-                    {player.nickname}
-                </p>
+                <div style={{display: "flex", alignItems: "center"}} key={player.id}>
+                    {
+                        world?.amIOwner && <input type="checkbox"/>
+                    }
+                    <p>
+                        {player.nickname}
+                    </p>
+                </div>
             ))}
             {playerList.length === 0 && <p>No players online.</p>}
         </PopupDiv>
