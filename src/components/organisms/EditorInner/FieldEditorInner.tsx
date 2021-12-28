@@ -1,4 +1,4 @@
-import { ApolloClient, gql, useApolloClient } from "@apollo/client";
+import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState, useContext, useCallback} from "react";
 import styled from "styled-components";
 import { WorldEditorContext } from "../../../context/contexts";
@@ -375,7 +375,7 @@ async function deleteField(apolloClient: ApolloClient<any>, id: number) {
     });
 }
 
-export async function getGlobalFieldCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getGlobalFieldCreatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.GlobalField>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription GlobalFieldCreating($worldId: String!) {
@@ -392,7 +392,7 @@ export async function getGlobalFieldCreatingObservable(apolloClient: ApolloClien
     }).map(result => result.data.globalFieldCreating as Server.GlobalField);
 }
 
-export async function getFieldUpdatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getFieldUpdatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.Field>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription FieldUpdating($worldId: String!) {
@@ -409,7 +409,7 @@ export async function getFieldUpdatingObservable(apolloClient: ApolloClient<any>
     }).map(result => result.data.fieldUpdating as Server.Field);
 }
 
-export async function getFieldDeletingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getFieldDeletingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<number>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription FieldDeleting($worldId: String!) {

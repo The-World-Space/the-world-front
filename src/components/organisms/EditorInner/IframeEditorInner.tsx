@@ -1,4 +1,4 @@
-import { ApolloClient, gql, useApolloClient } from "@apollo/client";
+import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 // import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -454,7 +454,7 @@ async function getIframeDeletingObservable(apolloClient: ApolloClient<any>, worl
 
 // Local Broadcaster & Field Creating event
 
-export async function getLocalBroadcasterCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getLocalBroadcasterCreatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.LocalBroadcaster>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription LocalBroadcasterCreating($worldId: String!) {
@@ -470,7 +470,7 @@ export async function getLocalBroadcasterCreatingObservable(apolloClient: Apollo
     }).map(result => result.data.localBroadcasterCreating as Server.LocalBroadcaster);
 }
 
-export async function getLocalFieldCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+export async function getLocalFieldCreatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.LocalField>> {
     return await apolloClient.subscribe({
         query: gql`
             subscription LocalFieldCreating($worldId: String!) {
