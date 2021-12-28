@@ -48,9 +48,11 @@ const StyledListItem = styled.li`
     border-radius: 23px;
     width: 90%;
     margin-top: 20px;
-    padding: 7px;
+    padding: 17px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
 `;
 
@@ -62,11 +64,23 @@ interface PropsType {
 function PortMappingListItem({ targetName, portId, isGlobal, remove }: { targetName: string, portId: string, isGlobal: boolean, remove: () => void }) {
     return (
         <li>
-            <span>{portId}: {isGlobal ? "G|" : ""}{targetName}</span>
-            <input type="button" onClick={remove}/>
+            <span>{portId}: {isGlobal ? "G |" : ""}{targetName}</span>
+            <input style={{marginLeft: "5px"}} type="button" onClick={remove} value="X" />
         </li>
     );
 }
+
+
+const STYLED_UL = styled.ul`
+    background-color: #FFFFFB;
+    border-radius: 14px;
+
+    list-style: disc;
+
+    & > li {
+        overflow-wrap: break-word;
+    }
+`;
 
 function PortMappingList<U extends Server.IframeFieldPortMapping | Server.IframeBroadcasterPortMapping>({
     remove,
@@ -80,7 +94,7 @@ function PortMappingList<U extends Server.IframeFieldPortMapping | Server.Iframe
     getName(id: number): string
 }) {
     return (
-        <ul>
+        <STYLED_UL>
             {
                 mappings.map(mapping => {
                     const targetId = ("field" in mapping) ? mapping.field.id : mapping.broadcaster.id;
@@ -96,9 +110,67 @@ function PortMappingList<U extends Server.IframeFieldPortMapping | Server.Iframe
                     );
                 })
             }
-        </ul>
+        </STYLED_UL>
     );
 }
+
+
+const PortIdInput = styled.input`
+    width: 100%;
+    height: 27px;
+    line-height: 27px;
+
+    box-sizing: border-box;
+
+    border-radius: 14px;
+
+    border: none;
+    padding-left: 10px;
+
+    margin: 6px 0px 6px 0px;
+`;
+
+const AddArea = styled.div`
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+
+    box-sizing: border-box;
+
+    display: flex;
+`;
+
+const Select = styled.select`
+    flex: 1;
+    height: 24px;
+    line-height: 24px;
+
+    border: none;
+    outline: none;
+
+    border-radius: 14px;
+
+    padding-left: 10px;
+
+    background-color: #D7CCC8;
+`;
+
+const AddBtn = styled.input`
+    width: 85px;
+    height: 24px;
+    line-height: 24px;
+
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+
+    margin-left: 6px;
+
+    border-radius: 44px;
+
+    background-color: #D7CCC8;
+`;
+
 
 function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extends Server.IframeFieldPortMapping | Server.IframeBroadcasterPortMapping>({
     add,
@@ -133,8 +205,10 @@ function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extend
         <div>
             <PortMappingList remove={remove} mappings={mappings} getName={getName} isGlobal={isGlobal}/>
             <div>
-                <input type="text" onChange={e => setPortId(e.target.value)} value={portId} placeholder="Port ID"/>
-                <select onChange={e => setId(parseInt(e.target.value))} value={id}>
+                <PortIdInput type="text" onChange={e => setPortId(e.target.value)} value={portId} placeholder="Port ID"/>
+            </div>
+            <AddArea>
+                <Select onChange={e => setId(parseInt(e.target.value))} value={id}>
                     {
                         [
                             ...globals.map(global => {
@@ -149,12 +223,25 @@ function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extend
                             }),
                         ]
                     }
-                </select>
-                <input type="button" value="Add" onClick={addPortMapping}/>
-            </div>
+                </Select>
+                <AddBtn type="button" value="Add" onClick={addPortMapping}/>
+            </AddArea>
         </div>
     );
 }
+
+const Title = styled.span`
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
+const Subtitle = styled.span`
+    font-size: 16px;
+    margin: 12px 0px 3px 9px;
+    font-weight: bold;
+`;
 
 function ListItem({
     iframe,
@@ -184,10 +271,10 @@ function ListItem({
 
     return (
         <StyledListItem>
-            <h1>{iframe.id}</h1>
-            <h2>Field</h2>
+            <Title>{iframe.id}</Title>
+            <Subtitle>Field</Subtitle>
             <PortMappingEditor mappings={iframe.fieldPortMappings} add={addFieldPortMapping} remove={removeFieldPortMapping} globals={globalFields as Server.Field[]} locals={iframe.localFields}/>
-            <h2>Broadcaster</h2>
+            <Subtitle>Broadcaster</Subtitle>
             <PortMappingEditor mappings={iframe.broadcasterPortMappings} add={addBroadcasterPortMapping} remove={removeBroadcasterPortMapping} globals={globalBroadcasters as Server.Broadcaster[]} locals={iframe.localBroadcasters}/>
         </StyledListItem>
     );
