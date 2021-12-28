@@ -399,9 +399,9 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                             placeholder="Enter message here." 
                             value={inputText} 
                             onKeyPress={(event) => onKeyPress(event)} 
-                            onChange={e => setInputText(e.currentTarget.value)}/>
+                            onChange={e => setInputText(e.currentTarget.value)}
                             onFocus={onFocus}
-                            onBlur={onBlur}
+                            onBlur={onBlur}/>
                         <SendButton onClick={() => sendChatMessage()}/>
                     </ChatInputDiv>
                 </ChatDiv>
