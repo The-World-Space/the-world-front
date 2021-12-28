@@ -263,6 +263,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
+                        c.chunkSize = 16 * 2;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
@@ -270,6 +271,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
+                        c.chunkSize = 16 * 2;
                     })
                     .getComponent(CssTilemapChunkRenderer, effectTilemap)))
 
