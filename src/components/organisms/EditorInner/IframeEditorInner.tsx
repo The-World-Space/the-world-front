@@ -458,6 +458,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                         );
                     })
                 }
+                <div style={{height: "80px"}}/>
             </ListContainer>
         </ExpandBarDiv>
     );
