@@ -6,6 +6,8 @@ import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
 import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
+import { ReactComponent as ChainOn } from "../../atoms/ChainOn.svg";
+import { ReactComponent as ChainOff } from "../../atoms/ChainOff.svg";
 import { Server } from "../../../game/connect/types";
 import { ObjEditorContext, WorldEditorContext } from "../../../context/contexts";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
@@ -219,22 +221,63 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         setSelectedTool(tool);
     }, [objEditorConnector]);
 
+    const [maintainAspectRatio, setMaintainAspectRatio] = useState(true);
+    const [imageNaturalWidth, setImageNaturalWidth] = useState(16);
+    const [imageNaturalHeight, setImageNaturalHeight] = useState(16);
 
     const [imageWidth, setImageWidth] = useState("2");
     const [imageHeight, setImageHeight] = useState("2");
     const [name, setName] = useState("");
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
-    const onImageSizeChange = useCallback((width: string, height: string) => {
-        const numWidth = +width;
-        const numHeight = +height;
-        if (!isSafeNum(numWidth) || !isSafeNum(numHeight)) return;
-        setImageWidth(width);
-        setImageHeight(height);
-        if (numHeight > 0 && numHeight > 0) {
+    const onImageSizeChange = useCallback((width?: string, height?: string) => {
+        let numWidth = +(width ?? 0);
+        let numHeight = +(height ?? 0);
+        let isValid = true;
+
+        if (width && height) {
+            numWidth = +width;
+            numHeight = +height;
+            if (isSafeNum(numWidth) && isSafeNum(numHeight)) {
+                setImageWidth(width);
+                setImageHeight(height);
+            } else isValid = false;
+        } else {
+            if (maintainAspectRatio) {
+                if (width) {
+                    numWidth = +width;
+                    numHeight = numWidth * imageNaturalHeight / imageNaturalWidth;
+                    if (isSafeNum(numWidth)) {
+                        setImageWidth(width);
+                        setImageHeight(`${numWidth * imageNaturalHeight / imageNaturalWidth}`);
+                    } else isValid = false;
+                } else if (height) {
+                    numHeight = +height;
+                    numWidth = numHeight * imageNaturalWidth / imageNaturalHeight;
+                    if (isSafeNum(numHeight)) {
+                        setImageHeight(height);
+                        setImageWidth(`${numHeight * imageNaturalWidth / imageNaturalHeight}`);
+                    } else isValid = false;
+                }
+            } else {
+                if (width) {
+                    numWidth = +width;
+                    numHeight = parseFloat(imageHeight) ?? 0;
+                    if (isSafeNum(numWidth)) {
+                        setImageWidth(width);
+                    } else isValid = false;
+                } else if (height) {
+                    numHeight = +height;
+                    numWidth = parseFloat(imageWidth) ?? 0;
+                    if (isSafeNum(numHeight)) {
+                        setImageHeight(height);
+                    } else isValid = false;
+                }
+            }
+        }
+        if (numWidth > 0 && numHeight > 0  && isValid) {
             objEditorConnector.setViewObjectSize(numWidth, numHeight);
         }
-    }, [isSafeNum, objEditorConnector]);
-
+    }, [isSafeNum, objEditorConnector, imageNaturalHeight, imageNaturalWidth, maintainAspectRatio, imageWidth, imageHeight]);
 
     const [imageUploadMutate] = useMutation(UPLOAD_IMAGE, {
         client: globalFileApolloClient,
@@ -243,11 +286,27 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     const [file, setFile] = useState<File>();
     const onFileChange = useCallback(({ target: { validity, files } }: React.ChangeEvent<HTMLInputElement>) => {
         if (!validity.valid || !files || files.length < 1) return;
+        const reader = new FileReader();
         const inputedFile = files[0];
         setFile(inputedFile);
-        const src = window.URL.createObjectURL(inputedFile);
-        objEditorConnector.setViewObject(src, +imageWidth, +imageHeight);
-    }, [objEditorConnector, imageWidth, imageHeight]);
+        reader.onload = (e) => {
+            const img = new Image();
+            if (!e.target?.result) throw new Error("Image load failed");
+            img.onload = async function(e) {
+                setImageNaturalWidth(img.naturalWidth);
+                setImageNaturalHeight(img.naturalHeight);
+                if (maintainAspectRatio) {
+                    objEditorConnector.setViewObject((e.target as HTMLImageElement).src, 2, img.naturalHeight / img.naturalWidth * 2);
+                    onImageSizeChange("2", String(img.naturalHeight / img.naturalWidth * 2));
+                } else {
+                    objEditorConnector.setViewObject((e.target as HTMLImageElement).src, 2, 2);
+                    onImageSizeChange("2", "2");
+                }
+            };
+            img.src = e.target.result as string;
+        };
+        reader.readAsDataURL(inputedFile);
+    }, [maintainAspectRatio, onImageSizeChange, objEditorConnector]);
 
 
     const apolloClient = useApolloClient();
@@ -310,6 +369,18 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         game?.inputHandler.startHandleEvents();
     }, [game]);
 
+    const updateMaintainAspectRatio = useCallback((value: boolean) => {
+        setMaintainAspectRatio(value);
+        if (value) {
+            const imageWidthNum = parseFloat(imageWidth);
+            if (isSafeNum(imageWidthNum)) {
+                onImageSizeChange(imageWidth, String(imageWidthNum * imageNaturalHeight / imageNaturalWidth));
+            } else {
+                onImageSizeChange("2", String(imageNaturalHeight / imageNaturalWidth * 2));
+            }
+        }
+    }, [imageNaturalWidth, imageNaturalHeight, onImageSizeChange, imageWidth, isSafeNum]);
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
@@ -345,8 +416,11 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />
                     <InputWrapperSide>
-                        <LabeledInput label="W" value={imageWidth} onChange={e => onImageSizeChange(e.target.value, imageHeight)} />
-                        <LabeledInput label="H" value={imageHeight} onChange={e => onImageSizeChange(imageWidth, e.target.value)} />
+                        <LabeledInput label="W" value={imageWidth} onChange={e => onImageSizeChange(e.target.value, undefined)} />
+                        {maintainAspectRatio 
+                            ? <ChainOn onClick={() => updateMaintainAspectRatio(false)} /> 
+                            : <ChainOff onClick={() => updateMaintainAspectRatio(true)} />}
+                        <LabeledInput label="H" value={imageHeight} onChange={e => onImageSizeChange(undefined, e.target.value)} />
                     </InputWrapperSide>
                 </InputWrapper>
             </Container>
