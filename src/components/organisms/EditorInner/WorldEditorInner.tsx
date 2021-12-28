@@ -439,7 +439,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 break;
             }
             case PlaceKind.Iframe: {
-                const tool = new Tools.EraseIframeObject();
+                const tool = new Tools.EraseIframeObject(placeObjectType);
                 worldEditorConnector.setToolType(tool);
                 break;
             }

@@ -40,6 +40,15 @@ export namespace Tools {
     }
 
     export class EraseIframeObject extends Tool {
+        constructor(
+            private readonly _type: Server.GameObjectType,
+        ) {
+            super();
+        }
+
+        public get type(): Server.GameObjectType {
+            return this._type;
+        }
     }
 
     export class EraseImageObject extends Tool {

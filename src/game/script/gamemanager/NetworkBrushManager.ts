@@ -51,9 +51,12 @@ export class NetworkBrushManager extends Component {
             else if (this._currentTool instanceof Tools.EraseTile) {
                 await this._deleteAtlasTile(gridPos.x, gridPos.y);
             }
-            // else if (this._currentTool instanceof Tools.Eras) {
-            //     await this._deleteObject(gridPos.x, gridPos.y);
-            // }
+            else if (this._currentTool instanceof Tools.EraseImageObject) {
+                await this._deleteImageObject(gridPos.x, gridPos.y);
+            }
+            else if (this._currentTool instanceof Tools.EraseIframeObject) {
+                await this._deleteIframeObject(gridPos.x, gridPos.y);
+            }
             else if (this._currentTool instanceof Tools.IframeGameObject) {
                 await this._createIframeGameObject(gridPos.x, gridPos.y);
             }
@@ -157,22 +160,42 @@ export class NetworkBrushManager extends Component {
         });
     }
 
-    // private _deleteObject(x: number, y: number) {
-    //     if (!this._worldId) throw new Error("no world id");
-    //     if (!this._apolloClient) throw new Error("no apollo client");
-    //     return this._apolloClient.mutate({
-    //         mutation: gql`
-    //             mutation deleteGameObjectsAt($x: Int!, $y: Int!, $worldId: String!) {
-    //                 deleteGameObjectsAt(x: $x, y: $y, worldId: $worldId)
-    //             }
-    //         `,
-    //         variables: {
-    //             x,
-    //             y,
-    //             worldId: this._worldId,
-    //         }
-    //     });
-    // }
+    private _deleteIframeObject(x: number, y: number) {
+        if (!this._worldId) throw new Error("no world id");
+        if (!this._apolloClient) throw new Error("no apollo client");
+        if (!(this._currentTool instanceof Tools.EraseIframeObject)) throw new Error("tool is not erase iframe object");
+        return this._apolloClient.mutate({
+            mutation: gql`
+                mutation deleteIframeGameObjectsAt($x: Int!, $y: Int!, $worldId: String!, $type: Int!) {
+                    deleteIframeGameObjectsAt(x: $x, y: $y, worldId: $worldId, type: $type)
+                }
+            `,
+            variables: {
+                x,
+                y,
+                worldId: this._worldId,
+                type: this._currentTool.type,
+            }
+        });
+    }
+
+
+    private _deleteImageObject(x: number, y: number) {
+        if (!this._worldId) throw new Error("no world id");
+        if (!this._apolloClient) throw new Error("no apollo client");
+        return this._apolloClient.mutate({
+            mutation: gql`
+                mutation deleteImageGameObjectsAt($x: Int!, $y: Int!, $worldId: String!) {
+                    deleteImageGameObjectsAt(x: $x, y: $y, worldId: $worldId)
+                }
+            `,
+            variables: {
+                x,
+                y,
+                worldId: this._worldId,
+            }
+        });
+    }
     
 
     private _createIframeGameObject(x: number, y: number) {
