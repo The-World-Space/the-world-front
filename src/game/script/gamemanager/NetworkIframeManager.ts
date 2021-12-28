@@ -111,8 +111,8 @@ export class NetworkIframeManager extends Component {
         if (!iframeInfo.proto_) return;
         
         const zindex = 
-            (iframeInfo.proto_.type === Server.GameObjectType.Effect) ? 3900000 :
-            (iframeInfo.proto_.type === Server.GameObjectType.Floor)  ? -3900000 :
+            (iframeInfo.proto_.type === Server.GameObjectType.Effect) ? 390000 :
+            (iframeInfo.proto_.type === Server.GameObjectType.Floor)  ? -390000 :
             0;
 
         const calculated =  new Vector3(

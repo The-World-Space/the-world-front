@@ -27,7 +27,7 @@ export class GridInputPrefab extends Prefab {
                 c.inputHeight = 512;
                 c.setGridInfoFromCollideMap(this._gridCollideMap.ref!);
             })
-            .withComponent(GridPointer, c => c.pointerZoffset = 5000000)
+            .withComponent(GridPointer, c => c.pointerZoffset = 500000)
             .getComponent(GridPointer, this._gridPointer);
     }
 }

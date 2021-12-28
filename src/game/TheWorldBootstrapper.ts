@@ -263,14 +263,14 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
             .withChild(instantlater.buildGameObject("tilemap")
             //.withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
-                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -4000000))
+                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -400000))
                     .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
-                .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 4000000))
+                .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 400000))
                     .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
@@ -306,7 +306,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(gridCollideMap)
                 .getGridPointer(gridPointer).make()
-                .withComponent(GridBrush, c => c.imageZoffset = 5100000)
+                .withComponent(GridBrush, c => c.imageZoffset = 510000)
                 .getComponent(GridBrush, gridBrush))
                 
             .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)

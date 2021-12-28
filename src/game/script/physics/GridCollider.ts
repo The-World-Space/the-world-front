@@ -130,7 +130,7 @@ export class GridCollider extends Component {
         const gameObjectRef: {ref: GameObject|null} = {ref: null};
         this.gameObject.addChildFromBuilder(
             this.engine.instantlater.buildGameObject(
-                "debugImage", new Vector3(localX, localY, 10000))
+                "debugImage", new Vector3(localX, localY, 410000))
                 .withComponent(ZaxisInitializer)
                 .withComponent(CssSpriteRenderer, c => c.opacity = 0.5)
                 .getGameObject(gameObjectRef));

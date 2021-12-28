@@ -70,8 +70,8 @@ export class NetworkImageManager extends Component {
         if (!imageInfo.proto_) return;
         
         const zindex = 
-            (imageInfo.proto_.type === Server.GameObjectType.Effect) ? 3800000 :
-            (imageInfo.proto_.type === Server.GameObjectType.Floor)  ? -3800000 :
+            (imageInfo.proto_.type === Server.GameObjectType.Effect) ? 380000 :
+            (imageInfo.proto_.type === Server.GameObjectType.Floor)  ? -380000 :
             0;
 
         const calculated =  new Vector3(
