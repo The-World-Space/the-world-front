@@ -17,6 +17,7 @@ import WorldEditorInner from "./EditorInner/WorldEditorInner";
 import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
 import { WorldEditorContext } from "../../context/contexts";
 import useUser from "../../hooks/useUser";
+import IframeEditorInner from "./EditorInner/IframeEditorInner";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -277,6 +278,7 @@ enum Editor {
     World,
     Atlas,
     Object,
+    Iframe
 }
 
 interface PropsType {
@@ -348,6 +350,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                             <BarDivider/>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>FRAME</MenuButton>
                             <LittleDivider/>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
@@ -366,6 +369,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
                     <ObjectEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Object} />
                     <AtlasEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Atlas} />
                     <WorldEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.World}/>
+                    <IframeEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Iframe}/>
                 </>
                 { (world?.amIAdmin || world?.amIOwner) &&
                     <ExpandButton onClick={() => expandBarToggle()} 
