@@ -691,7 +691,7 @@ async function getWorldForIframeEdit(apolloClient: ApolloClient<any>, worldId: s
     return result.data.World as Server.World;
 }
 
-export async function createIframeFieldPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, fieldId: number) {
+export async function createIframeFieldPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, fieldId: number): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
         mutation CreateIframeFieldPortMapping($iframeId: Int!, $portId: String!, $fieldId: Int!){
@@ -721,7 +721,7 @@ async function deleteIframeFieldPortMapping(apolloClient: ApolloClient<any>, map
     });
 }
 
-export async function createIframeBroadcasterPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, broadcasterId: number) {
+export async function createIframeBroadcasterPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, broadcasterId: number): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
         mutation CreateIframeBroadcasterPortMapping($iframeId: Int!, $portId: String!, $broadcasterId: Int!){
