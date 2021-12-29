@@ -203,7 +203,6 @@ export class NetworkBrushManager extends Component {
         const tool = this._currentTool;
         const req = new Request(this._currentTool.iframeInfo.src);
         const sendIframe = () => {
-            console.log(req.url);
             if (!this._worldId) throw new Error("no world id");
             if (!this._apolloClient) throw new Error("no apollo client");
             return this._apolloClient.mutate({
