@@ -1,7 +1,5 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector2, Vector3 } from "three";
-import { IframeRenderer } from "./script/render/IframeRenderer";
-import { ZaxisSorter } from "./script/render/ZaxisSorter";
+import { Vector3 } from "three";
 import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
 import { Server } from "./connect/types";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
@@ -187,7 +185,6 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     if (gridBrush.ref) {
                         if (!gridBrush.ref.gridCellWidth) throw new Error("Unreachable");
                         if (!gridBrush.ref.gridCellHeight) throw new Error("Unreachable");
-                        console.log(tool.imageInfo.width * gridBrush.ref.gridCellWidth);
                         gridBrush.ref.setImage(
                             tool.imageInfo.src,
                             tool.imageInfo.width * gridBrush.ref.gridCellWidth, 
@@ -242,7 +239,6 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 })
                 .withComponent(NetworkColiderManager, c => {
                     c.initColliderList = this.interopObject!.serverWorld.colliders;
-                    // worldGridCollideMap.ref!.showCollider = true;
                     c.worldGridColliderMap = gridCollideMap;
                     c.initNetwork(this.interopObject!.colliderNetworker);
                 })
@@ -267,6 +263,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
+                        c.chunkSize = 16 * 2;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
@@ -274,6 +271,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     .withComponent(ZaxisInitializer, c => c.runOnce = true)
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
+                        c.chunkSize = 16 * 2;
                     })
                     .getComponent(CssTilemapChunkRenderer, effectTilemap)))
 
@@ -292,16 +290,6 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withPathfindPointer(gridPointer)
                 .make()
                 .getGameObject(player))
-
-            .withChild(instantlater.buildGameObject("iframe", new Vector3(4 * 16, 8, 0), undefined, new Vector3(0.3, 0.3, 1))
-                .active(false)
-                .withComponent(IframeRenderer, c => {
-                    c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
-                    c.width = 640 / 2;
-                    c.height = 360 / 2;
-                    c.iframeCenterOffset = new Vector2(0, 0.5);
-                })
-                .withComponent(ZaxisSorter))
             
             .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab, new Vector3(0, 0, -500000))
                 .withCollideMap(gridCollideMap)

@@ -25,11 +25,8 @@ export class AdminNetworker {
             query: gql`
                 query World($id: String!) {
                     World(id: $id) {
-                        admins {
-                            id
-                            nickname
-                            skinSrc
-                        }
+                        amIAdmin
+                        amIOwner
                     }
                 }
             `,
@@ -39,7 +36,7 @@ export class AdminNetworker {
         }).then(data => {
             if (!data.data.World) throw new Error("data.data.World is falsy");
             const world = data.data.World as Server.World;
-            const isAdmin = world.admins.some(admin => admin.id === this._userId);
+            const isAdmin = world.amIAdmin || world.amIOwner;
             if (isAdmin)
                 this._dee.emit("amI");
             else

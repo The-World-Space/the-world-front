@@ -6,7 +6,7 @@ import { getWorld, globalApolloClient, joinWorld } from "../game/connect/gql";
 import { Vector2 } from "three";
 import useUser from "../hooks/useUser";
 import IngameInterface from "../components/organisms/IngameInterface";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
 import { WidgetManager } from "../game/script/WidgetManager";
@@ -14,6 +14,8 @@ import styled from "styled-components";
 import { GameProvider } from "../context/Provider";
 import { WorldEditorContext } from "../context/contexts";
 import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
+import { gql } from "@apollo/client";
+import { GameStateKind } from "../game/engine/GameState";
 
 const Container = styled.div`
     display: flex;
@@ -99,7 +101,15 @@ const LodingLogo = styled(TWLogo)`
 `;
 
 
+const KICKED = gql`
+    subscription kicked($worldId: String!) {
+        kicked(worldId: $worldId)
+    }
+`;
+
+
 function NetworkGamePage_(): JSX.Element {
+    const history = useHistory();
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
@@ -108,7 +118,6 @@ function NetworkGamePage_(): JSX.Element {
     const user = useUser();
 
     useEffect(() => { //on component mounted
-        console.log("component mounted", worldId);
         if (error) throw error;
         if (!world || !user) return; 
         if (!worldEditorConnector) return;
@@ -123,15 +132,26 @@ function NetworkGamePage_(): JSX.Element {
         game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
         setGame(game);
         joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
-            game.inputHandler.startHandleEvents();
+            if (game.currentGameState !== GameStateKind.Finalized)
+                game.inputHandler.startHandleEvents();
+        });
+
+        globalApolloClient.subscribe({
+            query: KICKED,
+            variables: {
+                worldId: world.id
+            }
+        }).subscribe(() => {
+            alert("You have been kicked from the world");
+            history.push("/");
         });
         
         return () => { //on component unmount
-            console.log("dispose");
             game.dispose();
             widgetManager.dispose();
+            location.reload();
         };
-    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld]);
+    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld, history]);
 
     return (
         <Container>

@@ -112,8 +112,7 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
             setAdminPlayerList(res.data.worldAdminList);
         });
 
-        if (world.admins.find(admin => admin.id === user.id))
-            setAmIadmin(true);
+        setAdminPlayerList(world.admins);
     }, [world, user]);
 
     useEffect(() => {

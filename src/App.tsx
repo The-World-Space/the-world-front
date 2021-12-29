@@ -2,6 +2,7 @@ import {
     HashRouter as Router,
     Switch,
     Route,
+    Redirect,
 } from "react-router-dom";
 
 import Main from "./pages/Welcome";
@@ -17,12 +18,18 @@ import TestGamePage from "./pages/TestGamePage";
 import NetworkGamePage from "./pages/NetworkGamePage";
 import UserInfo from "./pages/UserInfo";
 import UploadHtml from "./pages/UploadHtml";
+import { AuthContext } from "./context/contexts";
+import { useContext } from "react";
 
 function App(): JSX.Element {
+    const { logged } = useContext(AuthContext);
     return (
         <Router>
             <Switch>
-                <Route exact path="/" component={MyWorldList} />
+                {logged 
+                    ? <Route exact path="/" component={MyWorldList} />
+                    : <Redirect exact path="/" to="/welcome" />
+                }
                 <Route path="/welcome" exact component={Main} />
                 <Route path="/thelab" component={Test} />
                 <Route path="/login" component={Login} />

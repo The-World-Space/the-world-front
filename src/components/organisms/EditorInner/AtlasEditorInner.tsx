@@ -220,6 +220,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                 }
             }
         });
+        setFile(undefined);
+        setTileDatas([]);
         apolloClient.resetStore();
     }, [file, rowCount, columnCount, name, imageUploadMutate, crateMutate, apolloClient, isSafeNum]);
     

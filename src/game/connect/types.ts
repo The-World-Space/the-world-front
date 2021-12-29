@@ -121,6 +121,10 @@ export namespace Server {
     export interface GameObjectPenpalConnectable extends PenpalConnectableBase {
         proto_: {
             src: IframeSrc;
+            id: number;
+            owner: {
+                id: string
+            }
         } | null;
     }
 

@@ -71,6 +71,9 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
                             y
                             isBlocked
                         }
+                        owner {
+                            id
+                        }
                     }
                 }
                 images {
