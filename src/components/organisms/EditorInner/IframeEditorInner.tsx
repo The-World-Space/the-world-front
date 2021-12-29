@@ -64,7 +64,7 @@ interface PropsType {
 function PortMappingListItem({ targetName, portId, isGlobal, remove }: { targetName: string, portId: string, isGlobal: boolean, remove: () => void }) {
     return (
         <li>
-            <span>{portId}: {isGlobal ? "G |" : ""}{targetName}</span>
+            <span>{portId}: {isGlobal ? "G|" : "L|"}{targetName}</span>
             <input style={{
                 marginLeft: "5px",
                 borderStyle: "none",
@@ -691,7 +691,7 @@ async function getWorldForIframeEdit(apolloClient: ApolloClient<any>, worldId: s
     return result.data.World as Server.World;
 }
 
-async function createIframeFieldPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, fieldId: number) {
+export async function createIframeFieldPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, fieldId: number) {
     await apolloClient.mutate({
         mutation: gql`
         mutation CreateIframeFieldPortMapping($iframeId: Int!, $portId: String!, $fieldId: Int!){
@@ -721,7 +721,7 @@ async function deleteIframeFieldPortMapping(apolloClient: ApolloClient<any>, map
     });
 }
 
-async function createIframeBroadcasterPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, broadcasterId: number) {
+export async function createIframeBroadcasterPortMapping(apolloClient: ApolloClient<any>, iframeId: number, portId: string, broadcasterId: number) {
     await apolloClient.mutate({
         mutation: gql`
         mutation CreateIframeBroadcasterPortMapping($iframeId: Int!, $portId: String!, $broadcasterId: Int!){

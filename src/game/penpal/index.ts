@@ -1,4 +1,7 @@
+import { ApolloClient, gql } from "@apollo/client";
 import * as Penpal from "penpal";
+import { createIframeBroadcasterPortMapping, createIframeFieldPortMapping } from "../../components/organisms/EditorInner/IframeEditorInner";
+import { globalApolloClient } from "../connect/gql";
 import { Server } from "../connect/types";
 import { PenpalNetworker } from "./PenpalNetworker";
 
@@ -117,6 +120,37 @@ export class IframeCommunicator {
         const child = await connection.promise;
         this.child = child as any;
         this.turnOnListeners();
+
+        if("proto_" in this.iframeInfo)
+            if((await this.penpalNetworkWrapper.getUser())!.id === this.iframeInfo.proto_?.owner.id)
+                await this.tryAutoPortAdding();
+    }
+
+    private async tryAutoPortAdding() {
+        const ports = await this.child.getPorts();
+        const portsToAdd = {
+            broadcasters: ports.broadcasters.filter(internalId => !this.internalBroadcasterIdToBroadcasterMap.has(internalId)),
+            fields: ports.fields.filter(internalId => !this.internalFieldIdToFieldMap.has(internalId))
+        };
+
+        if(portsToAdd.broadcasters.length || portsToAdd.fields.length) {
+            const shouldAdd = confirm(`Iframe ${this.iframeInfo.id} has not mapped ports. Automap it?`);
+            if(shouldAdd) {
+                this.addMapPorts(portsToAdd);
+            }
+        }
+    }
+
+    private async addMapPorts({ broadcasters, fields }: { broadcasters: string[], fields: string[] }) {
+        const iframeId = this.iframeInfo.id;
+        for(const internalId of broadcasters) {
+            const id = await createLocalBroadcaster(globalApolloClient, iframeId, internalId);
+            await createIframeBroadcasterPortMapping(globalApolloClient, iframeId, internalId, id);
+        }
+        for(const internalId of fields) {
+            const id = await createLocalField(globalApolloClient, iframeId, internalId, "");
+            await createIframeFieldPortMapping(globalApolloClient, iframeId, internalId, id);
+        }
     }
 
     private turnOnFieldListener(publicId: number, internalId: string) {
@@ -218,4 +252,44 @@ export class IframeCommunicator {
     async stop(): Promise<void> {
         this.turnOffListeners();
     }
+}
+
+async function createLocalBroadcaster(apolloClient: ApolloClient<any>, iframeId: number, name: string) {
+    const result = await apolloClient.mutate({
+        mutation: gql`
+        mutation CreateLocalBroadcaster($iframeId: Int!, $broadcaster: BroadcasterInput!) {
+            createLocalBroadcaster(iframeId: $iframeId, broadcaster: $broadcaster) {
+              id
+            }
+          }`,
+        variables: {
+            iframeId,
+            broadcaster: {
+                name
+            }
+        }
+    });
+
+    return result.data.createLocalBroadcaster.id as number;
+}
+
+async function createLocalField(apolloClient: ApolloClient<any>, iframeId: number, name: string, value: string) {
+    const result = await apolloClient.mutate({
+        mutation: gql`
+        mutation CreateLocalField($iframeId: Int!, $field: FieldInput!) {
+            createLocalField(iframeId: $iframeId, field: $field) {
+              id
+            }
+          }
+        `,
+        variables: {
+            iframeId,
+            field: {
+                name,
+                value
+            }
+        }
+    });
+
+    return result.data.createLocalField.id as number;
 }
