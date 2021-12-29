@@ -56,7 +56,7 @@ export class PenpalNetworker {
             }
         }).subscribe(result => {
             const { id: publicBroadcastId, message, userId } = result.data.broadcastMessage as { id: number, message: string, userId: string };
-
+            
             this._ee.emit(`update_broadcast_${publicBroadcastId}`, message, userId);
         });
     }

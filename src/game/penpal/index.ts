@@ -20,7 +20,8 @@ export class IframeCommunicator {
     // private publicBroadcasterIdToInternalIdMap: Map<number, string>;
     private child!: Child;
     private subscriptions: ZenObservable.Subscription[];
-    private disposeFuncs: (() => void)[] = [];
+    private fieldCbDisposeFuncs: Map<string, (() => void)> = new Map();
+    private broadcasterCbDisposeFuncs: Map<string, (() => void)> = new Map();
 
     constructor(
         private readonly iframe: HTMLIFrameElement,
@@ -118,21 +119,35 @@ export class IframeCommunicator {
         this.turnOnListeners();
     }
 
+    private turnOnFieldListener(publicId: number, internalId: string) {
+        const cb = (value: string, userId: string) => {
+            this.child.setFieldValue(internalId, userId, value);
+        };
+        this.penpalNetworkWrapper.ee.on(`update_field_${publicId}`, cb);
+        this.fieldCbDisposeFuncs.set(internalId, () => this.penpalNetworkWrapper.ee.removeListener(`update_field_${publicId}`, cb));
+    }
+    private turnOffFieldListener(internalId: string) {
+        this.fieldCbDisposeFuncs.get(internalId)?.();
+    }
+
+    private turnOnBroadcasterListener(publicId: number, internalId: string) {
+        const cb = (message: string, userId: string) => {
+            this.child.broadcast(internalId, userId, message);
+        };
+        this.penpalNetworkWrapper.ee.on(`update_broadcast_${publicId}`, cb);
+        this.broadcasterCbDisposeFuncs.set(internalId, () => this.penpalNetworkWrapper.ee.removeListener(`update_broadcast_${publicId}`, cb));
+    }
+    private turnOffBroadcasterListener(internalId: string) {
+        this.broadcasterCbDisposeFuncs.get(internalId)?.();
+    }
+
     private turnOnListeners(): void {
         this.internalFieldIdToFieldMap.forEach((field, internalId) => {
-            const cb = (value: string, userId: string) => {
-                this.child.setFieldValue(internalId, userId, value);
-            };
-            this.penpalNetworkWrapper.ee.on(`update_field_${field.id}`, cb);
-            this.disposeFuncs.push(() => this.penpalNetworkWrapper.ee.removeListener(`update_field_${field.id}`, cb));
+            this.turnOnFieldListener(field.id, internalId);
         });
 
         this.internalBroadcasterIdToBroadcasterMap.forEach((broadcaster, internalId) => {
-            const cb = (message: string, userId: string) => {
-                this.child.broadcast(internalId, userId, message);
-            };
-            this.penpalNetworkWrapper.ee.on(`update_broadcast_${broadcaster.id}`, cb);
-            this.disposeFuncs.push(() => this.penpalNetworkWrapper.ee.removeListener(`update_broadcast_${broadcaster.id}`, cb));
+            this.turnOnBroadcasterListener(broadcaster.id, internalId);
         });
 
         this.subscriptions = [
@@ -148,12 +163,17 @@ export class IframeCommunicator {
                             const internalId = portMapping.portId;
                             this.internalFieldIdToFieldMap.set(internalId, portMapping.field);
                             this.child.createField({ id: internalId, value: portMapping.field.value });
+
+                            // add listener
+                            this.turnOnFieldListener(portMapping.field.id, internalId);
                         }
                     }
                     for (const [internalId/*, _*/] of this.internalFieldIdToFieldMap) {
                         if (!existInternalIds.has(internalId)) {
                             this.internalFieldIdToFieldMap.delete(internalId);
                             this.child.deleteField(internalId);
+                            
+                            this.turnOffFieldListener(internalId);
                         }
                     }
                 }
@@ -170,12 +190,17 @@ export class IframeCommunicator {
                             const internalId = portMapping.portId;
                             this.internalBroadcasterIdToBroadcasterMap.set(internalId, portMapping.broadcaster);
                             this.child.createBroadcaster({ id: internalId });
+
+                            // Add listener
+                            this.turnOnBroadcasterListener(portMapping.broadcaster.id, internalId);
                         }
                     }
                     for (const [internalId/*, _*/] of this.internalBroadcasterIdToBroadcasterMap) {
                         if (!existInternalIds.has(internalId)) {
                             this.internalBroadcasterIdToBroadcasterMap.delete(internalId);
                             this.child.deleteBroadcaster(internalId);
+
+                            this.turnOffBroadcasterListener(internalId);
                         }
                     }
                 }
@@ -184,7 +209,8 @@ export class IframeCommunicator {
     }
 
     private turnOffListeners(): void {
-        this.disposeFuncs.forEach(f => f());
+        for(const f of this.fieldCbDisposeFuncs.values()) f();
+        for(const f of this.broadcasterCbDisposeFuncs.values()) f();
         for (const subscription of this.subscriptions)
             subscription.unsubscribe();
     }
