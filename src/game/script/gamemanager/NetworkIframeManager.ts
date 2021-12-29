@@ -31,6 +31,7 @@ export class NetworkIframeManager extends Component {
     private _penpalNetworkWrapper: PenpalNetworker | null = null;
     private _iframeNetworker: IframeNetworker | null = null;
     private _adminNetworker: AdminNetworker | null = null;
+    private _localPlayerIsAdmin = false;
 
     private _iframeStatusRenderControllers: IframeStatusRenderController[] = [];
     private _iframeRenderers: IframeRenderer[] = [];
@@ -62,7 +63,7 @@ export class NetworkIframeManager extends Component {
     public initNetwork(iframeNetworker: IframeNetworker): void {
         this._iframeNetworker = iframeNetworker;
         this._iframeNetworker.ee.on("create", iframeInfo => {
-            this.addOneIframe(iframeInfo);
+            this.addOneIframe(iframeInfo, this._localPlayerIsAdmin);
         });
         this._iframeNetworker.ee.on("delete", iframeId => {
             this.deleteOneIframe(iframeId);
@@ -74,23 +75,25 @@ export class NetworkIframeManager extends Component {
         this._adminNetworker.ee.on("amI", () => {
             // i'm admin!
             this.enableIframeStatusRenderControllers();
+            this._localPlayerIsAdmin = true;
         });
         this._adminNetworker.ee.on("amnt", () => {
             // i'm not admin!
             this.disableIframeStatusRenderControllers();
+            this._localPlayerIsAdmin = false;
         });
     }
 
     public start(): void {
-        this._initIframeList.forEach(info => this.addOneIframe(info));
+        this._initIframeList.forEach(info => this.addOneIframe(info, this._localPlayerIsAdmin));
         this._initIframeList = [];
     }
 
-    public addOneIframe(info: Server.IframeGameObject): void {
+    public addOneIframe(info: Server.IframeGameObject, enableStatus: boolean): void {
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!this._worldId) throw new Error("no world id");
         
-        this._buildNetworkIframe(info, this._worldId, this._apolloClient);
+        this._buildNetworkIframe(info, this._worldId, this._apolloClient, enableStatus);
     }
 
     public deleteOneIframe(id: number): void {
@@ -100,7 +103,12 @@ export class NetworkIframeManager extends Component {
         this._networkIframerMap.delete(id);
     }
 
-    private _buildNetworkIframe(iframeInfo: Server.IframeGameObject, worldId: string, apolloClient: ApolloClient<any>): void {
+    private _buildNetworkIframe(
+        iframeInfo: Server.IframeGameObject,
+        worldId: string,
+        apolloClient: ApolloClient<any>,
+        enableStatus: boolean
+    ): void {
         const instantlater = this.engine.instantlater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCoordinatable?.gridCenterX || 8;
@@ -170,7 +178,7 @@ export class NetworkIframeManager extends Component {
         statusRenderController.setIdBoxObject(idBoxObject.ref!);
         statusRenderController.setIdBoxRenderer(idBoxRenderer.ref!);
         statusRenderController.setIdBoxText(iframeInfo.id);
-        statusRenderController.enabled = false;
+        statusRenderController.enabled = enableStatus;
 
         this._iframeStatusRenderControllers.push(statusRenderController);
         this._iframeRenderers.push(iframeRenderer.ref!);
