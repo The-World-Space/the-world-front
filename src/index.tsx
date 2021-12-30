@@ -10,7 +10,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { JWT_KEY } from "./context/consts";
-import { loadGlobalEnviroments } from "./pages/GlobalEnviroment";
+import { loadGlobalEnviroments } from "./GlobalEnviroment";
 
 const httpLink = createHttpLink({
     uri: "https://api.the-world.space/graphql",

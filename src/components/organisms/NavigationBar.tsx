@@ -5,7 +5,7 @@ import {
 import { useContext } from "react";
 import styled from "styled-components";
 import twLogo2 from "../atoms/tw logo 2.svg";
-import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
+import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../GlobalEnviroment";
 
 const NaviDiv = styled.div`
     display: flex;

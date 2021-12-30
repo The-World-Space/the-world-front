@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import NavTemplate from "../components/templates/NavTemplate";
-import { FORM_FONT_FAMILY } from "./GlobalEnviroment";
+import { FORM_FONT_FAMILY } from "../GlobalEnviroment";
 import accountIcon from "../components/atoms/AccountIcon.svg";
 import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
 import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";

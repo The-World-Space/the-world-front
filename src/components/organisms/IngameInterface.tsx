@@ -8,7 +8,7 @@ import ArrowIcon from "../atoms/ArrowIcon.svg";
 import ChatIcon from "../atoms/ChatIcon.svg";
 import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
-import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../pages/GlobalEnviroment";
+import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../GlobalEnviroment";
 import { FANCY_SCROLLBAR_CSS } from "./EditorInner/FieldEditorInner";
 import { ApolloClient, gql, useMutation } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";

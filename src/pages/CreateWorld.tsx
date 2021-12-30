@@ -8,7 +8,7 @@ import twLogo1 from "../components/atoms/tw logo 1.svg";
 import styled from "styled-components";
 import BlackInput from "../components/atoms/BlackInput";
 import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
-import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from "./GlobalEnviroment";
+import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from "../GlobalEnviroment";
 import HorizontalDivider from "../components/atoms/HorizontalDivider";
 
 const ContentDiv = styled.div`
