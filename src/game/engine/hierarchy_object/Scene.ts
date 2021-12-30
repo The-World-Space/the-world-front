@@ -16,7 +16,7 @@ export class Scene extends THREE.Scene {
 
             transform.traverseVisible(item => {
                 if (item instanceof Transform) item.gameObject.foreachComponent(c => {
-                    if (c.enabled) c.tryCallStart();
+                    if (c.enabled) c.unsafeTryCallStart();
                 }); //tryStartComponents
             });
         }
