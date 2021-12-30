@@ -31,7 +31,13 @@ export class SceneBuilder {
         const activeComponentsInScene = ComponentsInScene.filter(c => {
             return c.gameObject.activeInHierarchy && c.enabled;
         });
+        for (const component of activeComponentsInScene) {
+            component.unsafeSetStartEnqueueState(true);
+        }
         const updateableComponentsInScene = activeComponentsInScene.filter<UpdateableComponent>(isUpdateableComponent);
+        for (const component of updateableComponentsInScene) {
+            component.unsafeSetUpdateEnqueueState(true);
+        }
         this._sceneProcessor.addStartComponent(...activeComponentsInScene);
         this._sceneProcessor.addUpdateComponent(...updateableComponentsInScene);
 

@@ -132,15 +132,15 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     if (gridCollideMap.ref) {
                         gridCollideMap.ref.showCollider = false;
                     }
+                }
                     
-                    if (tool instanceof Tools.IframeGameObject || tool instanceof Tools.EraseIframeObject) {
-                        if (iframeManager.ref) {
-                            iframeManager.ref.disableIframePointerEvents();
-                        }
-                    } else {
-                        if (iframeManager.ref) {
-                            iframeManager.ref.enableIframePointerEvents();
-                        }
+                if (tool instanceof Tools.None) {
+                    if (iframeManager.ref) {
+                        iframeManager.ref.enableIframePointerEvents();
+                    }
+                } else {
+                    if (iframeManager.ref) {
+                        iframeManager.ref.disableIframePointerEvents();
                     }
                 }
 

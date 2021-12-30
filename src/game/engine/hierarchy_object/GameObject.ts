@@ -38,14 +38,14 @@ export class GameObject {
         gameObjectBuilder.initialize();
         this.registerTransform(gameObject._transform);
         gameObject.foreachComponentInChildren(component => {
-            component.tryCallAwake();
+            component.unsafeTryCallAwake();
         });
         if (gameObject._activeInHierarchy) {
             gameObject.foreachComponentInChildren(component => {
                 if (component.enabled) {
                     component.onEnable();
-                    component.tryEnqueueStart();
-                    component.tryEnqueueUpdate();
+                    component.unsafeTryEnqueueStart();
+                    component.unsafeTryEnqueueUpdate();
                 }
             });
         }
@@ -65,7 +65,7 @@ export class GameObject {
             if (!this.activeInHierarchy) {
                 this.foreachComponentInChildren(component => {
                     component.onDisable();
-                    component.tryDequeueUpdate();
+                    component.unsafeTryDequeueUpdate();
                 });
             }
         }
@@ -89,12 +89,12 @@ export class GameObject {
         }
         this._components.push(component);
 
-        component.tryCallAwake();
+        component.unsafeTryCallAwake();
         if (this._activeInHierarchy) {
             if (component.enabled) {
                 component.onEnable();
-                component.tryEnqueueStart();
-                component.tryEnqueueUpdate();
+                component.unsafeTryEnqueueStart();
+                component.unsafeTryEnqueueUpdate();
             }
         }
         return component;
@@ -255,8 +255,8 @@ export class GameObject {
             for (const component of this._components) {
                 if (component.enabled) {
                     component.onEnable();
-                    component.tryEnqueueStart();
-                    component.tryEnqueueUpdate();
+                    component.unsafeTryEnqueueStart();
+                    component.unsafeTryEnqueueUpdate();
                 }
             }
         } else {
@@ -265,7 +265,7 @@ export class GameObject {
                     //disable components
                     component.onDisable();
                     //dequeue update
-                    component.tryDequeueUpdate();
+                    component.unsafeTryDequeueUpdate();
                     
                     component.stopAllCoroutines();
                 }

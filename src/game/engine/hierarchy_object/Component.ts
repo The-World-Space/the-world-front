@@ -90,7 +90,7 @@ export abstract class Component {
     }
 
     //this method is called by the engine, do not call it manually
-    public tryCallAwake(): void {
+    public unsafeTryCallAwake(): void {
         if (this._awakened) return;
         this._awakening = true;
         this.awake();
@@ -99,7 +99,7 @@ export abstract class Component {
     }
 
     //this method is called by the engine, do not call it manually
-    public tryCallStart(): void {
+    public unsafeTryCallStart(): void {
         if (this._started) return;
         this._starting = true;
         this.start();
@@ -108,14 +108,24 @@ export abstract class Component {
     }
 
     //this method is called by the engine, do not call it manually
-    public tryEnqueueStart(): void {
+    public unsafeSetStartEnqueueState(state: boolean): void {
+        this._startEnqueued = state;
+    }
+
+    //this method is called by the engine, do not call it manually
+    public unsafeSetUpdateEnqueueState(state: boolean): void {
+        this._updateEnqueued = state;
+    }
+
+    //this method is called by the engine, do not call it manually
+    public unsafeTryEnqueueStart(): void {
         if (this._startEnqueued) return;
         (this.engine as EngineGlobalObject).sceneProcessor.addStartComponent(this);
         this._startEnqueued = true;
     }
 
     //this method is called by the engine, do not call it manually
-    public tryEnqueueUpdate(): void {
+    public unsafeTryEnqueueUpdate(): void {
         if (this._updateEnqueued) return;
         if (isUpdateableComponent(this)) {
             (this.engine as EngineGlobalObject).sceneProcessor.addUpdateComponent(this);
@@ -124,7 +134,7 @@ export abstract class Component {
     }
 
     //this method is called by the engine, do not call it manually
-    public tryDequeueUpdate(): void {
+    public unsafeTryDequeueUpdate(): void {
         if (!this._updateEnqueued) return;
         if (isUpdateableComponent(this)) {
             (this.engine as EngineGlobalObject).sceneProcessor.removeUpdateComponent(this);
@@ -154,14 +164,14 @@ export abstract class Component {
                     sceneProcessor.addStartComponent(this);
                     this._startEnqueued = true;
                 }
-                this.tryEnqueueUpdate();
+                this.unsafeTryEnqueueUpdate();
             } else {
                 this.onDisable();
                 if (this._startEnqueued && !this._started) {
                     sceneProcessor.removeStartComponent(this);
                     this._startEnqueued = false;
                 }
-                this.tryDequeueUpdate();
+                this.unsafeTryDequeueUpdate();
             }
         }
     }

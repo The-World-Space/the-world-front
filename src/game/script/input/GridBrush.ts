@@ -130,6 +130,7 @@ export class GridBrush extends Component {
         this._showImage = true;
         this.updateImageShow();
         this._pointerImage.asyncSetImage(src, 1, 1, () => {
+            this._pointerImage!.imageIndex = 0;
             this._pointerImage!.imageWidth = width;
             this._pointerImage!.imageHeight = height;
         });

@@ -9,22 +9,21 @@ export class ZaxisInitializer extends ZaxisSortable {
 
     protected start(): void { 
         this.process();
+        if (this.runOnce) this.enabled = false;
     }
 
-    public update(): void { 
-        if (this._runOnce) return;
+    public update(): void {
         this.process();
     }
 
     private readonly _tempVector3 = new Vector3();
 
     private process(): void {
-        const worldPosition = this.gameObject.transform.getWorldPosition(this._tempVector3);
-
         this.gameObject.getComponentsInChildren().forEach(component => {
             const cAny = component as any;
             if (cAny.onSortByZaxis) {
                 if (typeof cAny.onSortByZaxis === "function") {
+                    const worldPosition = component.gameObject.transform.getWorldPosition(this._tempVector3);
                     cAny.onSortByZaxis(worldPosition.z);
                 }
             }
@@ -35,9 +34,10 @@ export class ZaxisInitializer extends ZaxisSortable {
         if (!gameObject.transform.parentTransform) return;
         let currentAncestor = gameObject.transform.parentTransform;
         while (currentAncestor) {
-            const zaxisInitializer: ZaxisSortable|null = currentAncestor.gameObject.getComponent(ZaxisSortable);
+            const zaxisInitializer = currentAncestor.gameObject.getComponent(ZaxisInitializer);
             if (zaxisInitializer) {
-                onSortByZaxis(currentAncestor.position.z);
+                const worldPosition = currentAncestor.gameObject.transform.getWorldPosition(new Vector3());
+                onSortByZaxis(worldPosition.z);
                 return;
             }
             if (currentAncestor.parentTransform === null) break;

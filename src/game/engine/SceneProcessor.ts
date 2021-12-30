@@ -63,7 +63,7 @@ export class SceneProcessor {
     }
 
     private processStart(): void {
-        this._startComponents.forEach(component => component.tryCallStart());
+        this._startComponents.forEach(component => component.unsafeTryCallStart());
         this._startComponents.clear();
     }
 
@@ -72,7 +72,7 @@ export class SceneProcessor {
     }
 
     public init(initializeComponents: { awakeComponents: Component[], enableComponents: Component[] }): void {
-        initializeComponents.awakeComponents.forEach(component => component.tryCallAwake()); //depending on the unity implementation, awake order not guaranteed 
+        initializeComponents.awakeComponents.forEach(component => component.unsafeTryCallAwake()); //depending on the unity implementation, awake order not guaranteed 
         //components.sort(this._componentExecutionOrderCompartor);
         initializeComponents.enableComponents.forEach(component => component.onEnable());
     }
