@@ -306,6 +306,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             img.src = e.target.result as string;
         };
         reader.readAsDataURL(inputedFile);
+        if (inputFile.current)
+            inputFile.current.value = "";
     }, [maintainAspectRatio, onImageSizeChange, objEditorConnector]);
 
 

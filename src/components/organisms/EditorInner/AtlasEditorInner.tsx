@@ -174,6 +174,8 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         if (!validity.valid || !files || files.length < 1) return;
         const inputedFile = files[0];
         setFile(inputedFile);
+        if (inputFile.current)
+            inputFile.current.value = "";
     }, []);
 
     const [rowCount, setVerticalCount] = useState("2");
