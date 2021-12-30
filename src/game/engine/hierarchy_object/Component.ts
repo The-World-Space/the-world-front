@@ -166,7 +166,6 @@ export abstract class Component {
                 }
                 this.unsafeTryEnqueueUpdate();
             } else {
-                console.log(this.constructor.name, "onDisable, this._updateEnqueued:", this._updateEnqueued);
                 this.onDisable();
                 if (this._startEnqueued && !this._started) {
                     sceneProcessor.removeStartComponent(this);
