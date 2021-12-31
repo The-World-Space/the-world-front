@@ -1,7 +1,4 @@
-import { Component } from "../../engine/hierarchy_object/Component";
-import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { SpriteAtlasAnimator } from "../../engine/script/post_render/SpriteAtlasAnimator";
-import { Direction, Directionable } from "../../engine/script/helper/Directionable";
+import { Component, ComponentConstructor, SpriteAtlasAnimator, Direction, Directionable } from "the-world-engine";
 
 export class MovementAnimationController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

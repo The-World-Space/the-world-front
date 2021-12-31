@@ -1,13 +1,11 @@
 import { Server } from "../../connect/types";
-import { Component } from "../../engine/hierarchy_object/Component";
+import { Component, CssIframeRenderer } from "the-world-engine";
 import { IframeCommunicator } from "../../penpal";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
-import { IframeRenderer } from "../../engine/script/render/IframeRenderer";
-
 
 export class PenpalConnection extends Component {
     // component
-    protected _requiredComponents = [IframeRenderer];
+    protected _requiredComponents = [CssIframeRenderer];
     protected _disallowMultipleComponent = true;
     // info
     private _iframeCommunicator: IframeCommunicator | null = null;
@@ -25,7 +23,7 @@ export class PenpalConnection extends Component {
     public start(): void {
         if (!this._iframeInfo) throw new Error("Iframe info is not set");
         if (!this._penpalNetworkWrapper) throw new Error("Penpal network wrapper is not set");
-        const iframeRenderer = this.gameObject.getComponent(IframeRenderer);
+        const iframeRenderer = this.gameObject.getComponent(CssIframeRenderer);
         
         if (!iframeRenderer) return;
         const iframeDom = iframeRenderer.htmlIframeElement;

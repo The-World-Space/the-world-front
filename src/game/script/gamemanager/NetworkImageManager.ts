@@ -1,14 +1,16 @@
 import { Vector2, Vector3 } from "three";
 import { Server } from "../../connect/types";
-import { Component } from "../../engine/hierarchy_object/Component";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { 
+    Component,
+    GameObject,
+    PrefabRef,
+    GridObjectCollideMap,
+    IGridCoordinatable,
+    ZaxisInitializer,
+    ZaxisSorter
+} from "the-world-engine";
 import { NetworkImagePrefab } from "../../prefab/NetworkImagePrefab";
 import { ImageNetworker } from "../networker/ImageNetworker";
-import { GridObjectCollideMap } from "../../engine/script/physics/GridObjectCollideMap";
-import { IGridCoordinatable } from "../../engine/script/helper/IGridCoordinatable";
-import { ZaxisInitializer } from "../../engine/script/render/ZaxisInitializer";
-import { ZaxisSorter } from "../../engine/script/render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkImageManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);

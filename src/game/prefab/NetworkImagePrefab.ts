@@ -1,12 +1,14 @@
 import { Vector2 } from "three";
-import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
+import {
+    GameObjectBuilder,
+    Prefab,
+    PrefabRef,
+    CssSpriteRenderer,
+    GridCollider,
+    GridObjectCollideMap,
+    IGridCoordinatable
+} from "the-world-engine";
 import { Server } from "../connect/types";
-import { CssSpriteRenderer } from "../engine/script/render/CssSpriteRenderer";
-import { GridCollider } from "../engine/script/physics/GridCollider";
-import { GridObjectCollideMap } from "../engine/script/physics/GridObjectCollideMap";
-import { IGridCoordinatable } from "../engine/script/helper/IGridCoordinatable";
 
 export class NetworkImagePrefab extends Prefab {
     private _collideMap = new PrefabRef<IGridCoordinatable>();

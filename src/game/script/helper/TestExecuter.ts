@@ -1,4 +1,4 @@
-import { Component } from "../../engine/hierarchy_object/Component";
+import { Component } from "the-world-engine";
 
 export class TestExectuer extends Component {
     private _testFunc: (() => void)|null = null;

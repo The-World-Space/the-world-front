@@ -1,8 +1,6 @@
 import { Server } from "../../connect/types";
-import { Component } from "../../engine/hierarchy_object/Component";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { Component, PrefabRef, GridCollideMap } from "the-world-engine";
 import { ColliderNetworker } from "../networker/ColliderNetworker";
-import { GridCollideMap } from "../../engine/script/physics/GridColideMap";
 
 export class NetworkColiderManager extends Component {
     private _initColliderList: Server.Collider[] = [];

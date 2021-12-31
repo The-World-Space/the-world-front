@@ -1,12 +1,8 @@
 import { Vector2 } from "three";
 import { Server } from "../../connect/types";
-import { Component } from "../../engine/hierarchy_object/Component";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { Component, GameObject, PrefabRef, PlayerGridMovementController, IGridCollidable } from "the-world-engine";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
-import { PlayerGridMovementController } from "../../engine/script/controller/PlayerGridMovementController";
-import { IGridCollidable } from "../../engine/script/physics/IGridCollidable";
 import { PlayerStatusRenderController } from "../controller/PlayerStatusRenderController";
 
 const PREFIX = "@@tw/game/component/spawner/NetworkPlayerManager";

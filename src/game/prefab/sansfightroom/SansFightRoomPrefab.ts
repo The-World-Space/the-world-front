@@ -1,18 +1,20 @@
 import { Vector2, Vector3 } from "three";
-import { CssCollideTilemapChunkRenderer } from "../../engine/script/physics/CssCollideTilemapChunkRenderer";
-import { CssTilemapChunkRenderer } from "../../engine/script/post_render/CssTilemapChunkRenderer";
-import { ParallaxTranslater } from "../../engine/script/post_render/ParallaxTranslater";
-import { CameraRelativeZaxisSorter } from "../../engine/script/render/CameraRelativeZaxisSorter";
-import { CssSpriteAtlasRenderer } from "../../engine/script/render/CssSpriteAtlasRenderer";
-import { CssSpriteRenderer } from "../../engine/script/render/CssSpriteRenderer";
-import { TileAtlasItem } from "../../engine/script/render/CssTilemapRenderer";
-import { IframeRenderer } from "../../engine/script/render/IframeRenderer";
-import { ZaxisSorter } from "../../engine/script/render/ZaxisSorter";
-import { GameObjectBuilder, } from "../../engine/hierarchy_object/GameObject";
-import { Prefab } from "../../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { GridCollider } from "../../engine/script/physics/GridCollider";
-import { GridObjectCollideMap } from "../../engine/script/physics/GridObjectCollideMap";
+import {
+    CssCollideTilemapChunkRenderer,
+    CssTilemapChunkRenderer,
+    ParallaxTranslater,
+    CameraRelativeZaxisSorter,
+    CssSpriteAtlasRenderer,
+    CssSpriteRenderer,
+    TileAtlasItem,
+    CssIframeRenderer,
+    ZaxisSorter,
+    GameObjectBuilder,
+    Prefab,
+    PrefabRef,
+    GridCollider,
+    GridObjectCollideMap
+} from "the-world-engine";
 
 export class SansFightRoomPrefab extends Prefab {
     private _colideTilemapChunkRenderer = new PrefabRef<CssCollideTilemapChunkRenderer>();
@@ -158,7 +160,7 @@ export class SansFightRoomPrefab extends Prefab {
             .withChild(instantlater.buildGameObject("objects")
 
                 .withChild(instantlater.buildGameObject("iframe", new Vector3(8 + 16 * 46, 8, 0))
-                    .withComponent(IframeRenderer, c => {
+                    .withComponent(CssIframeRenderer, c => {
                         c.iframeSource = "https://jcw87.github.io/c2-sans-fight/";
                         c.width = 64 * 3;
                         c.height = 36 * 3;

@@ -1,18 +1,20 @@
 import { Vector2, Vector3 } from "three";
-import { Bootstrapper } from "../../../game/engine/bootstrap/Bootstrapper";
-import { SceneBuilder } from "../../../game/engine/bootstrap/SceneBuilder";
-import { PrefabRef } from "../../../game/engine/hierarchy_object/PrefabRef";
-import { Color } from "../../../game/engine/render/Color";
+import { 
+    Bootstrapper,
+    SceneBuilder,
+    PrefabRef,
+    Color,
+    EditorCameraController,
+    GridPointer,
+    GridCollideMap,
+    EditorGridRenderer,
+    Camera,
+    CssSpriteRenderer
+} from "the-world-engine";
 import { GridInputPrefab } from "../../../game/prefab/GridInputPrefab";
-import { EditorCameraController } from "../../../game/engine/script/controller/EditorCameraController";
 import { EditorViewObjectController } from "../../../game/script/controller/EditorViewObjectController";
 import { BrushMode, GridColliderBrush } from "../../../game/script/input/GridColliderBrush";
-import { GridPointer } from "../../../game/engine/script/input/GridPointer";
 import { ObjEditorConnector } from "../../../game/script/ObjEditorConnector";
-import { GridCollideMap } from "../../../game/engine/script/physics/GridColideMap";
-import { EditorGridRenderer } from "../../../game/engine/script/post_render/EditorGridRenderer";
-import { Camera } from "../../../game/engine/script/render/Camera";
-import { CssSpriteRenderer } from "../../../game/engine/script/render/CssSpriteRenderer";
 import { Tools } from "../../organisms/EditorInner/ObjectEditorInner";
 
 export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {

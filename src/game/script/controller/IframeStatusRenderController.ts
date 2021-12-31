@@ -1,6 +1,4 @@
-import { Component } from "../../engine/hierarchy_object/Component";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { CssHtmlElementRenderer } from "../../engine/script/render/CssHtmlElementRenderer";
+import { Component, GameObject, CssHtmlElementRenderer } from "the-world-engine";
 
 export class IframeStatusRenderController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

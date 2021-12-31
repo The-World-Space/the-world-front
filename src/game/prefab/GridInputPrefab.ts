@@ -1,10 +1,12 @@
-import { GridPointer } from "../engine/script/input/GridPointer";
-import { PointerGridInputListener } from "../engine/script/input/PointerGridInputListener";
-import { IGridCollidable } from "../engine/script/physics/IGridCollidable";
-import { GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { ZaxisInitializer } from "../engine/script/render/ZaxisInitializer";
+import {
+    GridPointer,
+    PointerGridInputListener,
+    IGridCollidable,
+    GameObjectBuilder,
+    Prefab,
+    PrefabRef,
+    ZaxisInitializer
+} from "the-world-engine";
 
 export class GridInputPrefab extends Prefab {
     private _gridCollideMap = new PrefabRef<IGridCollidable>();

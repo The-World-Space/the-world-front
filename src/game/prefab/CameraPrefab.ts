@@ -1,9 +1,5 @@
 import { Vector2 } from "three";
-import { TrackCameraController } from "../engine/script/controller/TrackCameraController";
-import { Camera } from "../engine/script/render/Camera";
-import { GameObject, GameObjectBuilder, } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
+import { TrackCameraController, Camera, GameObject, GameObjectBuilder, Prefab, PrefabRef } from "the-world-engine";
 
 export class CameraPrefab extends Prefab {
     private _trackTarget = new PrefabRef<GameObject>();

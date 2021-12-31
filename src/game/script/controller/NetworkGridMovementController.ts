@@ -1,7 +1,6 @@
 import { Vector2, Vector3 } from "three";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
+import { GameObject, Direction, Directionable } from "the-world-engine";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
-import { Direction, Directionable } from "../../engine/script/helper/Directionable";
 
 export class NetworkGridMovementController extends Directionable {
     protected readonly _disallowMultipleComponent: boolean = true;

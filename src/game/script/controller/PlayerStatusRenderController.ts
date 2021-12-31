@@ -1,10 +1,12 @@
-import { CoroutineIterator } from "../../engine/coroutine/CoroutineIterator";
-import { ICoroutine } from "../../engine/coroutine/ICoroutine";
-import { WaitForSeconds } from "../../engine/coroutine/YieldInstruction";
-import { Component } from "../../engine/hierarchy_object/Component";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { CssHtmlElementRenderer } from "../../engine/script/render/CssHtmlElementRenderer";
-import { CssTextRenderer } from "../../engine/script/render/CssTextRenderer";
+import {
+    CoroutineIterator,
+    ICoroutine,
+    WaitForSeconds,
+    Component,
+    GameObject,
+    CssHtmlElementRenderer,
+    CssTextRenderer
+} from "the-world-engine";
 
 export class PlayerStatusRenderController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

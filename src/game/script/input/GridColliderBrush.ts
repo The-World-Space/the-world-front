@@ -1,7 +1,4 @@
-import { Component } from "../../engine/hierarchy_object/Component";
-import { GridCollideMap } from "../../engine/script/physics/GridColideMap";
-import { GridPointer } from "../../engine/script/input/GridPointer";
-import { PointerGridEvent } from "../../engine/script/input/PointerGridInputListener";
+import { Component, GridCollideMap, GridPointer, PointerGridEvent } from "the-world-engine";
 
 export enum BrushMode {
     Draw,

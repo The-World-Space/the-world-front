@@ -2,33 +2,35 @@ import { ApolloClient } from "@apollo/client";
 import { Vector3 } from "three";
 import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
 import { Server } from "./connect/types";
-import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
-import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
-import { GameObject } from "./engine/hierarchy_object/GameObject";
-import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
+import {
+    Bootstrapper,
+    SceneBuilder,
+    GameObject,
+    PrefabRef,
+    GridPointer,
+    GridCollideMap,
+    CssTilemapChunkRenderer,
+    GridObjectCollideMap,
+    ZaxisInitializer
+} from "the-world-engine";
 import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { User } from "../hooks/useUser";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
-import { GridPointer } from "./engine/script/input/GridPointer";
 import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
 import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
 import { PenpalNetworker } from "./penpal/PenpalNetworker";
 import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
-import { GridCollideMap } from "./engine/script/physics/GridColideMap";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
 import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
 import { ColliderNetworker } from "./script/networker/ColliderNetworker";
 import { IframeNetworker } from "./script/networker/IframeNetworker";
 import { ImageNetworker } from "./script/networker/ImageNetworker";
 import { GridBrush } from "./script/input/GridBrush";
-import { CssTilemapChunkRenderer } from "./engine/script/post_render/CssTilemapChunkRenderer";
-import { GridObjectCollideMap } from "./engine/script/physics/GridObjectCollideMap";
 import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
 import { NetworkTileManager } from "./script/gamemanager/NetworkTileManager";
 import { TileNetworker } from "./script/networker/TileNetworker";
-import { ZaxisInitializer } from "./engine/script/render/ZaxisInitializer";
 import { AdminNetworker } from "./script/networker/AdminNetworker";
 
 export class NetworkInfoObject {

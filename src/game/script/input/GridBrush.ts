@@ -1,10 +1,13 @@
 import { Vector2, Vector3 } from "three";
-import { Component } from "../../engine/hierarchy_object/Component";
-import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { CssSpriteAtlasRenderer } from "../../engine/script/render/CssSpriteAtlasRenderer";
-import { PointerGridEvent, PointerGridInputListener } from "../../engine/script/input/PointerGridInputListener";
+import {
+    Component,
+    ComponentConstructor,
+    GameObject,
+    PrefabRef,
+    CssSpriteAtlasRenderer,
+    PointerGridEvent,
+    PointerGridInputListener
+} from "the-world-engine";
 
 export class GridBrush extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

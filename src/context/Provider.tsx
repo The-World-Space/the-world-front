@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AuthContext, ObjEditorContext, WorldEditorContext } from "./contexts";
 import { useRawState } from "../hooks/StickyState";
 import { JWT_KEY } from "./consts";
-import { Game } from "../game/engine/Game";
+import { Game } from "the-world-engine";
 import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 import { Server } from "../game/connect/types";

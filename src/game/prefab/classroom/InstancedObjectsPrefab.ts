@@ -1,12 +1,15 @@
 import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
-import { GridCollideMap } from "../../engine/script/physics/GridColideMap";
-import { SpriteInstance, SpriteStaticInstancer } from "../../engine/script/post_render/SpriteStaticInstancer";
-import { CssSpriteRenderer } from "../../engine/script/render/CssSpriteRenderer";
-import { IframeRenderer } from "../../engine/script/render/IframeRenderer";
-import { ZaxisSorter } from "../../engine/script/render/ZaxisSorter";
-import { GameObjectBuilder, } from "../../engine/hierarchy_object/GameObject";
-import { Prefab } from "../../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import { 
+    GridCollideMap,
+    SpriteInstance,
+    SpriteStaticInstancer,
+    CssSpriteRenderer,
+    CssIframeRenderer,
+    ZaxisSorter,
+    GameObjectBuilder,
+    Prefab,
+    PrefabRef
+ } from "the-world-engine";
 
 export class InstancedObjectsPrefab extends Prefab {
     private _gridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();
@@ -158,7 +161,7 @@ export class InstancedObjectsPrefab extends Prefab {
 
             .withChild(instantlater.buildGameObject("iframe", new Vector3(7 * 16 + 1, 5 * 16 + 7, 0),
                 new Quaternion().setFromEuler(new Euler(MathUtils.degToRad(15), MathUtils.degToRad(-45), 0)))
-                .withComponent(IframeRenderer, c => {
+                .withComponent(CssIframeRenderer, c => {
                     c.iframeSource = "https://www.youtube.com/embed/_6u84iKQxUU";
                     c.width = 36;
                     c.height = 18;

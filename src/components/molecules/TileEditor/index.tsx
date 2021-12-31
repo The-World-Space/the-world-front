@@ -1,8 +1,7 @@
 import { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { ObjEditorContext } from "../../../context/contexts";
-import { Game } from "../../../game/engine/Game";
-import { GameStateKind } from "../../../game/engine/GameState";
+import { Game, GameStateKind } from "the-world-engine";
 import { TileEditorBootstrapper } from "./TileEditorBootstrapper";
 
 const DrawArea = styled.div`

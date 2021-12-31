@@ -1,7 +1,4 @@
-import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { CssHtmlElementRenderer } from "../engine/script/render/CssHtmlElementRenderer";
+import { GameObject, GameObjectBuilder, Prefab, PrefabRef, CssHtmlElementRenderer } from "the-world-engine";
 
 export class IframeIdBoxPrefab extends Prefab {
     private _idboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
@@ -21,19 +18,16 @@ export class IframeIdBoxPrefab extends Prefab {
         return this.gameObjectBuilder
             .withComponent(CssHtmlElementRenderer, c => {
                 c.autoSize = true;
-                c.setElementFromJSX(
-                    <div style={{
-                        borderRadius: "15px",
-                        background: "#000000",
-                        color: "#ffffff", 
-                        textAlign: "center",
-                        padding: "5px 10px",
-                        opacity: 0.5,
-                        fontFamily: "Noto Sans",
-                    }}>
-                        content
-                    </div>
-                );
+                const idBoxDiv = document.createElement("div");
+                idBoxDiv.style.borderRadius = "15px";
+                idBoxDiv.style.backgroundColor = "#000000",
+                idBoxDiv.style.color = "#ffffff";
+                idBoxDiv.style.textAlign = "center";
+                idBoxDiv.style.padding = "5px 10px";
+                idBoxDiv.style.opacity = "0.5";
+                idBoxDiv.style.fontFamily = "Noto Sans";
+                idBoxDiv.innerText = "content";
+                c.setElement(idBoxDiv);
                 c.pointerEvents = false;
             })
             .getComponent(CssHtmlElementRenderer, this._idboxRenderer)

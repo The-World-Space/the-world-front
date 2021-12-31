@@ -1,17 +1,19 @@
-import { GridPointer } from "./engine/script/input/GridPointer";
-import { CssCollideTilemapChunkRenderer } from "./engine/script/physics/CssCollideTilemapChunkRenderer";
-import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
-import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
-import { GameObject } from "./engine/hierarchy_object/GameObject";
-import { PrefabRef } from "./engine/hierarchy_object/PrefabRef";
+import {
+    GridPointer,
+    CssCollideTilemapChunkRenderer,
+    Bootstrapper,
+    SceneBuilder,
+    GameObject,
+    PrefabRef,
+    GridEventMap,
+    GridObjectCollideMap
+ } from "the-world-engine";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { SansFightRoomPrefab } from "./prefab/sansfightroom/SansFightRoomPrefab";
-import { GridEventMap } from "./engine/script/event/GridEventMap";
 import { PlayerStatusRenderController } from "./script/controller/PlayerStatusRenderController";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
-import { GridObjectCollideMap } from "./engine/script/physics/GridObjectCollideMap";
 
 export class TestBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {

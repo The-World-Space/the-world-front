@@ -1,10 +1,12 @@
-import { CssCollideTilemapChunkRenderer } from "../../engine/script/physics/CssCollideTilemapChunkRenderer";
-import { CssTilemapChunkRenderer } from "../../engine/script/post_render/CssTilemapChunkRenderer";
-import { CameraRelativeZaxisSorter } from "../../engine/script/render/CameraRelativeZaxisSorter";
-import { TileAtlasItem } from "../../engine/script/render/CssTilemapRenderer";
-import { GameObjectBuilder, } from "../../engine/hierarchy_object/GameObject";
-import { Prefab } from "../../engine/hierarchy_object/Prefab";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import {
+    CssCollideTilemapChunkRenderer,
+    CssTilemapChunkRenderer,
+    CameraRelativeZaxisSorter,
+    TileAtlasItem,
+    GameObjectBuilder,
+    Prefab,
+    PrefabRef
+} from "the-world-engine";
 
 export class TilemapChunkPrefab extends Prefab {
     private _colideTilemapChunkRenderer: PrefabRef<CssCollideTilemapChunkRenderer> = new PrefabRef();

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 //import { TestBootstrapper } from "../game/TestBootstrapper";
-import { Game } from "../game/engine/Game";
+import { Game } from "the-world-engine";
 import { TileEditorBootstrapper } from "../components/molecules/TileEditor/TileEditorBootstrapper";
 
 function TestGamePage(): JSX.Element {

@@ -1,21 +1,23 @@
 import { ApolloClient } from "@apollo/client";
 import { Vector2, Vector3 } from "three";
 import { Server } from "../../connect/types";
-import { Component } from "../../engine/hierarchy_object/Component";
-import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
+import {
+    Component,
+    GameObject,
+    PrefabRef,
+    GridObjectCollideMap,
+    IGridCoordinatable,
+    CssHtmlElementRenderer,
+    CssIframeRenderer,
+    ZaxisInitializer,
+    ZaxisSorter
+} from "the-world-engine";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 import { IframeIdBoxPrefab } from "../../prefab/IframeIdBoxPrefab";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
 import { IframeStatusRenderController } from "../controller/IframeStatusRenderController";
 import { AdminNetworker } from "../networker/AdminNetworker";
 import { IframeNetworker } from "../networker/IframeNetworker";
-import { GridObjectCollideMap } from "../../engine/script/physics/GridObjectCollideMap";
-import { IGridCoordinatable } from "../../engine/script/helper/IGridCoordinatable";
-import { CssHtmlElementRenderer } from "../../engine/script/render/CssHtmlElementRenderer";
-import { IframeRenderer } from "../../engine/script/render/IframeRenderer";
-import { ZaxisInitializer } from "../../engine/script/render/ZaxisInitializer";
-import { ZaxisSorter } from "../../engine/script/render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
@@ -34,7 +36,7 @@ export class NetworkIframeManager extends Component {
     private _localPlayerIsAdmin = false;
 
     private _iframeStatusRenderControllers: IframeStatusRenderController[] = [];
-    private _iframeRenderers: IframeRenderer[] = [];
+    private _iframeRenderers: CssIframeRenderer[] = [];
 
     public set apolloClient(apolloClient: ApolloClient<any>) {
         this._apolloClient = apolloClient;
@@ -131,7 +133,7 @@ export class NetworkIframeManager extends Component {
 
         const colliders = iframeInfo.proto_.colliders.map(c => new Vector2(c.x, c.y));
 
-        const iframeRenderer = new PrefabRef<IframeRenderer>();
+        const iframeRenderer = new PrefabRef<CssIframeRenderer>();
 
         const prefab = 
             instantlater.buildPrefab(`${PREFIX}/iframe_${iframeInfo.id}`, NetworkIframePrefab, calculated)
@@ -144,7 +146,7 @@ export class NetworkIframeManager extends Component {
         
         const builder = prefab.make();
         builder.getGameObject(prefabRef)
-            .getComponent(IframeRenderer, iframeRenderer);
+            .getComponent(CssIframeRenderer, iframeRenderer);
         this._networkIframerMap.set(iframeInfo.id, prefabRef.ref!);
         this.gameObject.addChildFromBuilder(builder);
 

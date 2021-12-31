@@ -1,65 +1,71 @@
 import { Quaternion, Vector2, Vector3 } from "three";
-import { CssSpriteAtlasRenderer } from "../engine/script/render/CssSpriteAtlasRenderer";
-import { SpriteAtlasAnimator } from "../engine/script/post_render/SpriteAtlasAnimator";
-import { ZaxisSorter } from "../engine/script/render/ZaxisSorter";
-import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
-import { Prefab } from "../engine/hierarchy_object/Prefab";
-import { NetworkGridMovementController } from "../script/controller/NetworkGridMovementController";
-import { CssTextRenderer, FontWeight, TextAlign } from "../engine/script/render/CssTextRenderer";
-import { CssHtmlElementRenderer } from "../engine/script/render/CssHtmlElementRenderer";
-import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { IGridCollidable } from "../engine/script/physics/IGridCollidable";
-import { PlayerNetworker } from "../script/networker/PlayerNetworker";
-import { MovementAnimationController } from "../script/controller/MovementAnimationController";
+import {
+    PlayerGridMovementController,
+    CssSpriteAtlasRenderer,
+    SpriteAtlasAnimator,
+    ZaxisSorter,
+    GameObject,
+    GameObjectBuilder,
+    Prefab,
+    CssTextRenderer,
+    FontWeight,
+    TextAlign,
+    CssHtmlElementRenderer,
+    IGridCollidable,
+    GridPointer,
+    PrefabRef,
+    PlayerGridEventInvoker,
+    GridEventMap
+} from "the-world-engine";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
+import { MovementAnimationController } from "../script/controller/MovementAnimationController";
 
-export class NetworkPlayerPrefab extends Prefab {
-    private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
-    private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
-    private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
-    private _nameTagString: PrefabRef<string> = new PrefabRef();
+export class PlayerPrefab extends Prefab {
+    private _spriteAtlasPath = new PrefabRef<string>("/assets/charactor/Seongwon.png");
+    private _collideMaps: PrefabRef<IGridCollidable>[] = [];
+    private _gridEventMaps: PrefabRef<GridEventMap>[] = [];
+    private _gridPosition = new PrefabRef<Vector2>();
+    private _nameTagString = new PrefabRef<string>();
+    private _gridPointer = new PrefabRef<GridPointer>();
 
-    private _networkManager: PlayerNetworker | null = null;
-    private _userId: string | null = null;
-
-    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NetworkPlayerPrefab {
+    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): PlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
-    public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkPlayerPrefab {
-        this._tilemap = tilemap;
+    public withCollideMap(colideMap: PrefabRef<IGridCollidable>): PlayerPrefab {
+        this._collideMaps.push(colideMap);
         return this;
     }
 
-    public withGridPosition(gridPosition: PrefabRef<Vector2>): NetworkPlayerPrefab {
+    public withGridEventMap(gridEventMap: PrefabRef<GridEventMap>): PlayerPrefab {
+        this._gridEventMaps.push(gridEventMap);
+        return this;
+    }
+
+    public withGridPosition(gridPosition: PrefabRef<Vector2>): PlayerPrefab {
         this._gridPosition = gridPosition;
         return this;
     }
 
-    public withNameTag(name: PrefabRef<string>): NetworkPlayerPrefab {
+    public withNameTag(name: PrefabRef<string>): PlayerPrefab {
         this._nameTagString = name;
         return this;
     }
 
-    public withNetworkManager(networkManager: PlayerNetworker): NetworkPlayerPrefab {
-        this._networkManager = networkManager;
-        return this;
-    }
-
-    public withUserId(userId: string): NetworkPlayerPrefab {
-        this._userId = userId;
+    public withPathfindPointer(gridPointer: PrefabRef<GridPointer>): PlayerPrefab {
+        this._gridPointer = gridPointer;
         return this;
     }
 
     public make(): GameObjectBuilder {
         const instantlater = this.engine.instantlater;
-        
+
         const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
         const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
         const nameTagRenderer: PrefabRef<CssTextRenderer> = new PrefabRef();
         const nameTagObject: PrefabRef<GameObject> = new PrefabRef();
-        
+
         return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 if (this._spriteAtlasPath.ref) c.asyncSetImage(this._spriteAtlasPath.ref, 4, 4);
@@ -77,15 +83,21 @@ export class NetworkPlayerPrefab extends Prefab {
                 c.addAnimation("left_walk", [12, 13, 14, 15]);
                 c.frameDuration = 0.2;
             })
-            .withComponent(NetworkGridMovementController, c => {
-                if (this._tilemap.ref) {
-                    c.gridCellHeight = this._tilemap.ref.gridCellHeight;
-                    c.gridCellWidth = this._tilemap.ref.gridCellWidth;
-                    c.gridCenter = this._tilemap.ref.gridCenter;
+            .withComponent(PlayerGridMovementController, c => {
+                if (1 <= this._collideMaps.length) {
+                    if (this._collideMaps[0].ref) {
+                        c.setGridInfoFromCollideMap(this._collideMaps[0].ref);
+                    }
                 }
+
+                for (let i = 0; i < this._collideMaps.length; i++) {
+                    if (this._collideMaps[i].ref) {
+                        c.addCollideMap(this._collideMaps[i].ref!);
+                    }
+                }
+                
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
-                if (this._networkManager && this._userId)
-                    c.initNetwork(this._userId, this._networkManager);
+                if (this._gridPointer) c.gridPointer = this._gridPointer.ref;
             })
             .withComponent(MovementAnimationController)
             .withComponent(ZaxisSorter, c => {
@@ -99,6 +111,13 @@ export class NetworkPlayerPrefab extends Prefab {
                 c.setNameTagRenderer(nameTagRenderer.ref!);
                 c.nameTag = this._nameTagString.ref;
             })
+            .withComponent(PlayerGridEventInvoker, c => {
+                for (let i = 0; i < this._gridEventMaps.length; i++) {
+                    if (this._gridEventMaps[i].ref) {
+                        c.addGridEventMap(this._gridEventMaps[i].ref!);
+                    }
+                }
+            })
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
@@ -107,24 +126,20 @@ export class NetworkPlayerPrefab extends Prefab {
                 .active(false)
                 .withComponent(CssHtmlElementRenderer, c => {
                     c.autoSize = true;
-                    c.setElementFromJSX(
-                        <div style={{
-                            borderRadius: "15px",
-                            background: "#000000",
-                            color: "#ffffff", 
-                            textAlign: "center",
-                            padding: "5px 10px",
-                            opacity: 0.5,
-                            fontFamily: "Noto Sans",
-                        }}>
-                            chat content
-                        </div>
-                    );
+                    const chatboxDiv = document.createElement("div");
+                    chatboxDiv.style.borderRadius = "15px";
+                    chatboxDiv.style.background = "#000000";
+                    chatboxDiv.style.color = "#ffffff";
+                    chatboxDiv.style.textAlign = "center";
+                    chatboxDiv.style.padding = "5px 10px";
+                    chatboxDiv.style.opacity = "0.5";
+                    chatboxDiv.style.fontFamily = "Noto Sans";
+                    c.setElement(chatboxDiv);
                     c.pointerEvents = false;
                 })
                 .getComponent(CssHtmlElementRenderer, chatboxRenderer)
                 .getGameObject(chatboxObject))
-                
+
             .withChild(instantlater.buildGameObject("nametag",
                 new Vector3(0, 32, 0),
                 new Quaternion(),

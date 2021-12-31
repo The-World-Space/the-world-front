@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { Server } from "../game/connect/types";
-import { Game } from "../game/engine/Game";
+import { Game } from "the-world-engine";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
