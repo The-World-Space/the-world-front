@@ -10,12 +10,12 @@ import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";
 import { IframeStatusRenderController } from "../controller/IframeStatusRenderController";
 import { AdminNetworker } from "../networker/AdminNetworker";
 import { IframeNetworker } from "../networker/IframeNetworker";
-import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
-import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
-import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
-import { IframeRenderer } from "../render/IframeRenderer";
-import { ZaxisInitializer } from "../render/ZaxisInitializer";
-import { ZaxisSorter } from "../render/ZaxisSorter";
+import { GridObjectCollideMap } from "../../engine/script/physics/GridObjectCollideMap";
+import { IGridCoordinatable } from "../../engine/script/helper/IGridCoordinatable";
+import { CssHtmlElementRenderer } from "../../engine/script/render/CssHtmlElementRenderer";
+import { IframeRenderer } from "../../engine/script/render/IframeRenderer";
+import { ZaxisInitializer } from "../../engine/script/render/ZaxisInitializer";
+import { ZaxisSorter } from "../../engine/script/render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);

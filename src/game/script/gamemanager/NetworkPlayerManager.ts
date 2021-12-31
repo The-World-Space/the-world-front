@@ -6,7 +6,7 @@ import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
 import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
-import { IGridCollidable } from "../physics/IGridCollidable";
+import { IGridCollidable } from "../../engine/script/physics/IGridCollidable";
 import { PlayerStatusRenderController } from "../controller/PlayerStatusRenderController";
 
 const PREFIX = "@@tw/game/component/spawner/NetworkPlayerManager";

@@ -1,10 +1,10 @@
 import { Vector2, Vector3 } from "three";
-import { Pathfinder } from "../ai/pathfind/Pathfinder";
-import { GridPointer } from "../input/GridPointer";
-import { PointerGridEvent } from "../input/PointerGridInputListener";
-import { IGridCollidable } from "../physics/IGridCollidable";
-import { Direction, Directionable } from "./Directionable";
-import { IGridPositionable } from "./IGridPositionable";
+import { Pathfinder } from "../../engine/script/ai/pathfind/Pathfinder";
+import { GridPointer } from "../../engine/script/input/GridPointer";
+import { PointerGridEvent } from "../../engine/script/input/PointerGridInputListener";
+import { IGridCollidable } from "../../engine/script/physics/IGridCollidable";
+import { Direction, Directionable } from "../../engine/script/helper/Directionable";
+import { IGridPositionable } from "../../engine/script/helper/IGridPositionable";
 
 export class PlayerGridMovementController extends Directionable
     implements IGridPositionable {

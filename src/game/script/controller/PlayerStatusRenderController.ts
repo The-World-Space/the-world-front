@@ -3,8 +3,8 @@ import { ICoroutine } from "../../engine/coroutine/ICoroutine";
 import { WaitForSeconds } from "../../engine/coroutine/YieldInstruction";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
-import { CssTextRenderer } from "../render/CssTextRenderer";
+import { CssHtmlElementRenderer } from "../../engine/script/render/CssHtmlElementRenderer";
+import { CssTextRenderer } from "../../engine/script/render/CssTextRenderer";
 
 export class PlayerStatusRenderController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

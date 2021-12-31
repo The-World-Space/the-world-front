@@ -5,10 +5,10 @@ import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { NetworkImagePrefab } from "../../prefab/NetworkImagePrefab";
 import { ImageNetworker } from "../networker/ImageNetworker";
-import { GridObjectCollideMap } from "../physics/GridObjectCollideMap";
-import { IGridCoordinatable } from "../post_render/IGridCoordinatable";
-import { ZaxisInitializer } from "../render/ZaxisInitializer";
-import { ZaxisSorter } from "../render/ZaxisSorter";
+import { GridObjectCollideMap } from "../../engine/script/physics/GridObjectCollideMap";
+import { IGridCoordinatable } from "../../engine/script/helper/IGridCoordinatable";
+import { ZaxisInitializer } from "../../engine/script/render/ZaxisInitializer";
+import { ZaxisSorter } from "../../engine/script/render/ZaxisSorter";
 
 const PREFIX = "@@tw/game/component/gamemanager/NetworkImageManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);

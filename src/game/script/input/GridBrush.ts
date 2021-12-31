@@ -3,8 +3,8 @@ import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
-import { CssSpriteAtlasRenderer } from "../render/CssSpriteAtlasRenderer";
-import { PointerGridEvent, PointerGridInputListener } from "./PointerGridInputListener";
+import { CssSpriteAtlasRenderer } from "../../engine/script/render/CssSpriteAtlasRenderer";
+import { PointerGridEvent, PointerGridInputListener } from "../../engine/script/input/PointerGridInputListener";
 
 export class GridBrush extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

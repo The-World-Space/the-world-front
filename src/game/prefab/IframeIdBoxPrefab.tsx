@@ -1,7 +1,7 @@
 import { GameObject, GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
-import { CssHtmlElementRenderer } from "../script/render/CssHtmlElementRenderer";
+import { CssHtmlElementRenderer } from "../engine/script/render/CssHtmlElementRenderer";
 
 export class IframeIdBoxPrefab extends Prefab {
     private _idboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();

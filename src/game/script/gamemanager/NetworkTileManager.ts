@@ -1,8 +1,8 @@
 import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { TileNetworker } from "../networker/TileNetworker";
-import { CssTilemapChunkRenderer } from "../post_render/CssTilemapChunkRenderer";
-import { TileAtlasItem } from "../render/CssTilemapRenderer";
+import { CssTilemapChunkRenderer } from "../../engine/script/post_render/CssTilemapChunkRenderer";
+import { TileAtlasItem } from "../../engine/script/render/CssTilemapRenderer";
 
 export class NetworkTileManager extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

@@ -1,6 +1,6 @@
 import { Component } from "../../engine/hierarchy_object/Component";
 import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentConstructor";
-import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
+import { CssSpriteRenderer } from "../../engine/script/render/CssSpriteRenderer";
 
 export class EditorViewObjectController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

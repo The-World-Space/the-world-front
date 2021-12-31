@@ -1,6 +1,6 @@
 import { Component } from "../../engine/hierarchy_object/Component";
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
-import { CssHtmlElementRenderer } from "../render/CssHtmlElementRenderer";
+import { CssHtmlElementRenderer } from "../../engine/script/render/CssHtmlElementRenderer";
 
 export class IframeStatusRenderController extends Component {
     protected readonly _disallowMultipleComponent: boolean = true;

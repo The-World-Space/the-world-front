@@ -1,5 +1,5 @@
-import { GridPointer } from "./script/input/GridPointer";
-import { CssCollideTilemapChunkRenderer } from "./script/physics/CssCollideTilemapChunkRenderer";
+import { GridPointer } from "./engine/script/input/GridPointer";
+import { CssCollideTilemapChunkRenderer } from "./engine/script/physics/CssCollideTilemapChunkRenderer";
 import { Bootstrapper } from "./engine/bootstrap/Bootstrapper";
 import { SceneBuilder } from "./engine/bootstrap/SceneBuilder";
 import { GameObject } from "./engine/hierarchy_object/GameObject";
@@ -8,10 +8,10 @@ import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { SansFightRoomPrefab } from "./prefab/sansfightroom/SansFightRoomPrefab";
-import { GridEventMap } from "./script/event/GridEventMap";
+import { GridEventMap } from "./engine/script/event/GridEventMap";
 import { PlayerStatusRenderController } from "./script/controller/PlayerStatusRenderController";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
-import { GridObjectCollideMap } from "./script/physics/GridObjectCollideMap";
+import { GridObjectCollideMap } from "./engine/script/physics/GridObjectCollideMap";
 
 export class TestBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {

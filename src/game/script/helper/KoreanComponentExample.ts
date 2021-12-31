@@ -5,8 +5,8 @@ import { ComponentConstructor } from "../../engine/hierarchy_object/ComponentCon
 import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { CameraPrefab } from "../../prefab/CameraPrefab";
-import { CssSpriteRenderer } from "../render/CssSpriteRenderer";
-import { CssTextRenderer } from "../render/CssTextRenderer";
+import { CssSpriteRenderer } from "../../engine/script/render/CssSpriteRenderer";
+import { CssTextRenderer } from "../../engine/script/render/CssTextRenderer";
 import { TestExectuer } from "./TestExecuter";
 
 //유니티의 컴포넌트 시스템은 게임오브젝트에 추가되는 특성입니다.

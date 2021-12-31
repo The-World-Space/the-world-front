@@ -2,7 +2,7 @@ import { Server } from "../../connect/types";
 import { Component } from "../../engine/hierarchy_object/Component";
 import { IframeCommunicator } from "../../penpal";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
-import { IframeRenderer } from "../render/IframeRenderer";
+import { IframeRenderer } from "../../engine/script/render/IframeRenderer";
 
 
 export class PenpalConnection extends Component {

@@ -3,13 +3,13 @@ import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { Server } from "../connect/types";
-import { IframeRenderer } from "../script/render/IframeRenderer";
+import { IframeRenderer } from "../engine/script/render/IframeRenderer";
 import { PenpalConnection } from "../script/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
 import { PenpalNetworker } from "../penpal/PenpalNetworker";
-import { GridObjectCollideMap } from "../script/physics/GridObjectCollideMap";
-import { GridCollider } from "../script/physics/GridCollider";
-import { IGridCoordinatable } from "../script/post_render/IGridCoordinatable";
+import { GridObjectCollideMap } from "../engine/script/physics/GridObjectCollideMap";
+import { GridCollider } from "../engine/script/physics/GridCollider";
+import { IGridCoordinatable } from "../engine/script/helper/IGridCoordinatable";
 
 export class NetworkIframePrefab extends Prefab {
     private _collideMap: PrefabRef<IGridCoordinatable> = new PrefabRef();

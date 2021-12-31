@@ -3,10 +3,10 @@ import { GameObjectBuilder } from "../engine/hierarchy_object/GameObject";
 import { Prefab } from "../engine/hierarchy_object/Prefab";
 import { PrefabRef } from "../engine/hierarchy_object/PrefabRef";
 import { Server } from "../connect/types";
-import { CssSpriteRenderer } from "../script/render/CssSpriteRenderer";
-import { GridCollider } from "../script/physics/GridCollider";
-import { GridObjectCollideMap } from "../script/physics/GridObjectCollideMap";
-import { IGridCoordinatable } from "../script/post_render/IGridCoordinatable";
+import { CssSpriteRenderer } from "../engine/script/render/CssSpriteRenderer";
+import { GridCollider } from "../engine/script/physics/GridCollider";
+import { GridObjectCollideMap } from "../engine/script/physics/GridObjectCollideMap";
+import { IGridCoordinatable } from "../engine/script/helper/IGridCoordinatable";
 
 export class NetworkImagePrefab extends Prefab {
     private _collideMap = new PrefabRef<IGridCoordinatable>();
