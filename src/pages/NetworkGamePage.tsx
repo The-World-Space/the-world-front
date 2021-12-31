@@ -150,6 +150,7 @@ function NetworkGamePage_(): JSX.Element {
         return () => { //on component unmount
             game.dispose();
             widgetManager.dispose();
+            location.reload();
         };
     }, [
         worldId,
