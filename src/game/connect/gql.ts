@@ -158,16 +158,16 @@ export function getSession(): { token: string|null } {
 
 
 export class WebSocketLink extends ApolloLink {
-    private client: Client;
+    private _client: Client;
 
     constructor(options: ClientOptions) {
         super();
-        this.client = createClient(options);
+        this._client = createClient(options);
     }
 
     public request(operation: Operation): Observable<FetchResult> {
         return new Observable((sink) => {
-            return this.client.subscribe<FetchResult>(
+            return this._client.subscribe<FetchResult>(
                 { ...operation, query: print(operation.query) },
                 {
                     next: sink.next.bind(sink),
@@ -195,12 +195,16 @@ export class WebSocketLink extends ApolloLink {
             );
         });
     }
+
+    public get client(): Client {
+        return this._client;
+    }
 }
 
 
 
 
-export function getWSLink(): ApolloLink {
+export function getWSLink(): WebSocketLink {
     const link = new WebSocketLink({
         url: "wss://api.the-world.space/graphql",
         connectionParams: () => {

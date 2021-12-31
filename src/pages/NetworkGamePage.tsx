@@ -220,7 +220,7 @@ function GameWSApolloClientProvider({ children }: { children: JSX.Element}): JSX
     };
 
     useEffect(() => () => {
-        (wsLink as any).client.dispose();
+        wsLink.client.dispose();
     });
 
     return (
