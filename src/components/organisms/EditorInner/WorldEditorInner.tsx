@@ -614,7 +614,10 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const onIframeBlur = useCallback(() => {
         onBlur();
-        if (!(/^(http(s?)):\/\//.test(iframeSrc))) {
+        if (iframeSrc === "") {
+            return;
+        }
+        else if (!(/^(http(s?)):\/\//.test(iframeSrc))) {
             alert("iframe src must start with http(s)://");
             setIframeSrc("");
         }
