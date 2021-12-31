@@ -4,6 +4,9 @@ import { Scene } from "../hierarchy_object/Scene";
 import { Transform } from "../hierarchy_object/Transform";
 import { isUpdateableComponent, SceneProcessor, UpdateableComponent } from "../SceneProcessor";
 
+/**
+ * an object that makes a scene
+ */
 export class SceneBuilder {
     private readonly _sceneProcessor: SceneProcessor;
     private readonly _scene: Scene;
@@ -15,11 +18,20 @@ export class SceneBuilder {
         this._children = [];
     }
 
+    /**
+     * add child game object from builder
+     * @param child 
+     * @returns 
+     */
     public withChild(child: GameObjectBuilder): SceneBuilder {
         this._children.push(child);
         return this;
     }
 
+    /**
+     * link GameObjects transform, initialize components and add to scene processor
+     * @returns components that need to awake and enable
+     */
     public build(): { awakeComponents: Component[], enableComponents: Component[] } {
         for (const child of this._children) {
             this._scene.add(child.build().unsafeGetTransform()); //it"s safe because component initialize will be called by SceneProsessor

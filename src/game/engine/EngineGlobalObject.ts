@@ -21,7 +21,7 @@ export class EngineGlobalObject implements IEngine {
     //engine internal objects
     private readonly _sceneProcessor: SceneProcessor;
     private readonly _coroutineProcessor: CoroutineProcessor;
-
+    
     public constructor(
         rootScene: Scene,
         cameraContainer: CameraContainer,

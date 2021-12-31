@@ -1,5 +1,8 @@
 import { IInputEventHandleable } from "./IInputEventHandleable";
 
+/**
+ * engine global input event handler
+ */
 export class InputHandler implements IInputEventHandleable {
     private _map: Map<string, boolean>;
     private _isDisposed: boolean;
@@ -36,15 +39,24 @@ export class InputHandler implements IInputEventHandleable {
         this._renderTargetDom = renderTargetDom;
     }
 
+    /**
+     * keyboard input map. key is key name, value is pressed or not
+     */
     public get map(): ReadonlyMap<string, boolean> {
         return this._map;
     }
 
+    /**
+     * stop event handle and dispose this object
+     */
     public dispose(): void {
         this.stopHandleEvents();
         this._isDisposed = true;
     }
 
+    /**
+     * start engine global input event handling. you can use this when you want focus the game view
+     */
     public startHandleEvents(): void {
         if (this._isDisposed) {
             throw new Error("InputHandler is disposed.");
@@ -63,6 +75,9 @@ export class InputHandler implements IInputEventHandleable {
         this._renderTargetDom.addEventListener("touchcancel", this._handleTouchCancelBind);
     }
 
+    /**
+     * stop engine global input event handling. you can use this when you want blur the game view
+     */
     public stopHandleEvents(): void {
         if (this._lastMouseDownEvent) this.handleMouseUp(this._lastMouseDownEvent);
         if (this._lastMouseEnterEvent) this.handleMouseLeave(this._lastMouseEnterEvent);
@@ -160,73 +175,137 @@ export class InputHandler implements IInputEventHandleable {
         this.simulateMouseEvent("mouseleave", event.changedTouches[0]);
     }
 
+    /**
+     * add onKeyDown event listener
+     * @param delegate this function will be called when key down event occured
+     */
     public addOnKeyDownEventListener(delegate: (event: KeyboardEvent) => void): void {
         this._onKeyDownDelegates.push(delegate);
     }
 
+    /**
+     * add onKeyUp event listener
+     * @param delegate this function will be called when key up event occured
+     */
     public addOnKeyUpEventListener(delegate: (event: KeyboardEvent) => void): void {
         this._onKeyUpDelegates.push(delegate);
     }
 
+    /**
+     * add onWheel event listener
+     * @param delegate this function will be called when wheel event occured
+     */
     public addOnWheelEventListener(delegate: (event: WheelEvent) => void): void {
         this._onWheelDelegates.push(delegate);
     }
 
+    /**
+     * add onPointerDown event listener
+     * @param delegate this function will be called when pointer down event occured
+     */
     public addOnPointerDownEventListener(delegate: (event: MouseEvent) => void): void {
         this._onPointerDownDelegates.push(delegate);
     }
 
+    /**
+     * add onPointerUp event listener
+     * @param delegate this function will be called when pointer up event occured
+     */
     public addOnPointerUpEventListener(delegate: (event: MouseEvent) => void): void {
         this._onPointerUpDelegates.push(delegate);
     }
 
+    /**
+     * add onPointerEnter event listener
+     * @param delegate this function will be called when pointer enter event occured
+     */
     public addOnPointerEnterEventListener(delegate: (event: MouseEvent) => void): void {
         this._onPointerEnterDelegates.push(delegate);
     }
 
+    /**
+     * add onPointerLeave event listener
+     * @param delegate this function will be called when pointer leave event occured
+     */
     public addOnPointerLeaveEventListener(delegate: (event: MouseEvent) => void): void {
         this._onPointerLeaveDelegates.push(delegate);
     }
 
+    /**
+     * add onPointerMove event listener
+     * @param delegate this function will be called when pointer move event occured
+     */
     public addOnPointerMoveEventListener(delegate: (event: MouseEvent) => void): void {
         this._onPointerMoveDelegates.push(delegate);
     }
 
+    /**
+     * remove onKeyDown event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnKeyDownEventListener(delegate: (event: KeyboardEvent) => void): void {
         const index = this._onKeyDownDelegates.indexOf(delegate);
         if (index !== -1) this._onKeyDownDelegates.splice(index, 1);
     }
 
+    /**
+     * remove onKeyUp event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnKeyUpEventListener(delegate: (event: KeyboardEvent) => void): void {
         const index = this._onKeyUpDelegates.indexOf(delegate);
         if (index !== -1) this._onKeyUpDelegates.splice(index, 1);
     }
 
+    /**
+     * remove onWheel event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnWheelEventListener(delegate: (event: WheelEvent) => void): void {
         const index = this._onWheelDelegates.indexOf(delegate);
         if (index !== -1) this._onWheelDelegates.splice(index, 1);
     }
 
+    /**
+     * remove onPointerDown event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnPointerDownEventListener(delegate: (event: MouseEvent) => void): void {
         const index = this._onPointerDownDelegates.indexOf(delegate);
         if (index !== -1) this._onPointerDownDelegates.splice(index, 1);
     }
 
+    /**
+     * remove onPointerUp event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnPointerUpEventListener(delegate: (event: MouseEvent) => void): void {
         const index = this._onPointerUpDelegates.indexOf(delegate);
         if (index !== -1) this._onPointerUpDelegates.splice(index, 1);
     }
 
+    /**
+     * remove onPointerEnter event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnPointerEnterEventListener(delegate: (event: MouseEvent) => void): void {
         const index = this._onPointerEnterDelegates.indexOf(delegate);
         if (index !== -1) this._onPointerEnterDelegates.splice(index, 1);
     }
 
+    /**
+     * remove onPointerLeave event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnPointerLeaveEventListener(delegate: (event: MouseEvent) => void): void {
         const index = this._onPointerLeaveDelegates.indexOf(delegate);
         if (index !== -1) this._onPointerLeaveDelegates.splice(index, 1);
     }
 
+    /**
+     * remove onPointerMove event listener
+     * @param delegate remove delegate from the list of event listeners
+     */
     public removeOnPointerMoveEventListener(delegate: (event: MouseEvent) => void): void {
         const index = this._onPointerMoveDelegates.indexOf(delegate);
         if (index !== -1) this._onPointerMoveDelegates.splice(index, 1);

@@ -1,4 +1,10 @@
+/**
+ * readonly game state interface
+ */
 export interface IReadonlyGameState {
+    /**
+     * get game state
+     */
     get kind(): GameStateKind;
 }
 
@@ -18,6 +24,9 @@ export class GameState implements IReadonlyGameState {
     }
 }
 
+/**
+ * game state kind
+ */
 export enum GameStateKind {
     WaitingForStart,
     Initializing,

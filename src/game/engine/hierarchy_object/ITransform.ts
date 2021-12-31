@@ -1,7 +1,13 @@
 import { Euler, Matrix3, Matrix4, Quaternion, Vector3 } from "three";
 import { GameObject } from "./GameObject";
 
+/**
+ * safe way to get transform of GameObject
+ */
 export interface ITransform {
+	/**
+     * Get gameObject of this transform.
+     */
 	gameObject: GameObject;
 
 	/**

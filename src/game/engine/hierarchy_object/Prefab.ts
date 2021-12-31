@@ -3,6 +3,9 @@ import { EngineGlobalObject } from "../EngineGlobalObject";
 import { IEngine } from "../IEngine";
 import { GameObject, GameObjectBuilder } from "./GameObject";
 
+/**
+ * this class is used to define a prefab
+ */
 export abstract class Prefab {
     protected _engine: IEngine;
     protected _gameObjectBuilder: GameObjectBuilder;
@@ -12,12 +15,21 @@ export abstract class Prefab {
         this._gameObjectBuilder = new GameObject.GameObjectBuilder(engineGlobalObject, name, localPosition, localRotation, localScale);
     }
 
+    /**
+     * make a builder for game object
+     */
     public abstract make(): GameObjectBuilder;
 
+    /**
+     * get global engine object
+     */
     protected get engine(): IEngine {
         return this._engine;
     }
 
+    /**
+     * get game object builder
+     */
     protected get gameObjectBuilder(): GameObjectBuilder {
         return this._gameObjectBuilder;
     }

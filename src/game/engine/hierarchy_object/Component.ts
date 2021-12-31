@@ -8,6 +8,9 @@ import { Coroutine } from "../coroutine/Coroutine";
 import { CoroutineIterator } from "../coroutine/CoroutineIterator";
 import { ICoroutine } from "../coroutine/ICoroutine";
 
+/**
+ * component is the base class from which every engine script derives
+ */
 export abstract class Component {
     protected readonly _disallowMultipleComponent: boolean = false;
     protected readonly _requiredComponents: ComponentConstructor[] = [];
@@ -34,31 +37,47 @@ export abstract class Component {
         this._gameObject = gameObject;
     }
 
-    //Awake is called when the script instance is being loaded.
-    //The order that Unity calls each GameObject"s Awake is not deterministic.
-    //Because of this, you should not rely on one GameObject"s Awake being called before or after another
-    //(for example, you should not assume that a reference set up by one GameObject"s Awake will be usable in another GameObject"s Awake).
-    //Instead, you should use Awake to set up references between scripts, and use Start, which is called after all Awake calls are finished, to pass any information back and forth.
-    //
-    //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html
+    /**
+     * awake is called when the script instance is being loaded.
+     * The order that Unity calls each GameObject"s Awake is not deterministic.
+     * Because of this, you should not rely on one GameObject"s Awake being called before or after another
+     * (for example, you should not assume that a reference set up by one GameObject"s Awake will be usable in another GameObject"s Awake).
+     * Instead, you should use Awake to set up references between scripts, and use Start, which is called after all Awake calls are finished, to pass any information back and forth.
+     * https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html
+     */
     //eslint-disable-next-line @typescript-eslint/no-empty-function
     protected awake(): void { }
 
-    //Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
-    //
-    //https://docs.unity3d.com/ScriptReference/MonoBehaviour.Start.html
+    /**
+     * start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
+     * https://docs.unity3d.com/ScriptReference/MonoBehaviour.Start.html
+     */
     //eslint-disable-next-line @typescript-eslint/no-empty-function
     protected start(): void { }
 
+    /**
+     * onDestroy occurs when a component is destroyed
+     */
     //eslint-disable-next-line @typescript-eslint/no-empty-function
     public onDestroy(): void { }
 
+    /**
+     * this function is called when the object becomes enabled and active
+     */
     //eslint-disable-next-line @typescript-eslint/no-empty-function
     public onEnable(): void { }
 
+    /**
+     * this function is called when the component becomes disabled
+     */
     //eslint-disable-next-line @typescript-eslint/no-empty-function
     public onDisable(): void { }
 
+    /**
+     * starts a coroutine
+     * @param coroutineIterator coroutine iterator
+     * @returns corutine instance. you can stop coroutine by calling stopCoroutine(coroutine: ICoroutine) with this variable
+     */
     public startCorutine(coroutineIterator: CoroutineIterator): ICoroutine {
         const coroutine = new Coroutine(this, coroutineIterator, () => {
             const index = this._runningCoroutines.indexOf(coroutine);
@@ -71,6 +90,9 @@ export abstract class Component {
         return coroutine;
     }
 
+    /**
+     * stop all coroutines executed by this component
+     */
     public stopAllCoroutines(): void {
         this._runningCoroutines.forEach(coroutine => {
             this.stopCoroutine(coroutine);
@@ -78,6 +100,10 @@ export abstract class Component {
         this._runningCoroutines = [];
     }
 
+    /**
+     * stop coroutine that is executed by this component
+     * @param coroutine coroutine instance
+     */
     public stopCoroutine(coroutine: ICoroutine): void {
         if ((coroutine as Coroutine).component !== this) {
             throw new Error("Coroutine is not owned by this component");
@@ -89,7 +115,9 @@ export abstract class Component {
         }
     }
 
-    //this method is called by the engine, do not call it manually
+    /**
+     * this method is called by the engine, do not call it manually
+     */
     public unsafeTryCallAwake(): void {
         if (this._awakened) return;
         this._awakening = true;
@@ -98,7 +126,9 @@ export abstract class Component {
         this._awakened = true;
     }
 
-    //this method is called by the engine, do not call it manually
+    /**
+     * this method is called by the engine, do not call it manually
+     */
     public unsafeTryCallStart(): void {
         if (this._started) return;
         this._starting = true;
@@ -107,24 +137,32 @@ export abstract class Component {
         this._started = true;
     }
 
-    //this method is called by the engine, do not call it manually
+    /**
+     * this method is called by the engine, do not call it manually
+     */
     public unsafeSetStartEnqueueState(state: boolean): void {
         this._startEnqueued = state;
     }
 
-    //this method is called by the engine, do not call it manually
+    /**
+     * this method is called by the engine, do not call it manually
+     */
     public unsafeSetUpdateEnqueueState(state: boolean): void {
         this._updateEnqueued = state;
     }
 
-    //this method is called by the engine, do not call it manually
+    /**
+     * this method is called by the engine, do not call it manually
+     */
     public unsafeTryEnqueueStart(): void {
         if (this._startEnqueued) return;
         (this.engine as EngineGlobalObject).sceneProcessor.addStartComponent(this);
         this._startEnqueued = true;
     }
 
-    //this method is called by the engine, do not call it manually
+    /**
+     * this method is called by the engine, do not call it manually
+     */
     public unsafeTryEnqueueUpdate(): void {
         if (this._updateEnqueued) return;
         if (isUpdateableComponent(this)) {
@@ -133,7 +171,9 @@ export abstract class Component {
         }
     }
 
-    //this method is called by the engine, do not call it manually
+    /**
+     * this method is called by the engine, do not call it manually
+     */
     public unsafeTryDequeueUpdate(): void {
         if (!this._updateEnqueued) return;
         if (isUpdateableComponent(this)) {
@@ -142,10 +182,16 @@ export abstract class Component {
         }
     }
 
+    /**
+     * enabled components are updated, disabled components are not
+     */
     public get enabled(): boolean {
         return this._enabled;
     }
 
+    /**
+     * enabled components are updated, disabled components are not
+     */
     public set enabled(value: boolean) {
         if (this._enabled === value) return;
 
@@ -176,38 +222,65 @@ export abstract class Component {
         }
     }
 
+    /**
+     * when component is executing awake, this is true
+     */
     public get awakening(): boolean {
         return this._awakening;
     }
 
+    /**
+     * when component is executed awake, this is true
+     */
     public get awakened(): boolean {
         return this._awakened;
     }
 
+    /**
+     * when component is executing start, this is true
+     */
     public get starting(): boolean {
         return this._starting;
     }
 
+    /**
+     * when component is executed start, this is true
+     */
     public get started(): boolean {
         return this._started;
     }
 
+    /**
+     * game object this component belongs to
+     */
     public get gameObject(): GameObject {
         return this._gameObject;
     }
 
+    /**
+     * global engine object
+     */
     public get engine(): IEngine {
         return this._gameObject.engine;
     }
 
+    /**
+     * if this true, this component can't be added multiple times to the same game object
+     */
     public get disallowMultipleComponent(): boolean {
         return this._disallowMultipleComponent;
     }
 
+    /**
+     * if this array is not empty, this component can be added only if all of the components in this array are already added to the game object
+     */
     public get requiredComponents(): ComponentConstructor[] {
         return this._requiredComponents;
     }
 
+    /**
+     * script execution order of this component
+     */
     public get executionOrder(): number {
         return this._executionOrder;
     }

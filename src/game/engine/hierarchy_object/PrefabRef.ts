@@ -1,3 +1,6 @@
+/**
+ * reference object for call by reference. this class used when building hierarchy
+ */
 export class PrefabRef<T> {
     public ref: T|null;
 

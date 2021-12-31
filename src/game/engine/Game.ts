@@ -14,6 +14,9 @@ import { Transform } from "./hierarchy_object/Transform";
 import { CoroutineProcessor } from "./coroutine/CoroutineProcessor";
 import { Color } from "./render/Color";
 
+/**
+ * game engine class
+ */
 export class Game {
     private readonly _rootScene: Scene;
     private readonly _gameScreen: GameScreen;
@@ -31,6 +34,10 @@ export class Game {
     private _resizeFrameBufferBind: () => void;
     private _loopBind: () => void;
 
+    /**
+     * 
+     * @param container html element that mount the game view
+     */
     public constructor(container: HTMLElement) {
         this._rootScene = new Scene();
         this._gameScreen = new GameScreen(container.clientWidth, container.clientHeight);
@@ -79,6 +86,11 @@ export class Game {
         this._renderer.domElement.style.height = "100%";
     }
 
+    /**
+     * run game
+     * @param bootstrapperCtor 
+     * @param interopObject 
+     */
     public run<T, U extends Bootstrapper<T> = Bootstrapper<T>>(bootstrapperCtor: BootstrapperConstructor<T, U>, interopObject?: T): void {
         if (this._isDisposed) throw new Error("Game is disposed.");
         if (this._gameState.kind !== GameStateKind.WaitingForStart) throw new Error("Game is already running.");
@@ -113,6 +125,9 @@ export class Game {
         this._coroutineProcessor.endFrameAfterProcess();
     }
 
+    /**
+     * stop game (you can resume game after game is stopped.)
+     */
     public stop(): void {
         if (this._isDisposed) throw new Error("Game is disposed.");
         if (this._gameState.kind !== GameStateKind.Running) throw new Error("Game is not running.");
@@ -121,6 +136,9 @@ export class Game {
         this._animationFrameId = null;
     }
 
+    /**
+     * resume game
+     */
     public resume(): void {
         if (this._isDisposed) throw new Error("Game is disposed.");
         if (this._gameState.kind !== GameStateKind.Stopped) throw new Error("Game is not stopped.");
@@ -128,6 +146,9 @@ export class Game {
         this.loop();
     }
 
+    /**
+     * dispose game
+     */
     public dispose(): void {
         if (this._isDisposed) return;
         this._gameState.kind = GameStateKind.Finalizing;
@@ -142,10 +163,16 @@ export class Game {
         this._gameState.kind = GameStateKind.Finalized;
     }
 
+    /**
+     * get inputHandler for eventhandle toggle.
+     */
     public get inputHandler(): IInputEventHandleable {
         return this._engineGlobalObject.input;
     }
 
+    /**
+     * get current game state
+     */
     public get currentGameState(): GameStateKind {
         return this._gameState.kind;
     }

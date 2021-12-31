@@ -7,6 +7,9 @@ import { Transform } from "./Transform";
 import { ITransform } from "./ITransform";
 import { IEngine } from "../IEngine";
 
+/**
+ * base class for all entities in scenes
+ */
 export class GameObject {
     private _transform: Transform;
     private _activeInHierarchy: boolean;
@@ -33,6 +36,10 @@ export class GameObject {
         }
     }
 
+    /**
+     * add a child game object
+     * @param gameObjectBuilder 
+     */
     public addChildFromBuilder(gameObjectBuilder: GameObjectBuilder): void {
         const gameObject = gameObjectBuilder.build();
         gameObjectBuilder.initialize();
@@ -51,7 +58,14 @@ export class GameObject {
         }
     }
 
+    /**
+     * change parent of this game object
+     * @param newParent new parent game object. you can't set parent that in another engine instance
+     */
     public changeParent(newParent: GameObject): void {
+        if (this._engineGlobalObject !== newParent._engineGlobalObject) {
+            throw new Error("can't change parent to another engine instance");
+        }
         const prevActiveInHierarchy = this._activeInHierarchy;
         this._transform.removeFromParent();
         this.registerTransform(newParent._transform);
@@ -71,6 +85,12 @@ export class GameObject {
         }
     }
 
+    /**
+     * add a component to this game object
+     * it can be failed depending on the disallowMultipleComponent or requiredComponent option
+     * @param componentCtor
+     * @returns if success, return the component instance
+     */
     public addComponent<T extends Component>(componentCtor: ComponentConstructor<T>): T|null {
         const component = new componentCtor(this);
         if (component.disallowMultipleComponent) {
@@ -100,6 +120,11 @@ export class GameObject {
         return component;
     }
 
+    /**
+     * get component of componentCtor: ComponentConstructor<T> in the GameObject
+     * @param componentCtor 
+     * @returns if success, return the component instance
+     */
     public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>): T | null {
         for (const component of this._components) {
             if (component instanceof componentCtor) return component;
@@ -107,10 +132,23 @@ export class GameObject {
         return null;
     }
 
+    /**
+     * get all components in the GameObject
+     */
     public getComponents(): Component[];
 
+    /**
+     * get components of componentCtor: ComponentConstructor<T> in the GameObject
+     * @param componentCtor 
+     * @returns 
+     */
     public getComponents<T extends Component>(componentCtor: ComponentConstructor<T>): T[];
 
+    /**
+     * get components of componentCtor: ComponentConstructor<T> in the GameObject
+     * @param componentCtor 
+     * @returns 
+     */
     public getComponents<T extends Component>(componentCtor?: ComponentConstructor<T>): T[] {
         if (!componentCtor) return this._components.slice() as T[];
         const components: T[] = [];
@@ -122,7 +160,11 @@ export class GameObject {
         return components;
     }
 
-    //Returns the component of Type type in the GameObject or any of its children using depth first search.
+    /**
+     * returns the component of componentCtor: ComponentConstructor<T> in the GameObject or any of its children using depth first search
+     * @param componentCtor 
+     * @returns 
+     */
     public getComponentInChildren<T extends Component>(componentCtor: ComponentConstructor<T>): T | null {
         const components = this.getComponent(componentCtor);
         if (components) return components;
@@ -135,11 +177,22 @@ export class GameObject {
         return null;
     }
 
+    /**
+     * returns all components in the GameObject or any of its children using depth first search
+     */
     public getComponentsInChildren(): Component[];
 
+    /**
+     * returns all components of componentCtor: ComponentConstructor<T> in the GameObject or any of its children using depth first search
+     * @param componentCtor 
+     */
     public getComponentsInChildren<T extends Component>(componentCtor: ComponentConstructor<T>): T[];
 
-    //Returns all components of Type type in the GameObject or any of its children. Works recursively.
+    /**
+     * returns all components of componentCtor: ComponentConstructor<T> in the GameObject or any of its children using depth first search
+     * @param componentCtor 
+     * @returns 
+     */
     public getComponentsInChildren<T extends Component>(componentCtor?: ComponentConstructor<T>): T[] {
         if (!componentCtor) {
             const components = this.getComponents();
@@ -158,10 +211,24 @@ export class GameObject {
         }
     }
 
+    /**
+     * foreach component in the GameObject
+     * @param callback 
+     */
     public foreachComponent(callback: (component: Component) => void): void;
 
+    /**
+     * foreach component of componentCtor: ComponentConstructor<T> in the GameObject
+     * @param callback 
+     * @param componentCtor 
+     */
     public foreachComponent<T extends Component>(callback: (component: T) => void, componentCtor: ComponentConstructor<T>): void;
 
+    /**
+     * foreach component of componentCtor: ComponentConstructor<T> in the GameObject
+     * @param callback 
+     * @param componentCtor 
+     */
     public foreachComponent<T extends Component>(callback: (component: T) => void, componentCtor?: ComponentConstructor<T>): void {
         if (!componentCtor) {
             for (const component of this._components) {
@@ -176,10 +243,24 @@ export class GameObject {
         }
     }
 
+    /**
+     * foreach component in the GameObject or any of its children using depth first search
+     * @param callback 
+     */
     public foreachComponentInChildren(callback: (component: Component) => void): void;
 
+    /**
+     * foreach component of componentCtor: ComponentConstructor<T> in the GameObject or any of its children using depth first search
+     * @param callback 
+     * @param componentCtor 
+     */
     public foreachComponentInChildren<T extends Component>(callback: (component: T) => void, componentCtor: ComponentConstructor<T>): void;
 
+    /**
+     * foreach component of componentCtor: ComponentConstructor<T> in the GameObject or any of its children using depth first search
+     * @param callback 
+     * @param componentCtor 
+     */
     public foreachComponentInChildren<T extends Component>(callback: (component: T) => void, componentCtor?: ComponentConstructor<T>): void {
         if (!componentCtor) {
             this.foreachComponent(callback as (component: Component) => void);
@@ -194,6 +275,10 @@ export class GameObject {
         }
     }
 
+    /**
+     * remove component from the GameObject
+     * @param component 
+     */
     public removeComponent(component: Component): void {
         for (let i = 0; i < this._components.length; i++) {
             if (this._components[i] === component) {
@@ -206,6 +291,9 @@ export class GameObject {
         }
     }
 
+    /**
+     * destroy the GameObject
+     */
     public destroy(): void {
         for (const component of this._components) {
             component.enabled = false;
@@ -236,10 +324,16 @@ export class GameObject {
         if (componentRemoved) this.checkComponentRequirements();
     }
 
+    /**
+     * global engine object
+     */
     public get engine(): IEngine {
         return this._engineGlobalObject;
     }
 
+    /**
+     * defines whether the GameObject is active in the Scene
+     */
     public get activeInHierarchy(): boolean {
         return this._activeInHierarchy;
     }
@@ -284,10 +378,16 @@ export class GameObject {
         });
     }
 
+    /**
+     * defines whether the GameObject is active in the Scene
+     */
     public get activeSelf(): boolean {
         return this._activeSelf;
     }
 
+    /**
+     * defines whether the GameObject is active in the Scene
+     */
     public set activeSelf(value: boolean) {
         if (this._activeSelf === value) return;
 
@@ -303,34 +403,58 @@ export class GameObject {
         }
     }
 
-    //DO NOT cast this to Transform, instead use unsafeGetTransform
+    /**
+     * get transform of the GameObject
+     * DO NOT cast this to Transform, instead use unsafeGetTransform
+     */
     public get transform(): ITransform {
         return this._transform;
     }
 
+    /**
+     * get name of the GameObject
+     */
     public get name(): string {
         return this._transform.name;
     }
 
+    /**
+     * set name of the GameObject
+     */
     public set name(value: string) {
         this._transform.name = value;
     }
 
+    /**
+     * get uuid of the GameObject
+     */
     public get uuid(): string {
         return this._transform.uuid;
     }
 
+    /**
+     * get id of the GameObject
+     */
     public get id(): number {
         return this._transform.id;
     }
 
-    //"visible" property has same value as "activeInHierarchy"
-    //you must not change it directly, use "activeInHierarchy" instead
-    //"add" method is not available for GameObject it for other Object3D classes
+    /**
+     * get Transform of the GameObject that drives the three.js Object3D. you can use this to add three.js Object3D to the scene
+     * if you want to add a custom Object3D to the scene, you must manage the lifecycle of the Object3D yourself
+     * 
+     * see also:
+     * "Object3D.visible" property has same value as "GameObject.activeInHierarchy"
+     * you must not change "Object3D.visible" directly, use "GameObject.activeInHierarchy" instead
+     * "Object3D.add" method is not available for GameObject Transform it for other Object3D classes
+     */
     public unsafeGetTransform(): Transform {
         return this._transform;
     }
 
+    /**
+     * builder for GameObject
+     */
     public static readonly GameObjectBuilder = class GameObjectBuilder{
         private readonly _gameObject: GameObject;
         private readonly _children: GameObjectBuilder[];
@@ -346,25 +470,59 @@ export class GameObject {
             this._componentInitializeFuncList = [];
         }
 
+        /**
+         * set active in hierarchy
+         * @param active 
+         * @returns 
+         */
         public active(active: boolean): GameObjectBuilder {
             this._gameObject.activeSelf = active;
             return this;
         }
 
+        /**
+         * get gameObject as call by reference
+         * @param gameObjectRef 
+         * @returns 
+         */
         public getGameObject(gameObjectRef: PrefabRef<GameObject>): GameObjectBuilder {
             gameObjectRef.ref = this._gameObject;
             return this;
         }
 
+        /**
+         * get component of componentCtor: ComponentConstructor<T> as call by reference
+         * @param componentCtor 
+         * @param componentRef 
+         * @returns 
+         */
         public getComponent<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: PrefabRef<T>): GameObjectBuilder {
             componentRef.ref = this._gameObject.getComponent(componentCtor);
             return this;
         }
 
+        /**
+         * get all components as call by reference
+         * @param componentsRef 
+         * @returns
+         */
         public getComponents(componentsRef: PrefabRef<Component[]>): GameObjectBuilder;
 
-        public getComponents<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder;
+        /**
+         * get all components of componentCtor: ComponentConstructor<T> as call by reference
+         * @param componentsRef 
+         * @param componentCtor 
+         * @returns
+         */
+        public getComponents<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor: ComponentConstructor<T>): GameObjectBuilder;
 
+        /**
+         * get all components of componentCtor: ComponentConstructor<T> as call by reference
+         * @param componentsRef 
+         * @param componentCtor 
+         * @returns
+         * @returns 
+         */
         public getComponents<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder {
             if (componentCtor) {
                 componentsRef.ref = this._gameObject.getComponents(componentCtor);
@@ -375,15 +533,38 @@ export class GameObject {
             return this;
         }
 
+        /**
+         * get component of componentCtor: ComponentConstructor<T> in GameObject or any of its children as call by reference
+         * @param componentCtor 
+         * @param componentRef 
+         * @returns 
+         */
         public getComponentInChildren<T extends Component>(componentCtor: ComponentConstructor<T>, componentRef: PrefabRef<T>): GameObjectBuilder {
             componentRef.ref = this._gameObject.getComponentInChildren(componentCtor);
             return this;
         }
 
+        /**
+         * get all components in GameObject or any of its children as call by reference
+         * @param componentsRef 
+         * @returns
+         */
         public getComponentsInChildren(componentsRef: PrefabRef<Component[]>): GameObjectBuilder;
 
-        public getComponentsInChildren<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder;
+        /**
+         * get all components of componentCtor: ComponentConstructor<T> in GameObject or any of its children as call by reference
+         * @param componentsRef 
+         * @param componentCtor 
+         * @returns
+         */
+        public getComponentsInChildren<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor: ComponentConstructor<T>): GameObjectBuilder;
 
+        /**
+         * get all components of componentCtor: ComponentConstructor<T> in GameObject or any of its children as call by reference
+         * @param componentsRef
+         * @param componentCtor
+         * @returns
+         */
         public getComponentsInChildren<T extends Component>(componentsRef: PrefabRef<T[]>, componentCtor?: ComponentConstructor<T>): GameObjectBuilder {
             if (componentCtor) {
                 componentsRef.ref = this._gameObject.getComponentsInChildren(componentCtor);
@@ -394,13 +575,30 @@ export class GameObject {
             return this;
         }
 
+        /**
+         * add component of componentCtor: ComponentConstructor<T> to GameObject
+         * @param componentCtor 
+         * @returns
+         */
         public withComponent<T extends Component>(componentCtor: ComponentConstructor<T>): GameObjectBuilder;
 
+        /**
+         * add component of componentCtor: ComponentConstructor<T> to GameObject with initialize function
+         * @param componentCtor 
+         * @param componentInitializeFunc 
+         * @returns
+         */
         public withComponent<T extends Component>(
             componentCtor: ComponentConstructor<T>,
             componentInitializeFunc?: (component: T) => void
         ): GameObjectBuilder;
-    
+        
+        /**
+         * add component of componentCtor: ComponentConstructor<T> to GameObject with initialize function
+         * @param componentCtor 
+         * @param componentInitializeFunc 
+         * @returns
+         */
         public withComponent<T extends Component>(
             componentCtor: ComponentConstructor<T>,
             componentInitializeFunc?: (component: T) => void
@@ -420,17 +618,29 @@ export class GameObject {
             return this;
         }
 
+        /**
+         * with child GameObject
+         * @param child 
+         * @returns 
+         */
         public withChild(child: GameObjectBuilder): GameObjectBuilder {
             this._children.push(child);
             return this;
         }
 
+        /**
+         * build GameObject. check component requirements and link GameObjects tranform
+         * @returns 
+         */
         public build(): GameObject {
             this._gameObject.checkComponentRequirements();
             for (const child of this._children) this._gameObject.registerTransform(child.build()._transform);
             return this._gameObject;
         }
 
+        /**
+         * execute initialize function of all components recursively for it's children GameObjects
+         */
         public initialize(): void {
             for (const componentInitializeFunc of this._componentInitializeFuncList) {
                 componentInitializeFunc();

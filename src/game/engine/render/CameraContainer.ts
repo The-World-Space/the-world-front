@@ -2,6 +2,9 @@ import * as THREE from "three";
 import { CameraInfo } from "./CameraInfo";
 import { Color } from "./Color";
 
+/**
+ * schedule camera by priority to be rendered
+ */
 export class CameraContainer {
     private _camera: THREE.Camera|null = null;
     private _currentCameraPriority: number = Number.MIN_SAFE_INTEGER;
@@ -12,25 +15,45 @@ export class CameraContainer {
         this._onChangeBackgroundColor = onChangeBackgroundColor;
     }
 
+    /**
+     * get current render camera
+     */
     public get camera(): THREE.Camera|null {
         return this._camera;
     }
 
+    /**
+     * get current camera priority
+     */
     public get currentCameraPriority(): number {
         return this._currentCameraPriority;
     }
 
+    /**
+     * add new camera to camera container
+     * @param camera 
+     * @param info 
+     */
     public addCamera(camera: THREE.Camera, info: CameraInfo): void {
         this._cameraList.push({camera, info});
         this._cameraList.sort((a, b) => a.info.priority - b.info.priority);
         this.setCamera();
     }
 
+    /**
+     * remove camera from camera container
+     * @param camera 
+     */
     public removeCamera(camera: THREE.Camera): void {
         this._cameraList = this._cameraList.filter(c => c.camera !== camera);
         this.setCamera();
     }
 
+    /**
+     * change camera priority
+     * @param camera 
+     * @param priority 
+     */
     public changeCameraPriority(camera: THREE.Camera, priority: number): void {
         const index = this._cameraList.findIndex(c => c.camera === camera);
         if (index !== -1) {
@@ -40,6 +63,11 @@ export class CameraContainer {
         }
     }
 
+    /**
+     * change camera background color
+     * @param camera 
+     * @param color 
+     */
     public changeCameraBackgroundColor(camera: THREE.Camera, color: Color): void {
         const index = this._cameraList.findIndex(c => c.camera === camera);
         if (index !== -1) {
@@ -49,7 +77,7 @@ export class CameraContainer {
             this._onChangeBackgroundColor(color);
         }
     }
-
+    
     private setCamera(): void {
         if (this._cameraList.length === 0) {
             this._camera = null;
