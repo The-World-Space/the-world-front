@@ -1,6 +1,6 @@
 import { Quaternion, Vector2, Vector3 } from "three";
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
-import { PlayerGridMovementController } from "../script/controller/PlayerGridMovementController";
+import { PlayerGridMovementController } from "../engine/script/controller/PlayerGridMovementController";
 import { CssSpriteAtlasRenderer } from "../engine/script/render/CssSpriteAtlasRenderer";
 import { SpriteAtlasAnimator } from "../engine/script/post_render/SpriteAtlasAnimator";
 import { ZaxisSorter } from "../engine/script/render/ZaxisSorter";

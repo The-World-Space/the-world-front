@@ -5,7 +5,7 @@ import { GameObject } from "../../engine/hierarchy_object/GameObject";
 import { PrefabRef } from "../../engine/hierarchy_object/PrefabRef";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 import { NetworkPlayerPrefab } from "../../prefab/NetworkPlayerPrefab";
-import { PlayerGridMovementController } from "../controller/PlayerGridMovementController";
+import { PlayerGridMovementController } from "../../engine/script/controller/PlayerGridMovementController";
 import { IGridCollidable } from "../../engine/script/physics/IGridCollidable";
 import { PlayerStatusRenderController } from "../controller/PlayerStatusRenderController";
 
