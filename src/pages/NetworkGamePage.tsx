@@ -219,8 +219,6 @@ function GameWSApolloClientProvider({ children }: { children: JSX.Element}): JSX
         apolloClient
     };
 
-    (globalThis as any).debugWSL = wsLink;
-
     useEffect(() => () => {
         (wsLink as any).client.dispose();
     });
