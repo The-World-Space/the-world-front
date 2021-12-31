@@ -378,7 +378,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const [iframeWidth, setIframeWidth] = useState("1");
     const [iframeHeight, setIframeHeight] = useState("1");
-    const [iframeSrc, setIframesSrc] = useState("");
+    const [iframeSrc, setIframeSrc] = useState("");
     const [placeObjectType, setPlaceObjectType] = useState(Server.GameObjectType.Floor);
     const [placeKind, setPlaceKind] = useState(PlaceKind.Tile);
     const isSafeNum = useCallback((num: number) => !isNaN(num) && num >= 0 && num < Infinity, []);
@@ -612,6 +612,14 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         game?.inputHandler.startHandleEvents();
     }, [game]);
 
+    const onIframeBlur = useCallback(() => {
+        onBlur();
+        if (!(/^(http(s?)):\/\//.test(iframeSrc))) {
+            alert("iframe src must start with http(s)://");
+            setIframeSrc("");
+        }
+    }, [onBlur, iframeSrc]);
+
     return (
         <ExpandBarDiv opened={opened}>
             <Container>
@@ -619,7 +627,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 <IframeInputWrapper>
                     <IframeTitle>Iframe Address</IframeTitle>
                     <ListFakeHr />
-                    <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframesSrc(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
+                    <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframeSrc(e.target.value)} onFocus={onFocus} onBlur={onIframeBlur} />
                     <ListFakeHr />
                     <IframeInputSettingWrapper>
                         <span style={{marginRight: "auto", opacity: "0"}}>

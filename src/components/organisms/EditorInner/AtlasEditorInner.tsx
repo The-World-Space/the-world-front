@@ -8,7 +8,7 @@ import { globalFileApolloClient } from "../../../game/connect/files";
 import LabeledList, { PhotoAtlasData } from "../../molecules/LabeledList";
 import { WorldEditorContext } from "../../../context/contexts";
 import { useDebounce } from "react-use";
-import { IMAGE_MAX_SIZE } from "../../../GlobalEnviroment";
+import { IMAGE_MAX_SIZE, MB } from "../../../GlobalEnviroment";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -177,7 +177,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         
         //if file size is too big, it will be rejected by the browser
         if (IMAGE_MAX_SIZE < inputedFile.size) {
-            alert(`file size is too big. max size is ${IMAGE_MAX_SIZE / 1024 / 1024}MB`);
+            alert(`file size is too big. max size is ${IMAGE_MAX_SIZE / MB}MB`);
             return;
         }
         
