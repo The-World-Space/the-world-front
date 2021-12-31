@@ -2,8 +2,8 @@ import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState, useContext, useCallback} from "react";
 import styled from "styled-components";
 import { WorldEditorContext } from "../../../context/contexts";
-import { globalApolloClient } from "../../../game/connect/gql";
 import { Server } from "../../../game/connect/types";
+import { useGameWSApolloClient } from "../../../pages/NetworkGamePage";
 import PlusIcon from "../../atoms/PlusIcon.svg";
 
 const SIDE_BAR_WIDTH = 130/* px */;
@@ -201,6 +201,7 @@ function ListItem({ field, update }: { field: Server.GlobalField, update: (field
 }
 
 function FieldEditorInner({ worldId, opened }: PropsType) {
+    const globalApolloClient = useGameWSApolloClient();
     const [fields, setFields] = useState<Server.GlobalField[]>([]);
 
     const onAddButtonClick = () => {
@@ -212,7 +213,7 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
             const fields = await getGlobalFields(globalApolloClient, worldId);
             setFields(fields);
         })();
-    }, [worldId]);
+    }, [worldId, globalApolloClient]);
 
     useEffect(() => {
         let fieldCreatingSubscription: undefined | ZenObservable.Subscription;
@@ -241,7 +242,7 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
             fieldUpdatingSubscription?.unsubscribe();
             fieldDeletingSubscription?.unsubscribe();
         };
-    }, [worldId]);
+    }, [worldId, globalApolloClient]);
 
     return (
         <ExpandBarDiv opened={opened}>

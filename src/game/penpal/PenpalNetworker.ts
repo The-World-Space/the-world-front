@@ -168,5 +168,9 @@ export class PenpalNetworker {
     get ee(): TypedEmitter<EETypes> {
         return this._ee;
     }
+
+    get client(): ApolloClient<any> {
+        return this._client;
+    }
 }
 

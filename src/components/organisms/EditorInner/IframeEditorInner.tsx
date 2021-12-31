@@ -2,8 +2,8 @@ import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 // import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { globalApolloClient } from "../../../game/connect/gql";
 import { Server } from "../../../game/connect/types";
+import { useGameWSApolloClient } from "../../../pages/NetworkGamePage";
 import { getBroadcasterDeletingObservable, getBroadcasterUpdatingObservable, useGlobalBroadcasters } from "./BroadcasterEditorInner";
 // import { globalApolloClient } from "../../../game/connect/gql";
 // import { Server } from "../../../game/connect/types";
@@ -292,6 +292,7 @@ function ListItem({
 
 function IframeEditorInner({ worldId, opened }: PropsType) {
     const apolloClient = useApolloClient();
+    const globalApolloClient = useGameWSApolloClient();
 
     const globalFields = useGlobalFields(globalApolloClient, worldId);
     const globalBroadcasters = useGlobalBroadcasters(globalApolloClient, worldId);
@@ -329,7 +330,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                 subscription.unsubscribe();
             }
         };
-    }, [iframes]);
+    }, [iframes, globalApolloClient]);
 
     // Iframe events
     useEffect(() => {
@@ -353,7 +354,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                 subscription.unsubscribe();
             }
         };
-    }, [worldId]);
+    }, [worldId, globalApolloClient]);
 
     // Local braodcaster events
     useEffect(() => {
@@ -381,7 +382,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                 subscription.unsubscribe();
             }
         };
-    }, [worldId]);
+    }, [worldId, globalApolloClient]);
 
     // Broadcaster / field events
     useEffect(() => {
@@ -446,7 +447,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
             fieldUpdatingSubscription?.unsubscribe();
             fieldDeletingSubscription?.unsubscribe();
         };
-    }, [worldId, iframes]);
+    }, [worldId, iframes, globalApolloClient]);
 
     return (
         <ExpandBarDiv opened={opened}>

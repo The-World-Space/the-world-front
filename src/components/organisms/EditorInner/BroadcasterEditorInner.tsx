@@ -2,8 +2,8 @@ import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { ChangeEventHandler, FocusEventHandler, useEffect, useState, useContext, useCallback } from "react";
 import styled from "styled-components";
 import { WorldEditorContext } from "../../../context/contexts";
-import { globalApolloClient } from "../../../game/connect/gql";
 import { Server } from "../../../game/connect/types";
+import { useGameWSApolloClient } from "../../../pages/NetworkGamePage";
 import PlusIcon from "../../atoms/PlusIcon.svg";
 import { FANCY_SCROLLBAR_CSS } from "./FieldEditorInner";
 
@@ -147,6 +147,7 @@ function ListItem({ broadcaster, update }: { broadcaster: Server.GlobalBroadcast
 }
 
 function BroadcasterEditorInner({ worldId, opened }: PropsType) {
+    const globalApolloClient = useGameWSApolloClient();
     const [broadcasters, setBroadcasters] = useState<Server.GlobalBroadcaster[]>([]);
 
     const onAddButtonClick = () => {
@@ -158,7 +159,7 @@ function BroadcasterEditorInner({ worldId, opened }: PropsType) {
             const broadcasters = await getGlobalBroadcasters(globalApolloClient, worldId);
             setBroadcasters(broadcasters);
         })();
-    }, [worldId]);
+    }, [worldId, globalApolloClient]);
 
     useEffect(() => {
         let broadcasterCreatingSubscription: undefined | ZenObservable.Subscription;
@@ -187,7 +188,7 @@ function BroadcasterEditorInner({ worldId, opened }: PropsType) {
             broadcasterUpdatingSubscription?.unsubscribe();
             broadcasterDeletingSubscription?.unsubscribe();
         };
-    }, [worldId]);
+    }, [worldId, globalApolloClient]);
 
     return (
         <ExpandBarDiv opened={opened}>

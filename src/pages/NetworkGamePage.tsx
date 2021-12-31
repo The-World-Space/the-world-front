@@ -1,8 +1,8 @@
-import { useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef } from "react";
 import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
 import { Game } from "../game/engine/Game";
 import { useAsync } from "react-use";
-import { getWorld, globalApolloClient, joinWorld } from "../game/connect/gql";
+import { getWorld, getWSApolloClient, getWSLink, joinWorld } from "../game/connect/gql";
 import { Vector2 } from "three";
 import useUser from "../hooks/useUser";
 import IngameInterface from "../components/organisms/IngameInterface";
@@ -14,7 +14,7 @@ import styled from "styled-components";
 import { GameProvider } from "../context/Provider";
 import { WorldEditorContext } from "../context/contexts";
 import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
-import { gql } from "@apollo/client";
+import { ApolloClient, ApolloLink, gql, NormalizedCacheObject } from "@apollo/client";
 import { GameStateKind } from "../game/engine/GameState";
 
 const Container = styled.div`
@@ -109,6 +109,7 @@ const KICKED = gql`
 
 
 function NetworkGamePage_(): JSX.Element {
+    const globalApolloClient = useGameWSApolloClient();
     const history = useHistory();
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
@@ -149,9 +150,19 @@ function NetworkGamePage_(): JSX.Element {
         return () => { //on component unmount
             game.dispose();
             widgetManager.dispose();
-            location.reload();
         };
-    }, [worldId, world, user, error, setGame, worldEditorConnector, setPlayerNetworker, setWorld, history]);
+    }, [
+        worldId,
+        world, 
+        user, 
+        error, 
+        setGame, 
+        worldEditorConnector, 
+        setPlayerNetworker, 
+        setWorld, 
+        history, 
+        globalApolloClient
+    ]);
 
     return (
         <Container>
@@ -175,10 +186,54 @@ function NetworkGamePage_(): JSX.Element {
 
 function NetworkGamePage(): JSX.Element {
     return (
-        <GameProvider>
-            <NetworkGamePage_ />
-        </GameProvider>
+        <GameWSApolloClientProvider>
+            <GameProvider>
+                <NetworkGamePage_ />
+            </GameProvider>
+        </GameWSApolloClientProvider>
     );
 }
 
 export default NetworkGamePage;
+
+
+
+interface GameWSApolloClientContextType {
+    wsLink: ApolloLink;
+    apolloClient: ApolloClient<NormalizedCacheObject>;
+}
+const GameWSApolloClientContext = createContext<GameWSApolloClientContextType>({
+    wsLink: {} as ApolloLink,
+    apolloClient: {} as ApolloClient<NormalizedCacheObject>,
+});
+function GameWSApolloClientProvider({ children }: { children: JSX.Element}): JSX.Element {
+    const [wsLink, apolloClient] = useMemo(() => {
+        const _wslink = getWSLink();
+        const _client = getWSApolloClient(_wslink);
+
+        return [_wslink, _client];
+    }, []);
+
+    const state = {
+        wsLink,
+        apolloClient
+    };
+
+    (globalThis as any).debugWSL = wsLink;
+
+    useEffect(() => () => {
+        (wsLink as any).client.dispose();
+    });
+
+    return (
+        <GameWSApolloClientContext.Provider value={state}>
+            {children}
+        </GameWSApolloClientContext.Provider>
+    );
+}
+export function useGameWSApolloClient(): ApolloClient<NormalizedCacheObject> {
+    return useContext(GameWSApolloClientContext).apolloClient;
+}
+export function useGameWSLink(): ApolloLink {
+    return useContext(GameWSApolloClientContext).wsLink;
+}

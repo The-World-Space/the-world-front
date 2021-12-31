@@ -1,7 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import * as Penpal from "penpal";
 import { createIframeBroadcasterPortMapping, createIframeFieldPortMapping } from "../../components/organisms/EditorInner/IframeEditorInner";
-import { globalApolloClient } from "../connect/gql";
 import { Server } from "../connect/types";
 import { PenpalNetworker } from "./PenpalNetworker";
 
@@ -144,12 +143,12 @@ export class IframeCommunicator {
     private async addMapPorts({ broadcasters, fields }: { broadcasters: string[], fields: string[] }) {
         const iframeId = this.iframeInfo.id;
         for(const internalId of broadcasters) {
-            const id = await createLocalBroadcaster(globalApolloClient, iframeId, internalId);
-            await createIframeBroadcasterPortMapping(globalApolloClient, iframeId, internalId, id);
+            const id = await createLocalBroadcaster(this.penpalNetworkWrapper.client, iframeId, internalId);
+            await createIframeBroadcasterPortMapping(this.penpalNetworkWrapper.client, iframeId, internalId, id);
         }
         for(const internalId of fields) {
-            const id = await createLocalField(globalApolloClient, iframeId, internalId, "");
-            await createIframeFieldPortMapping(globalApolloClient, iframeId, internalId, id);
+            const id = await createLocalField(this.penpalNetworkWrapper.client, iframeId, internalId, "");
+            await createIframeFieldPortMapping(this.penpalNetworkWrapper.client, iframeId, internalId, id);
         }
     }
 

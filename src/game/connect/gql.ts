@@ -8,7 +8,8 @@ import {
 import {
     ApolloClient,
     InMemoryCache,
-    gql
+    gql,
+    NormalizedCacheObject
 } from "@apollo/client";
 import { print } from "graphql";
 import { createClient, ClientOptions, Client } from "graphql-ws";
@@ -197,21 +198,30 @@ export class WebSocketLink extends ApolloLink {
 }
 
 
-export const link = new WebSocketLink({
-    url: "wss://api.the-world.space/graphql",
-    connectionParams: () => {
-        const session = getSession();
-        if (!session) {
-            return {};
-        }
-        return {
-            Authorization: `${session.token}`,
-        };
-    },
-});
 
 
-export const globalApolloClient = new ApolloClient({
-    link,
-    cache: new InMemoryCache()
-});
+export function getWSLink(): ApolloLink {
+    const link = new WebSocketLink({
+        url: "wss://api.the-world.space/graphql",
+        connectionParams: () => {
+            const session = getSession();
+            if (!session) {
+                return {};
+            }
+            return {
+                Authorization: `${session.token}`,
+            };
+        },
+    });
+
+    return link;
+}
+
+export function getWSApolloClient(link: ApolloLink): ApolloClient<NormalizedCacheObject> {
+    const client = new ApolloClient({
+        link,
+        cache: new InMemoryCache()
+    });
+
+    return client;
+}

@@ -8,8 +8,8 @@ import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
 import { Server } from "../game/connect/types";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { gql } from "@apollo/client";
-import { globalApolloClient } from "../game/connect/gql";
 import useUser from "../hooks/useUser";
+import { useGameWSApolloClient } from "../pages/NetworkGamePage";
 
 export const Provider: React.FC = ({ children }) => {
     return (
@@ -76,6 +76,7 @@ const WORLD_ADMIN_LIST = gql`
 `;
 
 const WorldEditorContextProvider: React.FC = ({ children }) => {
+    const globalApolloClient = useGameWSApolloClient();
     const user = useUser();
     const [game, setGame] = useState<Game | null>(null);
     const [playerNetworker, setPlayerNetworker] = useState<PlayerNetworker | null>(null);
@@ -113,7 +114,7 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
         });
 
         setAdminPlayerList(world.admins);
-    }, [world, user]);
+    }, [world, user, globalApolloClient]);
 
     useEffect(() => {
         if (adminPlayerList.find(admin => admin.id === user?.id)) 

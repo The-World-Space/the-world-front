@@ -3,8 +3,9 @@ import { useAsync } from "react-use";
 import styled from "styled-components";
 import twLogo1 from "../components/atoms/tw logo 1.svg";
 import NavTemplate from "../components/templates/NavTemplate";
-import { globalApolloClient, getMyWorlds } from "../game/connect/gql";
+import { getMyWorlds } from "../game/connect/gql";
 import { ReactComponent as PlusButton } from "../components/atoms/PlusIcon.svg";
+import { useGameWSApolloClient } from "./NetworkGamePage";
 
 
 const Wrapper = styled.div`
@@ -140,6 +141,7 @@ const StyledPlusButton = styled(PlusButton)`
 
 
 function MyWorldList(): JSX.Element {
+    const globalApolloClient = useGameWSApolloClient();
     const history = useHistory();
     const worldList = useAsync(async () => await getMyWorlds(globalApolloClient));
 
