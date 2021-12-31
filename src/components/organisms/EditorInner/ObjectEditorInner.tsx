@@ -12,6 +12,7 @@ import { Server } from "../../../game/connect/types";
 import { ObjEditorContext, WorldEditorContext } from "../../../context/contexts";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
+import { IMAGE_MAX_SIZE } from "../../../GlobalEnviroment";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -288,6 +289,13 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         if (!validity.valid || !files || files.length < 1) return;
         const reader = new FileReader();
         const inputedFile = files[0];
+        
+        //if file size is too big, it will be rejected by the browser
+        if (IMAGE_MAX_SIZE < inputedFile.size) {
+            alert(`file size is too big. max size is ${IMAGE_MAX_SIZE / 1024 / 1024}MB`);
+            return;
+        }
+        
         setFile(inputedFile);
         reader.onload = (e) => {
             const img = new Image();

@@ -37,8 +37,6 @@ export function loadGlobalEnviroments(): void {
     document.head.appendChild(newStyle);
 }
 
+const MB = 1024 * 1024;
 
-// const MB = 1024 * 1024;
-
-// export const IMAGE_MAX_SIZE = 10 * MB;
-
+export const IMAGE_MAX_SIZE = 10 * MB;
