@@ -53,7 +53,7 @@ export class IframeStatusRenderController extends Component {
     public setIdBoxRenderer(renderer: CssHtmlElementRenderer): void {
         this._idBox = renderer;
         const container = this._idBox.getElementContainer();
-        if (container) container.innerHTML = this._idBoxString;
+        if (container) container.innerText = this._idBoxString;
     }
 
     public setIdBoxText(value: number): void {

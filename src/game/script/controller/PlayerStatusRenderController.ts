@@ -35,7 +35,7 @@ export class PlayerStatusRenderController extends Component {
     public setChatBoxRenderer(renderer: CssHtmlElementRenderer): void {
         this._chatBox = renderer;
         const container = this._chatBox.getElementContainer();
-        if (container) container.innerHTML = this._chatBoxString;
+        if (container) container.innerText = this._chatBoxString;
     }
 
     public get nameTag(): string|null {
