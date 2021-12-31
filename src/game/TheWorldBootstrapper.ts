@@ -209,10 +209,6 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 }
             }
         };
-        
-        (globalThis as any).debug = {
-            player: player,
-        };
 
         return this.sceneBuilder
             .withChild(instantlater.buildGameObject("gamemanager")

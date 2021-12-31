@@ -367,7 +367,6 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     //const [datas] = useState<PhotoElementData[]>([]);
     
     const inputFile = useRef<HTMLInputElement | null>(null);
-    (global as any).inputFile = inputFile;
 
     const {game} = useContext(WorldEditorContext);
 

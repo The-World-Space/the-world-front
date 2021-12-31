@@ -34,7 +34,6 @@ export class PenpalConnection extends Component {
 
         this._iframeCommunicator = new IframeCommunicator(iframeDom, this._iframeInfo, this._penpalNetworkWrapper);
         this._iframeCommunicator.apply();
-        (globalThis as any).iframeCommunicator = this._iframeCommunicator;
     }
 
     public onDestroy(): void {
