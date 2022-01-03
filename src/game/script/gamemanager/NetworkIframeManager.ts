@@ -168,7 +168,7 @@ export class NetworkIframeManager extends Component {
             instantlater.buildPrefab(
                 "id_box", 
                 IframeIdBoxPrefab, 
-                new Vector3(0, iframeInfo.proto_.height * gh + 8, 0), 
+                new Vector3(0, iframeInfo.proto_.height * gh + 2, 0), 
                 undefined,
                 new Vector3(0.4, 0.4, 0.4))
                 .getIdBoxObject(idBoxObject)

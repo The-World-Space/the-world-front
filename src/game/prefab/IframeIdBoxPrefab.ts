@@ -1,4 +1,5 @@
 import { GameObject, GameObjectBuilder, Prefab, PrefabRef, CssHtmlElementRenderer } from "the-world-engine";
+import { Vector2 } from "three";
 
 export class IframeIdBoxPrefab extends Prefab {
     private _idboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
@@ -27,8 +28,9 @@ export class IframeIdBoxPrefab extends Prefab {
                 idBoxDiv.style.opacity = "0.5";
                 idBoxDiv.style.fontFamily = "Noto Sans";
                 idBoxDiv.innerText = "content";
-                c.setElement(idBoxDiv);
+                c.centerOffset = new Vector2(0.5, 0.5);
                 c.pointerEvents = false;
+                c.setElement(idBoxDiv);
             })
             .getComponent(CssHtmlElementRenderer, this._idboxRenderer)
             .getGameObject(this._idboxObject);
