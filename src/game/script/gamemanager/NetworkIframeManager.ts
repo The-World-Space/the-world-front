@@ -111,7 +111,7 @@ export class NetworkIframeManager extends Component {
         apolloClient: ApolloClient<any>,
         enableStatus: boolean
     ): void {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCoordinatable?.gridCenterX || 8;
         const gcy = this._iGridCoordinatable?.gridCenterY || 8;

@@ -62,7 +62,7 @@ export class NetworkImageManager extends Component {
     }
 
     private _buildNetworkImage(imageInfo: Server.ImageGameObject): void {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCoordinateable?.gridCenterX || 8;
         const gcy = this._iGridCoordinateable?.gridCenterY || 8;

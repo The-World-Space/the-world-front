@@ -6,7 +6,7 @@ export enum BrushMode {
 }
 
 export class GridColliderBrush extends Component {
-    protected readonly _disallowMultipleComponent: boolean = true;
+    public readonly disallowMultipleComponent: boolean = true;
     
     private _gridPointer: GridPointer|null = null;
     private _colideMap: GridCollideMap|null = null;

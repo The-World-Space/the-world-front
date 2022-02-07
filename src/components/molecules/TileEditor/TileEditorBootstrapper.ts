@@ -19,7 +19,7 @@ import { Tools } from "../../organisms/EditorInner/ObjectEditorInner";
 
 export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
     public run(): SceneBuilder {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
 
         const collideMap = new PrefabRef<GridCollideMap>();
         const gridPointer = new PrefabRef<GridPointer>();

@@ -1,6 +1,6 @@
 import {
     CoroutineIterator,
-    ICoroutine,
+    Coroutine,
     WaitForSeconds,
     Component,
     GameObject,
@@ -9,7 +9,7 @@ import {
 } from "the-world-engine";
 
 export class PlayerStatusRenderController extends Component {
-    protected readonly _disallowMultipleComponent: boolean = true;
+    public readonly disallowMultipleComponent: boolean = true;
     
     private _nameTagObject: GameObject|null = null;
     private _nameTag: CssTextRenderer|null = null;
@@ -17,7 +17,7 @@ export class PlayerStatusRenderController extends Component {
     private _chatBoxObject: GameObject|null = null;
     private _chatBox: CssHtmlElementRenderer|null = null;
     private _chatBoxString: string = "";
-    private _chatBoxCoroutine: ICoroutine|null = null;
+    private _chatBoxCoroutine: Coroutine|null = null;
 
     public setNameTagObject(gameObject: GameObject): void {
         this._nameTagObject = gameObject;

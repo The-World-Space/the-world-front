@@ -17,7 +17,7 @@ export class TilemapChunkPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
 
         return this.gameObjectBuilder
             .withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)

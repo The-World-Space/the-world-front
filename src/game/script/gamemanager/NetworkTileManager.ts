@@ -3,7 +3,7 @@ import { Component, CssTilemapChunkRenderer, TileAtlasItem } from "the-world-eng
 import { TileNetworker } from "../networker/TileNetworker";
 
 export class NetworkTileManager extends Component {
-    protected readonly _disallowMultipleComponent: boolean = true;
+    public readonly disallowMultipleComponent: boolean = true;
 
     private _floorTileMap: CssTilemapChunkRenderer|null = null;
     private _effectTileMap: CssTilemapChunkRenderer|null = null;

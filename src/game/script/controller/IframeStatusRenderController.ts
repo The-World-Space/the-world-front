@@ -1,7 +1,7 @@
 import { Component, GameObject, CssHtmlElementRenderer } from "the-world-engine";
 
 export class IframeStatusRenderController extends Component {
-    protected readonly _disallowMultipleComponent: boolean = true;
+    public readonly disallowMultipleComponent: boolean = true;
     
     private _idBoxObject: GameObject|null = null;
     private _idBox: CssHtmlElementRenderer|null = null;

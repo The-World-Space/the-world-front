@@ -1,8 +1,8 @@
 import { Component, ComponentConstructor, SpriteAtlasAnimator, Direction, Directionable } from "the-world-engine";
 
 export class MovementAnimationController extends Component {
-    protected readonly _disallowMultipleComponent: boolean = true;
-    protected readonly _requiredComponents: ComponentConstructor[] = [Directionable, SpriteAtlasAnimator];
+    public readonly disallowMultipleComponent: boolean = true;
+    public readonly requiredComponents: ComponentConstructor[] = [Directionable, SpriteAtlasAnimator];
 
     private _directionable: Directionable|null = null;
     private _spriteAtlasAnimator: SpriteAtlasAnimator|null = null;

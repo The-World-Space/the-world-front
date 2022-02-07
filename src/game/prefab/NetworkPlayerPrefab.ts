@@ -58,7 +58,7 @@ export class NetworkPlayerPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
         
         const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
         const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
@@ -80,7 +80,7 @@ export class NetworkPlayerPrefab extends Prefab {
                 c.addAnimation("right_walk", [4, 5, 6, 7]);
                 c.addAnimation("up_walk", [8, 9, 10, 11]);
                 c.addAnimation("left_walk", [12, 13, 14, 15]);
-                c.frameDuration = 0.2;
+                c.frameDuration = 0.1;
             })
             .withComponent(NetworkGridMovementController, c => {
                 if (this._tilemap.ref) {
@@ -91,6 +91,7 @@ export class NetworkPlayerPrefab extends Prefab {
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
                 if (this._networkManager && this._userId)
                     c.initNetwork(this._userId, this._networkManager);
+                c.speed = 160;
             })
             .withComponent(MovementAnimationController)
             .withComponent(ZaxisSorter, c => {

@@ -19,21 +19,21 @@ export class KoreanComponentExample extends Component {
     //_disallowMultipleComponent 옵션은 하나의 게임오브젝트에 여러개의 동일한 컴포넌트를 추가할 수 없게 해주는 옵션입니다.
     //만약 이 옵션이 켜진경우 동일한 컴포넌트를 두번 추가하면 자동으로 삭제되며 경고메세지가 출력됩니다.
     //https://docs.unity3d.com/ScriptReference/DisallowMultipleComponent.html
-    protected readonly _disallowMultipleComponent: boolean = true;
+    public readonly disallowMultipleComponent: boolean = true;
 
 
     //_requiredComponents 옵션은 이 컴포넌트가 사용할 컴포넌트를 설정하는 옵션입니다.
     //이 컴포넌트가 게임오브젝트에 추가되는 시점에 _requiredComponents 안에 있는 컴포넌트들이 존재하지 않는다면 컴포넌트 추가가 안되며 경고가 출력됩니다.
     //즉, _requiredComponents 안에 있는 컴포넌트들은 무조건 게임오브젝트 안에 존재함이 보장됩니다.
     //https://docs.unity3d.com/ScriptReference/RequireComponent.html
-    protected readonly _requiredComponents: ComponentConstructor[] = [TestExectuer];
+    public readonly requiredComponents: ComponentConstructor[] = [TestExectuer];
 
 
     //executionOrder 는 스크립트간에 실행순서를 결정합니다. 기본값은 0 이며 작은 값일수록 먼저 실행됩니다.
     //executionOrder 를 설정해주는것은 마치 zindex 같은 개념이여서 "사용하지 않는게 좋습니다".
     //일반적으로 게임 글로벌 코어 역할을 하는 GameManager 같은 객체에서만 executionOrder 를 낮게하여 무엇보다 먼저 실행됨을 보장받습니다.
     //https://docs.unity3d.com/Manual/class-MonoManager.html
-    protected readonly _executionOrder: number = 0;
+    public readonly executionOrder: number = 0;
     
 
     //awake 함수는 컴포넌트의 라이프사이클에서 가장먼저 실행되는 함수입니다. 이 함수는 컴포넌트의 라이프사이클에서 한번 실행됩니다.
@@ -64,18 +64,18 @@ export class KoreanComponentExample extends Component {
         //https://docs.unity3d.com/ScriptReference/GameObject.AddComponent.html
         const cssSpriteRenderer = this.gameObject.addComponent(CssSpriteRenderer);
 
-        //removeComponent는 게임오브젝트에서 컴포넌트를 제거합니다.
-        if(cssSpriteRenderer) this.gameObject.removeComponent(cssSpriteRenderer);
+        //destroy는 게임오브젝트에서 컴포넌트를 제거합니다.
+        if(cssSpriteRenderer) cssSpriteRenderer.destroy();
 
         //델타타임을 가져옵니다.
         const deltaTime = this.engine.time.deltaTime;
         deltaTime.toString();
 
         //test_game_object 라는 이름의 게임오브젝트를 차일드로 생성합니다.
-        this.gameObject.addChildFromBuilder(this.engine.instantlater.buildGameObject("test_game_object"));
+        this.gameObject.addChildFromBuilder(this.engine.instantiater.buildGameObject("test_game_object"));
 
         //컴포넌트가 존재하는 게임오브젝트를 추가하는 예시입니다.
-        this.gameObject.addChildFromBuilder(this.engine.instantlater.buildGameObject("test_game_object2")
+        this.gameObject.addChildFromBuilder(this.engine.instantiater.buildGameObject("test_game_object2")
             .withComponent(CssTextRenderer, c => {
                 //이 람다식은 initialize 스테이지에서 호출되는데, initialize -> awake -> onEnable -> start -> update 순으로 호출됩니다.
                 //initialize 스테이지에서는 컴포넌트가 초기화되어있지 않습니다.
@@ -87,13 +87,13 @@ export class KoreanComponentExample extends Component {
 
         //camera 라는 이름의 prefab을 차일드로 생성합니다.
         //https://docs.unity3d.com/Manual/Prefabs.html
-        this.gameObject.addChildFromBuilder(this.engine.instantlater.buildPrefab("camera", CameraPrefab).make());
+        this.gameObject.addChildFromBuilder(this.engine.instantiater.buildPrefab("camera", CameraPrefab).make());
 
         
         //test_game_object 라는 이름의 게임오브젝트를 차일드로 생성한뒤 생성된 오브젝트를 가져옵니다.
         //call by ref를 사용합니다.
         const prefabRef = new PrefabRef<GameObject>();
-        this.gameObject.addChildFromBuilder(this.engine.instantlater.buildGameObject("test_game_object").getGameObject(prefabRef));
+        this.gameObject.addChildFromBuilder(this.engine.instantiater.buildGameObject("test_game_object").getGameObject(prefabRef));
         const gameObject2 = prefabRef.ref!; //이 시점에선 null forgiving 을 사용할수 있습니다. (생성이 무조건 보장됨)
         gameObject2.activeSelf;
     }

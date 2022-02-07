@@ -47,7 +47,7 @@ export class NetworkPlayerManager extends Component {
     }
 
     private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: PlayerNetworker) {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
         const posPrefabRef = new PrefabRef<Vector2>(pos);
         const nameRef = new PrefabRef(user.nickname);
 

@@ -1,8 +1,8 @@
 import { Component, ComponentConstructor, CssSpriteRenderer } from "the-world-engine";
 
 export class EditorViewObjectController extends Component {
-    protected readonly _disallowMultipleComponent: boolean = true;
-    protected readonly _requiredComponents: ComponentConstructor[] = [CssSpriteRenderer];
+    public readonly disallowMultipleComponent: boolean = true;
+    public readonly requiredComponents: ComponentConstructor[] = [CssSpriteRenderer];
 
     private _spriteRenderer: CssSpriteRenderer|null = null;
     private _gridCellWidth: number = 16;

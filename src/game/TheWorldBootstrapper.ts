@@ -101,7 +101,7 @@ export class NetworkInfoObject {
 
 export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
     public run(): SceneBuilder {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
 
         const player = new PrefabRef<GameObject>();
 

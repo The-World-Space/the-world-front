@@ -1,9 +1,9 @@
-import { Vector2, Vector3 } from "three";
-import { GameObject, Direction, Directionable } from "the-world-engine";
+import { Vector2 } from "three";
+import { Direction, Directionable } from "the-world-engine";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 
 export class NetworkGridMovementController extends Directionable {
-    protected readonly _disallowMultipleComponent: boolean = true;
+    public readonly disallowMultipleComponent: boolean = true;
     
     private _speed: number = 80;
     private _gridCellHeight: number = 16;
@@ -14,21 +14,13 @@ export class NetworkGridMovementController extends Directionable {
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
     private _networkManager: PlayerNetworker | null = null;
     private _userId: string | null = null;
-
-    constructor(gameObject: GameObject) {
-        super(gameObject);
-        this.onMove = this.onMove.bind(this);
-    }
-
-    private readonly _tempVector3: Vector3 = new Vector3();
+    public readonly onMoveBind = this.onMove.bind(this);
     
     protected start(): void {
         const transform = this.gameObject.transform;
-        const worldPosition = transform.getWorldPosition(this._tempVector3);
-        worldPosition.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
-        worldPosition.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
-        transform.position.copy(transform.parentTransform!.worldToLocal(worldPosition));
-        this._currentGridPosition.set(transform.position.x, transform.position.y);
+        this.transform.position.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
+        this.transform.position.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
+        this._currentGridPosition.set(transform.localPosition.x, transform.localPosition.y);
     }
 
     public update(): void {
@@ -38,10 +30,10 @@ export class NetworkGridMovementController extends Directionable {
     public initNetwork(userId: string, networkManager: PlayerNetworker): void {
         this._networkManager = networkManager;
         this._userId = userId;
-        networkManager.ee.on(`move_${userId}`, this.onMove);
+        networkManager.ee.on(`move_${userId}`, this.onMoveBind);
     }
 
-    public onMove(pos: Vector2): void {
+    private onMove(pos: Vector2): void {
         this._targetGridPosition.setX(pos.x * this._gridCellWidth + this._gridCenter.x);
         this._targetGridPosition.setY(pos.y * this._gridCellHeight + this._gridCenter.y);
         this.isMoving = true;
@@ -50,7 +42,7 @@ export class NetworkGridMovementController extends Directionable {
     public onDestroy(): void {
         if (this._networkManager === null)  return;
         if (this._userId === null)          return;
-        this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMove);
+        this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMoveBind);
     }
 
     private _setDirection(delta: Vector2): void {
@@ -68,7 +60,7 @@ export class NetworkGridMovementController extends Directionable {
 
     private processMovement(): void {
         if (!this.isMoving) return;
-        const vector2Pos = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
+        const vector2Pos = new Vector2(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y);
         const distance = vector2Pos.distanceTo(this._targetGridPosition);
         
         if (distance > 0.1) {
@@ -96,8 +88,8 @@ export class NetworkGridMovementController extends Directionable {
             direction.x *= syncCorrectionScalarX;
             direction.y *= syncCorrectionScalarY;
 
-            this.gameObject.transform.position.x += direction.x;
-            this.gameObject.transform.position.y += direction.y;
+            this.gameObject.transform.localPosition.x += direction.x;
+            this.gameObject.transform.localPosition.y += direction.y;
         } else {
             this.isMoving = false;
             this._currentGridPosition.copy(this._targetGridPosition);
@@ -142,8 +134,8 @@ export class NetworkGridMovementController extends Directionable {
 
     public get positionInGrid(): Vector2 {
         return new Vector2(
-            Math.floor(this.gameObject.transform.position.x / this._gridCellWidth),
-            Math.floor(this.gameObject.transform.position.y / this._gridCellHeight)
+            Math.floor(this.gameObject.transform.localPosition.x / this._gridCellWidth),
+            Math.floor(this.gameObject.transform.localPosition.y / this._gridCellHeight)
         );
     }
 }

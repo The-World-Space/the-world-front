@@ -20,7 +20,7 @@ export class InstancedObjectsPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const instantlater = this.engine.instantlater;
+        const instantlater = this.engine.instantiater;
 
         return this.gameObjectBuilder
             .withChild(instantlater.buildGameObject("chairs")

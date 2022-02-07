@@ -10,8 +10,8 @@ import {
 } from "the-world-engine";
 
 export class GridBrush extends Component {
-    protected readonly _disallowMultipleComponent: boolean = true;
-    protected readonly _requiredComponents: ComponentConstructor[] = [PointerGridInputListener];
+    public readonly disallowMultipleComponent: boolean = true;
+    public readonly requiredComponents: ComponentConstructor[] = [PointerGridInputListener];
     
     private _gridInputListener: PointerGridInputListener|null = null;
     private _pointerDown: boolean = false;
@@ -37,7 +37,7 @@ export class GridBrush extends Component {
         const pointerImageObjectRef = new PrefabRef<GameObject>();
 
         this.gameObject.addChildFromBuilder(
-            this.engine.instantlater.buildGameObject("pointer_image", new Vector3(0, 0, this._imageZoffset))
+            this.engine.instantiater.buildGameObject("pointer_image", new Vector3(0, 0, this._imageZoffset))
                 .active(false)
                 .withComponent(CssSpriteAtlasRenderer, c => {
                     c.imageCenterOffset = new Vector2(0.5, 0.5);
@@ -106,8 +106,8 @@ export class GridBrush extends Component {
     private updateImagePosition(gridPosition: Vector2): void {
         if (!this._pointerImageObject) return;
         if (!this._gridInputListener) return;
-        this._pointerImageObject.transform.position.x = gridPosition.x * this._gridInputListener.gridCellWidth;
-        this._pointerImageObject.transform.position.y = gridPosition.y * this._gridInputListener.gridCellHeight;
+        this._pointerImageObject.transform.localPosition.x = gridPosition.x * this._gridInputListener.gridCellWidth;
+        this._pointerImageObject.transform.localPosition.y = gridPosition.y * this._gridInputListener.gridCellHeight;
     }
 
     public updateImageShow(): void {
