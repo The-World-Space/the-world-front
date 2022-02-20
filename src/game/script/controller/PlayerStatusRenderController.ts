@@ -34,7 +34,7 @@ export class PlayerStatusRenderController extends Component {
 
     public setChatBoxRenderer(renderer: CssHtmlElementRenderer): void {
         this._chatBox = renderer;
-        const container = this._chatBox.getElementContainer();
+        const container = this._chatBox.element;
         if (container) container.innerText = this._chatBoxString;
     }
 
@@ -65,7 +65,7 @@ export class PlayerStatusRenderController extends Component {
     ): CoroutineIterator {
         //initialize opacity
         if (this._chatBox) {
-            const container = this._chatBox.getElementContainer();
+            const container = this._chatBox.element;
             if (container) {
                 container.style.transition = `opacity ${duration}s`;
                 container.style.opacity = `${defaultOpacity}`;
@@ -92,7 +92,7 @@ export class PlayerStatusRenderController extends Component {
 
         //fade out
         if (this._chatBox) {
-            const container = this._chatBox.getElementContainer();
+            const container = this._chatBox.element;
             if (container) container.style.opacity = "0";
         }
         yield new WaitForSeconds(fadeOutSeconds);
@@ -118,14 +118,14 @@ export class PlayerStatusRenderController extends Component {
             this._chatBoxString = "";
             if (this._chatBoxObject) this._chatBoxObject.activeSelf = false;
             if (this._chatBox) {
-                const container = this._chatBox.getElementContainer();
+                const container = this._chatBox.element;
                 if (container) container.innerText = "";
             }
         } else {
             this._chatBoxString = value;
             if (this._chatBoxObject) this._chatBoxObject.activeSelf = true;
             if (this._chatBox) {
-                const container = this._chatBox.getElementContainer();
+                const container = this._chatBox.element;
                 if (container) container.innerText = value;
             }
         }

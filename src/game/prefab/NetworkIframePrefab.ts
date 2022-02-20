@@ -72,7 +72,7 @@ export class NetworkIframePrefab extends Prefab {
                 c.width = iframe.proto_.width * ref.gridCellWidth;
                 c.height = iframe.proto_.height * ref.gridCellHeight;
                 c.viewScale = .4;
-                c.iframeCenterOffset = new Vector2(0.5, 0.5);
+                c.centerOffset = new Vector2(0.5, 0.5);
             })
             .withComponent(GridCollider, c => {
                 c.gridObjectCollideMap = this._gridObjectCollideMap.ref;

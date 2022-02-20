@@ -31,7 +31,7 @@ export class IframeStatusRenderController extends Component {
             if (this._idBoxObject) { 
                 this._idBoxObject.activeSelf = true;
                 if (this._idBox) {
-                    const container = this._idBox.getElementContainer();
+                    const container = this._idBox.element;
                     if (container) container.innerText = this._idBoxString;
                 }
             }
@@ -52,7 +52,7 @@ export class IframeStatusRenderController extends Component {
 
     public setIdBoxRenderer(renderer: CssHtmlElementRenderer): void {
         this._idBox = renderer;
-        const container = this._idBox.getElementContainer();
+        const container = this._idBox.element;
         if (container) container.innerText = this._idBoxString;
     }
 
@@ -60,7 +60,7 @@ export class IframeStatusRenderController extends Component {
         this._id = value;
         this._idBoxString = `id: ${value}`;
         if (this._idBox) {
-            const container = this._idBox.getElementContainer();
+            const container = this._idBox.element;
             if (container) container.innerText = this._idBoxString;
         }
     }

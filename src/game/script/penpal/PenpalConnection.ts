@@ -26,7 +26,7 @@ export class PenpalConnection extends Component {
         const iframeRenderer = this.gameObject.getComponent(CssIframeRenderer);
         
         if (!iframeRenderer) return;
-        const iframeDom = iframeRenderer.htmlIframeElement;
+        const iframeDom = iframeRenderer.element!;
 
         iframeDom.allow = "midi; autoplay; camera; microphone;";
 

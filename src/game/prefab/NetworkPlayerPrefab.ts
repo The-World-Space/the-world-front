@@ -68,7 +68,7 @@ export class NetworkPlayerPrefab extends Prefab {
         return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
                 if (this._spriteAtlasPath.ref) c.asyncSetImage(this._spriteAtlasPath.ref, 4, 4);
-                c.imageCenterOffset = new Vector2(0, 0.4);
+                c.centerOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })
             .withComponent(SpriteAtlasAnimator, c => {
@@ -121,7 +121,7 @@ export class NetworkPlayerPrefab extends Prefab {
                     chatboxDiv.style.padding = "5px 10px";
                     chatboxDiv.style.opacity = "0.5";
                     chatboxDiv.style.fontFamily = "Noto Sans";
-                    c.setElement(chatboxDiv);
+                    c.element = chatboxDiv;
                     c.pointerEvents = false;
                 })
                 .getComponent(CssHtmlElementRenderer, chatboxRenderer)

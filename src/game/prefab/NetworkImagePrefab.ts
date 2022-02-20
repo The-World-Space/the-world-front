@@ -50,7 +50,7 @@ export class NetworkImagePrefab extends Prefab {
                 c.imageHeight = image.proto_.height * ref.gridCellHeight;
                 c.imageWidth = image.proto_.width * ref.gridCellWidth;
                 c.pointerEvents = false;
-                c.imageCenterOffset = new Vector2(0.5, 0.5);
+                c.centerOffset = new Vector2(0.5, 0.5);
             })
             .withComponent(GridCollider, c => {
                 c.gridObjectCollideMap = this._gridObjectCollideMap.ref;

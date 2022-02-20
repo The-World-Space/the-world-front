@@ -119,7 +119,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.asyncSetImagePath("/assets/object/recycle bin/Recycle Bin(R&L).png");
                     c.imageWidth = 18;
                     c.imageHeight = 18;
-                    c.imageCenterOffset = new Vector2(0, 0.5);
+                    c.centerOffset = new Vector2(0, 0.5);
                     c.pointerEvents = false;
                 })
                 .withComponent(ZaxisSorter))
@@ -129,7 +129,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.asyncSetImagePath("/assets/object/shoe rack/Shoe Rack(L&R).png");
                     c.imageWidth = 30;
                     c.imageHeight = 25;
-                    c.imageCenterOffset = new Vector2(0, 0.5);
+                    c.centerOffset = new Vector2(0, 0.5);
                     c.pointerEvents = false;
                 })
                 .withComponent(ZaxisSorter))
@@ -140,7 +140,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.imageWidth = 40;
                     c.imageHeight = 0;
                     c.imageFlipX = true;
-                    c.imageCenterOffset = new Vector2(0, -0.5);
+                    c.centerOffset = new Vector2(0, -0.5);
                     c.pointerEvents = false;
                 })
                 .withComponent(ZaxisSorter))
@@ -166,7 +166,7 @@ export class InstancedObjectsPrefab extends Prefab {
                     c.width = 36;
                     c.height = 18;
                     c.viewScale = 0.1;
-                    c.iframeCenterOffset = new Vector2(0, 0.5);
+                    c.centerOffset = new Vector2(0, 0.5);
                 })
                 .withComponent(ZaxisSorter));
     }

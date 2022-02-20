@@ -40,7 +40,7 @@ export class GridBrush extends Component {
             this.engine.instantiater.buildGameObject("pointer_image", new Vector3(0, 0, this._imageZoffset))
                 .active(false)
                 .withComponent(CssSpriteAtlasRenderer, c => {
-                    c.imageCenterOffset = new Vector2(0.5, 0.5);
+                    c.centerOffset = new Vector2(0.5, 0.5);
                     c.opacity = 0.5;
                     c.pointerEvents = false;
                 })
@@ -160,7 +160,7 @@ export class GridBrush extends Component {
 
     public setImageOffset(x: number, y: number): void {
         if (!this._pointerImage) return;
-        this._pointerImage.imageCenterOffset = new Vector2(x, y);
+        this._pointerImage.centerOffset = new Vector2(x, y);
     }
 
     public setImageWidth(width: number): void {

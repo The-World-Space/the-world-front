@@ -30,7 +30,7 @@ export class IframeIdBoxPrefab extends Prefab {
                 idBoxDiv.innerText = "content";
                 c.centerOffset = new Vector2(0.5, 0.5);
                 c.pointerEvents = false;
-                c.setElement(idBoxDiv);
+                c.element = idBoxDiv;
             })
             .getComponent(CssHtmlElementRenderer, this._idboxRenderer)
             .getGameObject(this._idboxObject);

@@ -97,7 +97,7 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
                 .withComponent(CssSpriteRenderer, c => {
                     c.enabled = false;
                     c.pointerEvents = false;
-                    c.imageCenterOffset = new Vector2(0.5, 0.5);
+                    c.centerOffset = new Vector2(0.5, 0.5);
                 })
                 .withComponent(EditorViewObjectController)
                 .getComponent(EditorViewObjectController, editorViewObjectController));
