@@ -1,4 +1,4 @@
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { useAsync } from "react-use";
 import styled from "styled-components";
 import twLogo1 from "../components/atoms/tw logo 1.svg";
@@ -142,7 +142,7 @@ const StyledPlusButton = styled(PlusButton)`
 
 function MyWorldList(): JSX.Element {
     const apolloClient = useApolloClient();
-    const history = useHistory();
+    const navigate = useNavigate();
     const worldList = useAsync(async () => await getMyWorlds(apolloClient));
 
     return (
@@ -155,7 +155,7 @@ function MyWorldList(): JSX.Element {
                         <HorizentalLine />
                         <WorldListDiv>
                             {worldList.value?.map(item => 
-                                <WorldItem onClick={() => history.push(`/world/${item.id}`)} key={item.id}>
+                                <WorldItem onClick={() => navigate(`/world/${item.id}`)} key={item.id}>
                                     <WorldItemLeft>
                                         <ThumbnailImage src={twLogo1} />
                                         <WorldItemInfo>
@@ -171,7 +171,7 @@ function MyWorldList(): JSX.Element {
                                     </WorldItemRight>
                                 </WorldItem>
                             )}
-                            <StyledPlusButton onClick={() => history.push("/createworld")} />
+                            <StyledPlusButton onClick={() => navigate("/createworld")} />
                         </WorldListDiv>
                     </Wrapper>
                 </NavTemplate>

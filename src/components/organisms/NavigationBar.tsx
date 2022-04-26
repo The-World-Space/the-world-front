@@ -1,6 +1,6 @@
 import { AuthContext } from "../../context/contexts";
 import {
-    Link, useHistory
+    Link, useNavigate
 } from "react-router-dom";
 import { useContext } from "react";
 import styled from "styled-components";
@@ -50,7 +50,7 @@ interface NavigationBarProps {
 
 function NavigationBar(props: NavigationBarProps): JSX.Element {
     const { logged } = useContext(AuthContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     return (
         <NaviDiv>
@@ -62,13 +62,13 @@ function NavigationBar(props: NavigationBarProps): JSX.Element {
                     {/* <MainButton onClick={() => history.push("/thelab")}>TheLab</MainButton> */}
                     { logged 
                         ? <>
-                            <MainButton onClick={() => history.push("/user")}>user info</MainButton>
-                            <MainButton onClick={() => history.push("/world/0")}>world/0</MainButton>
-                            <MainButton onClick={() => history.push("/logout")}>Logout</MainButton>
+                            <MainButton onClick={() => navigate("/user")}>user info</MainButton>
+                            <MainButton onClick={() => navigate("/world/0")}>world/0</MainButton>
+                            <MainButton onClick={() => navigate("/logout")}>Logout</MainButton>
                         </>
                         : <>
-                            <MainButton onClick={() => history.push("/login")}>Login</MainButton>
-                            <MainButton onClick={() => history.push("/register")}>Register</MainButton>
+                            <MainButton onClick={() => navigate("/login")}>Login</MainButton>
+                            <MainButton onClick={() => navigate("/register")}>Register</MainButton>
                         </>}
                 </RowButtonDiv>
             }

@@ -17,7 +17,7 @@ import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMat
 
 export class TestBootstrapper extends Bootstrapper {
     public run(): SceneBuilder {
-        const instantlater = this.engine.instantiater;
+        const instantlater = this.instantiater;
 
         const player = new PrefabRef<GameObject>();
         const playerStatusRenderController = new PrefabRef<PlayerStatusRenderController>();

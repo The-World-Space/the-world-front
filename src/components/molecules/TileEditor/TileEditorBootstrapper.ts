@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from "three";
+import { Vector2, Vector3 } from "three/src/Three";
 import { 
     Bootstrapper,
     SceneBuilder,
@@ -19,7 +19,7 @@ import { Tools } from "../../organisms/EditorInner/ObjectEditorInner";
 
 export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
     public run(): SceneBuilder {
-        const instantlater = this.engine.instantiater;
+        const instantlater = this.instantiater;
 
         const collideMap = new PrefabRef<GridCollideMap>();
         const gridPointer = new PrefabRef<GridPointer>();
@@ -100,6 +100,7 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
                     c.centerOffset = new Vector2(0.5, 0.5);
                 })
                 .withComponent(EditorViewObjectController)
-                .getComponent(EditorViewObjectController, editorViewObjectController));
+                .getComponent(EditorViewObjectController, editorViewObjectController))
+        ;
     }
 }

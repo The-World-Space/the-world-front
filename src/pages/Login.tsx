@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
-    useHistory,
+    useNavigate,
     Link
 } from "react-router-dom";
 import { AuthContext } from "../context/contexts";
@@ -30,7 +30,7 @@ const LOGIN_QUERY = gql`
 `;
 
 function Login(): JSX.Element {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const { setJwt } = useContext(AuthContext);
 
@@ -58,7 +58,7 @@ function Login(): JSX.Element {
 
             if (data.login) {
                 setJwt(data.login);
-                history.push("/");
+                navigate("/");
             }
             else {
                 console.error("account not founded");
@@ -90,7 +90,7 @@ function Login(): JSX.Element {
                 <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
                 <div> <BlackSubmitButton onClick={() => onSubmit()}>Login</BlackSubmitButton> </div>
                 <HorizontalDivider style={{ margin: "8% 0% 0% 0%" }} />
-                <div> <BlackSubmitButton onClick={() => history.push("/register")}>Register</BlackSubmitButton> </div>
+                <div> <BlackSubmitButton onClick={() => navigate("/register")}>Register</BlackSubmitButton> </div>
             </ContentDiv>
         </NavTemplate>
     );

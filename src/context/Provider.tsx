@@ -11,7 +11,11 @@ import { gql } from "@apollo/client";
 import useUser from "../hooks/useUser";
 import { useGameWSApolloClient } from "../pages/NetworkGamePage";
 
-export const Provider: React.FC = ({ children }) => {
+interface ChildProp {
+    children: JSX.Element;
+}
+
+export const Provider: React.FC<ChildProp> = ({ children }) => {
     return (
         <AuthContextProvider>
             {children}
@@ -20,7 +24,7 @@ export const Provider: React.FC = ({ children }) => {
 };
 
 
-const AuthContextProvider: React.FC = ({ children }) => {
+const AuthContextProvider: React.FC<ChildProp> = ({ children }) => {
     const [jwt, setJwt] = useRawState("", JWT_KEY);
     
     const state = {
@@ -37,7 +41,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
 };
 
 
-export const GameProvider: React.FC = ({ children }) => {
+export const GameProvider: React.FC<ChildProp> = ({ children }) => {
     return (
         <ObjEditorContextProvider>
             <WorldEditorContextProvider>
@@ -47,7 +51,7 @@ export const GameProvider: React.FC = ({ children }) => {
     );
 };
 
-const ObjEditorContextProvider: React.FC = ({ children }) => {
+const ObjEditorContextProvider: React.FC<ChildProp> = ({ children }) => {
     const [game, setGame] = useState<Game | null>(null);
     const [objEditorConnector] = useState(new ObjEditorConnector());
     
@@ -75,7 +79,7 @@ const WORLD_ADMIN_LIST = gql`
     }
 `;
 
-const WorldEditorContextProvider: React.FC = ({ children }) => {
+const WorldEditorContextProvider: React.FC<ChildProp> = ({ children }) => {
     const globalApolloClient = useGameWSApolloClient();
     const user = useUser();
     const [game, setGame] = useState<Game | null>(null);

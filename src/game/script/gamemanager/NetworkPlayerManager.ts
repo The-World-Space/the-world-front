@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Server } from "../../connect/types";
 import { Component, GameObject, PrefabRef, PlayerGridMovementController, IGridCollidable } from "the-world-engine";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
@@ -39,7 +39,7 @@ export class NetworkPlayerManager extends Component {
         const component = player.getComponent(PlayerGridMovementController);
         if (!component) throw new Error("no PlayerGridMovementController component");
         
-        component.addOnMoveToTargetEventListener((x, y) => {
+        component.onMoveToTarget.addListener((x, y) => {
             this._networkManager!.dee.emit("player_move", x, y);
         });
         

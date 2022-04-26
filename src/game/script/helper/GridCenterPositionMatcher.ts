@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Component } from "the-world-engine";
 
 export class GridCenterPositionMatcher extends Component {

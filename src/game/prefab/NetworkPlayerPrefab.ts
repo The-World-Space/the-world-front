@@ -1,4 +1,4 @@
-import { Quaternion, Vector2, Vector3 } from "three";
+import { Quaternion, Vector2, Vector3 } from "three/src/Three";
 import {
     CssSpriteAtlasRenderer,
     SpriteAtlasAnimator,
@@ -58,7 +58,7 @@ export class NetworkPlayerPrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
-        const instantlater = this.engine.instantiater;
+        const instantlater = this.instantiater;
         
         const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
         const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
@@ -67,7 +67,7 @@ export class NetworkPlayerPrefab extends Prefab {
         
         return this.gameObjectBuilder
             .withComponent(CssSpriteAtlasRenderer, c => {
-                if (this._spriteAtlasPath.ref) c.asyncSetImage(this._spriteAtlasPath.ref, 4, 4);
+                if (this._spriteAtlasPath.ref) c.asyncSetImageFromPath(this._spriteAtlasPath.ref, 4, 4);
                 c.centerOffset = new Vector2(0, 0.4);
                 c.pointerEvents = false;
             })

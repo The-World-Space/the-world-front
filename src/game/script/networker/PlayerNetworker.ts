@@ -1,6 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter, DumbTypedEmitter } from "detail-typed-emitter";
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Server } from "../../connect/types";
 
 type characterId = string;

@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Component } from "the-world-engine";
 import { GridBrush } from "../input/GridBrush";
 import { Tool, Tools } from "../WorldEditorConnector";
@@ -8,7 +8,7 @@ export class NetworkBrushManager extends Component {
     private _gridBrush: GridBrush | null = null;
     private _currentTool: Tool | null = null;
     private _apolloClient: ApolloClient<any> | null = null;
-    private _worldId: string = "";
+    private _worldId = "";
 
     public set gridBrush(val: GridBrush) {
         this._gridBrush = val;

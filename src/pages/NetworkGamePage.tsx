@@ -3,10 +3,10 @@ import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstr
 import { Game, GameStateKind } from "the-world-engine";
 import { useAsync } from "react-use";
 import { getWorld, getWSApolloClient, getWSLink, joinWorld } from "../game/connect/gql";
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import useUser from "../hooks/useUser";
 import IngameInterface from "../components/organisms/IngameInterface";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
 import { WidgetManager } from "../game/script/WidgetManager";
@@ -109,10 +109,11 @@ const KICKED = gql`
 
 function NetworkGamePage_(): JSX.Element {
     const globalApolloClient = useGameWSApolloClient();
-    const history = useHistory();
+    const navigate = useNavigate();
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
+    if (!worldId) throw new Error("worldId is not defined");
     const { value: world, error, loading } = useAsync(() => getWorld(worldId, globalApolloClient), [worldId]);
     const { setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
     const user = useUser();
@@ -143,7 +144,7 @@ function NetworkGamePage_(): JSX.Element {
             }
         }).subscribe(() => {
             alert("You have been kicked from the world");
-            history.push("/");
+            navigate("/");
         });
         
         return () => { //on component unmount
@@ -159,8 +160,8 @@ function NetworkGamePage_(): JSX.Element {
         setGame, 
         worldEditorConnector, 
         setPlayerNetworker, 
-        setWorld, 
-        history, 
+        setWorld,
+        navigate,
         globalApolloClient
     ]);
 

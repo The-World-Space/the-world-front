@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-    useHistory,
+    useNavigate,
     Link
 } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
@@ -33,7 +33,7 @@ const REGISTER = gql`
 
 function Register(): JSX.Element {
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
@@ -65,7 +65,7 @@ function Register(): JSX.Element {
             const data = res.data;
 
             if (data.register) {
-                history.push("/login");
+                navigate("/login");
             }
             else {
                 console.error("account not founded");

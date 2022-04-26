@@ -2,7 +2,7 @@ import { useApolloClient, ApolloClient, gql } from "@apollo/client";
 import React, { useState } from "react";
 import NavTemplate from "../components/templates/NavTemplate";
 import {
-    useHistory,
+    useNavigate
 } from "react-router-dom";
 import twLogo1 from "../components/atoms/tw logo 1.svg";
 import styled from "styled-components";
@@ -50,13 +50,13 @@ const CreateWorld: React.FC = () => {
     const [worldName, setWorldName] = useState("");
 
     const apolloClient = useApolloClient();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const submit = async () => {
         try {
             await createWorld(apolloClient, worldId, worldName);
             await apolloClient.resetStore();
-            history.push("/");
+            navigate("/");
         } catch(e) {
             alert(e);
         }

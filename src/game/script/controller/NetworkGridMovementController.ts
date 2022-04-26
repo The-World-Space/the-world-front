@@ -1,13 +1,13 @@
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Direction, Directionable } from "the-world-engine";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 
 export class NetworkGridMovementController extends Directionable {
     public readonly disallowMultipleComponent: boolean = true;
     
-    private _speed: number = 80;
-    private _gridCellHeight: number = 16;
-    private _gridCellWidth: number = 16;
+    private _speed = 80;
+    private _gridCellHeight = 16;
+    private _gridCellWidth = 16;
     private readonly _gridCenter: Vector2 = new Vector2();
     private readonly _currentGridPosition: Vector2 = new Vector2();
     private readonly _targetGridPosition: Vector2 = new Vector2();

@@ -1,4 +1,4 @@
-// import { Vector2 } from "three";
+// import { Vector2 } from "three/src/Three";
 import { Server } from "../connect/types";
 // import { GameObject } from "../engine/hierarchy_object/GameObject";
 

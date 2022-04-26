@@ -1,5 +1,5 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector2, Vector3 } from "three";
+import { Vector2, Vector3 } from "three/src/Three";
 import { Server } from "../../connect/types";
 import {
     Component,

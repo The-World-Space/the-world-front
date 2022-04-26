@@ -14,7 +14,7 @@ import {
 import { print } from "graphql";
 import { createClient, ClientOptions, Client } from "graphql-ws";
 import { JWT_KEY } from "../../context/consts";
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 
 
 
