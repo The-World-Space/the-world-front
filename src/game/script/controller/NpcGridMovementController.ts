@@ -29,7 +29,7 @@ export class NpcGridMovementController extends Directionable implements IGridPos
 
     private readonly _tempVector2 = new Vector2();
 
-    public start(): void {
+    public awake(): void {
         this._pathfinder = new Pathfinder(this._collideMaps);
 
         const transform = this.transform;
