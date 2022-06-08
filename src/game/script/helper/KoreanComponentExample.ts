@@ -105,7 +105,7 @@ export class KoreanComponentExample extends Component {
         console.log("start");
 
         //코루틴을 실행합니다.
-        const coroutine = this.startCorutine(this.someCoroutine());
+        const coroutine = this.startCoroutine(this.someCoroutine());
 
         //코루틴을 중지합니다. (이 컴포넌트가 실행한 코루틴만 중지할 수 있습니다.)
         this.stopCoroutine(coroutine);

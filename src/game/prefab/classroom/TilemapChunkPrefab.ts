@@ -52,7 +52,7 @@ export class TilemapChunkPrefab extends Prefab {
                             [o, F, o, o, o, o, o, o, o, o, o, o, o, o, o, F, o],
                             [o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o],
                         ], -8, -9);
-                    }
+                    };
                 }))
             .withChild(instantlater.buildGameObject("wall")
                 .withComponent(CssCollideTilemapChunkRenderer, c => {
@@ -116,8 +116,8 @@ export class TilemapChunkPrefab extends Prefab {
                                 [J, o, Q, N, N, N, N, N, N, N, N, N, N, N, P, o, K],
                                 [L, N, M, o, o, o, o, o, o, o, o, o, o, o, L, N, M],
                             ], -8, -9);
-                        }
-                    }
+                        };
+                    };
                 })
                 .getComponent(CssCollideTilemapChunkRenderer, this._colideTilemapChunkRenderer ?? new PrefabRef()));
     }

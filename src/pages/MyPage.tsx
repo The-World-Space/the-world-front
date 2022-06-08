@@ -1,6 +1,6 @@
 import { useApolloClient, ApolloClient, gql } from "@apollo/client";
 import React from "react";
-import { useAsync } from "react-use";
+import useAsync from "../hooks/useAsync";
 
 interface World {
     id: string;

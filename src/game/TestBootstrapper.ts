@@ -7,7 +7,7 @@ import {
     PrefabRef,
     GridEventMap,
     GridObjectCollideMap
- } from "the-world-engine";
+} from "the-world-engine";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { CameraPrefab } from "./prefab/CameraPrefab";

@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef } from "react";
 import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
 import { Game, GameStateKind } from "the-world-engine";
-import { useAsync } from "react-use";
 import { getWorld, getWSApolloClient, getWSLink, joinWorld } from "../game/connect/gql";
 import { Vector2 } from "three/src/Three";
 import useUser from "../hooks/useUser";
@@ -15,6 +14,7 @@ import { GameProvider } from "../context/Provider";
 import { WorldEditorContext } from "../context/contexts";
 import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
 import { ApolloClient, ApolloLink, gql, NormalizedCacheObject } from "@apollo/client";
+import useAsync from "../hooks/useAsync";
 
 const Container = styled.div`
     display: flex;

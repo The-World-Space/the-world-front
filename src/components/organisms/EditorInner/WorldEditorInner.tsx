@@ -9,8 +9,8 @@ import { Server } from "../../../game/connect/types";
 import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { WorldEditorContext } from "../../../context/contexts";
 import { Tools } from "../../../game/script/WorldEditorConnector";
-import { useDebounce } from "react-use";
 import { Link } from "react-router-dom";
+import useDebounce from "../../../hooks/useDebounce";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;

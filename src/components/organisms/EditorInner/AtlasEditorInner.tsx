@@ -7,8 +7,8 @@ import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { globalFileApolloClient } from "../../../game/connect/files";
 import LabeledList, { PhotoAtlasData } from "../../molecules/LabeledList";
 import { WorldEditorContext } from "../../../context/contexts";
-import { useDebounce } from "react-use";
 import { IMAGE_MAX_SIZE, MB } from "../../../GlobalEnviroment";
+import useDebounce from "../../../hooks/useDebounce";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;

@@ -9,7 +9,7 @@ import {
     GameObjectBuilder,
     Prefab,
     PrefabRef
- } from "the-world-engine";
+} from "the-world-engine";
 
 export class InstancedObjectsPrefab extends Prefab {
     private _gridCollideMap: PrefabRef<GridCollideMap> = new PrefabRef();
@@ -110,7 +110,7 @@ export class InstancedObjectsPrefab extends Prefab {
                             new Vector3(-6 * 16 - 8, -4 * 16), undefined, undefined,
                             new Vector2(0, 0.5)
                         ),
-                    ]
+                    ];
                     c.setInstances(instanceList);
                 }))
                 

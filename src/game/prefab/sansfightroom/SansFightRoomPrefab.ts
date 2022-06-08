@@ -59,7 +59,7 @@ export class SansFightRoomPrefab extends Prefab {
                                 [G, F, G, F, G, F, G, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, K, J, K, H, I, H, G, F, G, F, G, F, G, F],
                                 [F, G, F, G, F, G, F, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, J, K, J, I, H, I, F, G, F, G, F, G, F, G],
                             ], -2, -2);
-                        }
+                        };
                     }))
 
                 .withChild(instantlater.buildGameObject("wall")
@@ -145,7 +145,7 @@ export class SansFightRoomPrefab extends Prefab {
                                     [{i: 0, a: 36}, {i: 0, a: 37}, {i: 0, a: 38}],
                                 ], p.x, p.y);
                             });
-                        }
+                        };
                     })
                     .getComponent(CssCollideTilemapChunkRenderer, this._colideTilemapChunkRenderer ?? new PrefabRef())))
 
