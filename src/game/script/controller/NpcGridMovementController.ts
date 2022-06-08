@@ -1,4 +1,4 @@
-import { Direction, Directionable, GridPointer, IGridCollidable, IGridPositionable, Pathfinder, PointerGridEvent, ReadOnlyVector2, WritableVector2 } from "the-world-engine";
+import { Direction, Directionable, IGridCollidable, IGridPositionable, Pathfinder, ReadOnlyVector2, WritableVector2 } from "the-world-engine";
 import { Vector2 } from "three";
 
 /**
@@ -6,7 +6,7 @@ import { Vector2 } from "three";
  * supports keyboard wasd and arrow keys input
  * supports pathfinding as optional feature
  */
-export class AiGridMovementController extends Directionable implements IGridPositionable {
+export class NpcGridMovementController extends Directionable implements IGridPositionable {
     public override readonly disallowMultipleComponent: boolean = true;
 
     private _speed = 8;
@@ -21,8 +21,6 @@ export class AiGridMovementController extends Directionable implements IGridPosi
     private readonly _onMoveToTargetDelegates: ((x: number, y: number) => void)[] = []; //integer position
     private readonly _onMovedToTargetDelegates: ((x: number, y: number) => void)[] = []; //integer position
 
-    private _onPointerDownBind = this.onPointerDown.bind(this);
-    private _gridPointer: GridPointer|null = null;
     private _pathfinder: Pathfinder|null = null;
     private _movingByPathfinder = false;
     private _findedPath: Vector2[]|null = null;
@@ -43,73 +41,8 @@ export class AiGridMovementController extends Directionable implements IGridPosi
 
     public update(): void {
         this._pathfindStartFunction?.();
-        this.processInput();
         this.processPathfinderInput();
         this.processMovement();
-    }
-
-    private processInput(): void {
-        if (this.isMoving) {
-            this.tryCancelPathfinder();
-            return;
-        }
-
-        const inputMap = this.engine.input.map;
-        if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
-            this.direction = Direction.Up;
-            if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight)) return;
-            this._targetGridPosition.set(this._currentGridPosition.x, this._currentGridPosition.y + this._gridCellHeight);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            this.isMoving = true;
-        } else if (inputMap.get("s") || inputMap.get("S") || inputMap.get("ArrowDown")) {
-            this.direction = Direction.Down;
-            if (this.checkCollision(this._currentGridPosition.x, this._currentGridPosition.y - this._gridCellHeight)) return;
-            this._targetGridPosition.set(this._currentGridPosition.x, this._currentGridPosition.y - this._gridCellHeight);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            this.isMoving = true;
-        } else if (inputMap.get("a") || inputMap.get("A") || inputMap.get("ArrowLeft")) {
-            this.direction = Direction.Left;
-            if (this.checkCollision(this._currentGridPosition.x - this._gridCellWidth, this._currentGridPosition.y)) return;
-            this._targetGridPosition.set(this._currentGridPosition.x - this._gridCellWidth, this._currentGridPosition.y);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            this.isMoving = true;
-        } else if (inputMap.get("d") || inputMap.get("D") || inputMap.get("ArrowRight")) {
-            this.direction = Direction.Right;
-            if (this.checkCollision(this._currentGridPosition.x + this._gridCellWidth, this._currentGridPosition.y)) return;
-            this._targetGridPosition.set(this._currentGridPosition.x + this._gridCellWidth, this._currentGridPosition.y);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            this.isMoving = true;
-        }
-    }
-
-    private noncheckProcessInput(currentGridPosotion: Vector2): boolean {
-        const inputMap = this.engine.input.map;
-        if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
-            this.direction = Direction.Up;
-            if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight)) return false;
-            this._targetGridPosition.set(currentGridPosotion.x, currentGridPosotion.y + this._gridCellHeight);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            return true;
-        } else if (inputMap.get("s") || inputMap.get("S") || inputMap.get("ArrowDown")) {
-            this.direction = Direction.Down;
-            if (this.checkCollision(currentGridPosotion.x, currentGridPosotion.y - this._gridCellHeight)) return false;
-            this._targetGridPosition.set(currentGridPosotion.x, currentGridPosotion.y - this._gridCellHeight);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            return true;
-        } else if (inputMap.get("a") || inputMap.get("A") || inputMap.get("ArrowLeft")) {
-            this.direction = Direction.Left;
-            if (this.checkCollision(currentGridPosotion.x - this._gridCellWidth, currentGridPosotion.y)) return false;
-            this._targetGridPosition.set(currentGridPosotion.x - this._gridCellWidth, currentGridPosotion.y);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            return true;
-        } else if (inputMap.get("d") || inputMap.get("D") || inputMap.get("ArrowRight")) {
-            this.direction = Direction.Right;
-            if (this.checkCollision(currentGridPosotion.x + this._gridCellWidth, currentGridPosotion.y)) return false;
-            this._targetGridPosition.set(currentGridPosotion.x + this._gridCellWidth, currentGridPosotion.y);
-            this.invokeOnMoveToTarget(this._targetGridPosition);
-            return true;
-        }
-        return false;
     }
 
     private invokeOnMoveToTarget(_vector2: Vector2): void {
@@ -128,19 +61,6 @@ export class AiGridMovementController extends Directionable implements IGridPosi
                 Math.floor(this._currentGridPosition.y / this._gridCellHeight)
             )
         );
-    }
-
-    private tryCancelPathfinder(): void {
-        const inputMap = this.engine.input.map;
-        if (inputMap.get("w") || inputMap.get("W") || inputMap.get("ArrowUp")) {
-            this._movingByPathfinder = false;
-        } else if (inputMap.get("s") || inputMap.get("S") || inputMap.get("ArrowDown")) {
-            this._movingByPathfinder = false;
-        } else if (inputMap.get("a") || inputMap.get("A") || inputMap.get("ArrowLeft")) {
-            this._movingByPathfinder = false;
-        } else if (inputMap.get("d") || inputMap.get("D") || inputMap.get("ArrowRight")) {
-            this._movingByPathfinder = false;
-        }
     }
 
     private processPathfinderInput(): void {
@@ -189,10 +109,10 @@ export class AiGridMovementController extends Directionable implements IGridPosi
         let distance = vector2Pos.distanceTo(this._targetGridPosition);
 
         if (distance < this._speed * this.engine.time.deltaTime) {
-            if (this.noncheckProcessInput(this._targetGridPosition)) {
-                distance = vector2Pos.distanceTo(this._targetGridPosition);
-                this.invokeOnMovedToTarget(vector2Pos);
-            }
+            // if (this.noncheckProcessInput(this._targetGridPosition)) {
+            distance = vector2Pos.distanceTo(this._targetGridPosition);
+            this.invokeOnMovedToTarget(vector2Pos);
+            // }
         }
 
         if (distance > 0.01) {
@@ -218,35 +138,7 @@ export class AiGridMovementController extends Directionable implements IGridPosi
         return false;
     }
 
-    private _lastPointerDownTime = -1;
-    private readonly _lastPointerDownPosition: Vector2 = new Vector2();
-    private _doubleClickTime = 0.3;
-
-    private onPointerDown(event: PointerGridEvent): void {
-        if (event.button !== 0) return;
-        this._movingByPathfinder = false;
-        const currentElapsedTime = this.engine.time.unscaledTime;
-        if (currentElapsedTime - this._lastPointerDownTime < this._doubleClickTime) {
-            if (this._lastPointerDownPosition.equals(event.gridPosition)) {
-                this.onDoubleClick(event);
-                this._lastPointerDownTime = -1;
-            }
-        } else {
-            this._lastPointerDownTime = currentElapsedTime;
-            this._lastPointerDownPosition.copy(event.gridPosition);
-        }
-    }
-
-    private onDoubleClick(event: PointerGridEvent): void {
-        if (this._movingByPathfinder) {
-            this._movingByPathfinder = false;
-            this._pathfindStartFunction = () => this.tryStartPathfind(event.gridPosition);
-            return;
-        }
-        this._pathfindStartFunction = () => this.tryStartPathfind(event.gridPosition);
-    }
-
-    private tryStartPathfind(targetGridPosition: Vector2): void {
+    public tryStartPathfind(targetGridPosition: Vector2): void {
         if (this._movingByPathfinder) return;
         this._pathfindStartFunction = null;
         
@@ -361,26 +253,6 @@ export class AiGridMovementController extends Directionable implements IGridPosi
      */
     public set initPosition(value: Vector2) {
         this._initPosition.copy(value);
-    }
-
-    /**
-     * grid pointer for pathfinding
-     */
-    public set gridPointer(value: GridPointer|null) {
-        if (this._gridPointer) {
-            this._gridPointer.removeOnPointerDownEventListener(this._onPointerDownBind);
-        }
-        this._gridPointer = value;
-        if (this._gridPointer) {
-            this._gridPointer.addOnPointerDownEventListener(this._onPointerDownBind);
-        }
-    }
-
-    /**
-     * grid pointer for pathfinding
-     */
-    public get gridPointer(): GridPointer|null {
-        return this._gridPointer;
     }
 
     /**

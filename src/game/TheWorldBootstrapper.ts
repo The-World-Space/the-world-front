@@ -32,6 +32,7 @@ import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
 import { NetworkTileManager } from "./script/gamemanager/NetworkTileManager";
 import { TileNetworker } from "./script/networker/TileNetworker";
 import { AdminNetworker } from "./script/networker/AdminNetworker";
+import { NpcSpawner } from "./script/gamemanager/NpcSpawner";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
@@ -250,6 +251,10 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.effectTileMap = effectTilemap.ref!;
                     c.initTileList = this.interopObject!.serverWorld.atlasInfoScalar;
                     c.tileNetworker = this.interopObject!.tileNetworker;
+                })
+                .withComponent(NpcSpawner, c => {
+                    (globalThis as any).npcSpawner = c;
+                    c.iGridCollidable = gridCollideMap.ref!;
                 })
                 .getComponent(NetworkBrushManager, networkBrushManager)
                 .getComponent(NetworkIframeManager, iframeManager))
