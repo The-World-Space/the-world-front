@@ -13,26 +13,20 @@ module.exports = {
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 12,
+        "ecmaVersion": 13,
         "sourceType": "module"
     },
     "plugins": [
         "react",
-        "react-hooks",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "simple-import-sort"
     ],
     "rules": {
-        "@typescript-eslint/no-namespace": "off",
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/no-explicit-any": "off",
         "react/react-in-jsx-scope": "off",
-        "react-hooks/exhaustive-deps": "warn",
-        "no-debugger": "warn",
+        "@typescript-eslint/no-explicit-any": "off",
         "indent": [
             "error",
-            4,
-            { "flatTernaryExpressions": true }
+            4
         ],
         "linebreak-style": [
             "error",
@@ -45,6 +39,13 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 };

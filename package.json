@@ -1,73 +1,46 @@
 {
-  "name": "the-world-front",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@apollo/client": "^3.3.21",
-    "@material-ui/core": "^4.12.1",
-    "@react-three/fiber": "^7.0.19",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/apollo-upload-client": "^14.1.0",
-    "@types/css-font-loading-module": "^0.0.7",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-router-dom": "^5.1.8",
-    "@types/three": "^0.137.0",
-    "@types/zen-observable": "^0.8.3",
-    "apollo-upload-client": "^17.0.0",
-    "detail-typed-emitter": "^1.2.1",
-    "graphql": "^15.5.1",
-    "graphql-ws": "^5.5.5",
-    "penpal": "^6.2.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "react-use": "^17.3.1",
-    "styled-component": "^2.8.0",
-    "styled-components": "^5.3.0",
-    "the-world-engine": "^0.2.17",
-    "three": "^0.137.5",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@types/styled-components": "^5.1.11",
-    "@typescript-eslint/eslint-plugin": "^5.8.0",
-    "@typescript-eslint/parser": "^5.8.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^19.0.3",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0"
-  }
+    "name": "the-world-front",
+    "version": "0.1.0",
+    "dependencies": {
+        "@types/node": "^16.11.43",
+        "@types/react": "^18.0.15",
+        "@types/react-dom": "^18.0.6",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-scripts": "5.0.1",
+        "styled-components": "^5.3.5",
+        "typescript": "^4.7.4"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "lint": "eslint --fix --ext .js,.ts,.tsx src"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.30.5",
+        "@typescript-eslint/parser": "^5.30.5",
+        "eslint": "^8.19.0",
+        "eslint-plugin-react": "^7.30.1",
+        "eslint-plugin-simple-import-sort": "^7.0.0"
+    }
 }
