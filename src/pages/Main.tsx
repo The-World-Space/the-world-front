@@ -31,18 +31,6 @@ const PaddedButton = styled(Button1)`
 function Main(): JSX.Element {
     const navigate = useNavigate();
 
-    const handleLoginClick = useCallback(() => {
-        navigate('/login');
-    }, [navigate]);
-
-    const handleRegisterClick = useCallback(() => {
-        navigate('/register');
-    }, [navigate]);
-
-    const handlePasswordResetClick = useCallback(() => {
-        navigate('/password/reset');
-    }, [navigate]);
-
     const handlePasswordChangeClick = useCallback(() => {
         navigate('/password/change');
     }, [navigate]);
@@ -55,9 +43,6 @@ function Main(): JSX.Element {
                 <Logo1/>
             </Link>
             <Container>
-                <PaddedButton onClick={handleLoginClick}>Login</PaddedButton>
-                <PaddedButton onClick={handleRegisterClick}>Register</PaddedButton>
-                <PaddedButton onClick={handlePasswordResetClick}>Password Reset</PaddedButton>
                 <PaddedButton onClick={handlePasswordChangeClick}>Change Password</PaddedButton>
             </Container>
         </MainFlexDiv>
