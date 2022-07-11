@@ -9,6 +9,7 @@ import {
     Button1,
     Form1,
     LeftAlignDiv,
+    PaddingDiv,
     StyledLink
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
@@ -128,6 +129,7 @@ function RegisterForm(): JSX.Element {
                 textValidator={emailValidator}
                 updateFlag={updateState}
             />
+            <PaddingDiv height='20px'/>
             <RequiredTextField
                 type='password'
                 placeholder='Password'
