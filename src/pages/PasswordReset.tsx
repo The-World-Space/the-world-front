@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import {
     Button1,
-    Form1,
+    InnerFlexForm1,
     TextInput1
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
@@ -30,13 +30,13 @@ function PasswordResetForm(): JSX.Element {
     }, [email]);
 
     return (
-        <Form1 onSubmit={handleSubmit}>
+        <InnerFlexForm1 onSubmit={handleSubmit}>
             <TitleDiv>
                 Reset Password
             </TitleDiv>
             <TextInput1 type='email' placeholder='Email' value={email} onChange={handleEmailChange} />
             <Button1 type='submit'>Send Password Reset Link</Button1>
-        </Form1>
+        </InnerFlexForm1>
     );
 }
 

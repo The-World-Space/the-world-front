@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
-    Form1,
+    InnerFlexForm1,
     LeftAlignDiv,
     PaddingDiv,
     StyledLink
@@ -85,7 +85,7 @@ function RegisterForm(): JSX.Element {
     }, [username, email, password, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator]);
 
     return (
-        <Form1 onSubmit={handleSubmit}>
+        <InnerFlexForm1 onSubmit={handleSubmit}>
             <TitleDiv>
                 Register a new membership
             </TitleDiv>
@@ -123,7 +123,7 @@ function RegisterForm(): JSX.Element {
                     I already have a membership
                 </LoginLink>
             </MarginTopLeftAlignDiv>
-        </Form1>
+        </InnerFlexForm1>
     );
 }
 

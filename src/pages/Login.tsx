@@ -7,7 +7,8 @@ import styled from 'styled-components';
 import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
-    Form1,
+    InnerFlexDiv1,
+    InnerFlexForm1,
     LeftAlignDiv,
     StyledLink
 } from '../components/atoms/styled';
@@ -24,7 +25,7 @@ const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     font-size: 13px;
 `;
 
-const SigninArea = styled.div`
+const SigninAreaDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,37 +61,18 @@ const Checkbox = styled.input`
     margin-right: 5px;
 `;
 
-const RegisterNowDiv = styled.div`
-    display: flex;
+const RegisterNowDiv = styled(InnerFlexDiv1)`
     flex-direction: row;
     align-items: start;
-    
-    width: 500px;
     padding: 18px 20px;
-    box-sizing: border-box;
-
-    @media (max-width: 768px) {
-        width: calc(100% - 40px);
-    }
-    
     color: #adadad;
+    background-color: transparent;
     font-size: 13px;
 `;
 
-const SignInWithSocialDiv = styled.div`
-    display: flex;
-    flex-direction: column;
+const SignInWithSocialDiv = styled(InnerFlexDiv1)`
     align-items: start;
-    
-    width: 500px;
     padding: 18px 20px;
-    box-sizing: border-box;
-
-    @media (max-width: 768px) {
-        width: calc(100% - 40px);
-    }
-
-    background-color: #252729;
     color: #adadad;
 `;
 
@@ -157,12 +139,12 @@ function LoginForm(): JSX.Element {
         event.preventDefault();
         setEmailError(emailValidator(email));
         setPasswordError(passwordValidator(password));
-        
+
         console.log(email, password, rememberMe);
     }, [email, password, rememberMe, emailValidator, passwordValidator]);
 
     return (
-        <Form1 onSubmit={handleSubmit}>
+        <InnerFlexForm1 onSubmit={handleSubmit}>
             <MarginBottomLeftAlignDiv>Sign in to start your session</MarginBottomLeftAlignDiv>
             <RequiredTextField
                 placeholder='Email'
@@ -177,7 +159,7 @@ function LoginForm(): JSX.Element {
                 onChange={handlePasswordChange}
                 error={passwordError}
             />
-            <SigninArea>
+            <SigninAreaDiv>
                 <HorizontalDiv>
                     <Font13Div>
                         <Checkbox type={'checkbox'} checked={rememberMe} onChange={handleRememberMeChange} />
@@ -188,8 +170,8 @@ function LoginForm(): JSX.Element {
                     </Styled13Link>
                 </HorizontalDiv>
                 <Button1 type={'submit'}>Sign In</Button1>
-            </SigninArea>
-        </Form1>
+            </SigninAreaDiv>
+        </InnerFlexForm1>
     );
 }
 

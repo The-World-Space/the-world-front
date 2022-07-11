@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
-    Form1,
+    InnerFlexForm1,
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
@@ -52,7 +52,7 @@ function ChangePasswordForm(): JSX.Element {
     }, [password, passwordValidator, passwordConfirm, passwordConfirmValidator]);
 
     return (
-        <Form1 onSubmit={handleSubmit}>
+        <InnerFlexForm1 onSubmit={handleSubmit}>
             <TitleDiv>
                 Reset Password
             </TitleDiv>
@@ -71,7 +71,7 @@ function ChangePasswordForm(): JSX.Element {
                 error={passwordConfirmError}
             />
             <SubmitButton type='submit'>Change Password</SubmitButton>
-        </Form1>
+        </InnerFlexForm1>
     );
 }
 

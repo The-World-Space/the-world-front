@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import {
     Button1,
-    Div1,
+    InnerFlexDiv1,
     Logo1,
     OuterFlexDiv,
     PaddingDiv
@@ -20,7 +20,7 @@ const MainFlexDiv = styled(OuterFlexDiv)`
     justify-content: flex-start;
 `;
 
-const Container = styled(Div1)`
+const Container = styled(InnerFlexDiv1)`
     padding: 0px 15px;
 `;
 
