@@ -1,7 +1,8 @@
 import {
     useCallback,
     useEffect,
-    useState
+    useState,
+    memo
 } from 'react';
 import { 
     Link,
@@ -189,6 +190,9 @@ function MobileNavBar(): JSX.Element {
     );
 }
 
+const PcNavBarMemo = memo(PcNavBar);
+const MobileNavBarMemo = memo(MobileNavBar);
+
 function NavBar(): JSX.Element {
     const [isMobile, setIsMobile] = useState(false);
     const [debouncedIsMobile, setDebouncedIsMobile] = useState(false);
@@ -213,7 +217,7 @@ function NavBar(): JSX.Element {
 
     return (
         <>
-            {!debouncedIsMobile ? <PcNavBar/> : <MobileNavBar/>}
+            {!debouncedIsMobile ? <PcNavBarMemo /> : <MobileNavBarMemo />}
         </>
     );
 }
