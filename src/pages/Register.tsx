@@ -7,16 +7,14 @@ import {
 } from 'react-router-dom';
 import styled from 'styled-components';
 
+import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
     Form1,
+    LeftAlignDiv,
     Logo1,
     OuterFlexDiv,
-    StyledLink,
-    LeftAlignDiv
-} from '../components/atoms/styled';
-
-import RequiredTextField from '../components/atoms/RequiredTextField';
+    StyledLink} from '../components/atoms/styled';
 
 const TitleDiv = styled.div`
     font-size: 15px;
@@ -44,19 +42,19 @@ function RegisterForm(): JSX.Element {
 
     const handleUsernameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
-    }, []);
+    }, [setUsername]);
 
     const handleEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-    }, []);
+    }, [setEmail]);
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    }, []);
+    }, [setPassword]);
 
     const handlePasswordConfirmChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordConfirm(event.target.value);
-    }, []);
+    }, [setPasswordConfirm]);
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

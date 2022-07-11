@@ -27,6 +27,7 @@ interface RequiredTextFieldProps {
     textValidator?: (value: string) => string|null;
     width?: string;
     height?: string;
+    updateFlag?: number;
 }
 
 interface RequiredTextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -64,16 +65,24 @@ function RequiredTextField(props: RequiredTextFieldProps): JSX.Element {
         type,
         textValidator,
         width,
-        height
+        height,
+        updateFlag
     } = props;
 
     const [errorMessage, setErrorMessage] = useState<string|null>(null);
+    const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
 
     useEffect(() => {
+        if (isFirstRender) {
+            console.log('isFirstRender');
+            setIsFirstRender(false);
+            return;
+        }
+        console.log('isNotFirstRender');
         const validator = textValidator || defaultTextValidator;
         const error = validator(value);
         setErrorMessage(error);
-    }, [value, textValidator]);
+    }, [value, textValidator, setErrorMessage, updateFlag]);
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);

@@ -6,8 +6,8 @@ import {
     Link
 } from 'react-router-dom';
 import styled from 'styled-components';
-import RequiredTextField from '../components/atoms/RequiredTextField';
 
+import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
     Form1,
@@ -31,11 +31,11 @@ function ChangePasswordForm(): JSX.Element {
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    }, []);
+    }, [setPassword]);
 
     const handlePasswordConfirmChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordConfirm(event.target.value);
-    }, []);
+    }, [setPasswordConfirm]);
 
     
     const passwordValidator = useCallback((password: string): string|null => {

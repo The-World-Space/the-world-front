@@ -26,7 +26,7 @@ function PasswordResetForm(): JSX.Element {
 
     const handleEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-    }, []);
+    }, [setEmail]);
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

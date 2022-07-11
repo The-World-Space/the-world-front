@@ -1,18 +1,16 @@
 import {
-    useNavigate,
-    Link
-} from 'react-router-dom';
-import {
     useCallback
 } from 'react';
+import {
+    Link,
+    useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
     Button1,
     Div1,
-    OuterFlexDiv,
-    Logo1
-} from '../components/atoms/styled';
+    Logo1,
+    OuterFlexDiv} from '../components/atoms/styled';
 
 const Container = styled(Div1)`
     padding: 0px 15px;

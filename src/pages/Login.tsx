@@ -1,6 +1,7 @@
 import {
     useCallback,
-    useState} from 'react';
+    useState
+} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,11 +9,11 @@ import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
     Form1,
+    LeftAlignDiv,
     Logo1,
     OuterFlexDiv,
-    StyledLink,
-    LeftAlignDiv
-} from '../components/atoms/styled';
+    StyledLink} from '../components/atoms/styled';
+import useForceUpdate from '../hooks/useForceUpdate';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
@@ -131,23 +132,26 @@ function LoginForm(): JSX.Element {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    
+
+    const [updateState, setUpdateState] = useForceUpdate();
+
     const handleEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-    }, []);
+    }, [setEmail]);
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    }, []);
+    }, [setPassword]);
 
     const handleRememberMeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setRememberMe(event.target.checked);
-    }, []);
+    }, [setRememberMe]);
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(email, password, rememberMe);
-    }, [email, password, rememberMe]);
+        setUpdateState();
+    }, [email, password, rememberMe, setUpdateState]);
 
     const emailValidator = useCallback((email: string): string|null => {
         if (email.length === 0) {
@@ -168,8 +172,8 @@ function LoginForm(): JSX.Element {
     return (
         <Form1 onSubmit={handleSubmit}>
             <MarginBottomLeftAlignDiv>Sign in to start your session</MarginBottomLeftAlignDiv>
-            <RequiredTextField placeholder='Email' value={email} onChange={handleEmailChange} textValidator={emailValidator} />
-            <RequiredTextField placeholder='Password' type={'password'} value={password} onChange={handlePasswordChange} textValidator={passwordValidator} />
+            <RequiredTextField placeholder='Email' value={email} onChange={handleEmailChange} textValidator={emailValidator} updateFlag={updateState}/>
+            <RequiredTextField placeholder='Password' type={'password'} value={password} onChange={handlePasswordChange} textValidator={passwordValidator} updateFlag={updateState}/>
             <SigninArea>
                 <HorizontalDiv>
                     <Font13Div>
