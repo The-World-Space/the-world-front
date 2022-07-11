@@ -40,11 +40,19 @@ function ChangePasswordForm(): JSX.Element {
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setPasswordError(passwordValidator(password));
-        setPasswordConfirmError(passwordConfirmValidator(passwordConfirm));
 
-        console.log(password);
-    }, [password, passwordValidator, passwordConfirm, passwordConfirmValidator]);
+        const passwordError = passwordValidator(password);
+        const passwordConfirmError = passwordConfirmValidator(password);
+
+        setPasswordError(passwordError);
+        setPasswordConfirmError(passwordConfirmError);
+
+        if (passwordError || passwordConfirmError) {
+            return;
+        }
+
+        console.log('Password changed');
+    }, [password, passwordConfirm, passwordValidator, passwordConfirmValidator]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>

@@ -71,13 +71,22 @@ function RegisterForm(): JSX.Element {
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setUsernameError(usernameValidator(username));
-        setEmailError(emailValidator(email));
-        setPasswordError(passwordValidator(password));
-        setPasswordConfirmError(passwordConfirmValidator(passwordConfirm));
 
-        console.log(username, email, password);
-    }, [username, email, password, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator]);
+        const usernameError = usernameValidator(username);
+        const emailError = emailValidator(email);
+        const passwordError = passwordValidator(password);
+        const passwordConfirmError = passwordConfirmValidator(passwordConfirm);
+        setUsernameError(usernameError);
+        setEmailError(emailError);
+        setPasswordError(passwordError);
+        setPasswordConfirmError(passwordConfirmError);
+
+        if (usernameError || emailError || passwordError || passwordConfirmError) {
+            return;
+        }
+
+        console.log('Registering user');
+    }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>

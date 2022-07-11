@@ -137,8 +137,16 @@ function LoginForm(): JSX.Element {
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setEmailError(emailValidator(email));
-        setPasswordError(passwordValidator(password));
+
+        const emailError = emailValidator(email);
+        const passwordError = passwordValidator(password);
+
+        setEmailError(emailError);
+        setPasswordError(passwordError);
+
+        if (emailError || passwordError) {
+            return;
+        }
 
         console.log(email, password, rememberMe);
     }, [email, password, rememberMe, emailValidator, passwordValidator]);
