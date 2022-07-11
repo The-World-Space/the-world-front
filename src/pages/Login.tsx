@@ -1,39 +1,16 @@
+import {
+    useCallback,
+    useState} from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-    OuterFlexDiv,
-    Button1,
-    StyledLink
-} from '../components/atoms/styled';
-import {
-    useState,
-    useCallback
-} from 'react';
+
 import RequiredTextField from '../components/atoms/RequiredTextField';
-
-// const Logo = styled.img`
-//     width: 100px;
-//     height: 100px;
-//     margin-bottom: 20px;
-
-//     @media (max-width: 768px) {
-//         margin-top: 20px;
-//     }
-// `;
-
-const SigninForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-    width: 500px;
-    background-color: #252729;
-    padding: 20px;
-    box-sizing: border-box;
-
-    @media (max-width: 768px) {
-        width: calc(100% - 40px);
-    }
-`;
+import {
+    Button1,
+    Form1,
+    Logo1,
+    OuterFlexDiv,
+    StyledLink} from '../components/atoms/styled';
 
 const LeftAlign = styled.div`
     display: flex;
@@ -197,7 +174,7 @@ function LoginForm(): JSX.Element {
     }, []);
 
     return (
-        <SigninForm onSubmit={handleSubmit}>
+        <Form1 onSubmit={handleSubmit}>
             <LeftAlign>Sign in to start your session</LeftAlign>
             <RequiredTextField placeholder='Email' value={email} onChange={handleEmailChange} textValidator={emailValidator} />
             <RequiredTextField placeholder='Password' type={'password'} value={password} onChange={handlePasswordChange} textValidator={passwordValidator} />
@@ -213,7 +190,7 @@ function LoginForm(): JSX.Element {
                 </HorizontalDiv>
                 <Button1 type={'submit'}>Sign In</Button1>
             </SigninArea>
-        </SigninForm>
+        </Form1>
     );
 }
 
@@ -242,7 +219,9 @@ function LoginWithSocialForm(): JSX.Element {
 function Login(): JSX.Element {
     return (
         <OuterFlexDiv>
-            {/* <Logo/> */}
+            <Link to={'/'}>
+                <Logo1/>
+            </Link>
             <LoginForm/>
             <RegisterNowDiv>
                 {'Don\'t have an account yet?'} &nbsp;

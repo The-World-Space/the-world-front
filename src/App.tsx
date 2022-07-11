@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Login from './pages/Login';
-import PasswordReset from './pages/PasswordReset';
 import NotFound from './pages/NotFound';
+import PasswordReset from './pages/PasswordReset';
 
 function App(): JSX.Element {
     return (

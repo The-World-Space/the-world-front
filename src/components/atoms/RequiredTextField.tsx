@@ -1,12 +1,12 @@
 import {
-    useState,
+    useCallback,
     useEffect,
-    useCallback
-} from 'react';
+    useState} from 'react';
+import styled from 'styled-components';
+
 import {
     TextInput1
 } from './styled';
-import styled from 'styled-components';
 
 interface ContainerProps {
     width: string;

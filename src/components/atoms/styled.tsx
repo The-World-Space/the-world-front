@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const OuterFlexDiv = styled.div`
     display: flex;
@@ -45,4 +45,29 @@ export const Button1 = styled.button`
 export const StyledLink = styled(Link)`
     text-decoration: none;
     color: #00bcd4;
+`;
+
+export const Form1 = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 500px;
+    background-color: #252729;
+    padding: 20px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        width: calc(100% - 40px);
+    }
+`;
+
+export const Logo1 = styled.img`
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+        margin-top: 20px;
+    }
 `;
