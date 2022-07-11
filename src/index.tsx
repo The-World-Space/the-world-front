@@ -1,8 +1,8 @@
+import { ApolloClient, ApolloProvider,InMemoryCache } from '@apollo/client';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { UserProvider } from './hooks/useUser';
 
 const client = new ApolloClient({

@@ -8,16 +8,11 @@ import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
     InnerFlexForm1,
+    Title1Div,
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
 import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
-
-const TitleDiv = styled.div`
-    font-size: 20px;
-    color: #adadad;
-    margin-bottom: 20px;
-`;
 
 const SubmitButton = styled(Button1)`
     margin-top: 30px;
@@ -53,19 +48,19 @@ function ChangePasswordForm(): JSX.Element {
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
-            <TitleDiv>
+            <Title1Div>
                 Reset Password
-            </TitleDiv>
+            </Title1Div>
             <RequiredTextField
-                type="password"
-                placeholder="Password"
+                type='password'
+                placeholder='Password'
                 value={password}
                 onChange={handlePasswordChange}
                 error={passwordError}
             />
             <RequiredTextField
-                type="password"
-                placeholder="Confirm Password"
+                type='password'
+                placeholder='Confirm Password'
                 value={passwordConfirm}
                 onChange={handlePasswordConfirmChange}
                 error={passwordConfirmError}

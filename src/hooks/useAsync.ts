@@ -1,6 +1,7 @@
 import { DependencyList, useEffect } from 'react';
-import useAsyncFn from './useAsyncFn';
+
 import { FunctionReturningPromise } from './misc/types';
+import useAsyncFn from './useAsyncFn';
 
 export default function useAsync<T extends FunctionReturningPromise>(
     fn: T,

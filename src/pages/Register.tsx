@@ -10,19 +10,14 @@ import {
     InnerFlexForm1,
     LeftAlignDiv,
     PaddingDiv,
-    StyledLink
+    StyledLink,
+    Title1Div
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useEmailValidator from '../hooks/text-validators/useEmailValidator';
 import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
 import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
-
-const TitleDiv = styled.div`
-    font-size: 15px;
-    color: #adadad;
-    margin-bottom: 20px;
-`;
 
 const RegisterButton = styled(Button1)`
     margin-top: 50px;
@@ -86,9 +81,9 @@ function RegisterForm(): JSX.Element {
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
-            <TitleDiv>
+            <Title1Div>
                 Register a new membership
-            </TitleDiv>
+            </Title1Div>
             <RequiredTextField
                 placeholder='Username'
                 value={username}

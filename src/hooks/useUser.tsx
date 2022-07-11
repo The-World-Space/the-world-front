@@ -1,14 +1,13 @@
 import {
-    createContext,
-    useState,
-    useContext,
-    useEffect
-} from 'react';
-
-import {
     gql,
     useQuery
 } from '@apollo/client';
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState
+} from 'react';
 
 export interface User {
     email: string,

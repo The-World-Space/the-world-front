@@ -3,7 +3,8 @@ import {
 } from 'react';
 import {
     Link,
-    useNavigate} from 'react-router-dom';
+    useNavigate
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
@@ -13,7 +14,6 @@ import {
     OuterFlexDiv,
     PaddingDiv
 } from '../components/atoms/styled';
-
 import NavBar from '../components/organisms/NavBar';
 
 const MainFlexDiv = styled(OuterFlexDiv)`

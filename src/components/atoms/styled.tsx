@@ -105,3 +105,9 @@ export const PaddingDiv = styled.div<PaddingDivProps>`
     width: ${props => props.width};
     height: ${props => props.height};
 `;
+
+export const Title1Div = styled.div`
+    font-size: 20px;
+    color: #adadad;
+    margin-bottom: 20px;
+`;

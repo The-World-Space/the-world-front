@@ -16,7 +16,7 @@ function App(): JSX.Element {
                 <Route path='/register' element={<Register />} />
                 <Route path='/password/reset' element={<PasswordReset />} />
                 <Route path='/password/change' element={<ChangePassword />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );

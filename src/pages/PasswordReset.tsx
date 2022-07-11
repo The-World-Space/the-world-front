@@ -2,20 +2,14 @@ import {
     useCallback,
     useState
 } from 'react';
-import styled from 'styled-components';
 
 import {
     Button1,
     InnerFlexForm1,
-    TextInput1
+    TextInput1,
+    Title1Div
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
-
-const TitleDiv = styled.div`
-    font-size: 20px;
-    color: #adadad;
-    margin-bottom: 20px;
-`;
 
 function PasswordResetForm(): JSX.Element {
     const [email, setEmail] = useState('');
@@ -31,9 +25,9 @@ function PasswordResetForm(): JSX.Element {
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
-            <TitleDiv>
+            <Title1Div>
                 Reset Password
-            </TitleDiv>
+            </Title1Div>
             <TextInput1 type='email' placeholder='Email' value={email} onChange={handleEmailChange} />
             <Button1 type='submit'>Send Password Reset Link</Button1>
         </InnerFlexForm1>

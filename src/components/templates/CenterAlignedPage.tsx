@@ -1,11 +1,12 @@
 import {
+    Link
+} from 'react-router-dom';
+
+import {
     Logo1,
     OuterFlexDiv,
     PaddingDiv
 } from '../atoms/styled';
-import {
-    Link
-} from 'react-router-dom';
 
 interface CenterAlignedPageProps {
     children: JSX.Element;

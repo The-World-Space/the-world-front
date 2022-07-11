@@ -1,13 +1,14 @@
+import {
+    useCallback,
+    useEffect,
+    useState
+} from 'react';
 import { 
     Link,
     useNavigate
 } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-    useState,
-    useEffect,
-    useCallback
-} from 'react';
+
 import useDebounce from '../../hooks/useDebounce';
 import MenuButton from '../atoms/MenuButton';
 import { PaddingDiv } from '../atoms/styled';
@@ -167,7 +168,7 @@ function MobileNavBar(): JSX.Element {
                 <NavBarMobileButton>
                     Button3
                 </NavBarMobileButton>
-                <PaddingDiv height="30px"/>
+                <PaddingDiv height='30px'/>
                 <NavBarMobileButton>
                     Sign In
                 </NavBarMobileButton>
