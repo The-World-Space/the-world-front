@@ -1,6 +1,7 @@
 import {
     useCallback,
-    useState} from 'react';
+    useState
+} from 'react';
 import {
     Link
 } from 'react-router-dom';
@@ -11,7 +12,8 @@ import {
     Form1,
     Logo1,
     OuterFlexDiv,
-    TextInput1} from '../components/atoms/styled';
+    TextInput1
+} from '../components/atoms/styled';
 
 const TitleDiv = styled.div`
     font-size: 20px;

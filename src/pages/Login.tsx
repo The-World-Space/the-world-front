@@ -10,9 +10,11 @@ import {
     Form1,
     Logo1,
     OuterFlexDiv,
-    StyledLink} from '../components/atoms/styled';
+    StyledLink,
+    LeftAlignDiv
+} from '../components/atoms/styled';
 
-const LeftAlign = styled.div`
+const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -152,12 +154,6 @@ function LoginForm(): JSX.Element {
             return 'Email is required';
         }
 
-        //regular expression for email validation
-        const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!regex.test(email)) {
-            return 'Email is invalid';
-        }
-
         return null;
     }, []);
 
@@ -166,16 +162,12 @@ function LoginForm(): JSX.Element {
             return 'Password is required';
         }
 
-        if (password.length < 8) {
-            return 'Password must be at least 8 characters';
-        }
-
         return null;
     }, []);
 
     return (
         <Form1 onSubmit={handleSubmit}>
-            <LeftAlign>Sign in to start your session</LeftAlign>
+            <MarginBottomLeftAlignDiv>Sign in to start your session</MarginBottomLeftAlignDiv>
             <RequiredTextField placeholder='Email' value={email} onChange={handleEmailChange} textValidator={emailValidator} />
             <RequiredTextField placeholder='Password' type={'password'} value={password} onChange={handlePasswordChange} textValidator={passwordValidator} />
             <SigninArea>
@@ -203,7 +195,7 @@ function LoginWithSocialForm(): JSX.Element {
 
     return (
         <SignInWithSocialDiv>
-            <LeftAlign>{'Sign in with'}</LeftAlign>
+            <MarginBottomLeftAlignDiv>{'Sign in with'}</MarginBottomLeftAlignDiv>
             <SigninWithGoogleButton>
                 <GoogleLogo src={'/static/GoogleLogo.svg'} />
                 Google

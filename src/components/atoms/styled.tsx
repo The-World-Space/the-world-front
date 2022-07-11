@@ -62,6 +62,21 @@ export const Form1 = styled.form`
     }
 `;
 
+export const Div1 = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 500px;
+    background-color: #252729;
+    padding: 20px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        width: calc(100% - 40px);
+    }
+`;
+
 export const Logo1 = styled.img`
     width: 100px;
     height: 100px;
@@ -70,4 +85,13 @@ export const Logo1 = styled.img`
     @media (max-width: 768px) {
         margin-top: 20px;
     }
+`;
+
+export const LeftAlignDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    color: #adadad;
+    font-size: 13px;
 `;

@@ -1,7 +1,8 @@
 import {
     useCallback,
     useEffect,
-    useState} from 'react';
+    useState
+} from 'react';
 import styled from 'styled-components';
 
 import {
@@ -28,8 +29,13 @@ interface RequiredTextFieldProps {
     height?: string;
 }
 
-const RequiredTextInput = styled(TextInput1)`
+interface RequiredTextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    isError?: boolean;
+}
+
+const RequiredTextInput = styled(TextInput1)<RequiredTextInputProps>`
     margin-bottom: 0px;
+    border: ${ props => props.isError ? '3px solid #ff0000' : '' };
 `;
 
 const IsValidTextDiv = styled.div`
@@ -71,13 +77,6 @@ function RequiredTextField(props: RequiredTextFieldProps): JSX.Element {
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
-
-        if (textValidator) {
-            setErrorMessage(textValidator(e.target.value));
-        } else {
-            
-            setErrorMessage(defaultTextValidator(e.target.value));
-        }
     }, []);
 
     return (
@@ -87,7 +86,7 @@ function RequiredTextField(props: RequiredTextFieldProps): JSX.Element {
                 placeholder={placeholder}
                 value={value}
                 onChange={handleChange}
-                required
+                isError={errorMessage !== null}
             />
             {errorMessage !== null && <IsValidTextDiv>{errorMessage}</IsValidTextDiv>}
             <MarginDiv />
