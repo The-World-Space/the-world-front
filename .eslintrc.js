@@ -18,6 +18,7 @@ module.exports = {
     },
     "plugins": [
         "react",
+        "react-hooks",
         "@typescript-eslint",
         "simple-import-sort"
     ],

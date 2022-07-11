@@ -74,11 +74,9 @@ function RequiredTextField(props: RequiredTextFieldProps): JSX.Element {
 
     useEffect(() => {
         if (isFirstRender) {
-            console.log('isFirstRender');
             setIsFirstRender(false);
             return;
         }
-        console.log('isNotFirstRender');
         const validator = textValidator || defaultTextValidator;
         const error = validator(value);
         setErrorMessage(error);

@@ -2,7 +2,6 @@ import {
     useCallback,
     useState
 } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import RequiredTextField from '../components/atoms/RequiredTextField';
@@ -10,9 +9,9 @@ import {
     Button1,
     Form1,
     LeftAlignDiv,
-    Logo1,
-    OuterFlexDiv,
-    StyledLink} from '../components/atoms/styled';
+    StyledLink
+} from '../components/atoms/styled';
+import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useForceUpdate from '../hooks/useForceUpdate';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
@@ -227,17 +226,16 @@ function LoginWithSocialForm(): JSX.Element {
 
 function Login(): JSX.Element {
     return (
-        <OuterFlexDiv>
-            <Link to={'/'}>
-                <Logo1/>
-            </Link>
-            <LoginForm/>
-            <RegisterNowDiv>
-                {'Don\'t have an account yet?'} &nbsp;
-                <Styled13Link to={'/register'}> Register Now</Styled13Link>
-            </RegisterNowDiv>
-            <LoginWithSocialForm/>
-        </OuterFlexDiv>
+        <CenterAlignedPage>
+            <>
+                <LoginForm/>
+                <RegisterNowDiv>
+                    {'Don\'t have an account yet?'} &nbsp;
+                    <Styled13Link to={'/register'}> Register Now</Styled13Link>
+                </RegisterNowDiv>
+                <LoginWithSocialForm/>
+            </>
+        </CenterAlignedPage>
     );
 }
 

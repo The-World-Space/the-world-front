@@ -2,9 +2,6 @@ import {
     useCallback,
     useState
 } from 'react';
-import {
-    Link
-} from 'react-router-dom';
 import styled from 'styled-components';
 
 import RequiredTextField from '../components/atoms/RequiredTextField';
@@ -12,9 +9,9 @@ import {
     Button1,
     Form1,
     LeftAlignDiv,
-    Logo1,
-    OuterFlexDiv,
-    StyledLink} from '../components/atoms/styled';
+    StyledLink
+} from '../components/atoms/styled';
+import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useForceUpdate from '../hooks/useForceUpdate';
 
 const TitleDiv = styled.div`
@@ -159,12 +156,9 @@ function RegisterForm(): JSX.Element {
 
 function Register(): JSX.Element {
     return (
-        <OuterFlexDiv>
-            <Link to={'/'}>
-                <Logo1/>
-            </Link>
+        <CenterAlignedPage>
             <RegisterForm />
-        </OuterFlexDiv>
+        </CenterAlignedPage>
     );
 }
 

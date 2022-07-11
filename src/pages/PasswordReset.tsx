@@ -2,18 +2,14 @@ import {
     useCallback,
     useState
 } from 'react';
-import {
-    Link
-} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
     Button1,
     Form1,
-    Logo1,
-    OuterFlexDiv,
     TextInput1
 } from '../components/atoms/styled';
+import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 
 const TitleDiv = styled.div`
     font-size: 20px;
@@ -46,12 +42,9 @@ function PasswordResetForm(): JSX.Element {
 
 function PasswordReset(): JSX.Element {
     return (
-        <OuterFlexDiv>
-            <Link to={'/'}>
-                <Logo1/>
-            </Link>
+        <CenterAlignedPage>
             <PasswordResetForm />
-        </OuterFlexDiv>
+        </CenterAlignedPage>
     );
 }
 

@@ -95,3 +95,13 @@ export const LeftAlignDiv = styled.div`
     color: #adadad;
     font-size: 13px;
 `;
+
+interface PaddingDivProps {
+    width?: string;
+    height?: string;
+}
+
+export const PaddingDiv = styled.div<PaddingDivProps>`
+    width: ${props => props.width};
+    height: ${props => props.height};
+`;

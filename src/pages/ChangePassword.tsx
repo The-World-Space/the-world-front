@@ -2,18 +2,14 @@ import {
     useCallback,
     useState
 } from 'react';
-import {
-    Link
-} from 'react-router-dom';
 import styled from 'styled-components';
 
 import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
     Button1,
     Form1,
-    Logo1,
-    OuterFlexDiv
 } from '../components/atoms/styled';
+import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useForceUpdate from '../hooks/useForceUpdate';
 
 const TitleDiv = styled.div`
@@ -99,12 +95,9 @@ function ChangePasswordForm(): JSX.Element {
 
 function ChangePassword(): JSX.Element {
     return (
-        <OuterFlexDiv>
-            <Link to={'/'}>
-                <Logo1/>
-            </Link>
+        <CenterAlignedPage>
             <ChangePasswordForm />
-        </OuterFlexDiv>
+        </CenterAlignedPage>
     );
 }
 

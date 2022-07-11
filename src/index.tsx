@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { UserProvider } from './hooks/useUser';
 
 const client = new ApolloClient({
     uri: 'https://flyby-gateway.herokuapp.com/',
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <App />
+            <UserProvider>
+                <App />
+            </UserProvider>
         </ApolloProvider>
     </React.StrictMode>
 );

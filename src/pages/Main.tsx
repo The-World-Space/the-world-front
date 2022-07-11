@@ -10,7 +10,15 @@ import {
     Button1,
     Div1,
     Logo1,
-    OuterFlexDiv} from '../components/atoms/styled';
+    OuterFlexDiv,
+    PaddingDiv
+} from '../components/atoms/styled';
+
+import NavBar from '../components/organisms/NavBar';
+
+const MainFlexDiv = styled(OuterFlexDiv)`
+    justify-content: flex-start;
+`;
 
 const Container = styled(Div1)`
     padding: 0px 15px;
@@ -40,7 +48,9 @@ function Main(): JSX.Element {
     }, [navigate]);
 
     return (
-        <OuterFlexDiv>
+        <MainFlexDiv>
+            <NavBar/>
+            <PaddingDiv height='100px'/>
             <Link to={'/'}>
                 <Logo1/>
             </Link>
@@ -50,7 +60,7 @@ function Main(): JSX.Element {
                 <PaddedButton onClick={handlePasswordResetClick}>Password Reset</PaddedButton>
                 <PaddedButton onClick={handlePasswordChangeClick}>Change Password</PaddedButton>
             </Container>
-        </OuterFlexDiv>
+        </MainFlexDiv>
     );
 }
 
