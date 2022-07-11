@@ -12,7 +12,7 @@ import {
     StyledLink
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
-import useForceUpdate from '../hooks/useForceUpdate';
+import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
@@ -129,18 +129,25 @@ const GoogleLogo = styled.img`
 
 function LoginForm(): JSX.Element {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
+    const [emailError, setEmailError] = useState<string|null>(null);
 
-    const [updateState, setUpdateState] = useForceUpdate();
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState<string|null>(null);
+
+    const [rememberMe, setRememberMe] = useState(false);
+    
+    const emailValidator = useRequiredValidator('Email is required');
+    const passwordValidator = useRequiredValidator('Password is required');
 
     const handleEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-    }, [setEmail]);
+        setEmailError(emailValidator(event.target.value));
+    }, [setEmail, setEmailError, emailValidator]);
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    }, [setPassword]);
+        setPasswordError(passwordValidator(event.target.value));
+    }, [setPassword, setPasswordError, passwordValidator]);
 
     const handleRememberMeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setRememberMe(event.target.checked);
@@ -148,25 +155,11 @@ function LoginForm(): JSX.Element {
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setEmailError(emailValidator(email));
+        setPasswordError(passwordValidator(password));
+        
         console.log(email, password, rememberMe);
-        setUpdateState();
-    }, [email, password, rememberMe, setUpdateState]);
-
-    const emailValidator = useCallback((email: string): string|null => {
-        if (email.length === 0) {
-            return 'Email is required';
-        }
-
-        return null;
-    }, []);
-
-    const passwordValidator = useCallback((password: string): string|null => {
-        if (password.length === 0) {
-            return 'Password is required';
-        }
-
-        return null;
-    }, []);
+    }, [email, password, rememberMe, emailValidator, passwordValidator]);
 
     return (
         <Form1 onSubmit={handleSubmit}>
@@ -175,16 +168,14 @@ function LoginForm(): JSX.Element {
                 placeholder='Email'
                 value={email}
                 onChange={handleEmailChange}
-                textValidator={emailValidator}
-                updateFlag={updateState}
+                error={emailError}
             />
             <RequiredTextField
                 placeholder='Password'
                 type={'password'}
                 value={password}
                 onChange={handlePasswordChange}
-                textValidator={passwordValidator}
-                updateFlag={updateState}
+                error={passwordError}
             />
             <SigninArea>
                 <HorizontalDiv>

@@ -13,7 +13,10 @@ import {
     StyledLink
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
-import useForceUpdate from '../hooks/useForceUpdate';
+import useEmailValidator from '../hooks/text-validators/useEmailValidator';
+import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
+import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
+import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 
 const TitleDiv = styled.div`
     font-size: 15px;
@@ -35,79 +38,51 @@ const MarginTopLeftAlignDiv = styled(LeftAlignDiv)`
 
 function RegisterForm(): JSX.Element {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [usernameError, setUsernameError] = useState<string|null>(null);
 
-    const [updateState, setUpdateState] = useForceUpdate();
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState<string|null>(null);
+
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState<string|null>(null);
+
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [passwordConfirmError, setPasswordConfirmError] = useState<string|null>(null);
+
+    const usernameValidator = useRequiredValidator('Username must be at least 1 characters long');
+    const emailValidator = useEmailValidator();
+    const passwordValidator = usePasswordValidator();
+    const passwordConfirmValidator = usePasswordConfirmValidator(password);
 
     const handleUsernameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
-    }, [setUsername]);
+        setUsernameError(usernameValidator(event.target.value));
+    }, [setUsername, setUsernameError, usernameValidator]);
 
     const handleEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-    }, [setEmail]);
+        setEmailError(emailValidator(event.target.value));
+    }, [setEmail, setEmailError, emailValidator]);
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    }, [setPassword]);
+        setPasswordError(passwordValidator(event.target.value));
+    }, [setPassword, setPasswordError, passwordValidator]);
 
     const handlePasswordConfirmChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordConfirm(event.target.value);
-    }, [setPasswordConfirm]);
+        setPasswordConfirmError(passwordConfirmValidator(event.target.value));
+    }, [setPasswordConfirm, setPasswordConfirmError, passwordConfirmValidator]);
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setUpdateState();
+        setUsernameError(usernameValidator(username));
+        setEmailError(emailValidator(email));
+        setPasswordError(passwordValidator(password));
+        setPasswordConfirmError(passwordConfirmValidator(passwordConfirm));
+
         console.log(username, email, password);
-    }, [username, email, password, setUpdateState]);
-
-    const usernameValidator = useCallback((value: string): string|null => {
-        if (value.length < 1) {
-            return 'Username must be at least 1 characters long';
-        }
-
-        return null;
-    }, []);
-
-    const emailValidator = useCallback((email: string): string|null => {
-        if (email.length === 0) {
-            return 'Email is required';
-        }
-
-        //regular expression for email validation
-        const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!regex.test(email)) {
-            return 'Email is invalid';
-        }
-
-        return null;
-    }, []);
-
-    const passwordValidator = useCallback((password: string): string|null => {
-        if (password.length === 0) {
-            return 'Password is required';
-        }
-
-        if (password.length < 8) {
-            return 'Password must be at least 8 characters';
-        }
-
-        return null;
-    }, []);
-
-    const passwordConfirmValidator = useCallback((passwordConfirm: string): string|null => {
-        if (passwordConfirm.length === 0) {
-            return 'Password confirmation is required';
-        }
-
-        if (passwordConfirm !== password) {
-            return 'Password confirmation does not match';
-        }
-
-        return null;
-    }, [password]);
+    }, [username, email, password, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator]);
 
     return (
         <Form1 onSubmit={handleSubmit}>
@@ -118,16 +93,14 @@ function RegisterForm(): JSX.Element {
                 placeholder='Username'
                 value={username}
                 onChange={handleUsernameChange}
-                textValidator={usernameValidator}
-                updateFlag={updateState}
+                error={usernameError}
             />
             <RequiredTextField
                 type='email'
                 placeholder='Email'
                 value={email}
                 onChange={handleEmailChange}
-                textValidator={emailValidator}
-                updateFlag={updateState}
+                error={emailError}
             />
             <PaddingDiv height='20px'/>
             <RequiredTextField
@@ -135,16 +108,14 @@ function RegisterForm(): JSX.Element {
                 placeholder='Password'
                 value={password}
                 onChange={handlePasswordChange}
-                textValidator={passwordValidator}
-                updateFlag={updateState}
+                error={passwordError}
             />
             <RequiredTextField
                 type='password'
                 placeholder='Confirm Password'
                 value={passwordConfirm}
                 onChange={handlePasswordConfirmChange}
-                textValidator={passwordConfirmValidator}
-                updateFlag={updateState}
+                error={passwordConfirmError}
             />
             <RegisterButton type='submit'>Register</RegisterButton>
             <MarginTopLeftAlignDiv>

@@ -10,7 +10,8 @@ import {
     Form1,
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
-import useForceUpdate from '../hooks/useForceUpdate';
+import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
+import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
 
 const TitleDiv = styled.div`
     font-size: 20px;
@@ -24,48 +25,31 @@ const SubmitButton = styled(Button1)`
 
 function ChangePasswordForm(): JSX.Element {
     const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [passwordError, setPasswordError] = useState<string|null>(null);
 
-    const [updateState, setUpdateState] = useForceUpdate();
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [passwordConfirmError, setPasswordConfirmError] = useState<string|null>(null);
+    
+    const passwordValidator = usePasswordValidator();
+    const passwordConfirmValidator = usePasswordConfirmValidator(password);
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    }, [setPassword]);
+        setPasswordError(passwordValidator(event.target.value));
+    }, [setPassword, setPasswordError, passwordValidator]);
 
     const handlePasswordConfirmChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordConfirm(event.target.value);
-    }, [setPasswordConfirm]);
-
-    
-    const passwordValidator = useCallback((password: string): string|null => {
-        if (password.length === 0) {
-            return 'Password is required';
-        }
-
-        if (password.length < 8) {
-            return 'Password must be at least 8 characters';
-        }
-
-        return null;
-    }, []);
-
-    const passwordConfirmValidator = useCallback((passwordConfirm: string): string|null => {
-        if (passwordConfirm.length === 0) {
-            return 'Password confirmation is required';
-        }
-
-        if (passwordConfirm !== password) {
-            return 'Password confirmation does not match';
-        }
-
-        return null;
-    }, [password]);
+        setPasswordConfirmError(passwordConfirmValidator(event.target.value));
+    }, [setPasswordConfirm, setPasswordConfirmError, passwordConfirmValidator]);
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setUpdateState();
+        setPasswordError(passwordValidator(password));
+        setPasswordConfirmError(passwordConfirmValidator(passwordConfirm));
+
         console.log(password);
-    }, [password, setUpdateState]);
+    }, [password, passwordValidator, passwordConfirm, passwordConfirmValidator]);
 
     return (
         <Form1 onSubmit={handleSubmit}>
@@ -77,16 +61,14 @@ function ChangePasswordForm(): JSX.Element {
                 placeholder="Password"
                 value={password}
                 onChange={handlePasswordChange}
-                textValidator={passwordValidator}
-                updateFlag={updateState}
+                error={passwordError}
             />
             <RequiredTextField
                 type="password"
                 placeholder="Confirm Password"
                 value={passwordConfirm}
                 onChange={handlePasswordConfirmChange}
-                textValidator={passwordConfirmValidator}
-                updateFlag={updateState}
+                error={passwordConfirmError}
             />
             <SubmitButton type='submit'>Change Password</SubmitButton>
         </Form1>

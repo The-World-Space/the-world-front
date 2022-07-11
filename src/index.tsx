@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { UserProvider } from './hooks/useUser';
 
 const client = new ApolloClient({
-    uri: 'https://flyby-gateway.herokuapp.com/',
+    uri: 'http://lunuy.com:3000/graphql',
     cache: new InMemoryCache(),  
 });
 
