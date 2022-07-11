@@ -82,11 +82,11 @@ function RequiredTextField(props: RequiredTextFieldProps): JSX.Element {
         const validator = textValidator || defaultTextValidator;
         const error = validator(value);
         setErrorMessage(error);
-    }, [value, textValidator, setErrorMessage, updateFlag]);
+    }, [value, textValidator, setErrorMessage, setIsFirstRender, updateFlag]);
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
-    }, []);
+    }, [onChange]);
 
     return (
         <Container width={width ?? '100%'} height={height ?? 'auto'}>

@@ -14,6 +14,7 @@ import {
     Logo1,
     OuterFlexDiv
 } from '../components/atoms/styled';
+import useForceUpdate from '../hooks/useForceUpdate';
 
 const TitleDiv = styled.div`
     font-size: 20px;
@@ -28,6 +29,8 @@ const SubmitButton = styled(Button1)`
 function ChangePasswordForm(): JSX.Element {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+
+    const [updateState, setUpdateState] = useForceUpdate();
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -64,16 +67,31 @@ function ChangePasswordForm(): JSX.Element {
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setUpdateState();
         console.log(password);
-    }, [password]);
+    }, [password, setUpdateState]);
 
     return (
         <Form1 onSubmit={handleSubmit}>
             <TitleDiv>
                 Reset Password
             </TitleDiv>
-            <RequiredTextField type="password" placeholder="Password" value={password} onChange={handlePasswordChange} textValidator={passwordValidator}/>
-            <RequiredTextField type="password" placeholder="Confirm Password" value={passwordConfirm} onChange={handlePasswordConfirmChange} textValidator={passwordConfirmValidator}/>
+            <RequiredTextField
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={handlePasswordChange}
+                textValidator={passwordValidator}
+                updateFlag={updateState}
+            />
+            <RequiredTextField
+                type="password"
+                placeholder="Confirm Password"
+                value={passwordConfirm}
+                onChange={handlePasswordConfirmChange}
+                textValidator={passwordConfirmValidator}
+                updateFlag={updateState}
+            />
             <SubmitButton type='submit'>Change Password</SubmitButton>
         </Form1>
     );

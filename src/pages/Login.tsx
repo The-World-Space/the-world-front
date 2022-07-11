@@ -172,8 +172,21 @@ function LoginForm(): JSX.Element {
     return (
         <Form1 onSubmit={handleSubmit}>
             <MarginBottomLeftAlignDiv>Sign in to start your session</MarginBottomLeftAlignDiv>
-            <RequiredTextField placeholder='Email' value={email} onChange={handleEmailChange} textValidator={emailValidator} updateFlag={updateState}/>
-            <RequiredTextField placeholder='Password' type={'password'} value={password} onChange={handlePasswordChange} textValidator={passwordValidator} updateFlag={updateState}/>
+            <RequiredTextField
+                placeholder='Email'
+                value={email}
+                onChange={handleEmailChange}
+                textValidator={emailValidator}
+                updateFlag={updateState}
+            />
+            <RequiredTextField
+                placeholder='Password'
+                type={'password'}
+                value={password}
+                onChange={handlePasswordChange}
+                textValidator={passwordValidator}
+                updateFlag={updateState}
+            />
             <SigninArea>
                 <HorizontalDiv>
                     <Font13Div>

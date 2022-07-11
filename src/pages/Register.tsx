@@ -15,6 +15,7 @@ import {
     Logo1,
     OuterFlexDiv,
     StyledLink} from '../components/atoms/styled';
+import useForceUpdate from '../hooks/useForceUpdate';
 
 const TitleDiv = styled.div`
     font-size: 15px;
@@ -40,6 +41,8 @@ function RegisterForm(): JSX.Element {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
+    const [updateState, setUpdateState] = useForceUpdate();
+
     const handleUsernameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
     }, [setUsername]);
@@ -58,8 +61,9 @@ function RegisterForm(): JSX.Element {
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setUpdateState();
         console.log(username, email, password);
-    }, [username, email, password]);
+    }, [username, email, password, setUpdateState]);
 
     const usernameValidator = useCallback((value: string): string|null => {
         if (value.length < 1) {
@@ -117,6 +121,7 @@ function RegisterForm(): JSX.Element {
                 value={username}
                 onChange={handleUsernameChange}
                 textValidator={usernameValidator}
+                updateFlag={updateState}
             />
             <RequiredTextField
                 type='email'
@@ -124,6 +129,7 @@ function RegisterForm(): JSX.Element {
                 value={email}
                 onChange={handleEmailChange}
                 textValidator={emailValidator}
+                updateFlag={updateState}
             />
             <RequiredTextField
                 type='password'
@@ -131,6 +137,7 @@ function RegisterForm(): JSX.Element {
                 value={password}
                 onChange={handlePasswordChange}
                 textValidator={passwordValidator}
+                updateFlag={updateState}
             />
             <RequiredTextField
                 type='password'
@@ -138,6 +145,7 @@ function RegisterForm(): JSX.Element {
                 value={passwordConfirm}
                 onChange={handlePasswordConfirmChange}
                 textValidator={passwordConfirmValidator}
+                updateFlag={updateState}
             />
             <RegisterButton type='submit'>Register</RegisterButton>
             <MarginTopLeftAlignDiv>
