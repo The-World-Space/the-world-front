@@ -6,7 +6,8 @@ export const LIGHT_THEME = {
         primary: '#fdfdfd',
         secondary: '#eee',
         tertiary: '#f5f5f5',
-        inverse: '#000',
+        backgroundInverse: '#000',
+        primaryInverse: '#111',
 
         textRegular: '#000',
         textLight: '#666',
@@ -31,7 +32,8 @@ export const DARK_THEME = {
         primary: '#151515',
         secondary: '#232323',
         tertiary: '#090909',
-        inverse: '#fff',
+        backgroundInverse: '#fff',
+        primaryInverse: '#eee',
         
 
         textRegular: '#000',

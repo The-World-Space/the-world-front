@@ -48,7 +48,7 @@ export const TextInput1 = styled.input`
     height: 35px;
     border: none;
     font-size: 15px;
-    color: ${props => props.theme.colors.textRegular};
+    color: ${props => props.theme.colors.primaryInverse};
     background-color: ${props => props.theme.colors.background};
     margin-bottom: 20px;
     box-sizing: border-box;

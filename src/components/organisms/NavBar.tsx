@@ -58,7 +58,7 @@ const NavBarButton = styled.button`
     padding: 0px 10px;
 
     background-color: rgba(255, 255, 255, 0);
-    color: ${props => props.theme.colors.inverse};
+    color: ${props => props.theme.colors.backgroundInverse};
 
     &:hover {
         color: ${props => props.theme.colors.buttonHover};
