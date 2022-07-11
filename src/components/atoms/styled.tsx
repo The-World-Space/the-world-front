@@ -10,7 +10,7 @@ export const OuterFlexDiv = styled.div`
     height: 100%;
     width: 100%;
     min-height: 500px;
-    background-color: #111111;
+    background-color: ${props => props.theme.colors.background};
 `;
 
 export const InnerFlexForm1 = styled.form`
@@ -19,7 +19,7 @@ export const InnerFlexForm1 = styled.form`
     align-items: center;
     justify-content: start;
     width: 500px;
-    background-color: #252729;
+    background-color: ${props => props.theme.colors.secondary};
     padding: 20px;
     box-sizing: border-box;
 
@@ -34,7 +34,7 @@ export const InnerFlexDiv1 = styled.div`
     align-items: center;
     justify-content: start;
     width: 500px;
-    background-color: #252729;
+    background-color: ${props => props.theme.colors.secondary};
     padding: 20px;
     box-sizing: border-box;
 
@@ -48,8 +48,8 @@ export const TextInput1 = styled.input`
     height: 35px;
     border: none;
     font-size: 15px;
-    color: black;
-    background-color: white;
+    color: ${props => props.theme.colors.textRegular};
+    background-color: ${props => props.theme.colors.background};
     margin-bottom: 20px;
     box-sizing: border-box;
     padding: 0 10px;
@@ -59,23 +59,31 @@ export const Button1 = styled.button`
     width: 100%;
     height: 50px;
     border: none;
-    background-color: #00bcd4;
-    color: white;
+    background-color: ${props => props.theme.colors.button};
+    color: ${props => props.theme.colors.textLightest};
     font-size: 15px;
     padding: 0;
 
     &:hover {
-        background-color: #00b0d0;
+        background-color: ${props => props.theme.colors.buttonHover};
     }
 
     &:active {
-        background-color: #0097a7;
+        background-color: ${props => props.theme.colors.buttonActive};
     }
 `;
 
 export const StyledLink = styled(Link)`
     text-decoration: none;
-    color: #00bcd4;
+    color: ${props => props.theme.colors.link};
+
+    :hover {
+        color: ${props => props.theme.colors.linkHover};
+    }
+
+    &:active {
+        color: ${props => props.theme.colors.linkActive};
+    }
 `;
 
 export const Logo1 = styled.img`
@@ -93,7 +101,6 @@ export const LeftAlignDiv = styled.div`
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    color: #adadad;
     font-size: 13px;
 `;
 
@@ -109,6 +116,6 @@ export const PaddingDiv = styled.div<PaddingDivProps>`
 
 export const Title1Div = styled.div`
     font-size: 20px;
-    color: #adadad;
+    color: ${props => props.theme.colors.textLight};
     margin-bottom: 20px;
 `;

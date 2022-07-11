@@ -12,7 +12,7 @@ interface BarProps extends React.HTMLAttributes<HTMLDivElement> {
 const MenuButtonBarDiv = styled.div`
     width: 35px;
     height: 3px;
-    background-color: #bbb;
+    background-color: ${props => props.theme.colors.textRegular};
     margin: 6px 0;
     transition: 0.4s;
 `;

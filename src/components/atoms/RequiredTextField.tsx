@@ -35,11 +35,11 @@ interface RequiredTextInputProps extends React.InputHTMLAttributes<HTMLInputElem
 
 const RequiredTextInput = styled(TextInput1)<RequiredTextInputProps>`
     margin-bottom: 0px;
-    border: ${ props => props.isError ? '3px solid #ff0000' : '' };
+    border: ${ props => props.isError ? `1px solid ${props.theme.colors.error}` : '' };
 `;
 
 const IsValidTextDiv = styled.div`
-    color: #ff3535;
+    color: ${props => props.theme.colors.error};
     font-size: 14px;
     margin-top: 3px;
 `;

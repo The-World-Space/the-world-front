@@ -21,7 +21,7 @@ const NavBarOuterDiv = styled.div`
     padding: 0px 20px;
     height: 60px;
     width: 100%;
-    background-color: #272727;
+    background-color: ${props => props.theme.colors.secondary};
     box-sizing: border-box;
 
     position: relative;
@@ -58,15 +58,15 @@ const NavBarButton = styled.button`
     padding: 0px 10px;
 
     background-color: rgba(255, 255, 255, 0);
-    color: white;
+    color: ${props => props.theme.colors.inverse};
 
     &:hover {
-        color: #00bcd4;
+        color: ${props => props.theme.colors.buttonHover};
         background-color: rgba(255, 255, 255, 0.1);
     }
 
     &:active {
-        color: #00bcd4;
+        color: ${props => props.theme.colors.buttonActive};
         background-color: rgba(255, 255, 255, 0.2);
     }
 
@@ -158,7 +158,7 @@ const MobileNavBarPanelDiv = styled.div<MobileNavBarPanelDivProps>`
     top: 60px;
     width: 100%;
 
-    background-color: #272727;
+    background-color: ${props => props.theme.colors.secondary};
     transition: 0.3s;
     transform: ${props => props.isOpen ? 'translateY(0%)' : 'translateY(-100%)'};
 `;

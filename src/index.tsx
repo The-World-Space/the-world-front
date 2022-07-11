@@ -6,6 +6,9 @@ import App from './App';
 import { API_URL } from './constants/apolloClient';
 import { UserProvider } from './hooks/useUser';
 
+import { ThemeProvider } from 'styled-components';
+import { DARK_THEME, LIGHT_THEME } from './constants/css';
+
 const client = new ApolloClient({
     uri: API_URL,
     cache: new InMemoryCache(),  
@@ -18,7 +21,9 @@ root.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
             <UserProvider>
-                <App />
+                <ThemeProvider theme={DARK_THEME || LIGHT_THEME}>
+                    <App />
+                </ThemeProvider>
             </UserProvider>
         </ApolloProvider>
     </React.StrictMode>

@@ -21,8 +21,9 @@ const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     align-items: flex-start;
     width: 100%;
     margin-bottom: 18px;
-    color: #adadad;
     font-size: 13px;
+
+    color: ${props => props.theme.colors.textLighter};
 `;
 
 const SigninAreaDiv = styled.div`
@@ -45,7 +46,7 @@ const HorizontalDiv = styled.div`
 
 const Font13Div = styled.div`
     font-size: 13px;
-    color: #adadad;
+    color: ${props => props.theme.colors.textLight};
 `;
 
 const Styled13Link = styled(StyledLink)`
@@ -59,13 +60,14 @@ const Checkbox = styled.input`
     padding: 0;
     margin: 0;
     margin-right: 5px;
+    background-color: ${props => props.theme.colors.background};
 `;
 
 const RegisterNowDiv = styled(InnerFlexDiv1)`
     flex-direction: row;
     align-items: start;
     padding: 18px 20px;
-    color: #adadad;
+    color: ${props => props.theme.colors.textLight};
     background-color: transparent;
     font-size: 13px;
 `;
@@ -73,18 +75,17 @@ const RegisterNowDiv = styled(InnerFlexDiv1)`
 const SignInWithSocialDiv = styled(InnerFlexDiv1)`
     align-items: start;
     padding: 18px 20px;
-    color: #adadad;
 `;
 
 const SigninWithGoogleButton = styled(Button1)`
-    background-color: #c4ebff;
+    background-color: ${props => props.theme.colors.primary};
 
     &:hover {
-        background-color: #b2e5ff;
+        background-color: ${props => props.theme.colors.background};
     }
 
     &:active {
-        background-color: #7ed4ff;
+        background-color: ${props => props.theme.colors.tertiary};
     }
 
     margin-bottom: 10px;
@@ -96,7 +97,7 @@ const SigninWithGoogleButton = styled(Button1)`
 
     padding: 0px 40px;
 
-    color: #252729;
+    color: ${props => props.theme.colors.textLightest};
 
     position: relative;
 `;
