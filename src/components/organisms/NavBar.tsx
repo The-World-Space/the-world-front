@@ -8,6 +8,7 @@ import {
     useNavigate
 } from 'react-router-dom';
 import styled from 'styled-components';
+import { MEDIA_MAX_WIDTH } from '../../constants/css';
 
 import useDebounce from '../../hooks/useDebounce';
 import MenuButton from '../atoms/MenuButton';
@@ -69,7 +70,7 @@ const NavBarButton = styled.button`
         background-color: rgba(255, 255, 255, 0.2);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
         height: 50px;
         width: 100%;
 
@@ -87,7 +88,7 @@ const UserInfoDiv = styled.div`
     align-items: center;
     height: 100%;
     
-    @media (max-width: 768px) {
+    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
         height: 50px;
         width: 100%;
     }
@@ -193,7 +194,7 @@ function NavBar(): JSX.Element {
     const [debouncedIsMobile, setDebouncedIsMobile] = useState(false);
 
     const handleResize = useCallback(() => {
-        setIsMobile(window.innerWidth < 768);
+        setIsMobile(window.innerWidth < MEDIA_MAX_WIDTH);
     }, [setIsMobile]);
 
     useDebounce(() => {
@@ -201,7 +202,7 @@ function NavBar(): JSX.Element {
     }, 500, [isMobile, setDebouncedIsMobile]);
 
     useEffect(() => {
-        setDebouncedIsMobile(window.innerWidth < 768);
+        setDebouncedIsMobile(window.innerWidth < MEDIA_MAX_WIDTH);
         handleResize();
 
         window.addEventListener('resize', handleResize);

@@ -3,10 +3,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
+import { API_URL } from './constants/apolloClient';
 import { UserProvider } from './hooks/useUser';
 
 const client = new ApolloClient({
-    uri: 'http://lunuy.com:3000/graphql',
+    uri: API_URL,
     cache: new InMemoryCache(),  
 });
 

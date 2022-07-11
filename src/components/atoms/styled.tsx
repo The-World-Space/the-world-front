@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { MEDIA_MAX_WIDTH } from '../../constants/css';
 
 export const OuterFlexDiv = styled.div`
     display: flex;
@@ -22,7 +23,7 @@ export const InnerFlexForm1 = styled.form`
     padding: 20px;
     box-sizing: border-box;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
         width: calc(100% - 40px);
     }
 `;
@@ -37,7 +38,7 @@ export const InnerFlexDiv1 = styled.div`
     padding: 20px;
     box-sizing: border-box;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
         width: calc(100% - 40px);
     }
 `;
@@ -82,7 +83,7 @@ export const Logo1 = styled.img`
     height: 100px;
     margin-bottom: 20px;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
         margin-top: 20px;
     }
 `;
