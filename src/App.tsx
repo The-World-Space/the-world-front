@@ -1,13 +1,15 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import Welcome from './pages/Welcome';
+import Login from './pages/Login';
+import PasswordReset from './pages/PasswordReset';
 import NotFound from './pages/NotFound';
 
 function App(): JSX.Element {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/welcome' element={<Welcome />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/password/reset' element={<PasswordReset />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
