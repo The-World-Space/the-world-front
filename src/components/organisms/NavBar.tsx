@@ -68,6 +68,17 @@ const NavBarButton = styled.button`
         color: #00bcd4;
         background-color: rgba(255, 255, 255, 0.2);
     }
+
+    @media (max-width: 768px) {
+        height: 50px;
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        padding: 0px 40px;
+    }
 `;
 
 const UserInfoDiv = styled.div`
@@ -75,9 +86,30 @@ const UserInfoDiv = styled.div`
     justify-content: flex-end;
     align-items: center;
     height: 100%;
+    
+    @media (max-width: 768px) {
+        height: 50px;
+        width: 100%;
+    }
 `;
 
-function PcNavBar(): JSX.Element {
+function LeftNavBarButtons(): JSX.Element {
+    return (
+        <>
+            <NavBarButton>
+                Button1
+            </NavBarButton>
+            <NavBarButton>
+                Button2
+            </NavBarButton>
+            <NavBarButton>
+                Button3
+            </NavBarButton>
+        </>
+    );
+}
+
+function RightNavbarButtons(): JSX.Element {
     const navigate = useNavigate();
 
     const handleLoginClick = useCallback(() => {
@@ -85,27 +117,27 @@ function PcNavBar(): JSX.Element {
     }, [navigate]);
 
     return (
+        <>
+            <UserInfoDiv>
+                <NavBarButton onClick={handleLoginClick}>
+                    Sign In
+                </NavBarButton>
+            </UserInfoDiv>
+        </>
+    );
+}
+
+function PcNavBar(): JSX.Element {
+    return (
         <NavBarOuterDiv>
             <NavBarLeftDiv>
                 <Link to={'/'}>
                     <NavBarLogo/>
                 </Link>
-                <NavBarButton>
-                    Button1
-                </NavBarButton>
-                <NavBarButton>
-                    Button2
-                </NavBarButton>
-                <NavBarButton>
-                    Button3
-                </NavBarButton>
+                <LeftNavBarButtons/>
             </NavBarLeftDiv>
             <NavBarRightDiv>
-                <UserInfoDiv>
-                    <NavBarButton onClick={handleLoginClick}>
-                        Sign In
-                    </NavBarButton>
-                </UserInfoDiv>
+                <RightNavbarButtons/>
             </NavBarRightDiv>
         </NavBarOuterDiv>
     );
@@ -130,17 +162,6 @@ const MobileNavBarPanelDiv = styled.div<MobileNavBarPanelDivProps>`
     transform: ${props => props.isOpen ? 'translateY(0%)' : 'translateY(-100%)'};
 `;
 
-const NavBarMobileButton = styled(NavBarButton)`
-    height: 50px;
-    width: 100%;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    padding: 0px 40px;
-`;
-
 function MobileNavBar(): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -159,19 +180,9 @@ function MobileNavBar(): JSX.Element {
                 </NavBarRightDiv>
             </NavBarOuterDiv>
             <MobileNavBarPanelDiv isOpen={isOpen}>
-                <NavBarMobileButton>
-                    Button1
-                </NavBarMobileButton>
-                <NavBarMobileButton>
-                    Button2
-                </NavBarMobileButton>
-                <NavBarMobileButton>
-                    Button3
-                </NavBarMobileButton>
+                <LeftNavBarButtons/>
                 <PaddingDiv height='30px'/>
-                <NavBarMobileButton>
-                    Sign In
-                </NavBarMobileButton>
+                <RightNavbarButtons/>
             </MobileNavBarPanelDiv>
         </>
     );
