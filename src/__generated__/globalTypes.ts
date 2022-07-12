@@ -8,9 +8,9 @@
 //==============================================================
 
 export interface LocalUserInput {
-  email: string;
   password: string;
   username: string;
+  emailToken: string;
 }
 
 //==============================================================

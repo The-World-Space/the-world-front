@@ -92,7 +92,7 @@ function RegisterForm(): JSX.Element {
         if (usernameError || emailError || passwordError || passwordConfirmError) {
             return;
         }
-
+        
         apolloClient.mutate<GqlType.Register, GqlType.RegisterVariables>({
             mutation: gql`
                 mutation Register($user: LocalUserInput!) {
@@ -109,9 +109,7 @@ function RegisterForm(): JSX.Element {
                 }
             }
         });
-        
-        console.log('Registering user');
-    }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator]);
+    }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator, apolloClient]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
