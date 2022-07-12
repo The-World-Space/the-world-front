@@ -1,0 +1,26 @@
+{
+    "name": "codegen",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "start": "ts-node ./index.ts",
+        "lint": "eslint --fix --ext .js,.ts,.tsx src",
+        "download-schema": "apollo service:download --endpoint=http://lunuy.com:3000/graphql graphql-schema.json",
+        "codegen": "npm run download-schema && apollo codegen:generate --localSchemaFile=graphql-schema.json,client-schema.graphql --target=typescript --tagName=gql"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "graphql": "^16.5.0",
+        "ts-node": "^10.8.2",
+        "typescript": "^4.7.4"
+    },
+    "resolutions": {
+        "graphql": "^16.5.0"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.30.6",
+        "@typescript-eslint/parser": "^5.30.6",
+        "eslint": "^8.19.0"
+    }
+}

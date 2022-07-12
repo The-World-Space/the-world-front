@@ -34,7 +34,6 @@ export const DARK_THEME = {
         tertiary: '#090909',
         backgroundInverse: '#fff',
         primaryInverse: '#eee',
-        
 
         textRegular: '#000',
         textLight: 'rgb(168, 160, 149)',

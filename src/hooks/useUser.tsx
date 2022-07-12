@@ -1,6 +1,6 @@
 import {
     gql,
-    useQuery
+    useApolloClient
 } from '@apollo/client';
 import {
     createContext,
@@ -31,18 +31,25 @@ interface UserProviderProps {
 export function UserProvider({ children }: UserProviderProps): JSX.Element {
     const [user, setUser] = useState<User|null>(null);
 
-    const { data } = useQuery<{ currentUser: User }>(gql`
-        query getUser {
-            currentUser {
-                email,
-                username
-            }
-        }
-    `);
+    const client = useApolloClient();
 
     useEffect(() => {
-        setUser(data?.currentUser ?? null);
-    }, [data]);
+        (() => {
+            client.query({
+                query: gql`
+                    query getUser {
+                        currentUser {
+                            username
+                        }
+                    }
+                `
+            });
+        });
+    }, [client]);
+
+    // useEffect(() => {
+    //     setUser(data?.currentUser ?? null);
+    // }, [data]);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

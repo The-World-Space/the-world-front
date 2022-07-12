@@ -18,6 +18,10 @@ import useEmailValidator from '../hooks/text-validators/useEmailValidator';
 import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
 import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
+import {
+    gql,
+    useApolloClient
+} from '@apollo/client';
 
 const RegisterButton = styled(Button1)`
     margin-top: 50px;
@@ -69,6 +73,8 @@ function RegisterForm(): JSX.Element {
         setPasswordConfirmError(passwordConfirmValidator(event.target.value));
     }, [setPasswordConfirm, setPasswordConfirmError, passwordConfirmValidator]);
 
+    const apolloClient = useApolloClient();
+
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -86,6 +92,14 @@ function RegisterForm(): JSX.Element {
             return;
         }
 
+        apolloClient.mutate({
+            mutation: gql`
+            
+            `,
+            variables: {
+                
+            }
+        });
         console.log('Registering user');
     }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator]);
 
