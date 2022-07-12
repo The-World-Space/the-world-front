@@ -19,10 +19,10 @@ import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordCon
 import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 import {
-    gql,
     useApolloClient
 } from '@apollo/client';
-import * as GqlType from './__generated__/Register';
+import * as Mutations from '../gql/mutations';
+import Modal from '../components/organisms/Modal';
 
 const RegisterButton = styled(Button1)`
     margin-top: 50px;
@@ -48,6 +48,8 @@ function RegisterForm(): JSX.Element {
 
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [passwordConfirmError, setPasswordConfirmError] = useState<string|null>(null);
+    
+    const [modalError, setModalError] = useState<string|null>(null);
 
     const usernameValidator = useRequiredValidator('Username must be at least 1 characters long');
     const emailValidator = useEmailValidator();
@@ -92,24 +94,24 @@ function RegisterForm(): JSX.Element {
         if (usernameError || emailError || passwordError || passwordConfirmError) {
             return;
         }
-        
-        apolloClient.mutate<GqlType.Register, GqlType.RegisterVariables>({
-            mutation: gql`
-                mutation Register($user: LocalUserInput!) {
-                    registerLocal(user: $user) {
-                        id
-                    }
-                }
-            `,
-            variables: {
+
+        Mutations.registerLocal(
+            apolloClient, 
+            {
                 'user': {
                     'username': username,
                     'password': password,
-                    'email': email
+                    'emailToken': 'some-token'
                 }
             }
+        ).catch(error => {
+            setModalError(error.message);
         });
     }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator, apolloClient]);
+
+    const handleModalClose = useCallback(() => {
+        setModalError(null);
+    }, [setModalError]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
@@ -150,6 +152,9 @@ function RegisterForm(): JSX.Element {
                     I already have a membership
                 </LoginLink>
             </MarginTopLeftAlignDiv>
+            <Modal isOpen={!!modalError} onClose={handleModalClose} title='Error'>
+                {modalError}
+            </Modal>
         </InnerFlexForm1>
     );
 }
