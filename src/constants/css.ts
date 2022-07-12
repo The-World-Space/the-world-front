@@ -15,6 +15,9 @@ export const LIGHT_THEME = {
         textLightest: '#fff',
 
         error: '#ff3535',
+        success: '#00b300',
+        warning: '#ffc107',
+        info: '#7A86B6',
 
         button: '#00bcd4',
         buttonHover: '#00b0d0',
@@ -41,6 +44,9 @@ export const DARK_THEME = {
         textLightest: '#fff',
 
         error: '#ff3535',
+        success: '#00b300',
+        warning: '#ffc107',
+        info: '#7A86B6',
 
         button: '#00b0d0',
         buttonHover: '#00bcd4',

@@ -3,7 +3,8 @@ import Portal from '../atoms/Portal';
 import {
     memo
 } from 'react';
-import { InnerFlexDiv1 } from '../atoms/styled';
+import { InnerFlexDiv1, Button1 } from '../atoms/styled';
+import { MEDIA_MAX_WIDTH } from '../../constants/css';
 
 const ModalContainerDiv = styled.div`
     position: fixed;
@@ -22,7 +23,39 @@ const ModalContainerDiv = styled.div`
 `;
 
 const ModalInnerDiv = styled(InnerFlexDiv1)`
-    background-color: ${props => props.theme.colors.background};
+    background-color: ${props => props.theme.colors.secondary};
+    color: ${props => props.theme.colors.primaryInverse};
+
+    justify-content: space-between;
+    align-items: center;
+
+    width: 400px;
+    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
+        width: calc(100% - 300px);
+    }
+`;
+
+const HeaderDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+
+    background-color: ${props => props.theme.colors.primary};
+`;
+
+const MessageDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start;
+    width: 100%;
+    padding: 10px 10px;
+    box-sizing: border-box;
 `;
 
 interface ModalProps {
@@ -40,9 +73,9 @@ function Modal(props: ModalProps) {
             {isOpen && (
                 <ModalContainerDiv>
                     <ModalInnerDiv>
-                        <div>{title}</div>
-                        <div>{children}</div>
-                        <button onClick={onClose}>Close</button>
+                        <HeaderDiv>{title}</HeaderDiv>
+                        <MessageDiv>{children}</MessageDiv>
+                        <Button1 onClick={onClose}>Close</Button1>
                     </ModalInnerDiv>
                 </ModalContainerDiv>
             )}

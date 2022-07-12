@@ -8,6 +8,7 @@ import { UserProvider } from './hooks/useUser';
 
 import { ThemeProvider } from 'styled-components';
 import { DARK_THEME, LIGHT_THEME } from './constants/css';
+import { ToastProvider } from './hooks/useToast';
 
 const client = new ApolloClient({
     uri: API_URL,
@@ -22,7 +23,9 @@ root.render(
         <ApolloProvider client={client}>
             <UserProvider>
                 <ThemeProvider theme={DARK_THEME || LIGHT_THEME}>
-                    <App />
+                    <ToastProvider>
+                        <App />
+                    </ToastProvider>
                 </ThemeProvider>
             </UserProvider>
         </ApolloProvider>

@@ -22,7 +22,7 @@ import {
     useApolloClient
 } from '@apollo/client';
 import * as Mutations from '../gql/mutations';
-import Modal from '../components/organisms/Modal';
+import useToast from '../hooks/useToast';
 
 const RegisterButton = styled(Button1)`
     margin-top: 50px;
@@ -48,8 +48,6 @@ function RegisterForm(): JSX.Element {
 
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [passwordConfirmError, setPasswordConfirmError] = useState<string|null>(null);
-    
-    const [modalError, setModalError] = useState<string|null>(null);
 
     const usernameValidator = useRequiredValidator('Username must be at least 1 characters long');
     const emailValidator = useEmailValidator();
@@ -78,7 +76,10 @@ function RegisterForm(): JSX.Element {
 
     const apolloClient = useApolloClient();
 
+    const toast = useToast();
+
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+        toast.showToast('adfasdfasdf' + Math.random(), 'error');
         event.preventDefault();
 
         const usernameError = usernameValidator(username);
@@ -105,13 +106,9 @@ function RegisterForm(): JSX.Element {
                 }
             }
         ).catch(error => {
-            setModalError(error.message);
+            toast.showToast(error.message, 'error');
         });
     }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator, apolloClient]);
-
-    const handleModalClose = useCallback(() => {
-        setModalError(null);
-    }, [setModalError]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
@@ -152,9 +149,6 @@ function RegisterForm(): JSX.Element {
                     I already have a membership
                 </LoginLink>
             </MarginTopLeftAlignDiv>
-            <Modal isOpen={!!modalError} onClose={handleModalClose} title='Error'>
-                {modalError}
-            </Modal>
         </InnerFlexForm1>
     );
 }
