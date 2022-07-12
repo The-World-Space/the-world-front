@@ -1,6 +1,7 @@
 //make child process, use import/export
 import { exec } from 'child_process';
 import { API_URL } from '../src/constants/apolloClient';
+import fs from 'fs-extra';
 
 function execAsync(cmd: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -27,6 +28,7 @@ function execAsync(cmd: string): Promise<void> {
 async function main() {
     await execAsync(`apollo service:download --endpoint=${API_URL} graphql-schema.json`);
     await execAsync(`apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql`);
+    await fs.copy('./__generated__', '../src/__generated__');
 }
 
 main();

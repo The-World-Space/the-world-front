@@ -22,6 +22,7 @@ import {
     gql,
     useApolloClient
 } from '@apollo/client';
+import * as GqlType from './__generated__/Register';
 
 const RegisterButton = styled(Button1)`
     margin-top: 50px;
@@ -92,14 +93,23 @@ function RegisterForm(): JSX.Element {
             return;
         }
 
-        apolloClient.mutate({
+        apolloClient.mutate<GqlType.Register, GqlType.RegisterVariables>({
             mutation: gql`
-            
+                mutation Register($user: LocalUserInput!) {
+                    registerLocal(user: $user) {
+                        id
+                    }
+                }
             `,
             variables: {
-                
+                'user': {
+                    'username': username,
+                    'password': password,
+                    'email': email
+                }
             }
         });
+        
         console.log('Registering user');
     }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator]);
 
