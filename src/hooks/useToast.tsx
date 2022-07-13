@@ -105,11 +105,10 @@ interface ToastProviderProps {
 
 export function ToastProvider({ children }: ToastProviderProps) {
     const counter = useCounter();
+    const windowSize = useWindowSize();
     const [toasts, setToasts] = useState<ToastData[]>([]);
 
     const toastDivContainerRef = useRef<HTMLDivElement | null>(null);
-
-    const windowSize = useWindowSize();
 
     const showToast = useCallback((message: string, type: ToastKind) => {
         const id = counter.count;

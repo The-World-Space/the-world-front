@@ -163,12 +163,11 @@ function LoginForm(): JSX.Element {
             .then(() => {
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
+                console.log(rememberMe);
             })
             .catch(error => {
                 toast.showToast(error.message, 'error');
             });
-
-        console.log(rememberMe);
     }, [email, password, rememberMe, emailValidator, passwordValidator, apolloClient, toast]);
 
     return (
