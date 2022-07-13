@@ -14,6 +14,12 @@ import {
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
+import * as Queries from '../gql/queries';
+import useToast from '../hooks/useToast';
+import { useApolloClient } from '@apollo/client';
+import {
+    useNavigate
+} from 'react-router-dom';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
@@ -122,6 +128,10 @@ function LoginForm(): JSX.Element {
     const emailValidator = useRequiredValidator('Email is required');
     const passwordValidator = useRequiredValidator('Password is required');
 
+    const apolloClient = useApolloClient();
+    const toast = useToast();
+    const navigate = useNavigate();
+
     const handleEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
         setEmailError(emailValidator(event.target.value));
@@ -149,8 +159,17 @@ function LoginForm(): JSX.Element {
             return;
         }
 
-        console.log(email, password, rememberMe);
-    }, [email, password, rememberMe, emailValidator, passwordValidator]);
+        Queries.loginLocal(apolloClient, { email, password })
+            .then(() => {
+                toast.showToast('Logged in successfully', 'success');
+                navigate('/');
+            })
+            .catch(error => {
+                toast.showToast(error.message, 'error');
+            });
+
+        console.log(rememberMe);
+    }, [email, password, rememberMe, emailValidator, passwordValidator, apolloClient, toast]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>

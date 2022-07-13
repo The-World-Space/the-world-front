@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { MEDIA_MAX_WIDTH } from '../../constants/css';
 
 import useDebounce from '../../hooks/useDebounce';
+import useWindowSize from '../../hooks/useWindowSize';
 import MenuButton from '../atoms/MenuButton';
 import { PaddingDiv } from '../atoms/styled';
 
@@ -196,10 +197,7 @@ const MobileNavBarMemo = memo(MobileNavBar);
 function NavBar(): JSX.Element {
     const [isMobile, setIsMobile] = useState(false);
     const [debouncedIsMobile, setDebouncedIsMobile] = useState(false);
-
-    const handleResize = useCallback(() => {
-        setIsMobile(window.innerWidth < MEDIA_MAX_WIDTH);
-    }, [setIsMobile]);
+    const windowSize = useWindowSize();
 
     useDebounce(() => {
         setDebouncedIsMobile(isMobile);
@@ -207,13 +205,11 @@ function NavBar(): JSX.Element {
 
     useEffect(() => {
         setDebouncedIsMobile(window.innerWidth < MEDIA_MAX_WIDTH);
-        handleResize();
+    }, []);
 
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [handleResize]);
+    useEffect(() => {
+        setIsMobile(windowSize.width < MEDIA_MAX_WIDTH);
+    }, [windowSize.width]);
 
     return (
         <>

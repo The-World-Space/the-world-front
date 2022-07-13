@@ -1,7 +1,6 @@
 import {
     createContext,
     useContext,
-    useEffect,
     useCallback,
     useState,
     useRef
@@ -10,6 +9,7 @@ import styled from 'styled-components';
 import Portal from '../components/atoms/Portal';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
 import useCounter from './useCounter';
+import useWindowSize from './useWindowSize';
 
 type ToastKind = 'success' | 'error' | 'warning' | 'info';
 
@@ -109,20 +109,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
 
     const toastDivContainerRef = useRef<HTMLDivElement | null>(null);
 
-    
-    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
-    const handleResize = useCallback(() => {
-        setWindowHeight(window.innerHeight);
-    }, []);
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [handleResize]);
-
+    const windowSize = useWindowSize();
 
     const showToast = useCallback((message: string, type: ToastKind) => {
         const id = counter.count;
@@ -130,7 +117,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
         const toastDivContainerElement = toastDivContainerRef.current;
         if(!toastDivContainerElement) return;
 
-        if(toastDivContainerElement.clientHeight > windowHeight) {
+        if(toastDivContainerElement.clientHeight > windowSize.height) {
             setToasts(toasts => {
                 clearTimeout(toasts[0].timeoutIds.fadeOutTimeoutId);
                 clearTimeout(toasts[0].timeoutIds.removeTimeoutId);
@@ -147,7 +134,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
             }, 3000)
         }}]);
         counter.increment();
-    }, [toasts, setToasts, counter.count, windowHeight]);
+    }, [toasts, setToasts, counter.count, windowSize.height]);
 
     
 
