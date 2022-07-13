@@ -13,6 +13,10 @@ export interface LocalUserInput {
   emailToken: string;
 }
 
+export interface UserUpdate {
+  username: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

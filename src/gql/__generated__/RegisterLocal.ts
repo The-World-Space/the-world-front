@@ -6,18 +6,18 @@
 import { LocalUserInput } from "./../../../codegen/__generated__/globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: Register
+// GraphQL mutation operation: RegisterLocal
 // ====================================================
 
-export interface Register_registerLocal {
+export interface RegisterLocal_registerLocal {
   __typename: "User";
   id: string;
 }
 
-export interface Register {
-  registerLocal: Register_registerLocal | null;
+export interface RegisterLocal {
+  registerLocal: RegisterLocal_registerLocal | null;
 }
 
-export interface RegisterVariables {
+export interface RegisterLocalVariables {
   user: LocalUserInput;
 }

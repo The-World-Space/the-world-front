@@ -1,19 +1,154 @@
 import { ApolloClient, FetchResult, gql } from '@apollo/client';
-import { Register, RegisterVariables } from './__generated__/Register';
+import { IssueEmailToken, IssueEmailTokenVariables } from './__generated__/IssueEmailToken';
+import { LoginGoogle, LoginGoogleVariables } from './__generated__/LoginGoogle';
+import { LoginLocal, LoginLocalVariables } from './__generated__/LoginLocal';
+import { RefreshAccessToken, RefreshAccessTokenVariables } from './__generated__/RefreshAccessToken';
+import { RegisterLocal, RegisterLocalVariables } from './__generated__/RegisterLocal';
+import { RequestEmailCheck, RequestEmailCheckVariables } from './__generated__/RequestEmailCheck';
+import { ResetPassword, ResetPasswordVariables } from './__generated__/ResetPassword';
+import { UpdateUser, UpdateUserVariables } from './__generated__/UpdateUser';
+import { VerifyEmail, VerifyEmailVariables } from './__generated__/VerifyEmail';
 
 export function registerLocal(
     apolloClient: ApolloClient<any>,
-    variables: RegisterVariables
-): Promise<FetchResult<Register, Record<string, any>, Record<string, any>>> {
-
-    return apolloClient.mutate<Register, RegisterVariables>({
+    variables: RegisterLocalVariables
+) {
+    return apolloClient.mutate<RegisterLocal>({
         mutation: gql`
-            mutation Register($user: LocalUserInput!) {
+            mutation RegisterLocal($user: LocalUserInput!) {
                 registerLocal(user: $user) {
                     id
                 }
             }
         `,
-        variables: variables
+        variables
     });    
+}
+
+export function loginLocal(
+    apolloClient: ApolloClient<any>,
+    variables: LoginLocalVariables
+) {
+    return apolloClient.mutate<LoginLocal>(
+        {
+            mutation: gql`
+                mutation LoginLocal($email: String!, $password: String!) {
+                    loginLocal(email: $email, password: $password) {
+                        refreshToken,
+                        accessToken
+                    }
+                }
+            `,
+            variables
+        }
+    );
+}
+
+export function loginGoogle(
+    apolloClient: ApolloClient<any>,
+    variables: LoginGoogleVariables
+) {
+    return apolloClient.query<LoginGoogle>(
+        {
+            query: gql`
+                mutation LoginGoogle($idToken: String!) {
+                    loginGoogle(idToken: $idToken) {
+                        refreshToken,
+                        accessToken
+                    }
+                }
+            `,
+            variables
+        }
+    );
+}
+
+export function refreshAccessToken(
+    apolloClient: ApolloClient<any>,
+    variables: RefreshAccessTokenVariables
+) {
+    return apolloClient.mutate<RefreshAccessToken>({
+        mutation: gql`
+            mutation RefreshAccessToken($refreshToken: String!) {
+                refreshAccessToken(refreshToken: $refreshToken)
+            }
+        `,
+        variables
+    });
+}
+
+export function updateUser(
+    apolloClient: ApolloClient<any>,
+    variables: UpdateUserVariables
+) {
+    return apolloClient.mutate<UpdateUser>({
+        mutation: gql`
+            mutation UpdateUser($user: UserUpdate!) {
+                updateUser(user: $user) {
+                    id
+                }
+            }
+        `,
+        variables
+    });
+}
+
+export function resetPassword(
+    apolloClient: ApolloClient<any>,
+    variables: ResetPasswordVariables
+) {
+    return apolloClient.mutate<ResetPassword>({
+        mutation: gql`
+            mutation ResetPassword($password: String!, $emailToken: String!) {
+                resetPassword(password: $password, emailToken: $emailToken) {
+                    id
+                }
+            }
+        `,
+        variables
+    });
+}
+
+export function requestEmailCheck(
+    apolloClient: ApolloClient<any>,
+    variables: RequestEmailCheckVariables
+) {
+    return apolloClient.mutate<RequestEmailCheck>({
+        mutation: gql`
+            mutation RequestEmailCheck($email: String!) {
+                requestEmailCheck(email: $email) {
+                    id
+                }
+            }
+        `,
+        variables
+    });
+}
+
+export function verifyEmail(
+    apolloClient: ApolloClient<any>,
+    variables: VerifyEmailVariables
+) {
+    return apolloClient.mutate<VerifyEmail>({
+        mutation: gql`
+            mutation VerifyEmail($verifyId: String!) {
+                verifyEmail(verifyId: $verifyId)
+            }
+        `,
+        variables
+    });
+}
+
+export function issueEmailToken(
+    apolloClient: ApolloClient<any>,
+    variables: IssueEmailTokenVariables
+) {
+    return apolloClient.mutate<IssueEmailToken>({
+        mutation: gql`
+            mutation IssueEmailToken($emailCheckId: String!) {
+                issueEmailToken(emailCheckId: $emailCheckId)
+            }
+        `,
+        variables
+    });
 }

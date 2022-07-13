@@ -4,20 +4,19 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: LoginLocal
+// GraphQL mutation operation: LoginGoogle
 // ====================================================
 
-export interface LoginLocal_loginLocal {
+export interface LoginGoogle_loginGoogle {
   __typename: "InitJWT";
   refreshToken: string;
   accessToken: string;
 }
 
-export interface LoginLocal {
-  loginLocal: LoginLocal_loginLocal;
+export interface LoginGoogle {
+  loginGoogle: LoginGoogle_loginGoogle;
 }
 
-export interface LoginLocalVariables {
-  email: string;
-  password: string;
+export interface LoginGoogleVariables {
+  idToken: string;
 }

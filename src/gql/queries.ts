@@ -1,18 +1,52 @@
-import { ApolloClient, ApolloQueryResult, gql } from '@apollo/client';
-import { LoginLocal, LoginLocalVariables } from './__generated__/LoginLocal';
+import { ApolloClient, FetchResult, gql } from '@apollo/client';
+import { GetCurrentUser } from './__generated__/GetCurrentUser';
+import { GetUser, GetUserVariables } from './__generated__/GetUser';
+import { IsEmailUsed, IsEmailUsedVariables } from './__generated__/IsEmailUsed';
 
-export function loginLocal(
+export function isEmailUsed(
     apolloClient: ApolloClient<any>,
-    variables: LoginLocalVariables
-): Promise<ApolloQueryResult<LoginLocal>> {
-    return apolloClient.query<LoginLocal, LoginLocalVariables>(
-        {
-            query: gql`
-                query LoginLocal($email: String!, $password: String!) {
-                    loginLocal(email: $email, password: $password)
+    variables: IsEmailUsedVariables
+) {
+    return apolloClient.query<IsEmailUsed>({
+        query: gql`
+            query IsEmailUsed($email: String!) {
+                isEmailUsed(email: $email)
+            }
+        `,
+        variables
+    });
+}
+
+export function getUser(
+    apolloClient: ApolloClient<any>,
+    variables: GetUserVariables
+) {
+    return apolloClient.query<GetUser>({
+        query: gql`
+            query GetUser($id: String!) {
+                User(id: $id) {
+                    id,
+                    username,
+                    createdAt
                 }
-            `,
-            variables: variables
-        }
-    );
+            }
+        `,
+        variables
+    });
+}
+
+export function getCurrentUser(
+    apolloClient: ApolloClient<any>
+) {
+    return apolloClient.query<GetCurrentUser>({
+        query: gql`
+            query GetCurrentUser {
+                currentUser {
+                    id,
+                    username,
+                    createdAt
+                }
+            }
+        `
+    });
 }
