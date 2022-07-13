@@ -79,7 +79,6 @@ function RegisterForm(): JSX.Element {
     const toast = useToast();
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
-        toast.showToast('adfasdfasdf' + Math.random(), 'error');
         event.preventDefault();
 
         const usernameError = usernameValidator(username);
@@ -108,7 +107,7 @@ function RegisterForm(): JSX.Element {
         ).catch(error => {
             toast.showToast(error.message, 'error');
         });
-    }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator, apolloClient]);
+    }, [username, email, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator, apolloClient, toast]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
