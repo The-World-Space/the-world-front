@@ -103,44 +103,65 @@ interface ToastProviderProps {
     children: React.ReactNode;
 }
 
+interface ToastsState {
+    nextToastId: number;
+    toasts: ToastData[];
+}
+
 export function ToastProvider({ children }: ToastProviderProps) {
-    const counter = useCounter();
     const windowSize = useWindowSize();
-    const [toasts, setToasts] = useState<ToastData[]>([]);
+    const [toastsState, setToastsState] = useState<ToastsState>({
+        nextToastId: 0,
+        toasts: []
+    });
 
     const toastDivContainerRef = useRef<HTMLDivElement | null>(null);
 
     const showToast = useCallback((message: string, type: ToastKind) => {
-        const id = counter.count;
+        setToastsState(({ nextToastId, toasts }) => {
+            
+            const toastDivContainerElement = toastDivContainerRef.current;
+            if(!toastDivContainerElement) return { nextToastId, toasts };
 
-        const toastDivContainerElement = toastDivContainerRef.current;
-        if(!toastDivContainerElement) return;
-
-        if(toastDivContainerElement.clientHeight > windowSize.height) {
-            setToasts(toasts => {
-                clearTimeout(toasts[0].timeoutIds.fadeOutTimeoutId);
-                clearTimeout(toasts[0].timeoutIds.removeTimeoutId);
-
-                return toasts.slice(1);
-            });
-        }
-        setToasts(toasts => [...toasts, { id, message, type, isFadeOut: false, timeoutIds: {
-            fadeOutTimeoutId: window.setTimeout(() => {
-                setToasts(toasts => toasts.map(t => t.id === id ? { ...t, isFadeOut: true } : t));
-            }, 2500),
-            removeTimeoutId: window.setTimeout(() => {
-                setToasts(toasts => toasts.filter(t => t.id !== id));
-            }, 3000)
-        }}]);
-        counter.increment();
-    }, [toasts, setToasts, counter.count, windowSize.height]);
+            return (
+                toasts => ({ nextToastId: nextToastId + 1, toasts })
+            )((
+                toasts => {
+                    const id = nextToastId;
+                    return [...toasts, { id, message, type, isFadeOut: false, timeoutIds: {
+                        fadeOutTimeoutId: window.setTimeout(() => {
+                            setToastsState(toastsState => ({
+                                ...toastsState,
+                                toasts: toastsState.toasts.map(t => t.id === id ? { ...t, isFadeOut: true } : t)
+                            }));
+                        }, 2500),
+                        removeTimeoutId: window.setTimeout(() => {
+                            setToastsState(toastsState => ({
+                                ...toastsState,
+                                toasts: toastsState.toasts.filter(t => t.id !== id)
+                            }));
+                        }, 3000)
+                    }}];
+                }
+            )((toasts => {
+                if(toastDivContainerElement.clientHeight > windowSize.height) {
+                    clearTimeout(toasts[0].timeoutIds.fadeOutTimeoutId);
+                    clearTimeout(toasts[0].timeoutIds.removeTimeoutId);
+    
+                    return toasts.slice(1);
+                } else {
+                    return toasts;
+                }
+            })(toasts)));
+        });
+    }, [setToastsState, windowSize.height]);
 
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
             <Portal elementId='modal-root'>
                 <ToastContainerDiv ref={toastDivContainerRef}>
-                    {toasts.map((toast/*, index*/) => (
+                    {toastsState.toasts.map((toast/*, index*/) => (
                         <ToastDiv type={toast.type} isFadeOut={toast.isFadeOut} key={toast.id}>
                             {toast.message}
                         </ToastDiv>
