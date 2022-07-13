@@ -14,7 +14,7 @@ import {
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
-import * as Queries from '../gql/queries';
+import * as Mutations from '../gql/mutations';
 import useToast from '../hooks/useToast';
 import { useApolloClient } from '@apollo/client';
 import {
@@ -158,8 +158,8 @@ function LoginForm(): JSX.Element {
         if (emailError || passwordError) {
             return;
         }
-
-        Queries.loginLocal(apolloClient, { email, password })
+        
+        Mutations.loginLocal(apolloClient, { email, password })
             .then(() => {
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
