@@ -1,4 +1,4 @@
-import { ApolloClient, FetchResult, gql } from '@apollo/client';
+import { ApolloClient, gql } from '@apollo/client';
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
 import { GetUser, GetUserVariables } from './__generated__/GetUser';
 import { IsEmailUsed, IsEmailUsedVariables } from './__generated__/IsEmailUsed';
