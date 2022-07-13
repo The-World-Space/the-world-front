@@ -135,18 +135,6 @@ export function ToastProvider({ children }: ToastProviderProps) {
         counter.increment();
     }, [toasts, setToasts, counter.count, windowSize.height]);
 
-    
-
-    // useEffect(() => {
-    //     return () => {
-    //         console.log('??');
-    //         toasts.forEach(toast => {
-    //             window.clearTimeout(toast.timeoutIds.fadeOutTimeoutId);
-    //             window.clearTimeout(toast.timeoutIds.removeTimeoutId);
-    //         });
-    //     };
-    // }, [toasts, setToasts]);
-
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
