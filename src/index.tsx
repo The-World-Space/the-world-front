@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App';
 import { API_URL } from './constants/apolloClient';
-import { UserProvider } from './hooks/useUser';
+import { AuthProvider } from './contexts/AuthContext';
 
 import { ThemeProvider } from 'styled-components';
 import { DARK_THEME, LIGHT_THEME } from './constants/css';
-import { ToastProvider } from './hooks/useToast';
+import { ToastProvider } from './contexts/ToastContext';
 
 const client = new ApolloClient({
     uri: API_URL,
@@ -21,13 +21,13 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <UserProvider>
+            <AuthProvider>
                 <ThemeProvider theme={DARK_THEME || LIGHT_THEME}>
                     <ToastProvider>
-                        <App />
+                        <App/>
                     </ToastProvider>
                 </ThemeProvider>
-            </UserProvider>
+            </AuthProvider>
         </ApolloProvider>
     </React.StrictMode>
 );

@@ -8,8 +8,8 @@ import {
 import styled from 'styled-components';
 import Portal from '../components/atoms/Portal';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
-import useCounter from './useCounter';
-import useWindowSize from './useWindowSize';
+import useCounter from '../hooks/useCounter';
+import useWindowSize from '../hooks/useWindowSize';
 
 type ToastKind = 'success' | 'error' | 'warning' | 'info';
 

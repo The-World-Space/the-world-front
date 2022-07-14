@@ -15,7 +15,7 @@ import {
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 import * as Mutations from '../gql/mutations';
-import useToast from '../hooks/useToast';
+import useToast from '../contexts/ToastContext';
 import { useApolloClient } from '@apollo/client';
 import {
     useNavigate

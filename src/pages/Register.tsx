@@ -22,7 +22,7 @@ import {
     useApolloClient
 } from '@apollo/client';
 import * as Mutations from '../gql/mutations';
-import useToast from '../hooks/useToast';
+import useToast from '../contexts/ToastContext';
 
 const RegisterButton = styled(Button1)`
     margin-top: 50px;
