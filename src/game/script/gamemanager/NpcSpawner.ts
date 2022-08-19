@@ -24,12 +24,3 @@ export class NpcSpawner extends Component {
         return npcController.ref!;
     }
 }
-
-/*
-for (let i = 0; i < 50; ++i) {
-    globalThis.npcSpawner.createNPC("test1", [0, 0], "/assets/charactor/Seongwon.png")
-        .startAutoPlay([
-            ["moveRandom", 18], ["waitRandom", 1], ["print", "샌즈"], ["waitRandom", 1]
-        ]);
-}
-*/
