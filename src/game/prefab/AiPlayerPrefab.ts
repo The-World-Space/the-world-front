@@ -15,31 +15,30 @@ import {
 } from "the-world-engine";
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
 import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
-import { NpcGridMovementController } from "../script/controller/NpcGridMovementController";
-import { NpcController } from "../script/controller/NpcController";
+import { AiGridMovementController } from "../script/controller/AiGridMovementController";
 
-export class NpcPlayerPrefab extends Prefab {
+export class NetworkPlayerPrefab extends Prefab {
     private _spriteAtlasPath: PrefabRef<string> = new PrefabRef("/assets/charactor/Seongwon.png");
-    private _collideMaps: PrefabRef<IGridCollidable>[] = [];
+    private _tilemap: PrefabRef<IGridCollidable> = new PrefabRef();
     private _gridPosition: PrefabRef<Vector2> = new PrefabRef();
     private _nameTagString: PrefabRef<string> = new PrefabRef();
 
-    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NpcPlayerPrefab {
+    public with4x4SpriteAtlasFromPath(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._spriteAtlasPath = name;
         return this;
     }
 
-    public withCollideMap(colideMap: PrefabRef<IGridCollidable>): NpcPlayerPrefab {
-        this._collideMaps.push(colideMap);
+    public withGridInfo(tilemap: PrefabRef<IGridCollidable>): NetworkPlayerPrefab {
+        this._tilemap = tilemap;
         return this;
     }
 
-    public withGridPosition(gridPosition: PrefabRef<Vector2>): NpcPlayerPrefab {
+    public withGridPosition(gridPosition: PrefabRef<Vector2>): NetworkPlayerPrefab {
         this._gridPosition = gridPosition;
         return this;
     }
 
-    public withNameTag(name: PrefabRef<string>): NpcPlayerPrefab {
+    public withNameTag(name: PrefabRef<string>): NetworkPlayerPrefab {
         this._nameTagString = name;
         return this;
     }
@@ -69,19 +68,12 @@ export class NpcPlayerPrefab extends Prefab {
                 c.addAnimation("left_walk", [12, 13, 14, 15]);
                 c.frameDuration = 0.1;
             })
-            .withComponent(NpcGridMovementController, c => {
-                if (1 <= this._collideMaps.length) {
-                    if (this._collideMaps[0].ref) {
-                        c.setGridInfoFromCollideMap(this._collideMaps[0].ref);
-                    }
+            .withComponent(AiGridMovementController, c => {
+                if (this._tilemap.ref) {
+                    c.gridCellHeight = this._tilemap.ref.gridCellHeight;
+                    c.gridCellWidth = this._tilemap.ref.gridCellWidth;
+                    c.gridCenter = this._tilemap.ref.gridCenter;
                 }
-
-                for (let i = 0; i < this._collideMaps.length; i++) {
-                    if (this._collideMaps[i].ref) {
-                        c.addCollideMap(this._collideMaps[i].ref!);
-                    }
-                }
-                
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
                 c.speed = 160;
             })
@@ -97,8 +89,6 @@ export class NpcPlayerPrefab extends Prefab {
                 c.setNameTagRenderer(nameTagRenderer.ref!);
                 c.nameTag = this._nameTagString.ref;
             })
-
-            .withComponent(NpcController)
 
             .withChild(instantlater.buildGameObject("chatbox",
                 new Vector3(0, 45, 0),
