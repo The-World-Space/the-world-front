@@ -4,7 +4,7 @@ import { getSession } from "./gql";
 
 
 export function getProtoWebSocket() {
-    const webSocket = new WebSocket("ws://127.0.0.1:9090/");
+    const webSocket = new WebSocket("wss://api.the-world.space/proto");
     return new ProtoWebSocket(webSocket, bytes => pb.ServerEvent.deserializeBinary(bytes));
 }
 
