@@ -1,6 +1,8 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter } from "detail-typed-emitter";
+import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
 import { Server } from "../connect/types";
+import * as pb from "../../proto/the_world";
 
 type fieldId = string;
 type broadcastId = string;
@@ -13,81 +15,46 @@ type EETypes = [
 export class PenpalNetworker {
     private readonly _ee: TypedEmitter<EETypes>;
 
-    constructor(private readonly _worldId: string,
-        private readonly _client: ApolloClient<any>) {
+    constructor(
+        private readonly _client: ApolloClient<any>,
+        private readonly _protoClient: ProtoWebSocket<pb.ServerEvent>) {
         this._ee = new TypedEmitter<EETypes>();
         this._initNetwork();
     }
 
     private _initNetwork(): void {
-        // Update field
-        this._client.subscribe({
-            query: gql`
-                subscription FieldSetValue($worldId: String!) {
-                    fieldSetValue(worldId: $worldId) {
-                        id,
-                        value,
-                        userId
-                    }
-                }
-            `,
-            variables: {
-                worldId: this._worldId
-            }
-        }).subscribe(result => {
-            const { id: publicFieldId, value, userId } = result.data.fieldSetValue as { id: number, value: string, userId: string };
-            
-            this._ee.emit(`update_field_${publicFieldId}`, value, userId);
-        });
+        this._protoClient.on("message", serverEvent => {
+            if(serverEvent.event === "fieldValueSetted") {
+                const data = serverEvent.fieldValueSetted;
+                const { id: publicFieldId, value, userId } = data;
 
-        // Update broadcast
-        this._client.subscribe({
-            query: gql`
-                subscription BroadcastMessage($worldId: String!) {
-                    broadcastMessage(worldId: $worldId) {
-                        id
-                        message
-                        userId
-                    }
-                }
-            `,
-            variables: {
-                worldId: this._worldId
+                this._ee.emit(`update_field_${publicFieldId}`, value, userId);
+            } else if(serverEvent.event === "messageBroadcasted") {
+                const data = serverEvent.messageBroadcasted;
+                const { id: publicBroadcastId, message, userId } = data;
+                
+                this._ee.emit(`update_broadcast_${publicBroadcastId}`, message, userId);
             }
-        }).subscribe(result => {
-            const { id: publicBroadcastId, message, userId } = result.data.broadcastMessage as { id: number, message: string, userId: string };
-            
-            this._ee.emit(`update_broadcast_${publicBroadcastId}`, message, userId);
         });
     }
 
 
-    public async setFieldValue(id: number | undefined, value: string): Promise<void> {
-        await this._client.mutate({
-            mutation: gql`
-            mutation SetFieldValue($id: Int!, $value: String!) {
-                setFieldValue(id: $id, value: $value)
-              }
-            `,
-            variables: {
+    public setFieldValue(id: number | undefined, value: string): void {
+        this._protoClient.send(new pb.ClientEvent({
+            setFieldValue: new pb.SetFieldValue({
                 id,
                 value
-            }
-        });
+            })
+        }));
     }
 
-    public async broadcast(id: number | undefined, message: string): Promise<void> {
-        await this._client.mutate({
-            mutation: gql`
-            mutation Broadcast($id: Int!, $message: String!) {
-                broadcast(message: $message, id: $id)
-              }
-            `,
-            variables: {
+    public broadcast(id: number | undefined, message: string): void {
+        this._protoClient.send(new pb.ClientEvent({
+            broadcast: new pb.Broadcast({
                 id,
                 message
-            }
-        });
+            })
+        }));
     }
 
     public async getUser(id?: string): Promise<Server.User | null> {

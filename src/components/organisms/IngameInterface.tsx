@@ -10,7 +10,7 @@ import SendButtonIcon from "../atoms/SendButtonIcon.svg";
 import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../GlobalEnviroment";
 import { FANCY_SCROLLBAR_CSS } from "./EditorInner/FieldEditorInner";
-import { ApolloClient, gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
 import FieldEditorInner from "./EditorInner/FieldEditorInner";
 import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
@@ -20,6 +20,8 @@ import { WorldEditorContext } from "../../context/contexts";
 import useUser from "../../hooks/useUser";
 import IframeEditorInner from "./EditorInner/IframeEditorInner";
 import { Server } from "../../game/connect/types";
+import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
+import * as pb from "../../proto/the_world";
 
 const OuterDiv = styled.div`
     display: flex;
@@ -235,18 +237,12 @@ const SendButton = styled.button`
 
 
 
-function sendChat(worldId: string, message: string, apolloClient: ApolloClient<any>) {
-    return apolloClient.mutate({
-        mutation: gql`
-            mutation Chat($worldId: String!, $message: String!) {
-                sendChat(worldId: $worldId, message: $message)
-            }
-        `,
-        variables: {
-            worldId,
-            message,
-        }
-    });
+function sendChat(message: string, protoWs: ProtoWebSocket<pb.ServerEvent>) {
+    protoWs.send(new pb.ClientEvent({
+        sendChat: new pb.SendChat({
+            message
+        })
+    }));
 }
 
 
@@ -257,24 +253,19 @@ interface chatMessage {
     };
     message: string;
 }
-function onChat(worldId: string, callback: (data: chatMessage) => void, apolloClient: ApolloClient<any>) {
-    return apolloClient.subscribe({
-        query: gql`
-            subscription Chat($worldId: String!) {
-                chat(worldId: $worldId) {
-                    user {
-                        id
-                        nickname
-                    }
-                    message
+function onChat(callback: (data: chatMessage) => void, protoWs: ProtoWebSocket<pb.ServerEvent>) {
+    [callback, protoWs];
+    protoWs.on("message", serverEvent => {
+        if(serverEvent.event === "chatAdded") {
+            const chat = serverEvent.chatAdded;
+            callback({
+                message: chat.message,
+                user: {
+                    id: chat.user.id,
+                    nickname: chat.user.nickname
                 }
-            }
-        `,
-        variables: {
-            worldId,
+            });
         }
-    }).subscribe(data => {
-        data.data.chat && callback(data.data.chat as chatMessage);
     });
 }
 
@@ -288,11 +279,11 @@ enum Editor {
 }
 
 interface PropsType {
-    apolloClient: ApolloClient<any>
+    protoWs: ProtoWebSocket<pb.ServerEvent>;
     worldId: string;
 }
 
-function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
+function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
     const { playerNetworker } = useContext(WorldEditorContext);
     const { world, playerList, amIadmin } = useContext(WorldEditorContext);
     const [barOpened, setBarOpened] = useState(false);
@@ -323,7 +314,7 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
     }
 
     function sendChatMessage() {
-        sendChat(worldId, inputText, apolloClient);
+        sendChat(inputText, protoWs);
         setInputText("");
     }
 
@@ -331,16 +322,17 @@ function IngameInterface({ apolloClient, worldId }: PropsType): JSX.Element {
         if (!worldId) return;
         if (!playerNetworker) return;
 
-        onChat(worldId, data => {
+        onChat(data => {
             playerNetworker.showNetworkPlayerChat(data.user.id, data.message);
+
             setChatting(
                 lastState => 
                     lastState.length > 100 
                         ? [...lastState.slice(1), {...data, key: performance.now()}] 
                         : [...lastState, {...data, key: performance.now()}]);
             if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
-        }, apolloClient);
-    }, [apolloClient, worldId, playerNetworker]);
+        }, protoWs);
+    }, [protoWs, worldId, playerNetworker]);
 
     const onMenuSelect = useCallback((editor: Editor) => {
         setBarOpened(b => editor === selectedEditor ? !b : true);

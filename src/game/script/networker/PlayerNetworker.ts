@@ -1,7 +1,8 @@
-import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter, DumbTypedEmitter } from "detail-typed-emitter";
 import { Vector2 } from "three";
+import { ProtoWebSocket } from "../../../proto/ProtoWebSocket";
 import { Server } from "../../connect/types";
+import * as pb from "../../../proto/the_world";
 
 type characterId = string;
 
@@ -24,9 +25,8 @@ export class PlayerNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
     private readonly _characterSet: Set<characterId>;
 
-    constructor(private readonly _worldId: string,
-                private readonly _playerId: string,
-                private readonly _client: ApolloClient<any>) {
+    constructor(private readonly _playerId: string,
+                private readonly _protoWs: ProtoWebSocket<pb.ServerEvent>) {
         this._ee = new TypedEmitter<EETypes>();
         this._dee = new DumbTypedEmitter<DEETypes>();
         this._characterSet = new Set();
@@ -35,69 +35,50 @@ export class PlayerNetworker {
     }
 
     private _initNetwork() {
-        this._client.subscribe({
-            query: gql`
-                subscription PLAYER_LIST_UPDATE($worldId: String!) {
-                    playerList(worldId: $worldId) {
-                        x
-                        y
-                        user {
-                            id
-                            nickname
-                            skinSrc
-                        }
-                    }
-                }
-            `,
-            variables: {
-                worldId: this._worldId,
-            }
-        }).subscribe((data) => {
-            data.data.playerList && this.onPlayerListUpdate(data.data.playerList);
-        });
-
-        this._client.subscribe({
-            query: gql`
-                subscription CHARACTER_MOVE($worldId: String!) {
-                    characterMove(worldId: $worldId) {
-                        x
-                        y
-                        userId
-                    }
-                }
-            `,
-            variables: {
-                worldId: this._worldId
-            },
-        }).subscribe((data) => {
-            if (data.data.characterMove) {
-                const user = this._characterSet.has(data.data?.characterMove?.userId);
-                user && this.moveCharacter(data.data.characterMove);
+        this._protoWs.on("message", serverEvent => {
+            if(serverEvent.event === "playerListChanged") {
+                const playerInfos = serverEvent.playerListChanged.playerInfos;
+                this.onPlayerListUpdate(playerInfos as any);
+            } else if(serverEvent.event === "characterMoved") {
+                const characterMove = serverEvent.characterMoved;
+                const user = this._characterSet.has(characterMove.userId);
+                user && this.moveCharacter(characterMove);
             }
         });
+        // this._client.subscribe({
+        //     query: gql`
+        //         subscription PLAYER_LIST_UPDATE($worldId: String!) {
+        //             playerList(worldId: $worldId) {
+        //                 x
+        //                 y
+        //                 user {
+        //                     id
+        //                     nickname
+        //                     skinSrc
+        //                 }
+        //             }
+        //         }
+        //     `,
+        //     variables: {
+        //         worldId: this._worldId,
+        //     }
+        // }).subscribe((data) => {
+        //     data.data.playerList && this.onPlayerListUpdate(data.data.playerList);
+        // });
     }
 
 
     private _initEEListenters() {
         // player_move should only listened on this method.
         this._dee.on("player_move", (x, y) => {
-            this._client.mutate({
-                mutation: gql`
-                    mutation MoveCharacter($characterMove: CharacterMoveInput!, $worldId: String!) {
-                        moveCharacter(characterMove: $characterMove, worldId: $worldId) {
-                            x
-                            y
-                        }
-                    }
-                `,
-                variables: {
-                    characterMove: {
+            this._protoWs.send(new pb.ClientEvent({
+                moveCharacter: new pb.MoveCharacter({
+                    characterMove: new pb.MoveCharacter.CharacterMove({
                         x,
-                        y,
-                    },
-                    worldId: this._worldId,
-                }
-            });
+                        y
+                    })
+                })
+            }));
         });
     }
 

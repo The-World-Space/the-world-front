@@ -2,8 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef } from "react";
 import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
 import { Game, GameStateKind } from "the-world-engine";
 import { useAsync } from "react-use";
-import { getWorld, getWSApolloClient, getWSLink, joinWorld } from "../game/connect/gql";
-import { Vector2 } from "three";
+import { getWorld, getWSApolloClient, getWSLink } from "../game/connect/gql";
 import useUser from "../hooks/useUser";
 import IngameInterface from "../components/organisms/IngameInterface";
 import { useHistory, useParams } from "react-router-dom";
@@ -14,7 +13,10 @@ import styled from "styled-components";
 import { GameProvider } from "../context/Provider";
 import { WorldEditorContext } from "../context/contexts";
 import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
-import { ApolloClient, ApolloLink, gql, NormalizedCacheObject } from "@apollo/client";
+import { ApolloClient, ApolloLink, NormalizedCacheObject } from "@apollo/client";
+import { getProtoWebSocket, joinWorld, login } from "../game/connect/proto";
+import { ProtoWebSocket } from "../proto/ProtoWebSocket";
+import * as pb from "../proto/the_world";
 
 const Container = styled.div`
     display: flex;
@@ -100,15 +102,9 @@ const LodingLogo = styled(TWLogo)`
 `;
 
 
-const KICKED = gql`
-    subscription kicked($worldId: String!) {
-        kicked(worldId: $worldId)
-    }
-`;
-
-
 function NetworkGamePage_(): JSX.Element {
     const globalApolloClient = useGameWSApolloClient();
+    const globalProtoWebSocket = useGameProtoWebSocket();
     const history = useHistory();
     const div = useRef<HTMLDivElement>(null);
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
@@ -123,27 +119,28 @@ function NetworkGamePage_(): JSX.Element {
         if (!worldEditorConnector) return;
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
+        
         setWorld(world);
         const game = new Game(div.current);
-        const playerNetworker = new PlayerNetworker(world.id, user.id, globalApolloClient);
-        const penpalNetworkWrapper = new PenpalNetworker(world.id, globalApolloClient);
+        const playerNetworker = new PlayerNetworker(user.id, globalProtoWebSocket);
+        const penpalNetworkWrapper = new PenpalNetworker(globalApolloClient, globalProtoWebSocket);
         const widgetManager = new WidgetManager(penpalNetworkWrapper, /*world,*/ widgetWrapperdiv.current, []);
         setPlayerNetworker(playerNetworker);
         game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
         setGame(game);
-        joinWorld(worldId, new Vector2(0, 0), globalApolloClient).then(() => {
-            if (game.currentGameState !== GameStateKind.Finalized)
-                game.inputHandler.startHandleEvents();
-        });
 
-        globalApolloClient.subscribe({
-            query: KICKED,
-            variables: {
-                worldId: world.id
+        // Initialize protoClient
+        login(globalProtoWebSocket.webSocket);
+        joinWorld(globalProtoWebSocket, worldId, 0, 0);
+
+        if (game.currentGameState !== GameStateKind.Finalized)
+            game.inputHandler.startHandleEvents();
+
+        globalProtoWebSocket.on("message", serverEvent => {
+            if(serverEvent.event === "kicked") {
+                alert("You have been kicked from the world");
+                history.push("/");
             }
-        }).subscribe(() => {
-            alert("You have been kicked from the world");
-            history.push("/");
         });
         
         return () => { //on component unmount
@@ -167,7 +164,7 @@ function NetworkGamePage_(): JSX.Element {
     return (
         <Container>
             <IngameInterfaceContainer>
-                <IngameInterface apolloClient={globalApolloClient} worldId={worldId} />
+                <IngameInterface worldId={worldId} protoWs={globalProtoWebSocket}/>
             </IngameInterfaceContainer>
             <GameContainer>
                 <WidgetContainer>
@@ -187,9 +184,11 @@ function NetworkGamePage_(): JSX.Element {
 function NetworkGamePage(): JSX.Element {
     return (
         <GameWSApolloClientProvider>
-            <GameProvider>
-                <NetworkGamePage_ />
-            </GameProvider>
+            <GameProtoWebSocketProvider>
+                <GameProvider>
+                    <NetworkGamePage_ />
+                </GameProvider>
+            </GameProtoWebSocketProvider>
         </GameWSApolloClientProvider>
     );
 }
@@ -234,4 +233,26 @@ export function useGameWSApolloClient(): ApolloClient<NormalizedCacheObject> {
 }
 export function useGameWSLink(): ApolloLink {
     return useContext(GameWSApolloClientContext).wsLink;
+}
+
+const GameProtoWebSocketContext = createContext<ProtoWebSocket<pb.ServerEvent>>({} as ProtoWebSocket<pb.ServerEvent>);
+function GameProtoWebSocketProvider({ children }: { children: JSX.Element}): JSX.Element {
+    const protoWebSocket = useMemo(() => {
+        const protoWebSocket = getProtoWebSocket();
+
+        return protoWebSocket;
+    }, []);
+
+    useEffect(() => () => {
+        protoWebSocket.close();
+    });
+
+    return (
+        <GameProtoWebSocketContext.Provider value={protoWebSocket}>
+            {children}
+        </GameProtoWebSocketContext.Provider>
+    );
+}
+export function useGameProtoWebSocket() {
+    return useContext(GameProtoWebSocketContext);
 }
