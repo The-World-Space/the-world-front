@@ -1,5 +1,5 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Component } from "the-world-engine";
 import { GridBrush } from "../input/GridBrush";
 import { Tool, Tools } from "../WorldEditorConnector";

@@ -1,5 +1,5 @@
 import { TypedEmitter, DumbTypedEmitter } from "detail-typed-emitter";
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { ProtoWebSocket } from "../../../proto/ProtoWebSocket";
 import { Server } from "../../connect/types";
 import * as pb from "../../../proto/the_world";

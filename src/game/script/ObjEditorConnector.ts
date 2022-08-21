@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Tools } from "../../components/organisms/EditorInner/ObjectEditorInner";
 
 export interface IObjEditorAction {

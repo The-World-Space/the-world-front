@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2 } from "three/src/Three";
 import { Direction, Directionable } from "the-world-engine";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 

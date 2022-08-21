@@ -1,4 +1,4 @@
-import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three";
+import { Euler, MathUtils, Quaternion, Vector2, Vector3 } from "three/src/Three";
 import { 
     GridCollideMap,
     SpriteInstance,

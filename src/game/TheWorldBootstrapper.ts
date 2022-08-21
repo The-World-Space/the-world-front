@@ -1,5 +1,5 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector3 } from "three";
+import { Vector3 } from "three/src/Three";
 import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
 import { Server } from "./connect/types";
 import {

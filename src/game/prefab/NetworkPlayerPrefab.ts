@@ -1,4 +1,4 @@
-import { Quaternion, Vector2, Vector3 } from "three";
+import { Quaternion, Vector2, Vector3 } from "three/src/Three";
 import {
     CssSpriteAtlasRenderer,
     SpriteAtlasAnimator,
