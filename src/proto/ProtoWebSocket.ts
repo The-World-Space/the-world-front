@@ -20,12 +20,12 @@ export class ProtoWebSocket<T> extends EventEmitter {
             this.emit("message", decodeFunction(new Uint8Array(arrayBuffer)));
         });
     }
-    public send(message: pb.Message) {
+    
+    public send(message: pb.Message): void {
         this.webSocket.send(message.serializeBinary());
     }
-    public close() {
+
+    public close(): void {
         this.webSocket.close();
     }
 }
-
-

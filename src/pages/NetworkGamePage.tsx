@@ -158,7 +158,8 @@ function NetworkGamePage_(): JSX.Element {
         setPlayerNetworker, 
         setWorld, 
         history, 
-        globalApolloClient
+        globalApolloClient,
+        globalProtoWebSocket
     ]);
 
     return (
@@ -201,10 +202,12 @@ interface GameWSApolloClientContextType {
     wsLink: ApolloLink;
     apolloClient: ApolloClient<NormalizedCacheObject>;
 }
+
 const GameWSApolloClientContext = createContext<GameWSApolloClientContextType>({
     wsLink: {} as ApolloLink,
     apolloClient: {} as ApolloClient<NormalizedCacheObject>,
 });
+
 function GameWSApolloClientProvider({ children }: { children: JSX.Element}): JSX.Element {
     const [wsLink, apolloClient] = useMemo(() => {
         const _wslink = getWSLink();
@@ -228,9 +231,11 @@ function GameWSApolloClientProvider({ children }: { children: JSX.Element}): JSX
         </GameWSApolloClientContext.Provider>
     );
 }
+
 export function useGameWSApolloClient(): ApolloClient<NormalizedCacheObject> {
     return useContext(GameWSApolloClientContext).apolloClient;
 }
+
 export function useGameWSLink(): ApolloLink {
     return useContext(GameWSApolloClientContext).wsLink;
 }
@@ -253,6 +258,7 @@ function GameProtoWebSocketProvider({ children }: { children: JSX.Element}): JSX
         </GameProtoWebSocketContext.Provider>
     );
 }
-export function useGameProtoWebSocket() {
+
+export function useGameProtoWebSocket(): ProtoWebSocket<pb.ServerEvent> {
     return useContext(GameProtoWebSocketContext);
 }
