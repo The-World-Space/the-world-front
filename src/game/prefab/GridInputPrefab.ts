@@ -4,8 +4,7 @@ import {
     IGridCollidable,
     GameObjectBuilder,
     Prefab,
-    PrefabRef,
-    ZaxisInitializer
+    PrefabRef
 } from "the-world-engine";
 
 export class GridInputPrefab extends Prefab {
@@ -25,10 +24,9 @@ export class GridInputPrefab extends Prefab {
     public make(): GameObjectBuilder {
         return this.gameObjectBuilder
         //.withComponent(CameraRelativeZaxisSorter, c => c.offset = -550)
-            .withComponent(ZaxisInitializer)
             .withComponent(PointerGridInputListener, c => {
-                c.inputWidth = 512;
-                c.inputHeight = 512;
+                c.inputWidth = 32;
+                c.inputHeight = 32;
                 c.setGridInfoFromCollideMap(this._gridCollideMap.ref!);
             })
             .withComponent(GridPointer, c => c.pointerZoffset = 1000000)

@@ -43,6 +43,7 @@ export class GridBrush extends Component {
                     c.centerOffset = new Vector2(0.5, 0.5);
                     c.opacity = 0.5;
                     c.pointerEvents = false;
+                    c.viewScale = 1;
                 })
                 .getComponent(CssSpriteAtlasRenderer, pointerImageRef)
                 .getGameObject(pointerImageObjectRef));
@@ -53,20 +54,20 @@ export class GridBrush extends Component {
 
     public onEnable(): void {
         if (!this._gridInputListener) throw new Error("Unreachable");
-        this._gridInputListener.addOnPointerDownEventListener(this._onPointerDownBind);
-        this._gridInputListener.addOnPointerUpEventListener(this._onPointerUpBind);
-        this._gridInputListener.addOnPointerMoveEventListener(this._onPointerMoveBind);
-        this._gridInputListener.addOnPointerEnterEventListener(this._onPointerEnterBind);
-        this._gridInputListener.addOnPointerLeaveEventListener(this._onPointerLeaveBind);
+        this._gridInputListener.onPointerDown.addListener(this._onPointerDownBind);
+        this._gridInputListener.onPointerUp.addListener(this._onPointerUpBind);
+        this._gridInputListener.onPointerMove.addListener(this._onPointerMoveBind);
+        this._gridInputListener.onPointerEnter.addListener(this._onPointerEnterBind);
+        this._gridInputListener.onPointerLeave.addListener(this._onPointerLeaveBind);
     }
 
     public onDisable(): void {
         if (this._gridInputListener) {
-            this._gridInputListener.removeOnPointerDownEventListener(this._onPointerDownBind);
-            this._gridInputListener.removeOnPointerUpEventListener(this._onPointerUpBind);
-            this._gridInputListener.removeOnPointerMoveEventListener(this._onPointerMoveBind);
-            this._gridInputListener.removeOnPointerEnterEventListener(this._onPointerEnterBind);
-            this._gridInputListener.removeOnPointerLeaveEventListener(this._onPointerLeaveBind);
+            this._gridInputListener.onPointerDown.removeListener(this._onPointerDownBind);
+            this._gridInputListener.onPointerUp.removeListener(this._onPointerUpBind);
+            this._gridInputListener.onPointerMove.removeListener(this._onPointerMoveBind);
+            this._gridInputListener.onPointerEnter.removeListener(this._onPointerEnterBind);
+            this._gridInputListener.onPointerLeave.removeListener(this._onPointerLeaveBind);
         }
     }
 
@@ -132,7 +133,7 @@ export class GridBrush extends Component {
         if (!this._pointerImage) return;
         this._showImage = true;
         this.updateImageShow();
-        this._pointerImage.asyncSetImage(src, 1, 1, () => {
+        this._pointerImage.asyncSetImageFromPath(src, 1, 1, () => {
             this._pointerImage!.imageIndex = 0;
             this._pointerImage!.imageWidth = width;
             this._pointerImage!.imageHeight = height;
@@ -151,7 +152,7 @@ export class GridBrush extends Component {
         if (!this._pointerImage) return;
         this._showImage = true;
         this.updateImageShow();
-        this._pointerImage.asyncSetImage(src, rowCount, columnCount, () => {
+        this._pointerImage.asyncSetImageFromPath(src, columnCount, rowCount, () => {
             this._pointerImage!.imageIndex = atlasIndex;
             this._pointerImage!.imageWidth = width;
             this._pointerImage!.imageHeight = height;

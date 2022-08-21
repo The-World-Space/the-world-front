@@ -9,7 +9,6 @@ import {
     IGridCoordinatable,
     CssHtmlElementRenderer,
     CssIframeRenderer,
-    ZaxisInitializer,
     ZaxisSorter
 } from "the-world-engine";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
@@ -113,10 +112,10 @@ export class NetworkIframeManager extends Component {
     ): void {
         const instantlater = this.engine.instantiater;
         const prefabRef = new PrefabRef<GameObject>();
-        const gcx = this._iGridCoordinatable?.gridCenterX || 8;
-        const gcy = this._iGridCoordinatable?.gridCenterY || 8;
-        const gw = this._iGridCoordinatable?.gridCellWidth || 16;
-        const gh = this._iGridCoordinatable?.gridCellHeight || 16;
+        const gcx = this._iGridCoordinatable?.gridCenterX || 0.5;
+        const gcy = this._iGridCoordinatable?.gridCenterY || 0.5;
+        const gw = this._iGridCoordinatable?.gridCellWidth || 1;
+        const gh = this._iGridCoordinatable?.gridCellHeight || 1;
         
         if (!iframeInfo.proto_) return;
         
@@ -151,10 +150,7 @@ export class NetworkIframeManager extends Component {
         this.gameObject.addChildFromBuilder(builder);
 
         // Put soter after build
-        if (flatTypes.has(iframeInfo.proto_.type)) {
-            prefabRef.ref!.addComponent(ZaxisInitializer);
-        }
-        else {
+        if (!flatTypes.has(iframeInfo.proto_.type)) {
             const c = prefabRef.ref!.addComponent(ZaxisSorter);
             if (!c) throw new Error("fail to add");
 

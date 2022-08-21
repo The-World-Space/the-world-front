@@ -5,8 +5,8 @@ export class EditorViewObjectController extends Component {
     public readonly requiredComponents: ComponentConstructor[] = [CssSpriteRenderer];
 
     private _spriteRenderer: CssSpriteRenderer|null = null;
-    private _gridCellWidth: number = 16;
-    private _gridCellHeight: number = 16;
+    private _gridCellWidth: number = 1;
+    private _gridCellHeight: number = 1;
 
     protected awake(): void {
         this._spriteRenderer = this.gameObject.getComponent(CssSpriteRenderer);
@@ -15,7 +15,7 @@ export class EditorViewObjectController extends Component {
     public setViewObject(src: string, width: number, height: number): void {
         if (this._spriteRenderer) {
             this._spriteRenderer.enabled = true;
-            this._spriteRenderer.asyncSetImagePath(src, () => {
+            this._spriteRenderer.asyncSetImageFromPath(src, () => {
                 this._spriteRenderer!.imageWidth = width * this._gridCellWidth;
                 this._spriteRenderer!.imageHeight = height * this._gridCellHeight;
             });

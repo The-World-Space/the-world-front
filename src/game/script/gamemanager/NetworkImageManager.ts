@@ -6,7 +6,6 @@ import {
     PrefabRef,
     GridObjectCollideMap,
     IGridCoordinatable,
-    ZaxisInitializer,
     ZaxisSorter
 } from "the-world-engine";
 import { NetworkImagePrefab } from "../../prefab/NetworkImagePrefab";
@@ -64,10 +63,10 @@ export class NetworkImageManager extends Component {
     private _buildNetworkImage(imageInfo: Server.ImageGameObject): void {
         const instantlater = this.engine.instantiater;
         const prefabRef = new PrefabRef<GameObject>();
-        const gcx = this._iGridCoordinateable?.gridCenterX || 8;
-        const gcy = this._iGridCoordinateable?.gridCenterY || 8;
-        const gw = this._iGridCoordinateable?.gridCellWidth || 16;
-        const gh = this._iGridCoordinateable?.gridCellHeight || 16;
+        const gcx = this._iGridCoordinateable?.gridCenterX || 0.5;
+        const gcy = this._iGridCoordinateable?.gridCenterY || 0.5;
+        const gw = this._iGridCoordinateable?.gridCellWidth || 1;
+        const gh = this._iGridCoordinateable?.gridCellHeight || 1;
         
         if (!imageInfo.proto_) return;
         
@@ -96,10 +95,7 @@ export class NetworkImageManager extends Component {
         this.gameObject.addChildFromBuilder(builder);
 
         // Put soter after build
-        if (flatTypes.has(imageInfo.proto_.type)) {
-            prefabRef.ref!.addComponent(ZaxisInitializer);
-        }
-        else {
+        if (!flatTypes.has(imageInfo.proto_.type)) {
             const c = prefabRef.ref!.addComponent(ZaxisSorter);
             if (!c) throw new Error("fail to add");
 

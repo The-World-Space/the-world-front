@@ -5,8 +5,8 @@ import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 
 export class PenpalConnection extends Component {
     // component
-    protected _requiredComponents = [CssIframeRenderer];
-    protected _disallowMultipleComponent = true;
+    public override readonly requiredComponents = [CssIframeRenderer];
+    public override readonly disallowMultipleComponent = true;
     // info
     private _iframeCommunicator: IframeCommunicator | null = null;
     private _iframeInfo: Server.IframeGameObject | null = null;
@@ -23,14 +23,13 @@ export class PenpalConnection extends Component {
     public start(): void {
         if (!this._iframeInfo) throw new Error("Iframe info is not set");
         if (!this._penpalNetworkWrapper) throw new Error("Penpal network wrapper is not set");
-        const iframeRenderer = this.gameObject.getComponent(CssIframeRenderer);
-        
-        if (!iframeRenderer) return;
-        const iframeDom = iframeRenderer.element!;
 
-        iframeDom.allow = "midi; autoplay; camera; microphone;";
+        const iframeRenderer = this.gameObject.getComponent(CssIframeRenderer)!;
+        iframeRenderer.allow = "midi; autoplay; camera; microphone;";
 
-        this._iframeCommunicator = new IframeCommunicator(iframeDom, this._iframeInfo, this._penpalNetworkWrapper);
+        const iframeElement = (iframeRenderer as any).htmlElement as HTMLIFrameElement;
+
+        this._iframeCommunicator = new IframeCommunicator(iframeElement, this._iframeInfo, this._penpalNetworkWrapper);
         this._iframeCommunicator.apply();
     }
 

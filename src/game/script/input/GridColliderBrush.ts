@@ -23,16 +23,16 @@ export class GridColliderBrush extends Component {
 
     public onEnable(): void {
         if (!this._gridPointer) throw new Error("ColliderBrush: gridPointer is not set");
-        this._gridPointer.addOnPointerDownEventListener(this._onPointerDownBind);
-        this._gridPointer.addOnPointerUpEventListener(this._onPointerUpBind);
-        this._gridPointer.addOnPointerMoveEventListener(this._onPointerMoveBind);
+        this._gridPointer.onPointerDown.addListener(this._onPointerDownBind);
+        this._gridPointer.onPointerUp.addListener(this._onPointerUpBind);
+        this._gridPointer.onPointerMove.addListener(this._onPointerMoveBind);
     }
 
     public onDisable(): void {
         if (this._gridPointer) {
-            this._gridPointer.removeOnPointerDownEventListener(this._onPointerDownBind);
-            this._gridPointer.removeOnPointerUpEventListener(this._onPointerUpBind);
-            this._gridPointer.removeOnPointerMoveEventListener(this._onPointerMoveBind);
+            this._gridPointer.onPointerDown.removeListener(this._onPointerDownBind);
+            this._gridPointer.onPointerUp.removeListener(this._onPointerUpBind);
+            this._gridPointer.onPointerMove.removeListener(this._onPointerMoveBind);
         }
     }
 

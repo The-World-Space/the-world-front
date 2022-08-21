@@ -11,10 +11,12 @@ export class CameraPrefab extends Prefab {
 
     public make(): GameObjectBuilder {
         return this.gameObjectBuilder
-            .withComponent(Camera)
+            .withComponent(Camera, c => {
+                c.viewSize = 8;
+            })
             .withComponent(TrackCameraController, c => {
                 c.setTrackTarget(this._trackTarget.ref!);
-                c.targetOffset = new Vector2(0, 32);
+                c.targetOffset = new Vector2(0, 2);
             });
     }
 }

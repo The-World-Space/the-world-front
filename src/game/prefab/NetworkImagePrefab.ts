@@ -46,7 +46,7 @@ export class NetworkImagePrefab extends Prefab {
                     c.gameObject.destroy();
                     return;
                 }
-                c.asyncSetImagePath(image.proto_.src);
+                c.asyncSetImageFromPath(image.proto_.src);
                 c.imageHeight = image.proto_.height * ref.gridCellHeight;
                 c.imageWidth = image.proto_.width * ref.gridCellWidth;
                 c.pointerEvents = false;

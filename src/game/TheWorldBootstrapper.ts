@@ -10,8 +10,7 @@ import {
     GridPointer,
     GridCollideMap,
     CssTilemapChunkRenderer,
-    GridObjectCollideMap,
-    ZaxisInitializer
+    GridObjectCollideMap
 } from "the-world-engine";
 import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
@@ -101,7 +100,7 @@ export class NetworkInfoObject {
 
 export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
     public run(): SceneBuilder {
-        const instantlater = this.engine.instantiater;
+        const instantiater = this.instantiater;
 
         const player = new PrefabRef<GameObject>();
 
@@ -213,7 +212,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         };
 
         return this.sceneBuilder
-            .withChild(instantlater.buildGameObject("gamemanager")
+            .withChild(instantiater.buildGameObject("gamemanager")
                 .withComponent(NetworkPlayerManager, c => {
                     c.iGridCollidable = gridCollideMap.ref!;
                     c.initNetwork(this.interopObject!.networkManager);
@@ -254,33 +253,31 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .getComponent(NetworkBrushManager, networkBrushManager)
                 .getComponent(NetworkIframeManager, iframeManager))
 
-            .withChild(instantlater.buildGameObject("tilemap")
+            .withChild(instantiater.buildGameObject("tilemap")
             //.withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
-                .withChild(instantlater.buildGameObject("floor", new Vector3(0, 0, -400000))
-                    .withComponent(ZaxisInitializer, c => c.runOnce = true)
+                .withChild(instantiater.buildGameObject("floor", new Vector3(0, 0, -400000))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                         c.chunkSize = 16 * 2;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
-                .withChild(instantlater.buildGameObject("effect", new Vector3(0, 0, 400000))
-                    .withComponent(ZaxisInitializer, c => c.runOnce = true)
+                .withChild(instantiater.buildGameObject("effect", new Vector3(0, 0, 400000))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                         c.chunkSize = 16 * 2;
                     })
                     .getComponent(CssTilemapChunkRenderer, effectTilemap)))
 
-            .withChild(instantlater.buildGameObject("collide_map")
+            .withChild(instantiater.buildGameObject("collide_map")
                 .withComponent(GridCollideMap)
                 .withComponent(GridObjectCollideMap)
                 .withComponent(GridCenterPositionMatcher, c => c.setGridCenter(floorTilemap.ref!.gridCenter))
                 .getComponent(GridCollideMap, gridCollideMap)
                 .getComponent(GridObjectCollideMap, gridObjectCollideMap))
 
-            .withChild(instantlater.buildPrefab("player", PlayerPrefab)
+            .withChild(instantiater.buildPrefab("player", PlayerPrefab)
                 .with4x4SpriteAtlasFromPath(new PrefabRef(this.interopObject!.user.skinSrc || "/assets/charactor/Seongwon.png"))
                 .withCollideMap(gridCollideMap)
                 .withCollideMap(gridObjectCollideMap)
@@ -289,13 +286,13 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .make()
                 .getGameObject(player))
             
-            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab, new Vector3(0, 0, -500000))
+            .withChild(instantiater.buildPrefab("grid_input", GridInputPrefab, new Vector3(0, 0, -500000))
                 .withCollideMap(gridCollideMap)
                 .getGridPointer(gridPointer).make()
                 .withComponent(GridBrush, c => c.imageZoffset = 1010000)
                 .getComponent(GridBrush, gridBrush))
                 
-            .withChild(instantlater.buildPrefab("camera_controller", CameraPrefab)
+            .withChild(instantiater.buildPrefab("camera_controller", CameraPrefab)
                 .withTrackTarget(player).make());
     }
 }

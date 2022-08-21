@@ -1,5 +1,5 @@
 import { Server } from "../../connect/types";
-import { Component, CssTilemapChunkRenderer, TileAtlasItem } from "the-world-engine";
+import { AsyncImageLoader, Component, CssTilemapChunkRenderer, TileAtlasItem } from "the-world-engine";
 import { TileNetworker } from "../networker/TileNetworker";
 
 export class NetworkTileManager extends Component {
@@ -27,33 +27,27 @@ export class NetworkTileManager extends Component {
         if (!this._effectTileMap) throw new Error("effect tilemap not set");
         if (!this._tileNetworker) throw new Error("tile networker not set");
 
-        const promiseList: Promise<void>[] = [];
+        const ImageList: HTMLImageElement[] = [];
         for (let i = 0; i < this._initTileList.length; i++) {
             const atlas = this._initTileList[i];
             this._atlasImageMap.set(atlas.src, this._atlasImageAddIndex);
             const image = new Image();
             image.src = atlas.src;
-            const atlasItem = new TileAtlasItem(image, atlas.columnCount, atlas.rowCount);
-            this._atlasItemList.push(atlasItem);
-            promiseList.push(imageLoad(image));
+            ImageList.push(image);
             this._atlasImageAddIndex += 1;
         }
 
-        function imageLoad(image: HTMLImageElement) {
-            return new Promise<void>((res, rej) => {
-                image.onload = () => {
-                    res();
-                };
-                image.onerror = () => {
-                    rej();
-                };
-            });
-        }
-        
-        this._floorTileMap.imageSources = this._atlasItemList;
-        this._effectTileMap.imageSources = this._atlasItemList;
+        AsyncImageLoader.loadImages(ImageList).then(images => {
+            for (let i = 0; i < images.length; ++i) {
+                const image = images[i];
+                const atlas = this._initTileList[i];
+                const atlasItem = new TileAtlasItem(image, atlas.columnCount, atlas.rowCount);
+                this._atlasItemList.push(atlasItem);
+            }
 
-        Promise.all(promiseList).then(() => {
+            this._floorTileMap!.imageSources = this._atlasItemList;
+            this._effectTileMap!.imageSources = this._atlasItemList;
+
             for (let i = 0; i < this._initTileList.length; i++) {
                 const atlas = this._initTileList[i];
                 for (let j = 0; j < atlas.tiles.length; j++) {
@@ -91,18 +85,16 @@ export class NetworkTileManager extends Component {
         if (imageIndex === undefined) {
             this._atlasImageMap.set(atlasTile.atlas.src, this._atlasImageAddIndex);
             this._atlasImageAddIndex += 1;
-            const image = new Image();
-            image.src = atlasTile.atlas.src;
-            const atlasItem = new TileAtlasItem(image, atlasTile.atlas.columnCount, atlasTile.atlas.rowCount);
-            this._atlasItemList.push(atlasItem);
-            imageIndex = this._atlasImageAddIndex - 1;
-            image.onload = () => {
+            AsyncImageLoader.loadImageFromPath(atlasTile.atlas.src).then(image => {
+                const atlasItem = new TileAtlasItem(image, atlasTile.atlas.columnCount, atlasTile.atlas.rowCount);
+                this._atlasItemList.push(atlasItem);
+                imageIndex = this._atlasImageAddIndex - 1;
                 if (atlasTile.type === Server.TileType.Floor) {
                     this._floorTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex!, atlasTile.atlasIndex);
                 } else {
                     this._effectTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex!, atlasTile.atlasIndex);
                 }
-            };
+            });
         } else {
             if (atlasTile.type === Server.TileType.Floor) {
                 this._floorTileMap!.drawTile(atlasTile.x, atlasTile.y, imageIndex, atlasTile.atlasIndex);

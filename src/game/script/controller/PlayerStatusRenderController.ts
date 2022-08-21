@@ -52,7 +52,7 @@ export class PlayerStatusRenderController extends Component {
         if (value === null) {
             this.setChatBoxFromString(null);
         } else {
-            this._chatBoxCoroutine = this.startCorutine(this.chatBoxShowAnimation(value, 0.5, showSeconds, 0.5, defaultOpacity));
+            this._chatBoxCoroutine = this.startCoroutine(this.chatBoxShowAnimation(value, 0.5, showSeconds, 0.5, defaultOpacity));
         }
     }
 

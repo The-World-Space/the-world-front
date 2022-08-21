@@ -11,19 +11,19 @@ export class IframeStatusRenderController extends Component {
     private _onKeyUpBind = this.onKeyUp.bind(this);
 
     protected start(): void {
-        this.engine.input.addOnKeyUpEventListener(this._onKeyUpBind);
+        this.engine.input.onKeyUp.addListener(this._onKeyUpBind);
     }
 
     public onDestroy(): void {
-        this.engine.input.removeOnKeyUpEventListener(this._onKeyUpBind);
+        this.engine.input.onKeyUp.removeListener(this._onKeyUpBind);
     }
 
     public onEnable(): void {
-        this.engine.input.addOnKeyDownEventListener(this._onKeyDownBind);
+        this.engine.input.onKeyDown.addListener(this._onKeyDownBind);
     }
 
     public onDisable(): void {
-        this.engine.input.removeOnKeyDownEventListener(this._onKeyDownBind);
+        this.engine.input.onKeyDown.removeListener(this._onKeyDownBind);
     }
 
     private onKeyDown(e: KeyboardEvent): void {

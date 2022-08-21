@@ -19,7 +19,7 @@ import { Tools } from "../../organisms/EditorInner/ObjectEditorInner";
 
 export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
     public run(): SceneBuilder {
-        const instantlater = this.engine.instantiater;
+        const instantiater = this.instantiater;
 
         const collideMap = new PrefabRef<GridCollideMap>();
         const gridPointer = new PrefabRef<GridPointer>();
@@ -68,22 +68,22 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
         };
 
         return this.sceneBuilder
-            .withChild(instantlater.buildGameObject("camera", new Vector3(0, 0, 100))
+            .withChild(instantiater.buildGameObject("camera", new Vector3(0, 0, 100))
                 .withComponent(Camera, c => {
-                    c.viewSize = 80;
+                    c.viewSize = 5;
                     c.backgroundColor = new Color(0.9, 0.9, 0.9);
                 })
                 .withComponent(EditorCameraController)
                 .withComponent(EditorGridRenderer, c => {
-                    c.renderWidth = 100;
-                    c.renderHeight = 500;
+                    c.renderWidth = 10;
+                    c.renderHeight = 50;
                 }))
 
-            .withChild(instantlater.buildGameObject("collide_map")
+            .withChild(instantiater.buildGameObject("collide_map")
                 .withComponent(GridCollideMap, c => c.showCollider = true)
                 .getComponent(GridCollideMap, collideMap))
             
-            .withChild(instantlater.buildPrefab("grid_input", GridInputPrefab)
+            .withChild(instantiater.buildPrefab("grid_input", GridInputPrefab)
                 .withCollideMap(collideMap)
                 .getGridPointer(gridPointer).make()
                 .withComponent(GridColliderBrush, c => {
@@ -93,7 +93,7 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
                 })
                 .getComponent(GridColliderBrush, colliderBrush))
             
-            .withChild(instantlater.buildGameObject("view_object", new Vector3(-8, -8, 0))
+            .withChild(instantiater.buildGameObject("view_object", new Vector3(-0.5, -0.5, 0))
                 .withComponent(CssSpriteRenderer, c => {
                     c.enabled = false;
                     c.pointerEvents = false;
