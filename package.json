@@ -5,7 +5,6 @@
   "dependencies": {
     "@apollo/client": "^3.3.21",
     "@material-ui/core": "^4.12.1",
-    "@react-three/fiber": "^7.0.19",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -17,7 +16,6 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.8",
-    "@types/three": "^0.137.0",
     "@types/zen-observable": "^0.8.3",
     "apollo-upload-client": "^17.0.0",
     "detail-typed-emitter": "^1.2.1",
@@ -30,10 +28,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-use": "^17.3.1",
-    "styled-component": "^2.8.0",
     "styled-components": "^5.3.0",
     "the-world-engine": "^0.2.17",
-    "three": "^0.137.5",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1",
     "wolfy87-eventemitter": "^5.2.9"
