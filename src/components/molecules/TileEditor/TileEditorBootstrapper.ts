@@ -16,6 +16,7 @@ import { EditorViewObjectController } from "../../../game/script/controller/Edit
 import { BrushMode, GridColliderBrush } from "../../../game/script/input/GridColliderBrush";
 import { ObjEditorConnector } from "../../../game/script/ObjEditorConnector";
 import { Tools } from "../../organisms/EditorInner/ObjectEditorInner";
+import { CameraHorizontalViewSizeSetter } from "../../../game/script/helper/CameraHorizontalViewSizeSetter";
 
 export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
     public run(): SceneBuilder {
@@ -70,14 +71,17 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
         return this.sceneBuilder
             .withChild(instantiater.buildGameObject("camera", new Vector3(0, 0, 100))
                 .withComponent(Camera, c => {
-                    c.viewSize = 5;
                     c.backgroundColor = new Color(0.9, 0.9, 0.9);
+                    c.viewSize = 3.5;
                 })
-                .withComponent(EditorCameraController)
+                .withComponent(EditorCameraController, c => {
+                    c.maxViewSize = 5.5;
+                })
                 .withComponent(EditorGridRenderer, c => {
                     c.renderWidth = 10;
                     c.renderHeight = 50;
-                }))
+                })
+                .withComponent(CameraHorizontalViewSizeSetter))
 
             .withChild(instantiater.buildGameObject("collide_map")
                 .withComponent(GridCollideMap, c => c.showCollider = true)
