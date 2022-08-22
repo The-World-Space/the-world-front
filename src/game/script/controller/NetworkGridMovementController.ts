@@ -63,7 +63,7 @@ export class NetworkGridMovementController extends Directable {
         const vector2Pos = new Vector2(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y);
         const distance = vector2Pos.distanceTo(this._targetGridPosition);
         
-        if (distance > 0.1) {
+        if (distance > 0.01) {
             const direction = this._targetGridPosition.clone().sub(vector2Pos);
             this._setDirection(direction);
 
