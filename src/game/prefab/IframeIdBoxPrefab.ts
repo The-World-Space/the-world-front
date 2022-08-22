@@ -28,9 +28,10 @@ export class IframeIdBoxPrefab extends Prefab {
                 idBoxDiv.style.opacity = "0.5";
                 idBoxDiv.style.fontFamily = "Noto Sans";
                 idBoxDiv.innerText = "content";
-                c.centerOffset = new Vector2(0.5, 0.5);
+                c.centerOffset = new Vector2(0.5, -1.6);
                 c.pointerEvents = false;
                 c.element = idBoxDiv;
+                c.viewScale = 0.07;
             })
             .getComponent(CssHtmlElementRenderer, this._idboxRenderer)
             .getGameObject(this._idboxObject);
