@@ -64,7 +64,7 @@ export class NetworkGridMovementController extends Directable {
     private processMovement(): void {
         if (!this.isMoving) return;
         const transform = this.gameObject.transform;
-        const vector2Pos = this._tempVector2a.set(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y);
+        const vector2Pos = this._tempVector2a.set(transform.localPosition.x, transform.localPosition.y);
         const distance = vector2Pos.distanceTo(this._targetPosition);
     
         const direction = this._tempVector2b.copy(this._targetPosition).sub(vector2Pos);
@@ -89,7 +89,6 @@ export class NetworkGridMovementController extends Directable {
         direction.normalize();
 
         const oneStepDistance = this._speed * this.engine.time.deltaTime;
-
         if (distance < oneStepDistance) {
             this.isMoving = false;
             this._currentPosition.copy(this._targetPosition);
