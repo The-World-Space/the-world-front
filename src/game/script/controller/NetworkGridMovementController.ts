@@ -1,5 +1,5 @@
 import { Vector2 } from "three/src/Three";
-import { Direction, Directable } from "the-world-engine";
+import { Direction, Directable, ReadonlyVector2, WritableVector2 } from "the-world-engine";
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 
 export class NetworkGridMovementController extends Directable {
@@ -9,18 +9,18 @@ export class NetworkGridMovementController extends Directable {
     private _gridCellHeight: number = 1;
     private _gridCellWidth: number = 1;
     private readonly _gridCenter: Vector2 = new Vector2();
-    private readonly _currentGridPosition: Vector2 = new Vector2();
-    private readonly _targetGridPosition: Vector2 = new Vector2();
+    private readonly _currentPosition: Vector2 = new Vector2();
+    private readonly _targetPosition: Vector2 = new Vector2();
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
     private _networkManager: PlayerNetworker | null = null;
     private _userId: string | null = null;
     public readonly onMoveBind = this.onMove.bind(this);
     
-    protected start(): void {
+    public start(): void {
         const transform = this.gameObject.transform;
         this.transform.position.x = this._gridCenter.x + this._initPosition.x * this._gridCellWidth;
         this.transform.position.y = this._gridCenter.y + this._initPosition.y * this._gridCellHeight;
-        this._currentGridPosition.set(transform.localPosition.x, transform.localPosition.y);
+        this._currentPosition.set(transform.localPosition.x, transform.localPosition.y);
     }
 
     public update(): void {
@@ -33,19 +33,19 @@ export class NetworkGridMovementController extends Directable {
         networkManager.ee.on(`move_${userId}`, this.onMoveBind);
     }
 
-    private onMove(pos: Vector2): void {
-        this._targetGridPosition.setX(pos.x * this._gridCellWidth + this._gridCenter.x);
-        this._targetGridPosition.setY(pos.y * this._gridCellHeight + this._gridCenter.y);
+    private onMove(gridPosition: Vector2): void {
+        this._targetPosition.setX(gridPosition.x * this._gridCellWidth + this._gridCenter.x);
+        this._targetPosition.setY(gridPosition.y * this._gridCellHeight + this._gridCenter.y);
         this.isMoving = true;
     }
 
     public onDestroy(): void {
-        if (this._networkManager === null)  return;
-        if (this._userId === null)          return;
+        if (this._networkManager === null) return;
+        if (this._userId === null) return;
         this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMoveBind);
     }
 
-    private _setDirection(delta: Vector2): void {
+    private setDirection(delta: Vector2): void {
         const useX = Math.abs(delta.x) > Math.abs(delta.y);
         const dx = useX ? delta.x : 0;
         const dy = useX ? 0 : delta.y;
@@ -58,41 +58,50 @@ export class NetworkGridMovementController extends Directable {
             NaN;
     }
 
+    private readonly _tempVector2a = new Vector2();
+    private readonly _tempVector2b = new Vector2();
+
     private processMovement(): void {
         if (!this.isMoving) return;
-        const vector2Pos = new Vector2(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y);
-        const distance = vector2Pos.distanceTo(this._targetGridPosition);
-        
-        if (distance > 0.01) {
-            const direction = this._targetGridPosition.clone().sub(vector2Pos);
-            this._setDirection(direction);
+        const transform = this.gameObject.transform;
+        const vector2Pos = this._tempVector2a.set(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y);
+        const distance = vector2Pos.distanceTo(this._targetPosition);
+    
+        const direction = this._tempVector2b.copy(this._targetPosition).sub(vector2Pos);
+        this.setDirection(direction);
 
-            let syncCorrectionScalarX = 1;
-            let syncCorrectionScalarY = 1;
+        let syncCorrectionScalarX = 1;
+        let syncCorrectionScalarY = 1;
 
-            if (this.gridCellWidth < direction.x) {
-                syncCorrectionScalarX = direction.x / this.gridCellWidth;
-            }
-            if (this.gridCellHeight < direction.y) {
-                syncCorrectionScalarY = direction.y / this.gridCellHeight;
-            }
-            if (-this.gridCellWidth > direction.x) {
-                syncCorrectionScalarX = -direction.x / this.gridCellWidth;
-            }
-            if (-this.gridCellHeight > direction.y) {
-                syncCorrectionScalarY = -direction.y / this.gridCellHeight;
-            }
+        if (this.gridCellWidth < direction.x) {
+            syncCorrectionScalarX = direction.x / this.gridCellWidth;
+        }
+        if (this.gridCellHeight < direction.y) {
+            syncCorrectionScalarY = direction.y / this.gridCellHeight;
+        }
+        if (-this.gridCellWidth > direction.x) {
+            syncCorrectionScalarX = -direction.x / this.gridCellWidth;
+        }
+        if (-this.gridCellHeight > direction.y) {
+            syncCorrectionScalarY = -direction.y / this.gridCellHeight;
+        }
 
-            direction.normalize();
-            direction.multiplyScalar(Math.min(this._speed * this.engine.time.deltaTime, distance));
+        direction.normalize();
+
+        const oneStepDistance = this._speed * this.engine.time.deltaTime;
+
+        if (distance < oneStepDistance) {
+            this.isMoving = false;
+            this._currentPosition.copy(this._targetPosition);
+            transform.localPosition.x = this._targetPosition.x;
+            transform.localPosition.y = this._targetPosition.y;
+        } else {
+            direction.multiplyScalar(oneStepDistance);
             direction.x *= syncCorrectionScalarX;
             direction.y *= syncCorrectionScalarY;
 
-            this.gameObject.transform.localPosition.x += direction.x;
-            this.gameObject.transform.localPosition.y += direction.y;
-        } else {
-            this.isMoving = false;
-            this._currentGridPosition.copy(this._targetGridPosition);
+            transform.localPosition.x += direction.x;
+            transform.localPosition.y += direction.y;
         }
     }
 
@@ -104,12 +113,12 @@ export class NetworkGridMovementController extends Directable {
         this._speed = value;
     }
 
-    public get gridCenter(): Vector2 {
-        return this._gridCenter.clone();
+    public get gridCenter(): ReadonlyVector2 {
+        return this._gridCenter;
     }
 
-    public set gridCenter(value: Vector2) {
-        this._gridCenter.copy(value);
+    public set gridCenter(value: ReadonlyVector2) {
+        (this._gridCenter as WritableVector2).copy(value);
     }
 
     public get gridCellHeight(): number {
@@ -134,8 +143,8 @@ export class NetworkGridMovementController extends Directable {
 
     public get positionInGrid(): Vector2 {
         return new Vector2(
-            Math.floor(this.gameObject.transform.localPosition.x / this._gridCellWidth),
-            Math.floor(this.gameObject.transform.localPosition.y / this._gridCellHeight)
+            Math.floor((this.transform.localPosition.x - this._gridCenter.x) / this._gridCellWidth),
+            Math.floor((this.transform.localPosition.y - this._gridCenter.y) / this._gridCellHeight)
         );
     }
 }
