@@ -10,7 +10,7 @@ export class GridColliderBrush extends Component {
     
     private _gridPointer: GridPointer|null = null;
     private _colideMap: GridCollideMap|null = null;
-    private _pointerDown: boolean = false;
+    private _pointerDown = false;
     private _brushMode: BrushMode = BrushMode.Draw;
 
     private readonly _onPointerDownBind = this.onPointerDown.bind(this);

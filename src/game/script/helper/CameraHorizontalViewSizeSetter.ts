@@ -4,7 +4,7 @@ export class CameraHorizontalViewSizeSetter extends Component {
     public override readonly requiredComponents = [Camera];
     public override readonly disallowMultipleComponent = true;
 
-    private _viewSize: number = 1;
+    private _viewSize = 1;
     private _camera: Camera|null = null;
 
     public awake(): void {

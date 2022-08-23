@@ -5,9 +5,9 @@ import { PlayerNetworker } from "../networker/PlayerNetworker";
 export class NetworkGridMovementController extends Directable {
     public readonly disallowMultipleComponent: boolean = true;
     
-    private _speed: number = 80;
-    private _gridCellHeight: number = 1;
-    private _gridCellWidth: number = 1;
+    private _speed = 80;
+    private _gridCellHeight = 1;
+    private _gridCellWidth = 1;
     private readonly _gridCenter: Vector2 = new Vector2();
     private readonly _currentPosition: Vector2 = new Vector2();
     private readonly _targetPosition: Vector2 = new Vector2();

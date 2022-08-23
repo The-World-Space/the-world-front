@@ -16,7 +16,7 @@ export class PlayerStatusRenderController extends Component {
     private _nameTagString: string|null = null;
     private _chatBoxObject: GameObject|null = null;
     private _chatBox: CssHtmlElementRenderer|null = null;
-    private _chatBoxString: string = "";
+    private _chatBoxString = "";
     private _chatBoxCoroutine: Coroutine|null = null;
 
     public setNameTagObject(gameObject: GameObject): void {

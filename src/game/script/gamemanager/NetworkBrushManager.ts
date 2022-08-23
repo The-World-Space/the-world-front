@@ -8,7 +8,7 @@ export class NetworkBrushManager extends Component {
     private _gridBrush: GridBrush | null = null;
     private _currentTool: Tool | null = null;
     private _apolloClient: ApolloClient<any> | null = null;
-    private _worldId: string = "";
+    private _worldId = "";
 
     public set gridBrush(val: GridBrush) {
         this._gridBrush = val;

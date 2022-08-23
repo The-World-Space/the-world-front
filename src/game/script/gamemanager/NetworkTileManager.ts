@@ -8,7 +8,7 @@ export class NetworkTileManager extends Component {
     private _floorTileMap: CssTilemapChunkRenderer|null = null;
     private _effectTileMap: CssTilemapChunkRenderer|null = null;
     private _atlasImageMap: Map<string, number> = new Map();
-    private _atlasImageAddIndex: number = 0;
+    private _atlasImageAddIndex = 0;
     private _initTileList: Server.AtlasInfoScalar = [];
     private _tileNetworker: TileNetworker | null = null;
 

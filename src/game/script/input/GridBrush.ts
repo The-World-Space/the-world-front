@@ -14,12 +14,12 @@ export class GridBrush extends Component {
     public readonly requiredComponents: ComponentConstructor[] = [PointerGridInputListener];
     
     private _gridInputListener: PointerGridInputListener|null = null;
-    private _pointerDown: boolean = false;
-    private _pointerHover: boolean = false;
-    private _showImage: boolean = false;
+    private _pointerDown = false;
+    private _pointerHover = false;
+    private _showImage = false;
     private _pointerImage: CssSpriteAtlasRenderer|null = null;
     private _pointerImageObject: GameObject|null = null;
-    private _imageZoffset: number = 0;
+    private _imageZoffset = 0;
     private _onDraw: ((gridPosition: Vector2) => void)|null = null;
 
     private readonly _onPointerDownBind = this.onPointerDown.bind(this);

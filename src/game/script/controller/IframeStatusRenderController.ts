@@ -5,8 +5,8 @@ export class IframeStatusRenderController extends Component {
     
     private _idBoxObject: GameObject|null = null;
     private _idBox: CssHtmlElementRenderer|null = null;
-    private _idBoxString: string = "";
-    private _id: number = 0;
+    private _idBoxString = "";
+    private _id = 0;
     private _onKeyDownBind = this.onKeyDown.bind(this);
     private _onKeyUpBind = this.onKeyUp.bind(this);
 
