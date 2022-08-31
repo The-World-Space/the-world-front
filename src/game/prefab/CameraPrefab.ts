@@ -1,5 +1,5 @@
 import { Vector2 } from "three/src/Three";
-import { TrackCameraController, Camera, GameObject, GameObjectBuilder, Prefab, PrefabRef } from "the-world-engine";
+import { TrackCameraController, Camera, GameObject, GameObjectBuilder, Prefab, PrefabRef, CameraType } from "the-world-engine";
 
 export class CameraPrefab extends Prefab {
     private _trackTarget = new PrefabRef<GameObject>();
@@ -13,6 +13,7 @@ export class CameraPrefab extends Prefab {
         return this.gameObjectBuilder
             .withComponent(Camera, c => {
                 c.viewSize = 8;
+                c.cameraType = CameraType.Orthographic;
             })
             .withComponent(TrackCameraController, c => {
                 c.setTrackTarget(this._trackTarget.ref!);

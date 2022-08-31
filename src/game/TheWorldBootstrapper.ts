@@ -256,14 +256,14 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
             .withChild(instantiater.buildGameObject("tilemap")
             //.withComponent(CameraRelativeZaxisSorter, c => c.offset = -500)
 
-                .withChild(instantiater.buildGameObject("floor", new Vector3(0, 0, -400000))
+                .withChild(instantiater.buildGameObject("floor", new Vector3(0, 0, -400))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                         c.chunkSize = 16 * 2;
                     })
                     .getComponent(CssTilemapChunkRenderer, floorTilemap))
                     
-                .withChild(instantiater.buildGameObject("effect", new Vector3(0, 0, 400000))
+                .withChild(instantiater.buildGameObject("effect", new Vector3(0, 0, 400))
                     .withComponent(CssTilemapChunkRenderer, c => {
                         c.pointerEvents = false;
                         c.chunkSize = 16 * 2;
@@ -286,10 +286,10 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .make()
                 .getGameObject(player))
             
-            .withChild(instantiater.buildPrefab("grid_input", GridInputPrefab, new Vector3(0, 0, -500000))
+            .withChild(instantiater.buildPrefab("grid_input", GridInputPrefab, new Vector3(0, 0, -500))
                 .withCollideMap(gridCollideMap)
                 .getGridPointer(gridPointer).make()
-                .withComponent(GridBrush, c => c.imageZoffset = 1010000)
+                .withComponent(GridBrush, c => c.imageZoffset = 1010)
                 .getComponent(GridBrush, gridBrush))
                 
             .withChild(instantiater.buildPrefab("camera_controller", CameraPrefab)

@@ -75,7 +75,7 @@ export class BasePlayerPrefab extends Prefab {
             })
 
             .withChild(instantiater.buildGameObject("chatbox",
-                new Vector3(0, 2.8, 1000000000),
+                new Vector3(0, 2.8, 100000),
                 new Quaternion(),
                 new Vector3().setScalar(0.3))
                 .active(false)
@@ -96,7 +96,7 @@ export class BasePlayerPrefab extends Prefab {
                 .getGameObject(chatboxObject))
 
             .withChild(instantiater.buildGameObject("nametag",
-                new Vector3(0, 2, 1000000000),
+                new Vector3(0, 2, 100000),
                 new Quaternion(),
                 new Vector3().setScalar(0.3))
                 .active(false)
