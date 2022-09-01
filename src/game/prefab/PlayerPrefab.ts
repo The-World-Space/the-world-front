@@ -1,6 +1,5 @@
 import { Vector2 } from "three/src/Three";
 import {
-    PlayerGridMovementController,
     GameObjectBuilder,
     GridPointer,
     PrefabRef,
@@ -9,6 +8,7 @@ import {
     GridEventMap,
 } from "the-world-engine";
 import { BasePlayerPrefab } from "./BasePlayerPrefab";
+import { PlayerGridMovementController } from "../script/controller/PlayerGridMovementController";
 
 export class PlayerPrefab extends BasePlayerPrefab {
     private _collideMaps: PrefabRef<IGridCollidable>[] = [];
