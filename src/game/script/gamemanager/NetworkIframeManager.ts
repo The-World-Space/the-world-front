@@ -22,7 +22,7 @@ const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
 export class NetworkIframeManager extends Component {
-    private _networkIframerMap: Map<number, GameObject> = new Map();
+    private _networkIframeMap: Map<number, GameObject> = new Map();
 
     private _apolloClient: ApolloClient<any> | null = null;
     private _iGridCoordinatable: IGridCoordinatable | null = null;
@@ -98,10 +98,10 @@ export class NetworkIframeManager extends Component {
     }
 
     public deleteOneIframe(id: number): void {
-        const iframe = this._networkIframerMap.get(id);
+        const iframe = this._networkIframeMap.get(id);
         if (!iframe) return;
         iframe.destroy();
-        this._networkIframerMap.delete(id);
+        this._networkIframeMap.delete(id);
     }
 
     private _buildNetworkIframe(
@@ -146,7 +146,7 @@ export class NetworkIframeManager extends Component {
         const builder = prefab.make();
         builder.getGameObject(prefabRef)
             .getComponent(CssIframeRenderer, iframeRenderer);
-        this._networkIframerMap.set(iframeInfo.id, prefabRef.ref!);
+        this._networkIframeMap.set(iframeInfo.id, prefabRef.ref!);
         this.gameObject.addChildFromBuilder(builder);
 
         // Put soter after build
