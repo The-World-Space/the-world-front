@@ -34,6 +34,10 @@ const GameContainer = styled.div`
     height: "100%";
     width: "calc(100% - 130px)";
     z-index: 0;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const WidgetContainer = styled.div`
@@ -43,6 +47,10 @@ const WidgetContainer = styled.div`
     position: absolute;
     pointer-events: none;
     right: 0px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const WidgetWrapper = styled.div`
@@ -57,6 +65,10 @@ const GameView = styled.div`
     width: calc(100% - 130px);
     z-index: 0;
     position: absolute;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const Loading = styled.div`
@@ -69,6 +81,10 @@ const Loading = styled.div`
     
     align-items: center;
     justify-content: center;
+    
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 

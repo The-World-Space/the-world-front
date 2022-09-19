@@ -291,6 +291,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState("");
     const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
+    const [showSideBar, setShowSideBar] = useState(true);
     const previledge = useMemo(() => amIadmin || !!world?.amIOwner, [amIadmin, world]);
 
     const ref = useRef<HTMLDivElement>(null);
@@ -354,10 +355,20 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
         game?.inputHandler.startHandleEvents();
     }, [game]);
 
-    return (
-        <>
-            <PlayerListPopup opened={popupOpened} worldId={worldId} />
-            <OuterDiv>
+    const onWindowResize = useCallback(() => {
+        setShowSideBar(window.innerWidth > 768);
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener("resize", onWindowResize);
+        return () => window.removeEventListener("resize", onWindowResize);
+    }, [onWindowResize]);
+
+    const sideBar = useMemo(() => {
+        if (!showSideBar) return null;
+
+        return (
+            <>
                 <SidebarDiv>
                     <Link to="/">
                         <LogoImage src={twLogo2Black} />
@@ -392,6 +403,15 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                     <ExpandButton onClick={() => expandBarToggle()} 
                         style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
                 }
+            </>
+        );
+    }, [amIadmin, barOpened, onMenuSelect, playerList, selectedEditor, showSideBar, world?.amIOwner, onPeopleCountClick]);
+
+    return (
+        <>
+            <PlayerListPopup opened={popupOpened} worldId={worldId} />
+            <OuterDiv>
+                {sideBar}
                 <ChatButton onClick={() => chatToggle()}/>
                 <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
                     <ChatContentDiv ref={ref}>
