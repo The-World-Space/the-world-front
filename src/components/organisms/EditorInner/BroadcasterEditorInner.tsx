@@ -28,7 +28,6 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     ${FANCY_SCROLLBAR_CSS}
 `;
 
-
 const ListContainer = styled.ol`
     display: flex;
     padding: 0px;
@@ -113,7 +112,6 @@ interface PropsType {
     worldId: string;
     opened: boolean;
 }
-
 
 function ListItem({ broadcaster, update }: { broadcaster: Server.GlobalBroadcaster, update: (broadcaster: Partial<Server.Broadcaster>) => void }) {
     const apolloClient = useApolloClient();
@@ -210,9 +208,7 @@ function BroadcasterEditorInner({ worldId, opened }: PropsType) {
     );
 }
 
-
 export default React.memo(BroadcasterEditorInner);
-
 
 export function useGlobalBroadcasters(apolloClient: ApolloClient<any>, worldId: string): Server.GlobalBroadcaster[] {
     const [broadcasters, setBroadcasters] = useState<Server.GlobalBroadcaster[]>([]);
@@ -256,7 +252,6 @@ export function useGlobalBroadcasters(apolloClient: ApolloClient<any>, worldId: 
     return broadcasters;
 }
 
-
 export async function getGlobalBroadcasterCreatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.GlobalBroadcaster>> {
     return await apolloClient.subscribe({
         query: gql`
@@ -292,7 +287,6 @@ async function getGlobalBroadcasters(apolloClient: ApolloClient<any>, worldId: s
     
     return result.data.World.globalBroadcasters as Server.GlobalBroadcaster[];
 }
-
 
 async function createGlobalBroadcaster(apolloClient: ApolloClient<any>, worldId: string, name: string) {
     await apolloClient.mutate({

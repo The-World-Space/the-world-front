@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import {
-    useHistory
-} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/contexts";
 import { useContext } from "react";
 import { useApolloClient } from "@apollo/client";

@@ -44,7 +44,6 @@ async function createWorld(apolloClient: ApolloClient<any>, id: string, name: st
     });
 }
 
-
 const CreateWorld: React.FC = () => {
     const [worldId, setWorldId] = useState("");
     const [worldName, setWorldName] = useState("");
@@ -82,6 +81,5 @@ const CreateWorld: React.FC = () => {
         </NavTemplate>
     );
 };
-
 
 export default CreateWorld;

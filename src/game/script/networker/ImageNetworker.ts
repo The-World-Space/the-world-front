@@ -89,15 +89,7 @@ export class ImageNetworker {
         });
     }
 
-
-    // private _initEEListenters() {
-        
-        
-    // }
-
-
     get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }
-

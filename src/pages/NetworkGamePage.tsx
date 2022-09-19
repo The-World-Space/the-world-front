@@ -117,7 +117,6 @@ const LodingLogo = styled(TWLogo)`
     }
 `;
 
-
 function NetworkGamePage_(): JSX.Element {
     const globalApolloClient = useGameWSApolloClient();
     const globalProtoWebSocket = useGameProtoWebSocket();
@@ -211,8 +210,6 @@ function NetworkGamePage(): JSX.Element {
 }
 
 export default NetworkGamePage;
-
-
 
 interface GameWSApolloClientContextType {
     wsLink: ApolloLink;

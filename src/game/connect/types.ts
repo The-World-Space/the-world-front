@@ -1,4 +1,3 @@
-
 export namespace Server {
 
     type TileNum = number;
@@ -37,7 +36,6 @@ export namespace Server {
         })[];
     })[];
     
-
     export interface User {
         id: string;
         nickname: string;

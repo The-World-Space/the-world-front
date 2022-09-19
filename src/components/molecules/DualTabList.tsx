@@ -171,7 +171,6 @@ const ElementName = styled.span`
 
 export type PhotoElementData = PhotoSrcData | PhotoAtlasData;
 
-
 export interface PhotoSrcData {
     id: string,
     src: string,
@@ -220,6 +219,5 @@ function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
         </ElementWrapperDIv>
     );
 }
-
 
 export default React.memo(DualTabList);

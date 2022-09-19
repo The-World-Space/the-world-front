@@ -232,14 +232,4 @@ export class NetworkBrushManager extends Component {
         };
         return sendIframe();
     }
-
-
-    // private _buildNetworkIframe(colliderInfo: Server.Collider): void {
-    //     if (!this._worldGridColliderMap.ref) throw new Error("worldGridColliderMap is null");
-        
-    //     if (colliderInfo.isBlocked)
-    //         this._worldGridColliderMap.ref.addCollider(colliderInfo.x, colliderInfo.y);
-    //     else
-    //         this._worldGridColliderMap.ref.removeCollider(colliderInfo.x, colliderInfo.y);
-    // }
 }

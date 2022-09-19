@@ -52,10 +52,8 @@ function TileEditor({ opened }: TileEditorProps): JSX.Element {
     });
 
     return (
-        <>
-            <DrawArea ref={divRef}>
-            </DrawArea>
-        </>
+        <DrawArea ref={divRef}>
+        </DrawArea>
     );
 }
 

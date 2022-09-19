@@ -5,7 +5,6 @@ import {
 import styled from "styled-components";
 import { ReactComponent as Error404 } from "../components/atoms/Error404.svg";
 
-
 interface ICircle {
     x: number;
     y: number;
@@ -121,8 +120,6 @@ function CircleContainer(): JSX.Element {
         </RelativeDiv>
     );
 }
-
-
 
 const Title = styled.h1`
     margin-top: 90px;

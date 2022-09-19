@@ -42,7 +42,6 @@ const UserInfoCardDiv = styled.div`
     align-items: center;
 `;
 
-
 const CardRightDiv = styled.div`
     width: 35%;
     height: 80%;
@@ -53,7 +52,6 @@ const CardRightDiv = styled.div`
     font-size: 24px;
     font-family: ${FORM_FONT_FAMILY};
 `;
-
 
 // const ChangePasswordButton = styled.button`
 //     border: none;
@@ -113,7 +111,6 @@ const SkinUploadButton = styled.button`
     }
 `;
 
-
 const UPLOAD_HTML = gql`
     mutation uploadIframeAssetText($text: String!) {
         uploadIframeAssetText(iframe: $text) {
@@ -121,7 +118,6 @@ const UPLOAD_HTML = gql`
         }
     }
 `;
-
 
 function UploadHtml(): JSX.Element {
     const [uploadHtml] = useMutation(UPLOAD_HTML, {

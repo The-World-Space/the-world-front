@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-    useHistory,
-    Link
-} from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
 import NavTemplate from "../components/templates/NavTemplate";
 import HorizontalDivider from "../components/atoms/HorizontalDivider";
@@ -74,7 +71,6 @@ function Register(): JSX.Element {
             alert(e);
         }
     }
-
 
     return (
         <NavTemplate>

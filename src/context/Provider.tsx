@@ -19,7 +19,6 @@ export const Provider: React.FC = ({ children }) => {
     );
 };
 
-
 const AuthContextProvider: React.FC = ({ children }) => {
     const [jwt, setJwt] = useRawState("", JWT_KEY);
     
@@ -35,7 +34,6 @@ const AuthContextProvider: React.FC = ({ children }) => {
         </AuthContext.Provider>
     );
 };
-
 
 export const GameProvider: React.FC = ({ children }) => {
     return (
@@ -63,7 +61,6 @@ const ObjEditorContextProvider: React.FC = ({ children }) => {
         </ObjEditorContext.Provider>
     );
 };
-
 
 const WORLD_ADMIN_LIST = gql`
     subscription worldAdminList($worldId: String!) {

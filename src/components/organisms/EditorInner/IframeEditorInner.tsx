@@ -1,16 +1,10 @@
 import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-// import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Server } from "../../../game/connect/types";
 import { useGameWSApolloClient } from "../../../pages/NetworkGamePage";
 import { getBroadcasterDeletingObservable, getBroadcasterUpdatingObservable, useGlobalBroadcasters } from "./BroadcasterEditorInner";
-// import { globalApolloClient } from "../../../game/connect/gql";
-// import { Server } from "../../../game/connect/types";
 import { FANCY_SCROLLBAR_CSS, getFieldDeletingObservable, getFieldUpdatingObservable, useGlobalFields } from "./FieldEditorInner";
-
-
-
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -75,7 +69,6 @@ function PortMappingListItem({ targetName, portId, isGlobal, remove }: { targetN
     );
 }
 
-
 const STYLED_UL = styled.ul`
     background-color: #FFFFFB;
     border-radius: 14px;
@@ -119,7 +112,6 @@ function PortMappingList<U extends Server.IframeFieldPortMapping | Server.Iframe
         </STYLED_UL>
     );
 }
-
 
 const PortIdInput = styled.input`
     width: 100%;
@@ -178,7 +170,6 @@ const AddBtn = styled.input`
 
     background-color: #D7CCC8;
 `;
-
 
 function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extends Server.IframeFieldPortMapping | Server.IframeBroadcasterPortMapping>({
     add,
@@ -465,9 +456,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
     );
 }
 
-
 export default React.memo(IframeEditorInner);
-
 
 // Port mapping
 async function getIframeFieldPortMappingObservable(apolloClient: ApolloClient<any>, iframeId: number) {
@@ -488,6 +477,7 @@ async function getIframeFieldPortMappingObservable(apolloClient: ApolloClient<an
         }
     }).map(result => result.data.iframeFieldPortMappingList as Server.IframeFieldPortMapping[]);
 }
+
 async function getIframeBroadcasterPortMappingObservable(apolloClient: ApolloClient<any>, iframeId: number) {
     return await apolloClient.subscribe({
         query: gql`
@@ -550,9 +540,7 @@ async function getIframeDeletingObservable(apolloClient: ApolloClient<any>, worl
     }).map(result => result.data.iframeGameObjectDeleting as number);
 }
 
-
 // Local Broadcaster & Field Creating event
-
 export async function getLocalBroadcasterCreatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.LocalBroadcaster>> {
     return await apolloClient.subscribe({
         query: gql`
@@ -585,7 +573,6 @@ export async function getLocalFieldCreatingObservable(apolloClient: ApolloClient
         }
     }).map(result => result.data.localFieldCreating as Server.LocalField);
 }
-
 
 async function getWorldForIframeEdit(apolloClient: ApolloClient<any>, worldId: string) {
     const result = await apolloClient.query({

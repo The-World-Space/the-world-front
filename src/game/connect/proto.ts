@@ -2,7 +2,6 @@ import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
 import * as pb from "../../proto/the_world";
 import { getSession } from "./gql";
 
-
 export function getProtoWebSocket(): ProtoWebSocket<pb.ServerEvent> {
     const webSocket = new WebSocket("wss://api.the-world.space/proto");
     return new ProtoWebSocket(webSocket, bytes => pb.ServerEvent.deserializeBinary(bytes));

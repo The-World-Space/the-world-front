@@ -7,7 +7,6 @@ import { getMyWorlds } from "../game/connect/gql";
 import { ReactComponent as PlusButton } from "../components/atoms/PlusIcon.svg";
 import { useApolloClient } from "@apollo/client";
 
-
 const Wrapper = styled.div`
     width: 100%;
     height: 100%;
@@ -35,7 +34,6 @@ const MyworldText = styled.span`
     font-weight: 500;
     font-family: Noto Sans;
 `;
-
 
 const WorldListDiv = styled.div`
     width: 100%;
@@ -135,10 +133,6 @@ const StyledPlusButton = styled(PlusButton)`
         cursor: pointer;
     }
 `;
-
-
-
-
 
 function MyWorldList(): JSX.Element {
     const apolloClient = useApolloClient();

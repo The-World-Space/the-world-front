@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AuthContext } from "../context/contexts";
 import { useContext } from "react";
 import useUser from "../hooks/useUser";
@@ -9,9 +9,9 @@ function Test(): JSX.Element {
     const user = useUser();
     const [token, setToken] = useState("");
 
-    function onSave(){
+    const onSave = useCallback(() => {
         setJwt(token);
-    }
+    }, [token, setJwt]);
 
     return (
         <div className="App">

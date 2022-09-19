@@ -59,7 +59,6 @@ function NavigationBar(props: NavigationBarProps): JSX.Element {
             </Link>
             {props.showNavContent &&
                 <RowButtonDiv>
-                    {/* <MainButton onClick={() => history.push("/thelab")}>TheLab</MainButton> */}
                     { logged 
                         ? <>
                             <MainButton onClick={() => history.push("/user")}>user info</MainButton>

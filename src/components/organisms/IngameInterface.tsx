@@ -1,6 +1,4 @@
-import {
-    Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import twLogo2Black from "../atoms/tw logo 2 black.svg";
@@ -151,7 +149,6 @@ const ExpandButton = styled.button`
     }
 `;
 
-
 const ChatButton = styled.button`
     background: url(${ChatIcon}) no-repeat;
     border: none;
@@ -248,8 +245,6 @@ const SendButton = styled.button`
     }
 `;
 
-
-
 function sendChat(message: string, protoWs: ProtoWebSocket<pb.ServerEvent>) {
     protoWs.send(new pb.ClientEvent({
         sendChat: new pb.SendChat({
@@ -258,15 +253,15 @@ function sendChat(message: string, protoWs: ProtoWebSocket<pb.ServerEvent>) {
     }));
 }
 
-
-interface chatMessage {
+interface ChatMessage {
     user: {
         id: string;
         nickname: string;
     };
     message: string;
 }
-function onChat(callback: (data: chatMessage) => void, protoWs: ProtoWebSocket<pb.ServerEvent>) {
+
+function onChat(callback: (data: ChatMessage) => void, protoWs: ProtoWebSocket<pb.ServerEvent>) {
     [callback, protoWs];
     protoWs.on("message", serverEvent => {
         if(serverEvent.event === "chatAdded") {
@@ -304,7 +299,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
     const [selectedEditor, setSelectedEditor] = useState(Editor.Field);
     const [chatOpened, setChatOpened] = useState(false);
     const [inputText, setInputText] = useState("");
-    const [chatting, setChatting] = useState<(chatMessage & {key: number})[]>([]);
+    const [chatting, setChatting] = useState<(ChatMessage & {key: number})[]>([]);
     const [showSideBar, setShowSideBar] = useState(true);
     const previledge = useMemo(() => amIadmin || !!world?.amIOwner, [amIadmin, world]);
 
@@ -314,24 +309,24 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
         setBarOpened(barOpened && previledge);
     }, [barOpened, previledge]);
 
-    function expandBarToggle() {
+    const expendBarToggle = useCallback(() => {
         setBarOpened((lastState) => !lastState);
-    }
+    }, []);
 
-    function chatToggle() {
+    const chatToggle = useCallback(() => {
         setChatOpened((lastState) => !lastState);
-    }
+    }, []);
 
-    function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
-        if (event.key === "Enter" && inputText !== "") {
-            sendChatMessage();
-        }
-    }
-
-    function sendChatMessage() {
+    const sendChatMessage = useCallback(() => {
         sendChat(inputText, protoWs);
         setInputText("");
-    }
+    }, [inputText, protoWs]);
+
+    const onKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && inputText !== "") {
+            sendChatMessage();
+        }
+    }, [inputText, sendChatMessage]);
 
     useEffect(() => {
         if (!worldId) return;
@@ -416,12 +411,12 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                     <IframeEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Iframe}/>
                 </>
                 { (amIadmin || world?.amIOwner) &&
-                    <ExpandButton onClick={() => expandBarToggle()} 
+                    <ExpandButton onClick={() => expendBarToggle()} 
                         style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
                 }
             </>
         );
-    }, [amIadmin, barOpened, onMenuSelect, playerList, selectedEditor, showSideBar, world?.amIOwner, onPeopleCountClick, worldId]);
+    }, [amIadmin, barOpened, onMenuSelect, playerList, selectedEditor, showSideBar, world?.amIOwner, onPeopleCountClick, worldId, expendBarToggle]);
 
     const playerCountButton = useMemo(() => {
         if (showSideBar) return null;

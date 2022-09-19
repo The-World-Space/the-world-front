@@ -2,7 +2,6 @@ import { ApolloClient, gql } from "@apollo/client";
 import { DumbTypedEmitter } from "detail-typed-emitter";
 import { Server } from "../../connect/types";
 
-
 type DEETypes = {
     "create" : (collider: Server.AtlasTile) => void,
     "update" : (collider: Server.AtlasTile) => void,
@@ -24,7 +23,6 @@ const ATLAS_FIELDS = gql`
         }
     }
 `;
-
 
 export class TileNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
@@ -96,15 +94,7 @@ export class TileNetworker {
         });
     }
 
-
-    // private _initEEListenters() {
-        
-        
-    // }
-
-
     get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }
-

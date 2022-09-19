@@ -10,25 +10,25 @@ const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
 
 export const FANCY_SCROLLBAR_CSS = `
-::-webkit-scrollbar {
-    width: 14px;
-    padding: 10px 1px 10px 1px;
-}
-::-webkit-scrollbar-thumb {
-    width: 2px;
-    border-radius: 1px;
-    background-color: #2E2E2E60;
+    ::-webkit-scrollbar {
+        width: 14px;
+        padding: 10px 1px 10px 1px;
+    }
+    ::-webkit-scrollbar-thumb {
+        width: 2px;
+        border-radius: 1px;
+        background-color: #2E2E2E60;
 
-    background-clip: padding-box;
-    border: 6px solid transparent;
-    border-bottom: 12px solid transparent;
-}
-::-webkit-scrollbar-track {
-    display: none;
-}
+        background-clip: padding-box;
+        border: 6px solid transparent;
+        border-bottom: 12px solid transparent;
+    }
+    ::-webkit-scrollbar-track {
+        display: none;
+    }
 
-scrollbar-color: #2E2E2E60 #00000000; // for FF
-scrollbar-width: thin; // for FF
+    scrollbar-color: #2E2E2E60 #00000000; // for FF
+    scrollbar-width: thin; // for FF
 `;
 
 const ExpandBarDiv = styled.div<{opened: boolean}>`
@@ -158,8 +158,6 @@ interface PropsType {
     opened: boolean;
 }
 
-
-
 function ListItem({ field, update }: { field: Server.GlobalField, update: (field: Partial<Server.Field>) => void }) {
 
     const apolloClient = useApolloClient();
@@ -264,8 +262,6 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
 }
 
 export default React.memo(FieldEditorInner);
-
-
 
 export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string): Server.GlobalField[] {
     const [fields, setFields] = useState<Server.GlobalField[]>([]);

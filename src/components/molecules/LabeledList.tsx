@@ -87,7 +87,6 @@ const ListBody = styled.div`
     scrollbar-width: thin; // for FF
 `;
 
-
 interface LabeledListProps {
     setId: (id: PhotoElementData["id"]) => void;
     id: PhotoElementData["id"];
@@ -115,7 +114,6 @@ function LabeledList({setId, id, datas, tabName, height, minHeight}: LabeledList
     );
 }
 
-
 const ElementWrapperDIv = styled.div<{selected: boolean}>`
     display: flex;
     flex-direction: column;
@@ -133,7 +131,6 @@ const ElementThumbnail = styled.img`
     image-rendering: pixelated;
 `;
 
-
 const AtlasThumbnail = styled.div`
     width: ${IMAGE_SIZE}px;
     height: ${IMAGE_SIZE}px;
@@ -146,7 +143,6 @@ const ElementName = styled.span`
 `;
 
 export type PhotoElementData = PhotoSrcData | PhotoAtlasData;
-
 
 export interface PhotoSrcData {
     id: number,
@@ -171,7 +167,6 @@ interface PhotoElementProps {
     label: string;
 }
 
-const    PhotoElement = React.memo(PhotoElement_);
 function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
     const rowIndex = data.isAtlas ? ~~(data.atlasIndex / data.columnCount) : 0;
     const columnIndex = data.isAtlas ? (data.atlasIndex % data.columnCount) : 0;
@@ -193,5 +188,6 @@ function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
         </ElementWrapperDIv>
     );
 }
+const PhotoElement = React.memo(PhotoElement_);
 
 export default React.memo(LabeledList);

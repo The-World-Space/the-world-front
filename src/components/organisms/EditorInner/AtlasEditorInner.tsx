@@ -231,12 +231,12 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             }
         });
         setFile(undefined);
-        setTileDatas([]);
+        setTileDataList([]);
         apolloClient.resetStore();
     }, [file, rowCount, columnCount, name, imageUploadMutate, crateMutate, apolloClient, isSafeNum]);
     
     //const [atlasDatas] = useState<PhotoElementData[]>([]);
-    const [tileDatas, setTileDatas] = useState<PhotoAtlasData[]>([]);
+    const [tileDataList, setTileDataList] = useState<PhotoAtlasData[]>([]);
     
     const inputFile = useRef<HTMLInputElement | null>(null);
 
@@ -253,7 +253,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             columnCount: cc,
             isAtlas: true as const,
         }));
-        setTileDatas(newDatas);
+        setTileDataList(newDatas);
     }, 500, [file, columnCount, rowCount]);
 
     const {game} = useContext(WorldEditorContext);
@@ -270,7 +270,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         <ExpandBarDiv opened={opened}>
             <Container>
                 <LabeledList 
-                    datas={tileDatas} 
+                    datas={tileDataList} 
                     setId={setPhotoId} 
                     id={photoId}
                     tabName="Result object"
@@ -305,11 +305,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     );
 }
 
-
 export default React.memo(ObjectEditorInner);
-
-
-
 
 const LabeledInputWrapper = styled.div`
     width: 70px;
@@ -353,7 +349,6 @@ const NameInputLabel = styled(LabeledInputLabel)`
     width: 50px;
 `;
 
-
 const LabeledInputArea = styled.input`
     width: calc(100% - 30px);
     height: 27px;
@@ -372,7 +367,6 @@ const LabeledInputArea = styled.input`
 const NameInputArea = styled(LabeledInputArea)`
     width: calc(100% - 50px);
 `;
-
 
 interface LabeledInputProps {
     label: string;

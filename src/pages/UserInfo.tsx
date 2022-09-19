@@ -157,7 +157,6 @@ const UPLOAD_IMAGE = gql`
     }
 `;
 
-
 const UPDATE_USER = gql`
     mutation updateUser($nickname: String!, $skinSrc: String!) {
         updateUser(user: {nickname:$nickname, skinSrc: $skinSrc}) {
@@ -165,7 +164,6 @@ const UPDATE_USER = gql`
         }
     }
 `;
-
 
 const GET_USER = gql`
     query getUser {
@@ -176,7 +174,6 @@ const GET_USER = gql`
         }
     }
 `;
-
 
 function UserInfo(): JSX.Element {
     const user_ = useQuery(GET_USER);

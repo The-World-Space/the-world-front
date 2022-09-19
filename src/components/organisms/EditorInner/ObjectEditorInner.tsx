@@ -68,7 +68,6 @@ const Container = styled.div`
     scrollbar-width: thin; // for FF
 `;
 
-
 const ObjectTypeRadioWrapper = styled.div`
     display: flex;
     height: 49px;
@@ -112,7 +111,6 @@ const ObjectTypeRadioR = styled(ObjectTypeRadio)`
     border-left: 1px solid #FFFFFF60;
 `;
 
-
 const InputWrapper = styled.div`
     width: 100%;
     
@@ -139,7 +137,6 @@ const InputWrapperSideVerticalLine = styled.div`
 
     border: 1px solid rgba(255, 255, 255, 0.6);
 `;
-
 
 const ToolsWrapper = styled.div<{selected: number}>`
     width: 100%;
@@ -172,7 +169,6 @@ const ToolsWrapper = styled.div<{selected: number}>`
 
 `;
 
-
 const UPLOAD_IMAGE = gql`
     mutation UploadFile($image: Upload!) {
         uploadImageAsset(image: $image) {
@@ -180,7 +176,6 @@ const UPLOAD_IMAGE = gql`
         }
     }
 `;
-
 
 const SAVE_IMAGE_PROTO = gql`
 mutation CREATE_IMAGE_PROTO ($protoInput: ImageGameObjectProtoInput!) {
@@ -191,7 +186,6 @@ mutation CREATE_IMAGE_PROTO ($protoInput: ImageGameObjectProtoInput!) {
     }
 }
 `;
-
 
 interface PropsType {
     worldId: string;
@@ -447,11 +441,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     );
 }
 
-
 export default React.memo(ObjectEditorInner);
-
-
-
 
 const LabeledInputWrapper = styled.div`
     width: 70px;
@@ -494,7 +484,6 @@ const LabeledInputLabel = styled.span`
 const NameInputLabel = styled(LabeledInputLabel)`
     width: 50px;
 `;
-
 
 const LabeledInputArea = styled.input`
     width: calc(100% - 30px);

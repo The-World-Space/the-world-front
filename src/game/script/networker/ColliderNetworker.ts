@@ -2,11 +2,9 @@ import { ApolloClient, gql } from "@apollo/client";
 import { DumbTypedEmitter } from "detail-typed-emitter";
 import { Server } from "../../connect/types";
 
-
 type DEETypes = {
     "update" : (collider: Server.Collider) => void,
 }
-
 
 export class ColliderNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
@@ -40,15 +38,7 @@ export class ColliderNetworker {
         });
     }
 
-
-    // private _initEEListenters() {
-        
-        
-    // }
-
-
     get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }
-

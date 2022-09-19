@@ -57,15 +57,12 @@ fragment IframeFields on IframeGameObject {
 }
 `;
 
-
 type iframeId = number;
-
 
 type DEETypes = {
     "create" : (iframeInfo: Server.IframeGameObject) => void,
     "delete" : (id: iframeId) => void
 }
-
 
 export class IframeNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
@@ -115,15 +112,7 @@ export class IframeNetworker {
         });
     }
 
-
-    // private _initEEListenters() {
-        
-        
-    // }
-
-
     get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }
-

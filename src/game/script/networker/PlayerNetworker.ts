@@ -6,7 +6,6 @@ import * as pb from "../../../proto/the_world";
 
 type characterId = string;
 
-
 type EETypes = [
     [`move_${characterId}`,     (pos: Vector2) => void],
 ]
@@ -67,7 +66,6 @@ export class PlayerNetworker {
         // });
     }
 
-
     private _initEEListenters() {
         // player_move should only listened on this method.
         this._dee.on("player_move", (x, y) => {
@@ -81,7 +79,6 @@ export class PlayerNetworker {
             }));
         });
     }
-
 
     private onPlayerListUpdate(data: {x: number, y: number, user: Server.User}[]) {
         const playerList = data;
@@ -121,4 +118,3 @@ export class PlayerNetworker {
         return this._dee;
     }
 }
-

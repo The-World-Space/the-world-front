@@ -31,8 +31,6 @@ interface GameObject {
     height: number;
 }
 
-
-
 interface IframeGameObject extends GameObject {
     src: string;
     type: GameObjectType;

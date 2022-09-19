@@ -15,8 +15,6 @@ import { print } from "graphql";
 import { createClient, ClientOptions, Client } from "graphql-ws";
 import { JWT_KEY } from "../../context/consts";
 
-
-
 export async function getWorld(id: string, apolloClient: ApolloClient<any>): Promise<Server.World> {
     const result = await apolloClient.query({
         query: gql`
@@ -110,7 +108,6 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
     return result.data.World as Server.World;
 }
 
-
 export async function getMyWorlds(apolloClient: ApolloClient<any>): Promise<Server.World[]> {
     const result = await apolloClient.query({
         query: gql`
@@ -127,13 +124,11 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>): Promise<Serv
     return result.data.myWorlds as Server.World[];
 }
 
-
 export function getSession(): { token: string|null } {
     return {
         token: localStorage.getItem(JWT_KEY),
     };
 }
-
 
 export class WebSocketLink extends ApolloLink {
     private _client: Client;
@@ -178,9 +173,6 @@ export class WebSocketLink extends ApolloLink {
         return this._client;
     }
 }
-
-
-
 
 export function getWSLink(): WebSocketLink {
     const link = new WebSocketLink({

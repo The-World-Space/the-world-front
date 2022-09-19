@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 
@@ -111,4 +112,4 @@ function Background(): JSX.Element {
     );
 }
 
-export default Background;
+export default React.memo(Background);

@@ -30,7 +30,6 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     pointer-events: all;
 `;
 
-
 const Container = styled.div`
     width: 100%;
     height: calc(100% - 70px);
@@ -234,7 +233,6 @@ const STYLED_LINK = styled(Link)`
     text-decoration: none;
 `;
 
-
 const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
     query myImageGOProtos {
         myImageGameObjectProtos {
@@ -253,7 +251,6 @@ const MY_IMAGE_GAME_OBJECT_PROTOS = gql`
         }
     }
 `;
-
 
 const MY_ATLASES = gql`
     query myAtlases {
@@ -274,13 +271,11 @@ const REMOVE_IMAGE_GAME_OBJECT_PROTO = gql`
     }
 `;
 
-
 const DELETE_ATLAS = gql`
     mutation deleteAtlas($atlasId: Int!) {
         deleteAtlas(id: $atlasId)
     }
 `;
-
 
 interface PropsType {
     worldId: string;
@@ -717,9 +712,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
     );
 }
 
-
 export default React.memo(WorldEditorInner);
-
 
 const IframeSettingLeftInputWrapper = styled.div`
     width: 70px;

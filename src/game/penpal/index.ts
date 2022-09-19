@@ -4,7 +4,6 @@ import { createIframeBroadcasterPortMapping, createIframeFieldPortMapping } from
 import { Server } from "../connect/types";
 import { PenpalNetworker } from "./PenpalNetworker";
 
-
 interface Child {
     getPorts(): Promise<{ broadcasters: string[], fields: string[] }>;
     broadcast(id: string, userId: string, message: string): Promise<void>;

@@ -38,7 +38,6 @@ export class PenpalNetworker {
         });
     }
 
-
     public setFieldValue(id: number | undefined, value: string): void {
         this._protoClient.send(new pb.ClientEvent({
             setFieldValue: new pb.SetFieldValue({
@@ -110,7 +109,6 @@ export class PenpalNetworker {
         });
     }
 
-
     public onBroadcastListUpdate(iframeId: number, cb: (portMappings: Server.IframeBroadcasterPortMapping[]) => void): ZenObservable.Subscription {
         return this._client.subscribe({
             query: gql`
@@ -140,4 +138,3 @@ export class PenpalNetworker {
         return this._client;
     }
 }
-

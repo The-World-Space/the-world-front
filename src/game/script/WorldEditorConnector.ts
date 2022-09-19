@@ -6,7 +6,6 @@ export interface IWorldEditorAction {
     setToolType(tools: Tool): void;
 }
 
-
 export class WorldEditorConnector {
     private _action: IWorldEditorAction | null = null;
 
@@ -19,13 +18,10 @@ export class WorldEditorConnector {
     }
 }
 
-
-export abstract class Tool {
-}
+export abstract class Tool { }
 
 export namespace Tools {
-    export class None extends Tool {
-    }
+    export class None extends Tool { }
 
     export class EraseTile extends Tool {
         constructor(
@@ -51,11 +47,9 @@ export namespace Tools {
         }
     }
 
-    export class EraseImageObject extends Tool {
-    }
+    export class EraseImageObject extends Tool { }
 
-    export class EraseCollider extends Tool {
-    }
+    export class EraseCollider extends Tool { }
     
     export class ImageGameObject extends Tool {
         constructor(
@@ -91,8 +85,7 @@ export namespace Tools {
         }
     }
     
-    export class Collider extends Tool {
-    }
+    export class Collider extends Tool { }
     
     type tileType = {
         atlasIndex: number;
