@@ -76,7 +76,7 @@ const MenuButton = styled.div<{selected: boolean}>`
     margin: 0px 0px 10px 0px;
     
     border-radius: 66px;
-    border: 4px ${p => p.selected ? "#FFFFFB" : "#2E2E2E"} solid;
+    border: 4px ${(p): string => p.selected ? "#FFFFFB" : "#2E2E2E"} solid;
 
     display: flex;
     justify-content: center;
@@ -124,7 +124,7 @@ const CountIndicatorDiv = styled.div<CountIndicatorDivProps>`
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
     pointer-events: all;
 
-    ${p => p.isMobile ? `
+    ${(p): string => p.isMobile ? `
         position: absolute;
         bottom: 0;
         left: 0;
@@ -246,7 +246,7 @@ const SendButton = styled.button`
     }
 `;
 
-function sendChat(message: string, protoWs: ProtoWebSocket<pb.ServerEvent>) {
+function sendChat(message: string, protoWs: ProtoWebSocket<pb.ServerEvent>): void {
     protoWs.send(new pb.ClientEvent({
         sendChat: new pb.SendChat({
             message
@@ -262,7 +262,7 @@ interface ChatMessage {
     message: string;
 }
 
-function onChat(callback: (data: ChatMessage) => void, protoWs: ProtoWebSocket<pb.ServerEvent>) {
+function onChat(callback: (data: ChatMessage) => void, protoWs: ProtoWebSocket<pb.ServerEvent>): void {
     [callback, protoWs];
     protoWs.on("message", serverEvent => {
         if(serverEvent.event === "chatAdded") {
@@ -387,15 +387,15 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                     { (amIadmin || world?.amIOwner) &&
                         <>
                             <BarDivider/>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={() => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={() => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Object} onClick={(): void => onMenuSelect(Editor.Object)}>OBJ</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Atlas} onClick={(): void => onMenuSelect(Editor.Atlas)}>ATL</MenuButton>
                             <LittleDivider/>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={() => onMenuSelect(Editor.World)}>EDIT</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.World} onClick={(): void => onMenuSelect(Editor.World)}>EDIT</MenuButton>
                             <LittleDivider/>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>PORT</MenuButton>
-                            <MenuButton selected={barOpened && selectedEditor === Editor.Plugin} onClick={() => onMenuSelect(Editor.Plugin)}>PLGN</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={(): void => onMenuSelect(Editor.Field)}>VAR</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={(): void => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={(): void => onMenuSelect(Editor.Iframe)}>PORT</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Plugin} onClick={(): void => onMenuSelect(Editor.Plugin)}>PLGN</MenuButton>
                         </>
                     }
                     <CountIndicatorDiv onClick={onPeopleCountClick} isMobile={false}>
@@ -412,7 +412,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                     <IframeEditorInner worldId={worldId} opened={barOpened && selectedEditor === Editor.Iframe}/>
                 </>
                 { (amIadmin || world?.amIOwner) &&
-                    <ExpandButton onClick={() => expendBarToggle()} 
+                    <ExpandButton onClick={(): void => expendBarToggle()} 
                         style={barOpened ? {} : {transform: "rotate(180deg)"}}/>
                 }
             </>
@@ -436,7 +436,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
             <OuterDiv>
                 {sideBar}
                 {playerCountButton}
-                <ChatButton onClick={() => chatToggle()}/>
+                <ChatButton onClick={(): void => chatToggle()}/>
                 <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
                     <ChatContentDiv ref={ref}>
                         {chatting.map((data/*, index*/) => (
@@ -449,11 +449,11 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                         <ChatInput 
                             placeholder="Enter message here." 
                             value={inputText} 
-                            onKeyPress={(event) => onKeyPress(event)} 
-                            onChange={e => setInputText(e.currentTarget.value.substring(0, 1000))}
+                            onKeyPress={(event): void => onKeyPress(event)} 
+                            onChange={(e): void => setInputText(e.currentTarget.value.substring(0, 1000))}
                             onFocus={onFocus}
                             onBlur={onBlur}/>
-                        <SendButton onClick={() => sendChatMessage()}/>
+                        <SendButton onClick={(): void => sendChatMessage()}/>
                     </ChatInputDiv>
                 </ChatDiv>
             </OuterDiv>
@@ -472,7 +472,7 @@ const PopupDiv = styled.div<{opened: boolean}>`
     position: fixed;
     z-index: 10;
     left: 50%;
-    top: ${p => p.opened ? "50%" : "100%"};
+    top: ${(p): string => p.opened ? "50%" : "100%"};
 
     box-sizing: border-box;
     padding: 30px;
@@ -483,7 +483,7 @@ const PopupDiv = styled.div<{opened: boolean}>`
     flex-direction: column;
     flex-wrap: wrap;
 
-    transform: ${p => p.opened ? "translate(-50%, -50%)" : "translate(-50%, 0)"};
+    transform: ${(p): string => p.opened ? "translate(-50%, -50%)" : "translate(-50%, 0)"};
 
     background: #FFFFFFDD;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
@@ -516,7 +516,7 @@ const REMOVE_WORLD_ADMIN = gql`
 `;
 
 const    PlayerListPopup = React.memo(PlayerListPopup_);
-function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
+function PlayerListPopup_({ opened/*, worldId*/}: PopupProps): JSX.Element {
     const { playerList, world, adminPlayerList } = useContext(WorldEditorContext);
     const [addWorldAdmin] = useMutation(ADD_WORLD_ADMIN);
     const [removeWorldAdmin] = useMutation(REMOVE_WORLD_ADMIN);
@@ -532,8 +532,7 @@ function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
                     worldId: world.id
                 }
             });
-        }
-        else {
+        } else {
             removeWorldAdmin({
                 variables: {
                     userId: player.id,
@@ -556,7 +555,7 @@ function PlayerListPopup_({ opened/*, worldId*/}: PopupProps) {
                 <div style={{display: "flex", alignItems: "center"}} key={player.id}>
                     {
                         world?.amIOwner && 
-                            <input type="checkbox" defaultChecked={adminSet.has(player.id)} onChange={e => onSelect(player, e.target.checked)} />
+                            <input type="checkbox" defaultChecked={adminSet.has(player.id)} onChange={(e): void => onSelect(player, e.target.checked)} />
                     }
                     <p>
                         {player.nickname}

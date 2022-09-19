@@ -6,11 +6,11 @@ export class WidgetManager {
     private _iframes: HTMLIFrameElement[] = [];
     private _iframeCommunicators: IframeCommunicator[] = [];
 
-    constructor(
+    public constructor(
             private readonly _penpalNetworkManager: PenpalNetworker,
             /*private readonly _world: Server.World,*/
             private readonly _wrapperDiv: HTMLDivElement,
-            private _widgetIframeInfos: Server.IframeWidget[]) {
+            private readonly _widgetIframeInfos: Server.IframeWidget[]) {
         this._init();
     }
 

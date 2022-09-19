@@ -119,7 +119,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         const iframeManager = new PrefabRef<NetworkIframeManager>();
 
         this.interopObject!.worldEditorConnector.action = {
-            setToolType(tool: Tool) {
+            setToolType(tool: Tool): void {
                 networkBrushManager.ref?.setCurrentTool(tool);
 
                 if (tool instanceof Tools.Collider || tool instanceof Tools.EraseCollider) {

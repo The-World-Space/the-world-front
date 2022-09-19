@@ -37,22 +37,22 @@ type imageId = number;
 
 
 type DEETypes = {
-    "create" : (iframeInfo: Server.ImageGameObject) => void,
-    "delete" : (id: imageId) => void
+    "create": (iframeInfo: Server.ImageGameObject) => void,
+    "delete": (id: imageId) => void
 }
 
 
 export class ImageNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
-    constructor(private readonly _worldId: string,
+    public constructor(private readonly _worldId: string,
                 private readonly _client: ApolloClient<any>) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this._initNetwork();
         // this._initEEListenters();
     }
 
-    private _initNetwork() {
+    private _initNetwork(): void {
         this._client.subscribe({
             query: gql`
                 subscription ImageGOCreateing($worldId: String!) {
@@ -90,7 +90,7 @@ export class ImageNetworker {
         });
     }
 
-    get ee(): DumbTypedEmitter<DEETypes> {
+    public get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }

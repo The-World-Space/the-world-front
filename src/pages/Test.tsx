@@ -21,7 +21,7 @@ function Test(): JSX.Element {
                     <h1>USERINFO</h1>
                     <div>
                         <p>token: {jwt}</p>
-                        <input type="text" onChange={e => setToken(e.target.value)} />
+                        <input type="text" onChange={(e): void => setToken(e.target.value)} />
                     </div>
                     {
                         jwt &&

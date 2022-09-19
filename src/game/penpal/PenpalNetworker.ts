@@ -16,7 +16,7 @@ type EETypes = [
 export class PenpalNetworker {
     private readonly _ee: TypedEmitter<EETypes>;
 
-    constructor(
+    public constructor(
         private readonly _client: ApolloClient<any>,
         private readonly _protoClient: ProtoWebSocket<pb.ServerEvent>) {
         this._ee = new TypedEmitter<EETypes>();
@@ -131,11 +131,11 @@ export class PenpalNetworker {
         });
     }
 
-    get ee(): TypedEmitter<EETypes> {
+    public get ee(): TypedEmitter<EETypes> {
         return this._ee;
     }
 
-    get client(): ApolloClient<any> {
+    public get client(): ApolloClient<any> {
         return this._client;
     }
 }

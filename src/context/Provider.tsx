@@ -122,10 +122,10 @@ const WorldEditorContextProvider: React.FC = ({ children }) => {
     }, [adminPlayerList, user]);
 
     useEffect(() => {
-        const joinListener = (user: Server.User) => {
+        const joinListener = (user: Server.User): void => {
             setPlayerList(playerList => playerList.concat(user));
         };
-        const leaveListener = (id: Server.User["id"]) => {
+        const leaveListener = (id: Server.User["id"]): void => {
             setPlayerList(playerList => playerList.filter(user => user.id !== id));
         };
         playerNetworker?.dee.on("join", joinListener);

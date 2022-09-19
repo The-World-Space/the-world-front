@@ -248,7 +248,9 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
             <ListContainer>
                 {
                     fields.map(field => {
-                        const update = (newField: Partial<Server.Field>) => {setFields(fields => fields.map(field_ => field_.id === field.id ? {...field_, ...newField} : field_));};
+                        const update = (newField: Partial<Server.Field>) => {
+                            setFields(fields => fields.map(field_ => field_.id === field.id ? {...field_, ...newField} : field_));
+                        };
                         return (
                             <ListItem field={field} key={field.id} update={update}/>
                         );

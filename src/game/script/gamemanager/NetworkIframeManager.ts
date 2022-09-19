@@ -23,7 +23,7 @@ const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
 export class NetworkIframeManager extends Component {
-    private _networkIframeMap: Map<number, GameObject> = new Map();
+    private readonly _networkIframeMap: Map<number, GameObject> = new Map();
 
     private _apolloClient: ApolloClient<any> | null = null;
     private _iGridCoordinatable: IGridCoordinatable | null = null;
@@ -35,8 +35,8 @@ export class NetworkIframeManager extends Component {
     private _adminNetworker: AdminNetworker | null = null;
     private _localPlayerIsAdmin = false;
 
-    private _iframeStatusRenderControllers: IframeStatusRenderController[] = [];
-    private _iframeRenderers: CssIframeRenderer[] = [];
+    private readonly _iframeStatusRenderControllers: IframeStatusRenderController[] = [];
+    private readonly _iframeRenderers: CssIframeRenderer[] = [];
 
     public set apolloClient(apolloClient: ApolloClient<any>) {
         this._apolloClient = apolloClient;

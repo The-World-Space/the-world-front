@@ -131,9 +131,9 @@ export function getSession(): { token: string|null } {
 }
 
 export class WebSocketLink extends ApolloLink {
-    private _client: Client;
+    private readonly _client: Client;
 
-    constructor(options: ClientOptions) {
+    public constructor(options: ClientOptions) {
         super();
         this._client = createClient(options);
     }
@@ -177,7 +177,7 @@ export class WebSocketLink extends ApolloLink {
 export function getWSLink(): WebSocketLink {
     const link = new WebSocketLink({
         url: "wss://api.the-world.space/graphql",
-        connectionParams: () => {
+        connectionParams: (): { Authorization?: string } => {
             const session = getSession();
             if (!session) {
                 return {};

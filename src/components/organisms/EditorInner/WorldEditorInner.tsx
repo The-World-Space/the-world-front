@@ -21,7 +21,7 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     height: 100%;
     width: ${EXTENDS_BAR_WIDTH}px;
     position: absolute;
-    left: ${p => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
+    left: ${(p): number => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
     transition: left 0.5s;
     display: flex;
     flex-direction: column;
@@ -122,7 +122,7 @@ const IframeInputSettingWrapper = styled.div`
 const IframeInputSettingRightText = styled.span<{selected: boolean, selectable: boolean}>`
     margin: 16px 53px;
 
-    color: ${p => 
+    color: ${(p): string => 
         p.selected ? "#000000" : 
         p.selectable ? "#00000060" : "#00000000"};
     font-family: Noto Sans;
@@ -141,7 +141,7 @@ const IframeInputSettingRightText = styled.span<{selected: boolean, selectable: 
 const PlaceModeBottomText = styled.span<{selected: boolean}>`
     margin: 16px 33px;
 
-    color: ${p => p.selected ? "#000000" :"#00000060"};
+    color: ${(p): string => p.selected ? "#000000" :"#00000060"};
     font-family: Noto Sans;
     font-style: normal;
     font-weight: normal;
@@ -207,7 +207,7 @@ const ToolsWrapper = styled.div<{selected: number}>`
     padding-left: 77px;
     margin-bottom: 18px;
 
-    & > svg:nth-child(${p => p.selected}){
+    & > svg:nth-child(${(p): number => p.selected}){
         border: 3px solid #A69B97;
     }
 
@@ -300,7 +300,7 @@ enum Tabs {
     Object,
 }
 
-function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
+function WorldEditorInner({ /*worldId,*/ opened }: PropsType): JSX.Element {
     const apolloClient = useApolloClient();
     const {worldEditorConnector} = useContext(WorldEditorContext);
 
@@ -435,8 +435,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 break;
             }
             }
-        }
-        else if (selectedTool === EditorTools.Eraser) {
+        } else if (selectedTool === EditorTools.Eraser) {
             switch (placeKind) {
             case PlaceKind.Tile: {
                 if (placeObjectType === Server.GameObjectType.Wall) throw new Error("Wall is not supported in atlas");
@@ -499,8 +498,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             setFloorSelectable(true);
             setEffectSelectable(true);
             setPlaceObjectType(Server.GameObjectType.Floor);
-        }
-        else if (tab === Tabs.Object) {
+        } else if (tab === Tabs.Object) {
             setPlaceKind(PlaceKind.Object);
             setWallSelectable(false);
             setFloorSelectable(false);
@@ -535,8 +533,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     id: protoId
                 }
             });
-        }
-        else if (tab === Tabs.Tile) {
+        } else if (tab === Tabs.Tile) {
             const [atlasId, _] = photoId.split("_");
             const atlas = atlasMap[atlasId];
             if (!atlas) {
@@ -578,19 +575,16 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             setWallSelectable(false);
             setFloorSelectable(false);
             setEffectSelectable(false);
-        }
-        else if (type === PlaceKind.Tile) {
+        } else if (type === PlaceKind.Tile) {
             setWallSelectable(false);
             setFloorSelectable(true);
             setEffectSelectable(true);
             setPlaceObjectType(Server.GameObjectType.Floor);
-        }
-        else if (type === PlaceKind.Object) {
+        } else if (type === PlaceKind.Object) {
             setWallSelectable(false);
             setFloorSelectable(false);
             setEffectSelectable(false);
-        }
-        else if (type === PlaceKind.Iframe) {
+        } else if (type === PlaceKind.Iframe) {
             setWallSelectable(true);
             setFloorSelectable(true);
             setEffectSelectable(true);
@@ -611,8 +605,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         onBlur();
         if (iframeSrc === "") {
             return;
-        }
-        else if (!(/^(http(s?)):\/\//.test(iframeSrc))) {
+        } else if (!(/^(http(s?)):\/\//.test(iframeSrc))) {
             alert("iframe src must start with http(s)://");
             setIframeSrc("");
         }
@@ -625,14 +618,18 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 <IframeInputWrapper>
                     <IframeTitle>Iframe Address</IframeTitle>
                     <ListFakeHr />
-                    <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={e => setIframeSrc(e.target.value)} onFocus={onFocus} onBlur={onIframeBlur} />
+                    <IframeInput type="text" placeholder="Add iframe address" value={iframeSrc} onChange={(e): void => setIframeSrc(e.target.value)} onFocus={onFocus} onBlur={onIframeBlur} />
                     <ListFakeHr />
                     <IframeInputSettingWrapper>
                         <span style={{marginRight: "auto", opacity: "0"}}>
                             Upload
                         </span>
-                        <IframeSettingLeftInput label="W" value={iframeWidth} onChange={e => isSafeNum(+e.target.value) && setIframeWidth(e.target.value)} />
-                        <IframeSettingLeftInput label="H" value={iframeHeight} onChange={e => isSafeNum(+e.target.value) && setIframeHeight(e.target.value)} />
+                        <IframeSettingLeftInput label="W" value={iframeWidth} onChange={(e): void => {
+                            if (isSafeNum(+e.target.value)) setIframeWidth(e.target.value);
+                        }} />
+                        <IframeSettingLeftInput label="H" value={iframeHeight} onChange={(e): void => {
+                            if (isSafeNum(+e.target.value)) setIframeHeight(e.target.value);
+                        }} />
                         <span style={{marginLeft: "auto"}}>
                             <STYLED_LINK to="/upload" target="_blank" rel="noopener noreferrer">
                                 Upload
@@ -646,28 +643,28 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     <PlaceModeLayerSelect>
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Tile}
-                            onClick={() => onPlaceKindSelect(PlaceKind.Tile)}
+                            onClick={(): void => onPlaceKindSelect(PlaceKind.Tile)}
                         >
                             tile
                         </PlaceModeBottomText>
                         <LittleVerticalLine />
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Object}
-                            onClick={() => onPlaceKindSelect(PlaceKind.Object)}
+                            onClick={(): void => onPlaceKindSelect(PlaceKind.Object)}
                         >
                             object
                         </PlaceModeBottomText>
                         <LittleVerticalLine />
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Iframe}
-                            onClick={() => onPlaceKindSelect(PlaceKind.Iframe)}
+                            onClick={(): void => onPlaceKindSelect(PlaceKind.Iframe)}
                         >
                             iframe
                         </PlaceModeBottomText>
                         <LittleVerticalLine />
                         <PlaceModeBottomText
                             selected={placeKind === PlaceKind.Collider}
-                            onClick={() => onPlaceKindSelect(PlaceKind.Collider)}
+                            onClick={(): void => onPlaceKindSelect(PlaceKind.Collider)}
                         >
                             collider
                         </PlaceModeBottomText>
@@ -677,7 +674,9 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                         <IframeInputSettingRightText
                             selected={!unselectable && placeObjectType === Server.GameObjectType.Wall}
                             selectable={!unselectable && wallSelectable}
-                            onClick={() => wallSelectable && setPlaceObjectType(Server.GameObjectType.Wall)}
+                            onClick={(): void => {
+                                if (wallSelectable) setPlaceObjectType(Server.GameObjectType.Wall);
+                            }}
                         >
                             wall
                         </IframeInputSettingRightText>
@@ -685,7 +684,9 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                         <IframeInputSettingRightText
                             selected={!unselectable && placeObjectType === Server.GameObjectType.Floor}
                             selectable={!unselectable && floorSelectable}
-                            onClick={() => floorSelectable && setPlaceObjectType(Server.GameObjectType.Floor)}
+                            onClick={(): void => { 
+                                if (floorSelectable) setPlaceObjectType(Server.GameObjectType.Floor);
+                            }}
                         >
                             floor
                         </IframeInputSettingRightText>
@@ -693,7 +694,9 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                         <IframeInputSettingRightText
                             selected={!unselectable && placeObjectType === Server.GameObjectType.Effect}
                             selectable={!unselectable && effectSelectable}
-                            onClick={() => effectSelectable && setPlaceObjectType(Server.GameObjectType.Effect)}
+                            onClick={(): void => { 
+                                if (effectSelectable) setPlaceObjectType(Server.GameObjectType.Effect);
+                            }}
                         >
                             effect
                         </IframeInputSettingRightText>
@@ -701,8 +704,8 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 </PlaceModeInputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <PenTool onClick={() => onSelectTool(EditorTools.Pen)} />
-                <EraseTool onClick={() => onSelectTool(EditorTools.Eraser)} />
+                <PenTool onClick={(): void => onSelectTool(EditorTools.Pen)} />
+                <EraseTool onClick={(): void => onSelectTool(EditorTools.Eraser)} />
                 <Trashcan style={{
                     marginLeft: "auto", 
                     marginRight: "18px"
@@ -767,7 +770,7 @@ interface IframeSettingLeftInputProps {
     onChange: ChangeEventHandler<HTMLInputElement>
 }
 
-function IframeSettingLeftInput({label, value, onChange}: IframeSettingLeftInputProps) {
+function IframeSettingLeftInput({label, value, onChange}: IframeSettingLeftInputProps): JSX.Element {
     const {game} = useContext(WorldEditorContext);
 
     const onFocus = useCallback(() => {

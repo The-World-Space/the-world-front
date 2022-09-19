@@ -131,7 +131,7 @@ function UploadHtml(): JSX.Element {
         if (!e.target.validity.valid || !e.target.files || e.target.files.length < 1) return;
         const reader = new FileReader();
         const file = e.target.files[0];
-        reader.onload = async () => {
+        reader.onload = async (): Promise<void> => {
             const text = reader.result as string;
             const res = await uploadHtml({
                 variables: {

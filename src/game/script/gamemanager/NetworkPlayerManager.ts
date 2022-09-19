@@ -10,7 +10,7 @@ import { PlayerNetworker } from "../networker/PlayerNetworker";
 const PREFIX = "@@tw/game/component/spawner/NetworkPlayerManager";
 
 export class NetworkPlayerManager extends Component {
-    private _networkPlayerMap: Map<string, GameObject> = new Map();
+    private readonly _networkPlayerMap: Map<string, GameObject> = new Map();
     private _networkManager: PlayerNetworker | null = null;
     private _iGridCollidable: IGridCollidable | null = null;
     private _localPlayer: GameObject | null = null;
@@ -48,7 +48,7 @@ export class NetworkPlayerManager extends Component {
         this._localPlayer = player;
     }
 
-    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: PlayerNetworker) {
+    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: PlayerNetworker): void {
         const instantlater = this.engine.instantiater;
         const posPrefabRef = new PrefabRef<Vector2>(pos);
         const nameRef = new PrefabRef(user.nickname);

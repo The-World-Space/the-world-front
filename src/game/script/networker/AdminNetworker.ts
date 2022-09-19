@@ -4,14 +4,14 @@ import { DumbTypedEmitter } from "detail-typed-emitter";
 import { Server } from "../../connect/types";
 
 type DEETypes = {
-    "amI" : () => void,
-    "amnt" : () => void,
+    "amI": () => void,
+    "amnt": () => void,
 }
 
 export class AdminNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
-    constructor(private readonly _userId: string,
+    public constructor(private readonly _userId: string,
                 private readonly _worldId: string,
                 private readonly _client: ApolloClient<any>) {
         this._dee = new DumbTypedEmitter<DEETypes>();
@@ -19,7 +19,7 @@ export class AdminNetworker {
         // this._initEEListenters();
     }
 
-    private _initNetwork() {
+    private _initNetwork(): void {
         this._client.query({
             query: gql`
                 query World($id: String!) {
@@ -67,7 +67,7 @@ export class AdminNetworker {
         });
     }
 
-    get ee(): DumbTypedEmitter<DEETypes> {
+    public get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }

@@ -41,7 +41,7 @@ interface ImageGameObject extends GameObject {
     type: GameObjectType;
 }
 
-async function getMyWorlds(apolloClient: ApolloClient<any>) {
+async function getMyWorlds(apolloClient: ApolloClient<any>): Promise<World[]> {
     const result = await apolloClient.query({
         query: gql`
         query MyWorlds {

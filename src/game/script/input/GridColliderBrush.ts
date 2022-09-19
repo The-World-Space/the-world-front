@@ -36,7 +36,7 @@ export class GridColliderBrush extends Component {
         }
     }
 
-    private onPointerDown(event: PointerGridEvent) {
+    private onPointerDown(event: PointerGridEvent): void {
         this._pointerDown = true;
         if (this._brushMode === BrushMode.Draw) {
             this._colideMap!.addCollider(event.gridPosition.x, event.gridPosition.y);
@@ -45,11 +45,11 @@ export class GridColliderBrush extends Component {
         }
     }
 
-    private onPointerUp() {
+    private onPointerUp(): void {
         this._pointerDown = false;
     }
 
-    private onPointerMove(event: PointerGridEvent) {
+    private onPointerMove(event: PointerGridEvent): void {
         if (this._pointerDown) {
             if (this._brushMode === BrushMode.Draw) {
                 this._colideMap!.addCollider(event.gridPosition.x, event.gridPosition.y);

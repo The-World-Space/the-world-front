@@ -15,35 +15,35 @@ export interface IObjEditorAction {
 export class ObjEditorConnector {
     private _action: IObjEditorAction | null = null;
     
-    setToolType(...args: Parameters<IObjEditorAction["setToolType"]>): void {
+    public setToolType(...args: Parameters<IObjEditorAction["setToolType"]>): void {
         return this._action?.setToolType(...args);
     }
 
-    setViewObject(...args: Parameters<IObjEditorAction["setViewObject"]>): void {
+    public setViewObject(...args: Parameters<IObjEditorAction["setViewObject"]>): void {
         return this._action?.setViewObject(...args);
     }
 
-    setViewObjectSize(...args: Parameters<IObjEditorAction["setViewObjectSize"]>): void {
+    public setViewObjectSize(...args: Parameters<IObjEditorAction["setViewObjectSize"]>): void {
         return this._action?.setViewObjectSize(...args);
     }
 
-    getColliderShape(...args: Parameters<IObjEditorAction["getColliders"]>): Vector2[] {
+    public getColliderShape(...args: Parameters<IObjEditorAction["getColliders"]>): Vector2[] {
         return this._action?.getColliders(...args) ?? [];
     }
 
-    setColliders(...args: Parameters<IObjEditorAction["setColliders"]>): void {
+    public setColliders(...args: Parameters<IObjEditorAction["setColliders"]>): void {
         return this._action?.setColliders(...args);
     }
 
-    clearColliders(...args: Parameters<IObjEditorAction["clearColliders"]>): void {
+    public clearColliders(...args: Parameters<IObjEditorAction["clearColliders"]>): void {
         return this._action?.clearColliders(...args);
     }
 
-    clearViewObject(...args: Parameters<IObjEditorAction["clearViewObject"]>): void {
+    public clearViewObject(...args: Parameters<IObjEditorAction["clearViewObject"]>): void {
         return this._action?.clearViewObject(...args);
     }
 
-    set action(action: IObjEditorAction) {
+    public set action(action: IObjEditorAction) {
         this._action = action;
     }
 }

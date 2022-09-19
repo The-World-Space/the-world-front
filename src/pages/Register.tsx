@@ -39,15 +39,15 @@ function Register(): JSX.Element {
     const [nickname, setNickname] = useState("");
     const client = useApolloClient();
 
-    function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+    function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>): void {
         if (event.key === "Enter") {
             onSubmit();
         }
     }
 
-    async function onSubmit() {
+    async function onSubmit(): Promise<void> {
         if (pw !== confirmPw) {
-            alert("비밀번호가 서로 같지 않습니다!");
+            alert("passwords are not same");
             return;
         }
 
@@ -64,8 +64,7 @@ function Register(): JSX.Element {
 
             if (data.register) {
                 history.push("/login");
-            }
-            else {
+            } else {
                 console.error("account not founded");
             }
         } catch (e) {
@@ -91,14 +90,14 @@ function Register(): JSX.Element {
                     fontSize: "32px"
                 }}> Register </div>
                 <HorizontalDivider />
-                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setNickname(e.target.value)} placeholder="Nickname" /> </div>
-                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
-                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
-                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setConfirmPw(e.target.value)} type="password" placeholder="Password Conform" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={(e): void => setNickname(e.target.value)} placeholder="Nickname" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={(e): void => setId(e.target.value)} placeholder="ID" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={(e): void => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={(e): void => setConfirmPw(e.target.value)} type="password" placeholder="Password Conform" /> </div>
                 {(pw !== confirmPw && confirmPw !== "") &&
-                    <p style={{color: "red"}}>&quot;패스워드가 서로 같지 않습니다!&quot;</p>
+                    <p style={{color: "red"}}>&quot;Password and Password Conform are not same&quot;</p>
                 }
-                <div> <BlackSubmitButton onClick={() => onSubmit()}>submit</BlackSubmitButton> </div>
+                <div> <BlackSubmitButton onClick={(): Promise<void> => onSubmit()}>submit</BlackSubmitButton> </div>
                 
             </ContentDiv>
         </NavTemplate>

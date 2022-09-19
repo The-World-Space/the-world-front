@@ -16,16 +16,16 @@ interface Child {
 }
 
 export class IframeCommunicator {
-    private internalFieldIdToFieldMap: Map<string, Server.Field>;
-    private internalBroadcasterIdToBroadcasterMap: Map<string, Server.Broadcaster>;
+    private readonly internalFieldIdToFieldMap: Map<string, Server.Field>;
+    private readonly internalBroadcasterIdToBroadcasterMap: Map<string, Server.Broadcaster>;
     // private publicFieldIdToInternalIdMap: Map<number, string>;
     // private publicBroadcasterIdToInternalIdMap: Map<number, string>;
     private child!: Child;
     private subscriptions: ZenObservable.Subscription[];
-    private fieldCbDisposeFuncs: Map<string, (() => void)> = new Map();
-    private broadcasterCbDisposeFuncs: Map<string, (() => void)> = new Map();
+    private readonly fieldCbDisposeFuncs: Map<string, (() => void)> = new Map();
+    private readonly broadcasterCbDisposeFuncs: Map<string, (() => void)> = new Map();
 
-    constructor(
+    public constructor(
         private readonly iframe: HTMLIFrameElement,
         private readonly iframeInfo: Server.PenpalConnectable,
         private readonly penpalNetworkWrapper: PenpalNetworker) {
@@ -40,12 +40,14 @@ export class IframeCommunicator {
         this.subscriptions = [];
     }
 
-    private internalFieldIdToPublicId(id: string) {
+    private internalFieldIdToPublicId(id: string): number|undefined {
         return this.internalFieldIdToFieldMap.get(id)?.id;
     }
-    private internalBroadcasterIdToPublicId(id: string) {
+    
+    private internalBroadcasterIdToPublicId(id: string): number|undefined {
         return this.internalBroadcasterIdToBroadcasterMap.get(id)?.id;
     }
+
     // private publicFieldIdToInternalId(id: number) {
     //     return this.publicFieldIdToInternalIdMap.get(id);
     // }
@@ -55,34 +57,37 @@ export class IframeCommunicator {
 
 
     /// <METHODS FOR IFRAME>
-    private getFields() {
+    private getFields(): { id: string; value: string; name: string; }[] {
         return (
             [...this.internalFieldIdToFieldMap.entries()]
                 .map(([internalId, field]) => ({ id: internalId, value: field.value, name: field.name }))
         );
     }
-    private getField(id: string) {
+
+    private getField(id: string): { id: string; value: string; } | null {
         const field = this.internalFieldIdToFieldMap.get(id);
 
-        if (!field)
-            return null;
+        if (!field) return null;
 
         return {
             id,
             value: field.value
         };
     }
-    private async setFieldValue(internalId: string, value: string) {
+    
+    private async setFieldValue(internalId: string, value: string): Promise<void> {
         const publicId = this.internalFieldIdToPublicId(internalId);
         return await this.penpalNetworkWrapper.setFieldValue(publicId, value);
     }
-    private getBroadcasters() {
+
+    private getBroadcasters(): { id: string; name: string; }[] {
         return (
             [...this.internalBroadcasterIdToBroadcasterMap.entries()]
                 .map(([internalId, broadcaster]) => ({ id: internalId, name: broadcaster.name }))
         );
     }
-    private getBroadcaster(id: string) {
+
+    private getBroadcaster(id: string): { id: string; } | null {
         const broadcaster = this.internalBroadcasterIdToBroadcasterMap.get(id);
 
         if (!broadcaster)
@@ -92,17 +97,18 @@ export class IframeCommunicator {
             id
         };
     }
-    private async broadcast(internalId: string, message: string) {
+
+    private async broadcast(internalId: string, message: string): Promise<void> {
         const publicId = this.internalBroadcasterIdToPublicId(internalId);
         return await this.penpalNetworkWrapper.broadcast(publicId, message);
     }
-    private async getUser(id?: string) {
+
+    private async getUser(id?: string): Promise<Server.User | null> {
         return await this.penpalNetworkWrapper.getUser(id);
     }
     /// </METHODS FOR IFRAME>
 
-
-    async apply(): Promise<void> {
+    public async apply(): Promise<void> {
         const connection = Penpal.connectToChild({
             iframe: this.iframe,
             methods: {
@@ -125,7 +131,7 @@ export class IframeCommunicator {
                 await this.tryAutoPortAdding();
     }
 
-    private async tryAutoPortAdding() {
+    private async tryAutoPortAdding(): Promise<void> {
         const ports = await this.child.getPorts();
         const portsToAdd = {
             broadcasters: ports.broadcasters.filter(internalId => !this.internalBroadcasterIdToBroadcasterMap.has(internalId)),
@@ -140,7 +146,7 @@ export class IframeCommunicator {
         }
     }
 
-    private async addMapPorts({ broadcasters, fields }: { broadcasters: string[], fields: string[] }) {
+    private async addMapPorts({ broadcasters, fields }: { broadcasters: string[], fields: string[] }): Promise<void> {
         const iframeId = this.iframeInfo.id;
         for(const internalId of broadcasters) {
             const id = await createLocalBroadcaster(this.penpalNetworkWrapper.client, iframeId, internalId);
@@ -152,25 +158,27 @@ export class IframeCommunicator {
         }
     }
 
-    private turnOnFieldListener(publicId: number, internalId: string) {
-        const cb = (value: string, userId: string) => {
+    private turnOnFieldListener(publicId: number, internalId: string): void {
+        const cb = (value: string, userId: string): void => {
             this.child.setFieldValue(internalId, userId, value);
         };
         this.penpalNetworkWrapper.ee.on(`update_field_${publicId}`, cb);
         this.fieldCbDisposeFuncs.set(internalId, () => this.penpalNetworkWrapper.ee.removeListener(`update_field_${publicId}`, cb));
     }
-    private turnOffFieldListener(internalId: string) {
+
+    private turnOffFieldListener(internalId: string): void {
         this.fieldCbDisposeFuncs.get(internalId)?.();
     }
 
-    private turnOnBroadcasterListener(publicId: number, internalId: string) {
-        const cb = (message: string, userId: string) => {
+    private turnOnBroadcasterListener(publicId: number, internalId: string): void {
+        const cb = (message: string, userId: string): void => {
             this.child.broadcast(internalId, userId, message);
         };
         this.penpalNetworkWrapper.ee.on(`update_broadcast_${publicId}`, cb);
         this.broadcasterCbDisposeFuncs.set(internalId, () => this.penpalNetworkWrapper.ee.removeListener(`update_broadcast_${publicId}`, cb));
     }
-    private turnOffBroadcasterListener(internalId: string) {
+
+    private turnOffBroadcasterListener(internalId: string): void {
         this.broadcasterCbDisposeFuncs.get(internalId)?.();
     }
 
@@ -248,12 +256,12 @@ export class IframeCommunicator {
             subscription.unsubscribe();
     }
 
-    async stop(): Promise<void> {
+    public async stop(): Promise<void> {
         this.turnOffListeners();
     }
 }
 
-async function createLocalBroadcaster(apolloClient: ApolloClient<any>, iframeId: number, name: string) {
+async function createLocalBroadcaster(apolloClient: ApolloClient<any>, iframeId: number, name: string): Promise<number> {
     const result = await apolloClient.mutate({
         mutation: gql`
         mutation CreateLocalBroadcaster($iframeId: Int!, $broadcaster: BroadcasterInput!) {
@@ -272,7 +280,7 @@ async function createLocalBroadcaster(apolloClient: ApolloClient<any>, iframeId:
     return result.data.createLocalBroadcaster.id as number;
 }
 
-async function createLocalField(apolloClient: ApolloClient<any>, iframeId: number, name: string, value: string) {
+async function createLocalField(apolloClient: ApolloClient<any>, iframeId: number, name: string, value: string): Promise<number> {
     const result = await apolloClient.mutate({
         mutation: gql`
         mutation CreateLocalField($iframeId: Int!, $field: FieldInput!) {

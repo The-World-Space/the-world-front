@@ -194,7 +194,9 @@ function BroadcasterEditorInner({ worldId, opened }: PropsType) {
             <ListContainer>
                 {
                     broadcasters.map(broadcaster => {
-                        const update = (newbroadcaster: Partial<Server.Broadcaster>) => {setBroadcasters(broadcasters => broadcasters.map(broadcaster_ => broadcaster_.id === broadcaster.id ? {...broadcaster_, ...newbroadcaster} : broadcaster_));};
+                        const update = (newbroadcaster: Partial<Server.Broadcaster>) => {
+                            setBroadcasters(broadcasters => broadcasters.map(broadcaster_ => broadcaster_.id === broadcaster.id ? {...broadcaster_, ...newbroadcaster} : broadcaster_));
+                        };
                         return (
                             <ListItem broadcaster={broadcaster} key={broadcaster.id} update={update}/>
                         );

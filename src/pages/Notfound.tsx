@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     Link
 } from "react-router-dom";
@@ -98,9 +98,9 @@ function CircleContainer(): JSX.Element {
     ));
 
     useEffect(() => {
-        function onResize() {
-            setCircles(() => genCircles(startColor));
-        }
+        const onResize = useCallback(() => {
+            setCircles(genCircles(startColor));
+        }, [startColor]);
 
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);

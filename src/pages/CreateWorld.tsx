@@ -26,7 +26,7 @@ const WorldImage = styled.img`
     margin: 4% 0% 4% 0%;
 `;
 
-async function createWorld(apolloClient: ApolloClient<any>, id: string, name: string) {
+async function createWorld(apolloClient: ApolloClient<any>, id: string, name: string): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
         mutation CreateWorld($world: WorldInput!) {
@@ -52,7 +52,7 @@ const CreateWorld: React.FC = () => {
     const apolloClient = useApolloClient();
     const history = useHistory();
 
-    const submit = async () => {
+    const submit = async (): Promise<void> => {
         try {
             await createWorld(apolloClient, worldId, worldName);
             await apolloClient.resetStore();
@@ -73,8 +73,8 @@ const CreateWorld: React.FC = () => {
                 }}> Make World </div>
                 <HorizontalDivider />
                 <WorldImage src={twLogo1}  alt={"world img"} />
-                <BlackInput type="text" placeholder="World ID" onChange={e => setWorldId(e.target.value)} value={worldId}/>
-                <BlackInput type="text" placeholder="World Name" onChange={e => setWorldName(e.target.value)} value={worldName}/>
+                <BlackInput type="text" placeholder="World ID" onChange={(e): void => setWorldId(e.target.value)} value={worldId}/>
+                <BlackInput type="text" placeholder="World Name" onChange={(e): void => setWorldName(e.target.value)} value={worldName}/>
                 <BlackSubmitButton type="button" onClick={submit}>
                     Create World
                 </BlackSubmitButton>

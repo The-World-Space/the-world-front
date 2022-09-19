@@ -62,13 +62,13 @@ function NavigationBar(props: NavigationBarProps): JSX.Element {
                 <RowButtonDiv>
                     { logged 
                         ? <>
-                            <MainButton onClick={() => history.push("/user")}>user info</MainButton>
-                            <MainButton onClick={() => history.push("/world/0")}>world/0</MainButton>
-                            <MainButton onClick={() => history.push("/logout")}>Logout</MainButton>
+                            <MainButton onClick={(): void => history.push("/user")}>user info</MainButton>
+                            <MainButton onClick={(): void => history.push("/world/0")}>world/0</MainButton>
+                            <MainButton onClick={(): void => history.push("/logout")}>Logout</MainButton>
                         </>
                         : <>
-                            <MainButton onClick={() => history.push("/login")}>Login</MainButton>
-                            <MainButton onClick={() => history.push("/register")}>Register</MainButton>
+                            <MainButton onClick={(): void => history.push("/login")}>Login</MainButton>
+                            <MainButton onClick={(): void => history.push("/register")}>Register</MainButton>
                         </>}
                 </RowButtonDiv>
             }

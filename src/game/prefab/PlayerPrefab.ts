@@ -11,8 +11,8 @@ import { PlayerGridMovementController } from "../script/controller/PlayerGridMov
 import { BasePlayerPrefab } from "./BasePlayerPrefab";
 
 export class PlayerPrefab extends BasePlayerPrefab {
-    private _collideMaps: PrefabRef<IGridCollidable>[] = [];
-    private _gridEventMaps: PrefabRef<GridEventMap>[] = [];
+    private readonly _collideMaps: PrefabRef<IGridCollidable>[] = [];
+    private readonly _gridEventMaps: PrefabRef<GridEventMap>[] = [];
     private _gridPosition = new PrefabRef<Vector2>();
     private _gridPointer = new PrefabRef<GridPointer>();
     

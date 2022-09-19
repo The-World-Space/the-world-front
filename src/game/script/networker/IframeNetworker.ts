@@ -61,21 +61,21 @@ fragment IframeFields on IframeGameObject {
 type iframeId = number;
 
 type DEETypes = {
-    "create" : (iframeInfo: Server.IframeGameObject) => void,
-    "delete" : (id: iframeId) => void
+    "create": (iframeInfo: Server.IframeGameObject) => void,
+    "delete": (id: iframeId) => void
 }
 
 export class IframeNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
-    constructor(private readonly _worldId: string,
+    public constructor(private readonly _worldId: string,
                 private readonly _client: ApolloClient<any>) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this._initNetwork();
         // this._initEEListenters();
     }
 
-    private _initNetwork() {
+    private _initNetwork(): void {
         this._client.subscribe({
             query: gql`
                 subscription IframeGOCreateing($worldId: String!) {
@@ -113,7 +113,7 @@ export class IframeNetworker {
         });
     }
 
-    get ee(): DumbTypedEmitter<DEETypes> {
+    public get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }

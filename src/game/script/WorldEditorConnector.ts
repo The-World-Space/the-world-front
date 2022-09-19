@@ -9,11 +9,11 @@ export interface IWorldEditorAction {
 export class WorldEditorConnector {
     private _action: IWorldEditorAction | null = null;
 
-    setToolType(...args: Parameters<IWorldEditorAction["setToolType"]>): void {
+    public setToolType(...args: Parameters<IWorldEditorAction["setToolType"]>): void {
         return this._action?.setToolType(...args);
     }
 
-    set action(action: IWorldEditorAction) {
+    public set action(action: IWorldEditorAction) {
         this._action = action;
     }
 }
@@ -24,7 +24,7 @@ export namespace Tools {
     export class None extends Tool { }
 
     export class EraseTile extends Tool {
-        constructor(
+        public constructor(
             private readonly _type: Server.TileType
         ) {
             super();
@@ -36,7 +36,7 @@ export namespace Tools {
     }
 
     export class EraseIframeObject extends Tool {
-        constructor(
+        public constructor(
             private readonly _type: Server.GameObjectType
         ) {
             super();
@@ -52,7 +52,7 @@ export namespace Tools {
     export class EraseCollider extends Tool { }
     
     export class ImageGameObject extends Tool {
-        constructor(
+        public constructor(
             private readonly _imageInfo: Server.ImageGameObjectProto
         ) {
             super();
@@ -74,7 +74,7 @@ export namespace Tools {
         src: string;
     }
     export class IframeGameObject extends Tool {
-        constructor(
+        public constructor(
             private readonly _iframeInfo: IframeGameObjectProtoInput
         ) {
             super();
@@ -93,7 +93,7 @@ export namespace Tools {
         type: Server.TileType;
     }
     export class Tile extends Tool {
-        constructor (
+        public constructor (
             private readonly _tileInfo: tileType
         ) {
             super();

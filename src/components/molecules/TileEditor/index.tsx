@@ -46,8 +46,7 @@ function TileEditor({ opened }: TileEditorProps): JSX.Element {
         if (!game) return;
         if (!opened && game.currentGameState === GameStateKind.Running) {
             game.stop();
-        }
-        else if (opened && game.currentGameState === GameStateKind.Stopped) {
+        } else if (opened && game.currentGameState === GameStateKind.Stopped) {
             game.resume();
         }
     });

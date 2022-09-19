@@ -16,7 +16,7 @@ const PREFIX = "@@tw/game/component/gamemanager/NetworkImageManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
 export class NetworkImageManager extends Component {
-    private _networkImageMap: Map<number, GameObject> = new Map();
+    private readonly _networkImageMap: Map<number, GameObject> = new Map();
 
     private _iGridCoordinateable: IGridCoordinatable | null = null;
     private _gridObjectCollideMap: GridObjectCollideMap | null = null;

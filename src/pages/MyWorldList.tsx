@@ -150,7 +150,7 @@ function MyWorldList(): JSX.Element {
                         <HorizentalLine />
                         <WorldListDiv>
                             {worldList.value?.map(item => 
-                                <WorldItem onClick={() => history.push(`/world/${item.id}`)} key={item.id}>
+                                <WorldItem onClick={(): void => history.push(`/world/${item.id}`)} key={item.id}>
                                     <WorldItemLeft>
                                         <ThumbnailImage src={twLogo1} />
                                         <WorldItemInfo>
@@ -166,7 +166,7 @@ function MyWorldList(): JSX.Element {
                                     </WorldItemRight>
                                 </WorldItem>
                             )}
-                            <StyledPlusButton onClick={() => history.push("/createworld")} />
+                            <StyledPlusButton onClick={(): void => history.push("/createworld")} />
                         </WorldListDiv>
                     </Wrapper>
                 </NavTemplate>

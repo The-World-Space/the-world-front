@@ -7,8 +7,8 @@ export class IframeStatusRenderController extends Component {
     private _idBox: CssHtmlElementRenderer|null = null;
     private _idBoxString = "";
     private _id = 0;
-    private _onKeyDownBind = this.onKeyDown.bind(this);
-    private _onKeyUpBind = this.onKeyUp.bind(this);
+    private readonly _onKeyDownBind = this.onKeyDown.bind(this);
+    private readonly _onKeyUpBind = this.onKeyUp.bind(this);
 
     protected start(): void {
         this.engine.input.onKeyUp.addListener(this._onKeyUpBind);

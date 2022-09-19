@@ -193,10 +193,10 @@ function UserInfo(): JSX.Element {
         const file = e.target.files[0];
         const res = await uploadImage({ variables: { image: file } });
         const { filename } = res.data.uploadImageAsset;
-        reader.onload = (e) => {
+        reader.onload = (e): void => {
             const img = new Image();
             if (!e.target?.result) throw new Error("Image load failed");
-            img.onload = async function() {
+            img.onload = async function(): Promise<void> {
                 if (img.width > 98) {
                     alert("image width is too large (max 98px)");
                     return;

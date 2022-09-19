@@ -12,11 +12,11 @@ type EETypes = [
 ]
 
 type DEETypes = {
-    "join"        : (user: Server.User, spawnPoint: Vector2) => void,
-    "leave"       : (id: characterId) => void,
-    "player_move" : (x: number, y: number) => void,
+    "join": (user: Server.User, spawnPoint: Vector2) => void,
+    "leave": (id: characterId) => void,
+    "player_move": (x: number, y: number) => void,
     // for chatting.
-    "network_player_chat" : (id: characterId, msg: string) => void,
+    "network_player_chat": (id: characterId, msg: string) => void,
     "player_chat": (id: characterId, msg: string) => void,
 }
 
@@ -25,7 +25,7 @@ export class PlayerNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
     private readonly _characterSet: Set<characterId>;
 
-    constructor(private readonly _playerId: string,
+    public constructor(private readonly _playerId: string,
                 private readonly _protoWs: ProtoWebSocket<pb.ServerEvent>) {
         this._ee = new TypedEmitter<EETypes>();
         this._dee = new DumbTypedEmitter<DEETypes>();
@@ -34,7 +34,7 @@ export class PlayerNetworker {
         this._initEEListenters();
     }
 
-    private _initNetwork() {
+    private _initNetwork(): void {
         this._protoWs.on("message", serverEvent => {
             if(serverEvent.event === "playerListChanged") {
                 const playerInfos = serverEvent.playerListChanged.playerInfos;
@@ -67,7 +67,7 @@ export class PlayerNetworker {
         // });
     }
 
-    private _initEEListenters() {
+    private _initEEListenters(): void {
         // player_move should only listened on this method.
         this._dee.on("player_move", (x, y) => {
             this._protoWs.send(new pb.ClientEvent({
@@ -81,7 +81,7 @@ export class PlayerNetworker {
         });
     }
 
-    private onPlayerListUpdate(data: {x: number, y: number, user: Server.User}[]) {
+    private onPlayerListUpdate(data: {x: number, y: number, user: Server.User}[]): void {
         const playerList = data;
         const playerIdSet = new Set(data.map(e => e.user.id));
         const newPlayers = playerList.filter(p => !this._characterSet.has(p.user.id));
@@ -101,21 +101,20 @@ export class PlayerNetworker {
     public showNetworkPlayerChat(userId: string, message: string): void {
         if (userId === this._playerId) {
             this._dee.emit("player_chat", userId, message);
-        }
-        else {
+        } else {
             this._dee.emit("network_player_chat", userId, message);
         }
     }
 
-    private moveCharacter(data: {x: number, y: number, userId: string}) {
+    private moveCharacter(data: {x: number, y: number, userId: string}): void {
         this._ee.emit(`move_${data.userId}`, new Vector2(data.x, data.y));
     }
 
-    get ee(): TypedEmitter<EETypes> {
+    public get ee(): TypedEmitter<EETypes> {
         return this._ee;
     }
 
-    get dee(): DumbTypedEmitter<DEETypes> {
+    public get dee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }

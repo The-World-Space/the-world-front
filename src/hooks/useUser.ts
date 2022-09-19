@@ -12,7 +12,7 @@ function useUser(): User | null {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        (async () => {
+        (async (): Promise<void> => {
             const res = await apolloClient.query({
                 query: gql`
                     query getUser {

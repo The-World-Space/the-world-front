@@ -1,5 +1,5 @@
 import { gql, useApolloClient } from "@apollo/client";
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import {
     Link,
     useHistory} from "react-router-dom";
@@ -38,13 +38,7 @@ function Login(): JSX.Element {
     const [pw, setPw] = useState("");
     const client = useApolloClient();
 
-    function onKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
-        if (event.key === "Enter") {
-            onSubmit();
-        }
-    }
-
-    async function onSubmit() {
+    const onSubmit = useCallback(async (): Promise<void> => {
         try {
             const res = await client.query({
                 query: LOGIN_QUERY,
@@ -59,14 +53,19 @@ function Login(): JSX.Element {
             if (data.login) {
                 setJwt(data.login);
                 history.push("/");
-            }
-            else {
+            } else {
                 console.error("account not founded");
             }
         } catch (e) {
             alert(e);
         }
-    }
+    }, [client, history, id, pw, setJwt]);
+
+    const onKeyPress = useCallback((event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === "Enter") {
+            onSubmit();
+        }
+    }, [onSubmit]);
 
     return (
         <NavTemplate>
@@ -86,11 +85,11 @@ function Login(): JSX.Element {
                     fontSize: "32px"
                 }}> Login </div>
                 <HorizontalDivider style={{ margin: "6% 0% 6% 0%" }} />
-                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setId(e.target.value)} placeholder="ID" /> </div>
-                <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
-                <div> <BlackSubmitButton onClick={() => onSubmit()}>Login</BlackSubmitButton> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={(e): void => setId(e.target.value)} placeholder="ID" /> </div>
+                <div> <BlackInput onKeyPress={onKeyPress} onChange={(e): void => setPw(e.target.value)} type="password" placeholder="Password" /> </div>
+                <div> <BlackSubmitButton onClick={(): Promise<void> => onSubmit()}>Login</BlackSubmitButton> </div>
                 <HorizontalDivider style={{ margin: "8% 0% 0% 0%" }} />
-                <div> <BlackSubmitButton onClick={() => history.push("/register")}>Register</BlackSubmitButton> </div>
+                <div> <BlackSubmitButton onClick={(): void => history.push("/register")}>Register</BlackSubmitButton> </div>
             </ContentDiv>
         </NavTemplate>
     );

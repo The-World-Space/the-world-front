@@ -4,9 +4,9 @@ import { DumbTypedEmitter } from "detail-typed-emitter";
 import { Server } from "../../connect/types";
 
 type DEETypes = {
-    "create" : (collider: Server.AtlasTile) => void,
-    "update" : (collider: Server.AtlasTile) => void,
-    "delete" : (x: number, y: number, type: number) => void,
+    "create": (collider: Server.AtlasTile) => void,
+    "update": (collider: Server.AtlasTile) => void,
+    "delete": (x: number, y: number, type: number) => void,
 }
 
 const ATLAS_FIELDS = gql`
@@ -28,14 +28,14 @@ const ATLAS_FIELDS = gql`
 export class TileNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
-    constructor(private readonly _worldId: string,
+    public constructor(private readonly _worldId: string,
                 private readonly _client: ApolloClient<any>) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this._initNetwork();
         // this._initEEListenters();
     }
 
-    private _initNetwork() {
+    private _initNetwork(): void {
         this._client.subscribe({
             query: gql`
                 subscription atlasTileCreating($worldId: String!) {
@@ -95,7 +95,7 @@ export class TileNetworker {
         });
     }
 
-    get ee(): DumbTypedEmitter<DEETypes> {
+    public get ee(): DumbTypedEmitter<DEETypes> {
         return this._dee;
     }
 }
