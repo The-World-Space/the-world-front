@@ -11,10 +11,10 @@ export class WidgetManager {
             /*private readonly _world: Server.World,*/
             private readonly _wrapperDiv: HTMLDivElement,
             private readonly _widgetIframeInfos: Server.IframeWidget[]) {
-        this._init();
+        this.init();
     }
 
-    private _init(): void {
+    private init(): void {
         this._iframes = this._widgetIframeInfos.map(widget => {
             const iframe = document.createElement("iframe");
 

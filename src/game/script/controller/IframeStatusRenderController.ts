@@ -7,26 +7,24 @@ export class IframeStatusRenderController extends Component {
     private _idBox: CssHtmlElementRenderer|null = null;
     private _idBoxString = "";
     private _id = 0;
-    private readonly _onKeyDownBind = this.onKeyDown.bind(this);
-    private readonly _onKeyUpBind = this.onKeyUp.bind(this);
 
     protected start(): void {
-        this.engine.input.onKeyUp.addListener(this._onKeyUpBind);
+        this.engine.input.onKeyUp.addListener(this.onKeyUp);
     }
 
     public onDestroy(): void {
-        this.engine.input.onKeyUp.removeListener(this._onKeyUpBind);
+        this.engine.input.onKeyUp.removeListener(this.onKeyUp);
     }
 
     public onEnable(): void {
-        this.engine.input.onKeyDown.addListener(this._onKeyDownBind);
+        this.engine.input.onKeyDown.addListener(this.onKeyDown);
     }
 
     public onDisable(): void {
-        this.engine.input.onKeyDown.removeListener(this._onKeyDownBind);
+        this.engine.input.onKeyDown.removeListener(this.onKeyDown);
     }
 
-    private onKeyDown(e: KeyboardEvent): void {
+    private onKeyDown = (e: KeyboardEvent): void => {
         if (e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {   
             if (this._idBoxObject) { 
                 this._idBoxObject.activeSelf = true;
@@ -36,15 +34,15 @@ export class IframeStatusRenderController extends Component {
                 }
             }
         }
-    }
+    };
 
-    private onKeyUp(e: KeyboardEvent): void {
+    private onKeyUp = (e: KeyboardEvent): void => {
         if (e.key === "Control") {
             if (this._idBoxObject) {
                 this._idBoxObject.activeSelf = false;
             }
         }
-    }
+    };
 
     public setIdBoxObject(gameObject: GameObject): void {
         this._idBoxObject = gameObject;

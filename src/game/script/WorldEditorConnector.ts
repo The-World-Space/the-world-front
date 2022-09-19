@@ -93,7 +93,7 @@ export namespace Tools {
         type: Server.TileType;
     }
     export class Tile extends Tool {
-        public constructor (
+        public constructor(
             private readonly _tileInfo: tileType
         ) {
             super();

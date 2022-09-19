@@ -20,10 +20,10 @@ export class PenpalNetworker {
         private readonly _client: ApolloClient<any>,
         private readonly _protoClient: ProtoWebSocket<pb.ServerEvent>) {
         this._ee = new TypedEmitter<EETypes>();
-        this._initNetwork();
+        this.initNetwork();
     }
 
-    private _initNetwork(): void {
+    private initNetwork(): void {
         this._protoClient.on("message", serverEvent => {
             if(serverEvent.event === "fieldValueSetted") {
                 const data = serverEvent.fieldValueSetted;

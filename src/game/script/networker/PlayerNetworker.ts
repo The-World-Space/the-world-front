@@ -25,16 +25,18 @@ export class PlayerNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
     private readonly _characterSet: Set<characterId>;
 
-    public constructor(private readonly _playerId: string,
-                private readonly _protoWs: ProtoWebSocket<pb.ServerEvent>) {
+    public constructor(
+        private readonly _playerId: string,
+        private readonly _protoWs: ProtoWebSocket<pb.ServerEvent>
+    ) {
         this._ee = new TypedEmitter<EETypes>();
         this._dee = new DumbTypedEmitter<DEETypes>();
         this._characterSet = new Set();
-        this._initNetwork();
-        this._initEEListenters();
+        this.initNetwork();
+        this.initEEListenters();
     }
 
-    private _initNetwork(): void {
+    private initNetwork(): void {
         this._protoWs.on("message", serverEvent => {
             if(serverEvent.event === "playerListChanged") {
                 const playerInfos = serverEvent.playerListChanged.playerInfos;
@@ -67,7 +69,7 @@ export class PlayerNetworker {
         // });
     }
 
-    private _initEEListenters(): void {
+    private initEEListenters(): void {
         // player_move should only listened on this method.
         this._dee.on("player_move", (x, y) => {
             this._protoWs.send(new pb.ClientEvent({

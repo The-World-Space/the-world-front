@@ -15,7 +15,6 @@ export class NetworkGridMovementController extends Directable {
     private readonly _initPosition: Vector2 = new Vector2(); //integer position
     private _networkManager: PlayerNetworker | null = null;
     private _userId: string | null = null;
-    public readonly onMoveBind = this.onMove.bind(this);
     
     public start(): void {
         const transform = this.gameObject.transform;
@@ -31,19 +30,19 @@ export class NetworkGridMovementController extends Directable {
     public initNetwork(userId: string, networkManager: PlayerNetworker): void {
         this._networkManager = networkManager;
         this._userId = userId;
-        networkManager.ee.on(`move_${userId}`, this.onMoveBind);
+        networkManager.ee.on(`move_${userId}`, this.onMove);
     }
 
-    private onMove(gridPosition: Vector2): void {
+    private onMove = (gridPosition: Vector2): void => {
         this._targetPosition.setX(gridPosition.x * this._gridCellWidth + this._gridCenter.x);
         this._targetPosition.setY(gridPosition.y * this._gridCellHeight + this._gridCenter.y);
         this.isMoving = true;
-    }
+    };
 
     public onDestroy(): void {
         if (this._networkManager === null) return;
         if (this._userId === null) return;
-        this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMoveBind);
+        this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMove);
     }
 
     private setDirection(delta: Vector2): void {

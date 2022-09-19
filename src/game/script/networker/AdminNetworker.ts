@@ -11,15 +11,17 @@ type DEETypes = {
 export class AdminNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
-    public constructor(private readonly _userId: string,
-                private readonly _worldId: string,
-                private readonly _client: ApolloClient<any>) {
+    public constructor(
+        private readonly _userId: string,
+        private readonly _worldId: string,
+        private readonly _client: ApolloClient<any>
+    ) {
         this._dee = new DumbTypedEmitter<DEETypes>();
-        this._initNetwork();
+        this.initNetwork();
         // this._initEEListenters();
     }
 
-    private _initNetwork(): void {
+    private initNetwork(): void {
         this._client.query({
             query: gql`
                 query World($id: String!) {

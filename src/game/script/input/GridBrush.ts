@@ -21,12 +21,6 @@ export class GridBrush extends Component {
     private _imageZoffset = 0;
     private _onDraw: ((gridPosition: Vector2) => void)|null = null;
 
-    private readonly _onPointerDownBind = this.onPointerDown.bind(this);
-    private readonly _onPointerUpBind = this.onPointerUp.bind(this);
-    private readonly _onPointerMoveBind = this.onPointerMove.bind(this);
-    private readonly _onPointerEnterBind = this.onPointerEnter.bind(this);
-    private readonly _onPointerLeaveBind = this.onPointerLeave.bind(this);
-
     protected awake(): void {
         this._gridInputListener = this.gameObject.getComponent(PointerGridInputListener);
     }
@@ -53,55 +47,55 @@ export class GridBrush extends Component {
 
     public onEnable(): void {
         if (!this._gridInputListener) throw new Error("Unreachable");
-        this._gridInputListener.onPointerDown.addListener(this._onPointerDownBind);
-        this._gridInputListener.onPointerUp.addListener(this._onPointerUpBind);
-        this._gridInputListener.onPointerMove.addListener(this._onPointerMoveBind);
-        this._gridInputListener.onPointerEnter.addListener(this._onPointerEnterBind);
-        this._gridInputListener.onPointerLeave.addListener(this._onPointerLeaveBind);
+        this._gridInputListener.onPointerDown.addListener(this.onPointerDown);
+        this._gridInputListener.onPointerUp.addListener(this.onPointerUp);
+        this._gridInputListener.onPointerMove.addListener(this.onPointerMove);
+        this._gridInputListener.onPointerEnter.addListener(this.onPointerEnter);
+        this._gridInputListener.onPointerLeave.addListener(this.onPointerLeave);
     }
 
     public onDisable(): void {
         if (this._gridInputListener) {
-            this._gridInputListener.onPointerDown.removeListener(this._onPointerDownBind);
-            this._gridInputListener.onPointerUp.removeListener(this._onPointerUpBind);
-            this._gridInputListener.onPointerMove.removeListener(this._onPointerMoveBind);
-            this._gridInputListener.onPointerEnter.removeListener(this._onPointerEnterBind);
-            this._gridInputListener.onPointerLeave.removeListener(this._onPointerLeaveBind);
+            this._gridInputListener.onPointerDown.removeListener(this.onPointerDown);
+            this._gridInputListener.onPointerUp.removeListener(this.onPointerUp);
+            this._gridInputListener.onPointerMove.removeListener(this.onPointerMove);
+            this._gridInputListener.onPointerEnter.removeListener(this.onPointerEnter);
+            this._gridInputListener.onPointerLeave.removeListener(this.onPointerLeave);
         }
     }
 
     private readonly _lastGridPosition = new Vector2();
 
-    private onPointerDown(event: PointerGridEvent): void {
+    private onPointerDown = (event: PointerGridEvent): void => {
         this._pointerDown = true;
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
         this._onDraw?.(event.gridPosition);
-    }
+    };
 
-    private onPointerUp(): void {
+    private onPointerUp = (): void => {
         this._pointerDown = false;
-    }
+    };
 
-    private onPointerMove(event: PointerGridEvent): void {
+    private onPointerMove = (event: PointerGridEvent): void => {
         if (this._lastGridPosition.equals(event.gridPosition)) return;
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
         if (!this._pointerDown) return;
         this._onDraw?.(event.gridPosition);
-    }
+    };
 
-    private onPointerEnter(event: PointerGridEvent): void {
+    private onPointerEnter = (event: PointerGridEvent): void => {
         this._pointerHover = true;
         this.updateImagePosition(event.gridPosition);
         this.updateImageShow();
-    }
+    };
 
-    private onPointerLeave(): void {
+    private onPointerLeave = (): void => {
         this._pointerHover = false;
         this._pointerDown = false;
         this.updateImageShow();
-    }
+    };
 
     private updateImagePosition(gridPosition: Vector2): void {
         if (!this._pointerImageObject) return;
