@@ -102,7 +102,11 @@ const MenuButton = styled.div<{selected: boolean}>`
     }
 `;
 
-const CountIndicatorDiv = styled.div`
+interface CountIndicatorDivProps {
+    isMobile: boolean;
+}
+
+const CountIndicatorDiv = styled.div<CountIndicatorDivProps>`
     margin-top: auto;
     margin-bottom: 26px;
     border-radius: 50%;
@@ -119,6 +123,15 @@ const CountIndicatorDiv = styled.div`
     font-style: ${MENU_BUTTON_FONT_STYLE};
     font-weight: ${MENU_BUTTON_FONT_WEIGHT};
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.12);
+    pointer-events: all;
+
+    ${p => p.isMobile ? `
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 20px;
+        margin-left: 20px;
+    ` : ""}
 `;
 
 const ExpandButton = styled.button`
@@ -386,7 +399,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                             <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>PORT</MenuButton>
                         </>
                     }
-                    <CountIndicatorDiv onClick={onPeopleCountClick}>
+                    <CountIndicatorDiv onClick={onPeopleCountClick} isMobile={false}>
                         <PeopleIcon style={{marginTop: "10px"}} /> 
                         {playerList?.length + 1}
                     </CountIndicatorDiv>
@@ -405,13 +418,25 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                 }
             </>
         );
-    }, [amIadmin, barOpened, onMenuSelect, playerList, selectedEditor, showSideBar, world?.amIOwner, onPeopleCountClick]);
+    }, [amIadmin, barOpened, onMenuSelect, playerList, selectedEditor, showSideBar, world?.amIOwner, onPeopleCountClick, worldId]);
+
+    const playerCountButton = useMemo(() => {
+        if (showSideBar) return null;
+
+        return (
+            <CountIndicatorDiv onClick={onPeopleCountClick} isMobile={true}>
+                <PeopleIcon style={{marginTop: "10px"}} /> 
+                {playerList?.length + 1}
+            </CountIndicatorDiv>
+        );
+    }, [onPeopleCountClick, playerList, showSideBar]);
 
     return (
         <>
             <PlayerListPopup opened={popupOpened} worldId={worldId} />
             <OuterDiv>
                 {sideBar}
+                {playerCountButton}
                 <ChatButton onClick={() => chatToggle()}/>
                 <ChatDiv style={chatOpened ? {} : {transform: "translateX(339px)"}}>
                     <ChatContentDiv ref={ref}>
