@@ -6,7 +6,8 @@ import {
     CssIframeRenderer,
     GridObjectCollideMap,
     GridCollider,
-    IGridCoordinatable
+    IGridCoordinatable,
+    GameObject
 } from "the-world-engine";
 import { Server } from "../connect/types";
 import { PenpalConnection } from "../script/penpal/PenpalConnection";
@@ -58,6 +59,8 @@ export class NetworkIframePrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
+        const gameObject = new PrefabRef<GameObject>();
+
         return this.gameObjectBuilder
             .withComponent(CssIframeRenderer, c => {
                 const iframe = this._iframeInfo.ref;
@@ -65,7 +68,7 @@ export class NetworkIframePrefab extends Prefab {
                 if (!iframe) throw new Error("iframe info is not given");
                 if (!ref) return;
                 if (!iframe.proto_) {
-                    c.gameObject.destroy();
+                    gameObject.ref!.destroy();
                     return;
                 }
                 c.iframeSource = iframe.proto_.src;
@@ -93,6 +96,7 @@ export class NetworkIframePrefab extends Prefab {
                 if (!penpalNetworkWrapper) throw new Error("penpalNetworkWrapper is not given");
                 c.iframeInfo = iframe;
                 c.penpalNetworkWrapper = penpalNetworkWrapper;
-            });
+            })
+            .getGameObject(gameObject);
     }
 }

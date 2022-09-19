@@ -6,7 +6,8 @@ import {
     CssSpriteRenderer,
     GridCollider,
     GridObjectCollideMap,
-    IGridCoordinatable
+    IGridCoordinatable,
+    GameObject
 } from "the-world-engine";
 import { Server } from "../connect/types";
 
@@ -36,6 +37,8 @@ export class NetworkImagePrefab extends Prefab {
     }
 
     public make(): GameObjectBuilder {
+        const gameObject = new PrefabRef<GameObject>();
+
         return this.gameObjectBuilder
             .withComponent(CssSpriteRenderer, c => {
                 const image = this._imageInfo.ref;
@@ -43,7 +46,7 @@ export class NetworkImagePrefab extends Prefab {
                 if (!image) throw new Error("image info is not given");
                 if (!ref) return;
                 if (!image.proto_) {
-                    c.gameObject.destroy();
+                    gameObject.ref!.destroy();
                     return;
                 }
                 c.asyncSetImageFromPath(image.proto_.src);
@@ -59,6 +62,7 @@ export class NetworkImagePrefab extends Prefab {
                         c.addCollider(point.x, point.y);
                     }
                 }
-            });
+            })
+            .getGameObject(gameObject);
     }
 }
