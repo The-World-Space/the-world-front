@@ -288,7 +288,8 @@ enum Editor {
     World,
     Atlas,
     Object,
-    Iframe
+    Iframe,
+    Plugin
 }
 
 interface PropsType {
@@ -374,6 +375,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
 
     useEffect(() => {
         window.addEventListener("resize", onWindowResize);
+        onWindowResize();
         return () => window.removeEventListener("resize", onWindowResize);
     }, [onWindowResize]);
 
@@ -397,6 +399,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
                             <MenuButton selected={barOpened && selectedEditor === Editor.Field} onClick={() => onMenuSelect(Editor.Field)}>VAR</MenuButton>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Broadcaster} onClick={() => onMenuSelect(Editor.Broadcaster)}>CH</MenuButton>
                             <MenuButton selected={barOpened && selectedEditor === Editor.Iframe} onClick={() => onMenuSelect(Editor.Iframe)}>PORT</MenuButton>
+                            <MenuButton selected={barOpened && selectedEditor === Editor.Plugin} onClick={() => onMenuSelect(Editor.Plugin)}>PLGN</MenuButton>
                         </>
                     }
                     <CountIndicatorDiv onClick={onPeopleCountClick} isMobile={false}>
