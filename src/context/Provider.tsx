@@ -1,15 +1,16 @@
+import { gql } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { AuthContext, ObjEditorContext, WorldEditorContext } from "./contexts";
-import { useRawState } from "../hooks/StickyState";
-import { JWT_KEY } from "./consts";
 import { Game } from "the-world-engine";
-import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
-import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
+
 import { Server } from "../game/connect/types";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
-import { gql } from "@apollo/client";
+import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
+import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
+import { useRawState } from "../hooks/StickyState";
 import useUser from "../hooks/useUser";
 import { useGameWSApolloClient } from "../pages/NetworkGamePage";
+import { JWT_KEY } from "./consts";
+import { AuthContext, ObjEditorContext, WorldEditorContext } from "./contexts";
 
 export const Provider: React.FC = ({ children }) => {
     return (
@@ -25,7 +26,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     const state = {
         jwt,
         logged: !!jwt,
-        setJwt,
+        setJwt
     };
 
     return (
@@ -52,7 +53,7 @@ const ObjEditorContextProvider: React.FC = ({ children }) => {
     const state = {
         game,
         setGame,
-        objEditorConnector,
+        objEditorConnector
     };
 
     return (

@@ -1,10 +1,11 @@
-import styled from "styled-components";
-import NavTemplate from "../components/templates/NavTemplate";
-import { FORM_FONT_FAMILY } from "../GlobalEnviroment";
-import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
 import { gql, useMutation } from "@apollo/client";
 import { useCallback, useRef, useState } from "react";
+import styled from "styled-components";
+
+import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
+import NavTemplate from "../components/templates/NavTemplate";
 import { globalFileApolloClient } from "../game/connect/files";
+import { FORM_FONT_FAMILY } from "../GlobalEnviroment";
 
 const ContentDiv = styled.div`
     display: flex;
@@ -121,7 +122,7 @@ const UPLOAD_HTML = gql`
 
 function UploadHtml(): JSX.Element {
     const [uploadHtml] = useMutation(UPLOAD_HTML, {
-        client: globalFileApolloClient,
+        client: globalFileApolloClient
     });
     const inputFile = useRef<HTMLInputElement>(null);
     const [url, setUrl] = useState("");
@@ -134,7 +135,7 @@ function UploadHtml(): JSX.Element {
             const text = reader.result as string;
             const res = await uploadHtml({
                 variables: {
-                    text,
+                    text
                 }
             });
             const filename = res.data.uploadIframeAssetText.filename as string;

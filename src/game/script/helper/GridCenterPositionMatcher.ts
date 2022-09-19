@@ -1,5 +1,5 @@
-import { Vector2 } from "three/src/Three";
 import { Component } from "the-world-engine";
+import { Vector2 } from "three/src/Three";
 
 export class GridCenterPositionMatcher extends Component {
     public readonly disallowMultipleComponent: boolean = true;

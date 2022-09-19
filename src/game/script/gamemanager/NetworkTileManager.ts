@@ -1,5 +1,6 @@
-import { Server } from "../../connect/types";
 import { AsyncImageLoader, Component, CssTilemapChunkRenderer, TileAtlasItem } from "the-world-engine";
+
+import { Server } from "../../connect/types";
 import { TileNetworker } from "../networker/TileNetworker";
 
 export class NetworkTileManager extends Component {

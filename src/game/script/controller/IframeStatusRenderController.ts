@@ -1,4 +1,4 @@
-import { Component, GameObject, CssHtmlElementRenderer } from "the-world-engine";
+import { Component, CssHtmlElementRenderer, GameObject } from "the-world-engine";
 
 export class IframeStatusRenderController extends Component {
     public readonly disallowMultipleComponent: boolean = true;

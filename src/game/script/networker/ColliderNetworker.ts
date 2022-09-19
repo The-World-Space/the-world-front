@@ -1,5 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { DumbTypedEmitter } from "detail-typed-emitter";
+
 import { Server } from "../../connect/types";
 
 type DEETypes = {
@@ -28,7 +29,7 @@ export class ColliderNetworker {
                 }
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.colliderUpdating) throw new Error("data.data.iframeGameObjectCreating is falsy");

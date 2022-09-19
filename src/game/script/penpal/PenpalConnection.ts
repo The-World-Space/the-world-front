@@ -1,5 +1,6 @@
-import { Server } from "../../connect/types";
 import { Component, CssIframeRenderer } from "the-world-engine";
+
+import { Server } from "../../connect/types";
 import { IframeCommunicator } from "../../penpal";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 

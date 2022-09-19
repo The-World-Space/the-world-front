@@ -1,19 +1,19 @@
-import { Server } from "./types";
-import {
-    ApolloLink,
-    Operation,
-    FetchResult,
-    Observable,
-} from "@apollo/client/core";
 import {
     ApolloClient,
-    InMemoryCache,
     gql,
+    InMemoryCache,
     NormalizedCacheObject
 } from "@apollo/client";
+import {
+    ApolloLink,
+    FetchResult,
+    Observable,
+    Operation} from "@apollo/client/core";
 import { print } from "graphql";
-import { createClient, ClientOptions, Client } from "graphql-ws";
+import { Client, ClientOptions, createClient } from "graphql-ws";
+
 import { JWT_KEY } from "../../context/consts";
+import { Server } from "./types";
 
 export async function getWorld(id: string, apolloClient: ApolloClient<any>): Promise<Server.World> {
     const result = await apolloClient.query({
@@ -101,7 +101,7 @@ export async function getWorld(id: string, apolloClient: ApolloClient<any>): Pro
         }
         `,
         variables: {
-            id,
+            id
         }
     });
 
@@ -126,7 +126,7 @@ export async function getMyWorlds(apolloClient: ApolloClient<any>): Promise<Serv
 
 export function getSession(): { token: string|null } {
     return {
-        token: localStorage.getItem(JWT_KEY),
+        token: localStorage.getItem(JWT_KEY)
     };
 }
 
@@ -163,7 +163,7 @@ export class WebSocketLink extends ApolloLink {
                             );
 
                         return sink.error(err);
-                    },
+                    }
                 }
             );
         });
@@ -183,9 +183,9 @@ export function getWSLink(): WebSocketLink {
                 return {};
             }
             return {
-                Authorization: `${session.token}`,
+                Authorization: `${session.token}`
             };
-        },
+        }
     });
 
     return link;

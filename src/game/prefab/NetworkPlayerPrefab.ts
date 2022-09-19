@@ -1,9 +1,9 @@
-import { Vector2 } from "three/src/Three";
 import {
     GameObjectBuilder,
-    PrefabRef,
-    IGridCollidable
-} from "the-world-engine";
+    IGridCollidable,
+    PrefabRef} from "the-world-engine";
+import { Vector2 } from "three/src/Three";
+
 import { NetworkGridMovementController } from "../script/controller/NetworkGridMovementController";
 import { PlayerNetworker } from "../script/networker/PlayerNetworker";
 import { BasePlayerPrefab } from "./BasePlayerPrefab";

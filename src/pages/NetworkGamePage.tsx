@@ -1,20 +1,21 @@
-import { createContext, useContext, useEffect, useMemo, useRef } from "react";
-import { TheWorldBootstrapper, NetworkInfoObject } from "../game/TheWorldBootstrapper";
-import { Game, GameStateKind } from "the-world-engine";
-import { useAsync } from "react-use";
-import { getWorld, getWSApolloClient, getWSLink } from "../game/connect/gql";
-import useUser from "../hooks/useUser";
-import IngameInterface from "../components/organisms/IngameInterface";
-import { useHistory, useParams } from "react-router-dom";
-import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
-import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
-import { WidgetManager } from "../game/script/WidgetManager";
-import styled from "styled-components";
-import { GameProvider } from "../context/Provider";
-import { WorldEditorContext } from "../context/contexts";
-import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
 import { ApolloClient, ApolloLink, NormalizedCacheObject } from "@apollo/client";
+import { createContext, useContext, useEffect, useMemo, useRef } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { useAsync } from "react-use";
+import styled from "styled-components";
+import { Game, GameStateKind } from "the-world-engine";
+
+import { ReactComponent as TWLogo } from "../components/atoms/tw logo 1.svg";
+import IngameInterface from "../components/organisms/IngameInterface";
+import { WorldEditorContext } from "../context/contexts";
+import { GameProvider } from "../context/Provider";
+import { getWorld, getWSApolloClient, getWSLink } from "../game/connect/gql";
 import { getProtoWebSocket, joinWorld, login } from "../game/connect/proto";
+import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
+import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
+import { WidgetManager } from "../game/script/WidgetManager";
+import { NetworkInfoObject, TheWorldBootstrapper } from "../game/TheWorldBootstrapper";
+import useUser from "../hooks/useUser";
 import { ProtoWebSocket } from "../proto/ProtoWebSocket";
 import * as pb from "../proto/the_world";
 
@@ -218,7 +219,7 @@ interface GameWSApolloClientContextType {
 
 const GameWSApolloClientContext = createContext<GameWSApolloClientContextType>({
     wsLink: {} as ApolloLink,
-    apolloClient: {} as ApolloClient<NormalizedCacheObject>,
+    apolloClient: {} as ApolloClient<NormalizedCacheObject>
 });
 
 function GameWSApolloClientProvider({ children }: { children: JSX.Element}): JSX.Element {

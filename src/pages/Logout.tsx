@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { AuthContext } from "../context/contexts";
-import { useContext } from "react";
 import { useApolloClient } from "@apollo/client";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { useHistory } from "react-router-dom";
+
+import { AuthContext } from "../context/contexts";
 
 function Logout(): JSX.Element {
     const apolloClient = useApolloClient();

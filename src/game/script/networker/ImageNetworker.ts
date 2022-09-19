@@ -1,5 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { DumbTypedEmitter } from "detail-typed-emitter";
+
 import { Server } from "../../connect/types";
 
 const IMAGE_FILEDS = gql`
@@ -63,7 +64,7 @@ export class ImageNetworker {
                 ${IMAGE_FILEDS}
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.imageGameObjectCreating) throw new Error("data.data.iframeGameObjectCreating is falsy");
@@ -79,7 +80,7 @@ export class ImageNetworker {
                 }
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.imageGameObjectDeleting) throw new Error("data.data.iframeGameObjectDeleting is falsy");

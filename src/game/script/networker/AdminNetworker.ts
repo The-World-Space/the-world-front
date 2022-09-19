@@ -1,5 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { DumbTypedEmitter } from "detail-typed-emitter";
+
 import { Server } from "../../connect/types";
 
 type DEETypes = {
@@ -29,7 +30,7 @@ export class AdminNetworker {
                 }
             `,
             variables: {
-                id: this._worldId,
+                id: this._worldId
             }
         }).then(data => {
             if (!data.data.World) throw new Error("data.data.World is falsy");
@@ -53,7 +54,7 @@ export class AdminNetworker {
                 }
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.worldAdminList) throw new Error("data.data.iframeGameObjectCreating is falsy");

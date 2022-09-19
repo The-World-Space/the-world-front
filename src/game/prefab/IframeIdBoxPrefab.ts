@@ -1,4 +1,4 @@
-import { GameObject, GameObjectBuilder, Prefab, PrefabRef, CssHtmlElementRenderer } from "the-world-engine";
+import { CssHtmlElementRenderer, GameObject, GameObjectBuilder, Prefab, PrefabRef } from "the-world-engine";
 import { Vector2 } from "three/src/Three";
 
 export class IframeIdBoxPrefab extends Prefab {

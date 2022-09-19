@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+
 import Background from "../atoms/Background";
 import NavigationBar from "../organisms/NavigationBar";
 
@@ -39,7 +40,7 @@ function NavTemplate(props: NavTemplateProps): JSX.Element {
 }
 
 NavTemplate.defaultProps = {
-    showNavContent: false,
+    showNavContent: false
 };
 
 export default NavTemplate;

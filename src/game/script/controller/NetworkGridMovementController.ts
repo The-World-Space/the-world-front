@@ -1,5 +1,6 @@
+import { Directable, Direction, ReadonlyVector2, WritableVector2 } from "the-world-engine";
 import { Vector2 } from "three/src/Three";
-import { Direction, Directable, ReadonlyVector2, WritableVector2 } from "the-world-engine";
+
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 
 export class NetworkGridMovementController extends Directable {

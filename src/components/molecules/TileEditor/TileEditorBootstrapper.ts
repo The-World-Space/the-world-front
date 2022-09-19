@@ -1,22 +1,22 @@
-import { Vector2, Vector3 } from "three/src/Three";
 import { 
     Bootstrapper,
-    SceneBuilder,
-    PrefabRef,
-    Color,
-    EditorCameraController,
-    GridPointer,
-    GridCollideMap,
-    EditorGridRenderer,
     Camera,
-    CssSpriteRenderer
-} from "the-world-engine";
+    Color,
+    CssSpriteRenderer,
+    EditorCameraController,
+    EditorGridRenderer,
+    GridCollideMap,
+    GridPointer,
+    PrefabRef,
+    SceneBuilder} from "the-world-engine";
+import { Vector2, Vector3 } from "three/src/Three";
+
 import { GridInputPrefab } from "../../../game/prefab/GridInputPrefab";
 import { EditorViewObjectController } from "../../../game/script/controller/EditorViewObjectController";
+import { CameraHorizontalViewSizeSetter } from "../../../game/script/helper/CameraHorizontalViewSizeSetter";
 import { BrushMode, GridColliderBrush } from "../../../game/script/input/GridColliderBrush";
 import { ObjEditorConnector } from "../../../game/script/ObjEditorConnector";
 import { Tools } from "../../organisms/EditorInner/ObjectEditorInner";
-import { CameraHorizontalViewSizeSetter } from "../../../game/script/helper/CameraHorizontalViewSizeSetter";
 
 export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
     public run(): SceneBuilder {

@@ -1,18 +1,18 @@
+import { gql, useApolloClient, useMutation } from "@apollo/client";
 import React, { ChangeEventHandler, useCallback, useContext, useRef, useState } from "react";
 import styled from "styled-components";
 
-import TileEditor from "../../molecules/TileEditor";
-import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
+import { ObjEditorContext, WorldEditorContext } from "../../../context/contexts";
+import { globalFileApolloClient } from "../../../game/connect/files";
+import { Server } from "../../../game/connect/types";
+import { IMAGE_MAX_SIZE } from "../../../GlobalEnviroment";
+import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
+import { ReactComponent as ChainOff } from "../../atoms/ChainOff.svg";
+import { ReactComponent as ChainOn } from "../../atoms/ChainOn.svg";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
 import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
-import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
-import { ReactComponent as ChainOn } from "../../atoms/ChainOn.svg";
-import { ReactComponent as ChainOff } from "../../atoms/ChainOff.svg";
-import { Server } from "../../../game/connect/types";
-import { ObjEditorContext, WorldEditorContext } from "../../../context/contexts";
-import { gql, useApolloClient, useMutation } from "@apollo/client";
-import { globalFileApolloClient } from "../../../game/connect/files";
-import { IMAGE_MAX_SIZE } from "../../../GlobalEnviroment";
+import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
+import TileEditor from "../../molecules/TileEditor";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -275,7 +275,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
     }, [isSafeNum, objEditorConnector, imageNaturalHeight, imageNaturalWidth, maintainAspectRatio, imageWidth, imageHeight]);
 
     const [imageUploadMutate] = useMutation(UPLOAD_IMAGE, {
-        client: globalFileApolloClient,
+        client: globalFileApolloClient
     });
     const [saveMutate] = useMutation(SAVE_IMAGE_PROTO);
     const [file, setFile] = useState<File>();
@@ -338,7 +338,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             offsetY: 0,
             colliders: 
                 objEditorConnector.getColliderShape()
-                    .map(c => ({x: c.x, y: c.y, isBlocked: true})),
+                    .map(c => ({x: c.x, y: c.y, isBlocked: true}))
         };
         const imageUploadRes = await imageUploadMutate({
             variables: {
@@ -349,7 +349,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             variables: {
                 protoInput: {
                     ...vars,
-                    src: `https://asset.the-world.space/image/${imageUploadRes.data.uploadImageAsset.filename}`,
+                    src: `https://asset.the-world.space/image/${imageUploadRes.data.uploadImageAsset.filename}`
                 }
             }
         });

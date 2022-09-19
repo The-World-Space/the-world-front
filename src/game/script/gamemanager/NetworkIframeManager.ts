@@ -1,16 +1,17 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector2, Vector3 } from "three/src/Three";
-import { Server } from "../../connect/types";
 import {
     Component,
-    GameObject,
-    PrefabRef,
-    GridObjectCollideMap,
-    IGridCoordinatable,
     CssHtmlElementRenderer,
     CssIframeRenderer,
+    GameObject,
+    GridObjectCollideMap,
+    IGridCoordinatable,
+    PrefabRef,
     ZaxisSorter
 } from "the-world-engine";
+import { Vector2, Vector3 } from "three/src/Three";
+
+import { Server } from "../../connect/types";
 import { PenpalNetworker } from "../../penpal/PenpalNetworker";
 import { IframeIdBoxPrefab } from "../../prefab/IframeIdBoxPrefab";
 import { NetworkIframePrefab } from "../../prefab/NetworkIframePrefab";

@@ -1,20 +1,20 @@
-import { Quaternion, Vector2, Vector3 } from "three/src/Three";
 import {
+    Color,
+    CssHtmlElementRenderer,
     CssSpriteAtlasRenderer,
-    SpriteAtlasAnimator,
-    ZaxisSorter,
+    CssTextRenderer,
+    FontWeight,
     GameObject,
     GameObjectBuilder,
     Prefab,
-    CssTextRenderer,
-    FontWeight,
-    TextAlign,
-    CssHtmlElementRenderer,
     PrefabRef,
-    Color
-} from "the-world-engine";
-import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
+    SpriteAtlasAnimator,
+    TextAlign,
+    ZaxisSorter} from "the-world-engine";
+import { Quaternion, Vector2, Vector3 } from "three/src/Three";
+
 import { MovementAnimationController } from "../script/controller/MovementAnimationController";
+import { PlayerStatusRenderController } from "../script/controller/PlayerStatusRenderController";
 
 export class BasePlayerPrefab extends Prefab {
     private _spriteAtlasPath = new PrefabRef<string>("/assets/charactor/Seongwon.png");

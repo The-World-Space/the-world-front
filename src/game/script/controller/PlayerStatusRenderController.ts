@@ -1,12 +1,11 @@
 import {
-    CoroutineIterator,
-    Coroutine,
-    WaitForSeconds,
     Component,
-    GameObject,
+    Coroutine,
+    CoroutineIterator,
     CssHtmlElementRenderer,
-    CssTextRenderer
-} from "the-world-engine";
+    CssTextRenderer,
+    GameObject,
+    WaitForSeconds} from "the-world-engine";
 
 export class PlayerStatusRenderController extends Component {
     public readonly disallowMultipleComponent: boolean = true;

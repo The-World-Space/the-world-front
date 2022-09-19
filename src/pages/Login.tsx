@@ -1,17 +1,17 @@
-import React, { useState, useContext } from "react";
-import {
-    useHistory,
-    Link
-} from "react-router-dom";
-import { AuthContext } from "../context/contexts";
 import { gql, useApolloClient } from "@apollo/client";
-import twLogo1 from "../components/atoms/tw logo 1.svg";
-import NavTemplate from "../components/templates/NavTemplate";
+import React, { useContext, useState } from "react";
+import {
+    Link,
+    useHistory} from "react-router-dom";
 import styled from "styled-components";
+
 import BlackInput from "../components/atoms/BlackInput";
 import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
-import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from "../GlobalEnviroment";
 import HorizontalDivider from "../components/atoms/HorizontalDivider";
+import twLogo1 from "../components/atoms/tw logo 1.svg";
+import NavTemplate from "../components/templates/NavTemplate";
+import { AuthContext } from "../context/contexts";
+import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from "../GlobalEnviroment";
 
 const ContentDiv = styled.div`
     display: flex;
@@ -74,7 +74,7 @@ function Login(): JSX.Element {
                 <div>
                     <Link to="/">
                         <img src={twLogo1} alt={"logo img"} style={{
-                            width: "350px",
+                            width: "350px"
                         }}/>
                     </Link>
                 </div>
@@ -83,7 +83,7 @@ function Login(): JSX.Element {
                     fontFamily: FORM_FONT_FAMILY,
                     fontStyle: FORM_FONT_STYLE,
                     fontWeight: FORMTITLE_FONT_WEIGHT,
-                    fontSize: "32px",
+                    fontSize: "32px"
                 }}> Login </div>
                 <HorizontalDivider style={{ margin: "6% 0% 6% 0%" }} />
                 <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setId(e.target.value)} placeholder="ID" /> </div>

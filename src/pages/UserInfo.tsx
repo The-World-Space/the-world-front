@@ -1,11 +1,12 @@
-import styled from "styled-components";
-import NavTemplate from "../components/templates/NavTemplate";
-import { FORM_FONT_FAMILY } from "../GlobalEnviroment";
-import accountIcon from "../components/atoms/AccountIcon.svg";
-import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
 import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { useCallback, useMemo, useRef } from "react";
+import styled from "styled-components";
+
+import accountIcon from "../components/atoms/AccountIcon.svg";
+import skinUploadIcon from "../components/atoms/SkinUploadButtonIcon.svg";
+import NavTemplate from "../components/templates/NavTemplate";
 import { globalFileApolloClient } from "../game/connect/files";
+import { FORM_FONT_FAMILY } from "../GlobalEnviroment";
 import { User } from "../hooks/useUser";
 
 const ContentDiv = styled.div`
@@ -180,7 +181,7 @@ function UserInfo(): JSX.Element {
     const user: User = useMemo(() => user_.data?.currentUser, [user_.data]);
     const [updateUser] = useMutation(UPDATE_USER);
     const [uploadImage] = useMutation(UPLOAD_IMAGE, {
-        client: globalFileApolloClient,
+        client: globalFileApolloClient
     });
     const inputFile = useRef<HTMLInputElement>(null);
     const apolloClient = useApolloClient();

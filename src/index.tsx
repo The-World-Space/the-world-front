@@ -1,15 +1,15 @@
+import {
+    ApolloClient,
+    ApolloProvider,
+    createHttpLink,
+    InMemoryCache} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import React from "react";
 import ReactDOM from "react-dom";
+
 import App from "./App";
-import { Provider } from "./context/Provider";
-import {
-    ApolloProvider,
-    ApolloClient,
-    InMemoryCache,
-    createHttpLink
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
 import { JWT_KEY } from "./context/consts";
+import { Provider } from "./context/Provider";
 import { loadGlobalEnviroments } from "./GlobalEnviroment";
 
 const httpLink = createHttpLink({
@@ -22,14 +22,14 @@ const authLink = setContext((_, { headers }) => {
     return {
         headers: {
             ...headers,
-            authorization: token ? `${token}` : "",
+            authorization: token ? `${token}` : ""
         }
     };
 });
 
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache()
 });
 
 loadGlobalEnviroments();

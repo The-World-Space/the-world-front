@@ -1,14 +1,14 @@
-import { Vector2 } from "three/src/Three";
 import {
-    GameObjectBuilder,
-    Prefab,
-    PrefabRef,
     CssSpriteRenderer,
+    GameObject,
+    GameObjectBuilder,
     GridCollider,
     GridObjectCollideMap,
     IGridCoordinatable,
-    GameObject
-} from "the-world-engine";
+    Prefab,
+    PrefabRef} from "the-world-engine";
+import { Vector2 } from "three/src/Three";
+
 import { Server } from "../connect/types";
 
 export class NetworkImagePrefab extends Prefab {

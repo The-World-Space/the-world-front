@@ -1,11 +1,12 @@
-import { AuthContext } from "../../context/contexts";
+import { useContext } from "react";
 import {
     Link, useHistory
 } from "react-router-dom";
-import { useContext } from "react";
 import styled from "styled-components";
-import twLogo2 from "../atoms/tw logo 2.svg";
+
+import { AuthContext } from "../../context/contexts";
 import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_SIZE, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../GlobalEnviroment";
+import twLogo2 from "../atoms/tw logo 2.svg";
 
 const NaviDiv = styled.div`
     display: flex;

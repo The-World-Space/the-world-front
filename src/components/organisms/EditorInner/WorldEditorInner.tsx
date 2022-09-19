@@ -1,16 +1,16 @@
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import React, { ChangeEventHandler, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDebounce } from "react-use";
 import styled from "styled-components";
 
-import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
+import { WorldEditorContext } from "../../../context/contexts";
+import { Server } from "../../../game/connect/types";
+import { Tools } from "../../../game/script/WorldEditorConnector";
 import { ReactComponent as EraseTool } from "../../atoms/EraseTool.svg";
+import { ReactComponent as PenTool } from "../../atoms/PenTool.svg";
 import { ReactComponent as Trashcan } from "../../atoms/TrashcanIcon.svg";
 import DualTabList, { DualTabType, PhotoAtlasData, PhotoSrcData } from "../../molecules/DualTabList";
-import { Server } from "../../../game/connect/types";
-import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
-import { WorldEditorContext } from "../../../context/contexts";
-import { Tools } from "../../../game/script/WorldEditorConnector";
-import { useDebounce } from "react-use";
-import { Link } from "react-router-dom";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -333,7 +333,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                         rowCount,
                         columnCount,
                         src: a.src,
-                        isAtlas: true as const,
+                        isAtlas: true as const
                     }));
                 return newDatas;
             });
@@ -342,7 +342,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 id: String(p.id),
                 src: p.src,
                 name: p.name,
-                isAtlas: undefined,
+                isAtlas: undefined
             }));
             return {
                 left: atlasTiles || [], 
@@ -398,7 +398,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                 const tool = new Tools.Tile({
                     atlas, 
                     atlasIndex: +atlasIndex,
-                    type,
+                    type
                 });
                 worldEditorConnector.setToolType(tool);
                 break;
@@ -424,7 +424,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
                     offsetX: 0,
                     offsetY: 0,
                     name: `${iframeSrc}_instantIframe`,
-                    type: placeObjectType,
+                    type: placeObjectType
                 });
                 worldEditorConnector.setToolType(tool);
                 break;
@@ -477,7 +477,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         selectedTool,
         placeKind,
         placeObjectType,
-        opened,
+        opened
     ]);
 
     const onSelectTool = useCallback((editorTool: EditorTools) => {
@@ -532,7 +532,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             if(!confirm("are you sure?")) return;
             removeImageGameObjectProto({
                 variables: {
-                    id: protoId,
+                    id: protoId
                 }
             });
         }
@@ -545,7 +545,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
             if(!confirm("are you sure?")) return;
             deleteAtlas({
                 variables: {
-                    atlasId: +atlasId,
+                    atlasId: +atlasId
                 }
             });
         }
@@ -561,7 +561,7 @@ function WorldEditorInner({ /*worldId,*/ opened }: PropsType) {
         myImageGameObjectProtos,
         protoMap,
         myAtlases,
-        apolloClient,
+        apolloClient
     ]);
 
 

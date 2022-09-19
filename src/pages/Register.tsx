@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
-import NavTemplate from "../components/templates/NavTemplate";
-import HorizontalDivider from "../components/atoms/HorizontalDivider";
-import twLogo1 from "../components/atoms/tw logo 1.svg";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+
 import BlackInput from "../components/atoms/BlackInput";
 import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
+import HorizontalDivider from "../components/atoms/HorizontalDivider";
+import twLogo1 from "../components/atoms/tw logo 1.svg";
+import NavTemplate from "../components/templates/NavTemplate";
 import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from "../GlobalEnviroment";
 
 const ContentDiv = styled.div`
@@ -56,7 +57,7 @@ function Register(): JSX.Element {
                 variables: {
                     id,
                     pw,
-                    nickname,
+                    nickname
                 }
             });
             const data = res.data;
@@ -78,7 +79,7 @@ function Register(): JSX.Element {
                 <div>
                     <Link to="/">
                         <img src={twLogo1} alt={"logo img"} style={{
-                            width: "350px",
+                            width: "350px"
                         }}/>
                     </Link>
                 </div>
@@ -87,7 +88,7 @@ function Register(): JSX.Element {
                     fontFamily: FORM_FONT_FAMILY,
                     fontStyle: FORM_FONT_STYLE,
                     fontWeight: FORMTITLE_FONT_WEIGHT,
-                    fontSize: "32px",
+                    fontSize: "32px"
                 }}> Register </div>
                 <HorizontalDivider />
                 <div> <BlackInput onKeyPress={onKeyPress} onChange={e => setNickname(e.target.value)} placeholder="Nickname" /> </div>

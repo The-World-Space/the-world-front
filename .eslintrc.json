@@ -1,4 +1,4 @@
-module.exports = {
+{
     "env": {
         "browser": true,
         "es2021": true
@@ -19,7 +19,8 @@ module.exports = {
     "plugins": [
         "react",
         "react-hooks",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "simple-import-sort"
     ],
     "rules": {
         "@typescript-eslint/no-namespace": "off",
@@ -45,6 +46,20 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "comma-spacing": [
+            "error"
+        ],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
-};
+}

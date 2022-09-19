@@ -1,25 +1,24 @@
+import { useContext } from "react";
 import {
     HashRouter as Router,
-    Switch,
-    Route,
     Redirect,
-} from "react-router-dom";
+    Route,
+    Switch} from "react-router-dom";
 
-import Main from "./pages/Welcome";
-import Test from "./pages/Test";
+import { AuthContext } from "./context/contexts";
+import CreateWorld from "./pages/CreateWorld";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import Notfound from "./pages/Notfound";
-import Register from "./pages/Register";
-import CreateWorld from "./pages/CreateWorld";
 import MyPage from "./pages/MyPage";
 import MyWorldList from "./pages/MyWorldList";
-import TestGamePage from "./pages/TestGamePage";
 import NetworkGamePage from "./pages/NetworkGamePage";
-import UserInfo from "./pages/UserInfo";
+import Notfound from "./pages/Notfound";
+import Register from "./pages/Register";
+import Test from "./pages/Test";
+import TestGamePage from "./pages/TestGamePage";
 import UploadHtml from "./pages/UploadHtml";
-import { AuthContext } from "./context/contexts";
-import { useContext } from "react";
+import UserInfo from "./pages/UserInfo";
+import Main from "./pages/Welcome";
 
 function App(): JSX.Element {
     const { logged } = useContext(AuthContext);

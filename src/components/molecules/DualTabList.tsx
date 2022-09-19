@@ -200,7 +200,7 @@ const    PhotoElement = React.memo(PhotoElement_);
 function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
     const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.columnCount) : 0;
     const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.columnCount) : 0;
-    const cutedLabel = useMemo(() => label.slice(0,LIMIT + 1) + ((label.length > LIMIT) ? "..." : ""), [label]);
+    const cutedLabel = useMemo(() => label.slice(0, LIMIT + 1) + ((label.length > LIMIT) ? "..." : ""), [label]);
     return (
         <ElementWrapperDIv onClick={() => onSelect(String(data.id))} selected={selected}>
             {
@@ -210,7 +210,7 @@ function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
                             backgroundImage: `url(${data.src})`,
                             backgroundSize: `${data.columnCount * IMAGE_SIZE}px ${data.rowCount * IMAGE_SIZE}px`,
                             objectFit: "none",
-                            backgroundPosition: `${horizontalIndex * -IMAGE_SIZE}px ${verticalIndex * -IMAGE_SIZE}px`,
+                            backgroundPosition: `${horizontalIndex * -IMAGE_SIZE}px ${verticalIndex * -IMAGE_SIZE}px`
                         }}
                     />
                     : <ElementThumbnail src={data.src} />

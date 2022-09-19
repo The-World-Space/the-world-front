@@ -1,8 +1,8 @@
 import {
-    GridPointer,
-    PointerGridInputListener,
-    IGridCollidable,
     GameObjectBuilder,
+    GridPointer,
+    IGridCollidable,
+    PointerGridInputListener,
     Prefab,
     PrefabRef
 } from "the-world-engine";

@@ -1,15 +1,16 @@
-import { useApolloClient, ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql, useApolloClient } from "@apollo/client";
 import React, { useState } from "react";
-import NavTemplate from "../components/templates/NavTemplate";
 import {
-    useHistory,
+    useHistory
 } from "react-router-dom";
-import twLogo1 from "../components/atoms/tw logo 1.svg";
 import styled from "styled-components";
+
 import BlackInput from "../components/atoms/BlackInput";
 import BlackSubmitButton from "../components/atoms/BlackSubmitButton";
-import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from "../GlobalEnviroment";
 import HorizontalDivider from "../components/atoms/HorizontalDivider";
+import twLogo1 from "../components/atoms/tw logo 1.svg";
+import NavTemplate from "../components/templates/NavTemplate";
+import { FORM_FONT_FAMILY, FORM_FONT_STYLE, FORMTITLE_FONT_WEIGHT } from "../GlobalEnviroment";
 
 const ContentDiv = styled.div`
     display: flex;
@@ -38,7 +39,7 @@ async function createWorld(apolloClient: ApolloClient<any>, id: string, name: st
             world: {
                 id,
                 name,
-                isPublic: true,
+                isPublic: true
             }
         }
     });
@@ -68,7 +69,7 @@ const CreateWorld: React.FC = () => {
                     fontFamily: FORM_FONT_FAMILY,
                     fontStyle: FORM_FONT_STYLE,
                     fontWeight: FORMTITLE_FONT_WEIGHT,
-                    fontSize: "32px",
+                    fontSize: "32px"
                 }}> Make World </div>
                 <HorizontalDivider />
                 <WorldImage src={twLogo1}  alt={"world img"} />

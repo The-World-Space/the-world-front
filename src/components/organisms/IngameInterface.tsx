@@ -1,25 +1,26 @@
-import { Link } from "react-router-dom";
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import styled from "styled-components";
-import twLogo2Black from "../atoms/tw logo 2 black.svg";
-import ArrowIcon from "../atoms/ArrowIcon.svg";
-import ChatIcon from "../atoms/ChatIcon.svg";
-import SendButtonIcon from "../atoms/SendButtonIcon.svg";
-import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
-import { MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT, FORM_FONT_SIZE, FORM_FONT_FAMILY, FORM_FONT_STYLE, FORM_FONT_WEIGHT } from "../../GlobalEnviroment";
-import { FANCY_SCROLLBAR_CSS } from "./EditorInner/FieldEditorInner";
 import { gql, useMutation } from "@apollo/client";
-import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
-import FieldEditorInner from "./EditorInner/FieldEditorInner";
-import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
-import WorldEditorInner from "./EditorInner/WorldEditorInner";
-import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+
 import { WorldEditorContext } from "../../context/contexts";
-import useUser from "../../hooks/useUser";
-import IframeEditorInner from "./EditorInner/IframeEditorInner";
 import { Server } from "../../game/connect/types";
+import { FORM_FONT_FAMILY, FORM_FONT_SIZE, FORM_FONT_STYLE, FORM_FONT_WEIGHT, MENU_BUTTON_FONT_FAMILY, MENU_BUTTON_FONT_STYLE, MENU_BUTTON_FONT_WEIGHT } from "../../GlobalEnviroment";
+import useUser from "../../hooks/useUser";
 import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
 import * as pb from "../../proto/the_world";
+import ArrowIcon from "../atoms/ArrowIcon.svg";
+import ChatIcon from "../atoms/ChatIcon.svg";
+import {ReactComponent as PeopleIcon} from "../atoms/PeopleIcon.svg";
+import SendButtonIcon from "../atoms/SendButtonIcon.svg";
+import twLogo2Black from "../atoms/tw logo 2 black.svg";
+import AtlasEditorInner from "./EditorInner/AtlasEditorInner";
+import BroadcasterEditorInner from "./EditorInner/BroadcasterEditorInner";
+import { FANCY_SCROLLBAR_CSS } from "./EditorInner/FieldEditorInner";
+import FieldEditorInner from "./EditorInner/FieldEditorInner";
+import IframeEditorInner from "./EditorInner/IframeEditorInner";
+import ObjectEditorInner from "./EditorInner/ObjectEditorInner";
+import WorldEditorInner from "./EditorInner/WorldEditorInner";
 
 const OuterDiv = styled.div`
     display: flex;

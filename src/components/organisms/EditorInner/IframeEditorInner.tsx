@@ -1,6 +1,7 @@
 import { ApolloClient, gql, Observable, useApolloClient } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import { Server } from "../../../game/connect/types";
 import { useGameWSApolloClient } from "../../../pages/NetworkGamePage";
 import { getBroadcasterDeletingObservable, getBroadcasterUpdatingObservable, useGlobalBroadcasters } from "./BroadcasterEditorInner";
@@ -63,7 +64,7 @@ function PortMappingListItem({ targetName, portId, isGlobal, remove }: { targetN
                 marginLeft: "5px",
                 borderStyle: "none",
                 borderRadius: "10px",
-                background: "#D7CCC8",
+                background: "#D7CCC8"
             }} type="button" onClick={remove} value="X" />
         </li>
     );
@@ -219,7 +220,7 @@ function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extend
                                 return (
                                     <option key={"L" + local.id} value={local.id}>L|{local.name}</option>
                                 );
-                            }),
+                            })
                         ]
                     }
                 </Select>
@@ -311,7 +312,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                     (await getIframeBroadcasterPortMappingObservable(globalApolloClient, iframe.id))
                         .subscribe(broadcasterPortMappings => {
                             setIframes(iframes => iframes.map(iframe_ => iframe_.id === iframe.id ? {...iframe_, broadcasterPortMappings } : iframe_));
-                        }),
+                        })
                 );
             }
         })();

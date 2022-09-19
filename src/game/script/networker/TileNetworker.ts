@@ -1,5 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { DumbTypedEmitter } from "detail-typed-emitter";
+
 import { Server } from "../../connect/types";
 
 type DEETypes = {
@@ -45,7 +46,7 @@ export class TileNetworker {
                 ${ATLAS_FIELDS}
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.atlasTileCreating) throw new Error("data.data.atlasTileCreating is falsy");
@@ -65,7 +66,7 @@ export class TileNetworker {
                 }
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.atlasTileDeleting) throw new Error("data.data.atlasTileDeleting is falsy");
@@ -84,7 +85,7 @@ export class TileNetworker {
                 ${ATLAS_FIELDS}
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.atlasTileUpating) throw new Error("data.data.atlasTileDeleting is falsy");

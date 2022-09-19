@@ -1,5 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { DumbTypedEmitter } from "detail-typed-emitter";
+
 import { Server } from "../../connect/types";
 
 const IFRAME_FILEDS = gql`
@@ -86,7 +87,7 @@ export class IframeNetworker {
                 ${IFRAME_FILEDS}
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.iframeGameObjectCreating) throw new Error("data.data.iframeGameObjectCreating is falsy");
@@ -102,7 +103,7 @@ export class IframeNetworker {
                 }
             `,
             variables: {
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         }).subscribe(data => {
             if (!data.data.iframeGameObjectDeleting) throw new Error("data.data.iframeGameObjectDeleting is falsy");

@@ -1,36 +1,36 @@
 import { ApolloClient } from "@apollo/client";
-import { Vector3 } from "three/src/Three";
-import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
-import { Server } from "./connect/types";
 import {
     Bootstrapper,
-    SceneBuilder,
-    GameObject,
-    PrefabRef,
-    GridPointer,
-    GridCollideMap,
     CssTilemapChunkRenderer,
-    GridObjectCollideMap
-} from "the-world-engine";
-import { PlayerNetworker } from "./script/networker/PlayerNetworker";
-import { CameraPrefab } from "./prefab/CameraPrefab";
-import { PlayerPrefab } from "./prefab/PlayerPrefab";
+    GameObject,
+    GridCollideMap,
+    GridObjectCollideMap,
+    GridPointer,
+    PrefabRef,
+    SceneBuilder} from "the-world-engine";
+import { Vector3 } from "three/src/Three";
+
 import { User } from "../hooks/useUser";
+import { Server } from "./connect/types";
+import { PenpalNetworker } from "./penpal/PenpalNetworker";
+import { CameraPrefab } from "./prefab/CameraPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
+import { PlayerPrefab } from "./prefab/PlayerPrefab";
+import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
+import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
 import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
 import { NetworkImageManager } from "./script/gamemanager/NetworkImageManager";
-import { PenpalNetworker } from "./penpal/PenpalNetworker";
-import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
+import { NetworkPlayerManager } from "./script/gamemanager/NetworkPlayerManager";
+import { NetworkTileManager } from "./script/gamemanager/NetworkTileManager";
 import { GridCenterPositionMatcher } from "./script/helper/GridCenterPositionMatcher";
-import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
+import { GridBrush } from "./script/input/GridBrush";
+import { AdminNetworker } from "./script/networker/AdminNetworker";
 import { ColliderNetworker } from "./script/networker/ColliderNetworker";
 import { IframeNetworker } from "./script/networker/IframeNetworker";
 import { ImageNetworker } from "./script/networker/ImageNetworker";
-import { GridBrush } from "./script/input/GridBrush";
-import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
-import { NetworkTileManager } from "./script/gamemanager/NetworkTileManager";
+import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { TileNetworker } from "./script/networker/TileNetworker";
-import { AdminNetworker } from "./script/networker/AdminNetworker";
+import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;

@@ -1,6 +1,7 @@
 import { createContext } from "react";
-import { Server } from "../game/connect/types";
 import { Game } from "the-world-engine";
+
+import { Server } from "../game/connect/types";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { ObjEditorConnector } from "../game/script/ObjEditorConnector";
 import { WorldEditorConnector } from "../game/script/WorldEditorConnector";
@@ -14,7 +15,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
     jwt: "",
     logged: false,
-    setJwt: _=>_,
+    setJwt: _=>_
 });
 
 interface ObjEditorContextType {
@@ -26,7 +27,7 @@ interface ObjEditorContextType {
 export const ObjEditorContext = createContext<ObjEditorContextType>({
     game: null,
     setGame: _ => _,
-    objEditorConnector: {} as ObjEditorConnector,
+    objEditorConnector: {} as ObjEditorConnector
 });
 
 interface WorldEditorContextType {
@@ -52,5 +53,5 @@ export const WorldEditorContext = createContext<WorldEditorContextType>({
     world: null,
     setWorld: _ => _,
     amIadmin: false,
-    worldEditorConnector: {} as WorldEditorConnector,
+    worldEditorConnector: {} as WorldEditorConnector
 });

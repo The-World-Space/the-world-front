@@ -1,8 +1,9 @@
 import { ApolloClient, gql } from "@apollo/client";
 import { TypedEmitter } from "detail-typed-emitter";
+
 import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
-import { Server } from "../connect/types";
 import * as pb from "../../proto/the_world";
+import { Server } from "../connect/types";
 
 type fieldId = string;
 type broadcastId = string;
@@ -102,7 +103,7 @@ export class PenpalNetworker {
                 }
             `,
             variables: {
-                iframeId,
+                iframeId
             }
         }).subscribe(result => {
             cb(result.data.iframeFieldPortMappingList);

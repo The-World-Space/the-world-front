@@ -1,6 +1,7 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { Vector2 } from "three/src/Three";
 import { Component } from "the-world-engine";
+import { Vector2 } from "three/src/Three";
+
 import { GridBrush } from "../input/GridBrush";
 import { Tool, Tools } from "../WorldEditorConnector";
 
@@ -82,7 +83,7 @@ export class NetworkBrushManager extends Component {
                 x,
                 y,
                 isBlocked,
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         });
     }
@@ -104,9 +105,9 @@ export class NetworkBrushManager extends Component {
                 imageGOInput: {
                     x,
                     y,
-                    protoId,
+                    protoId
                 },
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         });
     }
@@ -135,7 +136,7 @@ export class NetworkBrushManager extends Component {
                 worldId,
                 atlasTile: {
                     atlasId,
-                    atlasIndex,
+                    atlasIndex
                 }
             }
         });
@@ -155,7 +156,7 @@ export class NetworkBrushManager extends Component {
                 type: this._currentTool.type,
                 x,
                 y,
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         });
     }
@@ -174,7 +175,7 @@ export class NetworkBrushManager extends Component {
                 x,
                 y,
                 worldId: this._worldId,
-                type: this._currentTool.type,
+                type: this._currentTool.type
             }
         });
     }
@@ -192,7 +193,7 @@ export class NetworkBrushManager extends Component {
             variables: {
                 x,
                 y,
-                worldId: this._worldId,
+                worldId: this._worldId
             }
         });
     }
@@ -225,8 +226,8 @@ export class NetworkBrushManager extends Component {
                     protoInput: {
                         ...tool.iframeInfo,
                         src: req.url,
-                        colliders: [],
-                    },
+                        colliders: []
+                    }
                 }
             });
         };

@@ -25,7 +25,7 @@ export namespace Tools {
 
     export class EraseTile extends Tool {
         constructor(
-            private readonly _type: Server.TileType,
+            private readonly _type: Server.TileType
         ) {
             super();
         }
@@ -37,7 +37,7 @@ export namespace Tools {
 
     export class EraseIframeObject extends Tool {
         constructor(
-            private readonly _type: Server.GameObjectType,
+            private readonly _type: Server.GameObjectType
         ) {
             super();
         }

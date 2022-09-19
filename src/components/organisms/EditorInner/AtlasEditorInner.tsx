@@ -1,14 +1,14 @@
-import React, { ChangeEventHandler, useCallback, useRef, useState, useContext } from "react";
+import { gql, useApolloClient, useMutation } from "@apollo/client";
+import React, { ChangeEventHandler, useCallback, useContext, useRef, useState } from "react";
+import { useDebounce } from "react-use";
 import styled from "styled-components";
 
-import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
-import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
-import { gql, useApolloClient, useMutation } from "@apollo/client";
-import { globalFileApolloClient } from "../../../game/connect/files";
-import LabeledList, { PhotoAtlasData } from "../../molecules/LabeledList";
 import { WorldEditorContext } from "../../../context/contexts";
-import { useDebounce } from "react-use";
+import { globalFileApolloClient } from "../../../game/connect/files";
 import { IMAGE_MAX_SIZE, MB } from "../../../GlobalEnviroment";
+import { ReactComponent as BlueSaveIcon } from "../../atoms/BlueSaveIcon.svg";
+import { ReactComponent as ImageTool } from "../../atoms/ImageTool.svg";
+import LabeledList, { PhotoAtlasData } from "../../molecules/LabeledList";
 
 const SIDE_BAR_WIDTH = 130/* px */;
 const EXTENDS_BAR_WIDTH = 464/* px */;
@@ -167,7 +167,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     
     const [imageUploadMutate] = useMutation(UPLOAD_IMAGE, {
-        client: globalFileApolloClient,
+        client: globalFileApolloClient
     });
     const [crateMutate] = useMutation(CREATE_ATLAS);
     const [file, setFile] = useState<File>();
@@ -215,7 +215,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             name: name,
             columnCount: +columnCount,
             rowCount: +rowCount,
-            isPublic: true,
+            isPublic: true
         };
         const imageUploadRes = await imageUploadMutate({
             variables: {
@@ -226,7 +226,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             variables: {
                 atlasInput: {
                     ...vars,
-                    src: `https://asset.the-world.space/image/${imageUploadRes.data.uploadImageAsset.filename}`,
+                    src: `https://asset.the-world.space/image/${imageUploadRes.data.uploadImageAsset.filename}`
                 }
             }
         });
@@ -251,7 +251,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
             src,
             rowCount: rc,
             columnCount: cc,
-            isAtlas: true as const,
+            isAtlas: true as const
         }));
         setTileDataList(newDatas);
     }, 500, [file, columnCount, rowCount]);

@@ -1,5 +1,6 @@
+import { Component, GridCollideMap, PrefabRef } from "the-world-engine";
+
 import { Server } from "../../connect/types";
-import { Component, PrefabRef, GridCollideMap } from "the-world-engine";
 import { ColliderNetworker } from "../networker/ColliderNetworker";
 
 export class NetworkColiderManager extends Component {

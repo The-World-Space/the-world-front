@@ -1,11 +1,12 @@
+import { useApolloClient } from "@apollo/client";
 import { useHistory } from "react-router";
 import { useAsync } from "react-use";
 import styled from "styled-components";
+
+import { ReactComponent as PlusButton } from "../components/atoms/PlusIcon.svg";
 import twLogo1 from "../components/atoms/tw logo 1.svg";
 import NavTemplate from "../components/templates/NavTemplate";
 import { getMyWorlds } from "../game/connect/gql";
-import { ReactComponent as PlusButton } from "../components/atoms/PlusIcon.svg";
-import { useApolloClient } from "@apollo/client";
 
 const Wrapper = styled.div`
     width: 100%;

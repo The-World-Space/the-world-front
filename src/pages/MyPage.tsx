@@ -1,4 +1,4 @@
-import { useApolloClient, ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql, useApolloClient } from "@apollo/client";
 import React from "react";
 import { useAsync } from "react-use";
 

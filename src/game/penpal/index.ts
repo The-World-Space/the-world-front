@@ -1,5 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
 import * as Penpal from "penpal";
+
 import { createIframeBroadcasterPortMapping, createIframeFieldPortMapping } from "../../components/organisms/EditorInner/IframeEditorInner";
 import { Server } from "../connect/types";
 import { PenpalNetworker } from "./PenpalNetworker";
@@ -236,7 +237,7 @@ export class IframeCommunicator {
                         }
                     }
                 }
-            ),
+            )
         ];
     }
 

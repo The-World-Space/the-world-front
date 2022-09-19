@@ -179,7 +179,7 @@ function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
                             backgroundImage: `url(${data.src})`,
                             backgroundSize: `${data.columnCount * IMAGE_SIZE}px ${data.rowCount * IMAGE_SIZE}px`,
                             objectFit: "none",
-                            backgroundPosition: `${columnIndex * -IMAGE_SIZE}px ${rowIndex * -IMAGE_SIZE}px`,
+                            backgroundPosition: `${columnIndex * -IMAGE_SIZE}px ${rowIndex * -IMAGE_SIZE}px`
                         }}
                     />
                     : <ElementThumbnail src={data.isAtlas} />

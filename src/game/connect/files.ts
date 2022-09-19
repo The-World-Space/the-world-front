@@ -1,13 +1,14 @@
 import {
     ApolloClient,
-    InMemoryCache,
+    InMemoryCache
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { JWT_KEY } from "../../context/consts";
 import { createUploadLink } from "apollo-upload-client";
 
+import { JWT_KEY } from "../../context/consts";
+
 const uploadLink = createUploadLink({
-    uri: "https://asset-api.the-world.space/graphql",
+    uri: "https://asset-api.the-world.space/graphql"
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -16,12 +17,12 @@ const authLink = setContext((_, { headers }) => {
     return {
         headers: {
             ...headers,
-            authorization: token ? `${token}` : "",
+            authorization: token ? `${token}` : ""
         }
     };
 });
 
 export const globalFileApolloClient = new ApolloClient({
     link: authLink.concat(uploadLink),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache()
 });

@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
-import { AuthContext } from "../context/contexts";
 import { useContext } from "react";
+
+import { AuthContext } from "../context/contexts";
 import useUser from "../hooks/useUser";
 
 function Test(): JSX.Element {

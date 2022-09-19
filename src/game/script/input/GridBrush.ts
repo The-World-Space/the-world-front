@@ -1,13 +1,12 @@
-import { Vector2, Vector3 } from "three/src/Three";
 import {
     Component,
     ComponentConstructor,
-    GameObject,
-    PrefabRef,
     CssSpriteAtlasRenderer,
+    GameObject,
     PointerGridEvent,
-    PointerGridInputListener
-} from "the-world-engine";
+    PointerGridInputListener,
+    PrefabRef} from "the-world-engine";
+import { Vector2, Vector3 } from "three/src/Three";
 
 export class GridBrush extends Component {
     public readonly disallowMultipleComponent: boolean = true;

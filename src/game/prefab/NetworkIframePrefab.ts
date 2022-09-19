@@ -1,18 +1,18 @@
-import { Vector2 } from "three/src/Three";
-import { 
-    GameObjectBuilder,
-    Prefab,
-    PrefabRef,
-    CssIframeRenderer,
-    GridObjectCollideMap,
-    GridCollider,
-    IGridCoordinatable,
-    GameObject
-} from "the-world-engine";
-import { Server } from "../connect/types";
-import { PenpalConnection } from "../script/penpal/PenpalConnection";
 import { ApolloClient } from "@apollo/client";
+import { 
+    CssIframeRenderer,
+    GameObject,
+    GameObjectBuilder,
+    GridCollider,
+    GridObjectCollideMap,
+    IGridCoordinatable,
+    Prefab,
+    PrefabRef} from "the-world-engine";
+import { Vector2 } from "three/src/Three";
+
+import { Server } from "../connect/types";
 import { PenpalNetworker } from "../penpal/PenpalNetworker";
+import { PenpalConnection } from "../script/penpal/PenpalConnection";
 
 export class NetworkIframePrefab extends Prefab {
     private _collideMap: PrefabRef<IGridCoordinatable> = new PrefabRef();
