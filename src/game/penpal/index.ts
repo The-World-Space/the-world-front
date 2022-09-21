@@ -6,7 +6,7 @@ import { Server } from "../connect/types";
 import { PenpalNetworker } from "./PenpalNetworker";
 
 interface Child {
-    getPorts(): Promise<{ broadcasters: string[], fields: string[] }>;
+    getPorts(): Promise<{ broadcasters: string[], fields: string[], plugins: { name: string, code: string }[] }>;
     broadcast(id: string, userId: string, message: string): Promise<void>;
     setFieldValue(id: string, userId: string, value: string): Promise<void>;
     createField(fieldInfo: { id: string, value: string }): Promise<void>;

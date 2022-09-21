@@ -5,12 +5,14 @@ import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
 import * as pb from "../../proto/the_world";
 import { Server } from "../connect/types";
 
-type fieldId = string;
-type broadcastId = string;
+type FieldId = number;
+type BroadcastId = number;
+type PluginId = number;
 
 type EETypes = [
-    [`update_field_${fieldId}`,         (value: string, userId: string) => void],
-    [`update_broadcast_${broadcastId}`, (message: string, userId: string) => void],
+    [`update_field_${FieldId}`,         (value: string, userId: string) => void],
+    [`update_broadcast_${BroadcastId}`, (message: string, userId: string) => void],
+    [`plugin_message_sent_${PluginId}`, (message: string) => void]
 ]
 
 export class PenpalNetworker {
@@ -35,6 +37,11 @@ export class PenpalNetworker {
                 const { id: publicBroadcastId, message, userId } = data;
                 
                 this._ee.emit(`update_broadcast_${publicBroadcastId}`, message, userId);
+            } else if(serverEvent.event === "pluginMessageSent") {
+                const data = serverEvent.pluginMessageSent;
+                const { pluginId, message } = data;
+
+                this._ee.emit(`plugin_message_sent_${pluginId}`, message);
             }
         });
     }
