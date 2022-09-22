@@ -191,4 +191,8 @@ export class PenpalNetworker {
     public get client(): ApolloClient<any> {
         return this._client;
     }
+
+    public get protoClient() {
+        return this._protoClient;
+    }
 }

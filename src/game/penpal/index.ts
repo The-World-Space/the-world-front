@@ -2,11 +2,13 @@ import { ApolloClient, gql } from "@apollo/client";
 import * as Penpal from "penpal";
 
 import { createIframeBroadcasterPortMapping, createIframeFieldPortMapping } from "../../components/organisms/EditorInner/IframeEditorInner";
+import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
+import * as pb from "../../proto/the_world";
 import { Server } from "../connect/types";
 import { PenpalNetworker } from "./PenpalNetworker";
 
 interface Child {
-    getPorts(): Promise<{ broadcasters: string[], fields: string[], plugins: { name: string, code: string }[] }>;
+    getPorts(): Promise<{ broadcasters: string[], fields: string[], plugins: { name: string, code: string, data: string }[] }>;
     broadcast(id: string, userId: string, message: string): Promise<void>;
     setFieldValue(id: string, userId: string, value: string): Promise<void>;
     sendPluginMessage(id: string, message: string): Promise<void>;
@@ -37,7 +39,6 @@ export class IframeCommunicator {
         _pluginPortMappings: Server.PluginPortMapping[],
         private readonly _penpalNetworkWrapper: PenpalNetworker
     ) {
-        console.log(_pluginPortMappings);
         this._internalFieldIdToFieldMap =
             new Map(_iframeInfo.fieldPortMappings.map(({ portId, field }) => [portId, field]));
         // this.publicFieldIdToInternalIdMap =
@@ -179,12 +180,17 @@ export class IframeCommunicator {
             plugins: ports.plugins.filter(({ name }) => !this._internalPluginIdToPluginMap.has(name))
         };
 
-        console.log(portsToAdd.plugins);
-
         if(portsToAdd.broadcasters.length || portsToAdd.fields.length) {
             const shouldAdd = confirm(`Iframe ${this._iframeInfo.id} has not mapped ports. Automap it?`);
             if(shouldAdd) {
                 this.addMapPorts(portsToAdd);
+            }
+        }
+
+        if(portsToAdd.plugins.length) {
+            const shouldAdd = confirm(`Iframe ${this._iframeInfo.id} has not mapped plugins. Add plugin and automap it?`);
+            if(shouldAdd) {
+                this.addPluginPorts(portsToAdd.plugins);
             }
         }
     }
@@ -198,6 +204,14 @@ export class IframeCommunicator {
         for(const internalId of fields) {
             const id = await createLocalField(this._penpalNetworkWrapper.client, iframeId, internalId, "");
             await createIframeFieldPortMapping(this._penpalNetworkWrapper.client, iframeId, internalId, id);
+        }
+    }
+
+    private async addPluginPorts(plugins: { name: string, code: string, data: string }[]) {
+        const iframeId = this._iframeInfo.id;
+        for(const plugin of plugins) {
+            const id = await createLocalPlugin(this._penpalNetworkWrapper.protoClient, iframeId, plugin.name, plugin.code, plugin.data);
+            await createIframePluginPortMapping(this._penpalNetworkWrapper.protoClient, iframeId, plugin.name, id);
         }
     }
 
@@ -382,4 +396,50 @@ async function createLocalField(apolloClient: ApolloClient<any>, iframeId: numbe
     });
 
     return result.data.createLocalField.id as number;
+}
+
+function createLocalPlugin(client: ProtoWebSocket<pb.ServerEvent>, iframeId: number, name: string, code: string, data: string): Promise<number> {
+    return new Promise(solve => {
+        client.send(new pb.ClientEvent({
+            createPlugin: new pb.CreatePlugin({
+                isLocal: true,
+                iframeId: iframeId,
+                name: name,
+                code: code,
+                data: data
+            })
+        }));
+
+        client.once("message", (serverEvent: pb.ServerEvent) => {
+            if(serverEvent.has_localPluginCreated) {
+                const e = serverEvent.localPluginCreated;
+
+                if(e.iframeId === iframeId && e.name === name) {
+                    solve(e.id);
+                }
+            }
+        });
+    });
+}
+
+function createIframePluginPortMapping(client: ProtoWebSocket<pb.ServerEvent>, iframeId: number, portId: string, pluginId: number): Promise<number> {
+    return new Promise(solve => {
+        client.send(new pb.ClientEvent({
+            createIframePluginPortMapping: new pb.CreateIframePluginPortMapping({
+                iframeId: iframeId,
+                portId: portId,
+                pluginId: pluginId
+            })
+        }));
+
+        client.once("message", (serverEvent: pb.ServerEvent) => {
+            if(serverEvent.has_iframePluginPortMappingCreated) {
+                const e = serverEvent.iframePluginPortMappingCreated;
+
+                if(e.iframeId === iframeId && e.pluginId === pluginId && e.portId === portId) {
+                    solve(e.id);
+                }
+            }
+        });
+    });
 }
