@@ -1,5 +1,4 @@
 export namespace Server {
-
     type TileNum = number;
     type CssOption = string;
 
@@ -207,5 +206,24 @@ export namespace Server {
 
     export interface GlobalBroadcaster extends Field {
         world: World;
+    }
+    
+
+    // Type for value from server.
+    // Actually server does not send this datas.
+    // GQL, Protobuf MIXED
+    export type IframeInfo = Server.IframeGameObject & {
+        pluginPortMappings: PluginPortMapping[]
+    };
+
+    export interface PluginPortMapping {
+        id: number;
+        portId: string;
+        plugin: Plugin;
+    }
+
+    export interface Plugin {
+        id: number;
+        name: string;
     }
 }

@@ -22,6 +22,7 @@ import { IframeNetworker } from "../networker/IframeNetworker";
 const PREFIX = "@@tw/game/component/gamemanager/NetworkIframeManager";
 const flatTypes = new Set([Server.GameObjectType.Floor, Server.GameObjectType.Effect]);
 
+
 export class NetworkIframeManager extends Component {
     private readonly _networkIframeMap: Map<number, GameObject> = new Map();
 
@@ -29,7 +30,7 @@ export class NetworkIframeManager extends Component {
     private _iGridCoordinatable: IGridCoordinatable | null = null;
     private _gridObjectCollideMap: GridObjectCollideMap | null = null;
     private _worldId: string | null = null;
-    private _initIframeList: Server.IframeGameObject[] = [];
+    private _initIframeList: Server.IframeInfo[] = [];
     private _penpalNetworkWrapper: PenpalNetworker | null = null;
     private _iframeNetworker: IframeNetworker | null = null;
     private _adminNetworker: AdminNetworker | null = null;
@@ -54,7 +55,7 @@ export class NetworkIframeManager extends Component {
         this._worldId = id;
     }
 
-    public set initIframeList(val: Server.IframeGameObject[]) {
+    public set initIframeList(val: Server.IframeInfo[]) {
         this._initIframeList = [...val];
     }
 
@@ -65,7 +66,7 @@ export class NetworkIframeManager extends Component {
     public initNetwork(iframeNetworker: IframeNetworker): void {
         this._iframeNetworker = iframeNetworker;
         this._iframeNetworker.ee.on("create", iframeInfo => {
-            this.addOneIframe(iframeInfo, this._localPlayerIsAdmin);
+            this.addOneIframe({ ...iframeInfo, pluginPortMappings: [] }, this._localPlayerIsAdmin);
         });
         this._iframeNetworker.ee.on("delete", iframeId => {
             this.deleteOneIframe(iframeId);
@@ -91,7 +92,7 @@ export class NetworkIframeManager extends Component {
         this._initIframeList = [];
     }
 
-    public addOneIframe(info: Server.IframeGameObject, enableStatus: boolean): void {
+    public addOneIframe(info: Server.IframeInfo, enableStatus: boolean): void {
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!this._worldId) throw new Error("no world id");
         
@@ -106,7 +107,7 @@ export class NetworkIframeManager extends Component {
     }
 
     private _buildNetworkIframe(
-        iframeInfo: Server.IframeGameObject,
+        iframeInfo: Server.IframeInfo,
         worldId: string,
         apolloClient: ApolloClient<any>,
         enableStatus: boolean

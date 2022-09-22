@@ -6,7 +6,7 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from "google-protobuf";
 export class ClientEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]];
     constructor(data?: any[] | ({} & (({
         joinWorld?: JoinWorld;
         leaveWorld?: never;
@@ -20,6 +20,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: LeaveWorld;
@@ -33,6 +34,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -46,6 +48,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -59,6 +62,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -72,6 +76,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -85,6 +90,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -98,6 +104,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -111,6 +118,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -124,6 +132,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -137,6 +146,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: SendPluginMessage;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -150,6 +160,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: CreateIframePluginPortMapping;
         deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -163,6 +174,21 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: never;
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: DeleteIframePluginPortMapping;
+        reqAboutPlugins?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: ReqAboutPlugins;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -202,6 +228,9 @@ export class ClientEvent extends pb_1.Message {
             }
             if ("deleteIframePluginPortMapping" in data && data.deleteIframePluginPortMapping != undefined) {
                 this.deleteIframePluginPortMapping = data.deleteIframePluginPortMapping;
+            }
+            if ("reqAboutPlugins" in data && data.reqAboutPlugins != undefined) {
+                this.reqAboutPlugins = data.reqAboutPlugins;
             }
         }
     }
@@ -313,9 +342,18 @@ export class ClientEvent extends pb_1.Message {
     get has_deleteIframePluginPortMapping() {
         return pb_1.Message.getField(this, 12) != null;
     }
+    get reqAboutPlugins() {
+        return pb_1.Message.getWrapperField(this, ReqAboutPlugins, 13) as ReqAboutPlugins;
+    }
+    set reqAboutPlugins(value: ReqAboutPlugins) {
+        pb_1.Message.setOneofWrapperField(this, 13, this.#one_of_decls[0], value);
+    }
+    get has_reqAboutPlugins() {
+        return pb_1.Message.getField(this, 13) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping";
+            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping" | "reqAboutPlugins";
         } = {
             0: "none",
             1: "joinWorld",
@@ -329,9 +367,10 @@ export class ClientEvent extends pb_1.Message {
             9: "deletePlugin",
             10: "sendPluginMessage",
             11: "createIframePluginPortMapping",
-            12: "deleteIframePluginPortMapping"
+            12: "deleteIframePluginPortMapping",
+            13: "reqAboutPlugins"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])];
     }
     static fromObject(data: {
         joinWorld?: ReturnType<typeof JoinWorld.prototype.toObject>;
@@ -346,6 +385,7 @@ export class ClientEvent extends pb_1.Message {
         sendPluginMessage?: ReturnType<typeof SendPluginMessage.prototype.toObject>;
         createIframePluginPortMapping?: ReturnType<typeof CreateIframePluginPortMapping.prototype.toObject>;
         deleteIframePluginPortMapping?: ReturnType<typeof DeleteIframePluginPortMapping.prototype.toObject>;
+        reqAboutPlugins?: ReturnType<typeof ReqAboutPlugins.prototype.toObject>;
     }): ClientEvent {
         const message = new ClientEvent({});
         if (data.joinWorld != null) {
@@ -384,6 +424,9 @@ export class ClientEvent extends pb_1.Message {
         if (data.deleteIframePluginPortMapping != null) {
             message.deleteIframePluginPortMapping = DeleteIframePluginPortMapping.fromObject(data.deleteIframePluginPortMapping);
         }
+        if (data.reqAboutPlugins != null) {
+            message.reqAboutPlugins = ReqAboutPlugins.fromObject(data.reqAboutPlugins);
+        }
         return message;
     }
     toObject() {
@@ -400,6 +443,7 @@ export class ClientEvent extends pb_1.Message {
             sendPluginMessage?: ReturnType<typeof SendPluginMessage.prototype.toObject>;
             createIframePluginPortMapping?: ReturnType<typeof CreateIframePluginPortMapping.prototype.toObject>;
             deleteIframePluginPortMapping?: ReturnType<typeof DeleteIframePluginPortMapping.prototype.toObject>;
+            reqAboutPlugins?: ReturnType<typeof ReqAboutPlugins.prototype.toObject>;
         } = {};
         if (this.joinWorld != null) {
             data.joinWorld = this.joinWorld.toObject();
@@ -437,6 +481,9 @@ export class ClientEvent extends pb_1.Message {
         if (this.deleteIframePluginPortMapping != null) {
             data.deleteIframePluginPortMapping = this.deleteIframePluginPortMapping.toObject();
         }
+        if (this.reqAboutPlugins != null) {
+            data.reqAboutPlugins = this.reqAboutPlugins.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -467,6 +514,8 @@ export class ClientEvent extends pb_1.Message {
             writer.writeMessage(11, this.createIframePluginPortMapping, () => this.createIframePluginPortMapping.serialize(writer));
         if (this.has_deleteIframePluginPortMapping)
             writer.writeMessage(12, this.deleteIframePluginPortMapping, () => this.deleteIframePluginPortMapping.serialize(writer));
+        if (this.has_reqAboutPlugins)
+            writer.writeMessage(13, this.reqAboutPlugins, () => this.reqAboutPlugins.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -511,6 +560,9 @@ export class ClientEvent extends pb_1.Message {
                     break;
                 case 12:
                     reader.readMessage(message.deleteIframePluginPortMapping, () => message.deleteIframePluginPortMapping = DeleteIframePluginPortMapping.deserialize(reader));
+                    break;
+                case 13:
+                    reader.readMessage(message.reqAboutPlugins, () => message.reqAboutPlugins = ReqAboutPlugins.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -1518,12 +1570,16 @@ export class SendPluginMessage extends pb_1.Message {
 export class CreateIframePluginPortMapping extends pb_1.Message {
     #one_of_decls: number[][] = [];
     constructor(data?: any[] | {
+        portId?: string;
         iframeId?: number;
         pluginId?: number;
     }) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
         if (!Array.isArray(data) && typeof data == "object") {
+            if ("portId" in data && data.portId != undefined) {
+                this.portId = data.portId;
+            }
             if ("iframeId" in data && data.iframeId != undefined) {
                 this.iframeId = data.iframeId;
             }
@@ -1532,23 +1588,33 @@ export class CreateIframePluginPortMapping extends pb_1.Message {
             }
         }
     }
-    get iframeId() {
-        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    get portId() {
+        return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
     }
-    set iframeId(value: number) {
+    set portId(value: string) {
         pb_1.Message.setField(this, 1, value);
     }
-    get pluginId() {
+    get iframeId() {
         return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
     }
-    set pluginId(value: number) {
+    set iframeId(value: number) {
         pb_1.Message.setField(this, 2, value);
     }
+    get pluginId() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set pluginId(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
     static fromObject(data: {
+        portId?: string;
         iframeId?: number;
         pluginId?: number;
     }): CreateIframePluginPortMapping {
         const message = new CreateIframePluginPortMapping({});
+        if (data.portId != null) {
+            message.portId = data.portId;
+        }
         if (data.iframeId != null) {
             message.iframeId = data.iframeId;
         }
@@ -1559,9 +1625,13 @@ export class CreateIframePluginPortMapping extends pb_1.Message {
     }
     toObject() {
         const data: {
+            portId?: string;
             iframeId?: number;
             pluginId?: number;
         } = {};
+        if (this.portId != null) {
+            data.portId = this.portId;
+        }
         if (this.iframeId != null) {
             data.iframeId = this.iframeId;
         }
@@ -1574,10 +1644,12 @@ export class CreateIframePluginPortMapping extends pb_1.Message {
     serialize(w: pb_1.BinaryWriter): void;
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
+        if (this.portId.length)
+            writer.writeString(1, this.portId);
         if (this.iframeId != 0)
-            writer.writeInt32(1, this.iframeId);
+            writer.writeInt32(2, this.iframeId);
         if (this.pluginId != 0)
-            writer.writeInt32(2, this.pluginId);
+            writer.writeInt32(3, this.pluginId);
         if (!w)
             return writer.getResultBuffer();
     }
@@ -1588,9 +1660,12 @@ export class CreateIframePluginPortMapping extends pb_1.Message {
                 break;
             switch (reader.getFieldNumber()) {
                 case 1:
-                    message.iframeId = reader.readInt32();
+                    message.portId = reader.readString();
                     break;
                 case 2:
+                    message.iframeId = reader.readInt32();
+                    break;
+                case 3:
                     message.pluginId = reader.readInt32();
                     break;
                 default: reader.skipField();
@@ -1672,8 +1747,75 @@ export class DeleteIframePluginPortMapping extends pb_1.Message {
         return DeleteIframePluginPortMapping.deserialize(bytes);
     }
 }
+export class ReqAboutPlugins extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        worldId?: string;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("worldId" in data && data.worldId != undefined) {
+                this.worldId = data.worldId;
+            }
+        }
+    }
+    get worldId() {
+        return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+    }
+    set worldId(value: string) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    static fromObject(data: {
+        worldId?: string;
+    }): ReqAboutPlugins {
+        const message = new ReqAboutPlugins({});
+        if (data.worldId != null) {
+            message.worldId = data.worldId;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            worldId?: string;
+        } = {};
+        if (this.worldId != null) {
+            data.worldId = this.worldId;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.worldId.length)
+            writer.writeString(1, this.worldId);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ReqAboutPlugins {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new ReqAboutPlugins();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.worldId = reader.readString();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): ReqAboutPlugins {
+        return ReqAboutPlugins.deserialize(bytes);
+    }
+}
 export class ServerEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]];
     constructor(data?: any[] | ({} & (({
         kicked?: Kicked;
         playerListChanged?: never;
@@ -1686,6 +1828,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: PlayerListChanged;
@@ -1698,6 +1842,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1710,6 +1856,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1722,6 +1870,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1734,6 +1884,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1746,6 +1898,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1758,6 +1912,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1770,6 +1926,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1782,6 +1940,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: PluginDeleted;
         pluginMessageSent?: never;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1794,6 +1954,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: PluginMessageSent;
         aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1806,6 +1968,36 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: never;
         pluginMessageSent?: never;
         aboutPlugins?: AboutPlugins;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: IframePluginPortMappingCreated;
+        iframePluginPortMappingDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: IframePluginPortMappingDeleted;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -1842,6 +2034,12 @@ export class ServerEvent extends pb_1.Message {
             }
             if ("aboutPlugins" in data && data.aboutPlugins != undefined) {
                 this.aboutPlugins = data.aboutPlugins;
+            }
+            if ("iframePluginPortMappingCreated" in data && data.iframePluginPortMappingCreated != undefined) {
+                this.iframePluginPortMappingCreated = data.iframePluginPortMappingCreated;
+            }
+            if ("iframePluginPortMappingDeleted" in data && data.iframePluginPortMappingDeleted != undefined) {
+                this.iframePluginPortMappingDeleted = data.iframePluginPortMappingDeleted;
             }
         }
     }
@@ -1944,9 +2142,27 @@ export class ServerEvent extends pb_1.Message {
     get has_aboutPlugins() {
         return pb_1.Message.getField(this, 11) != null;
     }
+    get iframePluginPortMappingCreated() {
+        return pb_1.Message.getWrapperField(this, IframePluginPortMappingCreated, 12) as IframePluginPortMappingCreated;
+    }
+    set iframePluginPortMappingCreated(value: IframePluginPortMappingCreated) {
+        pb_1.Message.setOneofWrapperField(this, 12, this.#one_of_decls[0], value);
+    }
+    get has_iframePluginPortMappingCreated() {
+        return pb_1.Message.getField(this, 12) != null;
+    }
+    get iframePluginPortMappingDeleted() {
+        return pb_1.Message.getWrapperField(this, IframePluginPortMappingDeleted, 13) as IframePluginPortMappingDeleted;
+    }
+    set iframePluginPortMappingDeleted(value: IframePluginPortMappingDeleted) {
+        pb_1.Message.setOneofWrapperField(this, 13, this.#one_of_decls[0], value);
+    }
+    get has_iframePluginPortMappingDeleted() {
+        return pb_1.Message.getField(this, 13) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins";
+            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted";
         } = {
             0: "none",
             1: "kicked",
@@ -1959,9 +2175,11 @@ export class ServerEvent extends pb_1.Message {
             8: "globalPluginCreated",
             9: "pluginDeleted",
             10: "pluginMessageSent",
-            11: "aboutPlugins"
+            11: "aboutPlugins",
+            12: "iframePluginPortMappingCreated",
+            13: "iframePluginPortMappingDeleted"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])];
     }
     static fromObject(data: {
         kicked?: ReturnType<typeof Kicked.prototype.toObject>;
@@ -1975,6 +2193,8 @@ export class ServerEvent extends pb_1.Message {
         pluginDeleted?: ReturnType<typeof PluginDeleted.prototype.toObject>;
         pluginMessageSent?: ReturnType<typeof PluginMessageSent.prototype.toObject>;
         aboutPlugins?: ReturnType<typeof AboutPlugins.prototype.toObject>;
+        iframePluginPortMappingCreated?: ReturnType<typeof IframePluginPortMappingCreated.prototype.toObject>;
+        iframePluginPortMappingDeleted?: ReturnType<typeof IframePluginPortMappingDeleted.prototype.toObject>;
     }): ServerEvent {
         const message = new ServerEvent({});
         if (data.kicked != null) {
@@ -2010,6 +2230,12 @@ export class ServerEvent extends pb_1.Message {
         if (data.aboutPlugins != null) {
             message.aboutPlugins = AboutPlugins.fromObject(data.aboutPlugins);
         }
+        if (data.iframePluginPortMappingCreated != null) {
+            message.iframePluginPortMappingCreated = IframePluginPortMappingCreated.fromObject(data.iframePluginPortMappingCreated);
+        }
+        if (data.iframePluginPortMappingDeleted != null) {
+            message.iframePluginPortMappingDeleted = IframePluginPortMappingDeleted.fromObject(data.iframePluginPortMappingDeleted);
+        }
         return message;
     }
     toObject() {
@@ -2025,6 +2251,8 @@ export class ServerEvent extends pb_1.Message {
             pluginDeleted?: ReturnType<typeof PluginDeleted.prototype.toObject>;
             pluginMessageSent?: ReturnType<typeof PluginMessageSent.prototype.toObject>;
             aboutPlugins?: ReturnType<typeof AboutPlugins.prototype.toObject>;
+            iframePluginPortMappingCreated?: ReturnType<typeof IframePluginPortMappingCreated.prototype.toObject>;
+            iframePluginPortMappingDeleted?: ReturnType<typeof IframePluginPortMappingDeleted.prototype.toObject>;
         } = {};
         if (this.kicked != null) {
             data.kicked = this.kicked.toObject();
@@ -2059,6 +2287,12 @@ export class ServerEvent extends pb_1.Message {
         if (this.aboutPlugins != null) {
             data.aboutPlugins = this.aboutPlugins.toObject();
         }
+        if (this.iframePluginPortMappingCreated != null) {
+            data.iframePluginPortMappingCreated = this.iframePluginPortMappingCreated.toObject();
+        }
+        if (this.iframePluginPortMappingDeleted != null) {
+            data.iframePluginPortMappingDeleted = this.iframePluginPortMappingDeleted.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -2087,6 +2321,10 @@ export class ServerEvent extends pb_1.Message {
             writer.writeMessage(10, this.pluginMessageSent, () => this.pluginMessageSent.serialize(writer));
         if (this.has_aboutPlugins)
             writer.writeMessage(11, this.aboutPlugins, () => this.aboutPlugins.serialize(writer));
+        if (this.has_iframePluginPortMappingCreated)
+            writer.writeMessage(12, this.iframePluginPortMappingCreated, () => this.iframePluginPortMappingCreated.serialize(writer));
+        if (this.has_iframePluginPortMappingDeleted)
+            writer.writeMessage(13, this.iframePluginPortMappingDeleted, () => this.iframePluginPortMappingDeleted.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -2128,6 +2366,12 @@ export class ServerEvent extends pb_1.Message {
                     break;
                 case 11:
                     reader.readMessage(message.aboutPlugins, () => message.aboutPlugins = AboutPlugins.deserialize(reader));
+                    break;
+                case 12:
+                    reader.readMessage(message.iframePluginPortMappingCreated, () => message.iframePluginPortMappingCreated = IframePluginPortMappingCreated.deserialize(reader));
+                    break;
+                case 13:
+                    reader.readMessage(message.iframePluginPortMappingDeleted, () => message.iframePluginPortMappingDeleted = IframePluginPortMappingDeleted.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -3707,6 +3951,7 @@ export namespace AboutPlugins {
             iframeId?: number;
             pluginId?: number;
             id?: number;
+            portId?: string;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -3719,6 +3964,9 @@ export namespace AboutPlugins {
                 }
                 if ("id" in data && data.id != undefined) {
                     this.id = data.id;
+                }
+                if ("portId" in data && data.portId != undefined) {
+                    this.portId = data.portId;
                 }
             }
         }
@@ -3740,10 +3988,17 @@ export namespace AboutPlugins {
         set id(value: number) {
             pb_1.Message.setField(this, 3, value);
         }
+        get portId() {
+            return pb_1.Message.getFieldWithDefault(this, 4, "") as string;
+        }
+        set portId(value: string) {
+            pb_1.Message.setField(this, 4, value);
+        }
         static fromObject(data: {
             iframeId?: number;
             pluginId?: number;
             id?: number;
+            portId?: string;
         }): IframePluginPortMapping {
             const message = new IframePluginPortMapping({});
             if (data.iframeId != null) {
@@ -3755,6 +4010,9 @@ export namespace AboutPlugins {
             if (data.id != null) {
                 message.id = data.id;
             }
+            if (data.portId != null) {
+                message.portId = data.portId;
+            }
             return message;
         }
         toObject() {
@@ -3762,6 +4020,7 @@ export namespace AboutPlugins {
                 iframeId?: number;
                 pluginId?: number;
                 id?: number;
+                portId?: string;
             } = {};
             if (this.iframeId != null) {
                 data.iframeId = this.iframeId;
@@ -3771,6 +4030,9 @@ export namespace AboutPlugins {
             }
             if (this.id != null) {
                 data.id = this.id;
+            }
+            if (this.portId != null) {
+                data.portId = this.portId;
             }
             return data;
         }
@@ -3784,6 +4046,8 @@ export namespace AboutPlugins {
                 writer.writeInt32(2, this.pluginId);
             if (this.id != 0)
                 writer.writeInt32(3, this.id);
+            if (this.portId.length)
+                writer.writeString(4, this.portId);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -3802,6 +4066,9 @@ export namespace AboutPlugins {
                     case 3:
                         message.id = reader.readInt32();
                         break;
+                    case 4:
+                        message.portId = reader.readString();
+                        break;
                     default: reader.skipField();
                 }
             }
@@ -3813,5 +4080,254 @@ export namespace AboutPlugins {
         static deserializeBinary(bytes: Uint8Array): IframePluginPortMapping {
             return IframePluginPortMapping.deserialize(bytes);
         }
+    }
+}
+export class IframePluginPortMappingCreated extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        portId?: string;
+        iframeId?: number;
+        pluginId?: number;
+        id?: number;
+        pluginName?: string;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("portId" in data && data.portId != undefined) {
+                this.portId = data.portId;
+            }
+            if ("iframeId" in data && data.iframeId != undefined) {
+                this.iframeId = data.iframeId;
+            }
+            if ("pluginId" in data && data.pluginId != undefined) {
+                this.pluginId = data.pluginId;
+            }
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+            if ("pluginName" in data && data.pluginName != undefined) {
+                this.pluginName = data.pluginName;
+            }
+        }
+    }
+    get portId() {
+        return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+    }
+    set portId(value: string) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get iframeId() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set iframeId(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get pluginId() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set pluginId(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 4, value);
+    }
+    get pluginName() {
+        return pb_1.Message.getFieldWithDefault(this, 5, "") as string;
+    }
+    set pluginName(value: string) {
+        pb_1.Message.setField(this, 5, value);
+    }
+    static fromObject(data: {
+        portId?: string;
+        iframeId?: number;
+        pluginId?: number;
+        id?: number;
+        pluginName?: string;
+    }): IframePluginPortMappingCreated {
+        const message = new IframePluginPortMappingCreated({});
+        if (data.portId != null) {
+            message.portId = data.portId;
+        }
+        if (data.iframeId != null) {
+            message.iframeId = data.iframeId;
+        }
+        if (data.pluginId != null) {
+            message.pluginId = data.pluginId;
+        }
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        if (data.pluginName != null) {
+            message.pluginName = data.pluginName;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            portId?: string;
+            iframeId?: number;
+            pluginId?: number;
+            id?: number;
+            pluginName?: string;
+        } = {};
+        if (this.portId != null) {
+            data.portId = this.portId;
+        }
+        if (this.iframeId != null) {
+            data.iframeId = this.iframeId;
+        }
+        if (this.pluginId != null) {
+            data.pluginId = this.pluginId;
+        }
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        if (this.pluginName != null) {
+            data.pluginName = this.pluginName;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.portId.length)
+            writer.writeString(1, this.portId);
+        if (this.iframeId != 0)
+            writer.writeInt32(2, this.iframeId);
+        if (this.pluginId != 0)
+            writer.writeInt32(3, this.pluginId);
+        if (this.id != 0)
+            writer.writeInt32(4, this.id);
+        if (this.pluginName.length)
+            writer.writeString(5, this.pluginName);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IframePluginPortMappingCreated {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new IframePluginPortMappingCreated();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.portId = reader.readString();
+                    break;
+                case 2:
+                    message.iframeId = reader.readInt32();
+                    break;
+                case 3:
+                    message.pluginId = reader.readInt32();
+                    break;
+                case 4:
+                    message.id = reader.readInt32();
+                    break;
+                case 5:
+                    message.pluginName = reader.readString();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): IframePluginPortMappingCreated {
+        return IframePluginPortMappingCreated.deserialize(bytes);
+    }
+}
+export class IframePluginPortMappingDeleted extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        id?: number;
+        iframeId?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+            if ("iframeId" in data && data.iframeId != undefined) {
+                this.iframeId = data.iframeId;
+            }
+        }
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get iframeId() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set iframeId(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    static fromObject(data: {
+        id?: number;
+        iframeId?: number;
+    }): IframePluginPortMappingDeleted {
+        const message = new IframePluginPortMappingDeleted({});
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        if (data.iframeId != null) {
+            message.iframeId = data.iframeId;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            id?: number;
+            iframeId?: number;
+        } = {};
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        if (this.iframeId != null) {
+            data.iframeId = this.iframeId;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.id != 0)
+            writer.writeInt32(1, this.id);
+        if (this.iframeId != 0)
+            writer.writeInt32(2, this.iframeId);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IframePluginPortMappingDeleted {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new IframePluginPortMappingDeleted();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.id = reader.readInt32();
+                    break;
+                case 2:
+                    message.iframeId = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): IframePluginPortMappingDeleted {
+        return IframePluginPortMappingDeleted.deserialize(bytes);
     }
 }

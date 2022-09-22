@@ -52,7 +52,7 @@ export class WidgetManager {
         this._iframeCommunicators = this._iframes.map((iframe, i) => {
             const widgetInfo = this._widgetIframeInfos[i];
             
-            const communicator =  new IframeCommunicator(iframe, widgetInfo, this._penpalNetworkManager);
+            const communicator =  new IframeCommunicator(iframe, widgetInfo, [], this._penpalNetworkManager);
             communicator.apply();
             
             return communicator;

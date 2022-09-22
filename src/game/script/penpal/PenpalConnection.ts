@@ -10,10 +10,10 @@ export class PenpalConnection extends Component {
     public override readonly disallowMultipleComponent = true;
     // info
     private _iframeCommunicator: IframeCommunicator | null = null;
-    private _iframeInfo: Server.IframeGameObject | null = null;
+    private _iframeInfo: Server.IframeInfo | null = null;
     private _penpalNetworkWrapper: PenpalNetworker | null = null;
 
-    public set iframeInfo(info: Server.IframeGameObject) {
+    public set iframeInfo(info: Server.IframeInfo) {
         this._iframeInfo = info;
     }
 
@@ -30,7 +30,7 @@ export class PenpalConnection extends Component {
 
         const iframeElement = (iframeRenderer as any).htmlElement as HTMLIFrameElement;
 
-        this._iframeCommunicator = new IframeCommunicator(iframeElement, this._iframeInfo, this._penpalNetworkWrapper);
+        this._iframeCommunicator = new IframeCommunicator(iframeElement, this._iframeInfo, this._iframeInfo.pluginPortMappings, this._penpalNetworkWrapper);
         this._iframeCommunicator.apply();
     }
 

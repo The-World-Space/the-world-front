@@ -10,7 +10,7 @@ import IngameInterface from "../components/organisms/IngameInterface";
 import { WorldEditorContext } from "../context/contexts";
 import { GameProvider } from "../context/Provider";
 import { getWorld, getWSApolloClient, getWSLink } from "../game/connect/gql";
-import { getProtoWebSocket, joinWorld, login } from "../game/connect/proto";
+import { getAboutPlugins, getProtoWebSocket, joinWorld, login } from "../game/connect/proto";
 import { PenpalNetworker } from "../game/penpal/PenpalNetworker";
 import { PlayerNetworker } from "../game/script/networker/PlayerNetworker";
 import { WidgetManager } from "../game/script/WidgetManager";
@@ -126,23 +126,24 @@ function NetworkGamePage_(): JSX.Element {
     const widgetWrapperdiv = useRef<HTMLDivElement>(null);
     const { worldId } = useParams<{worldId: string}>();
     const { value: world, error, loading } = useAsync(() => getWorld(worldId, globalApolloClient), [worldId]);
+    const { value: aboutPlugins } = useAsync(() => getAboutPlugins(worldId));
     const { setGame, worldEditorConnector, setPlayerNetworker, setWorld } = useContext(WorldEditorContext);
     const user = useUser();
 
     useEffect(() => { //on component mounted
         if (error) throw error;
-        if (!world || !user) return; 
+        if (!world || !aboutPlugins || !user) return; 
         if (!worldEditorConnector) return;
         if (!div.current) throw new Error("div is null");
         if (!widgetWrapperdiv.current) throw new Error("widgetWrapperdiv is null");
-        
+
         setWorld(world);
         const game = new Game(div.current);
         const playerNetworker = new PlayerNetworker(user.id, globalProtoWebSocket);
         const penpalNetworkWrapper = new PenpalNetworker(globalApolloClient, globalProtoWebSocket);
         const widgetManager = new WidgetManager(penpalNetworkWrapper, /*world,*/ widgetWrapperdiv.current, []);
         setPlayerNetworker(playerNetworker);
-        game.run(TheWorldBootstrapper, new NetworkInfoObject(world, user, globalApolloClient, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
+        game.run(TheWorldBootstrapper, new NetworkInfoObject(world, aboutPlugins, user, globalApolloClient, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
         setGame(game);
 
         // Initialize protoClient

@@ -18,7 +18,7 @@ export class NetworkIframePrefab extends Prefab {
     private _collideMap: PrefabRef<IGridCoordinatable> = new PrefabRef();
 
     private _apolloClient: PrefabRef<ApolloClient<any>> = new PrefabRef();
-    private _iframeInfo: PrefabRef<Server.IframeGameObject> = new PrefabRef();
+    private _iframeInfo: PrefabRef<Server.IframeInfo> = new PrefabRef();
     private _worldId: PrefabRef<string> = new PrefabRef();
     private _penpalNetworkWrapper: PrefabRef<PenpalNetworker> = new PrefabRef();
     private _gridObjectCollideMap = new PrefabRef<GridObjectCollideMap>();
@@ -34,7 +34,7 @@ export class NetworkIframePrefab extends Prefab {
         return this;
     }
 
-    public withIframeInfo(iframeInfo: PrefabRef<Server.IframeGameObject>): NetworkIframePrefab {
+    public withIframeInfo(iframeInfo: PrefabRef<Server.IframeInfo>): NetworkIframePrefab {
         this._iframeInfo = iframeInfo;
         return this;
     }

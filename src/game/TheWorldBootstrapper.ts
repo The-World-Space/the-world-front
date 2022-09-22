@@ -11,6 +11,7 @@ import {
 import { Vector3 } from "three/src/Three";
 
 import { User } from "../hooks/useUser";
+import { AboutPlugins } from "../proto/the_world";
 import { Server } from "./connect/types";
 import { PenpalNetworker } from "./penpal/PenpalNetworker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
@@ -40,6 +41,7 @@ export class NetworkInfoObject {
     private readonly _adminNetwoker: AdminNetworker;
     public constructor(
         private readonly _serverWorld: Server.World, 
+        private readonly _aboutPlugins: AboutPlugins,
         private readonly _user: User, 
         private readonly _apolloClient: ApolloClient<any>, 
         private readonly _networkManager: PlayerNetworker, 
@@ -55,6 +57,10 @@ export class NetworkInfoObject {
     
     public get serverWorld(): Server.World {
         return this._serverWorld;
+    }
+
+    public get aboutPlugins(): AboutPlugins {
+        return this._aboutPlugins;
     }
 
     public get apolloClient(): ApolloClient<any> {
@@ -223,7 +229,26 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                     c.iGridCoordinatable = gridCollideMap.ref;
                     c.gridObjectCollideMap = gridObjectCollideMap.ref;
                     c.worldId = this.interopObject!.serverWorld.id;
-                    c.initIframeList = this.interopObject!.serverWorld.iframes;
+
+                    c.initIframeList = this.interopObject!.serverWorld.iframes.map(iframe => (
+                        {
+                            ...iframe,
+                            pluginPortMappings:
+                                this.interopObject!.aboutPlugins.iframePluginPortMappings
+                                    .filter(({ iframeId }) => iframeId === iframe.id)
+                                    .map(({ id: mappingId, portId, pluginId }) => (
+                                        {
+                                            id: mappingId,
+                                            portId: portId,
+                                            plugin: (
+                                                this.interopObject!.aboutPlugins.localPlugins.find(({ id }) => id === pluginId)
+                                                ??
+                                                this.interopObject!.aboutPlugins.localPlugins.find(({ id }) => id === pluginId)
+                                            )!
+                                        }
+                                    ))
+                        }
+                    ));
                     c.penpalNetworkWrapper = this.interopObject!.penpalNetworkManager;
                     c.initNetwork(this.interopObject!.iframeNetworker);
                     c.initAdminNetwork(this.interopObject!.adminNetworker);

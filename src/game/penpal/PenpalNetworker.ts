@@ -46,7 +46,7 @@ export class PenpalNetworker {
         });
     }
 
-    public setFieldValue(id: number | undefined, value: string): void {
+    public setFieldValue(id: number, value: string): void {
         this._protoClient.send(new pb.ClientEvent({
             setFieldValue: new pb.SetFieldValue({
                 id,
@@ -55,11 +55,20 @@ export class PenpalNetworker {
         }));
     }
 
-    public broadcast(id: number | undefined, message: string): void {
+    public broadcast(id: number, message: string): void {
         this._protoClient.send(new pb.ClientEvent({
             broadcast: new pb.Broadcast({
                 id,
                 message
+            })
+        }));
+    }
+
+    public sendPluginMessage(id: number, message: string): void {
+        this._protoClient.send(new pb.ClientEvent({
+            sendPluginMessage: new pb.SendPluginMessage({
+                pluginId: id,
+                message: message
             })
         }));
     }
@@ -136,6 +145,43 @@ export class PenpalNetworker {
         }).subscribe(result => {
             cb(result.data.iframeBroadcasterPortMappingList);
         });
+    }
+
+    public onPluginPortMappingCreated(iframeId: number, cb: (portMapping: Server.PluginPortMapping) => void): () => void {
+        const listener = (serverEvent: pb.ServerEvent) => {
+            if(serverEvent.has_iframePluginPortMappingCreated) {
+                const e = serverEvent.iframePluginPortMappingCreated;
+                if(e.iframeId === iframeId) {
+                    cb({
+                        id: e.id,
+                        portId: e.portId,
+                        plugin: {
+                            id: e.pluginId,
+                            name: e.pluginName
+                        }
+                    });
+                }
+            }
+        };
+        
+        this._protoClient.on("message", listener);
+
+        return () => this._protoClient.off("message", listener);
+    }
+
+    public onPluginPortMappingDeleted(iframeId: number, cb: (id: number) => void): () => void {
+        const listener = (serverEvent: pb.ServerEvent) => {
+            if(serverEvent.has_iframePluginPortMappingDeleted) {
+                const e = serverEvent.iframePluginPortMappingDeleted;
+                if(e.iframeId === iframeId) {
+                    cb(e.id);
+                }
+            }
+        };
+
+        this._protoClient.on("message", listener);
+
+        return () => this._protoClient.off("message", listener);
     }
 
     public get ee(): TypedEmitter<EETypes> {

@@ -2,7 +2,7 @@ import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
 import * as pb from "../../proto/the_world";
 import { getSession } from "./gql";
 
-const PROTO_WS_ADDR = "wss://api.the-world.space/proto"; // "ws://127.0.0.1:40006/"; // 
+const PROTO_WS_ADDR = "ws://127.0.0.1:40006/"; // "wss://api.the-world.space/proto"; //  // 
 
 export function getProtoWebSocket(): ProtoWebSocket<pb.ServerEvent> {
     const webSocket = new WebSocket(PROTO_WS_ADDR);
@@ -27,4 +27,22 @@ export function joinWorld(protoWebSocket: ProtoWebSocket<pb.ServerEvent>, worldI
             id: worldId
         })
     }));
+}
+
+export type AboutPlugins = pb.AboutPlugins;
+export async function getAboutPlugins(worldId: string): Promise<AboutPlugins> {
+    const socket = getProtoWebSocket();
+    socket.webSocket.addEventListener("open", () => {
+        socket.send(new pb.ClientEvent({
+            reqAboutPlugins: new pb.ReqAboutPlugins({
+                worldId: worldId
+            })
+        }));
+    });
+    return new Promise(solve => {
+        socket.once("message", (serverEvent: pb.ServerEvent) => {
+            if(serverEvent.has_aboutPlugins)
+                solve(serverEvent.aboutPlugins);
+        });
+    });
 }
