@@ -143,7 +143,7 @@ function NetworkGamePage_(): JSX.Element {
         const penpalNetworkWrapper = new PenpalNetworker(globalApolloClient, globalProtoWebSocket);
         const widgetManager = new WidgetManager(penpalNetworkWrapper, /*world,*/ widgetWrapperdiv.current, []);
         setPlayerNetworker(playerNetworker);
-        game.run(TheWorldBootstrapper, new NetworkInfoObject(world, aboutPlugins, user, globalApolloClient, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
+        game.run(TheWorldBootstrapper, new NetworkInfoObject(world, aboutPlugins, user, globalApolloClient, globalProtoWebSocket, playerNetworker, penpalNetworkWrapper, worldEditorConnector));
         setGame(game);
 
         // Initialize protoClient

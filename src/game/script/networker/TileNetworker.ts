@@ -1,7 +1,9 @@
-import { ApolloClient, gql } from "@apollo/client";
+
 import { DumbTypedEmitter } from "detail-typed-emitter";
+import { ProtoWebSocket } from "../../../proto/ProtoWebSocket";
 
 import { Server } from "../../connect/types";
+import * as pb from "../../../proto/the_world";
 
 type DEETypes = {
     "create": (collider: Server.AtlasTile) => void,
@@ -9,91 +11,28 @@ type DEETypes = {
     "delete": (x: number, y: number, type: number) => void,
 }
 
-const ATLAS_FIELDS = gql`
-    fragment atlasFields on AtlasTile {
-        x
-        y
-        type
-        atlasIndex
-        atlas {
-            id
-            name
-            columnCount
-            rowCount
-            src
-        }
-    }
-`;
-
 export class TileNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
     public constructor(
-        private readonly _worldId: string,
-        private readonly _client: ApolloClient<any>
+        private readonly _protoClient: ProtoWebSocket<pb.ServerEvent>
     ) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this.initNetwork();
-        // this._initEEListenters();
     }
 
     private initNetwork(): void {
-        this._client.subscribe({
-            query: gql`
-                subscription atlasTileCreating($worldId: String!) {
-                    atlasTileCreating(worldId: $worldId) {
-                        ...atlasFields
-                    }
-                }
-                ${ATLAS_FIELDS}
-            `,
-            variables: {
-                worldId: this._worldId
+        this._protoClient.on("message", serverEvent => {
+            if(serverEvent.has_atlasTileCreated) {
+                const e = serverEvent.atlasTileCreated;
+                this._dee.emit("create", e as unknown as Server.AtlasTile);
+            } else if(serverEvent.has_atlasTileDeleted) {
+                const e = serverEvent.atlasTileDeleted;
+                this._dee.emit("delete", e.x, e.y, e.type);
+            } else if(serverEvent.has_atlasTileUpdated) {
+                const e = serverEvent.atlasTileUpdated;
+                this._dee.emit("update", e as unknown as Server.AtlasTile);
             }
-        }).subscribe(data => {
-            if (!data.data.atlasTileCreating) throw new Error("data.data.atlasTileCreating is falsy");
-            const tile = data.data.atlasTileCreating as Server.AtlasTile;
-            
-            this._dee.emit("create", tile);
-        });
-
-        this._client.subscribe({
-            query: gql`
-                subscription atlasTileDeleting($worldId: String!) {
-                    atlasTileDeleting(worldId: $worldId) {
-                        x
-                        y
-                        type
-                    }
-                }
-            `,
-            variables: {
-                worldId: this._worldId
-            }
-        }).subscribe(data => {
-            if (!data.data.atlasTileDeleting) throw new Error("data.data.atlasTileDeleting is falsy");
-            const tile = data.data.atlasTileDeleting as Server.AtlasTile;
-
-            this._dee.emit("delete", tile.x, tile.y, tile.type);
-        });
-
-        this._client.subscribe({
-            query: gql`
-                subscription atlasTileUpating($worldId: String!) {
-                    atlasTileUpating(worldId: $worldId) {
-                        ...atlasFields
-                    }
-                }
-                ${ATLAS_FIELDS}
-            `,
-            variables: {
-                worldId: this._worldId
-            }
-        }).subscribe(data => {
-            if (!data.data.atlasTileUpating) throw new Error("data.data.atlasTileDeleting is falsy");
-            const tile = data.data.atlasTileUpating as Server.AtlasTile;
-
-            this._dee.emit("update", tile);
         });
     }
 

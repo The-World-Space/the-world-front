@@ -6,7 +6,7 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from "google-protobuf";
 export class ClientEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]];
     constructor(data?: any[] | ({} & (({
         joinWorld?: JoinWorld;
         leaveWorld?: never;
@@ -21,6 +21,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: LeaveWorld;
@@ -35,6 +40,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -49,6 +59,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -63,6 +78,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -77,6 +97,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -91,6 +116,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -105,6 +135,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -119,6 +154,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -133,6 +173,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -147,6 +192,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -161,6 +211,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: CreateIframePluginPortMapping;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -175,6 +230,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: DeleteIframePluginPortMapping;
         reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -189,6 +249,106 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: never;
         deleteIframePluginPortMapping?: never;
         reqAboutPlugins?: ReqAboutPlugins;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
+        updateAtlasTile?: UpdateAtlasTile;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: DeleteAtlasTile;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: CreateIframeGameObjectInstantly;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: DeleteIframeGameObject;
+        deleteIframeGameObjectsAt?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: DeleteIframeGameObjectsAt;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -231,6 +391,21 @@ export class ClientEvent extends pb_1.Message {
             }
             if ("reqAboutPlugins" in data && data.reqAboutPlugins != undefined) {
                 this.reqAboutPlugins = data.reqAboutPlugins;
+            }
+            if ("updateAtlasTile" in data && data.updateAtlasTile != undefined) {
+                this.updateAtlasTile = data.updateAtlasTile;
+            }
+            if ("deleteAtlasTile" in data && data.deleteAtlasTile != undefined) {
+                this.deleteAtlasTile = data.deleteAtlasTile;
+            }
+            if ("createIframeGameObjectInstantly" in data && data.createIframeGameObjectInstantly != undefined) {
+                this.createIframeGameObjectInstantly = data.createIframeGameObjectInstantly;
+            }
+            if ("deleteIframeGameObject" in data && data.deleteIframeGameObject != undefined) {
+                this.deleteIframeGameObject = data.deleteIframeGameObject;
+            }
+            if ("deleteIframeGameObjectsAt" in data && data.deleteIframeGameObjectsAt != undefined) {
+                this.deleteIframeGameObjectsAt = data.deleteIframeGameObjectsAt;
             }
         }
     }
@@ -351,9 +526,54 @@ export class ClientEvent extends pb_1.Message {
     get has_reqAboutPlugins() {
         return pb_1.Message.getField(this, 13) != null;
     }
+    get updateAtlasTile() {
+        return pb_1.Message.getWrapperField(this, UpdateAtlasTile, 14) as UpdateAtlasTile;
+    }
+    set updateAtlasTile(value: UpdateAtlasTile) {
+        pb_1.Message.setOneofWrapperField(this, 14, this.#one_of_decls[0], value);
+    }
+    get has_updateAtlasTile() {
+        return pb_1.Message.getField(this, 14) != null;
+    }
+    get deleteAtlasTile() {
+        return pb_1.Message.getWrapperField(this, DeleteAtlasTile, 15) as DeleteAtlasTile;
+    }
+    set deleteAtlasTile(value: DeleteAtlasTile) {
+        pb_1.Message.setOneofWrapperField(this, 15, this.#one_of_decls[0], value);
+    }
+    get has_deleteAtlasTile() {
+        return pb_1.Message.getField(this, 15) != null;
+    }
+    get createIframeGameObjectInstantly() {
+        return pb_1.Message.getWrapperField(this, CreateIframeGameObjectInstantly, 16) as CreateIframeGameObjectInstantly;
+    }
+    set createIframeGameObjectInstantly(value: CreateIframeGameObjectInstantly) {
+        pb_1.Message.setOneofWrapperField(this, 16, this.#one_of_decls[0], value);
+    }
+    get has_createIframeGameObjectInstantly() {
+        return pb_1.Message.getField(this, 16) != null;
+    }
+    get deleteIframeGameObject() {
+        return pb_1.Message.getWrapperField(this, DeleteIframeGameObject, 17) as DeleteIframeGameObject;
+    }
+    set deleteIframeGameObject(value: DeleteIframeGameObject) {
+        pb_1.Message.setOneofWrapperField(this, 17, this.#one_of_decls[0], value);
+    }
+    get has_deleteIframeGameObject() {
+        return pb_1.Message.getField(this, 17) != null;
+    }
+    get deleteIframeGameObjectsAt() {
+        return pb_1.Message.getWrapperField(this, DeleteIframeGameObjectsAt, 18) as DeleteIframeGameObjectsAt;
+    }
+    set deleteIframeGameObjectsAt(value: DeleteIframeGameObjectsAt) {
+        pb_1.Message.setOneofWrapperField(this, 18, this.#one_of_decls[0], value);
+    }
+    get has_deleteIframeGameObjectsAt() {
+        return pb_1.Message.getField(this, 18) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping" | "reqAboutPlugins";
+            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping" | "reqAboutPlugins" | "updateAtlasTile" | "deleteAtlasTile" | "createIframeGameObjectInstantly" | "deleteIframeGameObject" | "deleteIframeGameObjectsAt";
         } = {
             0: "none",
             1: "joinWorld",
@@ -368,9 +588,14 @@ export class ClientEvent extends pb_1.Message {
             10: "sendPluginMessage",
             11: "createIframePluginPortMapping",
             12: "deleteIframePluginPortMapping",
-            13: "reqAboutPlugins"
+            13: "reqAboutPlugins",
+            14: "updateAtlasTile",
+            15: "deleteAtlasTile",
+            16: "createIframeGameObjectInstantly",
+            17: "deleteIframeGameObject",
+            18: "deleteIframeGameObjectsAt"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18])];
     }
     static fromObject(data: {
         joinWorld?: ReturnType<typeof JoinWorld.prototype.toObject>;
@@ -386,6 +611,11 @@ export class ClientEvent extends pb_1.Message {
         createIframePluginPortMapping?: ReturnType<typeof CreateIframePluginPortMapping.prototype.toObject>;
         deleteIframePluginPortMapping?: ReturnType<typeof DeleteIframePluginPortMapping.prototype.toObject>;
         reqAboutPlugins?: ReturnType<typeof ReqAboutPlugins.prototype.toObject>;
+        updateAtlasTile?: ReturnType<typeof UpdateAtlasTile.prototype.toObject>;
+        deleteAtlasTile?: ReturnType<typeof DeleteAtlasTile.prototype.toObject>;
+        createIframeGameObjectInstantly?: ReturnType<typeof CreateIframeGameObjectInstantly.prototype.toObject>;
+        deleteIframeGameObject?: ReturnType<typeof DeleteIframeGameObject.prototype.toObject>;
+        deleteIframeGameObjectsAt?: ReturnType<typeof DeleteIframeGameObjectsAt.prototype.toObject>;
     }): ClientEvent {
         const message = new ClientEvent({});
         if (data.joinWorld != null) {
@@ -427,6 +657,21 @@ export class ClientEvent extends pb_1.Message {
         if (data.reqAboutPlugins != null) {
             message.reqAboutPlugins = ReqAboutPlugins.fromObject(data.reqAboutPlugins);
         }
+        if (data.updateAtlasTile != null) {
+            message.updateAtlasTile = UpdateAtlasTile.fromObject(data.updateAtlasTile);
+        }
+        if (data.deleteAtlasTile != null) {
+            message.deleteAtlasTile = DeleteAtlasTile.fromObject(data.deleteAtlasTile);
+        }
+        if (data.createIframeGameObjectInstantly != null) {
+            message.createIframeGameObjectInstantly = CreateIframeGameObjectInstantly.fromObject(data.createIframeGameObjectInstantly);
+        }
+        if (data.deleteIframeGameObject != null) {
+            message.deleteIframeGameObject = DeleteIframeGameObject.fromObject(data.deleteIframeGameObject);
+        }
+        if (data.deleteIframeGameObjectsAt != null) {
+            message.deleteIframeGameObjectsAt = DeleteIframeGameObjectsAt.fromObject(data.deleteIframeGameObjectsAt);
+        }
         return message;
     }
     toObject() {
@@ -444,6 +689,11 @@ export class ClientEvent extends pb_1.Message {
             createIframePluginPortMapping?: ReturnType<typeof CreateIframePluginPortMapping.prototype.toObject>;
             deleteIframePluginPortMapping?: ReturnType<typeof DeleteIframePluginPortMapping.prototype.toObject>;
             reqAboutPlugins?: ReturnType<typeof ReqAboutPlugins.prototype.toObject>;
+            updateAtlasTile?: ReturnType<typeof UpdateAtlasTile.prototype.toObject>;
+            deleteAtlasTile?: ReturnType<typeof DeleteAtlasTile.prototype.toObject>;
+            createIframeGameObjectInstantly?: ReturnType<typeof CreateIframeGameObjectInstantly.prototype.toObject>;
+            deleteIframeGameObject?: ReturnType<typeof DeleteIframeGameObject.prototype.toObject>;
+            deleteIframeGameObjectsAt?: ReturnType<typeof DeleteIframeGameObjectsAt.prototype.toObject>;
         } = {};
         if (this.joinWorld != null) {
             data.joinWorld = this.joinWorld.toObject();
@@ -484,6 +734,21 @@ export class ClientEvent extends pb_1.Message {
         if (this.reqAboutPlugins != null) {
             data.reqAboutPlugins = this.reqAboutPlugins.toObject();
         }
+        if (this.updateAtlasTile != null) {
+            data.updateAtlasTile = this.updateAtlasTile.toObject();
+        }
+        if (this.deleteAtlasTile != null) {
+            data.deleteAtlasTile = this.deleteAtlasTile.toObject();
+        }
+        if (this.createIframeGameObjectInstantly != null) {
+            data.createIframeGameObjectInstantly = this.createIframeGameObjectInstantly.toObject();
+        }
+        if (this.deleteIframeGameObject != null) {
+            data.deleteIframeGameObject = this.deleteIframeGameObject.toObject();
+        }
+        if (this.deleteIframeGameObjectsAt != null) {
+            data.deleteIframeGameObjectsAt = this.deleteIframeGameObjectsAt.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -516,6 +781,16 @@ export class ClientEvent extends pb_1.Message {
             writer.writeMessage(12, this.deleteIframePluginPortMapping, () => this.deleteIframePluginPortMapping.serialize(writer));
         if (this.has_reqAboutPlugins)
             writer.writeMessage(13, this.reqAboutPlugins, () => this.reqAboutPlugins.serialize(writer));
+        if (this.has_updateAtlasTile)
+            writer.writeMessage(14, this.updateAtlasTile, () => this.updateAtlasTile.serialize(writer));
+        if (this.has_deleteAtlasTile)
+            writer.writeMessage(15, this.deleteAtlasTile, () => this.deleteAtlasTile.serialize(writer));
+        if (this.has_createIframeGameObjectInstantly)
+            writer.writeMessage(16, this.createIframeGameObjectInstantly, () => this.createIframeGameObjectInstantly.serialize(writer));
+        if (this.has_deleteIframeGameObject)
+            writer.writeMessage(17, this.deleteIframeGameObject, () => this.deleteIframeGameObject.serialize(writer));
+        if (this.has_deleteIframeGameObjectsAt)
+            writer.writeMessage(18, this.deleteIframeGameObjectsAt, () => this.deleteIframeGameObjectsAt.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -563,6 +838,21 @@ export class ClientEvent extends pb_1.Message {
                     break;
                 case 13:
                     reader.readMessage(message.reqAboutPlugins, () => message.reqAboutPlugins = ReqAboutPlugins.deserialize(reader));
+                    break;
+                case 14:
+                    reader.readMessage(message.updateAtlasTile, () => message.updateAtlasTile = UpdateAtlasTile.deserialize(reader));
+                    break;
+                case 15:
+                    reader.readMessage(message.deleteAtlasTile, () => message.deleteAtlasTile = DeleteAtlasTile.deserialize(reader));
+                    break;
+                case 16:
+                    reader.readMessage(message.createIframeGameObjectInstantly, () => message.createIframeGameObjectInstantly = CreateIframeGameObjectInstantly.deserialize(reader));
+                    break;
+                case 17:
+                    reader.readMessage(message.deleteIframeGameObject, () => message.deleteIframeGameObject = DeleteIframeGameObject.deserialize(reader));
+                    break;
+                case 18:
+                    reader.readMessage(message.deleteIframeGameObjectsAt, () => message.deleteIframeGameObjectsAt = DeleteIframeGameObjectsAt.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -1814,8 +2104,806 @@ export class ReqAboutPlugins extends pb_1.Message {
         return ReqAboutPlugins.deserialize(bytes);
     }
 }
+export class UpdateAtlasTile extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        type?: number;
+        y?: number;
+        x?: number;
+        atlasId?: number;
+        atlasIndex?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("type" in data && data.type != undefined) {
+                this.type = data.type;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("atlasId" in data && data.atlasId != undefined) {
+                this.atlasId = data.atlasId;
+            }
+            if ("atlasIndex" in data && data.atlasIndex != undefined) {
+                this.atlasIndex = data.atlasIndex;
+            }
+        }
+    }
+    get type() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set type(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    get atlasId() {
+        return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+    }
+    set atlasId(value: number) {
+        pb_1.Message.setField(this, 4, value);
+    }
+    get atlasIndex() {
+        return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+    }
+    set atlasIndex(value: number) {
+        pb_1.Message.setField(this, 5, value);
+    }
+    static fromObject(data: {
+        type?: number;
+        y?: number;
+        x?: number;
+        atlasId?: number;
+        atlasIndex?: number;
+    }): UpdateAtlasTile {
+        const message = new UpdateAtlasTile({});
+        if (data.type != null) {
+            message.type = data.type;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.atlasId != null) {
+            message.atlasId = data.atlasId;
+        }
+        if (data.atlasIndex != null) {
+            message.atlasIndex = data.atlasIndex;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            type?: number;
+            y?: number;
+            x?: number;
+            atlasId?: number;
+            atlasIndex?: number;
+        } = {};
+        if (this.type != null) {
+            data.type = this.type;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.atlasId != null) {
+            data.atlasId = this.atlasId;
+        }
+        if (this.atlasIndex != null) {
+            data.atlasIndex = this.atlasIndex;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.type != 0)
+            writer.writeInt32(1, this.type);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.x != 0)
+            writer.writeInt32(3, this.x);
+        if (this.atlasId != 0)
+            writer.writeInt32(4, this.atlasId);
+        if (this.atlasIndex != 0)
+            writer.writeInt32(5, this.atlasIndex);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): UpdateAtlasTile {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new UpdateAtlasTile();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.type = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.x = reader.readInt32();
+                    break;
+                case 4:
+                    message.atlasId = reader.readInt32();
+                    break;
+                case 5:
+                    message.atlasIndex = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): UpdateAtlasTile {
+        return UpdateAtlasTile.deserialize(bytes);
+    }
+}
+export class DeleteAtlasTile extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        type?: number;
+        y?: number;
+        x?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("type" in data && data.type != undefined) {
+                this.type = data.type;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+        }
+    }
+    get type() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set type(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    static fromObject(data: {
+        type?: number;
+        y?: number;
+        x?: number;
+    }): DeleteAtlasTile {
+        const message = new DeleteAtlasTile({});
+        if (data.type != null) {
+            message.type = data.type;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            type?: number;
+            y?: number;
+            x?: number;
+        } = {};
+        if (this.type != null) {
+            data.type = this.type;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.type != 0)
+            writer.writeInt32(1, this.type);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.x != 0)
+            writer.writeInt32(3, this.x);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): DeleteAtlasTile {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new DeleteAtlasTile();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.type = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.x = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): DeleteAtlasTile {
+        return DeleteAtlasTile.deserialize(bytes);
+    }
+}
+export class CreateIframeGameObjectInstantly extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        x?: number;
+        y?: number;
+        iframeGameObjectProto?: CreateIframeGameObjectInstantly.IframeGameObjectProto;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("iframeGameObjectProto" in data && data.iframeGameObjectProto != undefined) {
+                this.iframeGameObjectProto = data.iframeGameObjectProto;
+            }
+        }
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get iframeGameObjectProto() {
+        return pb_1.Message.getWrapperField(this, CreateIframeGameObjectInstantly.IframeGameObjectProto, 3) as CreateIframeGameObjectInstantly.IframeGameObjectProto;
+    }
+    set iframeGameObjectProto(value: CreateIframeGameObjectInstantly.IframeGameObjectProto) {
+        pb_1.Message.setWrapperField(this, 3, value);
+    }
+    get has_iframeGameObjectProto() {
+        return pb_1.Message.getField(this, 3) != null;
+    }
+    static fromObject(data: {
+        x?: number;
+        y?: number;
+        iframeGameObjectProto?: ReturnType<typeof CreateIframeGameObjectInstantly.IframeGameObjectProto.prototype.toObject>;
+    }): CreateIframeGameObjectInstantly {
+        const message = new CreateIframeGameObjectInstantly({});
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.iframeGameObjectProto != null) {
+            message.iframeGameObjectProto = CreateIframeGameObjectInstantly.IframeGameObjectProto.fromObject(data.iframeGameObjectProto);
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            x?: number;
+            y?: number;
+            iframeGameObjectProto?: ReturnType<typeof CreateIframeGameObjectInstantly.IframeGameObjectProto.prototype.toObject>;
+        } = {};
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.iframeGameObjectProto != null) {
+            data.iframeGameObjectProto = this.iframeGameObjectProto.toObject();
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.x != 0)
+            writer.writeInt32(1, this.x);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.has_iframeGameObjectProto)
+            writer.writeMessage(3, this.iframeGameObjectProto, () => this.iframeGameObjectProto.serialize(writer));
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CreateIframeGameObjectInstantly {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CreateIframeGameObjectInstantly();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.x = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    reader.readMessage(message.iframeGameObjectProto, () => message.iframeGameObjectProto = CreateIframeGameObjectInstantly.IframeGameObjectProto.deserialize(reader));
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CreateIframeGameObjectInstantly {
+        return CreateIframeGameObjectInstantly.deserialize(bytes);
+    }
+}
+export namespace CreateIframeGameObjectInstantly {
+    export class IframeGameObjectProto extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            name?: string;
+            width?: number;
+            height?: number;
+            offsetX?: number;
+            offsetY?: number;
+            isPublic?: boolean;
+            type?: number;
+            src?: string;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("name" in data && data.name != undefined) {
+                    this.name = data.name;
+                }
+                if ("width" in data && data.width != undefined) {
+                    this.width = data.width;
+                }
+                if ("height" in data && data.height != undefined) {
+                    this.height = data.height;
+                }
+                if ("offsetX" in data && data.offsetX != undefined) {
+                    this.offsetX = data.offsetX;
+                }
+                if ("offsetY" in data && data.offsetY != undefined) {
+                    this.offsetY = data.offsetY;
+                }
+                if ("isPublic" in data && data.isPublic != undefined) {
+                    this.isPublic = data.isPublic;
+                }
+                if ("type" in data && data.type != undefined) {
+                    this.type = data.type;
+                }
+                if ("src" in data && data.src != undefined) {
+                    this.src = data.src;
+                }
+            }
+        }
+        get name() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set name(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get width() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set width(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get height() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set height(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get offsetX() {
+            return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set offsetX(value: number) {
+            pb_1.Message.setField(this, 4, value);
+        }
+        get offsetY() {
+            return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set offsetY(value: number) {
+            pb_1.Message.setField(this, 5, value);
+        }
+        get isPublic() {
+            return pb_1.Message.getFieldWithDefault(this, 6, false) as boolean;
+        }
+        set isPublic(value: boolean) {
+            pb_1.Message.setField(this, 6, value);
+        }
+        get type() {
+            return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
+        }
+        set type(value: number) {
+            pb_1.Message.setField(this, 7, value);
+        }
+        get src() {
+            return pb_1.Message.getFieldWithDefault(this, 8, "") as string;
+        }
+        set src(value: string) {
+            pb_1.Message.setField(this, 8, value);
+        }
+        static fromObject(data: {
+            name?: string;
+            width?: number;
+            height?: number;
+            offsetX?: number;
+            offsetY?: number;
+            isPublic?: boolean;
+            type?: number;
+            src?: string;
+        }): IframeGameObjectProto {
+            const message = new IframeGameObjectProto({});
+            if (data.name != null) {
+                message.name = data.name;
+            }
+            if (data.width != null) {
+                message.width = data.width;
+            }
+            if (data.height != null) {
+                message.height = data.height;
+            }
+            if (data.offsetX != null) {
+                message.offsetX = data.offsetX;
+            }
+            if (data.offsetY != null) {
+                message.offsetY = data.offsetY;
+            }
+            if (data.isPublic != null) {
+                message.isPublic = data.isPublic;
+            }
+            if (data.type != null) {
+                message.type = data.type;
+            }
+            if (data.src != null) {
+                message.src = data.src;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                name?: string;
+                width?: number;
+                height?: number;
+                offsetX?: number;
+                offsetY?: number;
+                isPublic?: boolean;
+                type?: number;
+                src?: string;
+            } = {};
+            if (this.name != null) {
+                data.name = this.name;
+            }
+            if (this.width != null) {
+                data.width = this.width;
+            }
+            if (this.height != null) {
+                data.height = this.height;
+            }
+            if (this.offsetX != null) {
+                data.offsetX = this.offsetX;
+            }
+            if (this.offsetY != null) {
+                data.offsetY = this.offsetY;
+            }
+            if (this.isPublic != null) {
+                data.isPublic = this.isPublic;
+            }
+            if (this.type != null) {
+                data.type = this.type;
+            }
+            if (this.src != null) {
+                data.src = this.src;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.name.length)
+                writer.writeString(1, this.name);
+            if (this.width != 0)
+                writer.writeInt32(2, this.width);
+            if (this.height != 0)
+                writer.writeInt32(3, this.height);
+            if (this.offsetX != 0)
+                writer.writeInt32(4, this.offsetX);
+            if (this.offsetY != 0)
+                writer.writeInt32(5, this.offsetY);
+            if (this.isPublic != false)
+                writer.writeBool(6, this.isPublic);
+            if (this.type != 0)
+                writer.writeInt32(7, this.type);
+            if (this.src.length)
+                writer.writeString(8, this.src);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IframeGameObjectProto {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new IframeGameObjectProto();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.name = reader.readString();
+                        break;
+                    case 2:
+                        message.width = reader.readInt32();
+                        break;
+                    case 3:
+                        message.height = reader.readInt32();
+                        break;
+                    case 4:
+                        message.offsetX = reader.readInt32();
+                        break;
+                    case 5:
+                        message.offsetY = reader.readInt32();
+                        break;
+                    case 6:
+                        message.isPublic = reader.readBool();
+                        break;
+                    case 7:
+                        message.type = reader.readInt32();
+                        break;
+                    case 8:
+                        message.src = reader.readString();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): IframeGameObjectProto {
+            return IframeGameObjectProto.deserialize(bytes);
+        }
+    }
+}
+export class DeleteIframeGameObject extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        id?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+        }
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    static fromObject(data: {
+        id?: number;
+    }): DeleteIframeGameObject {
+        const message = new DeleteIframeGameObject({});
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            id?: number;
+        } = {};
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.id != 0)
+            writer.writeInt32(1, this.id);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): DeleteIframeGameObject {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new DeleteIframeGameObject();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.id = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): DeleteIframeGameObject {
+        return DeleteIframeGameObject.deserialize(bytes);
+    }
+}
+export class DeleteIframeGameObjectsAt extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        x?: number;
+        y?: number;
+        type?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("type" in data && data.type != undefined) {
+                this.type = data.type;
+            }
+        }
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get type() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set type(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    static fromObject(data: {
+        x?: number;
+        y?: number;
+        type?: number;
+    }): DeleteIframeGameObjectsAt {
+        const message = new DeleteIframeGameObjectsAt({});
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.type != null) {
+            message.type = data.type;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            x?: number;
+            y?: number;
+            type?: number;
+        } = {};
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.type != null) {
+            data.type = this.type;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.x != 0)
+            writer.writeInt32(1, this.x);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.type != 0)
+            writer.writeInt32(3, this.type);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): DeleteIframeGameObjectsAt {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new DeleteIframeGameObjectsAt();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.x = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.type = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): DeleteIframeGameObjectsAt {
+        return DeleteIframeGameObjectsAt.deserialize(bytes);
+    }
+}
 export class ServerEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]];
     constructor(data?: any[] | ({} & (({
         kicked?: Kicked;
         playerListChanged?: never;
@@ -1830,6 +2918,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: PlayerListChanged;
@@ -1844,6 +2938,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1858,6 +2958,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1872,6 +2978,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1886,6 +2998,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1900,6 +3018,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1914,6 +3038,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1928,6 +3058,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1942,6 +3078,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1956,6 +3098,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1970,6 +3118,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: AboutPlugins;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1984,6 +3138,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: IframePluginPortMappingCreated;
         iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -1998,6 +3158,132 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: never;
         iframePluginPortMappingCreated?: never;
         iframePluginPortMappingDeleted?: IframePluginPortMappingDeleted;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: AtlasTileCreated;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: AtlasTileDeleted;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: AtlasTileUpdated;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: ColliderUpdated;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: IframeGameObjectCreated;
+        iframeGameObjectDeleted?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: IframeGameObjectDeleted;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -2040,6 +3326,24 @@ export class ServerEvent extends pb_1.Message {
             }
             if ("iframePluginPortMappingDeleted" in data && data.iframePluginPortMappingDeleted != undefined) {
                 this.iframePluginPortMappingDeleted = data.iframePluginPortMappingDeleted;
+            }
+            if ("atlasTileCreated" in data && data.atlasTileCreated != undefined) {
+                this.atlasTileCreated = data.atlasTileCreated;
+            }
+            if ("atlasTileDeleted" in data && data.atlasTileDeleted != undefined) {
+                this.atlasTileDeleted = data.atlasTileDeleted;
+            }
+            if ("atlasTileUpdated" in data && data.atlasTileUpdated != undefined) {
+                this.atlasTileUpdated = data.atlasTileUpdated;
+            }
+            if ("colliderUpdated" in data && data.colliderUpdated != undefined) {
+                this.colliderUpdated = data.colliderUpdated;
+            }
+            if ("iframeGameObjectCreated" in data && data.iframeGameObjectCreated != undefined) {
+                this.iframeGameObjectCreated = data.iframeGameObjectCreated;
+            }
+            if ("iframeGameObjectDeleted" in data && data.iframeGameObjectDeleted != undefined) {
+                this.iframeGameObjectDeleted = data.iframeGameObjectDeleted;
             }
         }
     }
@@ -2160,9 +3464,63 @@ export class ServerEvent extends pb_1.Message {
     get has_iframePluginPortMappingDeleted() {
         return pb_1.Message.getField(this, 13) != null;
     }
+    get atlasTileCreated() {
+        return pb_1.Message.getWrapperField(this, AtlasTileCreated, 14) as AtlasTileCreated;
+    }
+    set atlasTileCreated(value: AtlasTileCreated) {
+        pb_1.Message.setOneofWrapperField(this, 14, this.#one_of_decls[0], value);
+    }
+    get has_atlasTileCreated() {
+        return pb_1.Message.getField(this, 14) != null;
+    }
+    get atlasTileDeleted() {
+        return pb_1.Message.getWrapperField(this, AtlasTileDeleted, 15) as AtlasTileDeleted;
+    }
+    set atlasTileDeleted(value: AtlasTileDeleted) {
+        pb_1.Message.setOneofWrapperField(this, 15, this.#one_of_decls[0], value);
+    }
+    get has_atlasTileDeleted() {
+        return pb_1.Message.getField(this, 15) != null;
+    }
+    get atlasTileUpdated() {
+        return pb_1.Message.getWrapperField(this, AtlasTileUpdated, 16) as AtlasTileUpdated;
+    }
+    set atlasTileUpdated(value: AtlasTileUpdated) {
+        pb_1.Message.setOneofWrapperField(this, 16, this.#one_of_decls[0], value);
+    }
+    get has_atlasTileUpdated() {
+        return pb_1.Message.getField(this, 16) != null;
+    }
+    get colliderUpdated() {
+        return pb_1.Message.getWrapperField(this, ColliderUpdated, 17) as ColliderUpdated;
+    }
+    set colliderUpdated(value: ColliderUpdated) {
+        pb_1.Message.setOneofWrapperField(this, 17, this.#one_of_decls[0], value);
+    }
+    get has_colliderUpdated() {
+        return pb_1.Message.getField(this, 17) != null;
+    }
+    get iframeGameObjectCreated() {
+        return pb_1.Message.getWrapperField(this, IframeGameObjectCreated, 18) as IframeGameObjectCreated;
+    }
+    set iframeGameObjectCreated(value: IframeGameObjectCreated) {
+        pb_1.Message.setOneofWrapperField(this, 18, this.#one_of_decls[0], value);
+    }
+    get has_iframeGameObjectCreated() {
+        return pb_1.Message.getField(this, 18) != null;
+    }
+    get iframeGameObjectDeleted() {
+        return pb_1.Message.getWrapperField(this, IframeGameObjectDeleted, 19) as IframeGameObjectDeleted;
+    }
+    set iframeGameObjectDeleted(value: IframeGameObjectDeleted) {
+        pb_1.Message.setOneofWrapperField(this, 19, this.#one_of_decls[0], value);
+    }
+    get has_iframeGameObjectDeleted() {
+        return pb_1.Message.getField(this, 19) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted";
+            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted" | "atlasTileCreated" | "atlasTileDeleted" | "atlasTileUpdated" | "colliderUpdated" | "iframeGameObjectCreated" | "iframeGameObjectDeleted";
         } = {
             0: "none",
             1: "kicked",
@@ -2177,9 +3535,15 @@ export class ServerEvent extends pb_1.Message {
             10: "pluginMessageSent",
             11: "aboutPlugins",
             12: "iframePluginPortMappingCreated",
-            13: "iframePluginPortMappingDeleted"
+            13: "iframePluginPortMappingDeleted",
+            14: "atlasTileCreated",
+            15: "atlasTileDeleted",
+            16: "atlasTileUpdated",
+            17: "colliderUpdated",
+            18: "iframeGameObjectCreated",
+            19: "iframeGameObjectDeleted"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])];
     }
     static fromObject(data: {
         kicked?: ReturnType<typeof Kicked.prototype.toObject>;
@@ -2195,6 +3559,12 @@ export class ServerEvent extends pb_1.Message {
         aboutPlugins?: ReturnType<typeof AboutPlugins.prototype.toObject>;
         iframePluginPortMappingCreated?: ReturnType<typeof IframePluginPortMappingCreated.prototype.toObject>;
         iframePluginPortMappingDeleted?: ReturnType<typeof IframePluginPortMappingDeleted.prototype.toObject>;
+        atlasTileCreated?: ReturnType<typeof AtlasTileCreated.prototype.toObject>;
+        atlasTileDeleted?: ReturnType<typeof AtlasTileDeleted.prototype.toObject>;
+        atlasTileUpdated?: ReturnType<typeof AtlasTileUpdated.prototype.toObject>;
+        colliderUpdated?: ReturnType<typeof ColliderUpdated.prototype.toObject>;
+        iframeGameObjectCreated?: ReturnType<typeof IframeGameObjectCreated.prototype.toObject>;
+        iframeGameObjectDeleted?: ReturnType<typeof IframeGameObjectDeleted.prototype.toObject>;
     }): ServerEvent {
         const message = new ServerEvent({});
         if (data.kicked != null) {
@@ -2236,6 +3606,24 @@ export class ServerEvent extends pb_1.Message {
         if (data.iframePluginPortMappingDeleted != null) {
             message.iframePluginPortMappingDeleted = IframePluginPortMappingDeleted.fromObject(data.iframePluginPortMappingDeleted);
         }
+        if (data.atlasTileCreated != null) {
+            message.atlasTileCreated = AtlasTileCreated.fromObject(data.atlasTileCreated);
+        }
+        if (data.atlasTileDeleted != null) {
+            message.atlasTileDeleted = AtlasTileDeleted.fromObject(data.atlasTileDeleted);
+        }
+        if (data.atlasTileUpdated != null) {
+            message.atlasTileUpdated = AtlasTileUpdated.fromObject(data.atlasTileUpdated);
+        }
+        if (data.colliderUpdated != null) {
+            message.colliderUpdated = ColliderUpdated.fromObject(data.colliderUpdated);
+        }
+        if (data.iframeGameObjectCreated != null) {
+            message.iframeGameObjectCreated = IframeGameObjectCreated.fromObject(data.iframeGameObjectCreated);
+        }
+        if (data.iframeGameObjectDeleted != null) {
+            message.iframeGameObjectDeleted = IframeGameObjectDeleted.fromObject(data.iframeGameObjectDeleted);
+        }
         return message;
     }
     toObject() {
@@ -2253,6 +3641,12 @@ export class ServerEvent extends pb_1.Message {
             aboutPlugins?: ReturnType<typeof AboutPlugins.prototype.toObject>;
             iframePluginPortMappingCreated?: ReturnType<typeof IframePluginPortMappingCreated.prototype.toObject>;
             iframePluginPortMappingDeleted?: ReturnType<typeof IframePluginPortMappingDeleted.prototype.toObject>;
+            atlasTileCreated?: ReturnType<typeof AtlasTileCreated.prototype.toObject>;
+            atlasTileDeleted?: ReturnType<typeof AtlasTileDeleted.prototype.toObject>;
+            atlasTileUpdated?: ReturnType<typeof AtlasTileUpdated.prototype.toObject>;
+            colliderUpdated?: ReturnType<typeof ColliderUpdated.prototype.toObject>;
+            iframeGameObjectCreated?: ReturnType<typeof IframeGameObjectCreated.prototype.toObject>;
+            iframeGameObjectDeleted?: ReturnType<typeof IframeGameObjectDeleted.prototype.toObject>;
         } = {};
         if (this.kicked != null) {
             data.kicked = this.kicked.toObject();
@@ -2293,6 +3687,24 @@ export class ServerEvent extends pb_1.Message {
         if (this.iframePluginPortMappingDeleted != null) {
             data.iframePluginPortMappingDeleted = this.iframePluginPortMappingDeleted.toObject();
         }
+        if (this.atlasTileCreated != null) {
+            data.atlasTileCreated = this.atlasTileCreated.toObject();
+        }
+        if (this.atlasTileDeleted != null) {
+            data.atlasTileDeleted = this.atlasTileDeleted.toObject();
+        }
+        if (this.atlasTileUpdated != null) {
+            data.atlasTileUpdated = this.atlasTileUpdated.toObject();
+        }
+        if (this.colliderUpdated != null) {
+            data.colliderUpdated = this.colliderUpdated.toObject();
+        }
+        if (this.iframeGameObjectCreated != null) {
+            data.iframeGameObjectCreated = this.iframeGameObjectCreated.toObject();
+        }
+        if (this.iframeGameObjectDeleted != null) {
+            data.iframeGameObjectDeleted = this.iframeGameObjectDeleted.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -2325,6 +3737,18 @@ export class ServerEvent extends pb_1.Message {
             writer.writeMessage(12, this.iframePluginPortMappingCreated, () => this.iframePluginPortMappingCreated.serialize(writer));
         if (this.has_iframePluginPortMappingDeleted)
             writer.writeMessage(13, this.iframePluginPortMappingDeleted, () => this.iframePluginPortMappingDeleted.serialize(writer));
+        if (this.has_atlasTileCreated)
+            writer.writeMessage(14, this.atlasTileCreated, () => this.atlasTileCreated.serialize(writer));
+        if (this.has_atlasTileDeleted)
+            writer.writeMessage(15, this.atlasTileDeleted, () => this.atlasTileDeleted.serialize(writer));
+        if (this.has_atlasTileUpdated)
+            writer.writeMessage(16, this.atlasTileUpdated, () => this.atlasTileUpdated.serialize(writer));
+        if (this.has_colliderUpdated)
+            writer.writeMessage(17, this.colliderUpdated, () => this.colliderUpdated.serialize(writer));
+        if (this.has_iframeGameObjectCreated)
+            writer.writeMessage(18, this.iframeGameObjectCreated, () => this.iframeGameObjectCreated.serialize(writer));
+        if (this.has_iframeGameObjectDeleted)
+            writer.writeMessage(19, this.iframeGameObjectDeleted, () => this.iframeGameObjectDeleted.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -2372,6 +3796,24 @@ export class ServerEvent extends pb_1.Message {
                     break;
                 case 13:
                     reader.readMessage(message.iframePluginPortMappingDeleted, () => message.iframePluginPortMappingDeleted = IframePluginPortMappingDeleted.deserialize(reader));
+                    break;
+                case 14:
+                    reader.readMessage(message.atlasTileCreated, () => message.atlasTileCreated = AtlasTileCreated.deserialize(reader));
+                    break;
+                case 15:
+                    reader.readMessage(message.atlasTileDeleted, () => message.atlasTileDeleted = AtlasTileDeleted.deserialize(reader));
+                    break;
+                case 16:
+                    reader.readMessage(message.atlasTileUpdated, () => message.atlasTileUpdated = AtlasTileUpdated.deserialize(reader));
+                    break;
+                case 17:
+                    reader.readMessage(message.colliderUpdated, () => message.colliderUpdated = ColliderUpdated.deserialize(reader));
+                    break;
+                case 18:
+                    reader.readMessage(message.iframeGameObjectCreated, () => message.iframeGameObjectCreated = IframeGameObjectCreated.deserialize(reader));
+                    break;
+                case 19:
+                    reader.readMessage(message.iframeGameObjectDeleted, () => message.iframeGameObjectDeleted = IframeGameObjectDeleted.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -4329,5 +5771,1083 @@ export class IframePluginPortMappingDeleted extends pb_1.Message {
     }
     static deserializeBinary(bytes: Uint8Array): IframePluginPortMappingDeleted {
         return IframePluginPortMappingDeleted.deserialize(bytes);
+    }
+}
+export class AtlasTileCreated extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        x?: number;
+        y?: number;
+        type?: number;
+        atlas?: Atlas;
+        atlasIndex?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("type" in data && data.type != undefined) {
+                this.type = data.type;
+            }
+            if ("atlas" in data && data.atlas != undefined) {
+                this.atlas = data.atlas;
+            }
+            if ("atlasIndex" in data && data.atlasIndex != undefined) {
+                this.atlasIndex = data.atlasIndex;
+            }
+        }
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get type() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set type(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    get atlas() {
+        return pb_1.Message.getWrapperField(this, Atlas, 4) as Atlas;
+    }
+    set atlas(value: Atlas) {
+        pb_1.Message.setWrapperField(this, 4, value);
+    }
+    get has_atlas() {
+        return pb_1.Message.getField(this, 4) != null;
+    }
+    get atlasIndex() {
+        return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+    }
+    set atlasIndex(value: number) {
+        pb_1.Message.setField(this, 5, value);
+    }
+    static fromObject(data: {
+        x?: number;
+        y?: number;
+        type?: number;
+        atlas?: ReturnType<typeof Atlas.prototype.toObject>;
+        atlasIndex?: number;
+    }): AtlasTileCreated {
+        const message = new AtlasTileCreated({});
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.type != null) {
+            message.type = data.type;
+        }
+        if (data.atlas != null) {
+            message.atlas = Atlas.fromObject(data.atlas);
+        }
+        if (data.atlasIndex != null) {
+            message.atlasIndex = data.atlasIndex;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            x?: number;
+            y?: number;
+            type?: number;
+            atlas?: ReturnType<typeof Atlas.prototype.toObject>;
+            atlasIndex?: number;
+        } = {};
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.type != null) {
+            data.type = this.type;
+        }
+        if (this.atlas != null) {
+            data.atlas = this.atlas.toObject();
+        }
+        if (this.atlasIndex != null) {
+            data.atlasIndex = this.atlasIndex;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.x != 0)
+            writer.writeInt32(1, this.x);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.type != 0)
+            writer.writeInt32(3, this.type);
+        if (this.has_atlas)
+            writer.writeMessage(4, this.atlas, () => this.atlas.serialize(writer));
+        if (this.atlasIndex != 0)
+            writer.writeInt32(5, this.atlasIndex);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AtlasTileCreated {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new AtlasTileCreated();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.x = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.type = reader.readInt32();
+                    break;
+                case 4:
+                    reader.readMessage(message.atlas, () => message.atlas = Atlas.deserialize(reader));
+                    break;
+                case 5:
+                    message.atlasIndex = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): AtlasTileCreated {
+        return AtlasTileCreated.deserialize(bytes);
+    }
+}
+export class AtlasTileUpdated extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        x?: number;
+        y?: number;
+        type?: number;
+        atlas?: Atlas;
+        atlasIndex?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("type" in data && data.type != undefined) {
+                this.type = data.type;
+            }
+            if ("atlas" in data && data.atlas != undefined) {
+                this.atlas = data.atlas;
+            }
+            if ("atlasIndex" in data && data.atlasIndex != undefined) {
+                this.atlasIndex = data.atlasIndex;
+            }
+        }
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get type() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set type(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    get atlas() {
+        return pb_1.Message.getWrapperField(this, Atlas, 4) as Atlas;
+    }
+    set atlas(value: Atlas) {
+        pb_1.Message.setWrapperField(this, 4, value);
+    }
+    get has_atlas() {
+        return pb_1.Message.getField(this, 4) != null;
+    }
+    get atlasIndex() {
+        return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+    }
+    set atlasIndex(value: number) {
+        pb_1.Message.setField(this, 5, value);
+    }
+    static fromObject(data: {
+        x?: number;
+        y?: number;
+        type?: number;
+        atlas?: ReturnType<typeof Atlas.prototype.toObject>;
+        atlasIndex?: number;
+    }): AtlasTileUpdated {
+        const message = new AtlasTileUpdated({});
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.type != null) {
+            message.type = data.type;
+        }
+        if (data.atlas != null) {
+            message.atlas = Atlas.fromObject(data.atlas);
+        }
+        if (data.atlasIndex != null) {
+            message.atlasIndex = data.atlasIndex;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            x?: number;
+            y?: number;
+            type?: number;
+            atlas?: ReturnType<typeof Atlas.prototype.toObject>;
+            atlasIndex?: number;
+        } = {};
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.type != null) {
+            data.type = this.type;
+        }
+        if (this.atlas != null) {
+            data.atlas = this.atlas.toObject();
+        }
+        if (this.atlasIndex != null) {
+            data.atlasIndex = this.atlasIndex;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.x != 0)
+            writer.writeInt32(1, this.x);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.type != 0)
+            writer.writeInt32(3, this.type);
+        if (this.has_atlas)
+            writer.writeMessage(4, this.atlas, () => this.atlas.serialize(writer));
+        if (this.atlasIndex != 0)
+            writer.writeInt32(5, this.atlasIndex);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AtlasTileUpdated {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new AtlasTileUpdated();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.x = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.type = reader.readInt32();
+                    break;
+                case 4:
+                    reader.readMessage(message.atlas, () => message.atlas = Atlas.deserialize(reader));
+                    break;
+                case 5:
+                    message.atlasIndex = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): AtlasTileUpdated {
+        return AtlasTileUpdated.deserialize(bytes);
+    }
+}
+export class AtlasTileDeleted extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        x?: number;
+        y?: number;
+        type?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("type" in data && data.type != undefined) {
+                this.type = data.type;
+            }
+        }
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get type() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set type(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    static fromObject(data: {
+        x?: number;
+        y?: number;
+        type?: number;
+    }): AtlasTileDeleted {
+        const message = new AtlasTileDeleted({});
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.type != null) {
+            message.type = data.type;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            x?: number;
+            y?: number;
+            type?: number;
+        } = {};
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.type != null) {
+            data.type = this.type;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.x != 0)
+            writer.writeInt32(1, this.x);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.type != 0)
+            writer.writeInt32(3, this.type);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AtlasTileDeleted {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new AtlasTileDeleted();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.x = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.type = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): AtlasTileDeleted {
+        return AtlasTileDeleted.deserialize(bytes);
+    }
+}
+export class Atlas extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        name?: string;
+        columnCount?: number;
+        rowCount?: number;
+        src?: string;
+        id?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("name" in data && data.name != undefined) {
+                this.name = data.name;
+            }
+            if ("columnCount" in data && data.columnCount != undefined) {
+                this.columnCount = data.columnCount;
+            }
+            if ("rowCount" in data && data.rowCount != undefined) {
+                this.rowCount = data.rowCount;
+            }
+            if ("src" in data && data.src != undefined) {
+                this.src = data.src;
+            }
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+        }
+    }
+    get name() {
+        return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+    }
+    set name(value: string) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get columnCount() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set columnCount(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get rowCount() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set rowCount(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    get src() {
+        return pb_1.Message.getFieldWithDefault(this, 4, "") as string;
+    }
+    set src(value: string) {
+        pb_1.Message.setField(this, 4, value);
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 5, value);
+    }
+    static fromObject(data: {
+        name?: string;
+        columnCount?: number;
+        rowCount?: number;
+        src?: string;
+        id?: number;
+    }): Atlas {
+        const message = new Atlas({});
+        if (data.name != null) {
+            message.name = data.name;
+        }
+        if (data.columnCount != null) {
+            message.columnCount = data.columnCount;
+        }
+        if (data.rowCount != null) {
+            message.rowCount = data.rowCount;
+        }
+        if (data.src != null) {
+            message.src = data.src;
+        }
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            name?: string;
+            columnCount?: number;
+            rowCount?: number;
+            src?: string;
+            id?: number;
+        } = {};
+        if (this.name != null) {
+            data.name = this.name;
+        }
+        if (this.columnCount != null) {
+            data.columnCount = this.columnCount;
+        }
+        if (this.rowCount != null) {
+            data.rowCount = this.rowCount;
+        }
+        if (this.src != null) {
+            data.src = this.src;
+        }
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.name.length)
+            writer.writeString(1, this.name);
+        if (this.columnCount != 0)
+            writer.writeInt32(2, this.columnCount);
+        if (this.rowCount != 0)
+            writer.writeInt32(3, this.rowCount);
+        if (this.src.length)
+            writer.writeString(4, this.src);
+        if (this.id != 0)
+            writer.writeInt32(5, this.id);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Atlas {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Atlas();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.name = reader.readString();
+                    break;
+                case 2:
+                    message.columnCount = reader.readInt32();
+                    break;
+                case 3:
+                    message.rowCount = reader.readInt32();
+                    break;
+                case 4:
+                    message.src = reader.readString();
+                    break;
+                case 5:
+                    message.id = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): Atlas {
+        return Atlas.deserialize(bytes);
+    }
+}
+export class IframeGameObjectCreated extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        id?: number;
+        x?: number;
+        y?: number;
+        iframeGameObjectProto?: IframeGameObjectCreated.IframeGameObjectProto;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("iframeGameObjectProto" in data && data.iframeGameObjectProto != undefined) {
+                this.iframeGameObjectProto = data.iframeGameObjectProto;
+            }
+        }
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    get iframeGameObjectProto() {
+        return pb_1.Message.getWrapperField(this, IframeGameObjectCreated.IframeGameObjectProto, 4) as IframeGameObjectCreated.IframeGameObjectProto;
+    }
+    set iframeGameObjectProto(value: IframeGameObjectCreated.IframeGameObjectProto) {
+        pb_1.Message.setWrapperField(this, 4, value);
+    }
+    get has_iframeGameObjectProto() {
+        return pb_1.Message.getField(this, 4) != null;
+    }
+    static fromObject(data: {
+        id?: number;
+        x?: number;
+        y?: number;
+        iframeGameObjectProto?: ReturnType<typeof IframeGameObjectCreated.IframeGameObjectProto.prototype.toObject>;
+    }): IframeGameObjectCreated {
+        const message = new IframeGameObjectCreated({});
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.iframeGameObjectProto != null) {
+            message.iframeGameObjectProto = IframeGameObjectCreated.IframeGameObjectProto.fromObject(data.iframeGameObjectProto);
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            id?: number;
+            x?: number;
+            y?: number;
+            iframeGameObjectProto?: ReturnType<typeof IframeGameObjectCreated.IframeGameObjectProto.prototype.toObject>;
+        } = {};
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.iframeGameObjectProto != null) {
+            data.iframeGameObjectProto = this.iframeGameObjectProto.toObject();
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.id != 0)
+            writer.writeInt32(1, this.id);
+        if (this.x != 0)
+            writer.writeInt32(2, this.x);
+        if (this.y != 0)
+            writer.writeInt32(3, this.y);
+        if (this.has_iframeGameObjectProto)
+            writer.writeMessage(4, this.iframeGameObjectProto, () => this.iframeGameObjectProto.serialize(writer));
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IframeGameObjectCreated {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new IframeGameObjectCreated();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.id = reader.readInt32();
+                    break;
+                case 2:
+                    message.x = reader.readInt32();
+                    break;
+                case 3:
+                    message.y = reader.readInt32();
+                    break;
+                case 4:
+                    reader.readMessage(message.iframeGameObjectProto, () => message.iframeGameObjectProto = IframeGameObjectCreated.IframeGameObjectProto.deserialize(reader));
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): IframeGameObjectCreated {
+        return IframeGameObjectCreated.deserialize(bytes);
+    }
+}
+export namespace IframeGameObjectCreated {
+    export class IframeGameObjectProto extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            name?: string;
+            width?: number;
+            height?: number;
+            offsetX?: number;
+            offsetY?: number;
+            isPublic?: boolean;
+            type?: number;
+            src?: string;
+            id?: number;
+            ownerId?: string;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("name" in data && data.name != undefined) {
+                    this.name = data.name;
+                }
+                if ("width" in data && data.width != undefined) {
+                    this.width = data.width;
+                }
+                if ("height" in data && data.height != undefined) {
+                    this.height = data.height;
+                }
+                if ("offsetX" in data && data.offsetX != undefined) {
+                    this.offsetX = data.offsetX;
+                }
+                if ("offsetY" in data && data.offsetY != undefined) {
+                    this.offsetY = data.offsetY;
+                }
+                if ("isPublic" in data && data.isPublic != undefined) {
+                    this.isPublic = data.isPublic;
+                }
+                if ("type" in data && data.type != undefined) {
+                    this.type = data.type;
+                }
+                if ("src" in data && data.src != undefined) {
+                    this.src = data.src;
+                }
+                if ("id" in data && data.id != undefined) {
+                    this.id = data.id;
+                }
+                if ("ownerId" in data && data.ownerId != undefined) {
+                    this.ownerId = data.ownerId;
+                }
+            }
+        }
+        get name() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set name(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get width() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set width(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get height() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set height(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get offsetX() {
+            return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set offsetX(value: number) {
+            pb_1.Message.setField(this, 4, value);
+        }
+        get offsetY() {
+            return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set offsetY(value: number) {
+            pb_1.Message.setField(this, 5, value);
+        }
+        get isPublic() {
+            return pb_1.Message.getFieldWithDefault(this, 6, false) as boolean;
+        }
+        set isPublic(value: boolean) {
+            pb_1.Message.setField(this, 6, value);
+        }
+        get type() {
+            return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
+        }
+        set type(value: number) {
+            pb_1.Message.setField(this, 7, value);
+        }
+        get src() {
+            return pb_1.Message.getFieldWithDefault(this, 8, "") as string;
+        }
+        set src(value: string) {
+            pb_1.Message.setField(this, 8, value);
+        }
+        get id() {
+            return pb_1.Message.getFieldWithDefault(this, 9, 0) as number;
+        }
+        set id(value: number) {
+            pb_1.Message.setField(this, 9, value);
+        }
+        get ownerId() {
+            return pb_1.Message.getFieldWithDefault(this, 10, "") as string;
+        }
+        set ownerId(value: string) {
+            pb_1.Message.setField(this, 10, value);
+        }
+        static fromObject(data: {
+            name?: string;
+            width?: number;
+            height?: number;
+            offsetX?: number;
+            offsetY?: number;
+            isPublic?: boolean;
+            type?: number;
+            src?: string;
+            id?: number;
+            ownerId?: string;
+        }): IframeGameObjectProto {
+            const message = new IframeGameObjectProto({});
+            if (data.name != null) {
+                message.name = data.name;
+            }
+            if (data.width != null) {
+                message.width = data.width;
+            }
+            if (data.height != null) {
+                message.height = data.height;
+            }
+            if (data.offsetX != null) {
+                message.offsetX = data.offsetX;
+            }
+            if (data.offsetY != null) {
+                message.offsetY = data.offsetY;
+            }
+            if (data.isPublic != null) {
+                message.isPublic = data.isPublic;
+            }
+            if (data.type != null) {
+                message.type = data.type;
+            }
+            if (data.src != null) {
+                message.src = data.src;
+            }
+            if (data.id != null) {
+                message.id = data.id;
+            }
+            if (data.ownerId != null) {
+                message.ownerId = data.ownerId;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                name?: string;
+                width?: number;
+                height?: number;
+                offsetX?: number;
+                offsetY?: number;
+                isPublic?: boolean;
+                type?: number;
+                src?: string;
+                id?: number;
+                ownerId?: string;
+            } = {};
+            if (this.name != null) {
+                data.name = this.name;
+            }
+            if (this.width != null) {
+                data.width = this.width;
+            }
+            if (this.height != null) {
+                data.height = this.height;
+            }
+            if (this.offsetX != null) {
+                data.offsetX = this.offsetX;
+            }
+            if (this.offsetY != null) {
+                data.offsetY = this.offsetY;
+            }
+            if (this.isPublic != null) {
+                data.isPublic = this.isPublic;
+            }
+            if (this.type != null) {
+                data.type = this.type;
+            }
+            if (this.src != null) {
+                data.src = this.src;
+            }
+            if (this.id != null) {
+                data.id = this.id;
+            }
+            if (this.ownerId != null) {
+                data.ownerId = this.ownerId;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.name.length)
+                writer.writeString(1, this.name);
+            if (this.width != 0)
+                writer.writeInt32(2, this.width);
+            if (this.height != 0)
+                writer.writeInt32(3, this.height);
+            if (this.offsetX != 0)
+                writer.writeInt32(4, this.offsetX);
+            if (this.offsetY != 0)
+                writer.writeInt32(5, this.offsetY);
+            if (this.isPublic != false)
+                writer.writeBool(6, this.isPublic);
+            if (this.type != 0)
+                writer.writeInt32(7, this.type);
+            if (this.src.length)
+                writer.writeString(8, this.src);
+            if (this.id != 0)
+                writer.writeInt32(9, this.id);
+            if (this.ownerId.length)
+                writer.writeString(10, this.ownerId);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IframeGameObjectProto {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new IframeGameObjectProto();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.name = reader.readString();
+                        break;
+                    case 2:
+                        message.width = reader.readInt32();
+                        break;
+                    case 3:
+                        message.height = reader.readInt32();
+                        break;
+                    case 4:
+                        message.offsetX = reader.readInt32();
+                        break;
+                    case 5:
+                        message.offsetY = reader.readInt32();
+                        break;
+                    case 6:
+                        message.isPublic = reader.readBool();
+                        break;
+                    case 7:
+                        message.type = reader.readInt32();
+                        break;
+                    case 8:
+                        message.src = reader.readString();
+                        break;
+                    case 9:
+                        message.id = reader.readInt32();
+                        break;
+                    case 10:
+                        message.ownerId = reader.readString();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): IframeGameObjectProto {
+            return IframeGameObjectProto.deserialize(bytes);
+        }
+    }
+}
+export class IframeGameObjectDeleted extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        id?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+        }
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    static fromObject(data: {
+        id?: number;
+    }): IframeGameObjectDeleted {
+        const message = new IframeGameObjectDeleted({});
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            id?: number;
+        } = {};
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.id != 0)
+            writer.writeInt32(1, this.id);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IframeGameObjectDeleted {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new IframeGameObjectDeleted();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.id = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): IframeGameObjectDeleted {
+        return IframeGameObjectDeleted.deserialize(bytes);
     }
 }

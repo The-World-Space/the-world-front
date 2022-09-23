@@ -1,62 +1,9 @@
-import { ApolloClient, gql } from "@apollo/client";
+
 import { DumbTypedEmitter } from "detail-typed-emitter";
+import { ProtoWebSocket } from "../../../proto/ProtoWebSocket";
+import * as pb from "../../../proto/the_world";
 
 import { Server } from "../../connect/types";
-
-const IFRAME_FILEDS = gql`
-fragment IframeFields on IframeGameObject {
-    id
-    fieldPortMappings {
-        id
-        portId
-        field {
-            id
-            name
-            value
-        }
-    }
-    broadcasterPortMappings {
-        id
-        portId
-        broadcaster {
-            id
-            name
-        }
-    }
-    localBroadcasters {
-        id
-        name
-    }
-    localFields {
-        id
-        name
-        value
-    }
-    x
-    y
-    proto_ {
-        id
-        name
-        owner {
-            id
-            nickname
-            skinSrc
-        }
-        isPublic
-        width
-        height
-        offsetX
-        offsetY
-        type
-        colliders {
-            x
-            y
-            isBlocked
-        }
-        src
-    }
-}
-`;
 
 type iframeId = number;
 
@@ -69,8 +16,7 @@ export class IframeNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
     public constructor(
-        private readonly _worldId: string,
-        private readonly _client: ApolloClient<any>
+        private readonly _protoClient: ProtoWebSocket<pb.ServerEvent>
     ) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this.initNetwork();
@@ -78,40 +24,40 @@ export class IframeNetworker {
     }
 
     private initNetwork(): void {
-        this._client.subscribe({
-            query: gql`
-                subscription IframeGOCreateing($worldId: String!) {
-                    iframeGameObjectCreating(worldId: $worldId) {
-                        ...IframeFields
+        this._protoClient.on("message", serverEvent => {
+            if(serverEvent.has_iframeGameObjectCreated) {
+                const e = serverEvent.iframeGameObjectCreated;
+
+                const proto = e.iframeGameObjectProto;
+
+                this._dee.emit("create", {
+                    id: e.id,
+                    fieldPortMappings: [],
+                    broadcasterPortMappings: [],
+                    localBroadcasters: [],
+                    localFields: [],
+                    x: e.x,
+                    y: e.y,
+                    proto_: {
+                        id: proto.id,
+                        name: proto.name,
+                        isPublic: proto.isPublic,
+                        type: proto.type,
+                        width: proto.width,
+                        height: proto.height,
+                        offsetX: proto.offsetX,
+                        offsetY: proto.offsetY,
+                        colliders: [],
+                        src: proto.src,
+                        owner: {
+                            id: proto.ownerId
+                        }
                     }
-                }
-
-                ${IFRAME_FILEDS}
-            `,
-            variables: {
-                worldId: this._worldId
+                } as unknown as Server.IframeGameObject);
+            } else if(serverEvent.has_iframeGameObjectDeleted) {
+                const e = serverEvent.iframeGameObjectDeleted;
+                this._dee.emit("delete", e.id);
             }
-        }).subscribe(data => {
-            if (!data.data.iframeGameObjectCreating) throw new Error("data.data.iframeGameObjectCreating is falsy");
-            const iframeInfo = data.data.iframeGameObjectCreating as Server.IframeGameObject;
-            
-            this._dee.emit("create", iframeInfo);
-        });
-
-        this._client.subscribe({
-            query: gql`
-                subscription IframeGODeleting($worldId: String!) {
-                    iframeGameObjectDeleting(worldId: $worldId)
-                }
-            `,
-            variables: {
-                worldId: this._worldId
-            }
-        }).subscribe(data => {
-            if (!data.data.iframeGameObjectDeleting) throw new Error("data.data.iframeGameObjectDeleting is falsy");
-            const deletingId = data.data.iframeGameObjectDeleting as iframeId;
-            
-            this._dee.emit("delete", deletingId);
         });
     }
 

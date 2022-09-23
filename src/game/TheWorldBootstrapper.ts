@@ -11,6 +11,7 @@ import {
 import { Vector3 } from "three/src/Three";
 
 import { User } from "../hooks/useUser";
+import { ProtoWebSocket } from "../proto/ProtoWebSocket";
 import { AboutPlugins } from "../proto/the_world";
 import { Server } from "./connect/types";
 import { PenpalNetworker } from "./penpal/PenpalNetworker";
@@ -32,6 +33,7 @@ import { ImageNetworker } from "./script/networker/ImageNetworker";
 import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { TileNetworker } from "./script/networker/TileNetworker";
 import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
+import * as pb from "../proto/the_world";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
@@ -43,15 +45,16 @@ export class NetworkInfoObject {
         private readonly _serverWorld: Server.World, 
         private readonly _aboutPlugins: AboutPlugins,
         private readonly _user: User, 
-        private readonly _apolloClient: ApolloClient<any>, 
+        private readonly _apolloClient: ApolloClient<any>,
+        private readonly _protoClient: ProtoWebSocket<pb.ServerEvent>,
         private readonly _networkManager: PlayerNetworker, 
         private readonly _penpalNetworkManager: PenpalNetworker,
         private readonly _worldEditorConnector: WorldEditorConnector
     ) {
         this._colliderNetworker = new ColliderNetworker(this._serverWorld.id, this._apolloClient);
-        this._iframeNetworker = new IframeNetworker(this._serverWorld.id, this._apolloClient);
+        this._iframeNetworker = new IframeNetworker(this._protoClient);
         this._imageNetworker = new ImageNetworker(this._serverWorld.id, this._apolloClient);
-        this._tileNetworker = new TileNetworker(this._serverWorld.id, this._apolloClient);
+        this._tileNetworker = new TileNetworker(this._protoClient);
         this._adminNetwoker = new AdminNetworker(this._user.id, this._serverWorld.id, this._apolloClient);
     }
     
@@ -65,6 +68,10 @@ export class NetworkInfoObject {
 
     public get apolloClient(): ApolloClient<any> {
         return this._apolloClient;
+    }
+
+    public get protoClient(): ProtoWebSocket<pb.ServerEvent> {
+        return this._protoClient;
     }
 
     public get networkManager(): PlayerNetworker {
@@ -267,6 +274,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withComponent(NetworkBrushManager, c => {
                     c.gridBrush = gridBrush.ref!;
                     c.apolloClient = this.interopObject!.apolloClient;
+                    c.protoClient = this.interopObject!.protoClient;
                     c.worldId = this.interopObject!.serverWorld.id;
                 })
                 .withComponent(NetworkTileManager, c => {
