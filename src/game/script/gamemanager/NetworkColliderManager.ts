@@ -29,10 +29,10 @@ export class NetworkColiderManager extends Component {
     }
 
     public addOneCollider(info: Server.Collider): void {
-        this._buildNetworkIframe(info);
+        this.buildNetworkIframe(info);
     }
 
-    private _buildNetworkIframe(colliderInfo: Server.Collider): void {
+    private buildNetworkIframe(colliderInfo: Server.Collider): void {
         if (!this._worldGridColliderMap.ref) throw new Error("worldGridColliderMap is null");
         
         if (colliderInfo.isBlocked)

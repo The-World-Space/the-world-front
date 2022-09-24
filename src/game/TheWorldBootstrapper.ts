@@ -13,6 +13,7 @@ import { Vector3 } from "three/src/Three";
 import { User } from "../hooks/useUser";
 import { ProtoWebSocket } from "../proto/ProtoWebSocket";
 import { AboutPlugins } from "../proto/the_world";
+import * as pb from "../proto/the_world";
 import { Server } from "./connect/types";
 import { PenpalNetworker } from "./penpal/PenpalNetworker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
@@ -33,7 +34,6 @@ import { ImageNetworker } from "./script/networker/ImageNetworker";
 import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { TileNetworker } from "./script/networker/TileNetworker";
 import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
-import * as pb from "../proto/the_world";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;

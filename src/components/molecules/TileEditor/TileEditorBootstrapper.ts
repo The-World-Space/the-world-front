@@ -28,7 +28,7 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
         const colliderBrush = new PrefabRef<GridColliderBrush>();
 
         this.interopObject!.action = {
-            setToolType(tools) {
+            setToolType(tools): void {
                 if (!colliderBrush.ref) return;
                 if (tools === Tools.Collider) {
                     colliderBrush.ref.enabled = true;
@@ -44,25 +44,25 @@ export class TileEditorBootstrapper extends Bootstrapper<ObjEditorConnector> {
                 if (!collideMap.ref) return [];
                 return collideMap.ref.getCollidersToArray();
             },
-            setColliders(colliders) {
+            setColliders(colliders): void {
                 if (!collideMap.ref) throw new Error("collideMap is not set");
                 for (const collider of colliders) {
                     collideMap.ref.addCollider(collider.x, collider.y);
                 }
             },
-            clearColliders() {
+            clearColliders(): void {
                 if (!collideMap.ref) return;
                 collideMap.ref.removeAllColliders();
             },
-            setViewObject(shape, width, height) {
+            setViewObject(shape, width, height): void {
                 if (!editorViewObjectController.ref) return;
                 editorViewObjectController.ref.setViewObject(shape, width, height);
             },
-            setViewObjectSize(width, height) {
+            setViewObjectSize(width, height): void {
                 if (!editorViewObjectController.ref) return;
                 editorViewObjectController.ref.setViewObjectSize(width, height);
             },
-            clearViewObject() {
+            clearViewObject(): void {
                 if (!editorViewObjectController.ref) return;
                 editorViewObjectController.ref.clearViewObject();
             }

@@ -23,7 +23,7 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     height: 100%;
     width: ${EXTENDS_BAR_WIDTH}px;
     position: absolute;
-    left: ${p => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
+    left: ${(p): number => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
     transition: left 0.5s;
     display: flex;
     flex-direction: column;
@@ -94,7 +94,7 @@ const ObjectTypeRadio = styled.div<{selected: boolean}>`
 
     flex: 1;
 
-    background-color: ${p => p.selected ? "#A69B97" : "#A69B9760"};
+    background-color: ${(p): string => p.selected ? "#A69B97" : "#A69B9760"};
 
     transition: background-color 100ms;
 `;
@@ -149,7 +149,7 @@ const ToolsWrapper = styled.div<{selected: number}>`
     padding-left: 77px;
     margin-bottom: 18px;
 
-    & > svg:nth-child(${p => p.selected + 1}){
+    & > svg:nth-child(${(p): number => p.selected + 1}){
         border: 3px solid #A69B97;
     }
 
@@ -198,7 +198,7 @@ export enum Tools {
     Image
 }
 
-function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
+function ObjectEditorInner({ /*worldId,*/ opened }: PropsType): JSX.Element {
     const {objEditorConnector} = useContext(ObjEditorContext);
 
     //const [photoId, setPhotoId] = useState(0);
@@ -291,10 +291,10 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
         }
         
         setFile(inputedFile);
-        reader.onload = (e) => {
+        reader.onload = (e): void => {
             const img = new Image();
             if (!e.target?.result) throw new Error("Image load failed");
-            img.onload = async function(e) {
+            img.onload = async function(e): Promise<void> {
                 setImageNaturalWidth(img.naturalWidth);
                 setImageNaturalHeight(img.naturalHeight);
                 if (maintainAspectRatio) {
@@ -314,7 +314,7 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
 
     const apolloClient = useApolloClient();
-    const save = useCallback(async () => {
+    const save = useCallback(async (): Promise<void> => {
         const shouldSave = window.confirm("save current work?");
         if (!shouldSave) return;
         try{
@@ -364,11 +364,11 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
 
     const {game} = useContext(WorldEditorContext);
 
-    const onFocus = useCallback(() => {
+    const onFocus = useCallback((): void => {
         game?.inputHandler.stopHandleEvents();
     }, [game]);
 
-    const onBlur = useCallback(() => {
+    const onBlur = useCallback((): void => {
         game?.inputHandler.startHandleEvents();
     }, [game]);
 
@@ -391,19 +391,19 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                 <ObjectTypeRadioWrapper>
                     <ObjectTypeRadioL 
                         selected={Server.GameObjectType.Wall === selectedObjectType}
-                        onClick={() => setSelectedObjectType(Server.GameObjectType.Wall)}
+                        onClick={(): void => setSelectedObjectType(Server.GameObjectType.Wall)}
                     >
                         Wall
                     </ObjectTypeRadioL>
                     <ObjectTypeRadio 
                         selected={Server.GameObjectType.Floor === selectedObjectType}
-                        onClick={() => setSelectedObjectType(Server.GameObjectType.Floor)}
+                        onClick={(): void => setSelectedObjectType(Server.GameObjectType.Floor)}
                     > 
                         Floor
                     </ObjectTypeRadio>
                     <ObjectTypeRadioR 
                         selected={Server.GameObjectType.Effect === selectedObjectType}
-                        onClick={() => setSelectedObjectType(Server.GameObjectType.Effect)}
+                        onClick={(): void => setSelectedObjectType(Server.GameObjectType.Effect)}
                     >
                         Effect
                     </ObjectTypeRadioR>
@@ -414,23 +414,23 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                             <NameInputLabel>
                                 Name :
                             </NameInputLabel>
-                            <NameInputArea value={name} onChange={e => setName(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
+                            <NameInputArea value={name} onChange={(e): void => setName(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
                         </NameInputWrapper>
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />
                     <InputWrapperSide>
-                        <LabeledInput label="W" value={imageWidth} onChange={e => onImageSizeChange(e.target.value, undefined)} />
+                        <LabeledInput label="W" value={imageWidth} onChange={(e): void => onImageSizeChange(e.target.value, undefined)} />
                         {maintainAspectRatio 
-                            ? <ChainOn onClick={() => updateMaintainAspectRatio(false)} /> 
-                            : <ChainOff onClick={() => updateMaintainAspectRatio(true)} />}
-                        <LabeledInput label="H" value={imageHeight} onChange={e => onImageSizeChange(undefined, e.target.value)} />
+                            ? <ChainOn onClick={(): void => updateMaintainAspectRatio(false)} /> 
+                            : <ChainOff onClick={(): void => updateMaintainAspectRatio(true)} />}
+                        <LabeledInput label="H" value={imageHeight} onChange={(e): void => onImageSizeChange(undefined, e.target.value)} />
                     </InputWrapperSide>
                 </InputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <PenTool onClick={() => onSelectTool(Tools.Collider)} />
-                <EraseTool onClick={() => onSelectTool(Tools.Eraser)} />
-                <ImageTool onClick={() => onSelectTool(Tools.Image)} />
+                <PenTool onClick={(): void => onSelectTool(Tools.Collider)} />
+                <EraseTool onClick={(): void => onSelectTool(Tools.Eraser)} />
+                <ImageTool onClick={(): void => onSelectTool(Tools.Image)} />
                 <BlueSaveIcon 
                     style={{marginLeft: "auto", marginRight: "18px", width: "44px", height: "44px"}}
                     onClick={save}
@@ -511,7 +511,7 @@ interface LabeledInputProps {
     onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-function LabeledInput({label, value, onChange}: LabeledInputProps) {
+function LabeledInput({label, value, onChange}: LabeledInputProps): JSX.Element {
     const {game} = useContext(WorldEditorContext);
 
     const onFocus = useCallback(() => {

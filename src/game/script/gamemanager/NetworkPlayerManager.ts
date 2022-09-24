@@ -18,7 +18,7 @@ export class NetworkPlayerManager extends Component {
     public initNetwork(networkManager: PlayerNetworker): void {
         this._networkManager = networkManager;
         networkManager.dee.on("join", (user, pos) => {
-            this._buildNetworkPlayer(user, pos, networkManager);
+            this.buildNetworkPlayer(user, pos, networkManager);
         });
         networkManager.dee.on("leave", id => {
             this._networkPlayerMap.get(id)?.destroy();
@@ -48,7 +48,7 @@ export class NetworkPlayerManager extends Component {
         this._localPlayer = player;
     }
 
-    private _buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: PlayerNetworker): void {
+    private buildNetworkPlayer(user: Server.User, pos: Vector2, networkManager: PlayerNetworker): void {
         const instantlater = this.engine.instantiater;
         const posPrefabRef = new PrefabRef<Vector2>(pos);
         const nameRef = new PrefabRef(user.nickname);

@@ -40,7 +40,7 @@ export async function getAboutPlugins(worldId: string): Promise<AboutPlugins> {
         }));
     });
     return new Promise(solve => {
-        const listener = (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent): void => {
             if(serverEvent.has_aboutPlugins) {
                 solve(serverEvent.aboutPlugins);
                 socket.removeListener("message", listener);

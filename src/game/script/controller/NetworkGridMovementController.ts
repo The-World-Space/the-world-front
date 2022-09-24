@@ -33,7 +33,7 @@ export class NetworkGridMovementController extends Directable {
         networkManager.ee.on(`move_${userId}`, this.onMove);
     }
 
-    private onMove = (gridPosition: Vector2): void => {
+    private readonly onMove = (gridPosition: Vector2): void => {
         this._targetPosition.setX(gridPosition.x * this._gridCellWidth + this._gridCenter.x);
         this._targetPosition.setY(gridPosition.y * this._gridCellHeight + this._gridCenter.y);
         this.isMoving = true;

@@ -97,14 +97,14 @@ function CircleContainer(): JSX.Element {
         new Array(10000).fill(null).map(() => ({x:Math.random()*40 - 20, y:Math.random()*40 - 20})) as unknown as XY[]
     ));
 
-    useEffect(() => {
-        const onResize = useCallback(() => {
-            setCircles(genCircles(startColor));
-        }, [startColor]);
+    const onResize = useCallback(() => {
+        setCircles(genCircles(startColor));
+    }, [startColor]);
 
+    useEffect(() => {
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
-    }, [startColor]);
+    }, [onResize]);
 
     return (
         <RelativeDiv>

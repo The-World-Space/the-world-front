@@ -148,7 +148,7 @@ export class PenpalNetworker {
     }
 
     public onPluginPortMappingCreated(iframeId: number, cb: (portMapping: Server.PluginPortMapping) => void): () => void {
-        const listener = (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent): void => {
             if(serverEvent.has_iframePluginPortMappingCreated) {
                 const e = serverEvent.iframePluginPortMappingCreated;
                 if(e.iframeId === iframeId) {
@@ -170,7 +170,7 @@ export class PenpalNetworker {
     }
 
     public onPluginPortMappingDeleted(iframeId: number, cb: (id: number) => void): () => void {
-        const listener = (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent): void => {
             if(serverEvent.has_iframePluginPortMappingDeleted) {
                 const e = serverEvent.iframePluginPortMappingDeleted;
                 if(e.iframeId === iframeId) {
@@ -192,7 +192,7 @@ export class PenpalNetworker {
         return this._client;
     }
 
-    public get protoClient() {
+    public get protoClient(): ProtoWebSocket<pb.ServerEvent> {
         return this._protoClient;
     }
 }

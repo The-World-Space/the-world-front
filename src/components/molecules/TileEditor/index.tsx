@@ -31,10 +31,10 @@ function TileEditor({ opened }: TileEditorProps): JSX.Element {
         if (!divRef.current) throw new Error("divRef.current is null");
         const game = new Game(divRef.current);
         game.run(TileEditorBootstrapper, objEditorConnector);
-        divRef.current.onmouseenter = () => game.inputHandler.startHandleEvents();
-        divRef.current.onmouseleave = () => game.inputHandler.stopHandleEvents();
-        divRef.current.onwheel = e => e.preventDefault();
-        divRef.current.onmousedown = e => e.preventDefault();
+        divRef.current.onmouseenter = (): void => game.inputHandler.startHandleEvents();
+        divRef.current.onmouseleave = (): void => game.inputHandler.stopHandleEvents();
+        divRef.current.onwheel = (e): void => e.preventDefault();
+        divRef.current.onmousedown = (e): void => e.preventDefault();
         setGame(game);
 
         return () => {

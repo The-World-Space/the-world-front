@@ -38,7 +38,7 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     height: 100%;
     width: ${EXTENDS_BAR_WIDTH}px;
     position: absolute;
-    left: ${p => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
+    left: ${(p): number => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
     transition: left 0.5s;
     display: flex;
     flex-direction: column;
@@ -159,7 +159,7 @@ interface PropsType {
     opened: boolean;
 }
 
-function ListItem({ field, update }: { field: Server.GlobalField, update: (field: Partial<Server.Field>) => void }) {
+function ListItem({ field, update }: { field: Server.GlobalField, update: (field: Partial<Server.Field>) => void }): JSX.Element {
 
     const apolloClient = useApolloClient();
 
@@ -178,13 +178,13 @@ function ListItem({ field, update }: { field: Server.GlobalField, update: (field
         updateField(apolloClient, field.id, field.name, field.value);
         game?.inputHandler.startHandleEvents();
     };
-    const onClickDeleteButton = () => {
+    const onClickDeleteButton = (): void => {
         deleteField(apolloClient, field.id);
     };
 
     const {game} = useContext(WorldEditorContext);
 
-    const onFocus = useCallback(() => {
+    const onFocus = useCallback((): void => {
         game?.inputHandler.stopHandleEvents();
     }, [game]);
 
@@ -199,16 +199,16 @@ function ListItem({ field, update }: { field: Server.GlobalField, update: (field
     );
 }
 
-function FieldEditorInner({ worldId, opened }: PropsType) {
+function FieldEditorInner({ worldId, opened }: PropsType): JSX.Element {
     const globalApolloClient = useGameWSApolloClient();
     const [fields, setFields] = useState<Server.GlobalField[]>([]);
 
-    const onAddButtonClick = () => {
+    const onAddButtonClick = (): void => {
         createGlobalField(globalApolloClient, worldId, "", "");
     };
 
     useEffect(() => {
-        (async () => {
+        (async (): Promise<void> => {
             const fields = await getGlobalFields(globalApolloClient, worldId);
             setFields(fields);
         })();
@@ -218,7 +218,7 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
         let fieldCreatingSubscription: undefined | ZenObservable.Subscription;
         let fieldUpdatingSubscription: undefined | ZenObservable.Subscription;
         let fieldDeletingSubscription: undefined | ZenObservable.Subscription;
-        (async () => {
+        (async (): Promise<void> => {
             fieldCreatingSubscription =
                 (await getGlobalFieldCreatingObservable(globalApolloClient, worldId))
                     .subscribe(field => {
@@ -236,7 +236,7 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
                     });
         })();
 
-        return () => {
+        return (): void => {
             fieldCreatingSubscription?.unsubscribe();
             fieldUpdatingSubscription?.unsubscribe();
             fieldDeletingSubscription?.unsubscribe();
@@ -248,7 +248,7 @@ function FieldEditorInner({ worldId, opened }: PropsType) {
             <ListContainer>
                 {
                     fields.map(field => {
-                        const update = (newField: Partial<Server.Field>) => {
+                        const update = (newField: Partial<Server.Field>): void => {
                             setFields(fields => fields.map(field_ => field_.id === field.id ? {...field_, ...newField} : field_));
                         };
                         return (
@@ -270,7 +270,7 @@ export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string
     const [fields, setFields] = useState<Server.GlobalField[]>([]);
 
     useEffect(() => {
-        (async () => {
+        (async (): Promise<void> => {
             const fields = await getGlobalFields(apolloClient, worldId);
             setFields(fields);
         })();
@@ -280,7 +280,7 @@ export function useGlobalFields(apolloClient: ApolloClient<any>, worldId: string
         let fieldCreatingSubscription: undefined | ZenObservable.Subscription;
         let fieldUpdatingSubscription: undefined | ZenObservable.Subscription;
         let fieldDeletingSubscription: undefined | ZenObservable.Subscription;
-        (async () => {
+        (async (): Promise<void> => {
             fieldCreatingSubscription =
                 (await getGlobalFieldCreatingObservable(apolloClient, worldId))
                     .subscribe(field => {
@@ -348,7 +348,7 @@ async function createGlobalField(apolloClient: ApolloClient<any>, worldId: strin
     });
 }
 
-async function updateField(apolloClient: ApolloClient<any>, id: number, name: string, value: string) {
+async function updateField(apolloClient: ApolloClient<any>, id: number, name: string, value: string): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
             mutation UpdateField($field: FieldInput!, $id: Int!) {
@@ -367,7 +367,7 @@ async function updateField(apolloClient: ApolloClient<any>, id: number, name: st
     });
 }
 
-async function deleteField(apolloClient: ApolloClient<any>, id: number) {
+async function deleteField(apolloClient: ApolloClient<any>, id: number): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
             mutation DeleteField($id: Int!) {

@@ -176,7 +176,8 @@ function NetworkGamePage_(): JSX.Element {
         setWorld, 
         history, 
         globalApolloClient,
-        globalProtoWebSocket
+        globalProtoWebSocket,
+        aboutPlugins
     ]);
 
     return (

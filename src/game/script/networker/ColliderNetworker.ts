@@ -1,9 +1,9 @@
 
 import { DumbTypedEmitter } from "detail-typed-emitter";
-import { ProtoWebSocket } from "../../../proto/ProtoWebSocket";
 
-import { Server } from "../../connect/types";
+import { ProtoWebSocket } from "../../../proto/ProtoWebSocket";
 import * as pb from "../../../proto/the_world";
+import { Server } from "../../connect/types";
 
 type DEETypes = {
     "update": (collider: Server.Collider) => void,

@@ -7,8 +7,8 @@ const VerticalWrapperList = styled.div<{height?: string, minHeight?: string}>`
     display: flex;
     flex-direction: column;
     width: 428px;
-    height: ${p => p.height || "390px"};
-    ${p => p.minHeight ? `min-height: ${p.minHeight};` : ""}
+    height: ${(p): string => p.height || "390px"};
+    ${(p): string => p.minHeight ? `min-height: ${p.minHeight};` : ""}
     margin: 0px 0px 18px 0px;
 `;
 
@@ -96,7 +96,7 @@ interface LabeledListProps {
     minHeight?: string;
 }
 
-function LabeledList({setId, id, datas, tabName, height, minHeight}: LabeledListProps) {
+function LabeledList({setId, id, datas, tabName, height, minHeight}: LabeledListProps): JSX.Element {
     return (
         <VerticalWrapperList height={height} minHeight={minHeight}>
             <ListTop>
@@ -122,7 +122,7 @@ const ElementWrapperDIv = styled.div<{selected: boolean}>`
 
     margin: 10px;
 
-    background-color: ${p => p.selected ? "#D7CCC8" : "#A69B97"};
+    background-color: ${(p): string => p.selected ? "#D7CCC8" : "#A69B97"};
 `;
 
 const ElementThumbnail = styled.img`
@@ -167,11 +167,11 @@ interface PhotoElementProps {
     label: string;
 }
 
-function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
+function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps): JSX.Element {
     const rowIndex = data.isAtlas ? ~~(data.atlasIndex / data.columnCount) : 0;
     const columnIndex = data.isAtlas ? (data.atlasIndex % data.columnCount) : 0;
     return (
-        <ElementWrapperDIv onClick={() => onSelect(data.id)} selected={selected}>
+        <ElementWrapperDIv onClick={(): void => onSelect(data.id)} selected={selected}>
             {
                 data.isAtlas 
                     ? <AtlasThumbnail 

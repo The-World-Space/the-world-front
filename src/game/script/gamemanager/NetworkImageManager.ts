@@ -51,7 +51,7 @@ export class NetworkImageManager extends Component {
     }
 
     public addOneImage(info: Server.ImageGameObject): void {
-        this._buildNetworkImage(info);
+        this.buildNetworkImage(info);
     }
 
     public removeOneImage(imageId: number): void {
@@ -61,7 +61,7 @@ export class NetworkImageManager extends Component {
         this._networkImageMap.delete(imageId);
     }
 
-    private _buildNetworkImage(imageInfo: Server.ImageGameObject): void {
+    private buildNetworkImage(imageInfo: Server.ImageGameObject): void {
         const instantlater = this.engine.instantiater;
         const prefabRef = new PrefabRef<GameObject>();
         const gcx = this._iGridCoordinateable?.gridCenterX || 0.5;

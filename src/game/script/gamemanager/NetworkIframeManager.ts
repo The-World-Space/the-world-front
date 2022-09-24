@@ -96,7 +96,7 @@ export class NetworkIframeManager extends Component {
         if (!this._apolloClient) throw new Error("no apollo client");
         if (!this._worldId) throw new Error("no world id");
         
-        this._buildNetworkIframe(info, this._worldId, this._apolloClient, enableStatus);
+        this.buildNetworkIframe(info, this._worldId, this._apolloClient, enableStatus);
     }
 
     public deleteOneIframe(id: number): void {
@@ -106,7 +106,7 @@ export class NetworkIframeManager extends Component {
         this._networkIframeMap.delete(id);
     }
 
-    private _buildNetworkIframe(
+    private buildNetworkIframe(
         iframeInfo: Server.IframeInfo,
         worldId: string,
         apolloClient: ApolloClient<any>,

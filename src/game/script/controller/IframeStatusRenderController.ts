@@ -24,7 +24,7 @@ export class IframeStatusRenderController extends Component {
         this.engine.input.onKeyDown.removeListener(this.onKeyDown);
     }
 
-    private onKeyDown = (e: KeyboardEvent): void => {
+    private readonly onKeyDown = (e: KeyboardEvent): void => {
         if (e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {   
             if (this._idBoxObject) { 
                 this._idBoxObject.activeSelf = true;
@@ -36,7 +36,7 @@ export class IframeStatusRenderController extends Component {
         }
     };
 
-    private onKeyUp = (e: KeyboardEvent): void => {
+    private readonly onKeyUp = (e: KeyboardEvent): void => {
         if (e.key === "Control") {
             if (this._idBoxObject) {
                 this._idBoxObject.activeSelf = false;

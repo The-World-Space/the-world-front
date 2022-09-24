@@ -23,8 +23,8 @@ const ListTop = styled.div`
 `;
 
 const Tab = styled.div<{selected: boolean}>`
-    width: ${p => p.selected ? "55%" : "50%"};
-    height: ${p => p.selected ? "48px" : "36px"};
+    width: ${(p): string => p.selected ? "55%" : "50%"};
+    height: ${(p): string => p.selected ? "48px" : "36px"};
 
     position: absolute;
     bottom: 0px;
@@ -38,8 +38,8 @@ const Tab = styled.div<{selected: boolean}>`
     font-family: "Noto Sans";
     font-size: 16px;
 
-    color: ${p => p.selected ? "#000000" : "#00000060"};
-    background-color: ${p => p.selected ? "#A69B97" : "#A69B9760"};
+    color: ${(p): string => p.selected ? "#000000" : "#00000060"};
+    background-color: ${(p): string => p.selected ? "#A69B97" : "#A69B9760"};
 
     transition: all 50ms;
 
@@ -119,14 +119,14 @@ interface DualTabListProps {
     }
 }
 
-function DualTabList({setId, id, setTab, tab, datas, tabNames}: DualTabListProps) {
+function DualTabList({setId, id, setTab, tab, datas, tabNames}: DualTabListProps): JSX.Element {
     return (
         <VerticalWrapperList>
             <ListTop>
-                <TabL selected={tab === DualTabType.Left} onClick={() => setTab(DualTabType.Left)}>
+                <TabL selected={tab === DualTabType.Left} onClick={(): void => setTab(DualTabType.Left)}>
                     {tabNames.left}
                 </TabL>
-                <TabR selected={tab === DualTabType.Right} onClick={() => setTab(DualTabType.Right)}>
+                <TabR selected={tab === DualTabType.Right} onClick={(): void => setTab(DualTabType.Right)}>
                     {tabNames.right}
                 </TabR>
             </ListTop>
@@ -149,7 +149,7 @@ const ElementWrapperDIv = styled.div<{selected: boolean}>`
 
     margin: 10px;
 
-    background-color: ${p => p.selected ? "#D7CCC8" : "#A69B97"};
+    background-color: ${(p): string => p.selected ? "#D7CCC8" : "#A69B97"};
 `;
 
 const ElementThumbnail = styled.img`
@@ -196,13 +196,13 @@ interface PhotoElementProps {
 }
 
 const LIMIT = 8;
-const    PhotoElement = React.memo(PhotoElement_);
-function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps) {
+const PhotoElement = React.memo(PhotoElement_);
+function PhotoElement_({ onSelect, selected, data, label }: PhotoElementProps): JSX.Element {
     const verticalIndex = data.isAtlas ? ~~(data.atlasIndex / data.columnCount) : 0;
     const horizontalIndex = data.isAtlas ? (data.atlasIndex % data.columnCount) : 0;
     const cutedLabel = useMemo(() => label.slice(0, LIMIT + 1) + ((label.length > LIMIT) ? "..." : ""), [label]);
     return (
-        <ElementWrapperDIv onClick={() => onSelect(String(data.id))} selected={selected}>
+        <ElementWrapperDIv onClick={(): void => onSelect(String(data.id))} selected={selected}>
             {
                 data.isAtlas 
                     ? <AtlasThumbnail 

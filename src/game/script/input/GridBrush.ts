@@ -66,18 +66,18 @@ export class GridBrush extends Component {
 
     private readonly _lastGridPosition = new Vector2();
 
-    private onPointerDown = (event: PointerGridEvent): void => {
+    private readonly onPointerDown = (event: PointerGridEvent): void => {
         this._pointerDown = true;
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
         this._onDraw?.(event.gridPosition);
     };
 
-    private onPointerUp = (): void => {
+    private readonly onPointerUp = (): void => {
         this._pointerDown = false;
     };
 
-    private onPointerMove = (event: PointerGridEvent): void => {
+    private readonly onPointerMove = (event: PointerGridEvent): void => {
         if (this._lastGridPosition.equals(event.gridPosition)) return;
         this._lastGridPosition.copy(event.gridPosition);
         this.updateImagePosition(event.gridPosition);
@@ -85,13 +85,13 @@ export class GridBrush extends Component {
         this._onDraw?.(event.gridPosition);
     };
 
-    private onPointerEnter = (event: PointerGridEvent): void => {
+    private readonly onPointerEnter = (event: PointerGridEvent): void => {
         this._pointerHover = true;
         this.updateImagePosition(event.gridPosition);
         this.updateImageShow();
     };
 
-    private onPointerLeave = (): void => {
+    private readonly onPointerLeave = (): void => {
         this._pointerHover = false;
         this._pointerDown = false;
         this.updateImageShow();

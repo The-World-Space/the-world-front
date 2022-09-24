@@ -28,7 +28,7 @@ export class IframeCommunicator {
     // private _publicBroadcasterIdToInternalIdMap: Map<number, string>;
     private _child!: Child;
     private _subscriptions: ZenObservable.Subscription[];
-    private _pluginsListenerDisposeFuncs: (() => void)[];
+    private readonly _pluginsListenerDisposeFuncs: (() => void)[];
     private readonly _fieldCbDisposeFuncs: Map<string, (() => void)> = new Map();
     private readonly _broadcasterCbDisposeFuncs: Map<string, (() => void)> = new Map();
     private readonly _pluginCbDisposeFuncs: Map<string, (() => void)> = new Map();
@@ -126,7 +126,7 @@ export class IframeCommunicator {
         return null;
     }
 
-    private async sendPluginMessage(internalId: string, message: string) {
+    private async sendPluginMessage(internalId: string, message: string): Promise<void> {
         const publicId = this.internalPluginIdToPublicId(internalId);
         if (publicId === undefined) return;
         return await this._penpalNetworkWrapper.sendPluginMessage(publicId, message);
@@ -164,7 +164,7 @@ export class IframeCommunicator {
             }
     }
 
-    private async tryPluginUpdating() {
+    private async tryPluginUpdating(): Promise<void> {
         const ports = await this._child.getPorts();
 
         const pluginsToCheck = ports.plugins.filter(({ name }) => this._internalPluginIdToPluginMap.has(name));
@@ -199,7 +199,7 @@ export class IframeCommunicator {
         }
     }
 
-    private async updatePlugins(plugins: { name: string, code: string, data: string }[]) {
+    private async updatePlugins(plugins: { name: string, code: string, data: string }[]): Promise<void> {
         const protoClient = this._penpalNetworkWrapper.protoClient;
         const iframeId = this._iframeInfo.id;
         for(const plugin of plugins) {
@@ -247,7 +247,7 @@ export class IframeCommunicator {
         }
     }
 
-    private async addPluginPorts(plugins: { name: string, code: string, data: string }[]) {
+    private async addPluginPorts(plugins: { name: string, code: string, data: string }[]): Promise<void> {
         const iframeId = this._iframeInfo.id;
         for(const plugin of plugins) {
             const id = await createLocalPlugin(this._penpalNetworkWrapper.protoClient, iframeId, plugin.name, plugin.code, plugin.data);
@@ -373,7 +373,7 @@ export class IframeCommunicator {
                 }
             }),
             this._penpalNetworkWrapper.onPluginPortMappingDeleted(this._iframeInfo.id, id => {
-                const pluginMapping = [...this._internalPluginIdToPluginMap.entries()].find(([_,pluginMapping]) => pluginMapping.mappingId === id);
+                const pluginMapping = [...this._internalPluginIdToPluginMap.entries()].find(([_, pluginMapping]) => pluginMapping.mappingId === id);
                 if(pluginMapping) {
                     const internalId = pluginMapping[0];
                     this._internalPluginIdToPluginMap.delete(internalId);
@@ -439,7 +439,7 @@ async function createLocalField(apolloClient: ApolloClient<any>, iframeId: numbe
 }
 
 function createLocalPlugin(client: ProtoWebSocket<pb.ServerEvent>, iframeId: number, name: string, code: string, data: string): Promise<number> {
-    return new Promise(solve => {
+    return new Promise((solve): void => {
         client.send(new pb.ClientEvent({
             createPlugin: new pb.CreatePlugin({
                 isLocal: true,
@@ -450,7 +450,7 @@ function createLocalPlugin(client: ProtoWebSocket<pb.ServerEvent>, iframeId: num
             })
         }));
 
-        const listener = (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent): void => {
             if(serverEvent.has_localPluginCreated) {
                 const e = serverEvent.localPluginCreated;
 
@@ -466,7 +466,7 @@ function createLocalPlugin(client: ProtoWebSocket<pb.ServerEvent>, iframeId: num
 }
 
 function createIframePluginPortMapping(client: ProtoWebSocket<pb.ServerEvent>, iframeId: number, portId: string, pluginId: number): Promise<number> {
-    return new Promise(solve => {
+    return new Promise((solve): void => {
         client.send(new pb.ClientEvent({
             createIframePluginPortMapping: new pb.CreateIframePluginPortMapping({
                 iframeId: iframeId,
@@ -475,7 +475,7 @@ function createIframePluginPortMapping(client: ProtoWebSocket<pb.ServerEvent>, i
             })
         }));
 
-        const listener = (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent): void => {
             if(serverEvent.has_iframePluginPortMappingCreated) {
                 const e = serverEvent.iframePluginPortMappingCreated;
 
@@ -501,13 +501,13 @@ function getPluginIdsToUpdate(client: ProtoWebSocket<pb.ServerEvent>, pluginInfo
             })
         }));
 
-        const listener = (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent): void => {
             if(serverEvent.has_resIsPluginOutdated) {
                 const e = serverEvent.resIsPluginOutdated;
 
                 if(e.id === myReqId) {
                     const pluginIdsToUpdate = [];
-                    for(let i = 0; i < e.isOutdateds.length; i++){
+                    for(let i = 0; i < e.isOutdateds.length; i++) {
                         if(e.isOutdateds[i]) {
                             pluginIdsToUpdate.push(pluginInfos[i].id);
                         }

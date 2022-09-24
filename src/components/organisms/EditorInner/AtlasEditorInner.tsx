@@ -19,7 +19,7 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     height: 100%;
     width: ${EXTENDS_BAR_WIDTH}px;
     position: absolute;
-    left: ${p => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
+    left: ${(p): number => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
     transition: left 0.5s;
     display: flex;
     flex-direction: column;
@@ -103,7 +103,7 @@ const ToolsWrapper = styled.div<{selected: number}>`
     padding-left: 77px;
     margin-bottom: 18px;
 
-    & > svg:nth-child(${p => p.selected + 1}){
+    & > svg:nth-child(${(p): number => p.selected + 1}){
         border: 3px solid #A69B97;
     }
 
@@ -151,16 +151,16 @@ export enum Tools {
     Image
 }
 
-function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
+function ObjectEditorInner({ /*worldId,*/ opened }: PropsType): JSX.Element {
 
     const [photoId, setPhotoId] = useState(0);
 
     const [selectedTool, setSelectedTool] = useState(Tools.Image);
-    const onSelectTool = useCallback((tool: Tools) => {
+    const onSelectTool = useCallback((tool: Tools): void => {
         if (tool === Tools.Image) {
             if (!window.confirm("unsaved data will be lost. continue?")) return;
             inputFile.current?.click();
-            return ;
+            return;
         }
         setSelectedTool(tool);
     }, []);
@@ -283,18 +283,18 @@ function ObjectEditorInner({ /*worldId,*/ opened }: PropsType) {
                             <NameInputLabel>
                                 Name :
                             </NameInputLabel>
-                            <NameInputArea value={name} onChange={e => setName(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
+                            <NameInputArea value={name} onChange={(e): void => setName(e.target.value)} onFocus={onFocus} onBlur={onBlur} />
                         </NameInputWrapper>
                     </InputWrapperSide>
                     <InputWrapperSideVerticalLine />
                     <InputWrapperSide>
-                        <LabeledInput label="C" value={columnCount} onChange={e => onImageSizeChange(rowCount, e.target.value)} />
-                        <LabeledInput label="R" value={rowCount} onChange={e => onImageSizeChange(e.target.value, columnCount)} />
+                        <LabeledInput label="C" value={columnCount} onChange={(e): void => onImageSizeChange(rowCount, e.target.value)} />
+                        <LabeledInput label="R" value={rowCount} onChange={(e): void => onImageSizeChange(e.target.value, columnCount)} />
                     </InputWrapperSide>
                 </InputWrapper>
             </Container>
             <ToolsWrapper selected={selectedTool}>
-                <ImageTool onClick={() => onSelectTool(Tools.Image)} />
+                <ImageTool onClick={(): void => onSelectTool(Tools.Image)} />
                 <BlueSaveIcon 
                     style={{marginLeft: "auto", marginRight: "18px", width: "44px", height: "44px"}}
                     onClick={save}

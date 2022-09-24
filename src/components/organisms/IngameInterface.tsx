@@ -337,7 +337,7 @@ function IngameInterface({ protoWs, worldId }: PropsType): JSX.Element {
             playerNetworker.showNetworkPlayerChat(data.user.id, data.message);
 
             setChatting(
-                lastState => 
+                (lastState): (ChatMessage & {key: number})[] =>
                     lastState.length > 100 
                         ? [...lastState.slice(1), {...data, key: performance.now()}] 
                         : [...lastState, {...data, key: performance.now()}]);

@@ -16,7 +16,7 @@ const ExpandBarDiv = styled.div<{opened: boolean}>`
     height: 100%;
     width: ${EXTENDS_BAR_WIDTH}px;
     position: absolute;
-    left: ${p => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
+    left: ${(p): number => p.opened ? SIDE_BAR_WIDTH : SIDE_BAR_WIDTH - EXTENDS_BAR_WIDTH}px;
     transition: left 0.5s;
     display: flex;
     flex-direction: column;
@@ -56,7 +56,7 @@ interface PropsType {
     opened: boolean;
 }
 
-function PortMappingListItem({ targetName, portId, isGlobal, remove }: { targetName: string, portId: string, isGlobal: boolean, remove: () => void }) {
+function PortMappingListItem({ targetName, portId, isGlobal, remove }: { targetName: string, portId: string, isGlobal: boolean, remove: () => void }): JSX.Element {
     return (
         <li>
             <span>{portId}: {isGlobal ? "G|" : "L|"}{targetName}</span>
@@ -92,7 +92,7 @@ function PortMappingList<U extends Server.IframeFieldPortMapping | Server.Iframe
     mappings: U[],
     isGlobal(id: number): boolean,
     getName(id: number): string
-}) {
+}): JSX.Element {
     return (
         <STYLED_UL>
             {
@@ -101,7 +101,7 @@ function PortMappingList<U extends Server.IframeFieldPortMapping | Server.Iframe
                     const isTargetGlobal = isGlobal(targetId);
                     const targetName = getName(targetId);
 
-                    function remove_() {
+                    function remove_(): void {
                         remove(mapping.id);
                     }
 
@@ -184,20 +184,20 @@ function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extend
     globals: T[],
     locals: T[],
     mappings: U[]
-}) {
+}): JSX.Element {
     const [id, setId] = useState(globals[0]?.id ?? locals[0]?.id);
     const [portId, setPortId] = useState("");
 
-    function addPortMapping() {
+    function addPortMapping(): void {
         const id_ = id ?? globals[0]?.id ?? locals[0]?.id;
         add(id_, portId);
     }
 
-    function getName(id: number) {
+    function getName(id: number): string {
         return locals.find(local => local.id === id)?.name || globals.find(global => global.id === id)?.name || "";
     }
 
-    function isGlobal(id: number) {
+    function isGlobal(id: number): boolean {
         return globals.findIndex(global => global.id === id) !== -1;
     }
 
@@ -205,10 +205,10 @@ function PortMappingEditor<T extends Server.Broadcaster | Server.Field, U extend
         <div>
             <PortMappingList remove={remove} mappings={mappings} getName={getName} isGlobal={isGlobal}/>
             <div>
-                <PortIdInput type="text" onChange={e => setPortId(e.target.value)} value={portId} placeholder="Port ID"/>
+                <PortIdInput type="text" onChange={(e): void => setPortId(e.target.value)} value={portId} placeholder="Port ID"/>
             </div>
             <AddArea>
-                <Select onChange={e => setId(parseInt(e.target.value))} value={id}>
+                <Select onChange={(e): void => setId(parseInt(e.target.value))} value={id}>
                     {
                         [
                             ...globals.map(global => {
@@ -253,19 +253,19 @@ function ListItem({
     iframe: Server.IframeGameObject,
     globalBroadcasters: Server.GlobalBroadcaster[],
     globalFields: Server.GlobalField[]
-}) {
+}): JSX.Element {
     const apolloClient = useApolloClient();
 
-    function addFieldPortMapping(fieldId: number, portId: string) {
+    function addFieldPortMapping(fieldId: number, portId: string): void {
         createIframeFieldPortMapping(apolloClient, iframe.id, portId, fieldId);
     }
-    function removeFieldPortMapping(mappingId: number) {
+    function removeFieldPortMapping(mappingId: number): void {
         deleteIframeFieldPortMapping(apolloClient, mappingId);
     }
-    function addBroadcasterPortMapping(broadcasterId: number, portId: string) {
+    function addBroadcasterPortMapping(broadcasterId: number, portId: string): void {
         createIframeBroadcasterPortMapping(apolloClient, iframe.id, portId, broadcasterId);
     }
-    function removeBroadcasterPortMapping(mappingId: number) {
+    function removeBroadcasterPortMapping(mappingId: number): void {
         deleteIframeBroadcasterPortMapping(apolloClient, mappingId);
     }
 
@@ -282,7 +282,7 @@ function ListItem({
     );
 }
 
-function IframeEditorInner({ worldId, opened }: PropsType) {
+function IframeEditorInner({ worldId, opened }: PropsType): JSX.Element {
     const apolloClient = useApolloClient();
     const globalApolloClient = useGameWSApolloClient();
 
@@ -291,7 +291,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
     const [iframes, setIframes] = useState<Server.IframeGameObject[]>([]);
 
     useEffect(() => {
-        (async () => {
+        (async (): Promise<void> => {
             const world = await getWorldForIframeEdit(apolloClient, worldId);
 
             setIframes(world.iframes);
@@ -302,7 +302,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
     useEffect(() => {
         const subscriptions: ZenObservable.Subscription[] = [];
         
-        (async () => {
+        (async (): Promise<void> => {
             for(const iframe of iframes) {
                 subscriptions.push(
                     (await getIframeFieldPortMappingObservable(globalApolloClient, iframe.id))
@@ -317,7 +317,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
             }
         })();
 
-        return () => {
+        return (): void => {
             for(const subscription of subscriptions) {
                 subscription.unsubscribe();
             }
@@ -328,7 +328,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
     useEffect(() => {
         const subscriptions: ZenObservable.Subscription[] = [];
         
-        (async () => {
+        (async (): Promise<void> => {
             subscriptions.push(
                 (await getIframeCreatingObservable(globalApolloClient, worldId))
                     .subscribe(iframe => {
@@ -341,7 +341,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
             );
         })();
 
-        return () => {
+        return (): void => {
             for(const subscription of subscriptions) {
                 subscription.unsubscribe();
             }
@@ -352,7 +352,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
     useEffect(() => {
         const subscriptions: ZenObservable.Subscription[] = [];
         
-        (async () => {
+        (async (): Promise<void> => {
             subscriptions.push(
                 (await getLocalBroadcasterCreatingObservable(globalApolloClient, worldId))
                     .subscribe(localbroadCaster => {
@@ -369,7 +369,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
             );
         })();
 
-        return () => {
+        return (): void => {
             for(const subscription of subscriptions) {
                 subscription.unsubscribe();
             }
@@ -382,7 +382,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
         let broadcasterDeletingSubscription: undefined | ZenObservable.Subscription;
         let fieldUpdatingSubscription: undefined | ZenObservable.Subscription;
         let fieldDeletingSubscription: undefined | ZenObservable.Subscription;
-        (async () => {
+        (async (): Promise<void> => {
             broadcasterUpdatingSubscription = 
                 (await getBroadcasterUpdatingObservable(globalApolloClient, worldId))
                     .subscribe(broadcaster => {
@@ -433,7 +433,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
                     });
         })();
 
-        return () => {
+        return (): void => {
             broadcasterUpdatingSubscription?.unsubscribe();
             broadcasterDeletingSubscription?.unsubscribe();
             fieldUpdatingSubscription?.unsubscribe();
@@ -460,7 +460,7 @@ function IframeEditorInner({ worldId, opened }: PropsType) {
 export default React.memo(IframeEditorInner);
 
 // Port mapping
-async function getIframeFieldPortMappingObservable(apolloClient: ApolloClient<any>, iframeId: number) {
+async function getIframeFieldPortMappingObservable(apolloClient: ApolloClient<any>, iframeId: number): Promise<Observable<Server.IframeFieldPortMapping[]>> {
     return await apolloClient.subscribe({
         query: gql`
         subscription IframeFieldPortMappingList($iframeId: Int!) {
@@ -479,7 +479,7 @@ async function getIframeFieldPortMappingObservable(apolloClient: ApolloClient<an
     }).map(result => result.data.iframeFieldPortMappingList as Server.IframeFieldPortMapping[]);
 }
 
-async function getIframeBroadcasterPortMappingObservable(apolloClient: ApolloClient<any>, iframeId: number) {
+async function getIframeBroadcasterPortMappingObservable(apolloClient: ApolloClient<any>, iframeId: number): Promise<Observable<Server.IframeBroadcasterPortMapping[]>> {
     return await apolloClient.subscribe({
         query: gql`
         subscription IframeBroadcasterPortMappingList($iframeId: Int!) {
@@ -499,7 +499,7 @@ async function getIframeBroadcasterPortMappingObservable(apolloClient: ApolloCli
 }
 
 // Iframe
-async function getIframeCreatingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+async function getIframeCreatingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<Server.IframeGameObject>> {
     return await apolloClient.subscribe({
         query: gql`
         subscription IframeGameObjectCreating($worldId: String!) {
@@ -528,7 +528,7 @@ async function getIframeCreatingObservable(apolloClient: ApolloClient<any>, worl
     }).map(result => result.data.iframeGameObjectCreating as Server.IframeGameObject);
 }
 
-async function getIframeDeletingObservable(apolloClient: ApolloClient<any>, worldId: string) {
+async function getIframeDeletingObservable(apolloClient: ApolloClient<any>, worldId: string): Promise<Observable<number>> {
     return await apolloClient.subscribe({
         query: gql`
         subscription IframeGameObjectDeleting($worldId: String!) {
@@ -575,7 +575,7 @@ export async function getLocalFieldCreatingObservable(apolloClient: ApolloClient
     }).map(result => result.data.localFieldCreating as Server.LocalField);
 }
 
-async function getWorldForIframeEdit(apolloClient: ApolloClient<any>, worldId: string) {
+async function getWorldForIframeEdit(apolloClient: ApolloClient<any>, worldId: string): Promise<Server.World> {
     const result = await apolloClient.query({
         query: gql`
         query World($worldId: String!) {
@@ -641,7 +641,7 @@ export async function createIframeFieldPortMapping(apolloClient: ApolloClient<an
     });
 }
 
-async function deleteIframeFieldPortMapping(apolloClient: ApolloClient<any>, mappingId: number) {
+async function deleteIframeFieldPortMapping(apolloClient: ApolloClient<any>, mappingId: number): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
         mutation DeleteIframeFieldPortMapping($id: Int!) {
@@ -671,7 +671,7 @@ export async function createIframeBroadcasterPortMapping(apolloClient: ApolloCli
     });
 }
 
-async function deleteIframeBroadcasterPortMapping(apolloClient: ApolloClient<any>, mappingId: number) {
+async function deleteIframeBroadcasterPortMapping(apolloClient: ApolloClient<any>, mappingId: number): Promise<void> {
     await apolloClient.mutate({
         mutation: gql`
         mutation DeleteIframeBroadcasterPortMapping($id: Int!) {
