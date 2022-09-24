@@ -2,7 +2,7 @@ import { ProtoWebSocket } from "../../proto/ProtoWebSocket";
 import * as pb from "../../proto/the_world";
 import { getSession } from "./gql";
 
-const PROTO_WS_ADDR = "ws://127.0.0.1:40006/"; // "wss://api.the-world.space/proto"; //  // 
+const PROTO_WS_ADDR = "wss://api.the-world.space/proto"; // "ws://127.0.0.1:40006/";
 
 export function getProtoWebSocket(): ProtoWebSocket<pb.ServerEvent> {
     const webSocket = new WebSocket(PROTO_WS_ADDR);
