@@ -3,7 +3,7 @@ import {
     GridEventMap,
     GridPointer,
     IGridCollidable,
-    PlayerGridEventInvoker,
+    //PlayerGridEventInvoker,
     PrefabRef} from "the-world-engine";
 import { Vector2 } from "three/src/Three";
 
@@ -55,13 +55,13 @@ export class PlayerPrefab extends BasePlayerPrefab {
                 if (this._gridPointer) c.gridPointer = this._gridPointer.ref;
                 c.speed = 10;
             })
-            .withComponent(PlayerGridEventInvoker, c => {
-                for (let i = 0; i < this._gridEventMaps.length; i++) {
-                    if (this._gridEventMaps[i].ref) {
-                        c.addGridEventMap(this._gridEventMaps[i].ref!);
-                    }
-                }
-            })
+            // .withComponent(PlayerGridEventInvoker, c => {
+            //     for (let i = 0; i < this._gridEventMaps.length; i++) {
+            //         if (this._gridEventMaps[i].ref) {
+            //             c.addGridEventMap(this._gridEventMaps[i].ref!);
+            //         }
+            //     }
+            // })
         ;
     }
 }
