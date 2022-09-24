@@ -14,6 +14,8 @@ export class CameraPrefab extends Prefab {
             .withComponent(Camera, c => {
                 c.viewSize = 8;
                 c.cameraType = CameraType.Orthographic;
+
+                (globalThis as any).camera = c;
             })
             .withComponent(TrackCameraController, c => {
                 c.setTrackTarget(this._trackTarget.ref!);
