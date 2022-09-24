@@ -51,7 +51,7 @@ export class NetworkInfoObject {
         private readonly _penpalNetworkManager: PenpalNetworker,
         private readonly _worldEditorConnector: WorldEditorConnector
     ) {
-        this._colliderNetworker = new ColliderNetworker(this._serverWorld.id, this._apolloClient);
+        this._colliderNetworker = new ColliderNetworker(this._protoClient);
         this._iframeNetworker = new IframeNetworker(this._protoClient);
         this._imageNetworker = new ImageNetworker(this._serverWorld.id, this._apolloClient);
         this._tileNetworker = new TileNetworker(this._protoClient);

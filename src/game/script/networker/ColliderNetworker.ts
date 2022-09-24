@@ -1,7 +1,9 @@
-import { ApolloClient, gql } from "@apollo/client";
+
 import { DumbTypedEmitter } from "detail-typed-emitter";
+import { ProtoWebSocket } from "../../../proto/ProtoWebSocket";
 
 import { Server } from "../../connect/types";
+import * as pb from "../../../proto/the_world";
 
 type DEETypes = {
     "update": (collider: Server.Collider) => void,
@@ -11,8 +13,7 @@ export class ColliderNetworker {
     private readonly _dee: DumbTypedEmitter<DEETypes>;
 
     public constructor(
-        private readonly _worldId: string,
-        private readonly _client: ApolloClient<any>
+        private readonly _protoClient: ProtoWebSocket<pb.ServerEvent>
     ) {
         this._dee = new DumbTypedEmitter<DEETypes>();
         this.initNetwork();
@@ -20,24 +21,12 @@ export class ColliderNetworker {
     }
 
     private initNetwork(): void {
-        this._client.subscribe({
-            query: gql`
-                subscription ColliderUpdating($worldId: String!) {
-                    colliderUpdating(worldId: $worldId) {
-                        x
-                        y
-                        isBlocked
-                    }
-                }
-            `,
-            variables: {
-                worldId: this._worldId
+        this._protoClient.on("message", serverEvent => {
+            if(serverEvent.has_colliderUpdated) {
+                const e = serverEvent.colliderUpdated;
+                
+                this._dee.emit("update", { x: e.x, y: e.y, isBlocked: e.isBlocked });
             }
-        }).subscribe(data => {
-            if (!data.data.colliderUpdating) throw new Error("data.data.iframeGameObjectCreating is falsy");
-            const collider = data.data.colliderUpdating as Server.Collider;
-            
-            this._dee.emit("update", collider);
         });
     }
 

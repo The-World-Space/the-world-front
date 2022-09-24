@@ -66,26 +66,17 @@ export class NetworkBrushManager extends Component {
         }
     }
 
-    private _updateCollider(x: number, y: number, isBlocked: boolean): Promise<FetchResult> {
+    private _updateCollider(x: number, y: number, isBlocked: boolean): void {
         if (!this._worldId) throw new Error("no world id");
-        if (!this._apolloClient) throw new Error("no apollo client");
-        return this._apolloClient.mutate({
-            mutation: gql`
-                mutation CreateCollider($x: Int!, $y: Int!, $isBlocked: Boolean!, $worldId: String!) {
-                    updateCollider(x: $x, y: $y, worldId: $worldId, collider:{
-                        isBlocked: $isBlocked
-                    }) {
-                        isBlocked
-                    }
-                }
-            `,
-            variables: {
+        if (!this._protoClient) throw new Error("no proto client");
+
+        this._protoClient.send(new pb.ClientEvent({
+            updateCollider: new pb.UpdateCollider({
                 x,
                 y,
-                isBlocked,
-                worldId: this._worldId
-            }
-        });
+                isBlocked
+            })
+        }));
     }
 
     private _updateImageGameObject(x: number, y: number): Promise<FetchResult> {
