@@ -40,9 +40,13 @@ export async function getAboutPlugins(worldId: string): Promise<AboutPlugins> {
         }));
     });
     return new Promise(solve => {
-        socket.once("message", (serverEvent: pb.ServerEvent) => {
-            if(serverEvent.has_aboutPlugins)
+        const listener = (serverEvent: pb.ServerEvent) => {
+            if(serverEvent.has_aboutPlugins) {
                 solve(serverEvent.aboutPlugins);
-        });
+                socket.removeListener("message", listener);
+            }
+        };
+
+        socket.on("message", listener);
     });
 }

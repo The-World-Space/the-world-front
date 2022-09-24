@@ -6,7 +6,7 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from "google-protobuf";
 export class ClientEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]];
     constructor(data?: any[] | ({} & (({
         joinWorld?: JoinWorld;
         leaveWorld?: never;
@@ -26,6 +26,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: LeaveWorld;
@@ -45,6 +46,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -64,6 +66,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -83,6 +86,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -102,6 +106,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -121,6 +126,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -140,6 +146,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -159,6 +166,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -178,6 +186,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -197,6 +206,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -216,6 +226,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -235,6 +246,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -254,6 +266,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -273,6 +286,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -292,6 +306,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -311,6 +326,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: CreateIframeGameObjectInstantly;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -330,6 +346,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: DeleteIframeGameObject;
         deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -349,6 +366,27 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: never;
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: DeleteIframeGameObjectsAt;
+        reqIsPluginsOutdated?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: ReqIsPluginsOutdated;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -406,6 +444,9 @@ export class ClientEvent extends pb_1.Message {
             }
             if ("deleteIframeGameObjectsAt" in data && data.deleteIframeGameObjectsAt != undefined) {
                 this.deleteIframeGameObjectsAt = data.deleteIframeGameObjectsAt;
+            }
+            if ("reqIsPluginsOutdated" in data && data.reqIsPluginsOutdated != undefined) {
+                this.reqIsPluginsOutdated = data.reqIsPluginsOutdated;
             }
         }
     }
@@ -571,9 +612,18 @@ export class ClientEvent extends pb_1.Message {
     get has_deleteIframeGameObjectsAt() {
         return pb_1.Message.getField(this, 18) != null;
     }
+    get reqIsPluginsOutdated() {
+        return pb_1.Message.getWrapperField(this, ReqIsPluginsOutdated, 19) as ReqIsPluginsOutdated;
+    }
+    set reqIsPluginsOutdated(value: ReqIsPluginsOutdated) {
+        pb_1.Message.setOneofWrapperField(this, 19, this.#one_of_decls[0], value);
+    }
+    get has_reqIsPluginsOutdated() {
+        return pb_1.Message.getField(this, 19) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping" | "reqAboutPlugins" | "updateAtlasTile" | "deleteAtlasTile" | "createIframeGameObjectInstantly" | "deleteIframeGameObject" | "deleteIframeGameObjectsAt";
+            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping" | "reqAboutPlugins" | "updateAtlasTile" | "deleteAtlasTile" | "createIframeGameObjectInstantly" | "deleteIframeGameObject" | "deleteIframeGameObjectsAt" | "reqIsPluginsOutdated";
         } = {
             0: "none",
             1: "joinWorld",
@@ -593,9 +643,10 @@ export class ClientEvent extends pb_1.Message {
             15: "deleteAtlasTile",
             16: "createIframeGameObjectInstantly",
             17: "deleteIframeGameObject",
-            18: "deleteIframeGameObjectsAt"
+            18: "deleteIframeGameObjectsAt",
+            19: "reqIsPluginsOutdated"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])];
     }
     static fromObject(data: {
         joinWorld?: ReturnType<typeof JoinWorld.prototype.toObject>;
@@ -616,6 +667,7 @@ export class ClientEvent extends pb_1.Message {
         createIframeGameObjectInstantly?: ReturnType<typeof CreateIframeGameObjectInstantly.prototype.toObject>;
         deleteIframeGameObject?: ReturnType<typeof DeleteIframeGameObject.prototype.toObject>;
         deleteIframeGameObjectsAt?: ReturnType<typeof DeleteIframeGameObjectsAt.prototype.toObject>;
+        reqIsPluginsOutdated?: ReturnType<typeof ReqIsPluginsOutdated.prototype.toObject>;
     }): ClientEvent {
         const message = new ClientEvent({});
         if (data.joinWorld != null) {
@@ -672,6 +724,9 @@ export class ClientEvent extends pb_1.Message {
         if (data.deleteIframeGameObjectsAt != null) {
             message.deleteIframeGameObjectsAt = DeleteIframeGameObjectsAt.fromObject(data.deleteIframeGameObjectsAt);
         }
+        if (data.reqIsPluginsOutdated != null) {
+            message.reqIsPluginsOutdated = ReqIsPluginsOutdated.fromObject(data.reqIsPluginsOutdated);
+        }
         return message;
     }
     toObject() {
@@ -694,6 +749,7 @@ export class ClientEvent extends pb_1.Message {
             createIframeGameObjectInstantly?: ReturnType<typeof CreateIframeGameObjectInstantly.prototype.toObject>;
             deleteIframeGameObject?: ReturnType<typeof DeleteIframeGameObject.prototype.toObject>;
             deleteIframeGameObjectsAt?: ReturnType<typeof DeleteIframeGameObjectsAt.prototype.toObject>;
+            reqIsPluginsOutdated?: ReturnType<typeof ReqIsPluginsOutdated.prototype.toObject>;
         } = {};
         if (this.joinWorld != null) {
             data.joinWorld = this.joinWorld.toObject();
@@ -749,6 +805,9 @@ export class ClientEvent extends pb_1.Message {
         if (this.deleteIframeGameObjectsAt != null) {
             data.deleteIframeGameObjectsAt = this.deleteIframeGameObjectsAt.toObject();
         }
+        if (this.reqIsPluginsOutdated != null) {
+            data.reqIsPluginsOutdated = this.reqIsPluginsOutdated.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -791,6 +850,8 @@ export class ClientEvent extends pb_1.Message {
             writer.writeMessage(17, this.deleteIframeGameObject, () => this.deleteIframeGameObject.serialize(writer));
         if (this.has_deleteIframeGameObjectsAt)
             writer.writeMessage(18, this.deleteIframeGameObjectsAt, () => this.deleteIframeGameObjectsAt.serialize(writer));
+        if (this.has_reqIsPluginsOutdated)
+            writer.writeMessage(19, this.reqIsPluginsOutdated, () => this.reqIsPluginsOutdated.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -853,6 +914,9 @@ export class ClientEvent extends pb_1.Message {
                     break;
                 case 18:
                     reader.readMessage(message.deleteIframeGameObjectsAt, () => message.deleteIframeGameObjectsAt = DeleteIframeGameObjectsAt.deserialize(reader));
+                    break;
+                case 19:
+                    reader.readMessage(message.reqIsPluginsOutdated, () => message.reqIsPluginsOutdated = ReqIsPluginsOutdated.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -2902,8 +2966,190 @@ export class DeleteIframeGameObjectsAt extends pb_1.Message {
         return DeleteIframeGameObjectsAt.deserialize(bytes);
     }
 }
+export class ReqIsPluginsOutdated extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        pluginInfos?: ReqIsPluginsOutdated.PluginInfo[];
+        id?: number;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("pluginInfos" in data && data.pluginInfos != undefined) {
+                this.pluginInfos = data.pluginInfos;
+            }
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+        }
+    }
+    get pluginInfos() {
+        return pb_1.Message.getRepeatedWrapperField(this, ReqIsPluginsOutdated.PluginInfo, 1) as ReqIsPluginsOutdated.PluginInfo[];
+    }
+    set pluginInfos(value: ReqIsPluginsOutdated.PluginInfo[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 1, value);
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    static fromObject(data: {
+        pluginInfos?: ReturnType<typeof ReqIsPluginsOutdated.PluginInfo.prototype.toObject>[];
+        id?: number;
+    }): ReqIsPluginsOutdated {
+        const message = new ReqIsPluginsOutdated({});
+        if (data.pluginInfos != null) {
+            message.pluginInfos = data.pluginInfos.map(item => ReqIsPluginsOutdated.PluginInfo.fromObject(item));
+        }
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            pluginInfos?: ReturnType<typeof ReqIsPluginsOutdated.PluginInfo.prototype.toObject>[];
+            id?: number;
+        } = {};
+        if (this.pluginInfos != null) {
+            data.pluginInfos = this.pluginInfos.map((item: ReqIsPluginsOutdated.PluginInfo) => item.toObject());
+        }
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.pluginInfos.length)
+            writer.writeRepeatedMessage(1, this.pluginInfos, (item: ReqIsPluginsOutdated.PluginInfo) => item.serialize(writer));
+        if (this.id != 0)
+            writer.writeInt32(2, this.id);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ReqIsPluginsOutdated {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new ReqIsPluginsOutdated();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    reader.readMessage(message.pluginInfos, () => pb_1.Message.addToRepeatedWrapperField(message, 1, ReqIsPluginsOutdated.PluginInfo.deserialize(reader), ReqIsPluginsOutdated.PluginInfo));
+                    break;
+                case 2:
+                    message.id = reader.readInt32();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): ReqIsPluginsOutdated {
+        return ReqIsPluginsOutdated.deserialize(bytes);
+    }
+}
+export namespace ReqIsPluginsOutdated {
+    export class PluginInfo extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            id?: number;
+            code?: string;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("id" in data && data.id != undefined) {
+                    this.id = data.id;
+                }
+                if ("code" in data && data.code != undefined) {
+                    this.code = data.code;
+                }
+            }
+        }
+        get id() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set id(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get code() {
+            return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+        }
+        set code(value: string) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            id?: number;
+            code?: string;
+        }): PluginInfo {
+            const message = new PluginInfo({});
+            if (data.id != null) {
+                message.id = data.id;
+            }
+            if (data.code != null) {
+                message.code = data.code;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                id?: number;
+                code?: string;
+            } = {};
+            if (this.id != null) {
+                data.id = this.id;
+            }
+            if (this.code != null) {
+                data.code = this.code;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.id != 0)
+                writer.writeInt32(1, this.id);
+            if (this.code.length)
+                writer.writeString(2, this.code);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): PluginInfo {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new PluginInfo();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.id = reader.readInt32();
+                        break;
+                    case 2:
+                        message.code = reader.readString();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): PluginInfo {
+            return PluginInfo.deserialize(bytes);
+        }
+    }
+}
 export class ServerEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]];
     constructor(data?: any[] | ({} & (({
         kicked?: Kicked;
         playerListChanged?: never;
@@ -2924,6 +3170,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: PlayerListChanged;
@@ -2944,6 +3191,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -2964,6 +3212,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -2984,6 +3233,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3004,6 +3254,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3024,6 +3275,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3044,6 +3296,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3064,6 +3317,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3084,6 +3338,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3104,6 +3359,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3124,6 +3380,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3144,6 +3401,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3164,6 +3422,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3184,6 +3443,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3204,6 +3464,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3224,6 +3485,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3244,6 +3506,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: ColliderUpdated;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3264,6 +3527,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: IframeGameObjectCreated;
         iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3284,6 +3548,28 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: never;
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: IframeGameObjectDeleted;
+        resIsPluginOutdated?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: ResIsPluginOutdated;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -3344,6 +3630,9 @@ export class ServerEvent extends pb_1.Message {
             }
             if ("iframeGameObjectDeleted" in data && data.iframeGameObjectDeleted != undefined) {
                 this.iframeGameObjectDeleted = data.iframeGameObjectDeleted;
+            }
+            if ("resIsPluginOutdated" in data && data.resIsPluginOutdated != undefined) {
+                this.resIsPluginOutdated = data.resIsPluginOutdated;
             }
         }
     }
@@ -3518,9 +3807,18 @@ export class ServerEvent extends pb_1.Message {
     get has_iframeGameObjectDeleted() {
         return pb_1.Message.getField(this, 19) != null;
     }
+    get resIsPluginOutdated() {
+        return pb_1.Message.getWrapperField(this, ResIsPluginOutdated, 20) as ResIsPluginOutdated;
+    }
+    set resIsPluginOutdated(value: ResIsPluginOutdated) {
+        pb_1.Message.setOneofWrapperField(this, 20, this.#one_of_decls[0], value);
+    }
+    get has_resIsPluginOutdated() {
+        return pb_1.Message.getField(this, 20) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted" | "atlasTileCreated" | "atlasTileDeleted" | "atlasTileUpdated" | "colliderUpdated" | "iframeGameObjectCreated" | "iframeGameObjectDeleted";
+            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted" | "atlasTileCreated" | "atlasTileDeleted" | "atlasTileUpdated" | "colliderUpdated" | "iframeGameObjectCreated" | "iframeGameObjectDeleted" | "resIsPluginOutdated";
         } = {
             0: "none",
             1: "kicked",
@@ -3541,9 +3839,10 @@ export class ServerEvent extends pb_1.Message {
             16: "atlasTileUpdated",
             17: "colliderUpdated",
             18: "iframeGameObjectCreated",
-            19: "iframeGameObjectDeleted"
+            19: "iframeGameObjectDeleted",
+            20: "resIsPluginOutdated"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])];
     }
     static fromObject(data: {
         kicked?: ReturnType<typeof Kicked.prototype.toObject>;
@@ -3565,6 +3864,7 @@ export class ServerEvent extends pb_1.Message {
         colliderUpdated?: ReturnType<typeof ColliderUpdated.prototype.toObject>;
         iframeGameObjectCreated?: ReturnType<typeof IframeGameObjectCreated.prototype.toObject>;
         iframeGameObjectDeleted?: ReturnType<typeof IframeGameObjectDeleted.prototype.toObject>;
+        resIsPluginOutdated?: ReturnType<typeof ResIsPluginOutdated.prototype.toObject>;
     }): ServerEvent {
         const message = new ServerEvent({});
         if (data.kicked != null) {
@@ -3624,6 +3924,9 @@ export class ServerEvent extends pb_1.Message {
         if (data.iframeGameObjectDeleted != null) {
             message.iframeGameObjectDeleted = IframeGameObjectDeleted.fromObject(data.iframeGameObjectDeleted);
         }
+        if (data.resIsPluginOutdated != null) {
+            message.resIsPluginOutdated = ResIsPluginOutdated.fromObject(data.resIsPluginOutdated);
+        }
         return message;
     }
     toObject() {
@@ -3647,6 +3950,7 @@ export class ServerEvent extends pb_1.Message {
             colliderUpdated?: ReturnType<typeof ColliderUpdated.prototype.toObject>;
             iframeGameObjectCreated?: ReturnType<typeof IframeGameObjectCreated.prototype.toObject>;
             iframeGameObjectDeleted?: ReturnType<typeof IframeGameObjectDeleted.prototype.toObject>;
+            resIsPluginOutdated?: ReturnType<typeof ResIsPluginOutdated.prototype.toObject>;
         } = {};
         if (this.kicked != null) {
             data.kicked = this.kicked.toObject();
@@ -3705,6 +4009,9 @@ export class ServerEvent extends pb_1.Message {
         if (this.iframeGameObjectDeleted != null) {
             data.iframeGameObjectDeleted = this.iframeGameObjectDeleted.toObject();
         }
+        if (this.resIsPluginOutdated != null) {
+            data.resIsPluginOutdated = this.resIsPluginOutdated.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -3749,6 +4056,8 @@ export class ServerEvent extends pb_1.Message {
             writer.writeMessage(18, this.iframeGameObjectCreated, () => this.iframeGameObjectCreated.serialize(writer));
         if (this.has_iframeGameObjectDeleted)
             writer.writeMessage(19, this.iframeGameObjectDeleted, () => this.iframeGameObjectDeleted.serialize(writer));
+        if (this.has_resIsPluginOutdated)
+            writer.writeMessage(20, this.resIsPluginOutdated, () => this.resIsPluginOutdated.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -3814,6 +4123,9 @@ export class ServerEvent extends pb_1.Message {
                     break;
                 case 19:
                     reader.readMessage(message.iframeGameObjectDeleted, () => message.iframeGameObjectDeleted = IframeGameObjectDeleted.deserialize(reader));
+                    break;
+                case 20:
+                    reader.readMessage(message.resIsPluginOutdated, () => message.resIsPluginOutdated = ResIsPluginOutdated.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -6849,5 +7161,95 @@ export class IframeGameObjectDeleted extends pb_1.Message {
     }
     static deserializeBinary(bytes: Uint8Array): IframeGameObjectDeleted {
         return IframeGameObjectDeleted.deserialize(bytes);
+    }
+}
+export class ResIsPluginOutdated extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        id?: number;
+        isOutdateds?: boolean[];
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [2], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("id" in data && data.id != undefined) {
+                this.id = data.id;
+            }
+            if ("isOutdateds" in data && data.isOutdateds != undefined) {
+                this.isOutdateds = data.isOutdateds;
+            }
+        }
+    }
+    get id() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set id(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get isOutdateds() {
+        return pb_1.Message.getFieldWithDefault(this, 2, []) as boolean[];
+    }
+    set isOutdateds(value: boolean[]) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    static fromObject(data: {
+        id?: number;
+        isOutdateds?: boolean[];
+    }): ResIsPluginOutdated {
+        const message = new ResIsPluginOutdated({});
+        if (data.id != null) {
+            message.id = data.id;
+        }
+        if (data.isOutdateds != null) {
+            message.isOutdateds = data.isOutdateds;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            id?: number;
+            isOutdateds?: boolean[];
+        } = {};
+        if (this.id != null) {
+            data.id = this.id;
+        }
+        if (this.isOutdateds != null) {
+            data.isOutdateds = this.isOutdateds;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.id != 0)
+            writer.writeInt32(1, this.id);
+        if (this.isOutdateds.length)
+            writer.writePackedBool(2, this.isOutdateds);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ResIsPluginOutdated {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new ResIsPluginOutdated();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.id = reader.readInt32();
+                    break;
+                case 2:
+                    message.isOutdateds = reader.readPackedBool();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): ResIsPluginOutdated {
+        return ResIsPluginOutdated.deserialize(bytes);
     }
 }

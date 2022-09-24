@@ -122,15 +122,8 @@ export class IframeCommunicator {
         return await this._penpalNetworkWrapper.broadcast(publicId, message);
     }
 
-    private getPlugin(id: string): { id: string } | null {
-        const plugin = this._internalPluginIdToPluginMap.get(id);
-
-        if(!plugin)
-            return null;
-
-        return {
-            id
-        };
+    private getPlugin(_: string): { id: string } | null {
+        return null;
     }
 
     private async sendPluginMessage(internalId: string, message: string) {
@@ -165,8 +158,55 @@ export class IframeCommunicator {
         this.turnOnListeners();
 
         if("proto_" in this._iframeInfo)
-            if((await this._penpalNetworkWrapper.getUser())!.id === this._iframeInfo.proto_?.owner.id)
+            if((await this._penpalNetworkWrapper.getUser())!.id === this._iframeInfo.proto_?.owner.id) {
+                await this.tryPluginUpdating();
                 await this.tryAutoPortAdding();
+            }
+    }
+
+    private async tryPluginUpdating() {
+        const ports = await this._child.getPorts();
+
+        const pluginsToCheck = ports.plugins.filter(({ name }) => this._internalPluginIdToPluginMap.has(name));
+
+        const pluginIdsToUpdate = await getPluginIdsToUpdate(
+            this._penpalNetworkWrapper.protoClient,
+            pluginsToCheck.filter(({ code }) => code !== "").map(({ name, code }) => ({ id: this._internalPluginIdToPluginMap.get(name)!.plugin.id, code }))
+        );
+
+        {
+            const pluginInternalIdsNotToUpdate = pluginsToCheck
+                .filter(({ name }) => !pluginIdsToUpdate.includes(this._internalPluginIdToPluginMap.get(name)!.plugin.id))
+                .map(({ name }) => name);
+
+            for(const internalId of pluginInternalIdsNotToUpdate) {
+                this._child.createPlugin({ id: internalId });
+            }
+        }
+
+        const pluginsToUpdate = pluginsToCheck.filter(({ name }) => pluginIdsToUpdate.includes(this._internalPluginIdToPluginMap.get(name)!.plugin.id));
+
+        if(pluginIdsToUpdate.length) {
+            const shouldUpdate = confirm(`Iframe ${this._iframeInfo.id} has plugin to update. Update it?`);
+            if(shouldUpdate) {
+                this.updatePlugins(pluginsToUpdate);
+            } else {
+                for(const plugin of pluginsToUpdate) {
+                    const internalId = plugin.name;
+                    this._child.createPlugin({ id: internalId });
+                }
+            }
+        }
+    }
+
+    private async updatePlugins(plugins: { name: string, code: string, data: string }[]) {
+        const protoClient = this._penpalNetworkWrapper.protoClient;
+        const iframeId = this._iframeInfo.id;
+        for(const plugin of plugins) {
+            deletePlugin(protoClient, this._internalPluginIdToPluginMap.get(plugin.name)!.plugin.id);
+            const id = await createLocalPlugin(protoClient, iframeId, plugin.name, plugin.code, plugin.data);
+            await createIframePluginPortMapping(protoClient, iframeId, plugin.name, id);
+        }
     }
 
     private async tryAutoPortAdding(): Promise<void> {
@@ -410,15 +450,18 @@ function createLocalPlugin(client: ProtoWebSocket<pb.ServerEvent>, iframeId: num
             })
         }));
 
-        client.once("message", (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent) => {
             if(serverEvent.has_localPluginCreated) {
                 const e = serverEvent.localPluginCreated;
 
                 if(e.iframeId === iframeId && e.name === name) {
                     solve(e.id);
+                    client.removeListener("message", listener);
                 }
             }
-        });
+        };
+
+        client.on("message", listener);
     });
 }
 
@@ -432,14 +475,57 @@ function createIframePluginPortMapping(client: ProtoWebSocket<pb.ServerEvent>, i
             })
         }));
 
-        client.once("message", (serverEvent: pb.ServerEvent) => {
+        const listener = (serverEvent: pb.ServerEvent) => {
             if(serverEvent.has_iframePluginPortMappingCreated) {
                 const e = serverEvent.iframePluginPortMappingCreated;
 
                 if(e.iframeId === iframeId && e.pluginId === pluginId && e.portId === portId) {
                     solve(e.id);
+                    client.removeListener("message", listener);
                 }
             }
-        });
+        };
+
+        client.on("message", listener);
     });
+}
+
+let reqId = 0;
+function getPluginIdsToUpdate(client: ProtoWebSocket<pb.ServerEvent>, pluginInfos: { id: number, code: string }[]): Promise<number[]> {
+    return new Promise(solve => {
+        const myReqId = ++reqId;
+        client.send(new pb.ClientEvent({
+            reqIsPluginsOutdated: new pb.ReqIsPluginsOutdated({
+                pluginInfos: pluginInfos.map(({id, code}) => new pb.ReqIsPluginsOutdated.PluginInfo({ id, code })),
+                id: myReqId
+            })
+        }));
+
+        const listener = (serverEvent: pb.ServerEvent) => {
+            if(serverEvent.has_resIsPluginOutdated) {
+                const e = serverEvent.resIsPluginOutdated;
+
+                if(e.id === myReqId) {
+                    const pluginIdsToUpdate = [];
+                    for(let i = 0; i < e.isOutdateds.length; i++){
+                        if(e.isOutdateds[i]) {
+                            pluginIdsToUpdate.push(pluginInfos[i].id);
+                        }
+                    }
+                    solve(pluginIdsToUpdate);
+                    client.removeListener("message", listener);
+                }
+            }
+        };
+
+        client.on("message", listener);
+    });
+}
+
+function deletePlugin(client: ProtoWebSocket<pb.ServerEvent>, pluginId: number): void {
+    client.send(new pb.ClientEvent({
+        deletePlugin: new pb.DeletePlugin({
+            id: pluginId
+        })
+    }));
 }
