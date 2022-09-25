@@ -8,25 +8,19 @@ export class IframeStatusRenderController extends Component {
     private _idBoxString = "";
     private _id = 0;
 
-    protected start(): void {
-        this.engine.input.onKeyUp.addListener(this.onKeyUp);
-    }
-
-    public onDestroy(): void {
-        this.engine.input.onKeyUp.removeListener(this.onKeyUp);
-    }
-
     public onEnable(): void {
         this.engine.input.onKeyDown.addListener(this.onKeyDown);
+        this.engine.input.onKeyUp.addListener(this.onKeyUp);
     }
 
     public onDisable(): void {
         this.engine.input.onKeyDown.removeListener(this.onKeyDown);
+        this.engine.input.onKeyUp.removeListener(this.onKeyUp);
     }
 
     private readonly onKeyDown = (e: KeyboardEvent): void => {
         if (e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {   
-            if (this._idBoxObject) { 
+            if (this._idBoxObject) {
                 this._idBoxObject.activeSelf = true;
                 if (this._idBox) {
                     const container = this._idBox.element;
