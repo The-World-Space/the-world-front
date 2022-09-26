@@ -33,6 +33,8 @@ export class IframeCommunicator {
     private readonly _broadcasterCbDisposeFuncs: Map<string, (() => void)> = new Map();
     private readonly _pluginCbDisposeFuncs: Map<string, (() => void)> = new Map();
 
+    private applied: boolean;
+
     public constructor(
         private readonly _iframe: HTMLIFrameElement,
         private readonly _iframeInfo: Server.PenpalConnectable,
@@ -51,6 +53,7 @@ export class IframeCommunicator {
             new Map(_pluginPortMappings.map(({ id, portId, plugin }) => [portId, { mappingId: id, plugin }]));
         this._subscriptions = [];
         this._pluginsListenerDisposeFuncs = [];
+        this.applied = false;
     }
 
     private internalFieldIdToPublicId(id: string): number|undefined {
@@ -124,7 +127,7 @@ export class IframeCommunicator {
 
     private async getPlugin(id: string): Promise<{ id: string } | null> {
         if("proto_" in this._iframeInfo) {
-            if((await this._penpalNetworkWrapper.getUser())!.id === this._iframeInfo.proto_?.owner.id) {
+            if((await this._penpalNetworkWrapper.getUser())!.id === this._iframeInfo.proto_?.owner.id && !this.applied) {
                 return null;
             } else {
                 const plugin = this._internalPluginIdToPluginMap.get(id);
@@ -177,6 +180,8 @@ export class IframeCommunicator {
                 await this.tryAutoPortAdding();
             }
         }
+
+        this.applied = true;
     }
 
     private async tryPluginUpdating(): Promise<void> {
