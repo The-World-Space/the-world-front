@@ -122,7 +122,21 @@ export class IframeCommunicator {
         return await this._penpalNetworkWrapper.broadcast(publicId, message);
     }
 
-    private getPlugin(_: string): { id: string } | null {
+    private async getPlugin(id: string): Promise<{ id: string } | null> {
+        if("proto_" in this._iframeInfo) {
+            if((await this._penpalNetworkWrapper.getUser())!.id === this._iframeInfo.proto_?.owner.id) {
+                return null;
+            } else {
+                const plugin = this._internalPluginIdToPluginMap.get(id);
+        
+                if (!plugin)
+                    return null;
+        
+                return {
+                    id
+                };
+            }
+        }
         return null;
     }
 
@@ -157,11 +171,12 @@ export class IframeCommunicator {
         this._child = child as any;
         this.turnOnListeners();
 
-        if("proto_" in this._iframeInfo)
+        if("proto_" in this._iframeInfo) {
             if((await this._penpalNetworkWrapper.getUser())!.id === this._iframeInfo.proto_?.owner.id) {
                 await this.tryPluginUpdating();
                 await this.tryAutoPortAdding();
             }
+        }
     }
 
     private async tryPluginUpdating(): Promise<void> {
