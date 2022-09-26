@@ -55,7 +55,7 @@ export class NetworkGridMovementController extends Directable {
             (dx < 0) ? Direction.Left :
             (dy > 0) ? Direction.Up :
             (dy < 0) ? Direction.Down :
-            NaN;
+            this.direction;
     }
 
     private readonly _tempVector2a = new Vector2();
