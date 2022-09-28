@@ -25,12 +25,8 @@ export class NetworkPlayerPrefab extends BasePlayerPrefab {
         return this;
     }
 
-    public withNetworkManager(networkManager: PlayerNetworker): this {
+    public withNetworkManager(networkManager: PlayerNetworker, userId: string): this {
         this._networkManager = networkManager;
-        return this;
-    }
-
-    public withUserId(userId: string): this {
         this._userId = userId;
         return this;
     }

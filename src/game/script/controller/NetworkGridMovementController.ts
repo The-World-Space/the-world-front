@@ -40,9 +40,14 @@ export class NetworkGridMovementController extends Directable {
         this.isMoving = true;
     };
 
-    private readonly onTeleport = (): void => {
-
-    }
+    private readonly onTeleport = (gridPosition: Vector2): void => {
+        this.isMoving = false;
+        this._targetPosition.copy(gridPosition);
+        this._currentPosition.copy(gridPosition);
+        const transform = this.gameObject.transform;
+        transform.localPosition.x = this._targetPosition.x;
+        transform.localPosition.y = this._targetPosition.y;
+    };
 
     public onDestroy(): void {
         if (this._networkManager === null) return;

@@ -8,6 +8,8 @@ import {
 import { Vector2 } from "three/src/Three";
 
 import { PlayerGridMovementController } from "../script/controller/PlayerGridMovementController";
+import { PlayerMovementRemoteController } from "../script/controller/PlayerMovementRemoteController";
+import { PlayerNetworker } from "../script/networker/PlayerNetworker";
 import { BasePlayerPrefab } from "./BasePlayerPrefab";
 
 export class PlayerPrefab extends BasePlayerPrefab {
@@ -16,6 +18,9 @@ export class PlayerPrefab extends BasePlayerPrefab {
     private _gridPosition = new PrefabRef<Vector2>();
     private _gridPointer = new PrefabRef<GridPointer>();
     
+    private _networkManager: PlayerNetworker | null = null;
+    private _userId: string | null = null;
+
     public withCollideMap(colideMap: PrefabRef<IGridCollidable>): this {
         this._collideMaps.push(colideMap);
         return this;
@@ -33,6 +38,12 @@ export class PlayerPrefab extends BasePlayerPrefab {
 
     public withPathfindPointer(gridPointer: PrefabRef<GridPointer>): this {
         this._gridPointer = gridPointer;
+        return this;
+    }
+
+    public withNetworkManager(networkManager: PlayerNetworker, userId: string): this {
+        this._networkManager = networkManager;
+        this._userId = userId;
         return this;
     }
 
@@ -54,6 +65,11 @@ export class PlayerPrefab extends BasePlayerPrefab {
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
                 if (this._gridPointer) c.gridPointer = this._gridPointer.ref;
                 c.speed = 10;
+            })
+            .withComponent(PlayerMovementRemoteController, c => {
+                if (this._networkManager && this._userId) {
+                    c.setNetworkManager(this._networkManager, this._userId);
+                }
             })
             // .withComponent(PlayerGridEventInvoker, c => {
             //     for (let i = 0; i < this._gridEventMaps.length; i++) {

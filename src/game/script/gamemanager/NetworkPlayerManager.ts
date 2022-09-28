@@ -55,8 +55,7 @@ export class NetworkPlayerManager extends Component {
 
         const prefab = 
             instantlater.buildPrefab(`${PREFIX}/player_${user.id}`, NetworkPlayerPrefab)
-                .withUserId(user.id)
-                .withNetworkManager(networkManager)
+                .withNetworkManager(networkManager, user.id)
                 .withGridInfo(new PrefabRef(this._iGridCollidable))
                 .withNameTag(nameRef)
                 .withGridPosition(posPrefabRef)
