@@ -31,6 +31,7 @@ export class NetworkGridMovementController extends Directable {
         this._networkManager = networkManager;
         this._userId = userId;
         networkManager.ee.on(`move_${userId}`, this.onMove);
+        networkManager.ee.on(`teleport_${userId}`, this.onTeleport);
     }
 
     private readonly onMove = (gridPosition: Vector2): void => {
@@ -38,6 +39,10 @@ export class NetworkGridMovementController extends Directable {
         this._targetPosition.setY(gridPosition.y * this._gridCellHeight + this._gridCenter.y);
         this.isMoving = true;
     };
+
+    private readonly onTeleport = (): void => {
+
+    }
 
     public onDestroy(): void {
         if (this._networkManager === null) return;

@@ -3149,7 +3149,7 @@ export namespace ReqIsPluginsOutdated {
     }
 }
 export class ServerEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]];
     constructor(data?: any[] | ({} & (({
         kicked?: Kicked;
         playerListChanged?: never;
@@ -3171,6 +3171,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: PlayerListChanged;
@@ -3192,6 +3194,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3213,6 +3217,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3234,6 +3240,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3255,6 +3263,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3276,6 +3286,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3297,6 +3309,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3318,6 +3332,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3339,6 +3355,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3360,6 +3378,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3381,6 +3401,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3402,6 +3424,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3423,6 +3447,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3444,6 +3470,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3465,6 +3493,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3486,6 +3516,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3507,6 +3539,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3528,6 +3562,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: IframeGameObjectCreated;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3549,6 +3585,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: IframeGameObjectDeleted;
         resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3570,6 +3608,54 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: never;
         iframeGameObjectDeleted?: never;
         resIsPluginOutdated?: ResIsPluginOutdated;
+        aboutWorld?: never;
+        characterTeleported?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
+        aboutWorld?: AboutWorld;
+        characterTeleported?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: CharacterTeleported;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -3633,6 +3719,12 @@ export class ServerEvent extends pb_1.Message {
             }
             if ("resIsPluginOutdated" in data && data.resIsPluginOutdated != undefined) {
                 this.resIsPluginOutdated = data.resIsPluginOutdated;
+            }
+            if ("aboutWorld" in data && data.aboutWorld != undefined) {
+                this.aboutWorld = data.aboutWorld;
+            }
+            if ("characterTeleported" in data && data.characterTeleported != undefined) {
+                this.characterTeleported = data.characterTeleported;
             }
         }
     }
@@ -3816,9 +3908,27 @@ export class ServerEvent extends pb_1.Message {
     get has_resIsPluginOutdated() {
         return pb_1.Message.getField(this, 20) != null;
     }
+    get aboutWorld() {
+        return pb_1.Message.getWrapperField(this, AboutWorld, 21) as AboutWorld;
+    }
+    set aboutWorld(value: AboutWorld) {
+        pb_1.Message.setOneofWrapperField(this, 21, this.#one_of_decls[0], value);
+    }
+    get has_aboutWorld() {
+        return pb_1.Message.getField(this, 21) != null;
+    }
+    get characterTeleported() {
+        return pb_1.Message.getWrapperField(this, CharacterTeleported, 22) as CharacterTeleported;
+    }
+    set characterTeleported(value: CharacterTeleported) {
+        pb_1.Message.setOneofWrapperField(this, 22, this.#one_of_decls[0], value);
+    }
+    get has_characterTeleported() {
+        return pb_1.Message.getField(this, 22) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted" | "atlasTileCreated" | "atlasTileDeleted" | "atlasTileUpdated" | "colliderUpdated" | "iframeGameObjectCreated" | "iframeGameObjectDeleted" | "resIsPluginOutdated";
+            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted" | "atlasTileCreated" | "atlasTileDeleted" | "atlasTileUpdated" | "colliderUpdated" | "iframeGameObjectCreated" | "iframeGameObjectDeleted" | "resIsPluginOutdated" | "aboutWorld" | "characterTeleported";
         } = {
             0: "none",
             1: "kicked",
@@ -3840,9 +3950,11 @@ export class ServerEvent extends pb_1.Message {
             17: "colliderUpdated",
             18: "iframeGameObjectCreated",
             19: "iframeGameObjectDeleted",
-            20: "resIsPluginOutdated"
+            20: "resIsPluginOutdated",
+            21: "aboutWorld",
+            22: "characterTeleported"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22])];
     }
     static fromObject(data: {
         kicked?: ReturnType<typeof Kicked.prototype.toObject>;
@@ -3865,6 +3977,8 @@ export class ServerEvent extends pb_1.Message {
         iframeGameObjectCreated?: ReturnType<typeof IframeGameObjectCreated.prototype.toObject>;
         iframeGameObjectDeleted?: ReturnType<typeof IframeGameObjectDeleted.prototype.toObject>;
         resIsPluginOutdated?: ReturnType<typeof ResIsPluginOutdated.prototype.toObject>;
+        aboutWorld?: ReturnType<typeof AboutWorld.prototype.toObject>;
+        characterTeleported?: ReturnType<typeof CharacterTeleported.prototype.toObject>;
     }): ServerEvent {
         const message = new ServerEvent({});
         if (data.kicked != null) {
@@ -3927,6 +4041,12 @@ export class ServerEvent extends pb_1.Message {
         if (data.resIsPluginOutdated != null) {
             message.resIsPluginOutdated = ResIsPluginOutdated.fromObject(data.resIsPluginOutdated);
         }
+        if (data.aboutWorld != null) {
+            message.aboutWorld = AboutWorld.fromObject(data.aboutWorld);
+        }
+        if (data.characterTeleported != null) {
+            message.characterTeleported = CharacterTeleported.fromObject(data.characterTeleported);
+        }
         return message;
     }
     toObject() {
@@ -3951,6 +4071,8 @@ export class ServerEvent extends pb_1.Message {
             iframeGameObjectCreated?: ReturnType<typeof IframeGameObjectCreated.prototype.toObject>;
             iframeGameObjectDeleted?: ReturnType<typeof IframeGameObjectDeleted.prototype.toObject>;
             resIsPluginOutdated?: ReturnType<typeof ResIsPluginOutdated.prototype.toObject>;
+            aboutWorld?: ReturnType<typeof AboutWorld.prototype.toObject>;
+            characterTeleported?: ReturnType<typeof CharacterTeleported.prototype.toObject>;
         } = {};
         if (this.kicked != null) {
             data.kicked = this.kicked.toObject();
@@ -4012,6 +4134,12 @@ export class ServerEvent extends pb_1.Message {
         if (this.resIsPluginOutdated != null) {
             data.resIsPluginOutdated = this.resIsPluginOutdated.toObject();
         }
+        if (this.aboutWorld != null) {
+            data.aboutWorld = this.aboutWorld.toObject();
+        }
+        if (this.characterTeleported != null) {
+            data.characterTeleported = this.characterTeleported.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -4058,6 +4186,10 @@ export class ServerEvent extends pb_1.Message {
             writer.writeMessage(19, this.iframeGameObjectDeleted, () => this.iframeGameObjectDeleted.serialize(writer));
         if (this.has_resIsPluginOutdated)
             writer.writeMessage(20, this.resIsPluginOutdated, () => this.resIsPluginOutdated.serialize(writer));
+        if (this.has_aboutWorld)
+            writer.writeMessage(21, this.aboutWorld, () => this.aboutWorld.serialize(writer));
+        if (this.has_characterTeleported)
+            writer.writeMessage(22, this.characterTeleported, () => this.characterTeleported.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -4126,6 +4258,12 @@ export class ServerEvent extends pb_1.Message {
                     break;
                 case 20:
                     reader.readMessage(message.resIsPluginOutdated, () => message.resIsPluginOutdated = ResIsPluginOutdated.deserialize(reader));
+                    break;
+                case 21:
+                    reader.readMessage(message.aboutWorld, () => message.aboutWorld = AboutWorld.deserialize(reader));
+                    break;
+                case 22:
+                    reader.readMessage(message.characterTeleported, () => message.characterTeleported = CharacterTeleported.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -7251,5 +7389,2646 @@ export class ResIsPluginOutdated extends pb_1.Message {
     }
     static deserializeBinary(bytes: Uint8Array): ResIsPluginOutdated {
         return ResIsPluginOutdated.deserialize(bytes);
+    }
+}
+export class AboutWorld extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        world?: AboutWorld.World;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("world" in data && data.world != undefined) {
+                this.world = data.world;
+            }
+        }
+    }
+    get world() {
+        return pb_1.Message.getWrapperField(this, AboutWorld.World, 1) as AboutWorld.World;
+    }
+    set world(value: AboutWorld.World) {
+        pb_1.Message.setWrapperField(this, 1, value);
+    }
+    get has_world() {
+        return pb_1.Message.getField(this, 1) != null;
+    }
+    static fromObject(data: {
+        world?: ReturnType<typeof AboutWorld.World.prototype.toObject>;
+    }): AboutWorld {
+        const message = new AboutWorld({});
+        if (data.world != null) {
+            message.world = AboutWorld.World.fromObject(data.world);
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            world?: ReturnType<typeof AboutWorld.World.prototype.toObject>;
+        } = {};
+        if (this.world != null) {
+            data.world = this.world.toObject();
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.has_world)
+            writer.writeMessage(1, this.world, () => this.world.serialize(writer));
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AboutWorld {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new AboutWorld();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    reader.readMessage(message.world, () => message.world = AboutWorld.World.deserialize(reader));
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): AboutWorld {
+        return AboutWorld.deserialize(bytes);
+    }
+}
+export namespace AboutWorld {
+    export class World extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            id?: string;
+            name?: string;
+            amIAdmin?: boolean;
+            amIOwner?: boolean;
+            colliders?: AboutWorld.World.Collider[];
+            iframes?: AboutWorld.World.Iframe[];
+            images?: AboutWorld.World.Image[];
+            atlasInfos?: AboutWorld.World.AtlasInfo[];
+            admins?: AboutWorld.World.Admin[];
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [5, 6, 7, 8, 9], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("id" in data && data.id != undefined) {
+                    this.id = data.id;
+                }
+                if ("name" in data && data.name != undefined) {
+                    this.name = data.name;
+                }
+                if ("amIAdmin" in data && data.amIAdmin != undefined) {
+                    this.amIAdmin = data.amIAdmin;
+                }
+                if ("amIOwner" in data && data.amIOwner != undefined) {
+                    this.amIOwner = data.amIOwner;
+                }
+                if ("colliders" in data && data.colliders != undefined) {
+                    this.colliders = data.colliders;
+                }
+                if ("iframes" in data && data.iframes != undefined) {
+                    this.iframes = data.iframes;
+                }
+                if ("images" in data && data.images != undefined) {
+                    this.images = data.images;
+                }
+                if ("atlasInfos" in data && data.atlasInfos != undefined) {
+                    this.atlasInfos = data.atlasInfos;
+                }
+                if ("admins" in data && data.admins != undefined) {
+                    this.admins = data.admins;
+                }
+            }
+        }
+        get id() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set id(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get name() {
+            return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+        }
+        set name(value: string) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get amIAdmin() {
+            return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+        }
+        set amIAdmin(value: boolean) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get amIOwner() {
+            return pb_1.Message.getFieldWithDefault(this, 4, false) as boolean;
+        }
+        set amIOwner(value: boolean) {
+            pb_1.Message.setField(this, 4, value);
+        }
+        get colliders() {
+            return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Collider, 5) as AboutWorld.World.Collider[];
+        }
+        set colliders(value: AboutWorld.World.Collider[]) {
+            pb_1.Message.setRepeatedWrapperField(this, 5, value);
+        }
+        get iframes() {
+            return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Iframe, 6) as AboutWorld.World.Iframe[];
+        }
+        set iframes(value: AboutWorld.World.Iframe[]) {
+            pb_1.Message.setRepeatedWrapperField(this, 6, value);
+        }
+        get images() {
+            return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Image, 7) as AboutWorld.World.Image[];
+        }
+        set images(value: AboutWorld.World.Image[]) {
+            pb_1.Message.setRepeatedWrapperField(this, 7, value);
+        }
+        get atlasInfos() {
+            return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.AtlasInfo, 8) as AboutWorld.World.AtlasInfo[];
+        }
+        set atlasInfos(value: AboutWorld.World.AtlasInfo[]) {
+            pb_1.Message.setRepeatedWrapperField(this, 8, value);
+        }
+        get admins() {
+            return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Admin, 9) as AboutWorld.World.Admin[];
+        }
+        set admins(value: AboutWorld.World.Admin[]) {
+            pb_1.Message.setRepeatedWrapperField(this, 9, value);
+        }
+        static fromObject(data: {
+            id?: string;
+            name?: string;
+            amIAdmin?: boolean;
+            amIOwner?: boolean;
+            colliders?: ReturnType<typeof AboutWorld.World.Collider.prototype.toObject>[];
+            iframes?: ReturnType<typeof AboutWorld.World.Iframe.prototype.toObject>[];
+            images?: ReturnType<typeof AboutWorld.World.Image.prototype.toObject>[];
+            atlasInfos?: ReturnType<typeof AboutWorld.World.AtlasInfo.prototype.toObject>[];
+            admins?: ReturnType<typeof AboutWorld.World.Admin.prototype.toObject>[];
+        }): World {
+            const message = new World({});
+            if (data.id != null) {
+                message.id = data.id;
+            }
+            if (data.name != null) {
+                message.name = data.name;
+            }
+            if (data.amIAdmin != null) {
+                message.amIAdmin = data.amIAdmin;
+            }
+            if (data.amIOwner != null) {
+                message.amIOwner = data.amIOwner;
+            }
+            if (data.colliders != null) {
+                message.colliders = data.colliders.map(item => AboutWorld.World.Collider.fromObject(item));
+            }
+            if (data.iframes != null) {
+                message.iframes = data.iframes.map(item => AboutWorld.World.Iframe.fromObject(item));
+            }
+            if (data.images != null) {
+                message.images = data.images.map(item => AboutWorld.World.Image.fromObject(item));
+            }
+            if (data.atlasInfos != null) {
+                message.atlasInfos = data.atlasInfos.map(item => AboutWorld.World.AtlasInfo.fromObject(item));
+            }
+            if (data.admins != null) {
+                message.admins = data.admins.map(item => AboutWorld.World.Admin.fromObject(item));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                id?: string;
+                name?: string;
+                amIAdmin?: boolean;
+                amIOwner?: boolean;
+                colliders?: ReturnType<typeof AboutWorld.World.Collider.prototype.toObject>[];
+                iframes?: ReturnType<typeof AboutWorld.World.Iframe.prototype.toObject>[];
+                images?: ReturnType<typeof AboutWorld.World.Image.prototype.toObject>[];
+                atlasInfos?: ReturnType<typeof AboutWorld.World.AtlasInfo.prototype.toObject>[];
+                admins?: ReturnType<typeof AboutWorld.World.Admin.prototype.toObject>[];
+            } = {};
+            if (this.id != null) {
+                data.id = this.id;
+            }
+            if (this.name != null) {
+                data.name = this.name;
+            }
+            if (this.amIAdmin != null) {
+                data.amIAdmin = this.amIAdmin;
+            }
+            if (this.amIOwner != null) {
+                data.amIOwner = this.amIOwner;
+            }
+            if (this.colliders != null) {
+                data.colliders = this.colliders.map((item: AboutWorld.World.Collider) => item.toObject());
+            }
+            if (this.iframes != null) {
+                data.iframes = this.iframes.map((item: AboutWorld.World.Iframe) => item.toObject());
+            }
+            if (this.images != null) {
+                data.images = this.images.map((item: AboutWorld.World.Image) => item.toObject());
+            }
+            if (this.atlasInfos != null) {
+                data.atlasInfos = this.atlasInfos.map((item: AboutWorld.World.AtlasInfo) => item.toObject());
+            }
+            if (this.admins != null) {
+                data.admins = this.admins.map((item: AboutWorld.World.Admin) => item.toObject());
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.id.length)
+                writer.writeString(1, this.id);
+            if (this.name.length)
+                writer.writeString(2, this.name);
+            if (this.amIAdmin != false)
+                writer.writeBool(3, this.amIAdmin);
+            if (this.amIOwner != false)
+                writer.writeBool(4, this.amIOwner);
+            if (this.colliders.length)
+                writer.writeRepeatedMessage(5, this.colliders, (item: AboutWorld.World.Collider) => item.serialize(writer));
+            if (this.iframes.length)
+                writer.writeRepeatedMessage(6, this.iframes, (item: AboutWorld.World.Iframe) => item.serialize(writer));
+            if (this.images.length)
+                writer.writeRepeatedMessage(7, this.images, (item: AboutWorld.World.Image) => item.serialize(writer));
+            if (this.atlasInfos.length)
+                writer.writeRepeatedMessage(8, this.atlasInfos, (item: AboutWorld.World.AtlasInfo) => item.serialize(writer));
+            if (this.admins.length)
+                writer.writeRepeatedMessage(9, this.admins, (item: AboutWorld.World.Admin) => item.serialize(writer));
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): World {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new World();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.id = reader.readString();
+                        break;
+                    case 2:
+                        message.name = reader.readString();
+                        break;
+                    case 3:
+                        message.amIAdmin = reader.readBool();
+                        break;
+                    case 4:
+                        message.amIOwner = reader.readBool();
+                        break;
+                    case 5:
+                        reader.readMessage(message.colliders, () => pb_1.Message.addToRepeatedWrapperField(message, 5, AboutWorld.World.Collider.deserialize(reader), AboutWorld.World.Collider));
+                        break;
+                    case 6:
+                        reader.readMessage(message.iframes, () => pb_1.Message.addToRepeatedWrapperField(message, 6, AboutWorld.World.Iframe.deserialize(reader), AboutWorld.World.Iframe));
+                        break;
+                    case 7:
+                        reader.readMessage(message.images, () => pb_1.Message.addToRepeatedWrapperField(message, 7, AboutWorld.World.Image.deserialize(reader), AboutWorld.World.Image));
+                        break;
+                    case 8:
+                        reader.readMessage(message.atlasInfos, () => pb_1.Message.addToRepeatedWrapperField(message, 8, AboutWorld.World.AtlasInfo.deserialize(reader), AboutWorld.World.AtlasInfo));
+                        break;
+                    case 9:
+                        reader.readMessage(message.admins, () => pb_1.Message.addToRepeatedWrapperField(message, 9, AboutWorld.World.Admin.deserialize(reader), AboutWorld.World.Admin));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): World {
+            return World.deserialize(bytes);
+        }
+    }
+    export namespace World {
+        export class Collider extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                x?: number;
+                y?: number;
+                isBlocked?: boolean;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("x" in data && data.x != undefined) {
+                        this.x = data.x;
+                    }
+                    if ("y" in data && data.y != undefined) {
+                        this.y = data.y;
+                    }
+                    if ("isBlocked" in data && data.isBlocked != undefined) {
+                        this.isBlocked = data.isBlocked;
+                    }
+                }
+            }
+            get x() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set x(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            get y() {
+                return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+            }
+            set y(value: number) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            get isBlocked() {
+                return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+            }
+            set isBlocked(value: boolean) {
+                pb_1.Message.setField(this, 3, value);
+            }
+            static fromObject(data: {
+                x?: number;
+                y?: number;
+                isBlocked?: boolean;
+            }): Collider {
+                const message = new Collider({});
+                if (data.x != null) {
+                    message.x = data.x;
+                }
+                if (data.y != null) {
+                    message.y = data.y;
+                }
+                if (data.isBlocked != null) {
+                    message.isBlocked = data.isBlocked;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    x?: number;
+                    y?: number;
+                    isBlocked?: boolean;
+                } = {};
+                if (this.x != null) {
+                    data.x = this.x;
+                }
+                if (this.y != null) {
+                    data.y = this.y;
+                }
+                if (this.isBlocked != null) {
+                    data.isBlocked = this.isBlocked;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.x != 0)
+                    writer.writeInt32(1, this.x);
+                if (this.y != 0)
+                    writer.writeInt32(2, this.y);
+                if (this.isBlocked != false)
+                    writer.writeBool(3, this.isBlocked);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Collider {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Collider();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.x = reader.readInt32();
+                            break;
+                        case 2:
+                            message.y = reader.readInt32();
+                            break;
+                        case 3:
+                            message.isBlocked = reader.readBool();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): Collider {
+                return Collider.deserialize(bytes);
+            }
+        }
+        export class Iframe extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                id?: number;
+                x?: number;
+                y?: number;
+                fieldPortMappings?: AboutWorld.World.Iframe.FieldPortMapping[];
+                broadcasterPortMappings?: AboutWorld.World.Iframe.BroadcasterPortMapping[];
+                localFields?: AboutWorld.World.Iframe.LocalField[];
+                localBroadcasters?: AboutWorld.World.Iframe.LocalBroadcaster[];
+                proto?: AboutWorld.World.Iframe.Proto;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [4, 5, 6, 7], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("id" in data && data.id != undefined) {
+                        this.id = data.id;
+                    }
+                    if ("x" in data && data.x != undefined) {
+                        this.x = data.x;
+                    }
+                    if ("y" in data && data.y != undefined) {
+                        this.y = data.y;
+                    }
+                    if ("fieldPortMappings" in data && data.fieldPortMappings != undefined) {
+                        this.fieldPortMappings = data.fieldPortMappings;
+                    }
+                    if ("broadcasterPortMappings" in data && data.broadcasterPortMappings != undefined) {
+                        this.broadcasterPortMappings = data.broadcasterPortMappings;
+                    }
+                    if ("localFields" in data && data.localFields != undefined) {
+                        this.localFields = data.localFields;
+                    }
+                    if ("localBroadcasters" in data && data.localBroadcasters != undefined) {
+                        this.localBroadcasters = data.localBroadcasters;
+                    }
+                    if ("proto" in data && data.proto != undefined) {
+                        this.proto = data.proto;
+                    }
+                }
+            }
+            get id() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set id(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            get x() {
+                return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+            }
+            set x(value: number) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            get y() {
+                return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+            }
+            set y(value: number) {
+                pb_1.Message.setField(this, 3, value);
+            }
+            get fieldPortMappings() {
+                return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Iframe.FieldPortMapping, 4) as AboutWorld.World.Iframe.FieldPortMapping[];
+            }
+            set fieldPortMappings(value: AboutWorld.World.Iframe.FieldPortMapping[]) {
+                pb_1.Message.setRepeatedWrapperField(this, 4, value);
+            }
+            get broadcasterPortMappings() {
+                return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Iframe.BroadcasterPortMapping, 5) as AboutWorld.World.Iframe.BroadcasterPortMapping[];
+            }
+            set broadcasterPortMappings(value: AboutWorld.World.Iframe.BroadcasterPortMapping[]) {
+                pb_1.Message.setRepeatedWrapperField(this, 5, value);
+            }
+            get localFields() {
+                return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Iframe.LocalField, 6) as AboutWorld.World.Iframe.LocalField[];
+            }
+            set localFields(value: AboutWorld.World.Iframe.LocalField[]) {
+                pb_1.Message.setRepeatedWrapperField(this, 6, value);
+            }
+            get localBroadcasters() {
+                return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Iframe.LocalBroadcaster, 7) as AboutWorld.World.Iframe.LocalBroadcaster[];
+            }
+            set localBroadcasters(value: AboutWorld.World.Iframe.LocalBroadcaster[]) {
+                pb_1.Message.setRepeatedWrapperField(this, 7, value);
+            }
+            get proto() {
+                return pb_1.Message.getWrapperField(this, AboutWorld.World.Iframe.Proto, 8) as AboutWorld.World.Iframe.Proto;
+            }
+            set proto(value: AboutWorld.World.Iframe.Proto) {
+                pb_1.Message.setWrapperField(this, 8, value);
+            }
+            get has_proto() {
+                return pb_1.Message.getField(this, 8) != null;
+            }
+            static fromObject(data: {
+                id?: number;
+                x?: number;
+                y?: number;
+                fieldPortMappings?: ReturnType<typeof AboutWorld.World.Iframe.FieldPortMapping.prototype.toObject>[];
+                broadcasterPortMappings?: ReturnType<typeof AboutWorld.World.Iframe.BroadcasterPortMapping.prototype.toObject>[];
+                localFields?: ReturnType<typeof AboutWorld.World.Iframe.LocalField.prototype.toObject>[];
+                localBroadcasters?: ReturnType<typeof AboutWorld.World.Iframe.LocalBroadcaster.prototype.toObject>[];
+                proto?: ReturnType<typeof AboutWorld.World.Iframe.Proto.prototype.toObject>;
+            }): Iframe {
+                const message = new Iframe({});
+                if (data.id != null) {
+                    message.id = data.id;
+                }
+                if (data.x != null) {
+                    message.x = data.x;
+                }
+                if (data.y != null) {
+                    message.y = data.y;
+                }
+                if (data.fieldPortMappings != null) {
+                    message.fieldPortMappings = data.fieldPortMappings.map(item => AboutWorld.World.Iframe.FieldPortMapping.fromObject(item));
+                }
+                if (data.broadcasterPortMappings != null) {
+                    message.broadcasterPortMappings = data.broadcasterPortMappings.map(item => AboutWorld.World.Iframe.BroadcasterPortMapping.fromObject(item));
+                }
+                if (data.localFields != null) {
+                    message.localFields = data.localFields.map(item => AboutWorld.World.Iframe.LocalField.fromObject(item));
+                }
+                if (data.localBroadcasters != null) {
+                    message.localBroadcasters = data.localBroadcasters.map(item => AboutWorld.World.Iframe.LocalBroadcaster.fromObject(item));
+                }
+                if (data.proto != null) {
+                    message.proto = AboutWorld.World.Iframe.Proto.fromObject(data.proto);
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    id?: number;
+                    x?: number;
+                    y?: number;
+                    fieldPortMappings?: ReturnType<typeof AboutWorld.World.Iframe.FieldPortMapping.prototype.toObject>[];
+                    broadcasterPortMappings?: ReturnType<typeof AboutWorld.World.Iframe.BroadcasterPortMapping.prototype.toObject>[];
+                    localFields?: ReturnType<typeof AboutWorld.World.Iframe.LocalField.prototype.toObject>[];
+                    localBroadcasters?: ReturnType<typeof AboutWorld.World.Iframe.LocalBroadcaster.prototype.toObject>[];
+                    proto?: ReturnType<typeof AboutWorld.World.Iframe.Proto.prototype.toObject>;
+                } = {};
+                if (this.id != null) {
+                    data.id = this.id;
+                }
+                if (this.x != null) {
+                    data.x = this.x;
+                }
+                if (this.y != null) {
+                    data.y = this.y;
+                }
+                if (this.fieldPortMappings != null) {
+                    data.fieldPortMappings = this.fieldPortMappings.map((item: AboutWorld.World.Iframe.FieldPortMapping) => item.toObject());
+                }
+                if (this.broadcasterPortMappings != null) {
+                    data.broadcasterPortMappings = this.broadcasterPortMappings.map((item: AboutWorld.World.Iframe.BroadcasterPortMapping) => item.toObject());
+                }
+                if (this.localFields != null) {
+                    data.localFields = this.localFields.map((item: AboutWorld.World.Iframe.LocalField) => item.toObject());
+                }
+                if (this.localBroadcasters != null) {
+                    data.localBroadcasters = this.localBroadcasters.map((item: AboutWorld.World.Iframe.LocalBroadcaster) => item.toObject());
+                }
+                if (this.proto != null) {
+                    data.proto = this.proto.toObject();
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.id != 0)
+                    writer.writeInt32(1, this.id);
+                if (this.x != 0)
+                    writer.writeInt32(2, this.x);
+                if (this.y != 0)
+                    writer.writeInt32(3, this.y);
+                if (this.fieldPortMappings.length)
+                    writer.writeRepeatedMessage(4, this.fieldPortMappings, (item: AboutWorld.World.Iframe.FieldPortMapping) => item.serialize(writer));
+                if (this.broadcasterPortMappings.length)
+                    writer.writeRepeatedMessage(5, this.broadcasterPortMappings, (item: AboutWorld.World.Iframe.BroadcasterPortMapping) => item.serialize(writer));
+                if (this.localFields.length)
+                    writer.writeRepeatedMessage(6, this.localFields, (item: AboutWorld.World.Iframe.LocalField) => item.serialize(writer));
+                if (this.localBroadcasters.length)
+                    writer.writeRepeatedMessage(7, this.localBroadcasters, (item: AboutWorld.World.Iframe.LocalBroadcaster) => item.serialize(writer));
+                if (this.has_proto)
+                    writer.writeMessage(8, this.proto, () => this.proto.serialize(writer));
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Iframe {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Iframe();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.id = reader.readInt32();
+                            break;
+                        case 2:
+                            message.x = reader.readInt32();
+                            break;
+                        case 3:
+                            message.y = reader.readInt32();
+                            break;
+                        case 4:
+                            reader.readMessage(message.fieldPortMappings, () => pb_1.Message.addToRepeatedWrapperField(message, 4, AboutWorld.World.Iframe.FieldPortMapping.deserialize(reader), AboutWorld.World.Iframe.FieldPortMapping));
+                            break;
+                        case 5:
+                            reader.readMessage(message.broadcasterPortMappings, () => pb_1.Message.addToRepeatedWrapperField(message, 5, AboutWorld.World.Iframe.BroadcasterPortMapping.deserialize(reader), AboutWorld.World.Iframe.BroadcasterPortMapping));
+                            break;
+                        case 6:
+                            reader.readMessage(message.localFields, () => pb_1.Message.addToRepeatedWrapperField(message, 6, AboutWorld.World.Iframe.LocalField.deserialize(reader), AboutWorld.World.Iframe.LocalField));
+                            break;
+                        case 7:
+                            reader.readMessage(message.localBroadcasters, () => pb_1.Message.addToRepeatedWrapperField(message, 7, AboutWorld.World.Iframe.LocalBroadcaster.deserialize(reader), AboutWorld.World.Iframe.LocalBroadcaster));
+                            break;
+                        case 8:
+                            reader.readMessage(message.proto, () => message.proto = AboutWorld.World.Iframe.Proto.deserialize(reader));
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): Iframe {
+                return Iframe.deserialize(bytes);
+            }
+        }
+        export namespace Iframe {
+            export class FieldPortMapping extends pb_1.Message {
+                #one_of_decls: number[][] = [];
+                constructor(data?: any[] | {
+                    id?: number;
+                    portId?: string;
+                    field?: AboutWorld.World.Iframe.FieldPortMapping.Field;
+                }) {
+                    super();
+                    pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                    if (!Array.isArray(data) && typeof data == "object") {
+                        if ("id" in data && data.id != undefined) {
+                            this.id = data.id;
+                        }
+                        if ("portId" in data && data.portId != undefined) {
+                            this.portId = data.portId;
+                        }
+                        if ("field" in data && data.field != undefined) {
+                            this.field = data.field;
+                        }
+                    }
+                }
+                get id() {
+                    return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                }
+                set id(value: number) {
+                    pb_1.Message.setField(this, 1, value);
+                }
+                get portId() {
+                    return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+                }
+                set portId(value: string) {
+                    pb_1.Message.setField(this, 2, value);
+                }
+                get field() {
+                    return pb_1.Message.getWrapperField(this, AboutWorld.World.Iframe.FieldPortMapping.Field, 3) as AboutWorld.World.Iframe.FieldPortMapping.Field;
+                }
+                set field(value: AboutWorld.World.Iframe.FieldPortMapping.Field) {
+                    pb_1.Message.setWrapperField(this, 3, value);
+                }
+                get has_field() {
+                    return pb_1.Message.getField(this, 3) != null;
+                }
+                static fromObject(data: {
+                    id?: number;
+                    portId?: string;
+                    field?: ReturnType<typeof AboutWorld.World.Iframe.FieldPortMapping.Field.prototype.toObject>;
+                }): FieldPortMapping {
+                    const message = new FieldPortMapping({});
+                    if (data.id != null) {
+                        message.id = data.id;
+                    }
+                    if (data.portId != null) {
+                        message.portId = data.portId;
+                    }
+                    if (data.field != null) {
+                        message.field = AboutWorld.World.Iframe.FieldPortMapping.Field.fromObject(data.field);
+                    }
+                    return message;
+                }
+                toObject() {
+                    const data: {
+                        id?: number;
+                        portId?: string;
+                        field?: ReturnType<typeof AboutWorld.World.Iframe.FieldPortMapping.Field.prototype.toObject>;
+                    } = {};
+                    if (this.id != null) {
+                        data.id = this.id;
+                    }
+                    if (this.portId != null) {
+                        data.portId = this.portId;
+                    }
+                    if (this.field != null) {
+                        data.field = this.field.toObject();
+                    }
+                    return data;
+                }
+                serialize(): Uint8Array;
+                serialize(w: pb_1.BinaryWriter): void;
+                serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                    const writer = w || new pb_1.BinaryWriter();
+                    if (this.id != 0)
+                        writer.writeInt32(1, this.id);
+                    if (this.portId.length)
+                        writer.writeString(2, this.portId);
+                    if (this.has_field)
+                        writer.writeMessage(3, this.field, () => this.field.serialize(writer));
+                    if (!w)
+                        return writer.getResultBuffer();
+                }
+                static deserialize(bytes: Uint8Array | pb_1.BinaryReader): FieldPortMapping {
+                    const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new FieldPortMapping();
+                    while (reader.nextField()) {
+                        if (reader.isEndGroup())
+                            break;
+                        switch (reader.getFieldNumber()) {
+                            case 1:
+                                message.id = reader.readInt32();
+                                break;
+                            case 2:
+                                message.portId = reader.readString();
+                                break;
+                            case 3:
+                                reader.readMessage(message.field, () => message.field = AboutWorld.World.Iframe.FieldPortMapping.Field.deserialize(reader));
+                                break;
+                            default: reader.skipField();
+                        }
+                    }
+                    return message;
+                }
+                serializeBinary(): Uint8Array {
+                    return this.serialize();
+                }
+                static deserializeBinary(bytes: Uint8Array): FieldPortMapping {
+                    return FieldPortMapping.deserialize(bytes);
+                }
+            }
+            export namespace FieldPortMapping {
+                export class Field extends pb_1.Message {
+                    #one_of_decls: number[][] = [];
+                    constructor(data?: any[] | {
+                        value?: string;
+                        id?: number;
+                    }) {
+                        super();
+                        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                        if (!Array.isArray(data) && typeof data == "object") {
+                            if ("value" in data && data.value != undefined) {
+                                this.value = data.value;
+                            }
+                            if ("id" in data && data.id != undefined) {
+                                this.id = data.id;
+                            }
+                        }
+                    }
+                    get value() {
+                        return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+                    }
+                    set value(value: string) {
+                        pb_1.Message.setField(this, 1, value);
+                    }
+                    get id() {
+                        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+                    }
+                    set id(value: number) {
+                        pb_1.Message.setField(this, 2, value);
+                    }
+                    static fromObject(data: {
+                        value?: string;
+                        id?: number;
+                    }): Field {
+                        const message = new Field({});
+                        if (data.value != null) {
+                            message.value = data.value;
+                        }
+                        if (data.id != null) {
+                            message.id = data.id;
+                        }
+                        return message;
+                    }
+                    toObject() {
+                        const data: {
+                            value?: string;
+                            id?: number;
+                        } = {};
+                        if (this.value != null) {
+                            data.value = this.value;
+                        }
+                        if (this.id != null) {
+                            data.id = this.id;
+                        }
+                        return data;
+                    }
+                    serialize(): Uint8Array;
+                    serialize(w: pb_1.BinaryWriter): void;
+                    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                        const writer = w || new pb_1.BinaryWriter();
+                        if (this.value.length)
+                            writer.writeString(1, this.value);
+                        if (this.id != 0)
+                            writer.writeInt32(2, this.id);
+                        if (!w)
+                            return writer.getResultBuffer();
+                    }
+                    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Field {
+                        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Field();
+                        while (reader.nextField()) {
+                            if (reader.isEndGroup())
+                                break;
+                            switch (reader.getFieldNumber()) {
+                                case 1:
+                                    message.value = reader.readString();
+                                    break;
+                                case 2:
+                                    message.id = reader.readInt32();
+                                    break;
+                                default: reader.skipField();
+                            }
+                        }
+                        return message;
+                    }
+                    serializeBinary(): Uint8Array {
+                        return this.serialize();
+                    }
+                    static deserializeBinary(bytes: Uint8Array): Field {
+                        return Field.deserialize(bytes);
+                    }
+                }
+            }
+            export class BroadcasterPortMapping extends pb_1.Message {
+                #one_of_decls: number[][] = [];
+                constructor(data?: any[] | {
+                    id?: number;
+                    portId?: string;
+                    broadcaster?: AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster;
+                }) {
+                    super();
+                    pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                    if (!Array.isArray(data) && typeof data == "object") {
+                        if ("id" in data && data.id != undefined) {
+                            this.id = data.id;
+                        }
+                        if ("portId" in data && data.portId != undefined) {
+                            this.portId = data.portId;
+                        }
+                        if ("broadcaster" in data && data.broadcaster != undefined) {
+                            this.broadcaster = data.broadcaster;
+                        }
+                    }
+                }
+                get id() {
+                    return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                }
+                set id(value: number) {
+                    pb_1.Message.setField(this, 1, value);
+                }
+                get portId() {
+                    return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+                }
+                set portId(value: string) {
+                    pb_1.Message.setField(this, 2, value);
+                }
+                get broadcaster() {
+                    return pb_1.Message.getWrapperField(this, AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster, 3) as AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster;
+                }
+                set broadcaster(value: AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster) {
+                    pb_1.Message.setWrapperField(this, 3, value);
+                }
+                get has_broadcaster() {
+                    return pb_1.Message.getField(this, 3) != null;
+                }
+                static fromObject(data: {
+                    id?: number;
+                    portId?: string;
+                    broadcaster?: ReturnType<typeof AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster.prototype.toObject>;
+                }): BroadcasterPortMapping {
+                    const message = new BroadcasterPortMapping({});
+                    if (data.id != null) {
+                        message.id = data.id;
+                    }
+                    if (data.portId != null) {
+                        message.portId = data.portId;
+                    }
+                    if (data.broadcaster != null) {
+                        message.broadcaster = AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster.fromObject(data.broadcaster);
+                    }
+                    return message;
+                }
+                toObject() {
+                    const data: {
+                        id?: number;
+                        portId?: string;
+                        broadcaster?: ReturnType<typeof AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster.prototype.toObject>;
+                    } = {};
+                    if (this.id != null) {
+                        data.id = this.id;
+                    }
+                    if (this.portId != null) {
+                        data.portId = this.portId;
+                    }
+                    if (this.broadcaster != null) {
+                        data.broadcaster = this.broadcaster.toObject();
+                    }
+                    return data;
+                }
+                serialize(): Uint8Array;
+                serialize(w: pb_1.BinaryWriter): void;
+                serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                    const writer = w || new pb_1.BinaryWriter();
+                    if (this.id != 0)
+                        writer.writeInt32(1, this.id);
+                    if (this.portId.length)
+                        writer.writeString(2, this.portId);
+                    if (this.has_broadcaster)
+                        writer.writeMessage(3, this.broadcaster, () => this.broadcaster.serialize(writer));
+                    if (!w)
+                        return writer.getResultBuffer();
+                }
+                static deserialize(bytes: Uint8Array | pb_1.BinaryReader): BroadcasterPortMapping {
+                    const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new BroadcasterPortMapping();
+                    while (reader.nextField()) {
+                        if (reader.isEndGroup())
+                            break;
+                        switch (reader.getFieldNumber()) {
+                            case 1:
+                                message.id = reader.readInt32();
+                                break;
+                            case 2:
+                                message.portId = reader.readString();
+                                break;
+                            case 3:
+                                reader.readMessage(message.broadcaster, () => message.broadcaster = AboutWorld.World.Iframe.BroadcasterPortMapping.Broadcaster.deserialize(reader));
+                                break;
+                            default: reader.skipField();
+                        }
+                    }
+                    return message;
+                }
+                serializeBinary(): Uint8Array {
+                    return this.serialize();
+                }
+                static deserializeBinary(bytes: Uint8Array): BroadcasterPortMapping {
+                    return BroadcasterPortMapping.deserialize(bytes);
+                }
+            }
+            export namespace BroadcasterPortMapping {
+                export class Broadcaster extends pb_1.Message {
+                    #one_of_decls: number[][] = [];
+                    constructor(data?: any[] | {
+                        id?: number;
+                    }) {
+                        super();
+                        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                        if (!Array.isArray(data) && typeof data == "object") {
+                            if ("id" in data && data.id != undefined) {
+                                this.id = data.id;
+                            }
+                        }
+                    }
+                    get id() {
+                        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                    }
+                    set id(value: number) {
+                        pb_1.Message.setField(this, 1, value);
+                    }
+                    static fromObject(data: {
+                        id?: number;
+                    }): Broadcaster {
+                        const message = new Broadcaster({});
+                        if (data.id != null) {
+                            message.id = data.id;
+                        }
+                        return message;
+                    }
+                    toObject() {
+                        const data: {
+                            id?: number;
+                        } = {};
+                        if (this.id != null) {
+                            data.id = this.id;
+                        }
+                        return data;
+                    }
+                    serialize(): Uint8Array;
+                    serialize(w: pb_1.BinaryWriter): void;
+                    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                        const writer = w || new pb_1.BinaryWriter();
+                        if (this.id != 0)
+                            writer.writeInt32(1, this.id);
+                        if (!w)
+                            return writer.getResultBuffer();
+                    }
+                    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Broadcaster {
+                        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Broadcaster();
+                        while (reader.nextField()) {
+                            if (reader.isEndGroup())
+                                break;
+                            switch (reader.getFieldNumber()) {
+                                case 1:
+                                    message.id = reader.readInt32();
+                                    break;
+                                default: reader.skipField();
+                            }
+                        }
+                        return message;
+                    }
+                    serializeBinary(): Uint8Array {
+                        return this.serialize();
+                    }
+                    static deserializeBinary(bytes: Uint8Array): Broadcaster {
+                        return Broadcaster.deserialize(bytes);
+                    }
+                }
+            }
+            export class LocalField extends pb_1.Message {
+                #one_of_decls: number[][] = [];
+                constructor(data?: any[] | {
+                    id?: number;
+                    name?: string;
+                    value?: string;
+                }) {
+                    super();
+                    pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                    if (!Array.isArray(data) && typeof data == "object") {
+                        if ("id" in data && data.id != undefined) {
+                            this.id = data.id;
+                        }
+                        if ("name" in data && data.name != undefined) {
+                            this.name = data.name;
+                        }
+                        if ("value" in data && data.value != undefined) {
+                            this.value = data.value;
+                        }
+                    }
+                }
+                get id() {
+                    return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                }
+                set id(value: number) {
+                    pb_1.Message.setField(this, 1, value);
+                }
+                get name() {
+                    return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+                }
+                set name(value: string) {
+                    pb_1.Message.setField(this, 2, value);
+                }
+                get value() {
+                    return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+                }
+                set value(value: string) {
+                    pb_1.Message.setField(this, 3, value);
+                }
+                static fromObject(data: {
+                    id?: number;
+                    name?: string;
+                    value?: string;
+                }): LocalField {
+                    const message = new LocalField({});
+                    if (data.id != null) {
+                        message.id = data.id;
+                    }
+                    if (data.name != null) {
+                        message.name = data.name;
+                    }
+                    if (data.value != null) {
+                        message.value = data.value;
+                    }
+                    return message;
+                }
+                toObject() {
+                    const data: {
+                        id?: number;
+                        name?: string;
+                        value?: string;
+                    } = {};
+                    if (this.id != null) {
+                        data.id = this.id;
+                    }
+                    if (this.name != null) {
+                        data.name = this.name;
+                    }
+                    if (this.value != null) {
+                        data.value = this.value;
+                    }
+                    return data;
+                }
+                serialize(): Uint8Array;
+                serialize(w: pb_1.BinaryWriter): void;
+                serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                    const writer = w || new pb_1.BinaryWriter();
+                    if (this.id != 0)
+                        writer.writeInt32(1, this.id);
+                    if (this.name.length)
+                        writer.writeString(2, this.name);
+                    if (this.value.length)
+                        writer.writeString(3, this.value);
+                    if (!w)
+                        return writer.getResultBuffer();
+                }
+                static deserialize(bytes: Uint8Array | pb_1.BinaryReader): LocalField {
+                    const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new LocalField();
+                    while (reader.nextField()) {
+                        if (reader.isEndGroup())
+                            break;
+                        switch (reader.getFieldNumber()) {
+                            case 1:
+                                message.id = reader.readInt32();
+                                break;
+                            case 2:
+                                message.name = reader.readString();
+                                break;
+                            case 3:
+                                message.value = reader.readString();
+                                break;
+                            default: reader.skipField();
+                        }
+                    }
+                    return message;
+                }
+                serializeBinary(): Uint8Array {
+                    return this.serialize();
+                }
+                static deserializeBinary(bytes: Uint8Array): LocalField {
+                    return LocalField.deserialize(bytes);
+                }
+            }
+            export class LocalBroadcaster extends pb_1.Message {
+                #one_of_decls: number[][] = [];
+                constructor(data?: any[] | {
+                    id?: number;
+                    name?: string;
+                }) {
+                    super();
+                    pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                    if (!Array.isArray(data) && typeof data == "object") {
+                        if ("id" in data && data.id != undefined) {
+                            this.id = data.id;
+                        }
+                        if ("name" in data && data.name != undefined) {
+                            this.name = data.name;
+                        }
+                    }
+                }
+                get id() {
+                    return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                }
+                set id(value: number) {
+                    pb_1.Message.setField(this, 1, value);
+                }
+                get name() {
+                    return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+                }
+                set name(value: string) {
+                    pb_1.Message.setField(this, 2, value);
+                }
+                static fromObject(data: {
+                    id?: number;
+                    name?: string;
+                }): LocalBroadcaster {
+                    const message = new LocalBroadcaster({});
+                    if (data.id != null) {
+                        message.id = data.id;
+                    }
+                    if (data.name != null) {
+                        message.name = data.name;
+                    }
+                    return message;
+                }
+                toObject() {
+                    const data: {
+                        id?: number;
+                        name?: string;
+                    } = {};
+                    if (this.id != null) {
+                        data.id = this.id;
+                    }
+                    if (this.name != null) {
+                        data.name = this.name;
+                    }
+                    return data;
+                }
+                serialize(): Uint8Array;
+                serialize(w: pb_1.BinaryWriter): void;
+                serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                    const writer = w || new pb_1.BinaryWriter();
+                    if (this.id != 0)
+                        writer.writeInt32(1, this.id);
+                    if (this.name.length)
+                        writer.writeString(2, this.name);
+                    if (!w)
+                        return writer.getResultBuffer();
+                }
+                static deserialize(bytes: Uint8Array | pb_1.BinaryReader): LocalBroadcaster {
+                    const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new LocalBroadcaster();
+                    while (reader.nextField()) {
+                        if (reader.isEndGroup())
+                            break;
+                        switch (reader.getFieldNumber()) {
+                            case 1:
+                                message.id = reader.readInt32();
+                                break;
+                            case 2:
+                                message.name = reader.readString();
+                                break;
+                            default: reader.skipField();
+                        }
+                    }
+                    return message;
+                }
+                serializeBinary(): Uint8Array {
+                    return this.serialize();
+                }
+                static deserializeBinary(bytes: Uint8Array): LocalBroadcaster {
+                    return LocalBroadcaster.deserialize(bytes);
+                }
+            }
+            export class Proto extends pb_1.Message {
+                #one_of_decls: number[][] = [];
+                constructor(data?: any[] | {
+                    id?: number;
+                    isPublic?: boolean;
+                    width?: number;
+                    height?: number;
+                    type?: number;
+                    src?: string;
+                    colliders?: AboutWorld.World.Iframe.Proto.Collider[];
+                    owner?: AboutWorld.World.Iframe.Proto.Owner;
+                }) {
+                    super();
+                    pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [7], this.#one_of_decls);
+                    if (!Array.isArray(data) && typeof data == "object") {
+                        if ("id" in data && data.id != undefined) {
+                            this.id = data.id;
+                        }
+                        if ("isPublic" in data && data.isPublic != undefined) {
+                            this.isPublic = data.isPublic;
+                        }
+                        if ("width" in data && data.width != undefined) {
+                            this.width = data.width;
+                        }
+                        if ("height" in data && data.height != undefined) {
+                            this.height = data.height;
+                        }
+                        if ("type" in data && data.type != undefined) {
+                            this.type = data.type;
+                        }
+                        if ("src" in data && data.src != undefined) {
+                            this.src = data.src;
+                        }
+                        if ("colliders" in data && data.colliders != undefined) {
+                            this.colliders = data.colliders;
+                        }
+                        if ("owner" in data && data.owner != undefined) {
+                            this.owner = data.owner;
+                        }
+                    }
+                }
+                get id() {
+                    return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                }
+                set id(value: number) {
+                    pb_1.Message.setField(this, 1, value);
+                }
+                get isPublic() {
+                    return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+                }
+                set isPublic(value: boolean) {
+                    pb_1.Message.setField(this, 2, value);
+                }
+                get width() {
+                    return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+                }
+                set width(value: number) {
+                    pb_1.Message.setField(this, 3, value);
+                }
+                get height() {
+                    return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+                }
+                set height(value: number) {
+                    pb_1.Message.setField(this, 4, value);
+                }
+                get type() {
+                    return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+                }
+                set type(value: number) {
+                    pb_1.Message.setField(this, 5, value);
+                }
+                get src() {
+                    return pb_1.Message.getFieldWithDefault(this, 6, "") as string;
+                }
+                set src(value: string) {
+                    pb_1.Message.setField(this, 6, value);
+                }
+                get colliders() {
+                    return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Iframe.Proto.Collider, 7) as AboutWorld.World.Iframe.Proto.Collider[];
+                }
+                set colliders(value: AboutWorld.World.Iframe.Proto.Collider[]) {
+                    pb_1.Message.setRepeatedWrapperField(this, 7, value);
+                }
+                get owner() {
+                    return pb_1.Message.getWrapperField(this, AboutWorld.World.Iframe.Proto.Owner, 8) as AboutWorld.World.Iframe.Proto.Owner;
+                }
+                set owner(value: AboutWorld.World.Iframe.Proto.Owner) {
+                    pb_1.Message.setWrapperField(this, 8, value);
+                }
+                get has_owner() {
+                    return pb_1.Message.getField(this, 8) != null;
+                }
+                static fromObject(data: {
+                    id?: number;
+                    isPublic?: boolean;
+                    width?: number;
+                    height?: number;
+                    type?: number;
+                    src?: string;
+                    colliders?: ReturnType<typeof AboutWorld.World.Iframe.Proto.Collider.prototype.toObject>[];
+                    owner?: ReturnType<typeof AboutWorld.World.Iframe.Proto.Owner.prototype.toObject>;
+                }): Proto {
+                    const message = new Proto({});
+                    if (data.id != null) {
+                        message.id = data.id;
+                    }
+                    if (data.isPublic != null) {
+                        message.isPublic = data.isPublic;
+                    }
+                    if (data.width != null) {
+                        message.width = data.width;
+                    }
+                    if (data.height != null) {
+                        message.height = data.height;
+                    }
+                    if (data.type != null) {
+                        message.type = data.type;
+                    }
+                    if (data.src != null) {
+                        message.src = data.src;
+                    }
+                    if (data.colliders != null) {
+                        message.colliders = data.colliders.map(item => AboutWorld.World.Iframe.Proto.Collider.fromObject(item));
+                    }
+                    if (data.owner != null) {
+                        message.owner = AboutWorld.World.Iframe.Proto.Owner.fromObject(data.owner);
+                    }
+                    return message;
+                }
+                toObject() {
+                    const data: {
+                        id?: number;
+                        isPublic?: boolean;
+                        width?: number;
+                        height?: number;
+                        type?: number;
+                        src?: string;
+                        colliders?: ReturnType<typeof AboutWorld.World.Iframe.Proto.Collider.prototype.toObject>[];
+                        owner?: ReturnType<typeof AboutWorld.World.Iframe.Proto.Owner.prototype.toObject>;
+                    } = {};
+                    if (this.id != null) {
+                        data.id = this.id;
+                    }
+                    if (this.isPublic != null) {
+                        data.isPublic = this.isPublic;
+                    }
+                    if (this.width != null) {
+                        data.width = this.width;
+                    }
+                    if (this.height != null) {
+                        data.height = this.height;
+                    }
+                    if (this.type != null) {
+                        data.type = this.type;
+                    }
+                    if (this.src != null) {
+                        data.src = this.src;
+                    }
+                    if (this.colliders != null) {
+                        data.colliders = this.colliders.map((item: AboutWorld.World.Iframe.Proto.Collider) => item.toObject());
+                    }
+                    if (this.owner != null) {
+                        data.owner = this.owner.toObject();
+                    }
+                    return data;
+                }
+                serialize(): Uint8Array;
+                serialize(w: pb_1.BinaryWriter): void;
+                serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                    const writer = w || new pb_1.BinaryWriter();
+                    if (this.id != 0)
+                        writer.writeInt32(1, this.id);
+                    if (this.isPublic != false)
+                        writer.writeBool(2, this.isPublic);
+                    if (this.width != 0)
+                        writer.writeInt32(3, this.width);
+                    if (this.height != 0)
+                        writer.writeInt32(4, this.height);
+                    if (this.type != 0)
+                        writer.writeInt32(5, this.type);
+                    if (this.src.length)
+                        writer.writeString(6, this.src);
+                    if (this.colliders.length)
+                        writer.writeRepeatedMessage(7, this.colliders, (item: AboutWorld.World.Iframe.Proto.Collider) => item.serialize(writer));
+                    if (this.has_owner)
+                        writer.writeMessage(8, this.owner, () => this.owner.serialize(writer));
+                    if (!w)
+                        return writer.getResultBuffer();
+                }
+                static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Proto {
+                    const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Proto();
+                    while (reader.nextField()) {
+                        if (reader.isEndGroup())
+                            break;
+                        switch (reader.getFieldNumber()) {
+                            case 1:
+                                message.id = reader.readInt32();
+                                break;
+                            case 2:
+                                message.isPublic = reader.readBool();
+                                break;
+                            case 3:
+                                message.width = reader.readInt32();
+                                break;
+                            case 4:
+                                message.height = reader.readInt32();
+                                break;
+                            case 5:
+                                message.type = reader.readInt32();
+                                break;
+                            case 6:
+                                message.src = reader.readString();
+                                break;
+                            case 7:
+                                reader.readMessage(message.colliders, () => pb_1.Message.addToRepeatedWrapperField(message, 7, AboutWorld.World.Iframe.Proto.Collider.deserialize(reader), AboutWorld.World.Iframe.Proto.Collider));
+                                break;
+                            case 8:
+                                reader.readMessage(message.owner, () => message.owner = AboutWorld.World.Iframe.Proto.Owner.deserialize(reader));
+                                break;
+                            default: reader.skipField();
+                        }
+                    }
+                    return message;
+                }
+                serializeBinary(): Uint8Array {
+                    return this.serialize();
+                }
+                static deserializeBinary(bytes: Uint8Array): Proto {
+                    return Proto.deserialize(bytes);
+                }
+            }
+            export namespace Proto {
+                export class Collider extends pb_1.Message {
+                    #one_of_decls: number[][] = [];
+                    constructor(data?: any[] | {
+                        x?: number;
+                        y?: number;
+                        isBlocked?: boolean;
+                    }) {
+                        super();
+                        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                        if (!Array.isArray(data) && typeof data == "object") {
+                            if ("x" in data && data.x != undefined) {
+                                this.x = data.x;
+                            }
+                            if ("y" in data && data.y != undefined) {
+                                this.y = data.y;
+                            }
+                            if ("isBlocked" in data && data.isBlocked != undefined) {
+                                this.isBlocked = data.isBlocked;
+                            }
+                        }
+                    }
+                    get x() {
+                        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                    }
+                    set x(value: number) {
+                        pb_1.Message.setField(this, 1, value);
+                    }
+                    get y() {
+                        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+                    }
+                    set y(value: number) {
+                        pb_1.Message.setField(this, 2, value);
+                    }
+                    get isBlocked() {
+                        return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+                    }
+                    set isBlocked(value: boolean) {
+                        pb_1.Message.setField(this, 3, value);
+                    }
+                    static fromObject(data: {
+                        x?: number;
+                        y?: number;
+                        isBlocked?: boolean;
+                    }): Collider {
+                        const message = new Collider({});
+                        if (data.x != null) {
+                            message.x = data.x;
+                        }
+                        if (data.y != null) {
+                            message.y = data.y;
+                        }
+                        if (data.isBlocked != null) {
+                            message.isBlocked = data.isBlocked;
+                        }
+                        return message;
+                    }
+                    toObject() {
+                        const data: {
+                            x?: number;
+                            y?: number;
+                            isBlocked?: boolean;
+                        } = {};
+                        if (this.x != null) {
+                            data.x = this.x;
+                        }
+                        if (this.y != null) {
+                            data.y = this.y;
+                        }
+                        if (this.isBlocked != null) {
+                            data.isBlocked = this.isBlocked;
+                        }
+                        return data;
+                    }
+                    serialize(): Uint8Array;
+                    serialize(w: pb_1.BinaryWriter): void;
+                    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                        const writer = w || new pb_1.BinaryWriter();
+                        if (this.x != 0)
+                            writer.writeInt32(1, this.x);
+                        if (this.y != 0)
+                            writer.writeInt32(2, this.y);
+                        if (this.isBlocked != false)
+                            writer.writeBool(3, this.isBlocked);
+                        if (!w)
+                            return writer.getResultBuffer();
+                    }
+                    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Collider {
+                        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Collider();
+                        while (reader.nextField()) {
+                            if (reader.isEndGroup())
+                                break;
+                            switch (reader.getFieldNumber()) {
+                                case 1:
+                                    message.x = reader.readInt32();
+                                    break;
+                                case 2:
+                                    message.y = reader.readInt32();
+                                    break;
+                                case 3:
+                                    message.isBlocked = reader.readBool();
+                                    break;
+                                default: reader.skipField();
+                            }
+                        }
+                        return message;
+                    }
+                    serializeBinary(): Uint8Array {
+                        return this.serialize();
+                    }
+                    static deserializeBinary(bytes: Uint8Array): Collider {
+                        return Collider.deserialize(bytes);
+                    }
+                }
+                export class Owner extends pb_1.Message {
+                    #one_of_decls: number[][] = [];
+                    constructor(data?: any[] | {
+                        id?: string;
+                    }) {
+                        super();
+                        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                        if (!Array.isArray(data) && typeof data == "object") {
+                            if ("id" in data && data.id != undefined) {
+                                this.id = data.id;
+                            }
+                        }
+                    }
+                    get id() {
+                        return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+                    }
+                    set id(value: string) {
+                        pb_1.Message.setField(this, 1, value);
+                    }
+                    static fromObject(data: {
+                        id?: string;
+                    }): Owner {
+                        const message = new Owner({});
+                        if (data.id != null) {
+                            message.id = data.id;
+                        }
+                        return message;
+                    }
+                    toObject() {
+                        const data: {
+                            id?: string;
+                        } = {};
+                        if (this.id != null) {
+                            data.id = this.id;
+                        }
+                        return data;
+                    }
+                    serialize(): Uint8Array;
+                    serialize(w: pb_1.BinaryWriter): void;
+                    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                        const writer = w || new pb_1.BinaryWriter();
+                        if (this.id.length)
+                            writer.writeString(1, this.id);
+                        if (!w)
+                            return writer.getResultBuffer();
+                    }
+                    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Owner {
+                        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Owner();
+                        while (reader.nextField()) {
+                            if (reader.isEndGroup())
+                                break;
+                            switch (reader.getFieldNumber()) {
+                                case 1:
+                                    message.id = reader.readString();
+                                    break;
+                                default: reader.skipField();
+                            }
+                        }
+                        return message;
+                    }
+                    serializeBinary(): Uint8Array {
+                        return this.serialize();
+                    }
+                    static deserializeBinary(bytes: Uint8Array): Owner {
+                        return Owner.deserialize(bytes);
+                    }
+                }
+            }
+        }
+        export class Image extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                id?: string;
+                x?: number;
+                y?: number;
+                proto?: AboutWorld.World.Image.Proto;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("id" in data && data.id != undefined) {
+                        this.id = data.id;
+                    }
+                    if ("x" in data && data.x != undefined) {
+                        this.x = data.x;
+                    }
+                    if ("y" in data && data.y != undefined) {
+                        this.y = data.y;
+                    }
+                    if ("proto" in data && data.proto != undefined) {
+                        this.proto = data.proto;
+                    }
+                }
+            }
+            get id() {
+                return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+            }
+            set id(value: string) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            get x() {
+                return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+            }
+            set x(value: number) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            get y() {
+                return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+            }
+            set y(value: number) {
+                pb_1.Message.setField(this, 3, value);
+            }
+            get proto() {
+                return pb_1.Message.getWrapperField(this, AboutWorld.World.Image.Proto, 4) as AboutWorld.World.Image.Proto;
+            }
+            set proto(value: AboutWorld.World.Image.Proto) {
+                pb_1.Message.setWrapperField(this, 4, value);
+            }
+            get has_proto() {
+                return pb_1.Message.getField(this, 4) != null;
+            }
+            static fromObject(data: {
+                id?: string;
+                x?: number;
+                y?: number;
+                proto?: ReturnType<typeof AboutWorld.World.Image.Proto.prototype.toObject>;
+            }): Image {
+                const message = new Image({});
+                if (data.id != null) {
+                    message.id = data.id;
+                }
+                if (data.x != null) {
+                    message.x = data.x;
+                }
+                if (data.y != null) {
+                    message.y = data.y;
+                }
+                if (data.proto != null) {
+                    message.proto = AboutWorld.World.Image.Proto.fromObject(data.proto);
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    id?: string;
+                    x?: number;
+                    y?: number;
+                    proto?: ReturnType<typeof AboutWorld.World.Image.Proto.prototype.toObject>;
+                } = {};
+                if (this.id != null) {
+                    data.id = this.id;
+                }
+                if (this.x != null) {
+                    data.x = this.x;
+                }
+                if (this.y != null) {
+                    data.y = this.y;
+                }
+                if (this.proto != null) {
+                    data.proto = this.proto.toObject();
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.id.length)
+                    writer.writeString(1, this.id);
+                if (this.x != 0)
+                    writer.writeInt32(2, this.x);
+                if (this.y != 0)
+                    writer.writeInt32(3, this.y);
+                if (this.has_proto)
+                    writer.writeMessage(4, this.proto, () => this.proto.serialize(writer));
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Image {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Image();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.id = reader.readString();
+                            break;
+                        case 2:
+                            message.x = reader.readInt32();
+                            break;
+                        case 3:
+                            message.y = reader.readInt32();
+                            break;
+                        case 4:
+                            reader.readMessage(message.proto, () => message.proto = AboutWorld.World.Image.Proto.deserialize(reader));
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): Image {
+                return Image.deserialize(bytes);
+            }
+        }
+        export namespace Image {
+            export class Proto extends pb_1.Message {
+                #one_of_decls: number[][] = [];
+                constructor(data?: any[] | {
+                    id?: number;
+                    isPublic?: boolean;
+                    width?: number;
+                    height?: number;
+                    type?: number;
+                    src?: string;
+                    colliders?: AboutWorld.World.Image.Proto.Collider[];
+                }) {
+                    super();
+                    pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [7], this.#one_of_decls);
+                    if (!Array.isArray(data) && typeof data == "object") {
+                        if ("id" in data && data.id != undefined) {
+                            this.id = data.id;
+                        }
+                        if ("isPublic" in data && data.isPublic != undefined) {
+                            this.isPublic = data.isPublic;
+                        }
+                        if ("width" in data && data.width != undefined) {
+                            this.width = data.width;
+                        }
+                        if ("height" in data && data.height != undefined) {
+                            this.height = data.height;
+                        }
+                        if ("type" in data && data.type != undefined) {
+                            this.type = data.type;
+                        }
+                        if ("src" in data && data.src != undefined) {
+                            this.src = data.src;
+                        }
+                        if ("colliders" in data && data.colliders != undefined) {
+                            this.colliders = data.colliders;
+                        }
+                    }
+                }
+                get id() {
+                    return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                }
+                set id(value: number) {
+                    pb_1.Message.setField(this, 1, value);
+                }
+                get isPublic() {
+                    return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+                }
+                set isPublic(value: boolean) {
+                    pb_1.Message.setField(this, 2, value);
+                }
+                get width() {
+                    return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+                }
+                set width(value: number) {
+                    pb_1.Message.setField(this, 3, value);
+                }
+                get height() {
+                    return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+                }
+                set height(value: number) {
+                    pb_1.Message.setField(this, 4, value);
+                }
+                get type() {
+                    return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+                }
+                set type(value: number) {
+                    pb_1.Message.setField(this, 5, value);
+                }
+                get src() {
+                    return pb_1.Message.getFieldWithDefault(this, 6, "") as string;
+                }
+                set src(value: string) {
+                    pb_1.Message.setField(this, 6, value);
+                }
+                get colliders() {
+                    return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.Image.Proto.Collider, 7) as AboutWorld.World.Image.Proto.Collider[];
+                }
+                set colliders(value: AboutWorld.World.Image.Proto.Collider[]) {
+                    pb_1.Message.setRepeatedWrapperField(this, 7, value);
+                }
+                static fromObject(data: {
+                    id?: number;
+                    isPublic?: boolean;
+                    width?: number;
+                    height?: number;
+                    type?: number;
+                    src?: string;
+                    colliders?: ReturnType<typeof AboutWorld.World.Image.Proto.Collider.prototype.toObject>[];
+                }): Proto {
+                    const message = new Proto({});
+                    if (data.id != null) {
+                        message.id = data.id;
+                    }
+                    if (data.isPublic != null) {
+                        message.isPublic = data.isPublic;
+                    }
+                    if (data.width != null) {
+                        message.width = data.width;
+                    }
+                    if (data.height != null) {
+                        message.height = data.height;
+                    }
+                    if (data.type != null) {
+                        message.type = data.type;
+                    }
+                    if (data.src != null) {
+                        message.src = data.src;
+                    }
+                    if (data.colliders != null) {
+                        message.colliders = data.colliders.map(item => AboutWorld.World.Image.Proto.Collider.fromObject(item));
+                    }
+                    return message;
+                }
+                toObject() {
+                    const data: {
+                        id?: number;
+                        isPublic?: boolean;
+                        width?: number;
+                        height?: number;
+                        type?: number;
+                        src?: string;
+                        colliders?: ReturnType<typeof AboutWorld.World.Image.Proto.Collider.prototype.toObject>[];
+                    } = {};
+                    if (this.id != null) {
+                        data.id = this.id;
+                    }
+                    if (this.isPublic != null) {
+                        data.isPublic = this.isPublic;
+                    }
+                    if (this.width != null) {
+                        data.width = this.width;
+                    }
+                    if (this.height != null) {
+                        data.height = this.height;
+                    }
+                    if (this.type != null) {
+                        data.type = this.type;
+                    }
+                    if (this.src != null) {
+                        data.src = this.src;
+                    }
+                    if (this.colliders != null) {
+                        data.colliders = this.colliders.map((item: AboutWorld.World.Image.Proto.Collider) => item.toObject());
+                    }
+                    return data;
+                }
+                serialize(): Uint8Array;
+                serialize(w: pb_1.BinaryWriter): void;
+                serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                    const writer = w || new pb_1.BinaryWriter();
+                    if (this.id != 0)
+                        writer.writeInt32(1, this.id);
+                    if (this.isPublic != false)
+                        writer.writeBool(2, this.isPublic);
+                    if (this.width != 0)
+                        writer.writeInt32(3, this.width);
+                    if (this.height != 0)
+                        writer.writeInt32(4, this.height);
+                    if (this.type != 0)
+                        writer.writeInt32(5, this.type);
+                    if (this.src.length)
+                        writer.writeString(6, this.src);
+                    if (this.colliders.length)
+                        writer.writeRepeatedMessage(7, this.colliders, (item: AboutWorld.World.Image.Proto.Collider) => item.serialize(writer));
+                    if (!w)
+                        return writer.getResultBuffer();
+                }
+                static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Proto {
+                    const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Proto();
+                    while (reader.nextField()) {
+                        if (reader.isEndGroup())
+                            break;
+                        switch (reader.getFieldNumber()) {
+                            case 1:
+                                message.id = reader.readInt32();
+                                break;
+                            case 2:
+                                message.isPublic = reader.readBool();
+                                break;
+                            case 3:
+                                message.width = reader.readInt32();
+                                break;
+                            case 4:
+                                message.height = reader.readInt32();
+                                break;
+                            case 5:
+                                message.type = reader.readInt32();
+                                break;
+                            case 6:
+                                message.src = reader.readString();
+                                break;
+                            case 7:
+                                reader.readMessage(message.colliders, () => pb_1.Message.addToRepeatedWrapperField(message, 7, AboutWorld.World.Image.Proto.Collider.deserialize(reader), AboutWorld.World.Image.Proto.Collider));
+                                break;
+                            default: reader.skipField();
+                        }
+                    }
+                    return message;
+                }
+                serializeBinary(): Uint8Array {
+                    return this.serialize();
+                }
+                static deserializeBinary(bytes: Uint8Array): Proto {
+                    return Proto.deserialize(bytes);
+                }
+            }
+            export namespace Proto {
+                export class Collider extends pb_1.Message {
+                    #one_of_decls: number[][] = [];
+                    constructor(data?: any[] | {
+                        x?: number;
+                        y?: number;
+                        isBlocked?: boolean;
+                    }) {
+                        super();
+                        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                        if (!Array.isArray(data) && typeof data == "object") {
+                            if ("x" in data && data.x != undefined) {
+                                this.x = data.x;
+                            }
+                            if ("y" in data && data.y != undefined) {
+                                this.y = data.y;
+                            }
+                            if ("isBlocked" in data && data.isBlocked != undefined) {
+                                this.isBlocked = data.isBlocked;
+                            }
+                        }
+                    }
+                    get x() {
+                        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                    }
+                    set x(value: number) {
+                        pb_1.Message.setField(this, 1, value);
+                    }
+                    get y() {
+                        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+                    }
+                    set y(value: number) {
+                        pb_1.Message.setField(this, 2, value);
+                    }
+                    get isBlocked() {
+                        return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+                    }
+                    set isBlocked(value: boolean) {
+                        pb_1.Message.setField(this, 3, value);
+                    }
+                    static fromObject(data: {
+                        x?: number;
+                        y?: number;
+                        isBlocked?: boolean;
+                    }): Collider {
+                        const message = new Collider({});
+                        if (data.x != null) {
+                            message.x = data.x;
+                        }
+                        if (data.y != null) {
+                            message.y = data.y;
+                        }
+                        if (data.isBlocked != null) {
+                            message.isBlocked = data.isBlocked;
+                        }
+                        return message;
+                    }
+                    toObject() {
+                        const data: {
+                            x?: number;
+                            y?: number;
+                            isBlocked?: boolean;
+                        } = {};
+                        if (this.x != null) {
+                            data.x = this.x;
+                        }
+                        if (this.y != null) {
+                            data.y = this.y;
+                        }
+                        if (this.isBlocked != null) {
+                            data.isBlocked = this.isBlocked;
+                        }
+                        return data;
+                    }
+                    serialize(): Uint8Array;
+                    serialize(w: pb_1.BinaryWriter): void;
+                    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                        const writer = w || new pb_1.BinaryWriter();
+                        if (this.x != 0)
+                            writer.writeInt32(1, this.x);
+                        if (this.y != 0)
+                            writer.writeInt32(2, this.y);
+                        if (this.isBlocked != false)
+                            writer.writeBool(3, this.isBlocked);
+                        if (!w)
+                            return writer.getResultBuffer();
+                    }
+                    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Collider {
+                        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Collider();
+                        while (reader.nextField()) {
+                            if (reader.isEndGroup())
+                                break;
+                            switch (reader.getFieldNumber()) {
+                                case 1:
+                                    message.x = reader.readInt32();
+                                    break;
+                                case 2:
+                                    message.y = reader.readInt32();
+                                    break;
+                                case 3:
+                                    message.isBlocked = reader.readBool();
+                                    break;
+                                default: reader.skipField();
+                            }
+                        }
+                        return message;
+                    }
+                    serializeBinary(): Uint8Array {
+                        return this.serialize();
+                    }
+                    static deserializeBinary(bytes: Uint8Array): Collider {
+                        return Collider.deserialize(bytes);
+                    }
+                }
+            }
+        }
+        export class AtlasInfo extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                id?: number;
+                src?: string;
+                rowCount?: number;
+                columnCount?: number;
+                tiles?: AboutWorld.World.AtlasInfo.Tile[];
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [5], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("id" in data && data.id != undefined) {
+                        this.id = data.id;
+                    }
+                    if ("src" in data && data.src != undefined) {
+                        this.src = data.src;
+                    }
+                    if ("rowCount" in data && data.rowCount != undefined) {
+                        this.rowCount = data.rowCount;
+                    }
+                    if ("columnCount" in data && data.columnCount != undefined) {
+                        this.columnCount = data.columnCount;
+                    }
+                    if ("tiles" in data && data.tiles != undefined) {
+                        this.tiles = data.tiles;
+                    }
+                }
+            }
+            get id() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set id(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            get src() {
+                return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+            }
+            set src(value: string) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            get rowCount() {
+                return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+            }
+            set rowCount(value: number) {
+                pb_1.Message.setField(this, 3, value);
+            }
+            get columnCount() {
+                return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+            }
+            set columnCount(value: number) {
+                pb_1.Message.setField(this, 4, value);
+            }
+            get tiles() {
+                return pb_1.Message.getRepeatedWrapperField(this, AboutWorld.World.AtlasInfo.Tile, 5) as AboutWorld.World.AtlasInfo.Tile[];
+            }
+            set tiles(value: AboutWorld.World.AtlasInfo.Tile[]) {
+                pb_1.Message.setRepeatedWrapperField(this, 5, value);
+            }
+            static fromObject(data: {
+                id?: number;
+                src?: string;
+                rowCount?: number;
+                columnCount?: number;
+                tiles?: ReturnType<typeof AboutWorld.World.AtlasInfo.Tile.prototype.toObject>[];
+            }): AtlasInfo {
+                const message = new AtlasInfo({});
+                if (data.id != null) {
+                    message.id = data.id;
+                }
+                if (data.src != null) {
+                    message.src = data.src;
+                }
+                if (data.rowCount != null) {
+                    message.rowCount = data.rowCount;
+                }
+                if (data.columnCount != null) {
+                    message.columnCount = data.columnCount;
+                }
+                if (data.tiles != null) {
+                    message.tiles = data.tiles.map(item => AboutWorld.World.AtlasInfo.Tile.fromObject(item));
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    id?: number;
+                    src?: string;
+                    rowCount?: number;
+                    columnCount?: number;
+                    tiles?: ReturnType<typeof AboutWorld.World.AtlasInfo.Tile.prototype.toObject>[];
+                } = {};
+                if (this.id != null) {
+                    data.id = this.id;
+                }
+                if (this.src != null) {
+                    data.src = this.src;
+                }
+                if (this.rowCount != null) {
+                    data.rowCount = this.rowCount;
+                }
+                if (this.columnCount != null) {
+                    data.columnCount = this.columnCount;
+                }
+                if (this.tiles != null) {
+                    data.tiles = this.tiles.map((item: AboutWorld.World.AtlasInfo.Tile) => item.toObject());
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.id != 0)
+                    writer.writeInt32(1, this.id);
+                if (this.src.length)
+                    writer.writeString(2, this.src);
+                if (this.rowCount != 0)
+                    writer.writeInt32(3, this.rowCount);
+                if (this.columnCount != 0)
+                    writer.writeInt32(4, this.columnCount);
+                if (this.tiles.length)
+                    writer.writeRepeatedMessage(5, this.tiles, (item: AboutWorld.World.AtlasInfo.Tile) => item.serialize(writer));
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AtlasInfo {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new AtlasInfo();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.id = reader.readInt32();
+                            break;
+                        case 2:
+                            message.src = reader.readString();
+                            break;
+                        case 3:
+                            message.rowCount = reader.readInt32();
+                            break;
+                        case 4:
+                            message.columnCount = reader.readInt32();
+                            break;
+                        case 5:
+                            reader.readMessage(message.tiles, () => pb_1.Message.addToRepeatedWrapperField(message, 5, AboutWorld.World.AtlasInfo.Tile.deserialize(reader), AboutWorld.World.AtlasInfo.Tile));
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): AtlasInfo {
+                return AtlasInfo.deserialize(bytes);
+            }
+        }
+        export namespace AtlasInfo {
+            export class Tile extends pb_1.Message {
+                #one_of_decls: number[][] = [];
+                constructor(data?: any[] | {
+                    x?: number;
+                    y?: number;
+                    atlasIndex?: number;
+                    type?: number;
+                }) {
+                    super();
+                    pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                    if (!Array.isArray(data) && typeof data == "object") {
+                        if ("x" in data && data.x != undefined) {
+                            this.x = data.x;
+                        }
+                        if ("y" in data && data.y != undefined) {
+                            this.y = data.y;
+                        }
+                        if ("atlasIndex" in data && data.atlasIndex != undefined) {
+                            this.atlasIndex = data.atlasIndex;
+                        }
+                        if ("type" in data && data.type != undefined) {
+                            this.type = data.type;
+                        }
+                    }
+                }
+                get x() {
+                    return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+                }
+                set x(value: number) {
+                    pb_1.Message.setField(this, 1, value);
+                }
+                get y() {
+                    return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+                }
+                set y(value: number) {
+                    pb_1.Message.setField(this, 2, value);
+                }
+                get atlasIndex() {
+                    return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+                }
+                set atlasIndex(value: number) {
+                    pb_1.Message.setField(this, 3, value);
+                }
+                get type() {
+                    return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+                }
+                set type(value: number) {
+                    pb_1.Message.setField(this, 4, value);
+                }
+                static fromObject(data: {
+                    x?: number;
+                    y?: number;
+                    atlasIndex?: number;
+                    type?: number;
+                }): Tile {
+                    const message = new Tile({});
+                    if (data.x != null) {
+                        message.x = data.x;
+                    }
+                    if (data.y != null) {
+                        message.y = data.y;
+                    }
+                    if (data.atlasIndex != null) {
+                        message.atlasIndex = data.atlasIndex;
+                    }
+                    if (data.type != null) {
+                        message.type = data.type;
+                    }
+                    return message;
+                }
+                toObject() {
+                    const data: {
+                        x?: number;
+                        y?: number;
+                        atlasIndex?: number;
+                        type?: number;
+                    } = {};
+                    if (this.x != null) {
+                        data.x = this.x;
+                    }
+                    if (this.y != null) {
+                        data.y = this.y;
+                    }
+                    if (this.atlasIndex != null) {
+                        data.atlasIndex = this.atlasIndex;
+                    }
+                    if (this.type != null) {
+                        data.type = this.type;
+                    }
+                    return data;
+                }
+                serialize(): Uint8Array;
+                serialize(w: pb_1.BinaryWriter): void;
+                serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                    const writer = w || new pb_1.BinaryWriter();
+                    if (this.x != 0)
+                        writer.writeInt32(1, this.x);
+                    if (this.y != 0)
+                        writer.writeInt32(2, this.y);
+                    if (this.atlasIndex != 0)
+                        writer.writeInt32(3, this.atlasIndex);
+                    if (this.type != 0)
+                        writer.writeInt32(4, this.type);
+                    if (!w)
+                        return writer.getResultBuffer();
+                }
+                static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Tile {
+                    const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Tile();
+                    while (reader.nextField()) {
+                        if (reader.isEndGroup())
+                            break;
+                        switch (reader.getFieldNumber()) {
+                            case 1:
+                                message.x = reader.readInt32();
+                                break;
+                            case 2:
+                                message.y = reader.readInt32();
+                                break;
+                            case 3:
+                                message.atlasIndex = reader.readInt32();
+                                break;
+                            case 4:
+                                message.type = reader.readInt32();
+                                break;
+                            default: reader.skipField();
+                        }
+                    }
+                    return message;
+                }
+                serializeBinary(): Uint8Array {
+                    return this.serialize();
+                }
+                static deserializeBinary(bytes: Uint8Array): Tile {
+                    return Tile.deserialize(bytes);
+                }
+            }
+        }
+        export class Admin extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                id?: string;
+                nickname?: string;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("id" in data && data.id != undefined) {
+                        this.id = data.id;
+                    }
+                    if ("nickname" in data && data.nickname != undefined) {
+                        this.nickname = data.nickname;
+                    }
+                }
+            }
+            get id() {
+                return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+            }
+            set id(value: string) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            get nickname() {
+                return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+            }
+            set nickname(value: string) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            static fromObject(data: {
+                id?: string;
+                nickname?: string;
+            }): Admin {
+                const message = new Admin({});
+                if (data.id != null) {
+                    message.id = data.id;
+                }
+                if (data.nickname != null) {
+                    message.nickname = data.nickname;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    id?: string;
+                    nickname?: string;
+                } = {};
+                if (this.id != null) {
+                    data.id = this.id;
+                }
+                if (this.nickname != null) {
+                    data.nickname = this.nickname;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.id.length)
+                    writer.writeString(1, this.id);
+                if (this.nickname.length)
+                    writer.writeString(2, this.nickname);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Admin {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Admin();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.id = reader.readString();
+                            break;
+                        case 2:
+                            message.nickname = reader.readString();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): Admin {
+                return Admin.deserialize(bytes);
+            }
+        }
+    }
+}
+export class CharacterTeleported extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        x?: number;
+        y?: number;
+        userId?: string;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("userId" in data && data.userId != undefined) {
+                this.userId = data.userId;
+            }
+        }
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get userId() {
+        return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+    }
+    set userId(value: string) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    static fromObject(data: {
+        x?: number;
+        y?: number;
+        userId?: string;
+    }): CharacterTeleported {
+        const message = new CharacterTeleported({});
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.userId != null) {
+            message.userId = data.userId;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            x?: number;
+            y?: number;
+            userId?: string;
+        } = {};
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.userId != null) {
+            data.userId = this.userId;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.x != 0)
+            writer.writeInt32(1, this.x);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.userId.length)
+            writer.writeString(3, this.userId);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CharacterTeleported {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CharacterTeleported();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.x = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.userId = reader.readString();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CharacterTeleported {
+        return CharacterTeleported.deserialize(bytes);
     }
 }
