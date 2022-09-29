@@ -41,6 +41,7 @@ export class PlayerMovementRemoteController extends Component {
         const movementController = this._playerGridMovementController;
         if (!movementController) return;
 
+        movementController.cancelPathfind();
         const pathfindResult = movementController.tryStartPathfind(destination);
         if (!pathfindResult) return;
 
