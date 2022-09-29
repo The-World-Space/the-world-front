@@ -1,5 +1,6 @@
-import { Vector2 } from "three/src/Three";
 import { Component, GridPointer } from "the-world-engine";
+import { Vector2 } from "three/src/Three";
+
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 import { PlayerGridMovementController } from "./PlayerGridMovementController";
 
@@ -33,11 +34,11 @@ export class PlayerMovementRemoteController extends Component {
         this._networkManager.ee.removeListener(`teleport_${this._userId}`, this.onTeleport);
     }
 
-    private onTeleport = (gridPosition: Vector2): void => {
+    private readonly onTeleport = (gridPosition: Vector2): void => {
         this._playerGridMovementController?.teleport(gridPosition);
     };
 
-    private onMove = (destination: Vector2): void => {
+    private readonly onMove = (destination: Vector2): void => {
         const movementController = this._playerGridMovementController;
         if (!movementController) return;
 
@@ -54,7 +55,7 @@ export class PlayerMovementRemoteController extends Component {
         }
     };
 
-    private onMovedToTarget = (): void => {
+    private readonly onMovedToTarget = (): void => {
         const movementController = this._playerGridMovementController;
         if (!movementController) return;
 

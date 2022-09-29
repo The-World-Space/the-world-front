@@ -1,5 +1,5 @@
 export class TaskBuffer {
-    private _taskQueue: (() => void)[] = [];
+    private readonly _taskQueue: (() => void)[] = [];
     private _processingAsyncTask = false;
 
     public addTask(task: () => void): void {

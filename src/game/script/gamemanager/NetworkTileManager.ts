@@ -14,7 +14,7 @@ export class NetworkTileManager extends Component {
     private _initTileList: Server.AtlasInfoScalar = [];
     private _tileNetworker: TileNetworker | null = null;
 
-    private _taskBuffer = new TaskBuffer();
+    private readonly _taskBuffer = new TaskBuffer();
 
     private readonly _atlasItemList: TileAtlasItem[] = [];
 

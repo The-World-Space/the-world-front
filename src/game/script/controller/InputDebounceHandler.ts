@@ -1,4 +1,5 @@
 import { Component, Coroutine, CoroutineIterator } from "the-world-engine";
+
 import { PlayerNetworker } from "../networker/PlayerNetworker";
 
 export class InputDebounceHandler extends Component {
@@ -15,7 +16,7 @@ export class InputDebounceHandler extends Component {
         this.engine.input.onKeyDown.removeListener(this.onKeyDown);
     }
 
-    private onKeyDown = (event: KeyboardEvent): void => {
+    private readonly onKeyDown = (event: KeyboardEvent): void => {
         this._lastEvent = event;
         this._lefttime = 0.2;
         if (!this._debounceCoroutine) {

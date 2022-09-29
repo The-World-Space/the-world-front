@@ -17,7 +17,7 @@ type DEETypes = {
     "join": (user: Server.User, spawnPoint: Vector2) => void,
     "leave": (id: characterId) => void,
     "player_move": (x: number, y: number) => void,
-    "player_move_forced": (x: number,y: number) => void,
+    "player_move_forced": (x: number, y: number) => void,
     // for chatting.
     "network_player_chat": (id: characterId, msg: string) => void,
     "player_chat": (id: characterId, msg: string) => void,

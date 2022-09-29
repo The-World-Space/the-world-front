@@ -19,6 +19,7 @@ import { PenpalNetworker } from "./penpal/PenpalNetworker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
+import { InputDebounceHandler } from "./script/controller/InputDebounceHandler";
 import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
 import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
 import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
@@ -34,7 +35,6 @@ import { ImageNetworker } from "./script/networker/ImageNetworker";
 import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { TileNetworker } from "./script/networker/TileNetworker";
 import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
-import { InputDebounceHandler } from "./script/controller/InputDebounceHandler";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
