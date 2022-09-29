@@ -50,8 +50,7 @@ export class PlayerNetworker {
                 user && this.moveCharacter(characterMove);
             } else if(serverEvent.event === "characterTeleported") {
                 const characterTeleportation = serverEvent.characterTeleported;
-                const user = this._characterSet.has(characterTeleportation.userId);
-                user && this.teleportCharacter(characterTeleportation);
+                this.teleportCharacter(characterTeleportation);
             } else if(serverEvent.event === "characterMoveRequested") {
                 const characterMoveRequest = serverEvent.characterMoveRequested;
                 this.moveRequested(characterMoveRequest);
