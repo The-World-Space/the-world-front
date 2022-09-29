@@ -316,7 +316,7 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
                 .withCollideMap(gridObjectCollideMap)
                 .withNameTag(new PrefabRef(this.interopObject!.user.nickname))
                 .withPathfindPointer(gridPointer)
-                .withNetworkManager(this.interopObject!.networkManager, this.interopObject!.user.id) // TODO: review this line
+                .withNetworkManager(this.interopObject!.networkManager, this.interopObject!.user.id)
                 .make()
                 .getGameObject(player))
             
