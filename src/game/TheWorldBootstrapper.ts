@@ -19,7 +19,6 @@ import { PenpalNetworker } from "./penpal/PenpalNetworker";
 import { CameraPrefab } from "./prefab/CameraPrefab";
 import { GridInputPrefab } from "./prefab/GridInputPrefab";
 import { PlayerPrefab } from "./prefab/PlayerPrefab";
-import { InputDebounceHandler } from "./script/controller/InputDebounceHandler";
 import { NetworkBrushManager } from "./script/gamemanager/NetworkBrushManager";
 import { NetworkColiderManager } from "./script/gamemanager/NetworkColliderManager";
 import { NetworkIframeManager } from "./script/gamemanager/NetworkIframeManager";
@@ -226,11 +225,6 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         };
 
         return this.sceneBuilder
-            .withChild(instantiater.buildGameObject("client_input_listener")
-                .withComponent(InputDebounceHandler, c => {
-                    c.networkManager = this.interopObject!.networkManager;
-                }))
-
             .withChild(instantiater.buildGameObject("gamemanager")
                 .withComponent(NetworkPlayerManager, c => {
                     c.iGridCollidable = gridCollideMap.ref!;
