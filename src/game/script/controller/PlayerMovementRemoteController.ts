@@ -21,17 +21,16 @@ export class PlayerMovementRemoteController extends Component {
         this._networkManager = networkManager;
         this._userId = userId;
 
-        // TODO: fix this (remove as any)
-        this._networkManager.ee.on(`force_move_${this._userId}` as any, this.onMove);
-        this._networkManager.ee.on(`teleport_${this._userId} as any`, this.onTeleport);
+        this._networkManager.ee.on(`move_requested_${this._userId}`, this.onMove);
+        this._networkManager.ee.on(`teleport_${this._userId}`, this.onTeleport);
     }
 
     public onDestroy(): void {
         if (this._networkManager === null) return;
         if (this._userId === null) return;
-        // TODO: same here
-        this._networkManager.ee.removeListener(`force_move_${this._userId}` as any, this.onMove);
-        this._networkManager.ee.removeListener(`teleport_${this._userId}` as any, this.onTeleport);
+
+        this._networkManager.ee.removeListener(`move_requested_${this._userId}`, this.onMove);
+        this._networkManager.ee.removeListener(`teleport_${this._userId}`, this.onTeleport);
     }
 
     private onTeleport = (gridPosition: Vector2): void => {

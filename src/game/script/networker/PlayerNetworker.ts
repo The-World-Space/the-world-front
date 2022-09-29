@@ -8,8 +8,9 @@ import { Server } from "../../connect/types";
 type characterId = string;
 
 type EETypes = [
-    [`move_${characterId}`,     (pos: Vector2) => void],
-    [`teleport_${characterId}`, (pos: Vector2) => void]
+    [`move_${characterId}`,       (pos: Vector2) => void],
+    [`teleport_${characterId}`,   (pos: Vector2) => void],
+    [`move_requested_${characterId}`, (pos: Vector2) => void],
 ]
 
 type DEETypes = {
@@ -51,6 +52,9 @@ export class PlayerNetworker {
                 const characterTeleportation = serverEvent.characterTeleported;
                 const user = this._characterSet.has(characterTeleportation.userId);
                 user && this.teleportCharacter(characterTeleportation);
+            } else if(serverEvent.event === "characterMoveRequested") {
+                const characterMoveRequest = serverEvent.characterMoveRequested
+                this.moveRequested(characterMoveRequest);
             }
         });
         // this._client.subscribe({
@@ -131,6 +135,10 @@ export class PlayerNetworker {
 
     private teleportCharacter(data: {x: number, y: number, userId: string}): void {
         this._ee.emit(`teleport_${data.userId}`, new Vector2(data.x, data.y));
+    }
+
+    private moveRequested(data: { x: number, y: number, userId: string }): void {
+        this._ee.emit(`move_requested_${data.userId}`, new Vector2(data.x, data.y));
     }
 
     public get ee(): TypedEmitter<EETypes> {
