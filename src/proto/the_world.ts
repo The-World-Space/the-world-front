@@ -6,7 +6,7 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from "google-protobuf";
 export class ClientEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]];
     constructor(data?: any[] | ({} & (({
         joinWorld?: JoinWorld;
         leaveWorld?: never;
@@ -27,6 +27,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: LeaveWorld;
@@ -47,6 +48,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -67,6 +69,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -87,6 +90,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -107,6 +111,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -127,6 +132,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -147,6 +153,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -167,6 +174,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -187,6 +195,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -207,6 +216,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -227,6 +237,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -247,6 +258,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -267,6 +279,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -287,6 +300,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -307,6 +321,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -327,6 +342,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -347,6 +363,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: DeleteIframeGameObject;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -367,6 +384,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: DeleteIframeGameObjectsAt;
         reqIsPluginsOutdated?: never;
+        moveCharacterForced?: never;
     } | {
         joinWorld?: never;
         leaveWorld?: never;
@@ -387,6 +405,28 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: never;
         deleteIframeGameObjectsAt?: never;
         reqIsPluginsOutdated?: ReqIsPluginsOutdated;
+        moveCharacterForced?: never;
+    } | {
+        joinWorld?: never;
+        leaveWorld?: never;
+        sendChat?: never;
+        moveCharacter?: never;
+        broadcast?: never;
+        setFieldValue?: never;
+        updateCollider?: never;
+        createPlugin?: never;
+        deletePlugin?: never;
+        sendPluginMessage?: never;
+        createIframePluginPortMapping?: never;
+        deleteIframePluginPortMapping?: never;
+        reqAboutPlugins?: never;
+        updateAtlasTile?: never;
+        deleteAtlasTile?: never;
+        createIframeGameObjectInstantly?: never;
+        deleteIframeGameObject?: never;
+        deleteIframeGameObjectsAt?: never;
+        reqIsPluginsOutdated?: never;
+        moveCharacterForced?: MoveCharacterForced;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -447,6 +487,9 @@ export class ClientEvent extends pb_1.Message {
             }
             if ("reqIsPluginsOutdated" in data && data.reqIsPluginsOutdated != undefined) {
                 this.reqIsPluginsOutdated = data.reqIsPluginsOutdated;
+            }
+            if ("moveCharacterForced" in data && data.moveCharacterForced != undefined) {
+                this.moveCharacterForced = data.moveCharacterForced;
             }
         }
     }
@@ -621,9 +664,18 @@ export class ClientEvent extends pb_1.Message {
     get has_reqIsPluginsOutdated() {
         return pb_1.Message.getField(this, 19) != null;
     }
+    get moveCharacterForced() {
+        return pb_1.Message.getWrapperField(this, MoveCharacterForced, 20) as MoveCharacterForced;
+    }
+    set moveCharacterForced(value: MoveCharacterForced) {
+        pb_1.Message.setOneofWrapperField(this, 20, this.#one_of_decls[0], value);
+    }
+    get has_moveCharacterForced() {
+        return pb_1.Message.getField(this, 20) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping" | "reqAboutPlugins" | "updateAtlasTile" | "deleteAtlasTile" | "createIframeGameObjectInstantly" | "deleteIframeGameObject" | "deleteIframeGameObjectsAt" | "reqIsPluginsOutdated";
+            [index: number]: "none" | "joinWorld" | "leaveWorld" | "sendChat" | "moveCharacter" | "broadcast" | "setFieldValue" | "updateCollider" | "createPlugin" | "deletePlugin" | "sendPluginMessage" | "createIframePluginPortMapping" | "deleteIframePluginPortMapping" | "reqAboutPlugins" | "updateAtlasTile" | "deleteAtlasTile" | "createIframeGameObjectInstantly" | "deleteIframeGameObject" | "deleteIframeGameObjectsAt" | "reqIsPluginsOutdated" | "moveCharacterForced";
         } = {
             0: "none",
             1: "joinWorld",
@@ -644,9 +696,10 @@ export class ClientEvent extends pb_1.Message {
             16: "createIframeGameObjectInstantly",
             17: "deleteIframeGameObject",
             18: "deleteIframeGameObjectsAt",
-            19: "reqIsPluginsOutdated"
+            19: "reqIsPluginsOutdated",
+            20: "moveCharacterForced"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])];
     }
     static fromObject(data: {
         joinWorld?: ReturnType<typeof JoinWorld.prototype.toObject>;
@@ -668,6 +721,7 @@ export class ClientEvent extends pb_1.Message {
         deleteIframeGameObject?: ReturnType<typeof DeleteIframeGameObject.prototype.toObject>;
         deleteIframeGameObjectsAt?: ReturnType<typeof DeleteIframeGameObjectsAt.prototype.toObject>;
         reqIsPluginsOutdated?: ReturnType<typeof ReqIsPluginsOutdated.prototype.toObject>;
+        moveCharacterForced?: ReturnType<typeof MoveCharacterForced.prototype.toObject>;
     }): ClientEvent {
         const message = new ClientEvent({});
         if (data.joinWorld != null) {
@@ -727,6 +781,9 @@ export class ClientEvent extends pb_1.Message {
         if (data.reqIsPluginsOutdated != null) {
             message.reqIsPluginsOutdated = ReqIsPluginsOutdated.fromObject(data.reqIsPluginsOutdated);
         }
+        if (data.moveCharacterForced != null) {
+            message.moveCharacterForced = MoveCharacterForced.fromObject(data.moveCharacterForced);
+        }
         return message;
     }
     toObject() {
@@ -750,6 +807,7 @@ export class ClientEvent extends pb_1.Message {
             deleteIframeGameObject?: ReturnType<typeof DeleteIframeGameObject.prototype.toObject>;
             deleteIframeGameObjectsAt?: ReturnType<typeof DeleteIframeGameObjectsAt.prototype.toObject>;
             reqIsPluginsOutdated?: ReturnType<typeof ReqIsPluginsOutdated.prototype.toObject>;
+            moveCharacterForced?: ReturnType<typeof MoveCharacterForced.prototype.toObject>;
         } = {};
         if (this.joinWorld != null) {
             data.joinWorld = this.joinWorld.toObject();
@@ -808,6 +866,9 @@ export class ClientEvent extends pb_1.Message {
         if (this.reqIsPluginsOutdated != null) {
             data.reqIsPluginsOutdated = this.reqIsPluginsOutdated.toObject();
         }
+        if (this.moveCharacterForced != null) {
+            data.moveCharacterForced = this.moveCharacterForced.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -852,6 +913,8 @@ export class ClientEvent extends pb_1.Message {
             writer.writeMessage(18, this.deleteIframeGameObjectsAt, () => this.deleteIframeGameObjectsAt.serialize(writer));
         if (this.has_reqIsPluginsOutdated)
             writer.writeMessage(19, this.reqIsPluginsOutdated, () => this.reqIsPluginsOutdated.serialize(writer));
+        if (this.has_moveCharacterForced)
+            writer.writeMessage(20, this.moveCharacterForced, () => this.moveCharacterForced.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -917,6 +980,9 @@ export class ClientEvent extends pb_1.Message {
                     break;
                 case 19:
                     reader.readMessage(message.reqIsPluginsOutdated, () => message.reqIsPluginsOutdated = ReqIsPluginsOutdated.deserialize(reader));
+                    break;
+                case 20:
+                    reader.readMessage(message.moveCharacterForced, () => message.moveCharacterForced = MoveCharacterForced.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -3148,8 +3214,170 @@ export namespace ReqIsPluginsOutdated {
         }
     }
 }
+export class MoveCharacterForced extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        characterMove?: MoveCharacterForced.CharacterMove;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("characterMove" in data && data.characterMove != undefined) {
+                this.characterMove = data.characterMove;
+            }
+        }
+    }
+    get characterMove() {
+        return pb_1.Message.getWrapperField(this, MoveCharacterForced.CharacterMove, 1) as MoveCharacterForced.CharacterMove;
+    }
+    set characterMove(value: MoveCharacterForced.CharacterMove) {
+        pb_1.Message.setWrapperField(this, 1, value);
+    }
+    get has_characterMove() {
+        return pb_1.Message.getField(this, 1) != null;
+    }
+    static fromObject(data: {
+        characterMove?: ReturnType<typeof MoveCharacterForced.CharacterMove.prototype.toObject>;
+    }): MoveCharacterForced {
+        const message = new MoveCharacterForced({});
+        if (data.characterMove != null) {
+            message.characterMove = MoveCharacterForced.CharacterMove.fromObject(data.characterMove);
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            characterMove?: ReturnType<typeof MoveCharacterForced.CharacterMove.prototype.toObject>;
+        } = {};
+        if (this.characterMove != null) {
+            data.characterMove = this.characterMove.toObject();
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.has_characterMove)
+            writer.writeMessage(1, this.characterMove, () => this.characterMove.serialize(writer));
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MoveCharacterForced {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MoveCharacterForced();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    reader.readMessage(message.characterMove, () => message.characterMove = MoveCharacterForced.CharacterMove.deserialize(reader));
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): MoveCharacterForced {
+        return MoveCharacterForced.deserialize(bytes);
+    }
+}
+export namespace MoveCharacterForced {
+    export class CharacterMove extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            x?: number;
+            y?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("x" in data && data.x != undefined) {
+                    this.x = data.x;
+                }
+                if ("y" in data && data.y != undefined) {
+                    this.y = data.y;
+                }
+            }
+        }
+        get x() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set x(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get y() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set y(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            x?: number;
+            y?: number;
+        }): CharacterMove {
+            const message = new CharacterMove({});
+            if (data.x != null) {
+                message.x = data.x;
+            }
+            if (data.y != null) {
+                message.y = data.y;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                x?: number;
+                y?: number;
+            } = {};
+            if (this.x != null) {
+                data.x = this.x;
+            }
+            if (this.y != null) {
+                data.y = this.y;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.x != 0)
+                writer.writeInt32(1, this.x);
+            if (this.y != 0)
+                writer.writeInt32(2, this.y);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CharacterMove {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CharacterMove();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.x = reader.readInt32();
+                        break;
+                    case 2:
+                        message.y = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): CharacterMove {
+            return CharacterMove.deserialize(bytes);
+        }
+    }
+}
 export class ServerEvent extends pb_1.Message {
-    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]];
+    #one_of_decls: number[][] = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]];
     constructor(data?: any[] | ({} & (({
         kicked?: Kicked;
         playerListChanged?: never;
@@ -3173,6 +3401,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: PlayerListChanged;
@@ -3196,6 +3425,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3219,6 +3449,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3242,6 +3473,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3265,6 +3497,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3288,6 +3521,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3311,6 +3545,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3334,6 +3569,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3357,6 +3593,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3380,6 +3617,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3403,6 +3641,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3426,6 +3665,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3449,6 +3689,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3472,6 +3713,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3495,6 +3737,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3518,6 +3761,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3541,6 +3785,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3564,6 +3809,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3587,6 +3833,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3610,6 +3857,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: ResIsPluginOutdated;
         aboutWorld?: never;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3633,6 +3881,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: AboutWorld;
         characterTeleported?: never;
+        characterMoveRequested?: never;
     } | {
         kicked?: never;
         playerListChanged?: never;
@@ -3656,6 +3905,31 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: never;
         aboutWorld?: never;
         characterTeleported?: CharacterTeleported;
+        characterMoveRequested?: never;
+    } | {
+        kicked?: never;
+        playerListChanged?: never;
+        chatAdded?: never;
+        characterMoved?: never;
+        messageBroadcasted?: never;
+        fieldValueSetted?: never;
+        localPluginCreated?: never;
+        globalPluginCreated?: never;
+        pluginDeleted?: never;
+        pluginMessageSent?: never;
+        aboutPlugins?: never;
+        iframePluginPortMappingCreated?: never;
+        iframePluginPortMappingDeleted?: never;
+        atlasTileCreated?: never;
+        atlasTileDeleted?: never;
+        atlasTileUpdated?: never;
+        colliderUpdated?: never;
+        iframeGameObjectCreated?: never;
+        iframeGameObjectDeleted?: never;
+        resIsPluginOutdated?: never;
+        aboutWorld?: never;
+        characterTeleported?: never;
+        characterMoveRequested?: CharacterMoveRequested;
     })))) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -3725,6 +3999,9 @@ export class ServerEvent extends pb_1.Message {
             }
             if ("characterTeleported" in data && data.characterTeleported != undefined) {
                 this.characterTeleported = data.characterTeleported;
+            }
+            if ("characterMoveRequested" in data && data.characterMoveRequested != undefined) {
+                this.characterMoveRequested = data.characterMoveRequested;
             }
         }
     }
@@ -3926,9 +4203,18 @@ export class ServerEvent extends pb_1.Message {
     get has_characterTeleported() {
         return pb_1.Message.getField(this, 22) != null;
     }
+    get characterMoveRequested() {
+        return pb_1.Message.getWrapperField(this, CharacterMoveRequested, 23) as CharacterMoveRequested;
+    }
+    set characterMoveRequested(value: CharacterMoveRequested) {
+        pb_1.Message.setOneofWrapperField(this, 23, this.#one_of_decls[0], value);
+    }
+    get has_characterMoveRequested() {
+        return pb_1.Message.getField(this, 23) != null;
+    }
     get event() {
         const cases: {
-            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted" | "atlasTileCreated" | "atlasTileDeleted" | "atlasTileUpdated" | "colliderUpdated" | "iframeGameObjectCreated" | "iframeGameObjectDeleted" | "resIsPluginOutdated" | "aboutWorld" | "characterTeleported";
+            [index: number]: "none" | "kicked" | "playerListChanged" | "chatAdded" | "characterMoved" | "messageBroadcasted" | "fieldValueSetted" | "localPluginCreated" | "globalPluginCreated" | "pluginDeleted" | "pluginMessageSent" | "aboutPlugins" | "iframePluginPortMappingCreated" | "iframePluginPortMappingDeleted" | "atlasTileCreated" | "atlasTileDeleted" | "atlasTileUpdated" | "colliderUpdated" | "iframeGameObjectCreated" | "iframeGameObjectDeleted" | "resIsPluginOutdated" | "aboutWorld" | "characterTeleported" | "characterMoveRequested";
         } = {
             0: "none",
             1: "kicked",
@@ -3952,9 +4238,10 @@ export class ServerEvent extends pb_1.Message {
             19: "iframeGameObjectDeleted",
             20: "resIsPluginOutdated",
             21: "aboutWorld",
-            22: "characterTeleported"
+            22: "characterTeleported",
+            23: "characterMoveRequested"
         };
-        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22])];
+        return cases[pb_1.Message.computeOneofCase(this, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])];
     }
     static fromObject(data: {
         kicked?: ReturnType<typeof Kicked.prototype.toObject>;
@@ -3979,6 +4266,7 @@ export class ServerEvent extends pb_1.Message {
         resIsPluginOutdated?: ReturnType<typeof ResIsPluginOutdated.prototype.toObject>;
         aboutWorld?: ReturnType<typeof AboutWorld.prototype.toObject>;
         characterTeleported?: ReturnType<typeof CharacterTeleported.prototype.toObject>;
+        characterMoveRequested?: ReturnType<typeof CharacterMoveRequested.prototype.toObject>;
     }): ServerEvent {
         const message = new ServerEvent({});
         if (data.kicked != null) {
@@ -4047,6 +4335,9 @@ export class ServerEvent extends pb_1.Message {
         if (data.characterTeleported != null) {
             message.characterTeleported = CharacterTeleported.fromObject(data.characterTeleported);
         }
+        if (data.characterMoveRequested != null) {
+            message.characterMoveRequested = CharacterMoveRequested.fromObject(data.characterMoveRequested);
+        }
         return message;
     }
     toObject() {
@@ -4073,6 +4364,7 @@ export class ServerEvent extends pb_1.Message {
             resIsPluginOutdated?: ReturnType<typeof ResIsPluginOutdated.prototype.toObject>;
             aboutWorld?: ReturnType<typeof AboutWorld.prototype.toObject>;
             characterTeleported?: ReturnType<typeof CharacterTeleported.prototype.toObject>;
+            characterMoveRequested?: ReturnType<typeof CharacterMoveRequested.prototype.toObject>;
         } = {};
         if (this.kicked != null) {
             data.kicked = this.kicked.toObject();
@@ -4140,6 +4432,9 @@ export class ServerEvent extends pb_1.Message {
         if (this.characterTeleported != null) {
             data.characterTeleported = this.characterTeleported.toObject();
         }
+        if (this.characterMoveRequested != null) {
+            data.characterMoveRequested = this.characterMoveRequested.toObject();
+        }
         return data;
     }
     serialize(): Uint8Array;
@@ -4190,6 +4485,8 @@ export class ServerEvent extends pb_1.Message {
             writer.writeMessage(21, this.aboutWorld, () => this.aboutWorld.serialize(writer));
         if (this.has_characterTeleported)
             writer.writeMessage(22, this.characterTeleported, () => this.characterTeleported.serialize(writer));
+        if (this.has_characterMoveRequested)
+            writer.writeMessage(23, this.characterMoveRequested, () => this.characterMoveRequested.serialize(writer));
         if (!w)
             return writer.getResultBuffer();
     }
@@ -4264,6 +4561,9 @@ export class ServerEvent extends pb_1.Message {
                     break;
                 case 22:
                     reader.readMessage(message.characterTeleported, () => message.characterTeleported = CharacterTeleported.deserialize(reader));
+                    break;
+                case 23:
+                    reader.readMessage(message.characterMoveRequested, () => message.characterMoveRequested = CharacterMoveRequested.deserialize(reader));
                     break;
                 default: reader.skipField();
             }
@@ -4819,6 +5119,119 @@ export class CharacterMoved extends pb_1.Message {
     }
     static deserializeBinary(bytes: Uint8Array): CharacterMoved {
         return CharacterMoved.deserialize(bytes);
+    }
+}
+export class CharacterMoveRequested extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        x?: number;
+        y?: number;
+        userId?: string;
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("x" in data && data.x != undefined) {
+                this.x = data.x;
+            }
+            if ("y" in data && data.y != undefined) {
+                this.y = data.y;
+            }
+            if ("userId" in data && data.userId != undefined) {
+                this.userId = data.userId;
+            }
+        }
+    }
+    get x() {
+        return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+    }
+    set x(value: number) {
+        pb_1.Message.setField(this, 1, value);
+    }
+    get y() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set y(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
+    get userId() {
+        return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+    }
+    set userId(value: string) {
+        pb_1.Message.setField(this, 3, value);
+    }
+    static fromObject(data: {
+        x?: number;
+        y?: number;
+        userId?: string;
+    }): CharacterMoveRequested {
+        const message = new CharacterMoveRequested({});
+        if (data.x != null) {
+            message.x = data.x;
+        }
+        if (data.y != null) {
+            message.y = data.y;
+        }
+        if (data.userId != null) {
+            message.userId = data.userId;
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            x?: number;
+            y?: number;
+            userId?: string;
+        } = {};
+        if (this.x != null) {
+            data.x = this.x;
+        }
+        if (this.y != null) {
+            data.y = this.y;
+        }
+        if (this.userId != null) {
+            data.userId = this.userId;
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.x != 0)
+            writer.writeInt32(1, this.x);
+        if (this.y != 0)
+            writer.writeInt32(2, this.y);
+        if (this.userId.length)
+            writer.writeString(3, this.userId);
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CharacterMoveRequested {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CharacterMoveRequested();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    message.x = reader.readInt32();
+                    break;
+                case 2:
+                    message.y = reader.readInt32();
+                    break;
+                case 3:
+                    message.userId = reader.readString();
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): CharacterMoveRequested {
+        return CharacterMoveRequested.deserialize(bytes);
     }
 }
 export class MessageBroadcasted extends pb_1.Message {

@@ -16,6 +16,7 @@ type DEETypes = {
     "join": (user: Server.User, spawnPoint: Vector2) => void,
     "leave": (id: characterId) => void,
     "player_move": (x: number, y: number) => void,
+    "player_move_forced": (x: number,y: number) => void,
     // for chatting.
     "network_player_chat": (id: characterId, msg: string) => void,
     "player_chat": (id: characterId, msg: string) => void,
@@ -86,6 +87,17 @@ export class PlayerNetworker {
                 })
             }));
         });
+
+        this._dee.on("player_move_forced", (x, y) => {
+            this._protoWs.send(new pb.ClientEvent({
+                moveCharacterForced: new pb.MoveCharacterForced({
+                    characterMove: new pb.MoveCharacterForced.CharacterMove({
+                        x,
+                        y
+                    })
+                })
+            }))
+        })
     }
 
     private onPlayerListUpdate(data: {x: number, y: number, user: Server.User}[]): void {
