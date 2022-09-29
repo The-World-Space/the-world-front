@@ -42,7 +42,11 @@ export class NetworkPlayerManager extends Component {
         if (!component) throw new Error("no PlayerGridMovementController component");
         
         component.onMoveToTarget.addListener((x, y) => {
-            this._networkManager!.dee.emit("player_move", x, y);
+            if (component.receiveKeyboardInput) {
+                this._networkManager!.dee.emit("player_move", x, y);
+            } else {
+                this._networkManager!.dee.emit("player_move_forced", x, y);
+            }
         });
         
         this._localPlayer = player;
