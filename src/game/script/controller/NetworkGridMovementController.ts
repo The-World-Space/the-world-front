@@ -42,11 +42,17 @@ export class NetworkGridMovementController extends Directable {
 
     private readonly onTeleport = (gridPosition: Vector2): void => {
         this.isMoving = false;
-        this._targetPosition.copy(gridPosition);
-        this._currentPosition.copy(gridPosition);
+        
+        this._currentPosition
+            .copy(gridPosition)
+            .multiplyScalar(this._gridCellWidth)
+            .add(this._gridCenter);
+        this._targetPosition
+            .copy(this._currentPosition);
+
         const transform = this.gameObject.transform;
-        transform.localPosition.x = this._targetPosition.x;
-        transform.localPosition.y = this._targetPosition.y;
+        transform.localPosition.x = this._currentPosition.x;
+        transform.localPosition.y = this._currentPosition.y;
     };
 
     public onDestroy(): void {
