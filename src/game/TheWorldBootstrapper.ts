@@ -34,6 +34,7 @@ import { ImageNetworker } from "./script/networker/ImageNetworker";
 import { PlayerNetworker } from "./script/networker/PlayerNetworker";
 import { TileNetworker } from "./script/networker/TileNetworker";
 import { Tool, Tools, WorldEditorConnector } from "./script/WorldEditorConnector";
+import { InputDebounceHandler } from "./script/controller/InputDebounceHandler";
 
 export class NetworkInfoObject {
     private readonly _colliderNetworker: ColliderNetworker;
@@ -225,6 +226,11 @@ export class TheWorldBootstrapper extends Bootstrapper<NetworkInfoObject> {
         };
 
         return this.sceneBuilder
+            .withChild(instantiater.buildGameObject("client_input_listener")
+                .withComponent(InputDebounceHandler, c => {
+                    c.networkManager = this.interopObject!.networkManager;
+                }))
+
             .withChild(instantiater.buildGameObject("gamemanager")
                 .withComponent(NetworkPlayerManager, c => {
                     c.iGridCollidable = gridCollideMap.ref!;
