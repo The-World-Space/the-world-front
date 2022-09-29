@@ -41,6 +41,9 @@ export class PlayerMovementRemoteController extends Component {
         const movementController = this._playerGridMovementController;
         if (!movementController) return;
 
+        const pathfindResult = movementController.tryStartPathfind(destination);
+        if (!pathfindResult) return;
+
         if (!this._listenerAdded) {
             movementController.onMovedToTarget.addListener(this.onMovedToTarget);
             this._listenerAdded = true;
@@ -48,7 +51,6 @@ export class PlayerMovementRemoteController extends Component {
             this._gridPointer = movementController.gridPointer;
             movementController.gridPointer = null;
         }
-        movementController.tryStartPathfind(destination);
     };
 
     private onMovedToTarget = (): void => {
