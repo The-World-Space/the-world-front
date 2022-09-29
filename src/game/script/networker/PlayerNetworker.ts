@@ -53,7 +53,7 @@ export class PlayerNetworker {
                 const user = this._characterSet.has(characterTeleportation.userId);
                 user && this.teleportCharacter(characterTeleportation);
             } else if(serverEvent.event === "characterMoveRequested") {
-                const characterMoveRequest = serverEvent.characterMoveRequested
+                const characterMoveRequest = serverEvent.characterMoveRequested;
                 this.moveRequested(characterMoveRequest);
             }
         });
@@ -100,8 +100,8 @@ export class PlayerNetworker {
                         y
                     })
                 })
-            }))
-        })
+            }));
+        });
     }
 
     private onPlayerListUpdate(data: {x: number, y: number, user: Server.User}[]): void {
