@@ -14,8 +14,16 @@ export class PlayerMovementRemoteController extends Component {
     private _gridPointer: GridPointer|null = null;
     private _listenerAdded = false;
 
+    private readonly _initFuncList: (() => void)[] = [];
+
     public awake(): void {
         this._playerGridMovementController = this.gameObject.getComponent(PlayerGridMovementController);
+
+        const initFuncList = this._initFuncList;
+        for (let i = 0; i < initFuncList.length; i++) {
+            initFuncList[i]();
+        }
+        this._initFuncList.length = 0;
     }
 
     public setNetworkManager(networkManager: PlayerNetworker, userId: string): void {
@@ -35,10 +43,20 @@ export class PlayerMovementRemoteController extends Component {
     }
 
     private readonly onTeleport = (gridPosition: Vector2): void => {
+        if (!this.initialized) {
+            this._initFuncList.push(() => this.onTeleport(gridPosition));
+            return;
+        }
+
         this._playerGridMovementController?.teleport(gridPosition);
     };
 
     private readonly onMove = (destination: Vector2): void => {
+        if (!this.initialized) {
+            this._initFuncList.push(() => this.onMove(destination));
+            return;
+        }
+
         const movementController = this._playerGridMovementController;
         if (!movementController) return;
 
