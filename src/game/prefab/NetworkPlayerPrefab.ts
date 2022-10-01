@@ -41,7 +41,7 @@ export class NetworkPlayerPrefab extends BasePlayerPrefab {
                 }
                 if (this._gridPosition.ref) c.initPosition = this._gridPosition.ref;
                 if (this._networkManager && this._userId)
-                    c.initNetwork(this._userId, this._networkManager);
+                    c.setNetworkManager(this._userId, this._networkManager);
                 c.speed = 10;
             })
         ;

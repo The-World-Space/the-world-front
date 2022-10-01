@@ -14,16 +14,8 @@ export class PlayerMovementRemoteController extends Component {
     private _gridPointer: GridPointer|null = null;
     private _listenerAdded = false;
 
-    private readonly _initFuncList: (() => void)[] = [];
-
     public awake(): void {
         this._playerGridMovementController = this.gameObject.getComponent(PlayerGridMovementController);
-
-        const initFuncList = this._initFuncList;
-        for (let i = 0; i < initFuncList.length; i++) {
-            initFuncList[i]();
-        }
-        this._initFuncList.length = 0;
     }
 
     public setNetworkManager(networkManager: PlayerNetworker, userId: string): void {
@@ -35,28 +27,21 @@ export class PlayerMovementRemoteController extends Component {
     }
 
     public onDestroy(): void {
-        if (this._networkManager === null) return;
-        if (this._userId === null) return;
-
-        this._networkManager.ee.removeListener(`move_requested_${this._userId}`, this.onMove);
-        this._networkManager.ee.removeListener(`teleport_${this._userId}`, this.onTeleport);
+        if (this._networkManager !== null && this._userId !== null) {
+            this._networkManager.ee.off(`move_requested_${this._userId}`, this.onMove);
+            this._networkManager.ee.off(`teleport_${this._userId}`, this.onTeleport);
+        }
+        this._playerGridMovementController = null;
+        this._networkManager = null;
+        this._userId = null;
+        this._gridPointer = null;
     }
 
     private readonly onTeleport = (gridPosition: Vector2): void => {
-        if (!this.initialized) {
-            this._initFuncList.push(() => this.onTeleport(gridPosition));
-            return;
-        }
-
         this._playerGridMovementController?.teleport(gridPosition);
     };
 
     private readonly onMove = (destination: Vector2): void => {
-        if (!this.initialized) {
-            this._initFuncList.push(() => this.onMove(destination));
-            return;
-        }
-
         const movementController = this._playerGridMovementController;
         if (!movementController) return;
 

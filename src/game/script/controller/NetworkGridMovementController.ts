@@ -27,7 +27,7 @@ export class NetworkGridMovementController extends Directable {
         this.processMovement();
     }
 
-    public initNetwork(userId: string, networkManager: PlayerNetworker): void {
+    public setNetworkManager(userId: string, networkManager: PlayerNetworker): void {
         this._networkManager = networkManager;
         this._userId = userId;
         networkManager.ee.on(`move_${userId}`, this.onMove);
@@ -56,9 +56,13 @@ export class NetworkGridMovementController extends Directable {
     };
 
     public onDestroy(): void {
-        if (this._networkManager === null) return;
-        if (this._userId === null) return;
-        this._networkManager.ee.removeListener(`move_${this._userId}`, this.onMove);
+        if (this._networkManager !== null && this._userId !== null) {
+            this._networkManager.ee.off(`move_${this._userId}`, this.onMove);
+            this._networkManager.ee.off(`teleport_${this._userId}`, this.onTeleport);
+        }
+
+        this._networkManager = null;
+        this._userId = null;
     }
 
     private setDirection(delta: Vector2): void {
