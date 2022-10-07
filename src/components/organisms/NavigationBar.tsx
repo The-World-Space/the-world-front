@@ -63,8 +63,10 @@ function NavigationBar(props: NavigationBarProps): JSX.Element {
                     { logged 
                         ? <>
                             <MainButton onClick={(): void => history.push("/user")}>user info</MainButton>
-                            <MainButton onClick={(): void => history.push("/world/0")}>world/0</MainButton>
-                            <MainButton onClick={(): void => history.push("/logout")}>Logout</MainButton>
+                            {/* <MainButton onClick={(): void => history.push("/world/0")}>world/0</MainButton> */}
+                            { localStorage.getItem("forceBlockLogout")
+                                ? <></>
+                                : <MainButton onClick={(): void => history.push("/logout")}>Logout</MainButton> }
                         </>
                         : <>
                             <MainButton onClick={(): void => history.push("/login")}>Login</MainButton>

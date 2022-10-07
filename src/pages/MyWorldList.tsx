@@ -149,6 +149,21 @@ function MyWorldList(): JSX.Element {
                         <MyworldText>MY WORLDS</MyworldText>
                         <HorizentalLine />
                         <WorldListDiv>
+                            <WorldItem onClick={(): void => history.push(`/world/${"metaversedev"}`)} key={"metaversedev"}>
+                                <WorldItemLeft>
+                                    <ThumbnailImage src={twLogo1} />
+                                    <WorldItemInfo>
+                                        <Title>{"메타버스 개발자 경진대회 시연용 월드"}</Title>
+                                        <SubTitle></SubTitle>
+                                    </WorldItemInfo>
+                                </WorldItemLeft>
+                                <WorldItemRight>
+                                    <GreenCircle />
+                                    <SubTitle>
+                                        &nbsp;
+                                    </SubTitle>
+                                </WorldItemRight>
+                            </WorldItem>
                             {worldList.value?.map(item => 
                                 <WorldItem onClick={(): void => history.push(`/world/${item.id}`)} key={item.id}>
                                     <WorldItemLeft>
