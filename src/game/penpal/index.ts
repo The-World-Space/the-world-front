@@ -187,6 +187,8 @@ export class IframeCommunicator {
     private async tryPluginUpdating(): Promise<void> {
         const ports = await this._child.getPorts();
 
+        if(!ports.plugins) ports.plugins = [];
+        
         const pluginsToCheck = ports.plugins.filter(({ name }) => this._internalPluginIdToPluginMap.has(name));
 
         const pluginIdsToUpdate = await getPluginIdsToUpdate(
