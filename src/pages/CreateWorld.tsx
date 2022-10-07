@@ -1,5 +1,5 @@
 import { ApolloClient, gql, useApolloClient } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
     useHistory
 } from "react-router-dom";
@@ -48,19 +48,24 @@ async function createWorld(apolloClient: ApolloClient<any>, id: string, name: st
 const CreateWorld: React.FC = () => {
     const [worldId, setWorldId] = useState("");
     const [worldName, setWorldName] = useState("");
+    const [creatingWorld, setCreatingWorld] = useState(false);
 
     const apolloClient = useApolloClient();
     const history = useHistory();
 
-    const submit = async (): Promise<void> => {
+    const submit = useCallback(async (): Promise<void> => {
+        if (creatingWorld) return;
+
         try {
+            setCreatingWorld(true);
             await createWorld(apolloClient, worldId, worldName);
             await apolloClient.resetStore();
-            history.push("/");
+            history.push(`/world/${worldId}`);
         } catch(e) {
             alert(e);
+            setCreatingWorld(false);
         }
-    };
+    }, [apolloClient, history, worldId, worldName, creatingWorld]);
 
     return (
         <NavTemplate>
@@ -76,7 +81,7 @@ const CreateWorld: React.FC = () => {
                 <BlackInput type="text" placeholder="World ID" onChange={(e): void => setWorldId(e.target.value)} value={worldId}/>
                 <BlackInput type="text" placeholder="World Name" onChange={(e): void => setWorldName(e.target.value)} value={worldName}/>
                 <BlackSubmitButton type="button" onClick={submit}>
-                    Create World
+                    { creatingWorld ? "Creating..." : "Create World" }
                 </BlackSubmitButton>
             </ContentDiv>
         </NavTemplate>
